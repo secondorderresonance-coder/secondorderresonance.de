@@ -1,0 +1,21 @@
+{
+    "name": "MathLevel - Interaktiv Mathe lernen",
+    "short_name": "MathLevel",
+    "description": "Kostenlose interaktive Mathe-App von Second-Order Resonance",
+    "start_url": "/app/index.html",
+    "display": "standalone",
+    "background_color": "#1a1a2e",
+    "theme_color": "#1a1a2e",
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
