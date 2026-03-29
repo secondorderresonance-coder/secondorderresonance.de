@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second-Order Resonance | Mathematik visuell erklaert</title>
+    <meta name="description" content="Mathematik visuell erklaert - vom Grundschueler bis zum Ingenieur. Kostenlose Tutorials, interaktive Uebungen und Mathe-Tricks auf YouTube.">
+    <meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklaert, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
+    <meta property="og:title" content="Second-Order Resonance | Mathematik visuell erklaert">
+    <meta property="og:description" content="Mathematik vom Grundschueler bis zum Ingenieur. Visuelle Erklaerungen, die du wirklich verstehst.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://second-order-resonance.de">
+    <link rel="canonical" href="https://second-order-resonance.de">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .logo span { color: var(--accent); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent); }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent2) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 197, 24, 0.08) 0%, transparent 50%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .highlight { color: var(--accent); }
+        .hero h1 .gold { color: var(--gold); }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5a78;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Level System */
+        .levels {
+            padding: 6rem 2rem;
+            background: var(--secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .level-1 .level-badge { background: #4ade80; color: #000; }
+        .level-2 .level-badge { background: #60a5fa; color: #000; }
+        .level-3 .level-badge { background: #f59e0b; color: #000; }
+        .level-4 .level-badge { background: #ef4444; color: #fff; }
+        .level-5 .level-badge { background: #8b5cf6; color: #fff; }
+
+        .level-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .level-card p { color: var(--text-muted); margin-bottom: 1rem; }
+
+        .level-topics {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .level-topics li {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Latest Videos */
+        .videos {
+            padding: 6rem 2rem;
+            background: var(--primary);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: var(--secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover { transform: translateY(-5px); }
+
+        .video-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--accent2), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid var(--accent);
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        .video-info { padding: 1.5rem; }
+        .video-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .video-info p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Newsletter / CTA */
+        .newsletter {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent2), var(--secondary));
+            text-align: center;
+        }
+
+        .newsletter h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .newsletter p { color: var(--text-muted); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+        .email-form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .email-form input::placeholder { color: var(--text-muted); }
+        .email-form input:focus { outline: none; border-color: var(--accent); }
+
+        /* Mathe App Teaser */
+        .app-teaser {
+            padding: 6rem 2rem;
+            background: var(--secondary);
+        }
+
+        .app-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .app-info h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+        .app-info p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+        .app-features { list-style: none; }
+
+        .app-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .app-features li::before {
+            content: '\2713';
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .app-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .app-preview .math-display {
+            font-size: 2rem;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            color: var(--gold);
+            margin: 2rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h4 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.3rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover { color: var(--accent); }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .app-container { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating { animation: float 3s ease-in-out infinite; }
+
+        /* Math background decoration */
+        .math-bg {
+            position: absolute;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.03);
+            font-family: 'Cambria Math', serif;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Second-Order <span>Resonance</span></div>
+        <ul>
+            <li><a href="#levels">Level-System</a></li>
+            <li><a href="#videos">Videos</a></li>
+            <li><a href="#app">Mathe-App</a></li>
+            <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="math-bg" style="top:10%;left:5%">f(x) = sin(x)</div>
+        <div class="math-bg" style="top:20%;right:10%">E = mc^2</div>
+        <div class="math-bg" style="bottom:30%;left:15%">d/dx</div>
+        <div class="math-bg" style="bottom:15%;right:20%">e^(i*pi) + 1 = 0</div>
+
+        <div class="hero-content">
+            <h1>
+                Mathematik<br>
+                <span class="highlight">visuell</span> erklaert.<br>
+                <span class="gold">Fuer alle Level.</span>
+            </h1>
+            <p>Vom Grundschueler bis zum Ingenieur. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>
+            <div class="cta-buttons">
+                <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" class="btn btn-primary" target="_blank">
+                    Kanal abonnieren
+                </a>
+                <a href="#levels" class="btn btn-secondary">
+                    Dein Level finden
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Level System -->
+    <section class="levels" id="levels">
+        <h2 class="section-title">Finde dein <span style="color:var(--accent)">Level</span></h2>
+        <p class="section-subtitle">Von den Grundlagen bis zur Ingenieur-Mathematik - steig ein wo du stehst</p>
+
+        <div class="level-grid">
+            <div class="level-card level-1">
+                <span class="level-badge">Level 1 - Grundlagen</span>
+                <h3>Einstieg</h3>
+                <p>Perfekt zum Auffrischen oder fuer den Start in die Mathe-Welt.</p>
+                <ul class="level-topics">
+                    <li>Bruchrechnung</li>
+                    <li>Prozente</li>
+                    <li>Geometrie</li>
+                    <li>Dreisatz</li>
+                </ul>
+            </div>
+
+            <div class="level-card level-2">
+                <span class="level-badge">Level 2 - Mittelstufe</span>
+                <h3>Algebra & Funktionen</h3>
+                <p>Die Grundpfeiler fuer alles was noch kommt.</p>
+                <ul class="level-topics">
+                    <li>Gleichungen</li>
+                    <li>Funktionen</li>
+                    <li>Trigonometrie</li>
+                    <li>Potenzen</li>
+                </ul>
+            </div>
+
+            <div class="level-card level-3">
+                <span class="level-badge">Level 3 - Oberstufe</span>
+                <h3>Analysis & Stochastik</h3>
+                <p>Abitur-relevant und anschaulich erklaert.</p>
+                <ul class="level-topics">
+                    <li>Ableitungen</li>
+                    <li>Integrale</li>
+                    <li>Stochastik</li>
+                    <li>Vektoren</li>
+                </ul>
+            </div>
+
+            <div class="level-card level-4">
+                <span class="level-badge">Level 4 - Universitaet</span>
+                <h3>Hoehere Mathematik</h3>
+                <p>Was dich im Studium wirklich erwartet.</p>
+                <ul class="level-topics">
+                    <li>Lineare Algebra</li>
+                    <li>Differentialgleichungen</li>
+                    <li>Komplexe Analysis</li>
+                    <li>Numerik</li>
+                </ul>
+            </div>
+
+            <div class="level-card level-5">
+                <span class="level-badge">Level 5 - Ingenieur</span>
+                <h3>Angewandte Mathematik</h3>
+                <p>Wo Mathe die reale Welt trifft.</p>
+                <ul class="level-topics">
+                    <li>Fourier-Transformation</li>
+                    <li>Laplace</li>
+                    <li>Resonanz</li>
+                    <li>Regelungstechnik</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Videos -->
+    <section class="videos" id="videos">
+        <h2 class="section-title">Neueste Videos</h2>
+        <p class="section-subtitle">Jede Woche neue Erklaerungen, Tricks und Deep Dives</p>
+
+        <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
+                <div class="video-thumbnail" style="background: linear-gradient(135deg, #e94560, #0f3460);">
+                    <div class="play-btn"></div>
+                </div>
+                <div class="video-info">
+                    <h3>Resonanz erklaert in 5 Leveln</h3>
+                    <p>Vom Schaukeln bis zur Brueckenkatastrophe - ein Phaenomen, 5 Perspektiven</p>
+                </div>
+            </a>
+
+            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
+                <div class="video-thumbnail" style="background: linear-gradient(135deg, #f5c518, #e94560);">
+                    <div class="play-btn"></div>
+                </div>
+                <div class="video-info">
+                    <h3>Fourier-Transformation: Wie Spotify deine Musik versteht</h3>
+                    <p>Die Mathe hinter Musik-Streaming - visuell und intuitiv</p>
+                </div>
+            </a>
+
+            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
+                <div class="video-thumbnail" style="background: linear-gradient(135deg, #0f3460, #4ade80);">
+                    <div class="play-btn"></div>
+                </div>
+                <div class="video-info">
+                    <h3>Der Mathe-Trick den dir niemand zeigt</h3>
+                    <p>Schnell multiplizieren, Kopfrechnen und mehr - in 60 Sekunden</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Math App Teaser -->
+    <section class="app-teaser" id="app">
+        <div class="app-container">
+            <div class="app-info">
+                <h2>Die <span style="color:var(--accent)">Mathe-App</span><br>zum Kanal</h2>
+                <p>Lerne interaktiv mit Uebungen die zu jedem Video passen. Steig Level fuer Level auf.</p>
+                <ul class="app-features">
+                    <li>Interaktive Uebungen zu jedem Thema</li>
+                    <li>Level-System mit Fortschrittsanzeige</li>
+                    <li>Schritt-fuer-Schritt Loesungswege</li>
+                    <li>Offline verfuegbar (PWA)</li>
+                    <li>100% kostenlos</li>
+                </ul>
+                <br>
+                <a href="app/index.html" class="btn btn-primary">App starten</a>
+            </div>
+            <div class="app-preview floating">
+                <p style="color:var(--text-muted)">Uebung des Tages</p>
+                <div class="math-display">
+                    d/dx [x^3 + 2x] = ?
+                </div>
+                <p style="color:var(--gold)">Tipp: Potenzregel anwenden</p>
+                <br>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                    <button style="padding:0.8rem 1.5rem;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:white;cursor:pointer;font-size:1rem">3x^2</button>
+                    <button style="padding:0.8rem 1.5rem;border-radius:12px;border:2px solid var(--gold);background:rgba(245,197,24,0.1);color:var(--gold);cursor:pointer;font-size:1rem;font-weight:700">3x^2 + 2</button>
+                    <button style="padding:0.8rem 1.5rem;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:white;cursor:pointer;font-size:1rem">x^2 + 2</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter" id="newsletter">
+        <h2>Verpasse kein Video</h2>
+        <p>Wochentlich ein Mathe-Raetsel + Benachrichtigung bei neuen Videos direkt in dein Postfach.</p>
+        <form class="email-form" onsubmit="event.preventDefault(); alert('Danke! Du wirst benachrichtigt.');">
+            <input type="email" placeholder="deine@email.de" required>
+            <button type="submit" class="btn btn-primary">Anmelden</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Second-Order Resonance</h4>
+                <p style="color:var(--text-muted)">Mathematik visuell erklaert.<br>Vom Grundschueler bis zum Ingenieur.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Level</h4>
+                <a href="#levels">Level 1 - Grundlagen</a>
+                <a href="#levels">Level 2 - Mittelstufe</a>
+                <a href="#levels">Level 3 - Oberstufe</a>
+                <a href="#levels">Level 4 - Universitaet</a>
+                <a href="#levels">Level 5 - Ingenieur</a>
+            </div>
+            <div class="footer-col">
+                <h4>Plattformen</h4>
+                <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a>
+                <a href="#">TikTok</a>
+                <a href="#">Instagram</a>
+                <a href="#">Discord</a>
+            </div>
+            <div class="footer-col">
+                <h4>Mehr</h4>
+                <a href="app/index.html">Mathe-App</a>
+                <a href="#newsletter">Newsletter</a>
+                <a href="#">Impressum</a>
+                <a href="#">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Second-Order Resonance. Mathematik fuer alle.</p>
+        </div>
+    </footer>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Second-Order Resonance",
+        "description": "Mathematik visuell erklaert - vom Grundschueler bis zum Ingenieur",
+        "url": "https://second-order-resonance.de",
+        "sameAs": [
+            "https://www.youtube.com/@Second-OrderResonance"
+        ]
+    }
+    </script>
+
+</body>
+</html>
