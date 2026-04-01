@@ -115,10 +115,11 @@
         .level-btn .level-name { font-size: 0.8rem; color: var(--text-muted); }
 
         .l1 .level-num { color: #4ade80; }
-        .l2 .level-num { color: #60a5fa; }
+        .l2 .level-num { color: #facc15; }
         .l3 .level-num { color: #f59e0b; }
-        .l4 .level-num { color: #ef4444; }
+        .l4 .level-num { color: #60a5fa; }
         .l5 .level-num { color: #8b5cf6; }
+        .l6 .level-num { color: #6b7280; }
 
         /* Topic Selection */
         .topics {
@@ -317,6 +318,7 @@
         @media (max-width: 600px) {
             .options { grid-template-columns: 1fr; }
             .level-select { grid-template-columns: repeat(3, 1fr); }
+            .level-btn { padding: 0.7rem 0.5rem; }
             .math-expression { font-size: 1.5rem; }
         }
     </style>
@@ -361,19 +363,23 @@
             </button>
             <button class="level-btn l2" onclick="selectLevel(1)">
                 <span class="level-num">2</span>
-                <span class="level-name">Mittelstufe</span>
+                <span class="level-name">Aufbauwissen</span>
             </button>
             <button class="level-btn l3" onclick="selectLevel(2)">
                 <span class="level-num">3</span>
-                <span class="level-name">Oberstufe</span>
+                <span class="level-name">Vertiefung</span>
             </button>
             <button class="level-btn l4" onclick="selectLevel(3)">
                 <span class="level-num">4</span>
-                <span class="level-name">Uni</span>
+                <span class="level-name">Uni-Grundl.</span>
             </button>
             <button class="level-btn l5" onclick="selectLevel(4)">
                 <span class="level-num">5</span>
-                <span class="level-name">Ingenieur</span>
+                <span class="level-name">Angew. Mathe</span>
+            </button>
+            <button class="level-btn l6" onclick="selectLevel(5)">
+                <span class="level-num">6</span>
+                <span class="level-name">Forschung</span>
             </button>
         </div>
 
@@ -609,7 +615,7 @@
                     }
                 ]
             },
-            4: { // Level 5 - Ingenieur
+            4: { // Level 5 - Angewandte Mathematik
                 topics: ["Fourier", "Laplace", "Resonanz", "Regelungstechnik"],
                 questions: [
                     {
@@ -673,6 +679,71 @@
                         explanation: "Die DFT ist periodisch mit Periode N. Ausserdem ist sie umkehrbar (IDFT existiert) und fuer beliebiges N definiert."
                     }
                 ]
+            },
+            5: { // Level 6 - Forschung & Simulation
+                topics: ["Partielle DGL", "Stochastik", "Numerik", "FEM", "Optimierung"],
+                questions: [
+                    {
+                        topic: "Partielle DGL",
+                        question: "Welcher Klasse gehoert die Waermeleitungsgleichung an?",
+                        math: "du/dt = k * d^2u/dx^2",
+                        options: ["Parabolisch", "Elliptisch", "Hyperbolisch", "Gewoehhnlich"],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Die Waermeleitungsgleichung ist eine parabolische PDE. Elliptisch: Laplace-Gleichung. Hyperbolisch: Wellengleichung. Die Klassifikation bestimmt Loesungsverhalten und Rand-/Anfangsbedingungen."
+                    },
+                    {
+                        topic: "Stochastik",
+                        question: "Was charakterisiert einen Wiener-Prozess W(t)?",
+                        math: "W(t) - W(s) ~ N(0, t-s)  fuer t > s",
+                        options: [
+                            "Unabhaengige, normalverteilte Inkremente",
+                            "Konstante Varianz",
+                            "Deterministische Trajektorien",
+                            "Diskrete Zufallsvariable"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Der Wiener-Prozess (Brownsche Bewegung) hat unabhaengige, stationaere, normalverteilte Inkremente. Er ist Grundlage der stochastischen Analysis und von Ito-Integralen."
+                    },
+                    {
+                        topic: "Numerik",
+                        question: "Welche Ordnung hat das klassische Runge-Kutta-Verfahren (RK4)?",
+                        math: "y_{n+1} = y_n + h/6*(k1 + 2k2 + 2k3 + k4)",
+                        options: ["Ordnung 4", "Ordnung 2", "Ordnung 1 (Euler)", "Ordnung 8"],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "RK4 hat globalen Fehler O(h^4). Die vier Stufen k1-k4 sind Steigungsschaetzungen am Anfang, der Mitte (2x) und am Ende des Intervalls. Der lokale Fehler betraegt O(h^5)."
+                    },
+                    {
+                        topic: "FEM",
+                        question: "Was minimiert die Finite-Elemente-Methode bei einem elastischen Koerper?",
+                        math: "Pi(u) = 1/2 * int(sigma:epsilon dV) - int(f*u dV)",
+                        options: [
+                            "Das totale potentielle Energie-Funktional",
+                            "Die maximale Spannung",
+                            "Den Systemfehler im L2-Sinne",
+                            "Die Anzahl der Freiheitsgrade"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "FEM basiert auf dem Prinzip der minimalen potenziellen Energie (Variationsprinzip). Das schwache Aequivalent der starken Form wird durch Galerkin-Ansaetze diskretisiert: Ku = f."
+                    },
+                    {
+                        topic: "Optimierung",
+                        question: "Was sind die Karush-Kuhn-Tucker (KKT) Bedingungen?",
+                        math: "min f(x)  s.t.  g_i(x) <= 0,  h_j(x) = 0",
+                        options: [
+                            "Notwendige Optimalitaetsbedingungen mit Lagrange-Multiplikatoren",
+                            "Hinreichende Bedingungen fuer globale Optima",
+                            "Numerische Abbruchkriterien",
+                            "Regularisierungsbedingungen fuer ill-posed Probleme"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexitaet auch hinreichend) fuer lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
+                    }
+                ]
             }
         };
 
@@ -684,6 +755,8 @@
             correct: 0,
             total: 0,
             xp: 150,
+            streak: 0,
+            lastSessionDate: null,
             answered: false
         };
 
@@ -695,15 +768,31 @@
                 state.correct = s.correct || 0;
                 state.total = s.total || 0;
                 state.xp = s.xp || 150;
+                state.streak = s.streak || 0;
+                state.lastSessionDate = s.lastSessionDate || null;
+
+                // Reset streak if last session was more than 1 day ago
+                const today = new Date().toISOString().slice(0, 10);
+                const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+                if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {
+                    state.streak = 0;
+                }
             }
         } catch(e) {}
 
         function saveState() {
             try {
+                const today = new Date().toISOString().slice(0, 10);
+                if (state.lastSessionDate !== today) {
+                    state.streak = (state.streak || 0) + 1;
+                    state.lastSessionDate = today;
+                }
                 localStorage.setItem('mathlevel-state', JSON.stringify({
                     correct: state.correct,
                     total: state.total,
-                    xp: state.xp
+                    xp: state.xp,
+                    streak: state.streak,
+                    lastSessionDate: state.lastSessionDate
                 }));
             } catch(e) {}
         }
@@ -823,6 +912,7 @@
                 state.total > 0 ? Math.round(state.correct / state.total * 100) + '%' : '-';
             document.getElementById('xpText').textContent = state.xp + ' XP';
             document.getElementById('xpFill').style.width = (state.xp % 500) / 5 + '%';
+            document.getElementById('streak').textContent = state.streak + ' Tage';
         }
 
         // Initialize
