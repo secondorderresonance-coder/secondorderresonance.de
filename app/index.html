@@ -4,31 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MathLevel - Interaktiv Mathe lernen | Second-Order Resonance</title>
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
     <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
-=======
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Forschung & Simulation mit Übungen und Erklärungen.">
->>>>>>> theirs
-=======
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
->>>>>>> theirs
-=======
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
->>>>>>> theirs
-=======
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
->>>>>>> theirs
-=======
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
->>>>>>> theirs
-=======
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
->>>>>>> theirs
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -139,19 +115,11 @@
         .level-btn .level-name { font-size: 0.8rem; color: var(--text-muted); }
 
         .l1 .level-num { color: #4ade80; }
-<<<<<<< ours
         .l2 .level-num { color: #facc15; }
         .l3 .level-num { color: #f59e0b; }
         .l4 .level-num { color: #60a5fa; }
         .l5 .level-num { color: #8b5cf6; }
         .l6 .level-num { color: #6b7280; }
-=======
-        .l2 .level-num { color: #fde047; }
-        .l3 .level-num { color: #f59e0b; }
-        .l4 .level-num { color: #60a5fa; }
-        .l5 .level-num { color: #8b5cf6; }
-        .l6 .level-num { color: #9ca3af; }
->>>>>>> theirs
 
         /* Topic Selection */
         .topics {
@@ -318,25 +286,6 @@
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
         .stat-label { font-size: 0.8rem; color: var(--text-muted); }
 
-        .progress-foundation {
-            background: var(--secondary);
-            border-radius: 16px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .progress-foundation h3 { margin-bottom: 0.4rem; font-size: 1.05rem; }
-        .progress-foundation p { color: var(--text-muted); font-size: 0.9rem; }
-        .progress-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.8rem; }
-        .progress-pill {
-            font-size: 0.8rem;
-            border-radius: 999px;
-            padding: 0.25rem 0.75rem;
-            border: 1px solid rgba(255,255,255,0.15);
-            color: var(--text-muted);
-        }
-
         /* YouTube CTA */
         .yt-cta {
             background: linear-gradient(135deg, var(--accent2), var(--secondary));
@@ -497,35 +446,17 @@
             </button>
             <button class="level-btn l4" onclick="selectLevel(3)">
                 <span class="level-num">4</span>
-<<<<<<< ours
                 <span class="level-name">Uni-Grundl.</span>
             </button>
             <button class="level-btn l5" onclick="selectLevel(4)">
                 <span class="level-num">5</span>
                 <span class="level-name">Angew. Mathe</span>
-=======
-                <span class="level-name">Uni-Grundlagen</span>
-            </button>
-            <button class="level-btn l5" onclick="selectLevel(4)">
-                <span class="level-num">5</span>
-                <span class="level-name">Angewandt</span>
->>>>>>> theirs
             </button>
             <button class="level-btn l6" onclick="selectLevel(5)">
                 <span class="level-num">6</span>
                 <span class="level-name">Forschung</span>
             </button>
         </div>
-
-        <section class="progress-foundation">
-            <h3>Dein Lernpfad</h3>
-            <p>Level werden mit XP freigeschaltet. Aktuell freigeschaltet: <strong id="unlockedText">L1</strong>.</p>
-            <div class="progress-meta">
-                <span class="progress-pill" id="xpMeta">XP: 0</span>
-                <span class="progress-pill" id="streakMeta">Streak: 0 Tage</span>
-                <span class="progress-pill" id="badgeMeta">Badges: 0</span>
-            </div>
-        </section>
 
         <!-- Topics -->
         <div class="topics" id="topicsContainer"></div>
@@ -544,30 +475,12 @@
                 <p id="feedbackText"></p>
             </div>
             <button class="next-btn" id="nextBtn" onclick="nextExercise()">Nächste Aufgabe</button>
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
         </div>
 
         <!-- Achievements -->
         <div class="achievements-section">
             <div class="achievements-title">Abzeichen</div>
             <div class="achievements-grid" id="achievementsGrid"></div>
-=======
->>>>>>> theirs
         </div>
 
         <!-- YouTube CTA -->
@@ -577,25 +490,10 @@
             <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" target="_blank" class="yt-btn">
                 Kanal abonnieren
             </a>
-<<<<<<< ours
-<<<<<<< ours
-            <p style="margin-top:1rem">Kurzformate & Impulse auf <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" style="color:var(--gold);font-weight:700;text-decoration:none">TikTok</a>.</p>
-=======
-=======
->>>>>>> theirs
-            <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem;">
-                <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Exponentielles%20Verhalten" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Exponentielles Verhalten</a>
-                <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Gleichungen lösen</a>
-            </div>
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
         </div>
     </main>
 
     <script>
-<<<<<<< ours
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
 
@@ -613,26 +511,8 @@
         ];
 
         // Exercise Database
-=======
-        const levels = [
-            { id: "L1", name: "Grundlagen", xpUnlock: 0 },
-            { id: "L2", name: "Aufbauwissen", xpUnlock: 120 },
-            { id: "L3", name: "Vertiefung", xpUnlock: 260 },
-            { id: "L4", name: "Universitätsgrundlagen", xpUnlock: 450 },
-            { id: "L5", name: "Angewandte Mathematik", xpUnlock: 700 },
-            { id: "L6", name: "Forschung & Simulation", xpUnlock: 980 }
-        ];
-
-        const badgeMilestones = [
-            { id: "starter", minXp: 120, label: "Starter" },
-            { id: "focused", minXp: 450, label: "Fokus" },
-            { id: "resonance", minXp: 980, label: "Resonanz" }
-        ];
-
-        // Exercise Database (demo set, erweiterbar)
->>>>>>> theirs
         const exercises = {
-            0: { // L1 - Grundlagen
+            0: { // Level 1 - Grundlagen
                 topics: ["Bruchrechnung", "Prozente", "Geometrie", "Dreisatz"],
                 questions: [
                     {
@@ -664,31 +544,7 @@
                     },
                     {
                         topic: "Geometrie",
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
                         question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
-=======
-                        question: "Wie groß ist die Fläche eines Kreises mit Radius r = 3?",
->>>>>>> theirs
-=======
-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
->>>>>>> theirs
-=======
-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
->>>>>>> theirs
-=======
-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
->>>>>>> theirs
-=======
-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
->>>>>>> theirs
-=======
-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
->>>>>>> theirs
                         math: "A = pi * r^2 = ?",
                         options: ["9pi", "6pi", "3pi", "12pi"],
                         correct: 0,
@@ -706,7 +562,7 @@
                     }
                 ]
             },
-            1: { // L2 - Aufbauwissen
+            1: { // Level 2 - Mittelstufe
                 topics: ["Gleichungen", "Funktionen", "Trigonometrie", "Potenzen"],
                 questions: [
                     {
@@ -756,7 +612,7 @@
                     }
                 ]
             },
-            2: { // L3 - Vertiefung
+            2: { // Level 3 - Oberstufe
                 topics: ["Ableitungen", "Integrale", "Stochastik", "Vektoren"],
                 questions: [
                     {
@@ -806,7 +662,7 @@
                     }
                 ]
             },
-            3: { // L4 - Universitätsgrundlagen
+            3: { // Level 4 - Uni
                 topics: ["Lineare Algebra", "DGL", "Komplexe Zahlen", "Reihen"],
                 questions: [
                     {
@@ -856,11 +712,7 @@
                     }
                 ]
             },
-<<<<<<< ours
             4: { // Level 5 - Angewandte Mathematik
-=======
-            4: { // L5 - Angewandte Mathematik
->>>>>>> theirs
                 topics: ["Fourier", "Laplace", "Resonanz", "Regelungstechnik"],
                 questions: [
                     {
@@ -918,22 +770,6 @@
                             "X[k] ist immer reell",
                             "DFT ist nicht umkehrbar",
                             "Nur für gerade N definiert"
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
                         ],
                         correct: 0,
                         difficulty: "hard",
@@ -999,96 +835,10 @@
                             "Hinreichende Bedingungen für globale Optima",
                             "Numerische Abbruchkriterien",
                             "Regularisierungsbedingungen für ill-posed Probleme"
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-=======
->>>>>>> theirs
                         ],
                         correct: 0,
                         difficulty: "hard",
                         explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
-<<<<<<< ours
-=======
-                        ],
-                        correct: 0,
-                        difficulty: "hard",
-                        explanation: "Die DFT ist periodisch mit Periode N. Außerdem ist sie umkehrbar (IDFT existiert) und für beliebiges N definiert."
-                    }
-                ]
-            },
-            5: { // L6 - Forschung & Simulation
-                topics: ["Nichtlineare Systeme", "Numerische Simulation", "Optimierung", "Modellierung"],
-                questions: [
-                    {
-                        topic: "Nichtlineare Systeme",
-                        question: "Welche Aussage passt zu chaotischen Systemen?",
-                        math: "x_(n+1) = r*x_n*(1-x_n)",
-                        options: [
-                            "Hohe Sensitivität auf Anfangswerte",
-                            "Immer periodisch",
-                            "Immer exakt lösbar",
-                            "Keine Verbindung zur Physik"
-                        ],
-                        correct: 0,
-                        difficulty: "hard",
-                        explanation: "Chaotische Dynamik reagiert stark auf kleine Startänderungen. Das macht langfristige Vorhersagen schwierig."
-                    },
-                    {
-                        topic: "Numerische Simulation",
-                        question: "Warum nutzt man Zeitschrittverfahren wie Euler oder Runge-Kutta?",
-                        math: "x'(t)=f(t,x)",
-                        options: [
-                            "Zur numerischen Approximation von Differentialgleichungen",
-                            "Nur für lineare Algebra",
-                            "Zum Sortieren von Daten",
-                            "Nur für Symbolrechnen"
-                        ],
-                        correct: 0,
-                        difficulty: "medium",
-                        explanation: "Viele DGL haben keine geschlossene Lösung. Zeitschrittverfahren nähern die Lösung numerisch an."
-                    },
-                    {
-                        topic: "Optimierung",
-                        question: "Was ist das Ziel bei Gradientenverfahren?",
-                        math: "x_(k+1) = x_k - eta * grad(f(x_k))",
-                        options: [
-                            "Ein lokales Minimum von f finden",
-                            "Eine Funktion integrieren",
-                            "Zufällige Werte erzeugen",
-                            "Nur Gleichungen lösen"
-                        ],
-                        correct: 0,
-                        difficulty: "medium",
-                        explanation: "Man läuft in Richtung des negativen Gradienten und reduziert so den Funktionswert iterativ."
->>>>>>> theirs
-=======
-                        ],
-                        correct: 0,
-                        difficulty: "hard",
-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
->>>>>>> theirs
-=======
-                        ],
-                        correct: 0,
-                        difficulty: "hard",
-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
->>>>>>> theirs
-=======
-=======
->>>>>>> theirs
-                        ],
-                        correct: 0,
-                        difficulty: "hard",
-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
                     }
                 ]
             }
@@ -1101,18 +851,11 @@
             questionIdx: 0,
             correct: 0,
             total: 0,
-<<<<<<< ours
             xp: 0,
             streak: 0,
             lastSessionDate: null,
             earnedAchievements: [],
             answered: false
-=======
-            xp: 150,
-            answered: false,
-            streak: 0,
-            lastActiveDate: null
->>>>>>> theirs
         };
 
         // Load saved state
@@ -1122,7 +865,6 @@
                 const s = JSON.parse(saved);
                 state.correct = s.correct || 0;
                 state.total = s.total || 0;
-<<<<<<< ours
                 state.xp = s.xp || 0;
                 state.streak = s.streak || 0;
                 state.lastSessionDate = s.lastSessionDate || null;
@@ -1134,11 +876,6 @@
                 if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {
                     state.streak = 0;
                 }
-=======
-                state.xp = s.xp || 150;
-                state.streak = s.streak || 0;
-                state.lastActiveDate = s.lastActiveDate || null;
->>>>>>> theirs
             }
         } catch(e) {}
 
@@ -1154,17 +891,12 @@
                     total: state.total,
                     xp: state.xp,
                     streak: state.streak,
-<<<<<<< ours
                     lastSessionDate: state.lastSessionDate,
                     earnedAchievements: state.earnedAchievements
-=======
-                    lastActiveDate: state.lastActiveDate
->>>>>>> theirs
                 }));
             } catch(e) {}
         }
 
-<<<<<<< ours
         function isLevelUnlocked(idx) {
             return state.xp >= LEVEL_XP_THRESHOLDS[idx];
         }
@@ -1220,33 +952,6 @@
                 return;
             }
             document.getElementById('lockMsg').textContent = '';
-=======
-        function updateDailyStreak() {
-            const today = new Date().toISOString().slice(0, 10);
-            if (state.lastActiveDate === today) return;
-            if (!state.lastActiveDate) {
-                state.streak = 1;
-            } else {
-                const last = new Date(state.lastActiveDate + "T00:00:00Z");
-                const now = new Date(today + "T00:00:00Z");
-                const diffDays = Math.round((now - last) / 86400000);
-                state.streak = diffDays === 1 ? state.streak + 1 : 1;
-            }
-            state.lastActiveDate = today;
-        }
-
-        function getUnlockedLevelIndex() {
-            let unlocked = 0;
-            levels.forEach((lvl, idx) => {
-                if (state.xp >= lvl.xpUnlock) unlocked = idx;
-            });
-            return unlocked;
-        }
-
-        function selectLevel(level) {
-            const unlocked = getUnlockedLevelIndex();
-            if (level > unlocked) return;
->>>>>>> theirs
             state.level = level;
             state.topic = null;
             state.questionIdx = 0;
@@ -1353,8 +1058,6 @@
         }
 
         function updateStats() {
-            const unlocked = getUnlockedLevelIndex();
-            const earnedBadges = badgeMilestones.filter(b => state.xp >= b.minXp);
             document.getElementById('correctCount').textContent = state.correct;
             document.getElementById('totalCount').textContent = state.total;
             document.getElementById('accuracyPct').textContent =
@@ -1362,7 +1065,6 @@
             document.getElementById('xpText').textContent = state.xp + ' XP';
             document.getElementById('xpFill').style.width = (state.xp % 500) / 5 + '%';
             document.getElementById('streak').textContent = state.streak + ' Tage';
-<<<<<<< ours
             renderLevelButtons();
         }
 
@@ -1372,26 +1074,6 @@
         renderExercise();
         updateStats();
         renderAchievements();
-=======
-            document.getElementById('xpMeta').textContent = 'XP: ' + state.xp;
-            document.getElementById('streakMeta').textContent = 'Streak: ' + state.streak + ' Tage';
-            document.getElementById('badgeMeta').textContent = 'Badges: ' + earnedBadges.length;
-            document.getElementById('unlockedText').textContent = levels.slice(0, unlocked + 1).map(l => l.id).join(', ');
-            document.querySelectorAll('.level-btn').forEach((btn, idx) => {
-                const isUnlocked = idx <= unlocked;
-                btn.disabled = !isUnlocked;
-                btn.style.opacity = isUnlocked ? '1' : '0.45';
-                btn.title = isUnlocked ? '' : `Freischaltung ab ${levels[idx].xpUnlock} XP`;
-            });
-        }
-
-        // Initialize
-        updateDailyStreak();
-        renderTopics();
-        renderExercise();
-        updateStats();
-        saveState();
->>>>>>> theirs
     </script>
 
 </body>
