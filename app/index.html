@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MathLevel - Interaktiv Mathe lernen | Second-Order Resonance</title>
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Uebungen und Erklaerungen.">
+    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Forschung & Simulation mit Übungen und Erklärungen.">
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -115,10 +115,11 @@
         .level-btn .level-name { font-size: 0.8rem; color: var(--text-muted); }
 
         .l1 .level-num { color: #4ade80; }
-        .l2 .level-num { color: #60a5fa; }
+        .l2 .level-num { color: #fde047; }
         .l3 .level-num { color: #f59e0b; }
-        .l4 .level-num { color: #ef4444; }
+        .l4 .level-num { color: #60a5fa; }
         .l5 .level-num { color: #8b5cf6; }
+        .l6 .level-num { color: #9ca3af; }
 
         /* Topic Selection */
         .topics {
@@ -285,6 +286,25 @@
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
         .stat-label { font-size: 0.8rem; color: var(--text-muted); }
 
+        .progress-foundation {
+            background: var(--secondary);
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .progress-foundation h3 { margin-bottom: 0.4rem; font-size: 1.05rem; }
+        .progress-foundation p { color: var(--text-muted); font-size: 0.9rem; }
+        .progress-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.8rem; }
+        .progress-pill {
+            font-size: 0.8rem;
+            border-radius: 999px;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-muted);
+        }
+
         /* YouTube CTA */
         .yt-cta {
             background: linear-gradient(135deg, var(--accent2), var(--secondary));
@@ -361,21 +381,35 @@
             </button>
             <button class="level-btn l2" onclick="selectLevel(1)">
                 <span class="level-num">2</span>
-                <span class="level-name">Mittelstufe</span>
+                <span class="level-name">Aufbauwissen</span>
             </button>
             <button class="level-btn l3" onclick="selectLevel(2)">
                 <span class="level-num">3</span>
-                <span class="level-name">Oberstufe</span>
+                <span class="level-name">Vertiefung</span>
             </button>
             <button class="level-btn l4" onclick="selectLevel(3)">
                 <span class="level-num">4</span>
-                <span class="level-name">Uni</span>
+                <span class="level-name">Uni-Grundlagen</span>
             </button>
             <button class="level-btn l5" onclick="selectLevel(4)">
                 <span class="level-num">5</span>
-                <span class="level-name">Ingenieur</span>
+                <span class="level-name">Angewandt</span>
+            </button>
+            <button class="level-btn l6" onclick="selectLevel(5)">
+                <span class="level-num">6</span>
+                <span class="level-name">Forschung</span>
             </button>
         </div>
+
+        <section class="progress-foundation">
+            <h3>Dein Lernpfad</h3>
+            <p>Level werden mit XP freigeschaltet. Aktuell freigeschaltet: <strong id="unlockedText">L1</strong>.</p>
+            <div class="progress-meta">
+                <span class="progress-pill" id="xpMeta">XP: 0</span>
+                <span class="progress-pill" id="streakMeta">Streak: 0 Tage</span>
+                <span class="progress-pill" id="badgeMeta">Badges: 0</span>
+            </div>
+        </section>
 
         <!-- Topics -->
         <div class="topics" id="topicsContainer"></div>
@@ -393,23 +427,39 @@
                 <h4 id="feedbackTitle"></h4>
                 <p id="feedbackText"></p>
             </div>
-            <button class="next-btn" id="nextBtn" onclick="nextExercise()">Naechste Aufgabe</button>
+            <button class="next-btn" id="nextBtn" onclick="nextExercise()">Nächste Aufgabe</button>
         </div>
 
         <!-- YouTube CTA -->
         <div class="yt-cta">
             <h3>Mehr davon auf YouTube</h3>
-            <p>Ausfuehrliche Video-Erklaerungen zu jedem Thema mit Animationen und Beispielen</p>
+            <p>Ausführliche Video-Erklärungen zu jedem Thema mit Animationen und Beispielen</p>
             <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" target="_blank" class="yt-btn">
                 Kanal abonnieren
             </a>
+            <p style="margin-top:1rem">Kurzformate & Impulse auf <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" style="color:var(--gold);font-weight:700;text-decoration:none">TikTok</a>.</p>
         </div>
     </main>
 
     <script>
-        // Exercise Database
+        const levels = [
+            { id: "L1", name: "Grundlagen", xpUnlock: 0 },
+            { id: "L2", name: "Aufbauwissen", xpUnlock: 120 },
+            { id: "L3", name: "Vertiefung", xpUnlock: 260 },
+            { id: "L4", name: "Universitätsgrundlagen", xpUnlock: 450 },
+            { id: "L5", name: "Angewandte Mathematik", xpUnlock: 700 },
+            { id: "L6", name: "Forschung & Simulation", xpUnlock: 980 }
+        ];
+
+        const badgeMilestones = [
+            { id: "starter", minXp: 120, label: "Starter" },
+            { id: "focused", minXp: 450, label: "Fokus" },
+            { id: "resonance", minXp: 980, label: "Resonanz" }
+        ];
+
+        // Exercise Database (demo set, erweiterbar)
         const exercises = {
-            0: { // Level 1 - Grundlagen
+            0: { // L1 - Grundlagen
                 topics: ["Bruchrechnung", "Prozente", "Geometrie", "Dreisatz"],
                 questions: [
                     {
@@ -419,7 +469,7 @@
                         options: ["2/5", "5/6", "1/5", "2/6"],
                         correct: 1,
                         difficulty: "easy",
-                        explanation: "Hauptnenner finden: 6. Also 3/6 + 2/6 = 5/6. Die Nenner muessen gleich sein, bevor man die Zaehler addieren kann."
+                        explanation: "Hauptnenner finden: 6. Also 3/6 + 2/6 = 5/6. Die Nenner müssen gleich sein, bevor man die Zähler addieren kann."
                     },
                     {
                         topic: "Bruchrechnung",
@@ -441,30 +491,30 @@
                     },
                     {
                         topic: "Geometrie",
-                        question: "Wie gross ist die Flaeche eines Kreises mit Radius r = 3?",
+                        question: "Wie groß ist die Fläche eines Kreises mit Radius r = 3?",
                         math: "A = pi * r^2 = ?",
                         options: ["9pi", "6pi", "3pi", "12pi"],
                         correct: 0,
                         difficulty: "easy",
-                        explanation: "A = pi * r^2 = pi * 3^2 = pi * 9 = 9pi (ungefaehr 28.27)."
+                        explanation: "A = pi * r^2 = pi * 3^2 = pi * 9 = 9pi (ungefähr 28.27)."
                     },
                     {
                         topic: "Dreisatz",
-                        question: "3 Aepfel kosten 1.50 Euro. Wie viel kosten 7 Aepfel?",
+                        question: "3 Äpfel kosten 1.50 Euro. Wie viel kosten 7 Äpfel?",
                         math: "3 -> 1.50 EUR\n7 -> ? EUR",
                         options: ["3.00", "3.50", "4.00", "4.50"],
                         correct: 1,
                         difficulty: "easy",
-                        explanation: "1 Apfel = 1.50/3 = 0.50 EUR. Also 7 Aepfel = 7 * 0.50 = 3.50 EUR."
+                        explanation: "1 Apfel = 1.50/3 = 0.50 EUR. Also 7 Äpfel = 7 * 0.50 = 3.50 EUR."
                     }
                 ]
             },
-            1: { // Level 2 - Mittelstufe
+            1: { // L2 - Aufbauwissen
                 topics: ["Gleichungen", "Funktionen", "Trigonometrie", "Potenzen"],
                 questions: [
                     {
                         topic: "Gleichungen",
-                        question: "Loese nach x auf:",
+                        question: "Löse nach x auf:",
                         math: "3x + 7 = 22",
                         options: ["x = 3", "x = 5", "x = 7", "x = 10"],
                         correct: 1,
@@ -473,7 +523,7 @@
                     },
                     {
                         topic: "Gleichungen",
-                        question: "Loese die quadratische Gleichung:",
+                        question: "Löse die quadratische Gleichung:",
                         math: "x^2 - 5x + 6 = 0",
                         options: ["x = 1, x = 6", "x = 2, x = 3", "x = -2, x = -3", "x = 3, x = -2"],
                         correct: 1,
@@ -509,7 +559,7 @@
                     }
                 ]
             },
-            2: { // Level 3 - Oberstufe
+            2: { // L3 - Vertiefung
                 topics: ["Ableitungen", "Integrale", "Stochastik", "Vektoren"],
                 questions: [
                     {
@@ -550,16 +600,16 @@
                     },
                     {
                         topic: "Stochastik",
-                        question: "2 Wuerfel werden geworfen. Wie hoch ist P(Summe = 7)?",
+                        question: "2 Würfel werden geworfen. Wie hoch ist P(Summe = 7)?",
                         math: "P(X = 7) = ?",
                         options: ["1/6", "5/36", "6/36", "7/36"],
                         correct: 2,
                         difficulty: "medium",
-                        explanation: "Moegliche Kombinationen fuer Summe 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 von 36 Moeglichkeiten = 6/36 = 1/6."
+                        explanation: "Mögliche Kombinationen für Summe 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 von 36 Möglichkeiten = 6/36 = 1/6."
                     }
                 ]
             },
-            3: { // Level 4 - Uni
+            3: { // L4 - Universitätsgrundlagen
                 topics: ["Lineare Algebra", "DGL", "Komplexe Zahlen", "Reihen"],
                 questions: [
                     {
@@ -569,11 +619,11 @@
                         options: ["5", "11", "8", "-5"],
                         correct: 0,
                         difficulty: "medium",
-                        explanation: "Fuer 2x2-Matrix: ad - bc = 2*4 - 1*3 = 8 - 3 = 5."
+                        explanation: "Für 2x2-Matrix: ad - bc = 2*4 - 1*3 = 8 - 3 = 5."
                     },
                     {
                         topic: "DGL",
-                        question: "Loese die Differentialgleichung:",
+                        question: "Löse die Differentialgleichung:",
                         math: "y' = 2y, y(0) = 1",
                         options: ["y = e^(2t)", "y = 2e^t", "y = e^t + 1", "y = 2t"],
                         correct: 0,
@@ -596,20 +646,20 @@
                         options: ["1", "2", "unendlich", "1/2"],
                         correct: 1,
                         difficulty: "medium",
-                        explanation: "Geometrische Reihe: sum q^n = 1/(1-q) fuer |q|<1. Mit q=1/2: 1/(1-1/2) = 1/(1/2) = 2."
+                        explanation: "Geometrische Reihe: sum q^n = 1/(1-q) für |q|<1. Mit q=1/2: 1/(1-1/2) = 1/(1/2) = 2."
                     },
                     {
                         topic: "Lineare Algebra",
-                        question: "Sind diese Vektoren linear unabhaengig?",
+                        question: "Sind diese Vektoren linear unabhängig?",
                         math: "v1 = (1,0,0)\nv2 = (0,1,0)\nv3 = (1,1,0)",
                         options: ["Ja", "Nein", "Nur v1 und v2", "Nicht bestimmbar"],
                         correct: 1,
                         difficulty: "hard",
-                        explanation: "v3 = v1 + v2, also ist v3 eine Linearkombination von v1 und v2. Die Vektoren sind linear abhaengig."
+                        explanation: "v3 = v1 + v2, also ist v3 eine Linearkombination von v1 und v2. Die Vektoren sind linear abhängig."
                     }
                 ]
             },
-            4: { // Level 5 - Ingenieur
+            4: { // L5 - Angewandte Mathematik
                 topics: ["Fourier", "Laplace", "Resonanz", "Regelungstechnik"],
                 questions: [
                     {
@@ -618,8 +668,8 @@
                         math: "F(w) = integral(-inf, inf) f(t) * e^(-jwt) dt",
                         options: [
                             "Zerlegung in Frequenzanteile",
-                            "Loesung von DGL",
-                            "Berechnung von Flaecheninhalt",
+                            "Lösung von DGL",
+                            "Berechnung von Flächeninhalt",
                             "Approximation von Polynomen"
                         ],
                         correct: 0,
@@ -633,7 +683,7 @@
                         options: ["1/(s-a)", "1/(s+a)", "s/(s-a)", "a/(s-a)"],
                         correct: 0,
                         difficulty: "medium",
-                        explanation: "L{e^(at)} = 1/(s-a) fuer Re(s) > a. Dies ist eine der wichtigsten Standardtransformationen."
+                        explanation: "L{e^(at)} = 1/(s-a) für Re(s) > a. Dies ist eine der wichtigsten Standardtransformationen."
                     },
                     {
                         topic: "Resonanz",
@@ -647,30 +697,77 @@
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "Resonanz tritt auf wenn die Anregungsfrequenz w gleich der Eigenfrequenz w0 = sqrt(k/m) ist. Dann wird die Amplitude maximal (bei Daempfung c>0) oder unendlich (bei c=0)."
+                        explanation: "Resonanz tritt auf wenn die Anregungsfrequenz w gleich der Eigenfrequenz w0 = sqrt(k/m) ist. Dann wird die Amplitude maximal (bei Dämpfung c>0) oder unendlich (bei c=0)."
                     },
                     {
                         topic: "Regelungstechnik",
-                        question: "Was beschreibt die Uebertragungsfunktion eines PT1-Glieds?",
+                        question: "Was beschreibt die Übertragungsfunktion eines PT1-Glieds?",
                         math: "G(s) = ?",
                         options: ["K/(1+Ts)", "K*s/(1+Ts)", "K/(s+T)", "K*T*s"],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "PT1-Glied (Verzoegerungsglied 1. Ordnung): G(s) = K/(1+Ts) mit Verstaerkung K und Zeitkonstante T. Grundbaustein der Regelungstechnik."
+                        explanation: "PT1-Glied (Verzögerungsglied 1. Ordnung): G(s) = K/(1+Ts) mit Verstärkung K und Zeitkonstante T. Grundbaustein der Regelungstechnik."
                     },
                     {
                         topic: "Fourier",
                         question: "Welche Eigenschaft hat die DFT (Diskrete Fourier-Transformation)?",
                         math: "X[k] = sum(n=0, N-1) x[n] * e^(-j2pi*kn/N)",
                         options: [
-                            "Periodizitaet: X[k+N] = X[k]",
+                            "Periodizität: X[k+N] = X[k]",
                             "X[k] ist immer reell",
                             "DFT ist nicht umkehrbar",
-                            "Nur fuer gerade N definiert"
+                            "Nur für gerade N definiert"
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "Die DFT ist periodisch mit Periode N. Ausserdem ist sie umkehrbar (IDFT existiert) und fuer beliebiges N definiert."
+                        explanation: "Die DFT ist periodisch mit Periode N. Außerdem ist sie umkehrbar (IDFT existiert) und für beliebiges N definiert."
+                    }
+                ]
+            },
+            5: { // L6 - Forschung & Simulation
+                topics: ["Nichtlineare Systeme", "Numerische Simulation", "Optimierung", "Modellierung"],
+                questions: [
+                    {
+                        topic: "Nichtlineare Systeme",
+                        question: "Welche Aussage passt zu chaotischen Systemen?",
+                        math: "x_(n+1) = r*x_n*(1-x_n)",
+                        options: [
+                            "Hohe Sensitivität auf Anfangswerte",
+                            "Immer periodisch",
+                            "Immer exakt lösbar",
+                            "Keine Verbindung zur Physik"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Chaotische Dynamik reagiert stark auf kleine Startänderungen. Das macht langfristige Vorhersagen schwierig."
+                    },
+                    {
+                        topic: "Numerische Simulation",
+                        question: "Warum nutzt man Zeitschrittverfahren wie Euler oder Runge-Kutta?",
+                        math: "x'(t)=f(t,x)",
+                        options: [
+                            "Zur numerischen Approximation von Differentialgleichungen",
+                            "Nur für lineare Algebra",
+                            "Zum Sortieren von Daten",
+                            "Nur für Symbolrechnen"
+                        ],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Viele DGL haben keine geschlossene Lösung. Zeitschrittverfahren nähern die Lösung numerisch an."
+                    },
+                    {
+                        topic: "Optimierung",
+                        question: "Was ist das Ziel bei Gradientenverfahren?",
+                        math: "x_(k+1) = x_k - eta * grad(f(x_k))",
+                        options: [
+                            "Ein lokales Minimum von f finden",
+                            "Eine Funktion integrieren",
+                            "Zufällige Werte erzeugen",
+                            "Nur Gleichungen lösen"
+                        ],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Man läuft in Richtung des negativen Gradienten und reduziert so den Funktionswert iterativ."
                     }
                 ]
             }
@@ -684,7 +781,9 @@
             correct: 0,
             total: 0,
             xp: 150,
-            answered: false
+            answered: false,
+            streak: 0,
+            lastActiveDate: null
         };
 
         // Load saved state
@@ -695,6 +794,8 @@
                 state.correct = s.correct || 0;
                 state.total = s.total || 0;
                 state.xp = s.xp || 150;
+                state.streak = s.streak || 0;
+                state.lastActiveDate = s.lastActiveDate || null;
             }
         } catch(e) {}
 
@@ -703,12 +804,38 @@
                 localStorage.setItem('mathlevel-state', JSON.stringify({
                     correct: state.correct,
                     total: state.total,
-                    xp: state.xp
+                    xp: state.xp,
+                    streak: state.streak,
+                    lastActiveDate: state.lastActiveDate
                 }));
             } catch(e) {}
         }
 
+        function updateDailyStreak() {
+            const today = new Date().toISOString().slice(0, 10);
+            if (state.lastActiveDate === today) return;
+            if (!state.lastActiveDate) {
+                state.streak = 1;
+            } else {
+                const last = new Date(state.lastActiveDate + "T00:00:00Z");
+                const now = new Date(today + "T00:00:00Z");
+                const diffDays = Math.round((now - last) / 86400000);
+                state.streak = diffDays === 1 ? state.streak + 1 : 1;
+            }
+            state.lastActiveDate = today;
+        }
+
+        function getUnlockedLevelIndex() {
+            let unlocked = 0;
+            levels.forEach((lvl, idx) => {
+                if (state.xp >= lvl.xpUnlock) unlocked = idx;
+            });
+            return unlocked;
+        }
+
         function selectLevel(level) {
+            const unlocked = getUnlockedLevelIndex();
+            if (level > unlocked) return;
             state.level = level;
             state.topic = null;
             state.questionIdx = 0;
@@ -817,18 +944,33 @@
         }
 
         function updateStats() {
+            const unlocked = getUnlockedLevelIndex();
+            const earnedBadges = badgeMilestones.filter(b => state.xp >= b.minXp);
             document.getElementById('correctCount').textContent = state.correct;
             document.getElementById('totalCount').textContent = state.total;
             document.getElementById('accuracyPct').textContent =
                 state.total > 0 ? Math.round(state.correct / state.total * 100) + '%' : '-';
             document.getElementById('xpText').textContent = state.xp + ' XP';
             document.getElementById('xpFill').style.width = (state.xp % 500) / 5 + '%';
+            document.getElementById('streak').textContent = state.streak + ' Tage';
+            document.getElementById('xpMeta').textContent = 'XP: ' + state.xp;
+            document.getElementById('streakMeta').textContent = 'Streak: ' + state.streak + ' Tage';
+            document.getElementById('badgeMeta').textContent = 'Badges: ' + earnedBadges.length;
+            document.getElementById('unlockedText').textContent = levels.slice(0, unlocked + 1).map(l => l.id).join(', ');
+            document.querySelectorAll('.level-btn').forEach((btn, idx) => {
+                const isUnlocked = idx <= unlocked;
+                btn.disabled = !isUnlocked;
+                btn.style.opacity = isUnlocked ? '1' : '0.45';
+                btn.title = isUnlocked ? '' : `Freischaltung ab ${levels[idx].xpUnlock} XP`;
+            });
         }
 
         // Initialize
+        updateDailyStreak();
         renderTopics();
         renderExercise();
         updateStats();
+        saveState();
     </script>
 
 </body>

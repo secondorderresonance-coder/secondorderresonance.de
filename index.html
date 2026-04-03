@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Second-Order Resonance | Mathematik visuell erklaert</title>
-    <meta name="description" content="Mathematik visuell erklaert - vom Grundschueler bis zum Ingenieur. Kostenlose Tutorials, interaktive Uebungen und Mathe-Tricks auf YouTube.">
-    <meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklaert, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
-    <meta property="og:title" content="Second-Order Resonance | Mathematik visuell erklaert">
-    <meta property="og:description" content="Mathematik vom Grundschueler bis zum Ingenieur. Visuelle Erklaerungen, die du wirklich verstehst.">
+    <title>Second-Order Resonance | Mathematik visuell erklärt</title>
+    <meta name="description" content="Mathematik visuell erklärt - vom Grundschüler bis zum Ingenieur. Kostenlose Tutorials, interaktive Übungen und Mathe-Tricks auf YouTube.">
+    <meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklärt, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
+    <meta property="og:title" content="Second-Order Resonance | Mathematik visuell erklärt">
+    <meta property="og:description" content="Mathematik vom Grundschüler bis zum Ingenieur. Visuelle Erklärungen, die du wirklich verstehst.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://second-order-resonance.de">
     <link rel="canonical" href="https://second-order-resonance.de">
@@ -204,10 +204,11 @@
         }
 
         .level-1 .level-badge { background: #4ade80; color: #000; }
-        .level-2 .level-badge { background: #60a5fa; color: #000; }
+        .level-2 .level-badge { background: #fde047; color: #000; }
         .level-3 .level-badge { background: #f59e0b; color: #000; }
-        .level-4 .level-badge { background: #ef4444; color: #fff; }
+        .level-4 .level-badge { background: #60a5fa; color: #000; }
         .level-5 .level-badge { background: #8b5cf6; color: #fff; }
+        .level-6 .level-badge { background: #111827; color: #f9fafb; }
 
         .level-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
         .level-card p { color: var(--text-muted); margin-bottom: 1rem; }
@@ -283,6 +284,37 @@
         .video-info { padding: 1.5rem; }
         .video-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
         .video-info p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Archiv */
+        .archive {
+            padding: 6rem 2rem;
+            background: var(--secondary);
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .archive-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .archive-card h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .archive-card p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem; }
+        .archive-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .archive-link:hover { color: var(--accent); }
 
         /* Newsletter / CTA */
         .newsletter {
@@ -436,8 +468,10 @@
         <ul>
             <li><a href="#levels">Level-System</a></li>
             <li><a href="#videos">Videos</a></li>
+            <li><a href="#archiv">Archiv</a></li>
             <li><a href="#app">Mathe-App</a></li>
             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
+            <li><a href="https://www.tiktok.com/@second_order_resonance" target="_blank">TikTok</a></li>
         </ul>
     </nav>
 
@@ -451,10 +485,10 @@
         <div class="hero-content">
             <h1>
                 Mathematik<br>
-                <span class="highlight">visuell</span> erklaert.<br>
-                <span class="gold">Fuer alle Level.</span>
+                <span class="highlight">visuell</span> erklärt.<br>
+                <span class="gold">Für alle Level.</span>
             </h1>
-            <p>Vom Grundschueler bis zum Ingenieur. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>
+            <p>Vom Grundschüler bis zum Ingenieur. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>
             <div class="cta-buttons">
                 <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" class="btn btn-primary" target="_blank">
                     Kanal abonnieren
@@ -469,13 +503,13 @@
     <!-- Level System -->
     <section class="levels" id="levels">
         <h2 class="section-title">Finde dein <span style="color:var(--accent)">Level</span></h2>
-        <p class="section-subtitle">Von den Grundlagen bis zur Ingenieur-Mathematik - steig ein wo du stehst</p>
+        <p class="section-subtitle">Vom Einstieg bis zur Forschung - sechs klar strukturierte Lernlevel für deinen nächsten Schritt</p>
 
         <div class="level-grid">
             <div class="level-card level-1">
-                <span class="level-badge">Level 1 - Grundlagen</span>
+                <span class="level-badge">🟢 L1 - Grundlagen</span>
                 <h3>Einstieg</h3>
-                <p>Perfekt zum Auffrischen oder fuer den Start in die Mathe-Welt.</p>
+                <p>Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.</p>
                 <ul class="level-topics">
                     <li>Bruchrechnung</li>
                     <li>Prozente</li>
@@ -485,9 +519,9 @@
             </div>
 
             <div class="level-card level-2">
-                <span class="level-badge">Level 2 - Mittelstufe</span>
-                <h3>Algebra & Funktionen</h3>
-                <p>Die Grundpfeiler fuer alles was noch kommt.</p>
+                <span class="level-badge">🟡 L2 - Aufbauwissen</span>
+                <h3>Aufbauwissen</h3>
+                <p>Die Grundpfeiler für alles was noch kommt.</p>
                 <ul class="level-topics">
                     <li>Gleichungen</li>
                     <li>Funktionen</li>
@@ -497,9 +531,9 @@
             </div>
 
             <div class="level-card level-3">
-                <span class="level-badge">Level 3 - Oberstufe</span>
-                <h3>Analysis & Stochastik</h3>
-                <p>Abitur-relevant und anschaulich erklaert.</p>
+                <span class="level-badge">🟠 L3 - Vertiefung</span>
+                <h3>Vertiefung</h3>
+                <p>Oberstufen- und Abschlussniveau anschaulich erklärt.</p>
                 <ul class="level-topics">
                     <li>Ableitungen</li>
                     <li>Integrale</li>
@@ -509,9 +543,9 @@
             </div>
 
             <div class="level-card level-4">
-                <span class="level-badge">Level 4 - Universitaet</span>
-                <h3>Hoehere Mathematik</h3>
-                <p>Was dich im Studium wirklich erwartet.</p>
+                <span class="level-badge">🔵 L4 - Universitätsgrundlagen</span>
+                <h3>Universitätsgrundlagen</h3>
+                <p>Der strukturierte Einstieg in die Hochschulmathematik.</p>
                 <ul class="level-topics">
                     <li>Lineare Algebra</li>
                     <li>Differentialgleichungen</li>
@@ -521,7 +555,7 @@
             </div>
 
             <div class="level-card level-5">
-                <span class="level-badge">Level 5 - Ingenieur</span>
+                <span class="level-badge">🟣 L5 - Angewandte Mathematik</span>
                 <h3>Angewandte Mathematik</h3>
                 <p>Wo Mathe die reale Welt trifft.</p>
                 <ul class="level-topics">
@@ -531,13 +565,25 @@
                     <li>Regelungstechnik</li>
                 </ul>
             </div>
+
+            <div class="level-card level-6">
+                <span class="level-badge">⚫ L6 - Forschung & Simulation</span>
+                <h3>Forschung & Simulation</h3>
+                <p>Wissenschaftliche Modellierung, numerische Experimente und Spezialisierung.</p>
+                <ul class="level-topics">
+                    <li>Simulation</li>
+                    <li>Optimierung</li>
+                    <li>Nichtlineare Systeme</li>
+                    <li>Wissenschaftliches Rechnen</li>
+                </ul>
+            </div>
         </div>
     </section>
 
     <!-- Latest Videos -->
     <section class="videos" id="videos">
         <h2 class="section-title">Neueste Videos</h2>
-        <p class="section-subtitle">Jede Woche neue Erklaerungen, Tricks und Deep Dives</p>
+        <p class="section-subtitle">Jede Woche neue Erklärungen, Tricks und Deep Dives</p>
 
         <div class="video-grid">
             <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
@@ -545,8 +591,8 @@
                     <div class="play-btn"></div>
                 </div>
                 <div class="video-info">
-                    <h3>Resonanz erklaert in 5 Leveln</h3>
-                    <p>Vom Schaukeln bis zur Brueckenkatastrophe - ein Phaenomen, 5 Perspektiven</p>
+                    <h3>Resonanz erklärt in 6 Leveln</h3>
+                    <p>Vom Einstieg bis zur Forschung - ein Phänomen, sechs Perspektiven</p>
                 </div>
             </a>
 
@@ -572,24 +618,42 @@
         </div>
     </section>
 
+    <!-- Lern-Archiv -->
+    <section class="archive" id="archiv">
+        <h2 class="section-title">Lern-<span style="color:var(--accent)">Archiv</span></h2>
+        <p class="section-subtitle">Strukturierte Inhalte zum Nachlesen, Verstehen und Trainieren passend zu den Übungen in der App.</p>
+        <div class="archive-grid">
+            <article class="archive-card">
+                <h3>Exponentielles Verhalten (Level 3)</h3>
+                <p>Was haben ein Schachbrett, der Zinseszins und ein Gastank gemeinsam? Ein visueller Einstieg in exponentielles Wachstum.</p>
+                <a class="archive-link" href="https://youtu.be/4MfNDj7GfQ8" target="_blank">Video ansehen</a>
+            </article>
+            <article class="archive-card">
+                <h3>Gleichungen lösen und umstellen (Level 2)</h3>
+                <p>Schritt für Schritt mit Gegenoperationen: die solide Basis, um viele Aufgaben in der App sicher zu lösen.</p>
+                <a class="archive-link" href="https://youtu.be/3n05QLJ-u4E" target="_blank">Video ansehen</a>
+            </article>
+        </div>
+    </section>
+
     <!-- Math App Teaser -->
     <section class="app-teaser" id="app">
         <div class="app-container">
             <div class="app-info">
                 <h2>Die <span style="color:var(--accent)">Mathe-App</span><br>zum Kanal</h2>
-                <p>Lerne interaktiv mit Uebungen die zu jedem Video passen. Steig Level fuer Level auf.</p>
+                <p>Lerne interaktiv mit Übungen die zu jedem Video passen. Steig Level für Level auf.</p>
                 <ul class="app-features">
-                    <li>Interaktive Uebungen zu jedem Thema</li>
+                    <li>Interaktive Übungen zu jedem Thema</li>
                     <li>Level-System mit Fortschrittsanzeige</li>
-                    <li>Schritt-fuer-Schritt Loesungswege</li>
-                    <li>Offline verfuegbar (PWA)</li>
+                    <li>Schritt-für-Schritt Lösungswege</li>
+                    <li>Offline verfügbar (PWA)</li>
                     <li>100% kostenlos</li>
                 </ul>
                 <br>
                 <a href="app/index.html" class="btn btn-primary">App starten</a>
             </div>
             <div class="app-preview floating">
-                <p style="color:var(--text-muted)">Uebung des Tages</p>
+                <p style="color:var(--text-muted)">Übung des Tages</p>
                 <div class="math-display">
                     d/dx [x^3 + 2x] = ?
                 </div>
@@ -607,7 +671,7 @@
     <!-- Newsletter -->
     <section class="newsletter" id="newsletter">
         <h2>Verpasse kein Video</h2>
-        <p>Wochentlich ein Mathe-Raetsel + Benachrichtigung bei neuen Videos direkt in dein Postfach.</p>
+        <p>Wöchentlich ein Mathe-Rätsel + Benachrichtigung bei neuen Videos direkt in dein Postfach.</p>
         <form class="email-form" onsubmit="event.preventDefault(); alert('Danke! Du wirst benachrichtigt.');">
             <input type="email" placeholder="deine@email.de" required>
             <button type="submit" class="btn btn-primary">Anmelden</button>
@@ -619,33 +683,35 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Second-Order Resonance</h4>
-                <p style="color:var(--text-muted)">Mathematik visuell erklaert.<br>Vom Grundschueler bis zum Ingenieur.</p>
+                <p style="color:var(--text-muted)">Mathematik visuell erklärt.<br>Vom Grundschüler bis zum Ingenieur.</p>
             </div>
             <div class="footer-col">
                 <h4>Level</h4>
-                <a href="#levels">Level 1 - Grundlagen</a>
-                <a href="#levels">Level 2 - Mittelstufe</a>
-                <a href="#levels">Level 3 - Oberstufe</a>
-                <a href="#levels">Level 4 - Universitaet</a>
-                <a href="#levels">Level 5 - Ingenieur</a>
+                <a href="#levels">🟢 L1 - Grundlagen</a>
+                <a href="#levels">🟡 L2 - Aufbauwissen</a>
+                <a href="#levels">🟠 L3 - Vertiefung</a>
+                <a href="#levels">🔵 L4 - Universitätsgrundlagen</a>
+                <a href="#levels">🟣 L5 - Angewandte Mathematik</a>
+                <a href="#levels">⚫ L6 - Forschung & Simulation</a>
             </div>
             <div class="footer-col">
                 <h4>Plattformen</h4>
                 <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a>
-                <a href="#">TikTok</a>
+                <a href="https://www.tiktok.com/@second_order_resonance" target="_blank">TikTok</a>
                 <a href="#">Instagram</a>
                 <a href="#">Discord</a>
             </div>
             <div class="footer-col">
                 <h4>Mehr</h4>
                 <a href="app/index.html">Mathe-App</a>
+                <a href="#archiv">Lern-Archiv</a>
                 <a href="#newsletter">Newsletter</a>
                 <a href="#">Impressum</a>
                 <a href="#">Datenschutz</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Second-Order Resonance. Mathematik fuer alle.</p>
+            <p>&copy; 2026 Second-Order Resonance. Mathematik für alle.</p>
         </div>
     </footer>
 
@@ -655,10 +721,11 @@
         "@context": "https://schema.org",
         "@type": "EducationalOrganization",
         "name": "Second-Order Resonance",
-        "description": "Mathematik visuell erklaert - vom Grundschueler bis zum Ingenieur",
+        "description": "Mathematik visuell erklärt - vom Grundschüler bis zum Ingenieur",
         "url": "https://second-order-resonance.de",
         "sameAs": [
-            "https://www.youtube.com/@Second-OrderResonance"
+            "https://www.youtube.com/@Second-OrderResonance",
+            "https://www.tiktok.com/@second_order_resonance"
         ]
     }
     </script>
