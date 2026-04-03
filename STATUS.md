@@ -4,14 +4,20 @@
 Repository is being improved iteratively.
 
 ## Last completed task
-None yet.
+Replaced incorrect German transliterations (ae/oe/ue) with proper umlauts in user-facing website and app copy.
 
 ## Last validation
-None yet.
+- `rg -n "Ueb|Erklaer|Grundschuel|\bFuer\b|\bfuer\b|Loese|Wochentlich|Raetsel|Universitaets|Hoehere|Naechste|Ausfuehr|betraegt" index.html app/index.html` (no remaining matches)
+- `git diff -- index.html app/index.html` (manual review of focused copy-only changes)
 
-## Next recommended task
-Start with the highest open P1 item in BACKLOG.md.
+## Files touched in last task
+- `index.html`
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
 
-## Notes for future runs
-Preserve existing design language and keep changes small.
-Prefer extensible structures over hardcoded markup.
+## Blockers
+None.
+
+## Next logical step
+Complete the next highest-priority open P1 task: add an Archiv section to the website.
