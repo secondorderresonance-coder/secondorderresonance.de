@@ -1,7 +1,7 @@
 # BACKLOG
 
 ## P1
-- [ ] Replace incorrect ae, oe, ue spellings with proper German umlauts where linguistically correct
+- [x] Replace incorrect ae, oe, ue spellings with proper German umlauts where linguistically correct
 - [ ] Add an Archiv section to the website
 - [ ] Add first archive entries for:
   - Exponentielles Verhalten
