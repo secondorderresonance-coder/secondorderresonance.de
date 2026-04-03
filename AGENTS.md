@@ -178,5 +178,48 @@ Do not try to fully build the whole learning platform in a single step.
 A successful early PR should make the site:
 - still look like Second Order Resonance
 - clearly reflect the new 6-level structure
+
+## Iterative execution protocol
+
+This repository should be improved continuously in small, reviewable iterations.
+
+For every autonomous run, Codex must follow this protocol:
+
+1. Read `BACKLOG.md` and `STATUS.md` before making any change.
+2. Select exactly one highest-priority open task from `BACKLOG.md`.
+3. Implement only one focused improvement per run.
+4. Prefer changes that are easy to review and validate.
+5. After implementation, run the most relevant validation steps available in the repo.
+6. Update `STATUS.md` with:
+   - what was changed
+   - which files were touched
+   - how it was validated
+   - what the next logical step is
+   - whether any blocker remains
+7. Mark completed tasks in `BACKLOG.md`.
+8. If useful follow-up tasks are discovered, append them to `BACKLOG.md` in the appropriate priority section.
+9. Do not stop merely because one task is finished if further open tasks remain in `BACKLOG.md`.
+10. If blocked, document the blocker clearly in `STATUS.md` and switch to the next unblocked task only if that task is independent and still small in scope.
+
+## Scope rules for autonomous runs
+
+Each autonomous run should usually do only one of the following:
+- fix one localized content or copy issue
+- add one small UI section
+- improve one navigation path
+- refactor one small reusable structure
+- add one small archive content module
+- add one small video integration section
+- improve one mobile or accessibility issue
+
+Avoid combining many unrelated improvements in one run.
+
+## Definition of done per run
+
+A run is complete only when:
+1. the selected task is actually implemented
+2. the affected area is checked for obvious regressions
+3. `STATUS.md` is updated
+4. `BACKLOG.md` is updated
 - be more extensible for future learning features
 - stay clean and easy to review
