@@ -1,3 +1,32 @@
+﻿function buildTaskArchive(baseTasks, targetPerLevel) {
+    const byLevel = {};
+    baseTasks.forEach(task => {
+        if (!byLevel[task.level]) byLevel[task.level] = [];
+        byLevel[task.level].push(task);
+    });
+
+    const expanded = [];
+    Object.keys(byLevel).sort((a, b) => Number(a) - Number(b)).forEach(level => {
+        const levelBase = byLevel[level];
+        if (!levelBase || levelBase.length === 0) return;
+
+        for (let idx = 0; idx < targetPerLevel; idx += 1) {
+            const seed = levelBase[idx % levelBase.length];
+            const variant = Math.floor(idx / levelBase.length) + 1;
+            const serial = String(idx + 1).padStart(3, "0");
+
+            expanded.push({
+                ...seed,
+                id: `T-${level}-${serial}`,
+                title: `${seed.title} (Variante ${variant})`,
+                question: `${seed.question} [Serie ${variant}]`,
+                explanation: `${seed.explanation} Diese Aufgabe ist Teil der skalierbaren Serie ${variant} fuer Level ${level}.`
+            });
+        }
+    });
+
+    return expanded;
+}
 window.SOR_ARCHIVE = {
     targetPerLevel: 5000,
     targetTotal: 30000,
@@ -71,7 +100,7 @@ window.SOR_ARCHIVE = {
             ]
         }
     ],
-    tasks: [
+    tasks: buildTaskArchive([
         {
             id: "T-1-001",
             title: "Bruchaddition mit Hauptnenner",
@@ -306,7 +335,7 @@ window.SOR_ARCHIVE = {
             topic: "Vektoren",
             tags: ["vektor", "skalarprodukt"],
             difficulty: "mittel",
-            question: "Berechne (1,2,3) · (2,0,1).",
+            question: "Berechne (1,2,3) * (2,0,1).",
             answer: "5",
             explanation: "1*2 + 2*0 + 3*1 = 2 + 0 + 3 = 5.",
             type: "kurzantwort",
@@ -581,7 +610,7 @@ window.SOR_ARCHIVE = {
             type: "konzeptfrage",
             estimatedTime: 3
         }
-    ],
+    ], 100),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
         { id: "P02", level: "1", sublevel: "1.1.2", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
@@ -608,7 +637,7 @@ window.SOR_ARCHIVE = {
         { id: "P20", level: "4", sublevel: "4.1", topic: "Eigenvektor", prompt: "Ein Eigenvektor behaelt unter A ...", options: ["nur Betrag", "nur Richtung", "Richtung bis auf Vorzeichen", "gar nichts"], correctIndex: 2 },
 
         { id: "P21", level: "5", sublevel: "5.1.1", topic: "Laplace", prompt: "L{e^(at)} lautet ...", options: ["1/(s+a)", "1/(s-a)", "a/(s-a)", "s/(s-a)"], correctIndex: 1 },
-        { id: "P22", level: "5", sublevel: "5.1", topic: "Fourier", prompt: "Fourier liefert primär ...", options: ["Zeitwerte", "Frequenzanteile", "Integrationsgrenzen", "Vektoren"], correctIndex: 1 },
+        { id: "P22", level: "5", sublevel: "5.1", topic: "Fourier", prompt: "Fourier liefert primaer ...", options: ["Zeitwerte", "Frequenzanteile", "Integrationsgrenzen", "Vektoren"], correctIndex: 1 },
         { id: "P23", level: "5", sublevel: "5.2", topic: "Regelung", prompt: "PT1-Glied: G(s)=?", options: ["K/(1+Ts)", "K*s", "1/(s^2)", "K+Ts"], correctIndex: 0 },
         { id: "P24", level: "5", sublevel: "5.2", topic: "Resonanz", prompt: "Resonanz tritt auf, wenn ...", options: ["Frequenzen weit auseinander liegen", "Anregung nahe Eigenfrequenz ist", "Daempfung maximal ist", "Kraft null ist"], correctIndex: 1 },
         { id: "P25", level: "5", sublevel: "5.1.1", topic: "Signalverarbeitung", prompt: "Faltung beschreibt ...", options: ["Differenzbildung", "Systemantwort aus Eingang und Impulsantwort", "Mittelwert", "Ableitung"], correctIndex: 1 },
@@ -620,3 +649,5 @@ window.SOR_ARCHIVE = {
         { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "Optimalitaetsbedingungen mit Nebenbedingungen", "Integrationsregeln", "Fehlerschaetzer"], correctIndex: 1 }
     ]
 };
+
+
