@@ -1,0 +1,914 @@
+[1mdiff --git a/app/index.html b/app/index.html[m
+[1mindex 3c80da3..1bacb5b 100644[m
+[1m--- a/app/index.html[m
+[1m+++ b/app/index.html[m
+[36m@@ -4,31 +4,7 @@[m
+     <meta charset="UTF-8">[m
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+     <title>MathLevel - Interaktiv Mathe lernen | Second-Order Resonance</title>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+     <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">[m
+[31m-=======[m
+[31m-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Forschung & Simulation mit Übungen und Erklärungen.">[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">[m
+[31m->>>>>>> theirs[m
+     <meta name="theme-color" content="#1a1a2e">[m
+     <link rel="manifest" href="manifest.json">[m
+     <style>[m
+[36m@@ -139,19 +115,11 @@[m
+         .level-btn .level-name { font-size: 0.8rem; color: var(--text-muted); }[m
+ [m
+         .l1 .level-num { color: #4ade80; }[m
+[31m-<<<<<<< ours[m
+         .l2 .level-num { color: #facc15; }[m
+         .l3 .level-num { color: #f59e0b; }[m
+         .l4 .level-num { color: #60a5fa; }[m
+         .l5 .level-num { color: #8b5cf6; }[m
+         .l6 .level-num { color: #6b7280; }[m
+[31m-=======[m
+[31m-        .l2 .level-num { color: #fde047; }[m
+[31m-        .l3 .level-num { color: #f59e0b; }[m
+[31m-        .l4 .level-num { color: #60a5fa; }[m
+[31m-        .l5 .level-num { color: #8b5cf6; }[m
+[31m-        .l6 .level-num { color: #9ca3af; }[m
+[31m->>>>>>> theirs[m
+ [m
+         /* Topic Selection */[m
+         .topics {[m
+[36m@@ -318,25 +286,6 @@[m
+         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--gold); }[m
+         .stat-label { font-size: 0.8rem; color: var(--text-muted); }[m
+ [m
+[31m-        .progress-foundation {[m
+[31m-            background: var(--secondary);[m
+[31m-            border-radius: 16px;[m
+[31m-            padding: 1.2rem;[m
+[31m-            margin-bottom: 1.5rem;[m
+[31m-            border: 1px solid rgba(255,255,255,0.1);[m
+[31m-        }[m
+[31m-[m
+[31m-        .progress-foundation h3 { margin-bottom: 0.4rem; font-size: 1.05rem; }[m
+[31m-        .progress-foundation p { color: var(--text-muted); font-size: 0.9rem; }[m
+[31m-        .progress-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.8rem; }[m
+[31m-        .progress-pill {[m
+[31m-            font-size: 0.8rem;[m
+[31m-            border-radius: 999px;[m
+[31m-            padding: 0.25rem 0.75rem;[m
+[31m-            border: 1px solid rgba(255,255,255,0.15);[m
+[31m-            color: var(--text-muted);[m
+[31m-        }[m
+[31m-[m
+         /* YouTube CTA */[m
+         .yt-cta {[m
+             background: linear-gradient(135deg, var(--accent2), var(--secondary));[m
+[36m@@ -497,19 +446,11 @@[m
+             </button>[m
+             <button class="level-btn l4" onclick="selectLevel(3)">[m
+                 <span class="level-num">4</span>[m
+[31m-<<<<<<< ours[m
+                 <span class="level-name">Uni-Grundl.</span>[m
+             </button>[m
+             <button class="level-btn l5" onclick="selectLevel(4)">[m
+                 <span class="level-num">5</span>[m
+                 <span class="level-name">Angew. Mathe</span>[m
+[31m-=======[m
+[31m-                <span class="level-name">Uni-Grundlagen</span>[m
+[31m-            </button>[m
+[31m-            <button class="level-btn l5" onclick="selectLevel(4)">[m
+[31m-                <span class="level-num">5</span>[m
+[31m-                <span class="level-name">Angewandt</span>[m
+[31m->>>>>>> theirs[m
+             </button>[m
+             <button class="level-btn l6" onclick="selectLevel(5)">[m
+                 <span class="level-num">6</span>[m
+[36m@@ -517,16 +458,6 @@[m
+             </button>[m
+         </div>[m
+ [m
+[31m-        <section class="progress-foundation">[m
+[31m-            <h3>Dein Lernpfad</h3>[m
+[31m-            <p>Level werden mit XP freigeschaltet. Aktuell freigeschaltet: <strong id="unlockedText">L1</strong>.</p>[m
+[31m-            <div class="progress-meta">[m
+[31m-                <span class="progress-pill" id="xpMeta">XP: 0</span>[m
+[31m-                <span class="progress-pill" id="streakMeta">Streak: 0 Tage</span>[m
+[31m-                <span class="progress-pill" id="badgeMeta">Badges: 0</span>[m
+[31m-            </div>[m
+[31m-        </section>[m
+[31m-[m
+         <!-- Topics -->[m
+         <div class="topics" id="topicsContainer"></div>[m
+ [m
+[36m@@ -544,30 +475,12 @@[m
+                 <p id="feedbackText"></p>[m
+             </div>[m
+             <button class="next-btn" id="nextBtn" onclick="nextExercise()">Nächste Aufgabe</button>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+         </div>[m
+ [m
+         <!-- Achievements -->[m
+         <div class="achievements-section">[m
+             <div class="achievements-title">Abzeichen</div>[m
+             <div class="achievements-grid" id="achievementsGrid"></div>[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+         </div>[m
+ [m
+         <!-- YouTube CTA -->[m
+[36m@@ -577,25 +490,10 @@[m
+             <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" target="_blank" class="yt-btn">[m
+                 Kanal abonnieren[m
+             </a>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-            <p style="margin-top:1rem">Kurzformate & Impulse auf <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" style="color:var(--gold);font-weight:700;text-decoration:none">TikTok</a>.</p>[m
+[31m-=======[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-            <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem;">[m
+[31m-                <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Exponentielles%20Verhalten" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Exponentielles Verhalten</a>[m
+[31m-                <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Gleichungen lösen</a>[m
+[31m-            </div>[m
+[31m-<<<<<<< ours[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+         </div>[m
+     </main>[m
+ [m
+     <script>[m
+[31m-<<<<<<< ours[m
+         // Level XP thresholds: L1 always open, L2+ require XP[m
+         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];[m
+ [m
+[36m@@ -613,26 +511,8 @@[m
+         ];[m
+ [m
+         // Exercise Database[m
+[31m-=======[m
+[31m-        const levels = [[m
+[31m-            { id: "L1", name: "Grundlagen", xpUnlock: 0 },[m
+[31m-            { id: "L2", name: "Aufbauwissen", xpUnlock: 120 },[m
+[31m-            { id: "L3", name: "Vertiefung", xpUnlock: 260 },[m
+[31m-            { id: "L4", name: "Universitätsgrundlagen", xpUnlock: 450 },[m
+[31m-            { id: "L5", name: "Angewandte Mathematik", xpUnlock: 700 },[m
+[31m-            { id: "L6", name: "Forschung & Simulation", xpUnlock: 980 }[m
+[31m-        ];[m
+[31m-[m
+[31m-        const badgeMilestones = [[m
+[31m-            { id: "starter", minXp: 120, label: "Starter" },[m
+[31m-            { id: "focused", minXp: 450, label: "Fokus" },[m
+[31m-            { id: "resonance", minXp: 980, label: "Resonanz" }[m
+[31m-        ];[m
+[31m-[m
+[31m-        // Exercise Database (demo set, erweiterbar)[m
+[31m->>>>>>> theirs[m
+         const exercises = {[m
+[31m-            0: { // L1 - Grundlagen[m
+[32m+[m[32m            0: { // Level 1 - Grundlagen[m
+                 topics: ["Bruchrechnung", "Prozente", "Geometrie", "Dreisatz"],[m
+                 questions: [[m
+                     {[m
+[36m@@ -664,31 +544,7 @@[m
+                     },[m
+                     {[m
+                         topic: "Geometrie",[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m-=======[m
+[31m-                        question: "Wie groß ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+                         question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",[m
+[31m->>>>>>> theirs[m
+                         math: "A = pi * r^2 = ?",[m
+                         options: ["9pi", "6pi", "3pi", "12pi"],[m
+                         correct: 0,[m
+[36m@@ -706,7 +562,7 @@[m
+                     }[m
+                 ][m
+             },[m
+[31m-            1: { // L2 - Aufbauwissen[m
+[32m+[m[32m            1: { // Level 2 - Mittelstufe[m
+                 topics: ["Gleichungen", "Funktionen", "Trigonometrie", "Potenzen"],[m
+                 questions: [[m
+                     {[m
+[36m@@ -756,7 +612,7 @@[m
+                     }[m
+                 ][m
+             },[m
+[31m-            2: { // L3 - Vertiefung[m
+[32m+[m[32m            2: { // Level 3 - Oberstufe[m
+                 topics: ["Ableitungen", "Integrale", "Stochastik", "Vektoren"],[m
+                 questions: [[m
+                     {[m
+[36m@@ -806,7 +662,7 @@[m
+                     }[m
+                 ][m
+             },[m
+[31m-            3: { // L4 - Universitätsgrundlagen[m
+[32m+[m[32m            3: { // Level 4 - Uni[m
+                 topics: ["Lineare Algebra", "DGL", "Komplexe Zahlen", "Reihen"],[m
+                 questions: [[m
+                     {[m
+[36m@@ -856,11 +712,7 @@[m
+                     }[m
+                 ][m
+             },[m
+[31m-<<<<<<< ours[m
+             4: { // Level 5 - Angewandte Mathematik[m
+[31m-=======[m
+[31m-            4: { // L5 - Angewandte Mathematik[m
+[31m->>>>>>> theirs[m
+                 topics: ["Fourier", "Laplace", "Resonanz", "Regelungstechnik"],[m
+                 questions: [[m
+                     {[m
+[36m@@ -918,22 +770,6 @@[m
+                             "X[k] ist immer reell",[m
+                             "DFT ist nicht umkehrbar",[m
+                             "Nur für gerade N definiert"[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+                         ],[m
+                         correct: 0,[m
+                         difficulty: "hard",[m
+[36m@@ -999,96 +835,10 @@[m
+                             "Hinreichende Bedingungen für globale Optima",[m
+                             "Numerische Abbruchkriterien",[m
+                             "Regularisierungsbedingungen für ill-posed Probleme"[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "hard",[m
+[31m-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "hard",[m
+[31m-                        explanation: "Die DFT ist periodisch mit Periode N. Außerdem ist sie umkehrbar (IDFT existiert) und für beliebiges N definiert."[m
+[31m-                    }[m
+[31m-                ][m
+[31m-            },[m
+[31m-            5: { // L6 - Forschung & Simulation[m
+[31m-                topics: ["Nichtlineare Systeme", "Numerische Simulation", "Optimierung", "Modellierung"],[m
+[31m-                questions: [[m
+[31m-                    {[m
+[31m-                        topic: "Nichtlineare Systeme",[m
+[31m-                        question: "Welche Aussage passt zu chaotischen Systemen?",[m
+[31m-                        math: "x_(n+1) = r*x_n*(1-x_n)",[m
+[31m-                        options: [[m
+[31m-                            "Hohe Sensitivität auf Anfangswerte",[m
+[31m-                            "Immer periodisch",[m
+[31m-                            "Immer exakt lösbar",[m
+[31m-                            "Keine Verbindung zur Physik"[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "hard",[m
+[31m-                        explanation: "Chaotische Dynamik reagiert stark auf kleine Startänderungen. Das macht langfristige Vorhersagen schwierig."[m
+[31m-                    },[m
+[31m-                    {[m
+[31m-                        topic: "Numerische Simulation",[m
+[31m-                        question: "Warum nutzt man Zeitschrittverfahren wie Euler oder Runge-Kutta?",[m
+[31m-                        math: "x'(t)=f(t,x)",[m
+[31m-                        options: [[m
+[31m-                            "Zur numerischen Approximation von Differentialgleichungen",[m
+[31m-                            "Nur für lineare Algebra",[m
+[31m-                            "Zum Sortieren von Daten",[m
+[31m-                            "Nur für Symbolrechnen"[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "medium",[m
+[31m-                        explanation: "Viele DGL haben keine geschlossene Lösung. Zeitschrittverfahren nähern die Lösung numerisch an."[m
+[31m-                    },[m
+[31m-                    {[m
+[31m-                        topic: "Optimierung",[m
+[31m-                        question: "Was ist das Ziel bei Gradientenverfahren?",[m
+[31m-                        math: "x_(k+1) = x_k - eta * grad(f(x_k))",[m
+[31m-                        options: [[m
+[31m-                            "Ein lokales Minimum von f finden",[m
+[31m-                            "Eine Funktion integrieren",[m
+[31m-                            "Zufällige Werte erzeugen",[m
+[31m-                            "Nur Gleichungen lösen"[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "medium",[m
+[31m-                        explanation: "Man läuft in Richtung des negativen Gradienten und reduziert so den Funktionswert iterativ."[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+                         ],[m
+                         correct: 0,[m
+                         difficulty: "hard",[m
+                         explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "hard",[m
+[31m-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-                        ],[m
+[31m-                        correct: 0,[m
+[31m-                        difficulty: "hard",[m
+[31m-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."[m
+[31m-<<<<<<< ours[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+                     }[m
+                 ][m
+             }[m
+[36m@@ -1101,18 +851,11 @@[m
+             questionIdx: 0,[m
+             correct: 0,[m
+             total: 0,[m
+[31m-<<<<<<< ours[m
+             xp: 0,[m
+             streak: 0,[m
+             lastSessionDate: null,[m
+             earnedAchievements: [],[m
+             answered: false[m
+[31m-=======[m
+[31m-            xp: 150,[m
+[31m-            answered: false,[m
+[31m-            streak: 0,[m
+[31m-            lastActiveDate: null[m
+[31m->>>>>>> theirs[m
+         };[m
+ [m
+         // Load saved state[m
+[36m@@ -1122,7 +865,6 @@[m
+                 const s = JSON.parse(saved);[m
+                 state.correct = s.correct || 0;[m
+                 state.total = s.total || 0;[m
+[31m-<<<<<<< ours[m
+                 state.xp = s.xp || 0;[m
+                 state.streak = s.streak || 0;[m
+                 state.lastSessionDate = s.lastSessionDate || null;[m
+[36m@@ -1134,11 +876,6 @@[m
+                 if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {[m
+                     state.streak = 0;[m
+                 }[m
+[31m-=======[m
+[31m-                state.xp = s.xp || 150;[m
+[31m-                state.streak = s.streak || 0;[m
+[31m-                state.lastActiveDate = s.lastActiveDate || null;[m
+[31m->>>>>>> theirs[m
+             }[m
+         } catch(e) {}[m
+ [m
+[36m@@ -1154,17 +891,12 @@[m
+                     total: state.total,[m
+                     xp: state.xp,[m
+                     streak: state.streak,[m
+[31m-<<<<<<< ours[m
+                     lastSessionDate: state.lastSessionDate,[m
+                     earnedAchievements: state.earnedAchievements[m
+[31m-=======[m
+[31m-                    lastActiveDate: state.lastActiveDate[m
+[31m->>>>>>> theirs[m
+                 }));[m
+             } catch(e) {}[m
+         }[m
+ [m
+[31m-<<<<<<< ours[m
+         function isLevelUnlocked(idx) {[m
+             return state.xp >= LEVEL_XP_THRESHOLDS[idx];[m
+         }[m
+[36m@@ -1220,33 +952,6 @@[m
+                 return;[m
+             }[m
+             document.getElementById('lockMsg').textContent = '';[m
+[31m-=======[m
+[31m-        function updateDailyStreak() {[m
+[31m-            const today = new Date().toISOString().slice(0, 10);[m
+[31m-            if (state.lastActiveDate === today) return;[m
+[31m-            if (!state.lastActiveDate) {[m
+[31m-                state.streak = 1;[m
+[31m-            } else {[m
+[31m-                const last = new Date(state.lastActiveDate + "T00:00:00Z");[m
+[31m-                const now = new Date(today + "T00:00:00Z");[m
+[31m-                const diffDays = Math.round((now - last) / 86400000);[m
+[31m-                state.streak = diffDays === 1 ? state.streak + 1 : 1;[m
+[31m-            }[m
+[31m-            state.lastActiveDate = today;[m
+[31m-        }[m
+[31m-[m
+[31m-        function getUnlockedLevelIndex() {[m
+[31m-            let unlocked = 0;[m
+[31m-            levels.forEach((lvl, idx) => {[m
+[31m-                if (state.xp >= lvl.xpUnlock) unlocked = idx;[m
+[31m-            });[m
+[31m-            return unlocked;[m
+[31m-        }[m
+[31m-[m
+[31m-        function selectLevel(level) {[m
+[31m-            const unlocked = getUnlockedLevelIndex();[m
+[31m-            if (level > unlocked) return;[m
+[31m->>>>>>> theirs[m
+             state.level = level;[m
+             state.topic = null;[m
+             state.questionIdx = 0;[m
+[36m@@ -1353,8 +1058,6 @@[m
+         }[m
+ [m
+         function updateStats() {[m
+[31m-            const unlocked = getUnlockedLevelIndex();[m
+[31m-            const earnedBadges = badgeMilestones.filter(b => state.xp >= b.minXp);[m
+             document.getElementById('correctCount').textContent = state.correct;[m
+             document.getElementById('totalCount').textContent = state.total;[m
+             document.getElementById('accuracyPct').textContent =[m
+[36m@@ -1362,7 +1065,6 @@[m
+             document.getElementById('xpText').textContent = state.xp + ' XP';[m
+             document.getElementById('xpFill').style.width = (state.xp % 500) / 5 + '%';[m
+             document.getElementById('streak').textContent = state.streak + ' Tage';[m
+[31m-<<<<<<< ours[m
+             renderLevelButtons();[m
+         }[m
+ [m
+[36m@@ -1372,26 +1074,6 @@[m
+         renderExercise();[m
+         updateStats();[m
+         renderAchievements();[m
+[31m-=======[m
+[31m-            document.getElementById('xpMeta').textContent = 'XP: ' + state.xp;[m
+[31m-            document.getElementById('streakMeta').textContent = 'Streak: ' + state.streak + ' Tage';[m
+[31m-            document.getElementById('badgeMeta').textContent = 'Badges: ' + earnedBadges.length;[m
+[31m-            document.getElementById('unlockedText').textContent = levels.slice(0, unlocked + 1).map(l => l.id).join(', ');[m
+[31m-            document.querySelectorAll('.level-btn').forEach((btn, idx) => {[m
+[31m-                const isUnlocked = idx <= unlocked;[m
+[31m-                btn.disabled = !isUnlocked;[m
+[31m-                btn.style.opacity = isUnlocked ? '1' : '0.45';[m
+[31m-                btn.title = isUnlocked ? '' : `Freischaltung ab ${levels[idx].xpUnlock} XP`;[m
+[31m-            });[m
+[31m-        }[m
+[31m-[m
+[31m-        // Initialize[m
+[31m-        updateDailyStreak();[m
+[31m-        renderTopics();[m
+[31m-        renderExercise();[m
+[31m-        updateStats();[m
+[31m-        saveState();[m
+[31m->>>>>>> theirs[m
+     </script>[m
+ [m
+ </body>[m
+[1mdiff --git a/index.html b/index.html[m
+[1mindex 7eeeff0..f9a3e5f 100644[m
+[1m--- a/index.html[m
+[1m+++ b/index.html[m
+[36m@@ -204,19 +204,11 @@[m
+         }[m
+ [m
+         .level-1 .level-badge { background: #4ade80; color: #000; }[m
+[31m-<<<<<<< ours[m
+         .level-2 .level-badge { background: #facc15; color: #000; }[m
+         .level-3 .level-badge { background: #f59e0b; color: #000; }[m
+         .level-4 .level-badge { background: #60a5fa; color: #000; }[m
+         .level-5 .level-badge { background: #8b5cf6; color: #fff; }[m
+         .level-6 .level-badge { background: #6b7280; color: #fff; }[m
+[31m-=======[m
+[31m-        .level-2 .level-badge { background: #fde047; color: #000; }[m
+[31m-        .level-3 .level-badge { background: #f59e0b; color: #000; }[m
+[31m-        .level-4 .level-badge { background: #60a5fa; color: #000; }[m
+[31m-        .level-5 .level-badge { background: #8b5cf6; color: #fff; }[m
+[31m-        .level-6 .level-badge { background: #111827; color: #f9fafb; }[m
+[31m->>>>>>> theirs[m
+ [m
+         .level-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }[m
+         .level-card p { color: var(--text-muted); margin-bottom: 1rem; }[m
+[36m@@ -293,37 +285,6 @@[m
+         .video-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }[m
+         .video-info p { color: var(--text-muted); font-size: 0.9rem; }[m
+ [m
+[31m-        /* Archiv */[m
+[31m-        .archive {[m
+[31m-            padding: 6rem 2rem;[m
+[31m-            background: var(--secondary);[m
+[31m-        }[m
+[31m-[m
+[31m-        .archive-grid {[m
+[31m-            display: grid;[m
+[31m-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));[m
+[31m-            gap: 1.5rem;[m
+[31m-            max-width: 1200px;[m
+[31m-            margin: 0 auto;[m
+[31m-        }[m
+[31m-[m
+[31m-        .archive-card {[m
+[31m-            background: rgba(255, 255, 255, 0.05);[m
+[31m-            border-radius: 16px;[m
+[31m-            padding: 1.5rem;[m
+[31m-            border: 1px solid rgba(255, 255, 255, 0.1);[m
+[31m-        }[m
+[31m-[m
+[31m-        .archive-card h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }[m
+[31m-        .archive-card p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem; }[m
+[31m-        .archive-link {[m
+[31m-            color: var(--gold);[m
+[31m-            text-decoration: none;[m
+[31m-            font-weight: 700;[m
+[31m-        }[m
+[31m-[m
+[31m-        .archive-link:hover { color: var(--accent); }[m
+[31m-[m
+         /* Newsletter / CTA */[m
+         .newsletter {[m
+             padding: 6rem 2rem;[m
+[36m@@ -476,10 +437,8 @@[m
+         <ul>[m
+             <li><a href="#levels">Level-System</a></li>[m
+             <li><a href="#videos">Videos</a></li>[m
+[31m-            <li><a href="#archiv">Archiv</a></li>[m
+             <li><a href="#app">Mathe-App</a></li>[m
+             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>[m
+[31m-            <li><a href="https://www.tiktok.com/@second_order_resonance" target="_blank">TikTok</a></li>[m
+         </ul>[m
+     </nav>[m
+ [m
+[36m@@ -496,31 +455,7 @@[m
+                 <span class="highlight">visuell</span> erklärt.<br>[m
+                 <span class="gold">Für alle Level.</span>[m
+             </h1>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-            <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m-=======[m
+[31m-            <p>Vom Grundschüler bis zum Ingenieur. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-            <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+             <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-            <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-            <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-            <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>[m
+[31m->>>>>>> theirs[m
+             <div class="cta-buttons">[m
+                 <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" class="btn btn-primary" target="_blank">[m
+                     Kanal abonnieren[m
+[36m@@ -535,11 +470,11 @@[m
+     <!-- Level System -->[m
+     <section class="levels" id="levels">[m
+         <h2 class="section-title">Finde dein <span style="color:var(--accent)">Level</span></h2>[m
+[31m-        <p class="section-subtitle">Vom Einstieg bis zur Forschung - sechs klar strukturierte Lernlevel für deinen nächsten Schritt</p>[m
+[32m+[m[32m        <p class="section-subtitle">Von den Grundlagen bis zur Ingenieur-Mathematik - steig ein wo du stehst</p>[m
+ [m
+         <div class="level-grid">[m
+             <div class="level-card level-1">[m
+[31m-                <span class="level-badge">🟢 L1 - Grundlagen</span>[m
+[32m+[m[32m                <span class="level-badge">Level 1 - Grundlagen</span>[m
+                 <h3>Einstieg</h3>[m
+                 <p>Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.</p>[m
+                 <ul class="level-topics">[m
+[36m@@ -551,28 +486,8 @@[m
+             </div>[m
+ [m
+             <div class="level-card level-2">[m
+[31m-<<<<<<< ours[m
+                 <span class="level-badge">Level 2 - Aufbauwissen</span>[m
+                 <h3>Algebra & Funktionen</h3>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m-                <span class="level-badge">🟡 L2 - Aufbauwissen</span>[m
+[31m-                <h3>Aufbauwissen</h3>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+                 <p>Die Grundpfeiler für alles was noch kommt.</p>[m
+                 <ul class="level-topics">[m
+                     <li>Gleichungen</li>[m
+[36m@@ -583,30 +498,9 @@[m
+             </div>[m
+ [m
+             <div class="level-card level-3">[m
+[31m-<<<<<<< ours[m
+                 <span class="level-badge">Level 3 - Vertiefung</span>[m
+                 <h3>Analysis & Stochastik</h3>[m
+                 <p>Abitur-relevant und anschaulich erklärt.</p>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m-                <span class="level-badge">🟠 L3 - Vertiefung</span>[m
+[31m-                <h3>Vertiefung</h3>[m
+[31m-                <p>Oberstufen- und Abschlussniveau anschaulich erklärt.</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+                 <ul class="level-topics">[m
+                     <li>Ableitungen</li>[m
+                     <li>Integrale</li>[m
+[36m@@ -616,30 +510,9 @@[m
+             </div>[m
+ [m
+             <div class="level-card level-4">[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+                 <span class="level-badge">Level 4 - Universitätsgrundlagen</span>[m
+                 <h3>Höhere Mathematik</h3>[m
+                 <p>Was dich im Studium wirklich erwartet.</p>[m
+[31m-=======[m
+[31m-                <span class="level-badge">🔵 L4 - Universitätsgrundlagen</span>[m
+[31m-                <h3>Universitätsgrundlagen</h3>[m
+[31m-                <p>Der strukturierte Einstieg in die Hochschulmathematik.</p>[m
+[31m->>>>>>> theirs[m
+                 <ul class="level-topics">[m
+                     <li>Lineare Algebra</li>[m
+                     <li>Differentialgleichungen</li>[m
+[36m@@ -649,11 +522,7 @@[m
+             </div>[m
+ [m
+             <div class="level-card level-5">[m
+[31m-<<<<<<< ours[m
+                 <span class="level-badge">Level 5 - Angewandte Mathematik</span>[m
+[31m-=======[m
+[31m-                <span class="level-badge">🟣 L5 - Angewandte Mathematik</span>[m
+[31m->>>>>>> theirs[m
+                 <h3>Angewandte Mathematik</h3>[m
+                 <p>Wo Mathe die reale Welt trifft.</p>[m
+                 <ul class="level-topics">[m
+[36m@@ -665,7 +534,6 @@[m
+             </div>[m
+ [m
+             <div class="level-card level-6">[m
+[31m-<<<<<<< ours[m
+                 <span class="level-badge">Level 6 - Forschung &amp; Simulation</span>[m
+                 <h3>Wissenschaft &amp; Spezialisierung</h3>[m
+                 <p>Für angehende Forscher an der Grenze des Wissens.</p>[m
+[36m@@ -674,16 +542,6 @@[m
+                     <li>Stochastische Prozesse</li>[m
+                     <li>FEM</li>[m
+                     <li>Optimierung</li>[m
+[31m-=======[m
+[31m-                <span class="level-badge">⚫ L6 - Forschung & Simulation</span>[m
+[31m-                <h3>Forschung & Simulation</h3>[m
+[31m-                <p>Wissenschaftliche Modellierung, numerische Experimente und Spezialisierung.</p>[m
+[31m-                <ul class="level-topics">[m
+[31m-                    <li>Simulation</li>[m
+[31m-                    <li>Optimierung</li>[m
+[31m-                    <li>Nichtlineare Systeme</li>[m
+[31m-                    <li>Wissenschaftliches Rechnen</li>[m
+[31m->>>>>>> theirs[m
+                 </ul>[m
+             </div>[m
+         </div>[m
+[36m@@ -701,31 +559,7 @@[m
+                 </div>[m
+                 <div class="video-info">[m
+                     <h3>Resonanz erklärt in 6 Leveln</h3>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-                    <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>[m
+[31m-=======[m
+[31m-                    <p>Vom Einstieg bis zur Forschung - ein Phänomen, sechs Perspektiven</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                    <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+                     <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                    <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                    <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m-                    <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>[m
+[31m->>>>>>> theirs[m
+                 </div>[m
+             </a>[m
+ [m
+[36m@@ -751,54 +585,6 @@[m
+         </div>[m
+     </section>[m
+ [m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-    <!-- Lern-Archiv -->[m
+[31m-    <section class="archive" id="archiv">[m
+[31m-        <h2 class="section-title">Lern-<span style="color:var(--accent)">Archiv</span></h2>[m
+[31m-        <p class="section-subtitle">Strukturierte Inhalte zum Nachlesen, Verstehen und Trainieren passend zu den Übungen in der App.</p>[m
+[31m-        <div class="archive-grid">[m
+[31m-            <article class="archive-card">[m
+[31m-                <h3>Exponentielles Verhalten (Level 3)</h3>[m
+[31m-                <p>Was haben ein Schachbrett, der Zinseszins und ein Gastank gemeinsam? Ein visueller Einstieg in exponentielles Wachstum.</p>[m
+[31m-                <a class="archive-link" href="https://youtu.be/4MfNDj7GfQ8" target="_blank">Video ansehen</a>[m
+[31m-            </article>[m
+[31m-            <article class="archive-card">[m
+[31m-                <h3>Gleichungen lösen und umstellen (Level 2)</h3>[m
+[31m-                <p>Schritt für Schritt mit Gegenoperationen: die solide Basis, um viele Aufgaben in der App sicher zu lösen.</p>[m
+[31m-                <a class="archive-link" href="https://youtu.be/3n05QLJ-u4E" target="_blank">Video ansehen</a>[m
+[31m-            </article>[m
+[31m-=======[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-    <!-- Archiv -->[m
+[31m-    <section class="videos" id="archiv">[m
+[31m-        <h2 class="section-title">Archiv</h2>[m
+[31m-        <p class="section-subtitle">Kompakte Themenübersicht mit direktem YouTube-Einstieg</p>[m
+[31m-[m
+[31m-        <div class="video-grid">[m
+[31m-            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance/search?query=Exponentielles%20Verhalten" target="_blank" style="text-decoration:none;color:inherit">[m
+[31m-                <div class="video-thumbnail" style="background: linear-gradient(135deg, #0f3460, #e94560);"></div>[m
+[31m-                <div class="video-info">[m
+[31m-                    <h3>Exponentielles Verhalten</h3>[m
+[31m-                    <p>Grundidee, Wachstum und Zerfall verständlich erklärt.</p>[m
+[31m-                </div>[m
+[31m-            </a>[m
+[31m-[m
+[31m-            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen" target="_blank" style="text-decoration:none;color:inherit">[m
+[31m-                <div class="video-thumbnail" style="background: linear-gradient(135deg, #e94560, #f5c518);"></div>[m
+[31m-                <div class="video-info">[m
+[31m-                    <h3>Gleichungen lösen und umstellen</h3>[m
+[31m-                    <p>Methodisch umformen und sicher nach Variablen auflösen.</p>[m
+[31m-                </div>[m
+[31m-            </a>[m
+[31m-<<<<<<< ours[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-        </div>[m
+[31m-    </section>[m
+[31m-[m
+     <!-- Math App Teaser -->[m
+     <section class="app-teaser" id="app">[m
+         <div class="app-container">[m
+[36m@@ -846,22 +632,6 @@[m
+         <div class="footer-grid">[m
+             <div class="footer-col">[m
+                 <h4>Second-Order Resonance</h4>[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-<<<<<<< ours[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+[31m-=======[m
+[31m->>>>>>> theirs[m
+                 <p style="color:var(--text-muted)">Mathematik visuell erklärt.<br>Vom Grundschüler bis zum Forscher.</p>[m
+             </div>[m
+             <div class="footer-col">[m
+[36m@@ -872,18 +642,6 @@[m
+                 <a href="#levels">Level 4 - Universitätsgrundlagen</a>[m
+                 <a href="#levels">Level 5 - Angewandte Mathematik</a>[m
+                 <a href="#levels">Level 6 - Forschung &amp; Simulation</a>[m
+[31m-=======[m
+[31m-                <p style="color:var(--text-muted)">Mathematik visuell erklärt.<br>Vom Grundschüler bis zum Ingenieur.</p>[m
+[31m-            </div>[m
+[31m-            <div class="footer-col">[m
+[31m-                <h4>Level</h4>[m
+[31m-                <a href="#levels">🟢 L1 - Grundlagen</a>[m
+[31m-                <a href="#levels">🟡 L2 - Aufbauwissen</a>[m
+[31m-                <a href="#levels">🟠 L3 - Vertiefung</a>[m
+[31m-                <a href="#levels">🔵 L4 - Universitätsgrundlagen</a>[m
+[31m-                <a href="#levels">🟣 L5 - Angewandte Mathematik</a>[m
+[31m-                <a href="#levels">⚫ L6 - Forschung & Simulation</a>[m
+[31m->>>>>>> theirs[m
+             </div>[m
+             <div class="footer-col">[m
+                 <h4>Plattformen</h4>[m
+[36m@@ -895,7 +653,6 @@[m
+             <div class="footer-col">[m
+                 <h4>Mehr</h4>[m
+                 <a href="app/index.html">Mathe-App</a>[m
+[31m-                <a href="#archiv">Lern-Archiv</a>[m
+                 <a href="#newsletter">Newsletter</a>[m
+                 <a href="#">Impressum</a>[m
+                 <a href="#">Datenschutz</a>[m
