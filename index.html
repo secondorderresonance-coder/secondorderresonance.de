@@ -356,6 +356,62 @@
         .video-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
         .video-info p { color: var(--text-muted); font-size: 0.9rem; }
 
+        /* Archive */
+        .archive {
+            padding: 6rem 2rem;
+            background: var(--secondary);
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .archive-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .archive-card span {
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .archive-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .archive-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .archive-note {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            border-radius: 18px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.55), rgba(26, 26, 46, 0.9));
+            text-align: center;
+        }
+
+        .archive-note p {
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+        }
+
         /* Newsletter / CTA */
         .newsletter {
             padding: 6rem 2rem;
@@ -535,6 +591,7 @@
             <li><a href="#levels">Level-System</a></li>
             <li><a href="#archive">Archiv</a></li>
             <li><a href="#videos">Videos</a></li>
+            <li><a href="#archive">Archiv</a></li>
             <li><a href="#app">Mathe-App</a></li>
             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
         </ul>
