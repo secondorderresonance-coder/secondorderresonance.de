@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lernarchiv | Second-Order Resonance</title>
+    <meta name="description" content="Skalierbares Mathe-Lernarchiv mit Levelstruktur, Aufgabenbrowser und 30-Fragen-Einstufungstest.">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand {
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .brand span { color: var(--accent); }
+
+        .top-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.9rem;
+        }
+
+        .top-links a:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 3rem;
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .card {
+            background: var(--secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 1.2rem;
+        }
+
+        .headline {
+            font-size: clamp(1.5rem, 4vw, 2.1rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .muted { color: var(--text-muted); }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .kpi {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .kpi strong { display: block; color: var(--gold); font-size: 1.1rem; }
+        .kpi span { font-size: 0.85rem; color: var(--text-muted); }
+
+        .level-progress {
+            margin-top: 1rem;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .level-row {
+            display: grid;
+            grid-template-columns: 210px 1fr 80px;
+            gap: 0.8rem;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .bar {
+            height: 9px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .bar > div {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+        }
+
+        .archive-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.7rem;
+            margin-bottom: 0.9rem;
+        }
+
+        label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem; }
+
+        select, input, button {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 0.6rem 0.7rem;
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            background: var(--accent);
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
+        button:hover { background: #ff5a78; }
+
+        .task-list {
+            display: grid;
+            gap: 0.7rem;
+            max-height: 430px;
+            overflow: auto;
+            padding-right: 0.2rem;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 0.8rem;
+            cursor: pointer;
+        }
+
+        .task-item:hover, .task-item.active {
+            border-color: rgba(233, 69, 96, 0.7);
+            background: rgba(233, 69, 96, 0.08);
+        }
+
+        .task-meta {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .detail h3 {
+            margin-bottom: 0.4rem;
+            font-size: 1.1rem;
+        }
+
+        .detail-block { margin-top: 0.8rem; }
+        .detail-block strong { color: var(--gold); display: block; margin-bottom: 0.2rem; }
+        .pill-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+        .pill {
+            border-radius: 999px;
+            padding: 0.2rem 0.6rem;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .test-flow {
+            margin-top: 1rem;
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .test-progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .test-progress > div {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transition: width 0.25s;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .options {
+            margin-top: 0.8rem;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .result {
+            border-radius: 12px;
+            padding: 1rem;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.35);
+            display: none;
+        }
+
+        .result.show { display: block; }
+
+        .taxonomy {
+            margin-top: 1rem;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .tax-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.8rem;
+        }
+
+        .tax-item ul {
+            margin-top: 0.5rem;
+            padding-left: 1.2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 980px) {
+            .archive-layout { grid-template-columns: 1fr; }
+            .filters { grid-template-columns: 1fr 1fr; }
+            .level-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="../index.html">Second-Order <span>Resonance</span></a>
+            <nav class="top-links">
+                <a href="../index.html#archive">Landing Archiv</a>
+                <a href="./index.html">Mathe-App</a>
+                <a href="#placement">Einstufungstest</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h1 class="headline">Lernarchiv und Einstufungstest</h1>
+            <p class="muted">Skalierbare Lernstruktur mit 6 Leveln, hierarchischen Sublevels und klarer Ausbauplanung auf 30.000 Aufgaben.</p>
+            <div class="kpi-grid">
+                <div class="kpi">
+                    <strong id="kpiCurrent">0</strong>
+                    <span>Aktuell verfuegbare Aufgaben</span>
+                </div>
+                <div class="kpi">
+                    <strong id="kpiTarget">30000</strong>
+                    <span>Ziel Aufgaben gesamt</span>
+                </div>
+                <div class="kpi">
+                    <strong id="kpiPerLevel">5000</strong>
+                    <span>Ziel pro Level</span>
+                </div>
+                <div class="kpi">
+                    <strong id="kpiPlacement">30</strong>
+                    <span>Fragen im Einstufungstest</span>
+                </div>
+            </div>
+            <div class="level-progress" id="levelProgress"></div>
+        </section>
+
+        <section class="card">
+            <h2>Archiv durchsuchen</h2>
+            <p class="muted">Filtere nach Level, Sublevel und Thema oder suche direkt nach Aufgabeninhalt.</p>
+            <div class="archive-layout">
+                <div>
+                    <div class="filters">
+                        <div>
+                            <label for="levelFilter">Level</label>
+                            <select id="levelFilter"></select>
+                        </div>
+                        <div>
+                            <label for="sublevelFilter">Sublevel</label>
+                            <select id="sublevelFilter"></select>
+                        </div>
+                        <div>
+                            <label for="topicFilter">Thema</label>
+                            <select id="topicFilter"></select>
+                        </div>
+                        <div>
+                            <label for="searchInput">Suche</label>
+                            <input id="searchInput" type="search" placeholder="z.B. Exponentielles Verhalten">
+                        </div>
+                    </div>
+                    <p class="muted" id="resultCount"></p>
+                    <div class="task-list" id="taskList"></div>
+                </div>
+                <div class="detail card" id="taskDetail">
+                    <h3>Aufgabendetail</h3>
+                    <p class="muted">Waehle links eine Aufgabe aus, um Frage, Loesung und Erklaerung zu sehen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" id="placement">
+            <h2>Einstufungstest (30 Fragen)</h2>
+            <p class="muted">Der Test sampelt bewusst ueber alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
+            <div class="test-flow">
+                <button id="startTestBtn">Test starten</button>
+                <div class="test-progress"><div id="testProgressFill"></div></div>
+                <div class="question-box" id="questionBox">
+                    <p class="muted">Noch nicht gestartet.</p>
+                </div>
+                <div class="result" id="testResult"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Level- und Sublevel-Taxonomie</h2>
+            <p class="muted">Diese Struktur ist fuer den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
+            <div class="taxonomy" id="taxonomyView"></div>
+        </section>
+    </main>
+
+    <script src="./data/archive-content.js"></script>
+    <script>
+        const data = window.SOR_ARCHIVE;
+        const tasks = data.tasks.slice();
+        const placementQuestions = data.placementQuestions.slice();
+
+        const state = {
+            selectedLevel: "all",
+            selectedSublevel: "all",
+            selectedTopic: "all",
+            search: "",
+            activeTaskId: null,
+            testStarted: false,
+            testIndex: 0,
+            testAnswers: []
+        };
+
+        function levelLabel(level) {
+            const item = data.taxonomy.find(t => t.level === level);
+            return item ? item.code + " - " + item.title : "Level " + level;
+        }
+
+        function renderTopProgress() {
+            document.getElementById("kpiCurrent").textContent = tasks.length;
+            document.getElementById("kpiTarget").textContent = data.targetTotal.toLocaleString("de-DE");
+            document.getElementById("kpiPerLevel").textContent = data.targetPerLevel.toLocaleString("de-DE");
+            document.getElementById("kpiPlacement").textContent = placementQuestions.length;
+
+            const byLevel = {};
+            tasks.forEach(t => {
+                byLevel[t.level] = (byLevel[t.level] || 0) + 1;
+            });
+
+            const html = data.taxonomy.map(tax => {
+                const current = byLevel[tax.level] || 0;
+                const pct = Math.min(100, (current / data.targetPerLevel) * 100);
+                return `
+                    <div class="level-row">
+                        <div>${tax.code} - ${tax.title}</div>
+                        <div class="bar"><div style="width:${pct}%"></div></div>
+                        <div>${current}/${data.targetPerLevel}</div>
+                    </div>
+                `;
+            }).join("");
+
+            document.getElementById("levelProgress").innerHTML = html;
+        }
+
+        function renderFilters() {
+            const levelSelect = document.getElementById("levelFilter");
+            const sublevelSelect = document.getElementById("sublevelFilter");
+            const topicSelect = document.getElementById("topicFilter");
+
+            levelSelect.innerHTML = `<option value="all">Alle Level</option>` + data.taxonomy
+                .map(t => `<option value="${t.level}">${t.code} - ${t.title}</option>`)
+                .join("");
+            levelSelect.value = state.selectedLevel;
+
+            const visibleSublevels = data.taxonomy
+                .filter(t => state.selectedLevel === "all" || t.level === state.selectedLevel)
+                .flatMap(t => t.sublevels);
+
+            sublevelSelect.innerHTML = `<option value="all">Alle Sublevels</option>` + visibleSublevels
+                .map(s => `<option value="${s.id}">${s.id} - ${s.title}</option>`)
+                .join("");
+            if (!visibleSublevels.some(s => s.id === state.selectedSublevel)) {
+                state.selectedSublevel = "all";
+            }
+            sublevelSelect.value = state.selectedSublevel;
+
+            const topics = Array.from(new Set(tasks.map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
+            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + topics
+                .map(topic => `<option value="${topic}">${topic}</option>`)
+                .join("");
+            topicSelect.value = state.selectedTopic;
+        }
+
+        function filteredTasks() {
+            return tasks.filter(task => {
+                if (state.selectedLevel !== "all" && task.level !== state.selectedLevel) return false;
+                if (state.selectedSublevel !== "all" && task.sublevel !== state.selectedSublevel) return false;
+                if (state.selectedTopic !== "all" && task.topic !== state.selectedTopic) return false;
+                if (!state.search) return true;
+                const haystack = [
+                    task.title, task.topic, task.sublevel, task.question, task.tags.join(" ")
+                ].join(" ").toLowerCase();
+                return haystack.includes(state.search.toLowerCase());
+            });
+        }
+
+        function renderTaskList() {
+            const list = filteredTasks();
+            const wrap = document.getElementById("taskList");
+            document.getElementById("resultCount").textContent = `${list.length} passende Aufgaben`;
+
+            if (list.length === 0) {
+                wrap.innerHTML = `<div class="task-item"><strong>Keine Treffer</strong><div class="task-meta">Passe Filter oder Suche an.</div></div>`;
+                document.getElementById("taskDetail").innerHTML = `
+                    <h3>Aufgabendetail</h3>
+                    <p class="muted">Es ist aktuell keine Aufgabe ausgewaehlt.</p>
+                `;
+                return;
+            }
+
+            if (!state.activeTaskId || !list.some(t => t.id === state.activeTaskId)) {
+                state.activeTaskId = list[0].id;
+            }
+
+            wrap.innerHTML = list.map(task => `
+                <div class="task-item ${state.activeTaskId === task.id ? "active" : ""}" data-id="${task.id}">
+                    <strong>${task.title}</strong>
+                    <div class="task-meta">${levelLabel(task.level)} | ${task.sublevel} | ${task.topic}</div>
+                </div>
+            `).join("");
+
+            wrap.querySelectorAll(".task-item").forEach(el => {
+                el.addEventListener("click", () => {
+                    state.activeTaskId = el.getAttribute("data-id");
+                    renderTaskList();
+                    renderTaskDetail();
+                });
+            });
+
+            renderTaskDetail();
+        }
+
+        function renderTaskDetail() {
+            const task = tasks.find(t => t.id === state.activeTaskId);
+            if (!task) return;
+
+            document.getElementById("taskDetail").innerHTML = `
+                <h3>${task.title}</h3>
+                <p class="muted">${levelLabel(task.level)} | Sublevel ${task.sublevel} | ${task.topic}</p>
+                <div class="pill-row">
+                    <span class="pill">Typ: ${task.type}</span>
+                    <span class="pill">Schwierigkeit: ${task.difficulty}</span>
+                    <span class="pill">Zeit: ca. ${task.estimatedTime} min</span>
+                    <span class="pill">ID: ${task.id}</span>
+                </div>
+                <div class="detail-block">
+                    <strong>Aufgabe</strong>
+                    <p>${task.question}</p>
+                </div>
+                <div class="detail-block">
+                    <strong>Loesung</strong>
+                    <p>${task.answer}</p>
+                </div>
+                <div class="detail-block">
+                    <strong>Erklaerung</strong>
+                    <p>${task.explanation}</p>
+                </div>
+                <div class="detail-block">
+                    <strong>Tags</strong>
+                    <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
+                </div>
+            `;
+        }
+
+        function renderTaxonomy() {
+            const html = data.taxonomy.map(level => `
+                <div class="tax-item">
+                    <strong>${level.code} - ${level.title}</strong>
+                    <div class="muted">${level.description}</div>
+                    <ul>
+                        ${level.sublevels.map(sub => `<li>${sub.id} - ${sub.title}</li>`).join("")}
+                    </ul>
+                </div>
+            `).join("");
+            document.getElementById("taxonomyView").innerHTML = html;
+        }
+
+        function getSublevelRecommendation(level, accuracy) {
+            const levelEntry = data.taxonomy.find(t => t.level === level);
+            if (!levelEntry) return level + ".1";
+            const available = levelEntry.sublevels.map(s => s.id);
+            if (accuracy >= 0.8 && available[2]) return available[2];
+            if (accuracy >= 0.6 && available[1]) return available[1];
+            return available[0] || level + ".1";
+        }
+
+        function evaluatePlacement(answers) {
+            const stats = {};
+            data.taxonomy.forEach(level => {
+                stats[level.level] = { total: 0, correct: 0 };
+            });
+
+            placementQuestions.forEach((q, idx) => {
+                const wasCorrect = answers[idx] === q.correctIndex;
+                stats[q.level].total += 1;
+                if (wasCorrect) stats[q.level].correct += 1;
+            });
+
+            let estimatedLevel = "1";
+            for (const level of data.taxonomy) {
+                const levelStat = stats[level.level];
+                const ratio = levelStat.total ? levelStat.correct / levelStat.total : 0;
+                if (ratio >= 0.6) estimatedLevel = level.level;
+            }
+
+            const levelStat = stats[estimatedLevel];
+            const levelAccuracy = levelStat.total ? levelStat.correct / levelStat.total : 0;
+            const estimatedSublevel = getSublevelRecommendation(estimatedLevel, levelAccuracy);
+            const totalCorrect = Object.values(stats).reduce((acc, s) => acc + s.correct, 0);
+
+            return { estimatedLevel, estimatedSublevel, totalCorrect, stats };
+        }
+
+        function renderTestQuestion() {
+            const box = document.getElementById("questionBox");
+            const fill = document.getElementById("testProgressFill");
+            const idx = state.testIndex;
+            const q = placementQuestions[idx];
+            fill.style.width = `${(idx / placementQuestions.length) * 100}%`;
+
+            box.innerHTML = `
+                <p><strong>Frage ${idx + 1} von ${placementQuestions.length}</strong></p>
+                <p class="muted">${levelLabel(q.level)} | ${q.sublevel} | ${q.topic}</p>
+                <p style="margin-top:0.65rem">${q.prompt}</p>
+                <div class="options">
+                    ${q.options.map((opt, i) => `<button data-idx="${i}" class="answer-btn">${opt}</button>`).join("")}
+                </div>
+            `;
+
+            box.querySelectorAll(".answer-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const answerIdx = Number(btn.getAttribute("data-idx"));
+                    state.testAnswers[idx] = answerIdx;
+                    state.testIndex += 1;
+
+                    if (state.testIndex >= placementQuestions.length) {
+                        finishPlacement();
+                        return;
+                    }
+                    renderTestQuestion();
+                });
+            });
+        }
+
+        function finishPlacement() {
+            const fill = document.getElementById("testProgressFill");
+            fill.style.width = "100%";
+            const result = evaluatePlacement(state.testAnswers);
+            const testResultEl = document.getElementById("testResult");
+            const levelName = levelLabel(result.estimatedLevel);
+
+            testResultEl.classList.add("show");
+            testResultEl.innerHTML = `
+                <h3>Dein Ergebnis</h3>
+                <p>Du hast <strong>${result.totalCorrect} von ${placementQuestions.length}</strong> Fragen korrekt beantwortet.</p>
+                <p>Empfohlener Einstieg: <strong>${levelName}</strong>, Sublevel <strong>${result.estimatedSublevel}</strong>.</p>
+                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level hoeher oder tiefer wechseln, je nachdem wie sicher du dich fuehlst.</p>
+            `;
+
+            document.getElementById("questionBox").innerHTML = `
+                <p><strong>Test abgeschlossen.</strong></p>
+                <p class="muted">Wenn du den Test erneut starten willst, klicke unten.</p>
+            `;
+
+            const startBtn = document.getElementById("startTestBtn");
+            startBtn.textContent = "Test neu starten";
+        }
+
+        function startPlacement() {
+            state.testStarted = true;
+            state.testIndex = 0;
+            state.testAnswers = [];
+            document.getElementById("testResult").classList.remove("show");
+            document.getElementById("startTestBtn").textContent = "Test laeuft";
+            renderTestQuestion();
+        }
+
+        function bindEvents() {
+            const levelFilter = document.getElementById("levelFilter");
+            const sublevelFilter = document.getElementById("sublevelFilter");
+            const topicFilter = document.getElementById("topicFilter");
+            const searchInput = document.getElementById("searchInput");
+            const startTestBtn = document.getElementById("startTestBtn");
+
+            levelFilter.addEventListener("change", (e) => {
+                state.selectedLevel = e.target.value;
+                renderFilters();
+                renderTaskList();
+            });
+
+            sublevelFilter.addEventListener("change", (e) => {
+                state.selectedSublevel = e.target.value;
+                renderTaskList();
+            });
+
+            topicFilter.addEventListener("change", (e) => {
+                state.selectedTopic = e.target.value;
+                renderTaskList();
+            });
+
+            searchInput.addEventListener("input", (e) => {
+                state.search = e.target.value.trim();
+                renderTaskList();
+            });
+
+            startTestBtn.addEventListener("click", () => {
+                startPlacement();
+            });
+        }
+
+        renderTopProgress();
+        renderFilters();
+        renderTaskList();
+        renderTaxonomy();
+        bindEvents();
+    </script>
+</body>
+</html>

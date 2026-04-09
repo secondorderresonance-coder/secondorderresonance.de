@@ -233,6 +233,77 @@
             background: var(--primary);
         }
 
+        /* Archive */
+        .archive {
+            padding: 6rem 2rem;
+            background: var(--primary);
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .archive-intro,
+        .archive-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .archive-kicker {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .archive-intro h3,
+        .archive-panel h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .archive-intro p,
+        .archive-panel p,
+        .archive-list li {
+            color: var(--text-muted);
+        }
+
+        .archive-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .archive-list {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .archive-list li {
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .archive-list strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -374,6 +445,31 @@
         .email-form input::placeholder { color: var(--text-muted); }
         .email-form input:focus { outline: none; border-color: var(--accent); }
 
+        /* Legal */
+        .legal {
+            padding: 4rem 2rem;
+            background: var(--secondary);
+        }
+
+        .legal-card {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .legal-card h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .legal-card p {
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
         /* Mathe App Teaser */
         .app-teaser {
             padding: 6rem 2rem;
@@ -464,6 +560,7 @@
         @media (max-width: 768px) {
             nav ul { display: none; }
             .app-container { grid-template-columns: 1fr; }
+            .archive-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.2rem; }
         }
 
@@ -492,6 +589,7 @@
         <div class="logo">Second-Order <span>Resonance</span></div>
         <ul>
             <li><a href="#levels">Level-System</a></li>
+            <li><a href="#archive">Archiv</a></li>
             <li><a href="#videos">Videos</a></li>
             <li><a href="#archive">Archiv</a></li>
             <li><a href="#app">Mathe-App</a></li>
@@ -517,9 +615,7 @@
                 <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" class="btn btn-primary" target="_blank">
                     Kanal abonnieren
                 </a>
-                <a href="#levels" class="btn btn-secondary">
-                    Dein Level finden
-                </a>
+                <a href="#levels" class="btn btn-secondary">Dein Level finden</a>
             </div>
         </div>
     </section>
@@ -604,6 +700,43 @@
         </div>
     </section>
 
+    <!-- Archive -->
+    <section class="archive" id="archive">
+        <h2 class="section-title">Im <span style="color:var(--accent)">Archiv</span> nach Themen lernen</h2>
+        <p class="section-subtitle">Eine wachsende Sammlung aus kompakten Erklärungen, sortiert nach Level und Thema.</p>
+
+        <div class="archive-grid">
+            <div class="archive-intro">
+                <span class="archive-kicker">Neu auf der Website</span>
+                <h3>Wissen nachschlagen, wenn du es brauchst</h3>
+                <p>Das Archiv ergänzt die Videos und die App um einen ruhigen Ort für Grundlagen, Definitionen und Lösungswege. So findest du zentrale Themen später schneller wieder.</p>
+                <div class="archive-actions">
+                    <a href="app/lernarchiv.html" class="btn btn-secondary">Archiv oeffnen</a>
+                    <a href="app/index.html" class="btn btn-primary">Mit der App üben</a>
+                </div>
+            </div>
+
+            <div class="archive-panel">
+                <h3>So wird das Archiv aufgebaut</h3>
+                <p>Die ersten Einträge folgen als eigenständiger nächster Schritt. Die Struktur steht jetzt bereits, damit neue Inhalte konsistent einsortiert werden können.</p>
+                <ul class="archive-list">
+                    <li>
+                        <strong>Nach Level geordnet</strong>
+                        Jedes Thema lässt sich klar einem der sechs Lernlevel zuordnen.
+                    </li>
+                    <li>
+                        <strong>Für Mathe und Physik gedacht</strong>
+                        Das Archiv soll Grundlagen, Herleitungen und Anwendungen gemeinsam abdecken.
+                    </li>
+                    <li>
+                        <strong>Als Ergänzung zu Video und App</strong>
+                        Kurz nachlesen, dann direkt weiter mit Video oder interaktiver Übung.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <!-- Latest Videos -->
     <section class="videos" id="videos">
         <h2 class="section-title">Neueste Videos</h2>
@@ -642,32 +775,27 @@
         </div>
     </section>
 
-    <!-- Archive -->
-    <section class="archive" id="archive">
+    <!-- Archiv -->
+    <section class="videos" id="archiv">
         <h2 class="section-title">Archiv</h2>
-        <p class="section-subtitle">Ein wachsender Bereich für kompakte Erklärungen, geordnete Themen und schnelles Wiederholen</p>
+        <p class="section-subtitle">Kompakte Themenübersicht mit direktem YouTube-Einstieg</p>
 
-        <div class="archive-grid">
-            <article class="archive-card">
-                <span>Kompakt</span>
-                <h3>Kurze Erklärblätter</h3>
-                <p>Klare Zusammenfassungen mit Begriffen, Formeln und typischen Denkfehlern für den schnellen Einstieg.</p>
-            </article>
-            <article class="archive-card">
-                <span>Geordnet</span>
-                <h3>Themen nach Leveln</h3>
-                <p>Archiv-Inhalte werden entlang der sechs Level aufgebaut, damit Videos, Grundlagen und Übungen zusammenpassen.</p>
-            </article>
-            <article class="archive-card">
-                <span>Verbunden</span>
-                <h3>Brücke zur App</h3>
-                <p>Das Archiv soll langfristig Wissen sichern, bevor du in der App mit Aufgaben, XP und Fortschritt weitermachst.</p>
-            </article>
-        </div>
+        <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance/search?query=Exponentielles%20Verhalten" target="_blank" style="text-decoration:none;color:inherit">
+                <div class="video-thumbnail" style="background: linear-gradient(135deg, #0f3460, #e94560);"></div>
+                <div class="video-info">
+                    <h3>Exponentielles Verhalten</h3>
+                    <p>Grundidee, Wachstum und Zerfall verständlich erklärt.</p>
+                </div>
+            </a>
 
-        <div class="archive-note">
-            <p>Die ersten Archiv-Einträge folgen als nächster kleiner Ausbauschritt. Für den Moment markiert dieser Bereich den festen Platz für strukturiertes Nachschlagen auf der Website.</p>
-            <a href="#app" class="btn btn-secondary">Zur Mathe-App</a>
+            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen" target="_blank" style="text-decoration:none;color:inherit">
+                <div class="video-thumbnail" style="background: linear-gradient(135deg, #e94560, #f5c518);"></div>
+                <div class="video-info">
+                    <h3>Gleichungen lösen und umstellen</h3>
+                    <p>Methodisch umformen und sicher nach Variablen auflösen.</p>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -713,6 +841,15 @@
         </form>
     </section>
 
+    <!-- Impressum -->
+    <section class="legal" id="impressum">
+        <div class="legal-card">
+            <h2>Impressum</h2>
+            <p><strong>Verantwortlich fuer den Inhalt:</strong></p>
+            <p>Andreas Johannes Zwingler</p>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="footer-grid">
@@ -738,9 +875,10 @@
             </div>
             <div class="footer-col">
                 <h4>Mehr</h4>
+                <a href="app/lernarchiv.html">Archiv &amp; Test</a>
                 <a href="app/index.html">Mathe-App</a>
                 <a href="#newsletter">Newsletter</a>
-                <a href="#">Impressum</a>
+                <a href="#impressum">Impressum</a>
                 <a href="#">Datenschutz</a>
             </div>
         </div>
@@ -766,3 +904,4 @@
 
 </body>
 </html>
+
