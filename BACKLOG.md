@@ -2,7 +2,7 @@
 
 ## P1
 - [x] Replace incorrect ae, oe, ue spellings with proper German umlauts where linguistically correct
-- [ ] Add an Archiv section to the website
+- [x] Add an Archiv section to the website
 - [ ] Add first archive entries for:
   - Exponentielles Verhalten
   - Gleichungen lösen und umstellen

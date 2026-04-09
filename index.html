@@ -227,6 +227,63 @@
             font-size: 0.85rem;
         }
 
+        /* Archive */
+        .archive {
+            padding: 6rem 2rem;
+            background: var(--primary);
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .archive-card {
+            background: var(--secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .archive-level {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            padding: 0.25rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--gold);
+            border: 1px solid rgba(245, 197, 24, 0.4);
+            background: rgba(245, 197, 24, 0.08);
+        }
+
+        .archive-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .archive-card p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .archive-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .archive-link:hover { color: #ff5a78; }
+
         /* Latest Videos */
         .videos {
             padding: 6rem 2rem;
@@ -436,6 +493,7 @@
         <div class="logo">Second-Order <span>Resonance</span></div>
         <ul>
             <li><a href="#levels">Level-System</a></li>
+            <li><a href="#archive">Archiv</a></li>
             <li><a href="#videos">Videos</a></li>
             <li><a href="#app">Mathe-App</a></li>
             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
@@ -547,6 +605,28 @@
         </div>
     </section>
 
+    <!-- Archive -->
+    <section class="archive" id="archive">
+        <h2 class="section-title">Archiv</h2>
+        <p class="section-subtitle">Wachsende Sammlung strukturierter Lerninhalte zum Nachlesen und Vertiefen.</p>
+
+        <div class="archive-grid">
+            <article class="archive-card">
+                <span class="archive-level">L2-L3</span>
+                <h3>Exponentielles Verhalten</h3>
+                <p>Kompakter Einstieg mit Intuition, typischen Anwendungen und zentralen Rechenideen.</p>
+                <a class="archive-link" href="app/index.html">Im Lernbereich öffnen</a>
+            </article>
+
+            <article class="archive-card">
+                <span class="archive-level">L1-L2</span>
+                <h3>Gleichungen lösen und umstellen</h3>
+                <p>Methodische Schritte für lineare und einfache nichtlineare Aufgaben in klarer Struktur.</p>
+                <a class="archive-link" href="app/index.html">Im Lernbereich öffnen</a>
+            </article>
+        </div>
+    </section>
+
     <!-- Latest Videos -->
     <section class="videos" id="videos">
         <h2 class="section-title">Neueste Videos</h2>
@@ -653,6 +733,7 @@
             <div class="footer-col">
                 <h4>Mehr</h4>
                 <a href="app/index.html">Mathe-App</a>
+                <a href="#archive">Archiv</a>
                 <a href="#newsletter">Newsletter</a>
                 <a href="#">Impressum</a>
                 <a href="#">Datenschutz</a>
