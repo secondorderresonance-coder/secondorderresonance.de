@@ -4,15 +4,14 @@
 Repository is being improved iteratively.
 
 ## Last completed task
-Replaced incorrect German transliterations (ae/oe/ue) with proper umlauts in user-facing website and app copy.
+Added a dedicated Archiv section to the homepage, including a navigation link and foundation copy that fits the existing site design.
 
 ## Last validation
-- `rg -n "Ueb|Erklaer|Grundschuel|\bFuer\b|\bfuer\b|Loese|Wochentlich|Raetsel|Universitaets|Hoehere|Naechste|Ausfuehr|betraegt" index.html app/index.html` (no remaining matches)
-- `git diff -- index.html app/index.html` (manual review of focused copy-only changes)
+- `rg -n "archive|Archiv|archive-grid|archive-card|archive-note" index.html` (confirmed the new section, styles, and nav anchor are present)
+- `git diff -- index.html` (manual review of focused homepage-only changes)
 
 ## Files touched in last task
 - `index.html`
-- `app/index.html`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -20,4 +19,4 @@ Replaced incorrect German transliterations (ae/oe/ue) with proper umlauts in use
 None.
 
 ## Next logical step
-Complete the next highest-priority open P1 task: add an Archiv section to the website.
+Complete the next highest-priority open P1 task: add the first archive entries for exponentielles Verhalten and Gleichungen lösen und umstellen.

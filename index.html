@@ -285,6 +285,62 @@
         .video-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
         .video-info p { color: var(--text-muted); font-size: 0.9rem; }
 
+        /* Archive */
+        .archive {
+            padding: 6rem 2rem;
+            background: var(--secondary);
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .archive-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .archive-card span {
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .archive-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .archive-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .archive-note {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            border-radius: 18px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.55), rgba(26, 26, 46, 0.9));
+            text-align: center;
+        }
+
+        .archive-note p {
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+        }
+
         /* Newsletter / CTA */
         .newsletter {
             padding: 6rem 2rem;
@@ -437,6 +493,7 @@
         <ul>
             <li><a href="#levels">Level-System</a></li>
             <li><a href="#videos">Videos</a></li>
+            <li><a href="#archive">Archiv</a></li>
             <li><a href="#app">Mathe-App</a></li>
             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
         </ul>
@@ -582,6 +639,35 @@
                     <p>Schnell multiplizieren, Kopfrechnen und mehr - in 60 Sekunden</p>
                 </div>
             </a>
+        </div>
+    </section>
+
+    <!-- Archive -->
+    <section class="archive" id="archive">
+        <h2 class="section-title">Archiv</h2>
+        <p class="section-subtitle">Ein wachsender Bereich für kompakte Erklärungen, geordnete Themen und schnelles Wiederholen</p>
+
+        <div class="archive-grid">
+            <article class="archive-card">
+                <span>Kompakt</span>
+                <h3>Kurze Erklärblätter</h3>
+                <p>Klare Zusammenfassungen mit Begriffen, Formeln und typischen Denkfehlern für den schnellen Einstieg.</p>
+            </article>
+            <article class="archive-card">
+                <span>Geordnet</span>
+                <h3>Themen nach Leveln</h3>
+                <p>Archiv-Inhalte werden entlang der sechs Level aufgebaut, damit Videos, Grundlagen und Übungen zusammenpassen.</p>
+            </article>
+            <article class="archive-card">
+                <span>Verbunden</span>
+                <h3>Brücke zur App</h3>
+                <p>Das Archiv soll langfristig Wissen sichern, bevor du in der App mit Aufgaben, XP und Fortschritt weitermachst.</p>
+            </article>
+        </div>
+
+        <div class="archive-note">
+            <p>Die ersten Archiv-Einträge folgen als nächster kleiner Ausbauschritt. Für den Moment markiert dieser Bereich den festen Platz für strukturiertes Nachschlagen auf der Website.</p>
+            <a href="#app" class="btn btn-secondary">Zur Mathe-App</a>
         </div>
     </section>
 
