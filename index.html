@@ -233,6 +233,45 @@
             background: var(--primary);
         }
 
+        /* Archive */
+        .archive {
+            padding: 6rem 2rem;
+            background: var(--primary);
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .archive-card {
+            background: var(--secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .archive-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+
+        .archive-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -436,6 +475,7 @@
         <div class="logo">Second-Order <span>Resonance</span></div>
         <ul>
             <li><a href="#levels">Level-System</a></li>
+            <li><a href="#archive">Archiv</a></li>
             <li><a href="#videos">Videos</a></li>
             <li><a href="#app">Mathe-App</a></li>
             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
@@ -544,6 +584,22 @@
                     <li>Optimierung</li>
                 </ul>
             </div>
+        </div>
+    </section>
+
+    <!-- Archive -->
+    <section class="archive" id="archive">
+        <h2 class="section-title">Lern-<span style="color:var(--accent)">Archiv</span></h2>
+        <p class="section-subtitle">Kompakte Inhalte zum Nachlesen, Wiederholen und Vertiefen</p>
+        <div class="archive-grid">
+            <article class="archive-card">
+                <h3>Exponentielles Verhalten</h3>
+                <p>Grundideen zu Wachstum, Zerfall und typischen Anwendungsfällen im Alltag und in der Physik.</p>
+            </article>
+            <article class="archive-card">
+                <h3>Gleichungen lösen und umstellen</h3>
+                <p>Schrittweise Methoden zum sicheren Umformen und Lösen von Gleichungen über mehrere Level hinweg.</p>
+            </article>
         </div>
     </section>
 
