@@ -960,8 +960,11 @@
         (function () {
             const cards = document.querySelectorAll('.level-card[data-level]');
             cards.forEach((card) => {
-                const level = card.getAttribute('data-level');
-                const href = 'app/index.html#level-' + level;
+                const rawLevel = card.getAttribute('data-level') || '';
+                if (!/^[a-zA-Z0-9_-]+$/.test(rawLevel)) {
+                    return;
+                }
+                const href = 'app/index.html#level-' + rawLevel;
                 card.setAttribute('role', 'link');
                 card.setAttribute('tabindex', '0');
                 card.addEventListener('click', () => {
