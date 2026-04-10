@@ -1,4 +1,4 @@
-ï»¿function buildTaskArchive(baseTasks, targetPerLevel) {
+function buildTaskArchive(baseTasks, targetPerLevel) {
     const byLevel = {};
     baseTasks.forEach(task => {
         if (!byLevel[task.level]) byLevel[task.level] = [];
@@ -20,7 +20,7 @@
                 id: `T-${level}-${serial}`,
                 title: `${seed.title} (Variante ${variant})`,
                 question: `${seed.question} [Serie ${variant}]`,
-                explanation: `${seed.explanation} Diese Aufgabe ist Teil der skalierbaren Serie ${variant} fuer Level ${level}.`
+                explanation: `${seed.explanation} Diese Aufgabe ist Teil der skalierbaren Serie ${variant} für Level ${level}.`
             });
         }
     });
@@ -50,7 +50,7 @@ window.SOR_ARCHIVE = {
             description: "Unter- und Mittelstufe",
             sublevels: [
                 { id: "2.1", title: "Terme und Gleichungen" },
-                { id: "2.1.1", title: "Gleichungen loesen und umstellen" },
+                { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
                 { id: "2.2", title: "Funktionen und Graphen" },
                 { id: "2.2.1", title: "Exponentielles Verhalten" }
             ]
@@ -69,7 +69,7 @@ window.SOR_ARCHIVE = {
         {
             level: "4",
             code: "L4",
-            title: "Universitaetsgrundlagen",
+            title: "Universitätsgrundlagen",
             description: "Studienanfang",
             sublevels: [
                 { id: "4.1", title: "Lineare Algebra" },
@@ -137,7 +137,7 @@ window.SOR_ARCHIVE = {
             topic: "Geometrie",
             tags: ["rechteck", "umfang"],
             difficulty: "leicht",
-            question: "Ein Rechteck hat Laenge 7 cm und Breite 4 cm. Bestimme den Umfang.",
+            question: "Ein Rechteck hat Länge 7 cm und Breite 4 cm. Bestimme den Umfang.",
             answer: "22 cm",
             explanation: "U = 2 * (7 + 4) = 22 cm.",
             type: "kurzantwort",
@@ -179,7 +179,7 @@ window.SOR_ARCHIVE = {
             topic: "Bruchrechnung",
             tags: ["bruch", "darstellung"],
             difficulty: "leicht",
-            question: "Schreibe 0,75 als vollstaendig gekuerzten Bruch.",
+            question: "Schreibe 0,75 als vollständig gekürzten Bruch.",
             answer: "3/4",
             explanation: "0,75 = 75/100 = 3/4.",
             type: "kurzantwort",
@@ -188,13 +188,13 @@ window.SOR_ARCHIVE = {
 
         {
             id: "T-2-001",
-            title: "Lineare Gleichung loesen",
+            title: "Lineare Gleichung lösen",
             level: "2",
             sublevel: "2.1.1",
-            topic: "Gleichungen loesen und umstellen",
+            topic: "Gleichungen lösen und umstellen",
             tags: ["gleichung", "termumformung"],
             difficulty: "mittel",
-            question: "Loese 3x - 7 = 11.",
+            question: "Löse 3x - 7 = 11.",
             answer: "x = 6",
             explanation: "+7 auf beiden Seiten ergibt 3x = 18, dann durch 3 teilen.",
             type: "kurzantwort",
@@ -205,7 +205,7 @@ window.SOR_ARCHIVE = {
             title: "Formel nach Variable umstellen",
             level: "2",
             sublevel: "2.1.1",
-            topic: "Gleichungen loesen und umstellen",
+            topic: "Gleichungen lösen und umstellen",
             tags: ["formelumstellung"],
             difficulty: "mittel",
             question: "Stelle A = b * h / 2 nach h um.",
@@ -236,7 +236,7 @@ window.SOR_ARCHIVE = {
             topic: "Exponentielles Verhalten",
             tags: ["zerfall", "halbwertszeit"],
             difficulty: "mittel",
-            question: "Startwert 80, jede Stunde Halbierung. Wie gross ist der Wert nach 3 Stunden?",
+            question: "Startwert 80, jede Stunde Halbierung. Wie groß ist der Wert nach 3 Stunden?",
             answer: "10",
             explanation: "80 * (1/2)^3 = 80/8 = 10.",
             type: "kurzantwort",
@@ -264,7 +264,7 @@ window.SOR_ARCHIVE = {
             topic: "Funktionen",
             tags: ["einsetzen"],
             difficulty: "mittel",
-            question: "Berechne f(4) fuer f(x)=2x-3.",
+            question: "Berechne f(4) für f(x)=2x-3.",
             answer: "5",
             explanation: "2 * 4 - 3 = 8 - 3 = 5.",
             type: "kurzantwort",
@@ -293,9 +293,9 @@ window.SOR_ARCHIVE = {
             topic: "Analysis",
             tags: ["quadratisch", "nullstelle"],
             difficulty: "mittel",
-            question: "Loese x^2 - 9 = 0.",
+            question: "Löse x^2 - 9 = 0.",
             answer: "x = -3 oder x = 3",
-            explanation: "x^2=9, also zwei Loesungen.",
+            explanation: "x^2=9, also zwei Lösungen.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -350,7 +350,7 @@ window.SOR_ARCHIVE = {
             tags: ["ableitung", "monotonie"],
             difficulty: "schwer",
             question: "Ist f(x)=x^3 streng monoton steigend?",
-            answer: "Ja, fuer alle x",
+            answer: "Ja, für alle x",
             explanation: "f'(x)=3x^2 ist nie negativ, daher steigt f global.",
             type: "konzeptfrage",
             estimatedTime: 3
@@ -378,7 +378,7 @@ window.SOR_ARCHIVE = {
             topic: "Lineare Algebra",
             tags: ["lgs"],
             difficulty: "schwer",
-            question: "Loese x+y=5 und x-y=1.",
+            question: "Löse x+y=5 und x-y=1.",
             answer: "x=3, y=2",
             explanation: "Addieren liefert 2x=6 -> x=3, dann y=2.",
             type: "kurzantwort",
@@ -393,7 +393,7 @@ window.SOR_ARCHIVE = {
             tags: ["eigenwert", "konzept"],
             difficulty: "schwer",
             question: "Was bedeutet A v = lambda v anschaulich?",
-            answer: "v behaelt Richtung, nur die Laenge skaliert mit lambda",
+            answer: "v behält Richtung, nur die Länge skaliert mit lambda",
             explanation: "Eigenvektoren werden durch A nur gestreckt oder gespiegelt.",
             type: "konzeptfrage",
             estimatedTime: 4
@@ -406,7 +406,7 @@ window.SOR_ARCHIVE = {
             topic: "Differentialgleichungen",
             tags: ["dgl", "trennung"],
             difficulty: "schwer",
-            question: "Loese y' = 3y mit y(0)=2.",
+            question: "Löse y' = 3y mit y(0)=2.",
             answer: "y(t)=2e^(3t)",
             explanation: "Standardform y'=ky -> y=Ae^(kt), Anfangsbedingung bestimmt A=2.",
             type: "kurzantwort",
@@ -465,7 +465,7 @@ window.SOR_ARCHIVE = {
             difficulty: "mittel",
             question: "Bestimme L{1}.",
             answer: "1/s",
-            explanation: "Standardtransformation fuer t >= 0.",
+            explanation: "Standardtransformation für t >= 0.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -479,7 +479,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Wann wird die Antwort eines linearen Schwingers maximal?",
             answer: "Wenn Anregungsfrequenz nahe der Eigenfrequenz liegt",
-            explanation: "Dann tritt Resonanz auf; Daempfung begrenzt die Amplitude.",
+            explanation: "Dann tritt Resonanz auf; Dämpfung begrenzt die Amplitude.",
             type: "konzeptfrage",
             estimatedTime: 4
         },
@@ -489,11 +489,11 @@ window.SOR_ARCHIVE = {
             level: "5",
             sublevel: "5.2",
             topic: "Regelungstechnik",
-            tags: ["pt1", "uebertragungsfunktion"],
+            tags: ["pt1", "übertragungsfunktion"],
             difficulty: "schwer",
-            question: "Wie lautet die Uebertragungsfunktion eines PT1-Glieds?",
+            question: "Wie lautet die Übertragungsfunktion eines PT1-Glieds?",
             answer: "G(s)=K/(1+Ts)",
-            explanation: "K ist Verstaerkung, T Zeitkonstante.",
+            explanation: "K ist Verstärkung, T Zeitkonstante.",
             type: "kurzantwort",
             estimatedTime: 3
         },
@@ -521,7 +521,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Welche zwei Kurven zeigt ein Bode-Diagramm?",
             answer: "Betragsgang und Phasengang",
-            explanation: "Beide ueber der logarithmischen Frequenzachse.",
+            explanation: "Beide über der logarithmischen Frequenzachse.",
             type: "kurzantwort",
             estimatedTime: 3
         },
@@ -534,9 +534,9 @@ window.SOR_ARCHIVE = {
             topic: "Partielle DGL",
             tags: ["pde", "klassifikation"],
             difficulty: "schwer",
-            question: "Zu welcher Klasse gehoert die Waermeleitungsgleichung?",
+            question: "Zu welcher Klasse gehört die Wärmeleitungsgleichung?",
             answer: "Parabolisch",
-            explanation: "Waermeleitung besitzt diffusionsartiges Verhalten.",
+            explanation: "Wärmeleitung besitzt diffusionsartiges Verhalten.",
             type: "kurzantwort",
             estimatedTime: 4
         },
@@ -549,8 +549,8 @@ window.SOR_ARCHIVE = {
             tags: ["wiener", "zufallsprozess"],
             difficulty: "schwer",
             question: "Nenne eine Kerneigenschaft des Wiener-Prozesses.",
-            answer: "Unabhaengige normalverteilte Inkremente",
-            explanation: "Inkremente ueber disjunkte Intervalle sind unabhaengig.",
+            answer: "Unabhängige normalverteilte Inkremente",
+            explanation: "Inkremente über disjunkte Intervalle sind unabhängig.",
             type: "konzeptfrage",
             estimatedTime: 4
         },
@@ -590,8 +590,8 @@ window.SOR_ARCHIVE = {
             topic: "Optimierung",
             tags: ["kkt", "nebenbedingungen"],
             difficulty: "schwer",
-            question: "Wofuer stehen die KKT-Bedingungen?",
-            answer: "Notwendige Optimalitaetsbedingungen bei Nebenbedingungen",
+            question: "Wofür stehen die KKT-Bedingungen?",
+            answer: "Notwendige Optimalitätsbedingungen bei Nebenbedingungen",
             explanation: "Sie erweitern Lagrange-Multiplikatoren auf Ungleichungen.",
             type: "kurzantwort",
             estimatedTime: 4
@@ -606,7 +606,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Was passiert in der Regel mit dem Diskretisierungsfehler bei feinerem Gitter?",
             answer: "Er sinkt",
-            explanation: "Feineres Gitter verbessert die Approximation der kontinuierlichen Loesung.",
+            explanation: "Feineres Gitter verbessert die Approximation der kontinuierlichen Lösung.",
             type: "konzeptfrage",
             estimatedTime: 3
         }
@@ -618,36 +618,38 @@ window.SOR_ARCHIVE = {
         { id: "P04", level: "1", sublevel: "1.2", topic: "Dreisatz", prompt: "2 kg kosten 6 Euro. Was kosten 1 kg?", options: ["2 Euro", "3 Euro", "4 Euro", "6 Euro"], correctIndex: 1 },
         { id: "P05", level: "1", sublevel: "1.1.2", topic: "Prozent", prompt: "10% von 90 sind ...", options: ["9", "10", "90", "0,9"], correctIndex: 0 },
 
-        { id: "P06", level: "2", sublevel: "2.1.1", topic: "Gleichungen", prompt: "Loese 2x + 4 = 12.", options: ["x=2", "x=3", "x=4", "x=6"], correctIndex: 2 },
+        { id: "P06", level: "2", sublevel: "2.1.1", topic: "Gleichungen", prompt: "Löse 2x + 4 = 12.", options: ["x=2", "x=3", "x=4", "x=6"], correctIndex: 2 },
         { id: "P07", level: "2", sublevel: "2.1.1", topic: "Umformen", prompt: "Stelle v=s/t nach t um.", options: ["t=v/s", "t=s/v", "t=sv", "t=s-v"], correctIndex: 1 },
-        { id: "P08", level: "2", sublevel: "2.2", topic: "Lineare Funktion", prompt: "f(x)=3x-1. Wie gross ist f(2)?", options: ["4", "5", "6", "7"], correctIndex: 1 },
+        { id: "P08", level: "2", sublevel: "2.2", topic: "Lineare Funktion", prompt: "f(x)=3x-1. Wie groß ist f(2)?", options: ["4", "5", "6", "7"], correctIndex: 1 },
         { id: "P09", level: "2", sublevel: "2.2.1", topic: "Exponentiell", prompt: "Was ist 2^5?", options: ["10", "16", "32", "64"], correctIndex: 2 },
         { id: "P10", level: "2", sublevel: "2.2.1", topic: "Wachstum", prompt: "Eine Menge verdreifacht sich je Schritt. Start 2. Nach zwei Schritten?", options: ["6", "9", "12", "18"], correctIndex: 3 },
 
         { id: "P11", level: "3", sublevel: "3.1.1", topic: "Ableitung", prompt: "Ableitung von x^3 ist ...", options: ["x^2", "2x", "3x^2", "3x"], correctIndex: 2 },
         { id: "P12", level: "3", sublevel: "3.1", topic: "Integral", prompt: "Stammfunktion von 4x ist ...", options: ["2x^2 + C", "4x^2 + C", "x^4 + C", "4 + C"], correctIndex: 0 },
-        { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire Muenze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
+        { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire Münze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
         { id: "P14", level: "3", sublevel: "3.2", topic: "Vektoren", prompt: "(1,2) + (3,4) = ?", options: ["(4,6)", "(3,8)", "(2,2)", "(4,8)"], correctIndex: 0 },
-        { id: "P15", level: "3", sublevel: "3.1", topic: "Nullstellen", prompt: "Loese x^2=16.", options: ["x=4", "x=-4", "x=+-4", "x=8"], correctIndex: 2 },
+        { id: "P15", level: "3", sublevel: "3.1", topic: "Nullstellen", prompt: "Löse x^2=16.", options: ["x=4", "x=-4", "x=+-4", "x=8"], correctIndex: 2 },
 
         { id: "P16", level: "4", sublevel: "4.1.1", topic: "Determinante", prompt: "det([[1,2],[3,4]]) = ?", options: ["-2", "2", "10", "0"], correctIndex: 0 },
         { id: "P17", level: "4", sublevel: "4.1", topic: "LGS", prompt: "x+y=6 und x-y=2. x=?", options: ["2", "3", "4", "5"], correctIndex: 2 },
-        { id: "P18", level: "4", sublevel: "4.2", topic: "DGL", prompt: "Welche Funktion loest y'=y?", options: ["y=t", "y=e^t", "y=t^2", "y=1/t"], correctIndex: 1 },
+        { id: "P18", level: "4", sublevel: "4.2", topic: "DGL", prompt: "Welche Funktion löst y'=y?", options: ["y=t", "y=e^t", "y=t^2", "y=1/t"], correctIndex: 1 },
         { id: "P19", level: "4", sublevel: "4.2", topic: "Grenzwert", prompt: "lim n->inf (1/n) ist ...", options: ["1", "0", "unendlich", "-1"], correctIndex: 1 },
-        { id: "P20", level: "4", sublevel: "4.1", topic: "Eigenvektor", prompt: "Ein Eigenvektor behaelt unter A ...", options: ["nur Betrag", "nur Richtung", "Richtung bis auf Vorzeichen", "gar nichts"], correctIndex: 2 },
+        { id: "P20", level: "4", sublevel: "4.1", topic: "Eigenvektor", prompt: "Ein Eigenvektor behält unter A ...", options: ["nur Betrag", "nur Richtung", "Richtung bis auf Vorzeichen", "gar nichts"], correctIndex: 2 },
 
         { id: "P21", level: "5", sublevel: "5.1.1", topic: "Laplace", prompt: "L{e^(at)} lautet ...", options: ["1/(s+a)", "1/(s-a)", "a/(s-a)", "s/(s-a)"], correctIndex: 1 },
         { id: "P22", level: "5", sublevel: "5.1", topic: "Fourier", prompt: "Fourier liefert primaer ...", options: ["Zeitwerte", "Frequenzanteile", "Integrationsgrenzen", "Vektoren"], correctIndex: 1 },
         { id: "P23", level: "5", sublevel: "5.2", topic: "Regelung", prompt: "PT1-Glied: G(s)=?", options: ["K/(1+Ts)", "K*s", "1/(s^2)", "K+Ts"], correctIndex: 0 },
-        { id: "P24", level: "5", sublevel: "5.2", topic: "Resonanz", prompt: "Resonanz tritt auf, wenn ...", options: ["Frequenzen weit auseinander liegen", "Anregung nahe Eigenfrequenz ist", "Daempfung maximal ist", "Kraft null ist"], correctIndex: 1 },
+        { id: "P24", level: "5", sublevel: "5.2", topic: "Resonanz", prompt: "Resonanz tritt auf, wenn ...", options: ["Frequenzen weit auseinander liegen", "Anregung nahe Eigenfrequenz ist", "Dämpfung maximal ist", "Kraft null ist"], correctIndex: 1 },
         { id: "P25", level: "5", sublevel: "5.1.1", topic: "Signalverarbeitung", prompt: "Faltung beschreibt ...", options: ["Differenzbildung", "Systemantwort aus Eingang und Impulsantwort", "Mittelwert", "Ableitung"], correctIndex: 1 },
 
-        { id: "P26", level: "6", sublevel: "6.1.1", topic: "PDE", prompt: "Waermeleitungsgleichung ist ...", options: ["elliptisch", "parabolisch", "hyperbolisch", "algebraisch"], correctIndex: 1 },
-        { id: "P27", level: "6", sublevel: "6.2", topic: "Stochastik", prompt: "Wiener-Prozess hat ...", options: ["deterministische Schritte", "unabhaengige normalverteilte Inkremente", "endliche Werte", "periodische Loesungen"], correctIndex: 1 },
+        { id: "P26", level: "6", sublevel: "6.1.1", topic: "PDE", prompt: "Wärmeleitungsgleichung ist ...", options: ["elliptisch", "parabolisch", "hyperbolisch", "algebraisch"], correctIndex: 1 },
+        { id: "P27", level: "6", sublevel: "6.2", topic: "Stochastik", prompt: "Wiener-Prozess hat ...", options: ["deterministische Schritte", "unabhängige normalverteilte Inkremente", "endliche Werte", "periodische Lösungen"], correctIndex: 1 },
         { id: "P28", level: "6", sublevel: "6.1", topic: "Numerik", prompt: "RK4 hat globale Ordnung ...", options: ["1", "2", "3", "4"], correctIndex: 3 },
-        { id: "P29", level: "6", sublevel: "6.1.1", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter Loesung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
-        { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "Optimalitaetsbedingungen mit Nebenbedingungen", "Integrationsregeln", "Fehlerschaetzer"], correctIndex: 1 }
+        { id: "P29", level: "6", sublevel: "6.1.1", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter Lösung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
+        { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "Optimalitätsbedingungen mit Nebenbedingungen", "Integrationsregeln", "Fehlerschätzer"], correctIndex: 1 }
     ]
 };
+
+
 
 

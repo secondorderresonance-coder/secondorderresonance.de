@@ -304,7 +304,7 @@
             <div class="kpi-grid">
                 <div class="kpi">
                     <strong id="kpiCurrent">0</strong>
-                    <span>Aktuell verfuegbare Aufgaben</span>
+                    <span>Aktuell verfügbare Aufgaben</span>
                 </div>
                 <div class="kpi">
                     <strong id="kpiTarget">30000</strong>
@@ -350,14 +350,14 @@
                 </div>
                 <div class="detail card" id="taskDetail">
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Waehle links eine Aufgabe aus, um Frage, Loesung und Erklaerung zu sehen.</p>
+                    <p class="muted">Wähle links eine Aufgabe aus, um Frage, Lösung und Erklärung zu sehen.</p>
                 </div>
             </div>
         </section>
 
         <section class="card" id="placement">
             <h2>Einstufungstest (30 Fragen)</h2>
-            <p class="muted">Der Test sampelt bewusst ueber alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
+            <p class="muted">Der Test sampelt bewusst über alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
             <div class="test-flow">
                 <button id="startTestBtn">Test starten</button>
                 <div class="test-progress"><div id="testProgressFill"></div></div>
@@ -370,7 +370,7 @@
 
         <section class="card">
             <h2>Level- und Sublevel-Taxonomie</h2>
-            <p class="muted">Diese Struktur ist fuer den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
+            <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
             <div class="taxonomy" id="taxonomyView"></div>
         </section>
     </main>
@@ -474,7 +474,7 @@
                 wrap.innerHTML = `<div class="task-item"><strong>Keine Treffer</strong><div class="task-meta">Passe Filter oder Suche an.</div></div>`;
                 document.getElementById("taskDetail").innerHTML = `
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Es ist aktuell keine Aufgabe ausgewaehlt.</p>
+                    <p class="muted">Es ist aktuell keine Aufgabe ausgewählt.</p>
                 `;
                 return;
             }
@@ -519,11 +519,11 @@
                     <p>${task.question}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Loesung</strong>
+                    <strong>Lösung</strong>
                     <p>${task.answer}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Erklaerung</strong>
+                    <strong>Erklärung</strong>
                     <p>${task.explanation}</p>
                 </div>
                 <div class="detail-block">
@@ -625,7 +625,7 @@
                 <h3>Dein Ergebnis</h3>
                 <p>Du hast <strong>${result.totalCorrect} von ${placementQuestions.length}</strong> Fragen korrekt beantwortet.</p>
                 <p>Empfohlener Einstieg: <strong>${levelName}</strong>, Sublevel <strong>${result.estimatedSublevel}</strong>.</p>
-                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level hoeher oder tiefer wechseln, je nachdem wie sicher du dich fuehlst.</p>
+                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level höher oder tiefer wechseln, je nachdem wie sicher du dich fühlst.</p>
             `;
 
             document.getElementById("questionBox").innerHTML = `
@@ -642,7 +642,7 @@
             state.testIndex = 0;
             state.testAnswers = [];
             document.getElementById("testResult").classList.remove("show");
-            document.getElementById("startTestBtn").textContent = "Test laeuft";
+            document.getElementById("startTestBtn").textContent = "Test läuft";
             renderTestQuestion();
         }
 
@@ -687,3 +687,4 @@
     </script>
 </body>
 </html>
+

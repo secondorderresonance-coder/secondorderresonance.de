@@ -648,7 +648,6 @@
             <li><a href="#levels">Level-System</a></li>
             <li><a href="#archive">Archiv</a></li>
             <li><a href="#videos">Videos</a></li>
-            <li><a href="#archive">Archiv</a></li>
             <li><a href="#app">Mathe-App</a></li>
             <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
         </ul>
@@ -683,7 +682,7 @@
         <p class="section-subtitle">Von den Grundlagen bis zur Ingenieur-Mathematik - steig ein wo du stehst</p>
 
         <div class="level-grid">
-            <div class="level-card level-1">
+            <div class="level-card level-1" data-level="1">
                 <span class="level-badge">Level 1 - Grundlagen</span>
                 <h3>Einstieg</h3>
                 <p>Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.</p>
@@ -695,7 +694,7 @@
                 </ul>
             </div>
 
-            <div class="level-card level-2">
+            <div class="level-card level-2" data-level="2">
                 <span class="level-badge">Level 2 - Aufbauwissen</span>
                 <h3>Algebra & Funktionen</h3>
                 <p>Die Grundpfeiler für alles was noch kommt.</p>
@@ -707,7 +706,7 @@
                 </ul>
             </div>
 
-            <div class="level-card level-3">
+            <div class="level-card level-3" data-level="3">
                 <span class="level-badge">Level 3 - Vertiefung</span>
                 <h3>Analysis & Stochastik</h3>
                 <p>Abitur-relevant und anschaulich erklärt.</p>
@@ -719,7 +718,7 @@
                 </ul>
             </div>
 
-            <div class="level-card level-4">
+            <div class="level-card level-4" data-level="4">
                 <span class="level-badge">Level 4 - Universitätsgrundlagen</span>
                 <h3>Höhere Mathematik</h3>
                 <p>Was dich im Studium wirklich erwartet.</p>
@@ -731,7 +730,7 @@
                 </ul>
             </div>
 
-            <div class="level-card level-5">
+            <div class="level-card level-5" data-level="5">
                 <span class="level-badge">Level 5 - Angewandte Mathematik</span>
                 <h3>Angewandte Mathematik</h3>
                 <p>Wo Mathe die reale Welt trifft.</p>
@@ -743,7 +742,7 @@
                 </ul>
             </div>
 
-            <div class="level-card level-6">
+            <div class="level-card level-6" data-level="6">
                 <span class="level-badge">Level 6 - Forschung &amp; Simulation</span>
                 <h3>Wissenschaft &amp; Spezialisierung</h3>
                 <p>Für angehende Forscher an der Grenze des Wissens.</p>
@@ -768,7 +767,7 @@
                 <h3>Wissen nachschlagen, wenn du es brauchst</h3>
                 <p>Das Archiv ergänzt die Videos und die App um einen ruhigen Ort für Grundlagen, Definitionen und Lösungswege. So findest du zentrale Themen später schneller wieder.</p>
                 <div class="archive-actions">
-                    <a href="app/lernarchiv.html" class="btn btn-secondary">Archiv oeffnen</a>
+                    <a href="app/lernarchiv.html" class="btn btn-secondary">Archiv öffnen</a>
                     <a href="app/index.html" class="btn btn-primary">Mit der App üben</a>
                 </div>
             </div>
@@ -902,8 +901,8 @@
     <section class="legal" id="impressum">
         <div class="legal-card">
             <h2>Impressum</h2>
-            <p><strong>Verantwortlich fuer den Inhalt:</strong></p>
             <p>Andreas Johannes Zwingler</p>
+            <p><a href="mailto:secondorderresonance@gmail.com">secondorderresonance@gmail.com</a></p>
         </div>
     </section>
 
@@ -927,8 +926,6 @@
                 <h4>Plattformen</h4>
                 <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a>
                 <a href="https://www.tiktok.com/@second_order_resonance" target="_blank">TikTok</a>
-                <a href="#">Instagram</a>
-                <a href="#">Discord</a>
             </div>
             <div class="footer-col">
                 <h4>Mehr</h4>
@@ -959,7 +956,28 @@
         ]
     }
     </script>
+    <script>
+        (function () {
+            const cards = document.querySelectorAll('.level-card[data-level]');
+            cards.forEach((card) => {
+                const level = card.getAttribute('data-level');
+                const href = 'app/index.html#level-' + level;
+                card.setAttribute('role', 'link');
+                card.setAttribute('tabindex', '0');
+                card.addEventListener('click', () => {
+                    window.location.href = href;
+                });
+                card.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        window.location.href = href;
+                    }
+                });
+            });
+        })();
+    </script>
 
 </body>
 </html>
+
 

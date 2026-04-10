@@ -548,7 +548,7 @@
                     },
                     {
                         topic: "Geometrie",
-                        question: "Wie gross ist die Fläche eines Kreises mit Radius r = 3?",
+                        question: "Wie gro� ist die Fläche eines Kreises mit Radius r = 3?",
                         math: "A = pi * r^2 = ?",
                         options: ["9pi", "6pi", "3pi", "12pi"],
                         correct: 0,
@@ -563,6 +563,24 @@
                         correct: 1,
                         difficulty: "easy",
                         explanation: "1 Apfel = 1.50/3 = 0.50 EUR. Also 7 Äpfel = 7 * 0.50 = 3.50 EUR."
+                    },
+                    {
+                        topic: "Bruchrechnung",
+                        question: "Berechne:",
+                        math: "5/8 - 1/4 = ?",
+                        options: ["1/8", "3/8", "1/2", "5/4"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "1/4 entspricht 2/8. Also 5/8 - 2/8 = 3/8."
+                    },
+                    {
+                        topic: "Prozente",
+                        question: "Ein Pullover kostet 60 Euro und wird um 20% reduziert. Neuer Preis?",
+                        math: "60 * (1 - 0,20) = ?",
+                        options: ["42 Euro", "48 Euro", "50 Euro", "54 Euro"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "20% von 60 sind 12. Deshalb kostet der Pullover danach 48 Euro."
                     }
                 ]
             },
@@ -613,6 +631,24 @@
                         correct: 0,
                         difficulty: "medium",
                         explanation: "sin(alpha) = Gegenkathete / Hypotenuse = 6/10 = 0.6. Merke: SOH - Sinus = Opposite / Hypotenuse."
+                    },
+                    {
+                        topic: "Funktionen",
+                        question: "Bestimme die Steigung der Geraden:",
+                        math: "f(x) = -3x + 4",
+                        options: ["-3", "4", "3", "-4"],
+                        correct: 0,
+                        difficulty: "easy",
+                        explanation: "Bei f(x)=mx+b ist m die Steigung. Hier gilt m = -3."
+                    },
+                    {
+                        topic: "Potenzen",
+                        question: "Vereinfache:",
+                        math: "10^3 * 10^2 = ?",
+                        options: ["10^5", "10^6", "20^5", "10^1"],
+                        correct: 0,
+                        difficulty: "easy",
+                        explanation: "Bei gleicher Basis werden die Exponenten addiert: 3 + 2 = 5."
                     }
                 ]
             },
@@ -663,6 +699,24 @@
                         correct: 2,
                         difficulty: "medium",
                         explanation: "Mögliche Kombinationen für Summe 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 von 36 Möglichkeiten = 6/36 = 1/6."
+                    },
+                    {
+                        topic: "Integrale",
+                        question: "Berechne das bestimmte Integral:",
+                        math: "integral(0 bis 2) x dx = ?",
+                        options: ["1", "2", "3", "4"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Stammfunktion von x ist x^2/2. Also gilt: (2^2)/2 - (0^2)/2 = 2."
+                    },
+                    {
+                        topic: "Vektoren",
+                        question: "Bestimme die Länge des Vektors:",
+                        math: "v = (3, 4)",
+                        options: ["5", "6", "7", "4"],
+                        correct: 0,
+                        difficulty: "easy",
+                        explanation: "Betrag: |v| = sqrt(3^2 + 4^2) = sqrt(25) = 5."
                     }
                 ]
             },
@@ -713,6 +767,24 @@
                         correct: 1,
                         difficulty: "hard",
                         explanation: "v3 = v1 + v2, also ist v3 eine Linearkombination von v1 und v2. Die Vektoren sind linear abhängig."
+                    },
+                    {
+                        topic: "Komplexe Zahlen",
+                        question: "Bestimme den Betrag:",
+                        math: "z = 3 - 4i, |z| = ?",
+                        options: ["5", "7", "1", "sqrt(7)"],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Der Betrag berechnet sich mit |z| = sqrt(3^2 + (-4)^2) = 5."
+                    },
+                    {
+                        topic: "Lineare Algebra",
+                        question: "Löse das lineare Gleichungssystem:",
+                        math: "x + y = 4\nx - y = 2",
+                        options: ["x=1, y=3", "x=2, y=2", "x=3, y=1", "x=4, y=0"],
+                        correct: 2,
+                        difficulty: "medium",
+                        explanation: "Addieren ergibt 2x = 6 und damit x = 3. Eingesetzt folgt y = 1."
                     }
                 ]
             },
@@ -778,6 +850,29 @@
                         correct: 0,
                         difficulty: "hard",
                         explanation: "Die DFT ist periodisch mit Periode N. Außerdem ist sie umkehrbar (IDFT existiert) und für beliebiges N definiert."
+                    },
+                    {
+                        topic: "Laplace",
+                        question: "Bestimme die Laplace-Transformierte:",
+                        math: "L{sin(wt)} = ?",
+                        options: ["w/(s^2+w^2)", "s/(s^2+w^2)", "1/(s-w)", "w/(s-w)"],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Die Standardformel lautet L{sin(wt)} = w/(s^2 + w^2)."
+                    },
+                    {
+                        topic: "Regelungstechnik",
+                        question: "Welche Auswirkung hat höhere Dämpfung typischerweise?",
+                        math: "c steigt",
+                        options: [
+                            "Kleinere Überschwingung",
+                            "Größere Resonanzspitze",
+                            "Immer instabil",
+                            "Keine Änderung"
+                        ],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Mehr Dämpfung reduziert in der Regel Resonanzspitzen und Überschwingen."
                     }
                 ]
             },
@@ -843,6 +938,29 @@
                         correct: 0,
                         difficulty: "hard",
                         explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
+                    },
+                    {
+                        topic: "Numerik",
+                        question: "Wie skaliert der Speicherbedarf einer dichten N x N Matrix?",
+                        math: "Anzahl der Einträge",
+                        options: ["O(N)", "O(N log N)", "O(N^2)", "O(2^N)"],
+                        correct: 2,
+                        difficulty: "medium",
+                        explanation: "Eine dichte Matrix besitzt N^2 Einträge, daher ist der Speicherbedarf quadratisch."
+                    },
+                    {
+                        topic: "Optimierung",
+                        question: "Welche Aussage passt zum Gradientenverfahren?",
+                        math: "x_{k+1} = x_k - alpha * grad f(x_k)",
+                        options: [
+                            "Schritt in Richtung des negativen Gradienten",
+                            "Schritt in Richtung des positiven Gradienten",
+                            "Immer exakt globales Optimum",
+                            "Nur für lineare Modelle"
+                        ],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Das Verfahren bewegt sich entlang des negativen Gradienten in Richtung lokaler Abnahme."
                     }
                 ]
             }
@@ -953,7 +1071,7 @@
                 const msg = document.getElementById('lockMsg');
                 msg.textContent = '🔒 Noch ' + needed + ' XP für Level ' + (level + 1);
                 setTimeout(() => { if (msg.textContent.startsWith('🔒')) msg.textContent = ''; }, 2500);
-                return;
+                return false;
             }
             document.getElementById('lockMsg').textContent = '';
             state.level = level;
@@ -964,6 +1082,18 @@
             renderLevelButtons();
             renderTopics();
             renderExercise();
+            return true;
+        }
+
+        function openLevelFromHash() {
+            const match = window.location.hash.match(/^#level-([1-6])$/);
+            if (!match) return;
+            const levelIdx = Number(match[1]) - 1;
+            const opened = selectLevel(levelIdx);
+            if (opened) {
+                const target = document.getElementById('exerciseCard');
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function renderTopics() {
@@ -1078,7 +1208,15 @@
         renderExercise();
         updateStats();
         renderAchievements();
+        openLevelFromHash();
+        window.addEventListener('hashchange', openLevelFromHash);
     </script>
 
 </body>
 </html>
+
+
+
+
+
+
