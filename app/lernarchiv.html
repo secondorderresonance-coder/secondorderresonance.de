@@ -215,6 +215,24 @@
             color: var(--text-muted);
         }
 
+        .detail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            border-radius: 999px;
+            padding: 0.45rem 0.9rem;
+            text-decoration: none;
+            background: rgba(233, 69, 96, 0.12);
+            border: 1px solid rgba(233, 69, 96, 0.35);
+            color: var(--text);
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .detail-link:hover {
+            background: rgba(233, 69, 96, 0.2);
+        }
+
         .test-flow {
             margin-top: 1rem;
             display: grid;
@@ -501,6 +519,23 @@
             renderTaskDetail();
         }
 
+        const appTopicAliases = {
+            "1": { Bruchrechnung: "Bruchrechnung", Prozentrechnung: "Prozente", Geometrie: "Geometrie", Dreisatz: "Dreisatz" },
+            "2": { "Gleichungen lösen und umstellen": "Gleichungen", Funktionen: "Funktionen", "Exponentielles Verhalten": "Potenzen" },
+            "3": { Analysis: "Ableitungen", Kurvendiskussion: "Ableitungen", Stochastik: "Stochastik", Vektoren: "Vektoren" },
+            "4": { "Lineare Algebra": "Lineare Algebra", Matrizen: "Lineare Algebra", Differentialgleichungen: "DGL" },
+            "5": { Fourier: "Fourier", Laplace: "Laplace", Resonanz: "Resonanz", Regelungstechnik: "Regelungstechnik", Signale: "Fourier" },
+            "6": { "Partielle DGL": "Partielle DGL", Stochastik: "Stochastik", Numerik: "Numerik", FEM: "FEM", Optimierung: "Optimierung" }
+        };
+
+        function buildAppExerciseHref(task) {
+            const params = new URLSearchParams();
+            params.set("level", task.level);
+            const topic = appTopicAliases[task.level] ? appTopicAliases[task.level][task.topic] : "";
+            if (topic) params.set("topic", topic);
+            return `./index.html?${params.toString()}#level-${task.level}`;
+        }
+
         function renderTaskDetail() {
             const task = tasks.find(t => t.id === state.activeTaskId);
             if (!task) return;
@@ -530,6 +565,12 @@
                     <strong>Tags</strong>
                     <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
                 </div>
+                <div class="detail-block">
+                    <strong>Weiterlernen</strong>
+                    <div class="pill-row">
+                        <a class="detail-link" href="${buildAppExerciseHref(task)}">Passende App-Uebung</a>
+                    </div>
+                </div>
             `;
         }
 
@@ -539,7 +580,7 @@
                     <strong>${level.code} - ${level.title}</strong>
                     <div class="muted">${level.description}</div>
                     <ul>
-                        ${level.sublevels.map(sub => `<li>${sub.id} - ${sub.title}</li>`).join("")}
+                        ${level.sublevels.map(sub => { const depth = Math.max(0, sub.id.split(".").length - 2); return `<li style="padding-left:${depth * 1.1}rem">${sub.id} - ${sub.title}</li>`; }).join("")}
                     </ul>
                 </div>
             `).join("");

@@ -40,6 +40,8 @@ window.SOR_ARCHIVE = {
                 { id: "1.1", title: "Zahlen und Rechenregeln" },
                 { id: "1.1.1", title: "Grundrechenarten" },
                 { id: "1.1.2", title: "Bruch- und Prozentrechnung" },
+                { id: "1.1.2.a", title: "Brueche addieren und kuerzen" },
+                { id: "1.1.2.b", title: "Prozentwerte im Alltag" },
                 { id: "1.2", title: "Muster, Geometrie, Alltag" }
             ]
         },
@@ -51,8 +53,12 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "2.1", title: "Terme und Gleichungen" },
                 { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
+                { id: "2.1.1.a", title: "Lineare Gleichungen" },
+                { id: "2.1.1.b", title: "Formeln umstellen" },
                 { id: "2.2", title: "Funktionen und Graphen" },
-                { id: "2.2.1", title: "Exponentielles Verhalten" }
+                { id: "2.2.1", title: "Exponentielles Verhalten" },
+                { id: "2.2.1.a", title: "Exponentielles Wachstum" },
+                { id: "2.2.1.b", title: "Exponentieller Zerfall" }
             ]
         },
         {
@@ -63,6 +69,8 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "3.1", title: "Analysis" },
                 { id: "3.1.1", title: "Ableitung und Kurvendiskussion" },
+                { id: "3.1.1.a", title: "Ableitungsregeln" },
+                { id: "3.1.1.b", title: "Monotonie und Extremstellen" },
                 { id: "3.2", title: "Stochastik und Vektoren" }
             ]
         },
@@ -74,6 +82,8 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "4.1", title: "Lineare Algebra" },
                 { id: "4.1.1", title: "Matrizen und Determinanten" },
+                { id: "4.1.1.a", title: "Matrixrechnung" },
+                { id: "4.1.1.b", title: "Determinanten und Eigenwerte" },
                 { id: "4.2", title: "Analysis I und DGL" }
             ]
         },
@@ -85,6 +95,8 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "5.1", title: "Signale und Transformationen" },
                 { id: "5.1.1", title: "Fourier und Laplace" },
+                { id: "5.1.1.a", title: "Fourier im Frequenzraum" },
+                { id: "5.1.1.b", title: "Laplace und Systemantwort" },
                 { id: "5.2", title: "Systeme und Regelung" }
             ]
         },
@@ -96,6 +108,8 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "6.1", title: "Numerische Simulation" },
                 { id: "6.1.1", title: "FEM und PDE" },
+                { id: "6.1.1.a", title: "Partielle Differentialgleichungen" },
+                { id: "6.1.1.b", title: "Finite-Elemente-Methoden" },
                 { id: "6.2", title: "Stochastik und Optimierung" }
             ]
         }
@@ -105,7 +119,7 @@ window.SOR_ARCHIVE = {
             id: "T-1-001",
             title: "Bruchaddition mit Hauptnenner",
             level: "1",
-            sublevel: "1.1.2",
+            sublevel: "1.1.2.a",
             topic: "Bruchrechnung",
             tags: ["bruch", "grundlagen"],
             difficulty: "leicht",
@@ -119,7 +133,7 @@ window.SOR_ARCHIVE = {
             id: "T-1-002",
             title: "Prozentwert bestimmen",
             level: "1",
-            sublevel: "1.1.2",
+            sublevel: "1.1.2.b",
             topic: "Prozentrechnung",
             tags: ["prozent", "alltag"],
             difficulty: "leicht",
@@ -175,7 +189,7 @@ window.SOR_ARCHIVE = {
             id: "T-1-006",
             title: "Anteil als Bruch",
             level: "1",
-            sublevel: "1.1.2",
+            sublevel: "1.1.2.a",
             topic: "Bruchrechnung",
             tags: ["bruch", "darstellung"],
             difficulty: "leicht",
@@ -190,7 +204,7 @@ window.SOR_ARCHIVE = {
             id: "T-2-001",
             title: "Lineare Gleichung lösen",
             level: "2",
-            sublevel: "2.1.1",
+            sublevel: "2.1.1.a",
             topic: "Gleichungen lösen und umstellen",
             tags: ["gleichung", "termumformung"],
             difficulty: "mittel",
@@ -204,7 +218,7 @@ window.SOR_ARCHIVE = {
             id: "T-2-002",
             title: "Formel nach Variable umstellen",
             level: "2",
-            sublevel: "2.1.1",
+            sublevel: "2.1.1.b",
             topic: "Gleichungen lösen und umstellen",
             tags: ["formelumstellung"],
             difficulty: "mittel",
@@ -218,7 +232,7 @@ window.SOR_ARCHIVE = {
             id: "T-2-003",
             title: "Exponentielles Wachstum erkennen",
             level: "2",
-            sublevel: "2.2.1",
+            sublevel: "2.2.1.a",
             topic: "Exponentielles Verhalten",
             tags: ["exponential", "wachstum"],
             difficulty: "mittel",
@@ -232,7 +246,7 @@ window.SOR_ARCHIVE = {
             id: "T-2-004",
             title: "Halbwertszeitmodell",
             level: "2",
-            sublevel: "2.2.1",
+            sublevel: "2.2.1.b",
             topic: "Exponentielles Verhalten",
             tags: ["zerfall", "halbwertszeit"],
             difficulty: "mittel",
@@ -275,7 +289,7 @@ window.SOR_ARCHIVE = {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
             level: "3",
-            sublevel: "3.1.1",
+            sublevel: "3.1.1.a",
             topic: "Analysis",
             tags: ["ableitung", "potenzregel"],
             difficulty: "mittel",
@@ -345,7 +359,7 @@ window.SOR_ARCHIVE = {
             id: "T-3-006",
             title: "Monotonie pruefen",
             level: "3",
-            sublevel: "3.1.1",
+            sublevel: "3.1.1.b",
             topic: "Kurvendiskussion",
             tags: ["ableitung", "monotonie"],
             difficulty: "schwer",
@@ -360,7 +374,7 @@ window.SOR_ARCHIVE = {
             id: "T-4-001",
             title: "Determinante 2x2",
             level: "4",
-            sublevel: "4.1.1",
+            sublevel: "4.1.1.b",
             topic: "Lineare Algebra",
             tags: ["determinante", "matrix"],
             difficulty: "mittel",
@@ -430,7 +444,7 @@ window.SOR_ARCHIVE = {
             id: "T-4-006",
             title: "Matrixmultiplikation",
             level: "4",
-            sublevel: "4.1.1",
+            sublevel: "4.1.1.a",
             topic: "Matrizen",
             tags: ["matrix", "produkt"],
             difficulty: "mittel",
@@ -445,7 +459,7 @@ window.SOR_ARCHIVE = {
             id: "T-5-001",
             title: "Fourier-Idee",
             level: "5",
-            sublevel: "5.1",
+            sublevel: "5.1.1.a",
             topic: "Fourier",
             tags: ["frequenzen", "signal"],
             difficulty: "schwer",
@@ -459,7 +473,7 @@ window.SOR_ARCHIVE = {
             id: "T-5-002",
             title: "Laplace von Konstante",
             level: "5",
-            sublevel: "5.1.1",
+            sublevel: "5.1.1.b",
             topic: "Laplace",
             tags: ["laplace", "standard"],
             difficulty: "mittel",
@@ -501,7 +515,7 @@ window.SOR_ARCHIVE = {
             id: "T-5-005",
             title: "Faltungskonzept",
             level: "5",
-            sublevel: "5.1.1",
+            sublevel: "5.1.1.b",
             topic: "Signale",
             tags: ["faltung", "systeme"],
             difficulty: "schwer",
@@ -530,7 +544,7 @@ window.SOR_ARCHIVE = {
             id: "T-6-001",
             title: "PDE-Klassifikation",
             level: "6",
-            sublevel: "6.1.1",
+            sublevel: "6.1.1.a",
             topic: "Partielle DGL",
             tags: ["pde", "klassifikation"],
             difficulty: "schwer",
@@ -572,7 +586,7 @@ window.SOR_ARCHIVE = {
             id: "T-6-004",
             title: "FEM-Prinzip",
             level: "6",
-            sublevel: "6.1.1",
+            sublevel: "6.1.1.b",
             topic: "FEM",
             tags: ["fem", "variationsprinzip"],
             difficulty: "schwer",
@@ -613,40 +627,42 @@ window.SOR_ARCHIVE = {
     ], 520),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
-        { id: "P02", level: "1", sublevel: "1.1.2", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
+        { id: "P02", level: "1", sublevel: "1.1.2.a", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
         { id: "P03", level: "1", sublevel: "1.2", topic: "Geometrie", prompt: "Wie viele Seiten hat ein Rechteck?", options: ["3", "4", "5", "6"], correctIndex: 1 },
         { id: "P04", level: "1", sublevel: "1.2", topic: "Dreisatz", prompt: "2 kg kosten 6 Euro. Was kosten 1 kg?", options: ["2 Euro", "3 Euro", "4 Euro", "6 Euro"], correctIndex: 1 },
-        { id: "P05", level: "1", sublevel: "1.1.2", topic: "Prozent", prompt: "10% von 90 sind ...", options: ["9", "10", "90", "0,9"], correctIndex: 0 },
+        { id: "P05", level: "1", sublevel: "1.1.2.b", topic: "Prozent", prompt: "10% von 90 sind ...", options: ["9", "10", "90", "0,9"], correctIndex: 0 },
 
-        { id: "P06", level: "2", sublevel: "2.1.1", topic: "Gleichungen", prompt: "Löse 2x + 4 = 12.", options: ["x=2", "x=3", "x=4", "x=6"], correctIndex: 2 },
-        { id: "P07", level: "2", sublevel: "2.1.1", topic: "Umformen", prompt: "Stelle v=s/t nach t um.", options: ["t=v/s", "t=s/v", "t=sv", "t=s-v"], correctIndex: 1 },
+        { id: "P06", level: "2", sublevel: "2.1.1.a", topic: "Gleichungen", prompt: "Löse 2x + 4 = 12.", options: ["x=2", "x=3", "x=4", "x=6"], correctIndex: 2 },
+        { id: "P07", level: "2", sublevel: "2.1.1.b", topic: "Umformen", prompt: "Stelle v=s/t nach t um.", options: ["t=v/s", "t=s/v", "t=sv", "t=s-v"], correctIndex: 1 },
         { id: "P08", level: "2", sublevel: "2.2", topic: "Lineare Funktion", prompt: "f(x)=3x-1. Wie groß ist f(2)?", options: ["4", "5", "6", "7"], correctIndex: 1 },
-        { id: "P09", level: "2", sublevel: "2.2.1", topic: "Exponentiell", prompt: "Was ist 2^5?", options: ["10", "16", "32", "64"], correctIndex: 2 },
-        { id: "P10", level: "2", sublevel: "2.2.1", topic: "Wachstum", prompt: "Eine Menge verdreifacht sich je Schritt. Start 2. Nach zwei Schritten?", options: ["6", "9", "12", "18"], correctIndex: 3 },
+        { id: "P09", level: "2", sublevel: "2.2.1.a", topic: "Exponentiell", prompt: "Was ist 2^5?", options: ["10", "16", "32", "64"], correctIndex: 2 },
+        { id: "P10", level: "2", sublevel: "2.2.1.a", topic: "Wachstum", prompt: "Eine Menge verdreifacht sich je Schritt. Start 2. Nach zwei Schritten?", options: ["6", "9", "12", "18"], correctIndex: 3 },
 
-        { id: "P11", level: "3", sublevel: "3.1.1", topic: "Ableitung", prompt: "Ableitung von x^3 ist ...", options: ["x^2", "2x", "3x^2", "3x"], correctIndex: 2 },
+        { id: "P11", level: "3", sublevel: "3.1.1.a", topic: "Ableitung", prompt: "Ableitung von x^3 ist ...", options: ["x^2", "2x", "3x^2", "3x"], correctIndex: 2 },
         { id: "P12", level: "3", sublevel: "3.1", topic: "Integral", prompt: "Stammfunktion von 4x ist ...", options: ["2x^2 + C", "4x^2 + C", "x^4 + C", "4 + C"], correctIndex: 0 },
         { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire Münze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
         { id: "P14", level: "3", sublevel: "3.2", topic: "Vektoren", prompt: "(1,2) + (3,4) = ?", options: ["(4,6)", "(3,8)", "(2,2)", "(4,8)"], correctIndex: 0 },
         { id: "P15", level: "3", sublevel: "3.1", topic: "Nullstellen", prompt: "Löse x^2=16.", options: ["x=4", "x=-4", "x=+-4", "x=8"], correctIndex: 2 },
 
-        { id: "P16", level: "4", sublevel: "4.1.1", topic: "Determinante", prompt: "det([[1,2],[3,4]]) = ?", options: ["-2", "2", "10", "0"], correctIndex: 0 },
+        { id: "P16", level: "4", sublevel: "4.1.1.b", topic: "Determinante", prompt: "det([[1,2],[3,4]]) = ?", options: ["-2", "2", "10", "0"], correctIndex: 0 },
         { id: "P17", level: "4", sublevel: "4.1", topic: "LGS", prompt: "x+y=6 und x-y=2. x=?", options: ["2", "3", "4", "5"], correctIndex: 2 },
         { id: "P18", level: "4", sublevel: "4.2", topic: "DGL", prompt: "Welche Funktion löst y'=y?", options: ["y=t", "y=e^t", "y=t^2", "y=1/t"], correctIndex: 1 },
         { id: "P19", level: "4", sublevel: "4.2", topic: "Grenzwert", prompt: "lim n->inf (1/n) ist ...", options: ["1", "0", "unendlich", "-1"], correctIndex: 1 },
         { id: "P20", level: "4", sublevel: "4.1", topic: "Eigenvektor", prompt: "Ein Eigenvektor behält unter A ...", options: ["nur Betrag", "nur Richtung", "Richtung bis auf Vorzeichen", "gar nichts"], correctIndex: 2 },
 
-        { id: "P21", level: "5", sublevel: "5.1.1", topic: "Laplace", prompt: "L{e^(at)} lautet ...", options: ["1/(s+a)", "1/(s-a)", "a/(s-a)", "s/(s-a)"], correctIndex: 1 },
-        { id: "P22", level: "5", sublevel: "5.1", topic: "Fourier", prompt: "Fourier liefert primaer ...", options: ["Zeitwerte", "Frequenzanteile", "Integrationsgrenzen", "Vektoren"], correctIndex: 1 },
+        { id: "P21", level: "5", sublevel: "5.1.1.b", topic: "Laplace", prompt: "L{e^(at)} lautet ...", options: ["1/(s+a)", "1/(s-a)", "a/(s-a)", "s/(s-a)"], correctIndex: 1 },
+        { id: "P22", level: "5", sublevel: "5.1.1.a", topic: "Fourier", prompt: "Fourier liefert primaer ...", options: ["Zeitwerte", "Frequenzanteile", "Integrationsgrenzen", "Vektoren"], correctIndex: 1 },
         { id: "P23", level: "5", sublevel: "5.2", topic: "Regelung", prompt: "PT1-Glied: G(s)=?", options: ["K/(1+Ts)", "K*s", "1/(s^2)", "K+Ts"], correctIndex: 0 },
         { id: "P24", level: "5", sublevel: "5.2", topic: "Resonanz", prompt: "Resonanz tritt auf, wenn ...", options: ["Frequenzen weit auseinander liegen", "Anregung nahe Eigenfrequenz ist", "Dämpfung maximal ist", "Kraft null ist"], correctIndex: 1 },
         { id: "P25", level: "5", sublevel: "5.1.1", topic: "Signalverarbeitung", prompt: "Faltung beschreibt ...", options: ["Differenzbildung", "Systemantwort aus Eingang und Impulsantwort", "Mittelwert", "Ableitung"], correctIndex: 1 },
 
-        { id: "P26", level: "6", sublevel: "6.1.1", topic: "PDE", prompt: "Wärmeleitungsgleichung ist ...", options: ["elliptisch", "parabolisch", "hyperbolisch", "algebraisch"], correctIndex: 1 },
+        { id: "P26", level: "6", sublevel: "6.1.1.a", topic: "PDE", prompt: "Wärmeleitungsgleichung ist ...", options: ["elliptisch", "parabolisch", "hyperbolisch", "algebraisch"], correctIndex: 1 },
         { id: "P27", level: "6", sublevel: "6.2", topic: "Stochastik", prompt: "Wiener-Prozess hat ...", options: ["deterministische Schritte", "unabhängige normalverteilte Inkremente", "endliche Werte", "periodische Lösungen"], correctIndex: 1 },
         { id: "P28", level: "6", sublevel: "6.1", topic: "Numerik", prompt: "RK4 hat globale Ordnung ...", options: ["1", "2", "3", "4"], correctIndex: 3 },
-        { id: "P29", level: "6", sublevel: "6.1.1", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter Lösung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
+        { id: "P29", level: "6", sublevel: "6.1.1.b", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter Lösung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
         { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "Optimalitätsbedingungen mit Nebenbedingungen", "Integrationsregeln", "Fehlerschätzer"], correctIndex: 1 }
     ]
 };
+
+
 

@@ -29,8 +29,8 @@
 ## P2
 - [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
-- [ ] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
-- [ ] Connect archive content more clearly with app exercises
+- [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
+- [x] Connect archive content more clearly with app exercises
 - [ ] Add level/sublevel deep links and saved filter state in the archive UI
 - [ ] Improve mobile layout of archive and placement sections after real-device pass
 - [ ] Add placement result handoff to recommended archive filter preset
