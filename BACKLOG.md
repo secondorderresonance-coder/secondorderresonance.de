@@ -39,7 +39,9 @@
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [x] Improve mobile layout of archive and placement sections after real-device pass
 - [x] Add placement result handoff to recommended archive filter preset
-- [ ] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [x] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [x] Add global search function across website and archive themes
+- [x] Add external quick-submit suggestion form for new task ideas with level categorization
 - [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
 ## P3
@@ -52,3 +54,5 @@
 - [ ] Define free-first monetization path with optional small premium tier later
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+- [ ] Add backend/moderation pipeline for external task suggestions after validating demand
+
