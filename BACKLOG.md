@@ -1,5 +1,10 @@
 # BACKLOG
 
+## Strategische Produktziele
+- Duolingo-aehnliche Lernreise fuer Mathe und Physik, aber im Second-Order-Resonance-Stil statt als Kopie
+- Eigene SOR-Accounts auf Website und spaeter in iOS/Android-App
+- Zunaechst kostenloses Kernprodukt, spaeter optional kleine Premium-Stufe bei genug Nachfrage
+
 ## Archiv Zielbild
 - 5.000 Aufgaben pro Level (L1-L6)
 - 30.000 Aufgaben insgesamt im Archiv
@@ -32,9 +37,11 @@
 - [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
 - [x] Connect archive content more clearly with app exercises
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
-- [ ] Improve mobile layout of archive and placement sections after real-device pass
-- [ ] Add placement result handoff to recommended archive filter preset
-- [ ] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [x] Improve mobile layout of archive and placement sections after real-device pass
+- [x] Add placement result handoff to recommended archive filter preset
+- [x] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [x] Add global search function across website and archive themes
+- [x] Add external quick-submit suggestion form for new task ideas with level categorization
 - [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
 ## P3
@@ -42,6 +49,10 @@
 - [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
 - [ ] Add achievement placeholder architecture without overbuilding
 - [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [ ] Define Duolingo-aehnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
+- [ ] Define web account creation and login foundation for SOR (free-first, app-ready)
+- [ ] Define free-first monetization path with optional small premium tier later
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+- [ ] Add backend/moderation pipeline for external task suggestions after validating demand
 
