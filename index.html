@@ -46,6 +46,12 @@
             border-bottom: 1px solid rgba(233, 69, 96, 0.2);
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
         .logo {
             font-size: 1.4rem;
             font-weight: 700;
@@ -472,15 +478,12 @@
             margin-bottom: 1.25rem;
         }
 
-        .search-hub,
         .suggestion-lab {
             padding: 6rem 2rem;
         }
 
-        .search-hub { background: var(--secondary); }
         .suggestion-lab { background: var(--primary); }
 
-        .search-shell,
         .suggestion-shell {
             max-width: 1100px;
             margin: 0 auto;
@@ -488,6 +491,11 @@
             border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2rem;
+        }
+
+        .nav-search {
+            position: relative;
+            width: min(340px, 32vw);
         }
 
         .search-input {
@@ -501,10 +509,39 @@
             margin-top: 1rem;
         }
 
+        .nav-search .search-input {
+            margin-top: 0;
+            padding: 0.8rem 1rem;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
         .search-results {
             display: grid;
             gap: 0.85rem;
             margin-top: 1.25rem;
+        }
+
+        .nav-search .search-results {
+            position: absolute;
+            top: calc(100% + 0.7rem);
+            left: 0;
+            width: 100%;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 0.35rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(22, 33, 62, 0.98);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+            margin-top: 0;
+            z-index: 1005;
+        }
+
+        .nav-search .search-results:empty {
+            display: none;
         }
 
         .search-result {
@@ -790,12 +827,28 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            nav ul { display: none; }
+            nav {
+                flex-wrap: wrap;
+                gap: 0.9rem;
+                padding: 0.9rem 1rem;
+            }
+            .nav-right {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.85rem;
+            }
+            nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem 1rem;
+            }
+            .nav-search { width: 100%; }
             .app-container { grid-template-columns: 1fr; }
             .archive-grid { grid-template-columns: 1fr; }
             .suggestion-grid,
             .suggestion-columns { grid-template-columns: 1fr; }
-            .search-shell,
             .suggestion-shell { padding: 1.4rem; }
             .hero h1 { font-size: 2.2rem; }
         }
@@ -823,13 +876,19 @@
     <!-- Navigation -->
     <nav>
         <div class="logo">Second-Order <span>Resonance</span></div>
-        <ul>
-            <li><a href="#levels">Level-System</a></li>
-            <li><a href="#archive">Archiv</a></li>
-            <li><a href="#videos">Videos</a></li>
-            <li><a href="#app">Mathe-App</a></li>
-            <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul>
+                <li><a href="#levels">Level-System</a></li>
+                <li><a href="#archive">Archiv</a></li>
+                <li><a href="#videos">Videos</a></li>
+                <li><a href="#app">Mathe-App</a></li>
+                <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank">YouTube</a></li>
+            </ul>
+            <div class="nav-search">
+                <input id="globalSearchInput" class="search-input" type="search" placeholder="Thema, Level oder Bereich suchen">
+                <div class="search-results" id="globalSearchResults"></div>
+            </div>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -852,15 +911,6 @@
                 </a>
                 <a href="#levels" class="btn btn-secondary">Dein Level finden</a>
             </div>
-        </div>
-    </section>
-
-    <section class="search-hub" id="search">
-        <div class="search-shell">
-            <h2 class="section-title">Globale <span style="color:var(--accent)">Schnellsuche</span></h2>
-            <p class="section-subtitle" style="margin-bottom:0">Suche direkt nach Themen, Leveln, Archivpfaden und wichtigen Website-Bereichen, ohne erst durch alle Seiten klicken zu muessen.</p>
-            <input id="globalSearchInput" class="search-input" type="search" placeholder="z.B. Pythagoras, Geometrie, Fourier, Level 3, Einstufungstest">
-            <div class="search-results" id="globalSearchResults"></div>
         </div>
     </section>
 
@@ -987,6 +1037,16 @@
             <div class="archive-actions">
                 <a href="app/lernarchiv.html#pythagoras-visual" class="btn btn-primary">Pythagoras-Modul oeffnen</a>
                 <a href="app/lernarchiv.html?level=1&topic=Geometrie#archiveBrowser" class="btn btn-secondary">Direkt zu Geometrie im Archiv</a>
+            </div>
+        </div>
+
+        <div class="archive-note" id="complex-preview">
+            <span class="archive-kicker">Neues interaktives Visual</span>
+            <h3>Komplexe Zahlen jetzt als Argand-Ebene</h3>
+            <p>Bewege Realteil und Imaginaerteil und sieh sofort, wie Punkt, Betrag, Winkel und konjugierte Zahl zusammenhaengen. So wird aus komplexen Zahlen ein direkt lesbares Bild.</p>
+            <div class="archive-actions">
+                <a href="app/lernarchiv.html#complex-visual" class="btn btn-primary">Argand-Modul oeffnen</a>
+                <a href="app/lernarchiv.html?level=4#archiveBrowser" class="btn btn-secondary">Direkt zu L4 im Archiv</a>
             </div>
         </div>
     </section>

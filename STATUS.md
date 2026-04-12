@@ -1,10 +1,10 @@
 # STATUS
 
 ## Current version
-- `v1.1.4`
+- `v1.1.6`
 
 ## Current state
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 3.120 archive tasks (520 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, and now a global search plus a low-friction external suggestion flow on the landing page.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 3.120 archive tasks (520 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, a global search plus a low-friction external suggestion flow on the landing page, a first interactive complex-numbers visual connected across website and archive, and now the global quick search placed directly in the top navigation.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -26,30 +26,23 @@ Current implementation status:
 - Archive and placement sections now compress more cleanly on tablet and phone widths without changing the established visual identity
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
-- The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+- The landing page now includes a global search over website/archive topics directly in the top navigation plus a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+- The first complex-number visual now exists as a live Argand-plane module with real/imaginary sliders, modulus, angle, conjugation, and a homepage teaser that links into the archive
 
 ## Last completed task
-Completed the user-requested landing page utility additions in `index.html`:
-- Added a global quick-search hub that searches website sections, archive levels/sublevels, and archive topics from the shared archive data model.
-- Added an external quick-submit suggestion form for new task ideas with title, level 1-6 categorization, topic, detailed description, optional contact address, and screenshot preview.
-- Implemented a no-backend first flow: the page copies the structured suggestion text, opens a mail draft, and uses the native share sheet with attached image when browser support exists.
-- Kept the implementation focused to one page (`index.html`) and aligned with the current SOR design language.
+Completed the requested navigation refinement for the landing page search:
+- Moved the existing global quick-search UI from its own section into the fixed top navigation in `index.html`.
+- Kept the existing search logic and result sources unchanged, so the feature still searches website areas, archive levels, sublevels, and topics.
+- Converted the result list into a navigation dropdown below the search field and hid the empty state until a query is entered.
+- Preserved the current visual identity and adjusted the mobile navigation so links plus search remain usable on smaller screens.
 
 ## Last validation
-- `rg -n "globalSearchInput|globalSearchResults|suggestionForm|suggestScreenshot|suggestionPreview|SOR_ARCHIVE|buildSearchEntries|navigator.share|mailto:" index.html -S`
+- `rg -n "nav-right|nav-search|globalSearchInput|globalSearchResults|search-hub" index.html -S`
 - Inline script syntax check via Node on `index.html`
-- `node tools/archive-qa.js`
-- QA result:
-  - tasks: 3120
-  - placement questions: 30
-  - level distribution: 520 tasks for each level 1-6
-  - overall result: OK
-- Static diff review confirmed the change stays focused on one landing-page search/suggestion enhancement plus run documentation.
+- Static diff review confirmed the change stays focused on one navigation/search placement refinement plus run documentation.
 
 ## Files touched in last task
 - `index.html`
-- `index.html`
-- `BACKLOG.md`
 - `STATUS.md`
 - `VERSION.md`
 
@@ -58,8 +51,8 @@ None.
 
 ## Next logical step
 Continue with the next highest-priority open tasks now queued after this run:
-1. Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context.
-2. Prepare local progress architecture for future XP and streak systems.
-3. Add daily streak system to archive and placement journey (local first, backend-ready later).
-4. Add achievement placeholder architecture without overbuilding.
-5. Define content QA workflow and authoring guidelines for scaling to 30.000 tasks.
+1. Prepare local progress architecture for future XP and streak systems.
+2. Add daily streak system to archive and placement journey (local first, backend-ready later).
+3. Add achievement placeholder architecture without overbuilding.
+4. Define content QA workflow and authoring guidelines for scaling to 30.000 tasks.
+5. Define Duolingo-aehnliche guided learning journey and mission-map UX for web/app while preserving SOR identity.

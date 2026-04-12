@@ -627,6 +627,42 @@
             </div>
         </section>
 
+        <section class="card" id="complex-visual">
+            <h2>Interaktive Visualisierung: Komplexe Zahlen</h2>
+            <p class="muted">Bewege Realteil und Imaginaerteil und beobachte live, wie Punkt, Betrag, Winkel und konjugierte Zahl in der Argand-Ebene zusammenhaengen.</p>
+            <div class="visual-layout">
+                <div class="visual-panel">
+                    <h3>Argand-Ebene intuitiv lesen</h3>
+                    <p class="muted">Dieses erste Modul zeigt eine komplexe Zahl gleichzeitig als Punkt, Vektor und Polarform. So wird aus <code>z = a + bi</code> sofort Geometrie.</p>
+                    <div class="visual-controls">
+                        <div class="visual-control">
+                            <label for="complexReal">Realteil a <strong id="complexRealValue">3</strong></label>
+                            <input id="complexReal" type="range" min="-6" max="6" step="1" value="3">
+                        </div>
+                        <div class="visual-control">
+                            <label for="complexImag">Imaginaerteil b <strong id="complexImagValue">2</strong></label>
+                            <input id="complexImag" type="range" min="-6" max="6" step="1" value="2">
+                        </div>
+                    </div>
+                    <div class="formula-line" id="complexFormula">z = 3 + 2i</div>
+                    <div class="visual-metrics">
+                        <div class="visual-metric"><strong id="complexMagnitude">3.61</strong><span>Betrag |z|</span></div>
+                        <div class="visual-metric"><strong id="complexAngle">33.69 deg</strong><span>Winkel arg(z)</span></div>
+                        <div class="visual-metric"><strong id="complexConjugate">3 - 2i</strong><span>Konjugierte Zahl</span></div>
+                        <div class="visual-metric"><strong id="complexPolar">3.61 * e^(i*0.59)</strong><span>Polarform</span></div>
+                    </div>
+                    <div class="pill-row" style="margin-top:1rem">
+                        <button type="button" class="ghost-btn" id="complexArchiveBtn">Archiv auf L4 setzen</button>
+                        <a class="detail-link" href="../index.html#complex-preview">Zur Website-Vorschau</a>
+                    </div>
+                    <p class="visual-note">Spaeter kann daraus ein ganzer Lernpfad fuer komplexe Zahlen werden: Multiplikation als Rotation, Wurzeln, Zeigerdiagramme und Schwingungen.</p>
+                </div>
+                <div class="visual-canvas">
+                    <svg id="complexSvg" viewBox="0 0 520 360" role="img" aria-label="Interaktive Argand-Ebene fuer komplexe Zahlen"></svg>
+                </div>
+            </div>
+        </section>
+
         <section class="card" id="placement">
             <h2>Einstufungstest (30 Fragen)</h2>
             <p class="muted">Der Test sampelt bewusst über alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
@@ -654,6 +690,7 @@
         const placementQuestions = data.placementQuestions.slice();
         const ARCHIVE_STATE_KEY = "sor-archive-filters";
         const pythagorasState = { a: 6, b: 8 };
+        const complexState = { re: 3, im: 2 };
 
         const state = {
             selectedLevel: "all",
@@ -991,6 +1028,79 @@
             }
         }
 
+        function renderComplexPlane() {
+            const svg = document.getElementById("complexSvg");
+            if (!svg) return;
+
+            const re = complexState.re;
+            const im = complexState.im;
+            const center = { x: 260, y: 180 };
+            const scale = 24;
+            const point = { x: center.x + re * scale, y: center.y - im * scale };
+            const conjugate = { x: center.x + re * scale, y: center.y + im * scale };
+            const magnitude = Math.sqrt(re * re + im * im);
+            const angle = Math.atan2(im, re);
+            const format = value => Number(value).toFixed(2);
+            const angleDeg = (angle * 180 / Math.PI).toFixed(2);
+            const imagSign = im >= 0 ? "+" : "-";
+            const conjSign = im >= 0 ? "-" : "+";
+            const absImag = Math.abs(im);
+
+            document.getElementById("complexRealValue").textContent = String(re);
+            document.getElementById("complexImagValue").textContent = String(im);
+            document.getElementById("complexFormula").textContent = `z = ${re} ${imagSign} ${absImag}i`;
+            document.getElementById("complexMagnitude").textContent = format(magnitude);
+            document.getElementById("complexAngle").textContent = `${angleDeg} deg`;
+            document.getElementById("complexConjugate").textContent = `${re} ${conjSign} ${absImag}i`;
+            document.getElementById("complexPolar").textContent = `${format(magnitude)} * e^(i*${format(angle)})`;
+
+            const ticks = [];
+            for (let n = -6; n <= 6; n += 1) {
+                const x = center.x + n * scale;
+                const y = center.y - n * scale;
+                ticks.push(`<line x1="${x}" y1="60" x2="${x}" y2="300" stroke="rgba(255,255,255,0.06)" stroke-width="1"></line>`);
+                ticks.push(`<line x1="80" y1="${y}" x2="440" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"></line>`);
+                if (n !== 0) {
+                    ticks.push(`<text x="${x}" y="202" fill="#aaa" font-size="12" text-anchor="middle">${n}</text>`);
+                    ticks.push(`<text x="246" y="${y + 4}" fill="#aaa" font-size="12" text-anchor="end">${n}i</text>`);
+                }
+            }
+
+            svg.innerHTML = `
+                <rect x="0" y="0" width="520" height="360" fill="transparent"></rect>
+                ${ticks.join("")}
+                <line x1="80" y1="180" x2="440" y2="180" stroke="#f5c518" stroke-width="2.5"></line>
+                <line x1="260" y1="60" x2="260" y2="300" stroke="#f5c518" stroke-width="2.5"></line>
+                <circle cx="${center.x}" cy="${center.y}" r="74.2" fill="none" stroke="rgba(96,165,250,0.22)" stroke-width="1.5" stroke-dasharray="5 5"></circle>
+                <line x1="${center.x}" y1="${center.y}" x2="${point.x}" y2="${point.y}" stroke="#e94560" stroke-width="4"></line>
+                <line x1="${point.x}" y1="${point.y}" x2="${point.x}" y2="${center.y}" stroke="#4ade80" stroke-width="2.5" stroke-dasharray="6 6"></line>
+                <line x1="${point.x}" y1="${point.y}" x2="${center.x}" y2="${point.y}" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="6 6"></line>
+                <line x1="${center.x}" y1="${center.y}" x2="${conjugate.x}" y2="${conjugate.y}" stroke="rgba(245,197,24,0.4)" stroke-width="2.5" stroke-dasharray="5 5"></line>
+                <circle cx="${point.x}" cy="${point.y}" r="7" fill="#e94560"></circle>
+                <circle cx="${conjugate.x}" cy="${conjugate.y}" r="5" fill="rgba(245,197,24,0.9)"></circle>
+                <path d="M 310 180 A 50 50 0 0 0 ${center.x + Math.cos(angle) * 50} ${center.y - Math.sin(angle) * 50}" fill="none" stroke="#f5c518" stroke-width="3"></path>
+                <text x="${point.x + 12}" y="${point.y - 12}" fill="#e94560" font-size="18" font-weight="700">z</text>
+                <text x="${conjugate.x + 12}" y="${conjugate.y + 18}" fill="#f5c518" font-size="16">z*</text>
+                <text x="428" y="170" fill="#f5c518" font-size="15">Re</text>
+                <text x="270" y="72" fill="#f5c518" font-size="15">Im</text>
+                <text x="${center.x + re * scale / 2}" y="${center.y + 22}" fill="#4ade80" font-size="16" text-anchor="middle">Re(z) = ${re}</text>
+                <text x="${center.x - 12}" y="${center.y - im * scale / 2}" fill="#60a5fa" font-size="16" text-anchor="end">Im(z) = ${im}</text>
+            `;
+        }
+
+        function applyComplexArchivePreset() {
+            state.selectedLevel = "4";
+            state.selectedSublevel = "all";
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection && archiveSection.scrollIntoView) {
+                archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function getSublevelRecommendation(level, accuracy) {
             const levelEntry = data.taxonomy.find(t => t.level === level);
             if (!levelEntry) return level + ".1";
@@ -1123,6 +1233,9 @@
             const pythagorasA = document.getElementById("pythagorasA");
             const pythagorasB = document.getElementById("pythagorasB");
             const pythagorasArchiveBtn = document.getElementById("pythagorasArchiveBtn");
+            const complexReal = document.getElementById("complexReal");
+            const complexImag = document.getElementById("complexImag");
+            const complexArchiveBtn = document.getElementById("complexArchiveBtn");
 
             levelFilter.addEventListener("change", (e) => {
                 state.selectedLevel = e.target.value;
@@ -1165,6 +1278,20 @@
             pythagorasArchiveBtn.addEventListener("click", () => {
                 applyGeometryArchivePreset();
             });
+
+            complexReal.addEventListener("input", (e) => {
+                complexState.re = Number(e.target.value);
+                renderComplexPlane();
+            });
+
+            complexImag.addEventListener("input", (e) => {
+                complexState.im = Number(e.target.value);
+                renderComplexPlane();
+            });
+
+            complexArchiveBtn.addEventListener("click", () => {
+                applyComplexArchivePreset();
+            });
         }
 
         applyFilterState(readSavedFilterState() || {});
@@ -1175,6 +1302,7 @@
         renderTaskList();
         renderTaxonomy();
         renderPythagorasVisual();
+        renderComplexPlane();
         bindEvents();
         saveFilterState();
         syncUrlFromState();

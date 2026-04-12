@@ -42,7 +42,7 @@
 - [x] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
 - [x] Add global search function across website and archive themes
 - [x] Add external quick-submit suggestion form for new task ideas with level categorization
-- [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
+- [x] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
 ## P3
 - [ ] Prepare local progress architecture for future XP and streak systems
