@@ -1313,6 +1313,15 @@
 
             const searchEntries = buildSearchEntries();
 
+            function escapeHtml(value) {
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
             function renderSearchResults(query) {
                 const cleanQuery = normalize(query).trim();
                 if (!cleanQuery) {
@@ -1333,7 +1342,7 @@
                     .slice(0, 8);
 
                 if (!results.length) {
-                    searchResults.innerHTML = `<div class="search-empty">Keine Treffer fuer <strong>${query}</strong>. Versuch es mit einem allgemeineren Thema.</div>`;
+                    searchResults.innerHTML = `<div class="search-empty">Keine Treffer fuer <strong>${escapeHtml(query)}</strong>. Versuch es mit einem allgemeineren Thema.</div>`;
                     return;
                 }
 
