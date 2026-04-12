@@ -31,7 +31,7 @@
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
 - [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
 - [x] Connect archive content more clearly with app exercises
-- [ ] Add level/sublevel deep links and saved filter state in the archive UI
+- [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [ ] Improve mobile layout of archive and placement sections after real-device pass
 - [ ] Add placement result handoff to recommended archive filter preset
 - [ ] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
@@ -44,3 +44,4 @@
 - [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+
