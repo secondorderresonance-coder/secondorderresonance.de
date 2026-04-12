@@ -297,6 +297,13 @@
 
         .result.show { display: block; }
 
+        .result-actions {
+            margin-top: 0.9rem;
+            display: flex;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
         .taxonomy {
             margin-top: 1rem;
             display: grid;
@@ -321,6 +328,89 @@
             .archive-layout { grid-template-columns: 1fr; }
             .filters { grid-template-columns: 1fr 1fr; }
             .level-row { grid-template-columns: 1fr; }
+            .detail { min-height: 0; }
+            .task-list { max-height: 360px; }
+        }
+
+        @media (max-width: 720px) {
+            .topbar-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .top-links {
+                width: 100%;
+            }
+
+            .top-links a {
+                flex: 1 1 auto;
+                text-align: center;
+            }
+
+            .container {
+                padding: 1.25rem 0.85rem 2.4rem;
+            }
+
+            .card {
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tools {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .filter-tools .ghost-btn {
+                width: 100%;
+            }
+
+            .task-list {
+                max-height: none;
+                padding-right: 0;
+            }
+
+            .question-box,
+            .result {
+                padding: 0.9rem;
+            }
+
+            .tax-item ul {
+                padding-left: 1rem;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .headline {
+                font-size: 1.7rem;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .kpi {
+                padding: 0.75rem;
+            }
+
+            .level-row {
+                gap: 0.35rem;
+            }
+
+            .task-item,
+            .question-box,
+            .tax-item {
+                padding: 0.75rem;
+            }
+
+            .detail-link {
+                justify-content: center;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -361,7 +451,7 @@
             <div class="level-progress" id="levelProgress"></div>
         </section>
 
-        <section class="card">
+        <section class="card" id="archiveBrowser">
             <h2>Archiv durchsuchen</h2>
             <p class="muted">Filtere nach Level, Sublevel und Thema oder suche direkt nach Aufgabeninhalt.</p>
             <div class="archive-layout">
@@ -768,6 +858,19 @@
             });
         }
 
+        function applyPlacementRecommendation(result) {
+            state.selectedLevel = result.estimatedLevel;
+            state.selectedSublevel = result.estimatedSublevel;
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection && archiveSection.scrollIntoView) {
+                archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function finishPlacement() {
             const fill = document.getElementById("testProgressFill");
             fill.style.width = "100%";
@@ -780,13 +883,22 @@
                 <h3>Dein Ergebnis</h3>
                 <p>Du hast <strong>${result.totalCorrect} von ${placementQuestions.length}</strong> Fragen korrekt beantwortet.</p>
                 <p>Empfohlener Einstieg: <strong>${levelName}</strong>, Sublevel <strong>${result.estimatedSublevel}</strong>.</p>
-                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level höher oder tiefer wechseln, je nachdem wie sicher du dich fühlst.</p>
+                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level hoeher oder tiefer wechseln, je nachdem wie sicher du dich fuehlst.</p>
+                <div class="result-actions">
+                    <button type="button" id="applyPlacementBtn">Empfohlenes Archiv oeffnen</button>
+                    <a class="detail-link" href="#archiveBrowser">Zum Archiv springen</a>
+                </div>
             `;
 
             document.getElementById("questionBox").innerHTML = `
                 <p><strong>Test abgeschlossen.</strong></p>
                 <p class="muted">Wenn du den Test erneut starten willst, klicke unten.</p>
             `;
+
+            const applyPlacementBtn = document.getElementById("applyPlacementBtn");
+            applyPlacementBtn.addEventListener("click", () => {
+                applyPlacementRecommendation(result);
+            });
 
             const startBtn = document.getElementById("startTestBtn");
             startBtn.textContent = "Test neu starten";
