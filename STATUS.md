@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current state
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 600 archive tasks (100 per level), cleaner homepage video entry links, and now a completed audit/migration of active 5-level wording remnants.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 3.120 archive tasks (520 per level), cleaner homepage video entry links, completed active 5-level wording migration, and now a first authoring/QA foundation for safer archive growth.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -9,27 +9,30 @@ Long-term target remains unchanged and explicitly active:
 - 30.000 items overall
 
 Current implementation status:
-- Early scalable foundation (not final archive volume)
+- Expanded scalable foundation (not final archive volume)
 - Architecture is designed for further growth without major restructuring
 - Homepage video cards now provide direct topic-based YouTube entry points instead of generic channel-only links
 - Active level framing now consistently reflects the 6-level target through Level 6 ("Forschung & Simulation")
+- Archive authoring now has a documented seed-task template and a runnable QA check for taxonomy/data integrity
 
 ## Last completed task
-Completed the highest-priority open P1 task from BACKLOG.md:
-- Audited active website/app files for old 5-level structure wording and migrated remaining active wording to the 6-level framing.
-- Updated app metadata wording in `app/index.html` from "Ingenieur-Level" to "Forschung & Simulation".
-- Updated landing metadata/section wording in `index.html` from "bis zum Ingenieur" style phrasing to "bis zur Forschung & Simulation" where it represented the learning-range claim.
-- Kept scope focused to this single P1 migration task; no layout redesign and no broad feature work in this run.
+Completed the next highest-priority open task from BACKLOG.md (P2 task generation workstream):
+- Added `ARCHIVE_AUTHORING.md` with a reusable seed-task template, field rules, series template, and QA usage guidance.
+- Added `tools/archive-qa.js`, a runnable QA script that validates archive structure, task fields, duplicate IDs, level/sublevel taxonomy consistency, allowed values, and placement question integrity.
+- Kept the change focused to authoring and QA infrastructure only; no archive UI redesign and no content expansion in this run.
 
 ## Last validation
-- `rg -n "Ingenieur-Level|bis zum Ingenieur|bis zur Forschung" -S index.html app/index.html`
-- `rg -n "\\[x\\] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system" BACKLOG.md`
-- `git diff -- index.html app/index.html BACKLOG.md STATUS.md`
-- Static review confirmed the visual identity is unchanged and updates are wording-level consistency fixes only.
+- `node tools/archive-qa.js`
+- QA result:
+  - tasks: 3120
+  - placement questions: 30
+  - level distribution: 520 tasks for each level 1-6
+  - overall result: OK
+- Static review confirmed the new files are additive infrastructure and do not change the live website layout.
 
 ## Files touched in last task
-- `index.html`
-- `app/index.html`
+- `ARCHIVE_AUTHORING.md`
+- `tools/archive-qa.js`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -38,4 +41,4 @@ None.
 
 ## Next logical step
 Start the next highest-priority open task from P2:
-- Curriculum expansion workstream toward 3.000+ curated tasks while preserving quality and scalability toward 5.000 tasks per level.
+- Deep sublevel workstream: expand hierarchical taxonomy where pedagogically meaningful.
