@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 600 archive tasks (100 per level) for this iteration.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 600 archive tasks (100 per level), and now a cleaner homepage video entry section that links directly to existing YouTube topic results.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -11,34 +11,21 @@ Long-term target remains unchanged and explicitly active:
 Current implementation status:
 - Early scalable foundation (not final archive volume)
 - Architecture is designed for further growth without major restructuring
+- Homepage video cards now provide direct topic-based YouTube entry points instead of generic channel-only links
 
 ## Last completed task
-Expanded the archive milestone from starter scope to 600 tasks total while preserving the scalable architecture:
-- scalable task data model + taxonomy for L1-L6 with hierarchical sublevels
-- generated task corpus with 100 tasks per level (600 total) from structured seed content
-- new archive interface with level/sublevel/topic filters, search, and task detail view
-- new placement test flow with 30 questions, progress tracking, scoring, and level/sublevel recommendation
+Completed the highest-priority open P1 task from BACKLOG.md:
+- Added a cleaner homepage video section behavior in `index.html` by linking the three featured video cards to existing YouTube topic search results on the official channel (`Resonanz`, `Fourier-Transformation`, `Mathe Trick`).
+- Removed repeated inline link styling from the video cards by moving link presentation to the reusable `.video-card` CSS rule.
+- Kept scope limited to this single P1 task and did not modify unrelated platform sections.
 
 ## Last validation
-- `rg -n "buildTaskArchive|tasks: buildTaskArchive|targetPerLevel|targetTotal|placementQuestions" app/data/archive-content.js app/lernarchiv.html`
-- `node -e "..."` runtime check on `app/data/archive-content.js`:
-  - total tasks: 600
-  - distribution: 100 tasks for each level 1-6
-- manual diff review for:
-  - `app/data/archive-content.js`
-  - `app/lernarchiv.html`
-  - `index.html`
-  - `BACKLOG.md`
-  - `STATUS.md`
-- static logic validation by inspection:
-  - archive filters and search use shared scalable task dataset
-  - placement test runs one question at a time for 30 questions
-  - result maps to plausible level + sublevel recommendation
-  - progress display shows current vs target (5.000/level, 30.000 total)
+- `rg -n 'id="videos"|Second-OrderResonance/search\\?query=Resonanz|Second-OrderResonance/search\\?query=Fourier-Transformation|Second-OrderResonance/search\\?query=Mathe%20Trick|section-subtitle' index.html`
+- `rg -n '\\[x\\] Add a clean video section linking existing YouTube videos' BACKLOG.md`
+- `git diff -- index.html BACKLOG.md`
+- Static review confirmed the homepage visual language is preserved and the video section now points users to existing channel content by topic.
 
 ## Files touched in last task
-- `app/data/archive-content.js`
-- `app/lernarchiv.html`
 - `index.html`
 - `BACKLOG.md`
 - `STATUS.md`
@@ -47,7 +34,5 @@ Expanded the archive milestone from starter scope to 600 tasks total while prese
 None.
 
 ## Next logical step
-Execute the next major expansion workstreams:
-- curriculum expansion with quality control toward the 30.000 target
-- deeper sublevel structure where needed
-- streak/progress integration across archive and placement flow
+Complete the remaining open P1 task:
+- Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system.
