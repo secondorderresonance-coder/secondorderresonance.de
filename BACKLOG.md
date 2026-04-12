@@ -24,7 +24,7 @@
 - [x] Expand archive content to 100 tasks per level (600 total) using scalable generation architecture
 - [x] Ensure TikTok link is visible in the social/media area
 - [x] Add a clean video section linking existing YouTube videos
-- [ ] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
+- [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
 - [ ] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
@@ -34,9 +34,13 @@
 - [ ] Add level/sublevel deep links and saved filter state in the archive UI
 - [ ] Improve mobile layout of archive and placement sections after real-device pass
 - [ ] Add placement result handoff to recommended archive filter preset
+- [ ] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
 ## P3
 - [ ] Prepare local progress architecture for future XP and streak systems
 - [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
 - [ ] Add achievement placeholder architecture without overbuilding
 - [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [ ] Define SOR account and sync architecture for future iOS/Android app login
+- [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
