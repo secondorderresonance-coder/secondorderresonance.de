@@ -151,6 +151,27 @@
             margin-bottom: 0.9rem;
         }
 
+        .filter-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .ghost-btn {
+            width: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.18);
+            color: var(--text);
+            padding: 0.55rem 0.9rem;
+        }
+
+        .ghost-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem; }
 
         select, input, button {
@@ -213,6 +234,24 @@
             background: rgba(255, 255, 255, 0.08);
             font-size: 0.78rem;
             color: var(--text-muted);
+        }
+
+        .detail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            border-radius: 999px;
+            padding: 0.45rem 0.9rem;
+            text-decoration: none;
+            background: rgba(233, 69, 96, 0.12);
+            border: 1px solid rgba(233, 69, 96, 0.35);
+            color: var(--text);
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .detail-link:hover {
+            background: rgba(233, 69, 96, 0.2);
         }
 
         .test-flow {
@@ -345,7 +384,10 @@
                             <input id="searchInput" type="search" placeholder="z.B. Exponentielles Verhalten">
                         </div>
                     </div>
-                    <p class="muted" id="resultCount"></p>
+                    <div class="filter-tools">
+                        <p class="muted" id="resultCount"></p>
+                        <button type="button" class="ghost-btn" id="copyFilterLinkBtn">Filter-Link kopieren</button>
+                    </div>
                     <div class="task-list" id="taskList"></div>
                 </div>
                 <div class="detail card" id="taskDetail">
@@ -380,6 +422,7 @@
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
         const placementQuestions = data.placementQuestions.slice();
+        const ARCHIVE_STATE_KEY = "sor-archive-filters";
 
         const state = {
             selectedLevel: "all",
@@ -391,6 +434,80 @@
             testIndex: 0,
             testAnswers: []
         };
+
+        function applyFilterState(nextState) {
+            state.selectedLevel = nextState.selectedLevel || "all";
+            state.selectedSublevel = nextState.selectedSublevel || "all";
+            state.selectedTopic = nextState.selectedTopic || "all";
+            state.search = nextState.search || "";
+            state.activeTaskId = nextState.activeTaskId || null;
+        }
+
+        function readFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("search") || "",
+                activeTaskId: params.get("task") || null
+            };
+        }
+
+        function readSavedFilterState() {
+            try {
+                const raw = localStorage.getItem(ARCHIVE_STATE_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function saveFilterState() {
+            try {
+                localStorage.setItem(ARCHIVE_STATE_KEY, JSON.stringify({
+                    selectedLevel: state.selectedLevel,
+                    selectedSublevel: state.selectedSublevel,
+                    selectedTopic: state.selectedTopic,
+                    search: state.search,
+                    activeTaskId: state.activeTaskId
+                }));
+            } catch (error) {
+                return;
+            }
+        }
+
+        function syncUrlFromState() {
+            const params = new URLSearchParams();
+            if (state.selectedLevel !== "all") params.set("level", state.selectedLevel);
+            if (state.selectedSublevel !== "all") params.set("sublevel", state.selectedSublevel);
+            if (state.selectedTopic !== "all") params.set("topic", state.selectedTopic);
+            if (state.search) params.set("search", state.search);
+            if (state.activeTaskId) params.set("task", state.activeTaskId);
+            const query = params.toString();
+            const nextUrl = query ? `${window.location.pathname}?${query}${window.location.hash}` : `${window.location.pathname}${window.location.hash}`;
+            window.history.replaceState({}, "", nextUrl);
+        }
+
+        function refreshArchiveView() {
+            renderFilters();
+            renderTaskList();
+            saveFilterState();
+            syncUrlFromState();
+        }
+
+        function copyCurrentFilterLink() {
+            const href = window.location.href;
+            const feedback = document.getElementById("resultCount");
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(href).then(() => {
+                    feedback.textContent = "Filter-Link kopiert.";
+                    window.setTimeout(() => renderTaskList(), 1200);
+                });
+                return;
+            }
+            feedback.textContent = href;
+        }
 
         function levelLabel(level) {
             const item = data.taxonomy.find(t => t.level === level);
@@ -427,6 +544,7 @@
             const levelSelect = document.getElementById("levelFilter");
             const sublevelSelect = document.getElementById("sublevelFilter");
             const topicSelect = document.getElementById("topicFilter");
+            const searchInput = document.getElementById("searchInput");
 
             levelSelect.innerHTML = `<option value="all">Alle Level</option>` + data.taxonomy
                 .map(t => `<option value="${t.level}">${t.code} - ${t.title}</option>`)
@@ -445,11 +563,23 @@
             }
             sublevelSelect.value = state.selectedSublevel;
 
-            const topics = Array.from(new Set(tasks.map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
-            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + topics
+            const visibleTopics = Array.from(new Set(filteredTasksForCurrentLevel().map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
+            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + visibleTopics
                 .map(topic => `<option value="${topic}">${topic}</option>`)
                 .join("");
+            if (!visibleTopics.includes(state.selectedTopic)) {
+                state.selectedTopic = "all";
+            }
             topicSelect.value = state.selectedTopic;
+            searchInput.value = state.search;
+        }
+
+        function filteredTasksForCurrentLevel() {
+            return tasks.filter(task => {
+                if (state.selectedLevel !== "all" && task.level !== state.selectedLevel) return false;
+                if (state.selectedSublevel !== "all" && task.sublevel !== state.selectedSublevel) return false;
+                return true;
+            });
         }
 
         function filteredTasks() {
@@ -495,10 +625,29 @@
                     state.activeTaskId = el.getAttribute("data-id");
                     renderTaskList();
                     renderTaskDetail();
+                    saveFilterState();
+                    syncUrlFromState();
                 });
             });
 
             renderTaskDetail();
+        }
+
+        const appTopicAliases = {
+            "1": { Bruchrechnung: "Bruchrechnung", Prozentrechnung: "Prozente", Geometrie: "Geometrie", Dreisatz: "Dreisatz" },
+            "2": { "Gleichungen lösen und umstellen": "Gleichungen", Funktionen: "Funktionen", "Exponentielles Verhalten": "Potenzen" },
+            "3": { Analysis: "Ableitungen", Kurvendiskussion: "Ableitungen", Stochastik: "Stochastik", Vektoren: "Vektoren" },
+            "4": { "Lineare Algebra": "Lineare Algebra", Matrizen: "Lineare Algebra", Differentialgleichungen: "DGL" },
+            "5": { Fourier: "Fourier", Laplace: "Laplace", Resonanz: "Resonanz", Regelungstechnik: "Regelungstechnik", Signale: "Fourier" },
+            "6": { "Partielle DGL": "Partielle DGL", Stochastik: "Stochastik", Numerik: "Numerik", FEM: "FEM", Optimierung: "Optimierung" }
+        };
+
+        function buildAppExerciseHref(task) {
+            const params = new URLSearchParams();
+            params.set("level", task.level);
+            const topic = appTopicAliases[task.level] ? appTopicAliases[task.level][task.topic] : "";
+            if (topic) params.set("topic", topic);
+            return `./index.html?${params.toString()}#level-${task.level}`;
         }
 
         function renderTaskDetail() {
@@ -530,6 +679,12 @@
                     <strong>Tags</strong>
                     <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
                 </div>
+                <div class="detail-block">
+                    <strong>Weiterlernen</strong>
+                    <div class="pill-row">
+                        <a class="detail-link" href="${buildAppExerciseHref(task)}">Passende App-Uebung</a>
+                    </div>
+                </div>
             `;
         }
 
@@ -539,7 +694,7 @@
                     <strong>${level.code} - ${level.title}</strong>
                     <div class="muted">${level.description}</div>
                     <ul>
-                        ${level.sublevels.map(sub => `<li>${sub.id} - ${sub.title}</li>`).join("")}
+                        ${level.sublevels.map(sub => { const depth = Math.max(0, sub.id.split(".").length - 2); return `<li style="padding-left:${depth * 1.1}rem">${sub.id} - ${sub.title}</li>`; }).join("")}
                     </ul>
                 </div>
             `).join("");
@@ -652,38 +807,47 @@
             const topicFilter = document.getElementById("topicFilter");
             const searchInput = document.getElementById("searchInput");
             const startTestBtn = document.getElementById("startTestBtn");
+            const copyFilterLinkBtn = document.getElementById("copyFilterLinkBtn");
 
             levelFilter.addEventListener("change", (e) => {
                 state.selectedLevel = e.target.value;
-                renderFilters();
-                renderTaskList();
+                refreshArchiveView();
             });
 
             sublevelFilter.addEventListener("change", (e) => {
                 state.selectedSublevel = e.target.value;
-                renderTaskList();
+                refreshArchiveView();
             });
 
             topicFilter.addEventListener("change", (e) => {
                 state.selectedTopic = e.target.value;
-                renderTaskList();
+                refreshArchiveView();
             });
 
             searchInput.addEventListener("input", (e) => {
                 state.search = e.target.value.trim();
-                renderTaskList();
+                refreshArchiveView();
             });
 
             startTestBtn.addEventListener("click", () => {
                 startPlacement();
             });
+
+            copyFilterLinkBtn.addEventListener("click", () => {
+                copyCurrentFilterLink();
+            });
         }
+
+        applyFilterState(readSavedFilterState() || {});
+        applyFilterState(readFilterStateFromUrl());
 
         renderTopProgress();
         renderFilters();
         renderTaskList();
         renderTaxonomy();
         bindEvents();
+        saveFilterState();
+        syncUrlFromState();
     </script>
 </body>
 </html>

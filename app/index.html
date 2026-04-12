@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MathLevel - Interaktiv Mathe lernen | Second-Order Resonance</title>
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Ingenieur-Level mit Übungen und Erklärungen.">
+    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Forschung & Simulation mit Übungen und Erklärungen.">
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -1085,15 +1085,30 @@
             return true;
         }
 
-        function openLevelFromHash() {
-            const match = window.location.hash.match(/^#level-([1-6])$/);
-            if (!match) return;
-            const levelIdx = Number(match[1]) - 1;
+        function openFromLocation() {
+            const params = new URLSearchParams(window.location.search);
+            const levelFromSearch = params.get('level');
+            const hashMatch = window.location.hash.match(/^#level-([1-6])$/);
+            const levelValue = levelFromSearch || (hashMatch ? hashMatch[1] : null);
+            if (!levelValue) return;
+
+            const levelIdx = Number(levelValue) - 1;
+            if (!Number.isInteger(levelIdx) || levelIdx < 0 || levelIdx > 5) return;
+
             const opened = selectLevel(levelIdx);
-            if (opened) {
-                const target = document.getElementById('exerciseCard');
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (!opened) return;
+
+            const requestedTopic = params.get('topic');
+            if (requestedTopic && exercises[levelIdx].topics.includes(requestedTopic)) {
+                state.topic = requestedTopic;
+                state.questionIdx = 0;
+                state.answered = false;
+                renderTopics();
+                renderExercise();
             }
+
+            const target = document.getElementById('exerciseCard');
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function renderTopics() {
@@ -1208,15 +1223,10 @@
         renderExercise();
         updateStats();
         renderAchievements();
-        openLevelFromHash();
-        window.addEventListener('hashchange', openLevelFromHash);
+        openFromLocation();
+        window.addEventListener('hashchange', openFromLocation);
     </script>
 
 </body>
 </html>
-
-
-
-
-
 

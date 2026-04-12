@@ -7,8 +7,8 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 100 Aufgaben pro Level in dieser Iteration
-- 600 Aufgaben insgesamt aktuell verfuegbar
+- 520 Aufgaben pro Level in dieser Iteration
+- 3.120 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -23,20 +23,25 @@
 - [x] Show transparent archive progress (current task count vs 5.000/level and 30.000 total)
 - [x] Expand archive content to 100 tasks per level (600 total) using scalable generation architecture
 - [x] Ensure TikTok link is visible in the social/media area
-- [ ] Add a clean video section linking existing YouTube videos
-- [ ] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
+- [x] Add a clean video section linking existing YouTube videos
+- [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
-- [ ] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
-- [ ] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
-- [ ] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
-- [ ] Connect archive content more clearly with app exercises
-- [ ] Add level/sublevel deep links and saved filter state in the archive UI
+- [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
+- [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
+- [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
+- [x] Connect archive content more clearly with app exercises
+- [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [ ] Improve mobile layout of archive and placement sections after real-device pass
 - [ ] Add placement result handoff to recommended archive filter preset
+- [ ] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
 ## P3
 - [ ] Prepare local progress architecture for future XP and streak systems
 - [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
 - [ ] Add achievement placeholder architecture without overbuilding
 - [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [ ] Define SOR account and sync architecture for future iOS/Android app login
+- [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+
