@@ -35,7 +35,7 @@ window.SOR_ARCHIVE = {
             level: "1",
             code: "L1",
             title: "Grundlagen",
-            description: "Grundschule und Unterstufe",
+            description: "Grundschule & Unterstufe",
             sublevels: [
                 { id: "1.1", title: "Zahlen und Rechenregeln" },
                 { id: "1.1.1", title: "Grundrechenarten" },
@@ -47,7 +47,7 @@ window.SOR_ARCHIVE = {
             level: "2",
             code: "L2",
             title: "Aufbauwissen",
-            description: "Unter- und Mittelstufe",
+            description: "Unter- & Mittelstufe",
             sublevels: [
                 { id: "2.1", title: "Terme und Gleichungen" },
                 { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
@@ -59,7 +59,7 @@ window.SOR_ARCHIVE = {
             level: "3",
             code: "L3",
             title: "Vertiefung",
-            description: "Oberstufe und Schulabschlussniveau",
+            description: "Oberstufe / Schulabschlussniveau",
             sublevels: [
                 { id: "3.1", title: "Analysis" },
                 { id: "3.1.1", title: "Ableitung und Kurvendiskussion" },
@@ -81,7 +81,7 @@ window.SOR_ARCHIVE = {
             level: "5",
             code: "L5",
             title: "Angewandte Mathematik",
-            description: "Fortgeschrittenes Studium",
+            description: "fortgeschrittenes Studium",
             sublevels: [
                 { id: "5.1", title: "Signale und Transformationen" },
                 { id: "5.1.1", title: "Fourier und Laplace" },
@@ -91,8 +91,8 @@ window.SOR_ARCHIVE = {
         {
             level: "6",
             code: "L6",
-            title: "Forschung und Simulation",
-            description: "Wissenschaft und Spezialisierung",
+            title: "Forschung & Simulation",
+            description: "Wissenschaft / Spezialisierung",
             sublevels: [
                 { id: "6.1", title: "Numerische Simulation" },
                 { id: "6.1.1", title: "FEM und PDE" },
@@ -610,7 +610,7 @@ window.SOR_ARCHIVE = {
             type: "konzeptfrage",
             estimatedTime: 3
         }
-    ], 100),
+    ], 400),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
         { id: "P02", level: "1", sublevel: "1.1.2", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },

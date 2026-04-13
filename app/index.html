@@ -446,15 +446,15 @@
             </button>
             <button class="level-btn l4" onclick="selectLevel(3)">
                 <span class="level-num">4</span>
-                <span class="level-name">Uni-Grundl.</span>
+                <span class="level-name">Universitätsgrundlagen</span>
             </button>
             <button class="level-btn l5" onclick="selectLevel(4)">
                 <span class="level-num">5</span>
-                <span class="level-name">Angew. Mathe</span>
+                <span class="level-name">Angewandte Mathematik</span>
             </button>
             <button class="level-btn l6" onclick="selectLevel(5)">
                 <span class="level-num">6</span>
-                <span class="level-name">Forschung</span>
+                <span class="level-name">Forschung & Simulation</span>
             </button>
         </div>
 
@@ -584,7 +584,7 @@
                     }
                 ]
             },
-            1: { // Level 2 - Mittelstufe
+            1: { // Level 2 - Aufbauwissen
                 topics: ["Gleichungen", "Funktionen", "Trigonometrie", "Potenzen"],
                 questions: [
                     {
@@ -652,7 +652,7 @@
                     }
                 ]
             },
-            2: { // Level 3 - Oberstufe
+            2: { // Level 3 - Vertiefung
                 topics: ["Ableitungen", "Integrale", "Stochastik", "Vektoren"],
                 questions: [
                     {
@@ -720,7 +720,7 @@
                     }
                 ]
             },
-            3: { // Level 4 - Uni
+            3: { // Level 4 - Universitätsgrundlagen
                 topics: ["Lineare Algebra", "DGL", "Komplexe Zahlen", "Reihen"],
                 questions: [
                     {
@@ -1024,7 +1024,7 @@
         }
 
         function renderLevelButtons() {
-            const levelNames = ['Grundlagen', 'Aufbauwissen', 'Vertiefung', 'Uni-Grundl.', 'Angew. Mathe', 'Forschung'];
+            const levelNames = ['Grundlagen', 'Aufbauwissen', 'Vertiefung', 'Universitätsgrundlagen', 'Angewandte Mathematik', 'Forschung & Simulation'];
             document.querySelectorAll('.level-btn').forEach((btn, i) => {
                 const unlocked = isLevelUnlocked(i);
                 btn.classList.toggle('locked', !unlocked);

@@ -7,8 +7,8 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 100 Aufgaben pro Level in dieser Iteration
-- 600 Aufgaben insgesamt aktuell verfuegbar
+- 400 Aufgaben pro Level in dieser Iteration
+- 2.400 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -24,7 +24,7 @@
 - [x] Expand archive content to 100 tasks per level (600 total) using scalable generation architecture
 - [x] Ensure TikTok link is visible in the social/media area
 - [x] Add a clean video section linking existing YouTube videos
-- [ ] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
+- [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
 - [ ] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
