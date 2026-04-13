@@ -393,6 +393,7 @@
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
         const placementQuestions = data.placementQuestions.slice();
+        const FILTER_STATE_KEY = "sor-archive-filters-v1";
 
         const state = {
             selectedLevel: "all",
@@ -405,6 +406,106 @@
             testAnswers: []
         };
 
+        function validLevels() {
+            return new Set(data.taxonomy.map(t => String(t.level)));
+        }
+
+        function validTopics() {
+            return new Set(tasks.map(t => String(t.topic)));
+        }
+
+        function validSublevelsForLevel(level) {
+            const visible = data.taxonomy
+                .filter(t => level === "all" || t.level === level)
+                .flatMap(t => t.sublevels.map(s => s.id));
+            return new Set(visible);
+        }
+
+        function normalizeFilterState(candidate) {
+            const levels = validLevels();
+            const topics = validTopics();
+
+            const normalizedLevel = levels.has(String(candidate.selectedLevel)) ? String(candidate.selectedLevel) : "all";
+            const sublevels = validSublevelsForLevel(normalizedLevel);
+            const normalizedSublevel = sublevels.has(String(candidate.selectedSublevel)) ? String(candidate.selectedSublevel) : "all";
+            const normalizedTopic = topics.has(String(candidate.selectedTopic)) ? String(candidate.selectedTopic) : "all";
+            const normalizedSearch = String(candidate.search || "").trim();
+
+            return {
+                selectedLevel: normalizedLevel,
+                selectedSublevel: normalizedSublevel,
+                selectedTopic: normalizedTopic,
+                search: normalizedSearch
+            };
+        }
+
+        function loadFilterStateFromStorage() {
+            try {
+                const rawState = localStorage.getItem(FILTER_STATE_KEY);
+                if (!rawState) return null;
+                return JSON.parse(rawState);
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function loadFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const hasAny = params.has("level") || params.has("sublevel") || params.has("topic") || params.has("q");
+            if (!hasAny) return null;
+
+            return {
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("q") || ""
+            };
+        }
+
+        function applyFilterState(candidate) {
+            const merged = normalizeFilterState({
+                selectedLevel: candidate.selectedLevel ?? state.selectedLevel,
+                selectedSublevel: candidate.selectedSublevel ?? state.selectedSublevel,
+                selectedTopic: candidate.selectedTopic ?? state.selectedTopic,
+                search: candidate.search ?? state.search
+            });
+
+            state.selectedLevel = merged.selectedLevel;
+            state.selectedSublevel = merged.selectedSublevel;
+            state.selectedTopic = merged.selectedTopic;
+            state.search = merged.search;
+        }
+
+        function hydrateFilterState() {
+            const fromStorage = loadFilterStateFromStorage();
+            if (fromStorage) applyFilterState(fromStorage);
+
+            const fromUrl = loadFilterStateFromUrl();
+            if (fromUrl) applyFilterState(fromUrl);
+        }
+
+        function persistFilterState() {
+            const snapshot = {
+                selectedLevel: state.selectedLevel,
+                selectedSublevel: state.selectedSublevel,
+                selectedTopic: state.selectedTopic,
+                search: state.search
+            };
+
+            try {
+                localStorage.setItem(FILTER_STATE_KEY, JSON.stringify(snapshot));
+            } catch (_err) {}
+
+            const params = new URLSearchParams(window.location.search);
+            if (snapshot.selectedLevel !== "all") params.set("level", snapshot.selectedLevel); else params.delete("level");
+            if (snapshot.selectedSublevel !== "all") params.set("sublevel", snapshot.selectedSublevel); else params.delete("sublevel");
+            if (snapshot.selectedTopic !== "all") params.set("topic", snapshot.selectedTopic); else params.delete("topic");
+            if (snapshot.search) params.set("q", snapshot.search); else params.delete("q");
+
+            const query = params.toString();
+            const nextUrl = `${window.location.pathname}${query ? "?" + query : ""}${window.location.hash}`;
+            window.history.replaceState({}, "", nextUrl);
+        }
         function levelLabel(level) {
             const item = data.taxonomy.find(t => t.level === level);
             return item ? item.code + " - " + item.title : "Level " + level;
@@ -681,21 +782,25 @@
                 state.selectedLevel = e.target.value;
                 renderFilters();
                 renderTaskList();
+                persistFilterState();
             });
 
             sublevelFilter.addEventListener("change", (e) => {
                 state.selectedSublevel = e.target.value;
                 renderTaskList();
+                persistFilterState();
             });
 
             topicFilter.addEventListener("change", (e) => {
                 state.selectedTopic = e.target.value;
                 renderTaskList();
+                persistFilterState();
             });
 
             searchInput.addEventListener("input", (e) => {
                 state.search = e.target.value.trim();
                 renderTaskList();
+                persistFilterState();
             });
 
             startTestBtn.addEventListener("click", () => {
@@ -703,11 +808,14 @@
             });
         }
 
+        hydrateFilterState();
         renderTopProgress();
         renderFilters();
+        document.getElementById("searchInput").value = state.search;
         renderTaskList();
         renderTaxonomy();
         bindEvents();
+        persistFilterState();
     </script>
 </body>
 </html>
