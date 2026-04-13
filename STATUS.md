@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 2.400 archive tasks (400 per level) for this iteration.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.600 archive tasks (600 per level) for this iteration.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -13,24 +13,27 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Continued the highest-priority open P2 curriculum expansion workstream with one further focused slice:
-- increased the scalable archive expansion target from 300 to 400 tasks per level
-- expanded current available archive volume from 1.800 to 2.400 tasks total (L1-L6 each 400)
-- preserved the existing data model and generation architecture (no structural redesign)
-- updated milestone numbers in `BACKLOG.md` to reflect the new current state
+Completed the next highest-priority open P2 task: connect archive content more clearly with app exercises.
+- repaired malformed inline line breaks in the archive detail view styles/markup (removed literal `` `r`n `` artifacts)
+- added a clear call-to-action in archive task details: "In der App ueben"
+- wired that CTA to app deep links with level/topic handoff via query params (`./index.html?level=...&topic=...`)
+- extended the app entry logic so links from the archive open the matching level and preselect topic when available
+- marked the P2 task as complete in `BACKLOG.md`
 
 ## Last validation
-- `rg -n "\\],\\s*400\\),|tasks:\\s*buildTaskArchive|targetPerLevel|targetTotal" app/data/archive-content.js`
-- `node -e "..."` runtime check on `app/data/archive-content.js`:
-  - total tasks: 2400
-  - distribution: 400 tasks for each level 1-6
-- `git diff -- app/data/archive-content.js BACKLOG.md STATUS.md`
-- manual inspection:
-  - archive expansion remains data-driven via existing `buildTaskArchive` pipeline
-  - target values remain transparent (5.000/level and 30.000 total unchanged)
+- `rg -n -F '`r`n' app/lernarchiv.html app/index.html` (no matches after cleanup)
+- `rg -n "detail-actions|detail-link|createAppPracticeLink|In der App ueben" app/lernarchiv.html`
+- `rg -n "normalizeTopicForLevel|URLSearchParams\\(window.location.search\\)|selectTopic\\(topic, force" app/index.html`
+- `node --check` on extracted inline script from `app/lernarchiv.html`
+- `node --check` on extracted inline script from `app/index.html`
+- `node tools/archive-qa.js`:
+  - total tasks: 3600
+  - distribution: 600 tasks for each level 1-6
+  - QA passed
 
 ## Files touched in last task
-- `app/data/archive-content.js`
+- `app/lernarchiv.html`
+- `app/index.html`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -38,5 +41,5 @@ Continued the highest-priority open P2 curriculum expansion workstream with one 
 None.
 
 ## Next logical step
-Continue the same P2 workstream with another small quality-focused slice:
-- add additional curated seed tasks per level to increase conceptual variety while scaling toward 3.000+ tasks
+Continue with the next open P2 task:
+- add level/sublevel deep links and saved filter state in the archive UI

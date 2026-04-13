@@ -1085,14 +1085,38 @@
             return true;
         }
 
+        function normalizeTopicForLevel(levelIdx, topicFromLink) {
+            if (!topicFromLink) return null;
+            const topics = exercises[levelIdx].topics || [];
+            const needle = String(topicFromLink).trim().toLowerCase();
+            if (!needle) return null;
+            return topics.find(t => t.toLowerCase() === needle) || null;
+        }
+
         function openLevelFromHash() {
-            const match = window.location.hash.match(/^#level-([1-6])$/);
-            if (!match) return;
-            const levelIdx = Number(match[1]) - 1;
+            const hashMatch = window.location.hash.match(/^#level-([1-6])$/);
+            const params = new URLSearchParams(window.location.search);
+            const queryLevel = Number(params.get("level"));
+            const queryTopic = params.get("topic");
+
+            let levelIdx = null;
+            if (hashMatch) {
+                levelIdx = Number(hashMatch[1]) - 1;
+            } else if (Number.isInteger(queryLevel) && queryLevel >= 1 && queryLevel <= 6) {
+                levelIdx = queryLevel - 1;
+            }
+
+            if (levelIdx === null) return;
+
             const opened = selectLevel(levelIdx);
+            if (opened && queryTopic) {
+                const resolvedTopic = normalizeTopicForLevel(levelIdx, queryTopic);
+                if (resolvedTopic) selectTopic(resolvedTopic, true);
+            }
+
             if (opened) {
-                const target = document.getElementById('exerciseCard');
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const target = document.getElementById("exerciseCard");
+                if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
             }
         }
 
@@ -1104,8 +1128,8 @@
             ).join('');
         }
 
-        function selectTopic(topic) {
-            state.topic = state.topic === topic ? null : topic;
+        function selectTopic(topic, force = false) {
+            state.topic = force ? topic : (state.topic === topic ? null : topic);
             state.questionIdx = 0;
             state.answered = false;
             renderTopics();

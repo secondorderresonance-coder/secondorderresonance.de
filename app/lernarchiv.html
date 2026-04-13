@@ -214,6 +214,19 @@
             font-size: 0.78rem;
             color: var(--text-muted);
         }
+        .detail-actions { margin-top: 0.9rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .detail-link {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--accent);
+            color: #fff;
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 0.55rem 0.85rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .detail-link:hover { background: #ff5a78; border-color: #ff5a78; }
 
         .test-flow {
             margin-top: 1rem;
@@ -397,6 +410,14 @@
             return item ? item.code + " - " + item.title : "Level " + level;
         }
 
+        function createAppPracticeLink(task) {
+            const params = new URLSearchParams({
+                level: String(task.level),
+                topic: String(task.topic || "")
+            });
+            return `./index.html?${params.toString()}`;
+        }
+
         function renderTopProgress() {
             document.getElementById("kpiCurrent").textContent = tasks.length;
             document.getElementById("kpiTarget").textContent = data.targetTotal.toLocaleString("de-DE");
@@ -529,6 +550,9 @@
                 <div class="detail-block">
                     <strong>Tags</strong>
                     <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
+                </div>
+                <div class="detail-actions">
+                    <a class="detail-link" href="${createAppPracticeLink(task)}">In der App ueben</a>
                 </div>
             `;
         }

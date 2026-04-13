@@ -1,0 +1,14 @@
+﻿{
+  "id": "T-<LEVEL>-<SERIAL>",
+  "title": "Kurzer, praeziser Aufgabentitel",
+  "level": "<1-6>",
+  "sublevel": "<z.B. 3.2 oder 5.1.1>",
+  "topic": "<Thema>",
+  "tags": ["<tag-1>", "<tag-2>"],
+  "difficulty": "<leicht|mittel|schwer>",
+  "question": "Aufgabenstellung als klarer Satz",
+  "answer": "Erwartete Loesung",
+  "explanation": "Kurze, fachlich saubere Erklaerung",
+  "type": "<kurzantwort|konzeptfrage>",
+  "estimatedTime": 3
+}

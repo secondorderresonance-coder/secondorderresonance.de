@@ -39,6 +39,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "1.1", title: "Zahlen und Rechenregeln" },
                 { id: "1.1.1", title: "Grundrechenarten" },
+                { id: "1.1.1.a", title: "Kopfrechnen und Zahlgefühl" },
                 { id: "1.1.2", title: "Bruch- und Prozentrechnung" },
                 { id: "1.2", title: "Muster, Geometrie, Alltag" }
             ]
@@ -51,6 +52,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "2.1", title: "Terme und Gleichungen" },
                 { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
+                { id: "2.1.1.a", title: "Lineare Gleichungen mit Parametern" },
                 { id: "2.2", title: "Funktionen und Graphen" },
                 { id: "2.2.1", title: "Exponentielles Verhalten" }
             ]
@@ -63,6 +65,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "3.1", title: "Analysis" },
                 { id: "3.1.1", title: "Ableitung und Kurvendiskussion" },
+                { id: "3.1.1.a", title: "Ableitungsregeln kombiniert" },
                 { id: "3.2", title: "Stochastik und Vektoren" }
             ]
         },
@@ -74,6 +77,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "4.1", title: "Lineare Algebra" },
                 { id: "4.1.1", title: "Matrizen und Determinanten" },
+                { id: "4.1.1.a", title: "Matrizenoperationen in Systemform" },
                 { id: "4.2", title: "Analysis I und DGL" }
             ]
         },
@@ -85,6 +89,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "5.1", title: "Signale und Transformationen" },
                 { id: "5.1.1", title: "Fourier und Laplace" },
+                { id: "5.1.1.a", title: "Transformationen in Signalketten" },
                 { id: "5.2", title: "Systeme und Regelung" }
             ]
         },
@@ -96,6 +101,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "6.1", title: "Numerische Simulation" },
                 { id: "6.1.1", title: "FEM und PDE" },
+                { id: "6.1.1.a", title: "Diskretisierung von PDE-Modellen" },
                 { id: "6.2", title: "Stochastik und Optimierung" }
             ]
         }
@@ -161,7 +167,7 @@ window.SOR_ARCHIVE = {
             id: "T-1-005",
             title: "Punkt-vor-Strich",
             level: "1",
-            sublevel: "1.1.1",
+            sublevel: "1.1.1.a",
             topic: "Grundrechenarten",
             tags: ["reihenfolge", "regeln"],
             difficulty: "leicht",
@@ -187,10 +193,25 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-1-007",
+            title: "Einheiten umrechnen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Alltagsmathematik",
+            tags: ["einheiten", "alltag"],
+            difficulty: "leicht",
+            question: "Wandle 2,5 m in Zentimeter um.",
+            answer: "250 cm",
+            explanation: "1 m = 100 cm, also 2,5 * 100 = 250 cm.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
             id: "T-2-001",
             title: "Lineare Gleichung lösen",
             level: "2",
-            sublevel: "2.1.1",
+            sublevel: "2.1.1.a",
             topic: "Gleichungen lösen und umstellen",
             tags: ["gleichung", "termumformung"],
             difficulty: "mittel",
@@ -272,10 +293,25 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-2-007",
+            title: "Lineare Funktion aus Steigung und Punkt",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen",
+            tags: ["linear", "funktionsgleichung"],
+            difficulty: "mittel",
+            question: "Bestimme die Gerade mit m=2 durch den Punkt (1,3).",
+            answer: "f(x)=2x+1",
+            explanation: "Ansatz y=mx+b. Mit 3=2*1+b folgt b=1.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
             level: "3",
-            sublevel: "3.1.1",
+            sublevel: "3.1.1.a",
             topic: "Analysis",
             tags: ["ableitung", "potenzregel"],
             difficulty: "mittel",
@@ -357,10 +393,25 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-3-007",
+            title: "Erwartungswert Binomialverteilung",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik",
+            tags: ["binomial", "erwartungswert"],
+            difficulty: "mittel",
+            question: "Bei X~B(n=20,p=0,3): Wie gross ist E(X)?",
+            answer: "6",
+            explanation: "Fuer Binomialverteilung gilt E(X)=n*p=20*0,3=6.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
             id: "T-4-001",
             title: "Determinante 2x2",
             level: "4",
-            sublevel: "4.1.1",
+            sublevel: "4.1.1.a",
             topic: "Lineare Algebra",
             tags: ["determinante", "matrix"],
             difficulty: "mittel",
@@ -442,6 +493,21 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-4-007",
+            title: "Konjugiert komplex multiplizieren",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Komplexe Zahlen",
+            tags: ["komplex", "konjugiert"],
+            difficulty: "mittel",
+            question: "Berechne (2+3i)(2-3i).",
+            answer: "13",
+            explanation: "Produkt mit Konjugierten: a^2+b^2 = 2^2+3^2 = 13.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
             id: "T-5-001",
             title: "Fourier-Idee",
             level: "5",
@@ -459,7 +525,7 @@ window.SOR_ARCHIVE = {
             id: "T-5-002",
             title: "Laplace von Konstante",
             level: "5",
-            sublevel: "5.1.1",
+            sublevel: "5.1.1.a",
             topic: "Laplace",
             tags: ["laplace", "standard"],
             difficulty: "mittel",
@@ -527,10 +593,25 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-5-007",
+            title: "Nyquist-Idee",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["nyquist", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Wozu dient das Nyquist-Kriterium in der Regelungstechnik?",
+            answer: "Zur Beurteilung der Stabilitaet des geschlossenen Regelkreises",
+            explanation: "Aus dem Frequenzgang des offenen Kreises wird auf Stabilitaet geschlossen.",
+            type: "konzeptfrage",
+            estimatedTime: 4
+        },
+
+        {
             id: "T-6-001",
             title: "PDE-Klassifikation",
             level: "6",
-            sublevel: "6.1.1",
+            sublevel: "6.1.1.a",
             topic: "Partielle DGL",
             tags: ["pde", "klassifikation"],
             difficulty: "schwer",
@@ -609,8 +690,22 @@ window.SOR_ARCHIVE = {
             explanation: "Feineres Gitter verbessert die Approximation der kontinuierlichen Lösung.",
             type: "konzeptfrage",
             estimatedTime: 3
-        }
-    ], 400),
+        },
+        {
+            id: "T-6-007",
+            title: "Monte-Carlo-Fehlerordnung",
+            level: "6",
+            sublevel: "6.1",
+            topic: "Numerik",
+            tags: ["monte-carlo", "fehler"],
+            difficulty: "schwer",
+            question: "Wie skaliert der Standardfehler bei Monte-Carlo typischerweise mit N Stichproben?",
+            answer: "Proportional zu 1/sqrt(N)",
+            explanation: "Der statistische Fehler sinkt mit der Wurzel der Stichprobengroesse.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+    ], 600),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
         { id: "P02", level: "1", sublevel: "1.1.2", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
