@@ -36,6 +36,7 @@
 - [ ] Add placement result handoff to recommended archive filter preset
 
 ## P3
+- [x] Add local account creation/login with per-account local progress storage (local-first foundation)
 - [ ] Prepare local progress architecture for future XP and streak systems
 - [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
 - [ ] Add achievement placeholder architecture without overbuilding

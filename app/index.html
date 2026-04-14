@@ -74,6 +74,70 @@
         .xp-text { font-size: 0.85rem; color: var(--gold); }
         .streak { font-size: 0.9rem; }
 
+        .account-panel {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .account-title {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .account-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto auto;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .account-input {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            padding: 0.55rem 0.65rem;
+            font: inherit;
+        }
+
+        .account-btn {
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 0.55rem 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .account-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .account-btn:hover { filter: brightness(1.08); }
+
+        .account-status {
+            margin-top: 0.55rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .account-badge {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
         /* Main Layout */
         .app-main {
             max-width: 800px;
@@ -389,6 +453,8 @@
             .level-btn { padding: 0.7rem 0.5rem; }
             .math-expression { font-size: 1.5rem; }
             .achievements-grid { grid-template-columns: repeat(3, 1fr); }
+            .account-row { grid-template-columns: 1fr; }
+            .account-badge { display: none; }
         }
     </style>
 </head>
@@ -407,9 +473,22 @@
             <span class="xp-text" id="xpText">150 XP</span>
         </div>
         <div class="streak" id="streak">3 Tage</div>
+        <div class="account-badge" id="accountBadge">Kein Account</div>
     </header>
 
     <main class="app-main">
+
+        <section class="account-panel">
+            <div class="account-title">Account</div>
+            <div class="account-row">
+                <input id="accountName" class="account-input" type="text" placeholder="Nutzername" autocomplete="username">
+                <input id="accountPassword" class="account-input" type="password" placeholder="Passwort" autocomplete="current-password">
+                <button id="accountRegisterBtn" class="account-btn primary" type="button">Registrieren</button>
+                <button id="accountLoginBtn" class="account-btn" type="button">Anmelden</button>
+                <button id="accountLogoutBtn" class="account-btn" type="button">Abmelden</button>
+            </div>
+            <div id="accountStatus" class="account-status">Kein Account aktiv. Fortschritt wird erst nach Anmeldung gespeichert.</div>
+        </section>
 
         <!-- Stats -->
         <div class="stats-bar">
@@ -967,58 +1046,84 @@
         };
 
         // App State
-        let state = {
-            level: 0,
-            topic: null,
-            questionIdx: 0,
-            correct: 0,
-            total: 0,
-            xp: 0,
-            streak: 0,
-            lastSessionDate: null,
-            earnedAchievements: [],
-            answered: false
-        };
+        function createInitialState() {
+            return {
+                level: 0,
+                topic: null,
+                questionIdx: 0,
+                correct: 0,
+                total: 0,
+                xp: 0,
+                streak: 0,
+                lastSessionDate: null,
+                earnedAchievements: [],
+                answered: false
+            };
+        }
 
-        // Load saved state
-        try {
-            const saved = localStorage.getItem('mathlevel-state');
-            if (saved) {
-                const s = JSON.parse(saved);
-                state.correct = s.correct || 0;
-                state.total = s.total || 0;
-                state.xp = s.xp || 0;
-                state.streak = s.streak || 0;
-                state.lastSessionDate = s.lastSessionDate || null;
-                state.earnedAchievements = s.earnedAchievements || [];
+        let state = createInitialState();
 
-                // Reset streak if last session was more than 1 day ago
-                const today = new Date().toISOString().slice(0, 10);
-                const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-                if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {
-                    state.streak = 0;
-                }
+        const ACCOUNT_STORE_KEY = 'mathlevel-accounts-v1';
+        let accountStore = { accounts: {}, current: null };
+        let currentAccountId = null;
+
+        function getStateSnapshot() {
+            return {
+                correct: state.correct,
+                total: state.total,
+                xp: state.xp,
+                streak: state.streak,
+                lastSessionDate: state.lastSessionDate,
+                earnedAchievements: state.earnedAchievements.slice()
+            };
+        }
+
+        function applyStateSnapshot(s) {
+            const data = s || {};
+            state.correct = data.correct || 0;
+            state.total = data.total || 0;
+            state.xp = data.xp || 0;
+            state.streak = data.streak || 0;
+            state.lastSessionDate = data.lastSessionDate || null;
+            state.earnedAchievements = Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : [];
+
+            const today = new Date().toISOString().slice(0, 10);
+            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+            if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {
+                state.streak = 0;
             }
-        } catch(e) {}
+        }
+
+        function loadAccountStore() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (parsed && typeof parsed === 'object') {
+                    accountStore.accounts = parsed.accounts && typeof parsed.accounts === 'object' ? parsed.accounts : {};
+                    accountStore.current = typeof parsed.current === 'string' ? parsed.current : null;
+                }
+            } catch (e) {}
+        }
+
+        function saveAccountStore() {
+            try {
+                localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
+            } catch (e) {}
+        }
 
         function saveState() {
+            if (!currentAccountId || !accountStore.accounts[currentAccountId]) return;
             try {
                 const today = new Date().toISOString().slice(0, 10);
                 if (state.lastSessionDate !== today) {
                     state.streak = (state.streak || 0) + 1;
                     state.lastSessionDate = today;
                 }
-                localStorage.setItem('mathlevel-state', JSON.stringify({
-                    correct: state.correct,
-                    total: state.total,
-                    xp: state.xp,
-                    streak: state.streak,
-                    lastSessionDate: state.lastSessionDate,
-                    earnedAchievements: state.earnedAchievements
-                }));
+                accountStore.accounts[currentAccountId].progress = getStateSnapshot();
+                saveAccountStore();
             } catch(e) {}
         }
-
         function isLevelUnlocked(idx) {
             return state.xp >= LEVEL_XP_THRESHOLDS[idx];
         }
@@ -1040,6 +1145,126 @@
             t.textContent = msg;
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function normalizeAccountId(name) {
+            return String(name || '').trim().toLowerCase();
+        }
+
+        function updateAccountHeader() {
+            const badge = document.getElementById('accountBadge');
+            if (!badge) return;
+            if (!currentAccountId || !accountStore.accounts[currentAccountId]) {
+                badge.textContent = 'Kein Account';
+                return;
+            }
+            badge.textContent = 'Account: ' + accountStore.accounts[currentAccountId].username;
+        }
+
+        function renderAccountUI() {
+            const status = document.getElementById('accountStatus');
+            const logoutBtn = document.getElementById('accountLogoutBtn');
+            if (!status || !logoutBtn) return;
+
+            if (!currentAccountId || !accountStore.accounts[currentAccountId]) {
+                status.textContent = 'Kein Account aktiv. Fortschritt wird erst nach Anmeldung gespeichert.';
+                logoutBtn.disabled = true;
+            } else {
+                status.textContent = 'Angemeldet als ' + accountStore.accounts[currentAccountId].username + '. Fortschritt wird accountbasiert gespeichert.';
+                logoutBtn.disabled = false;
+            }
+            updateAccountHeader();
+        }
+
+        function applyAccountProgress(accountId) {
+            const account = accountStore.accounts[accountId];
+            if (!account) return;
+            currentAccountId = accountId;
+            accountStore.current = accountId;
+            applyStateSnapshot(account.progress || {});
+            saveAccountStore();
+            renderAccountUI();
+            renderLevelButtons();
+            renderTopics();
+            renderExercise();
+            updateStats();
+            renderAchievements();
+        }
+
+        function registerAccount() {
+            const nameInput = document.getElementById('accountName');
+            const passInput = document.getElementById('accountPassword');
+            const name = nameInput ? nameInput.value.trim() : '';
+            const pass = passInput ? passInput.value : '';
+
+            if (name.length < 3) {
+                showToast('Nutzername: mindestens 3 Zeichen');
+                return;
+            }
+            if (pass.length < 4) {
+                showToast('Passwort: mindestens 4 Zeichen');
+                return;
+            }
+
+            const accountId = normalizeAccountId(name);
+            if (accountStore.accounts[accountId]) {
+                showToast('Account existiert bereits');
+                return;
+            }
+
+            accountStore.accounts[accountId] = {
+                username: name,
+                password: pass,
+                progress: getStateSnapshot()
+            };
+            applyAccountProgress(accountId);
+            showToast('Account erstellt und angemeldet');
+            if (passInput) passInput.value = '';
+        }
+
+        function loginAccount() {
+            const nameInput = document.getElementById('accountName');
+            const passInput = document.getElementById('accountPassword');
+            const name = nameInput ? nameInput.value.trim() : '';
+            const pass = passInput ? passInput.value : '';
+            const accountId = normalizeAccountId(name);
+            const account = accountStore.accounts[accountId];
+
+            if (!account || account.password !== pass) {
+                showToast('Login fehlgeschlagen');
+                return;
+            }
+
+            applyAccountProgress(accountId);
+            showToast('Erfolgreich angemeldet');
+            if (passInput) passInput.value = '';
+        }
+
+        function logoutAccount() {
+            if (currentAccountId && accountStore.accounts[currentAccountId]) {
+                accountStore.accounts[currentAccountId].progress = getStateSnapshot();
+            }
+            currentAccountId = null;
+            accountStore.current = null;
+            saveAccountStore();
+
+            state = createInitialState();
+            renderAccountUI();
+            renderLevelButtons();
+            renderTopics();
+            renderExercise();
+            updateStats();
+            renderAchievements();
+            showToast('Abgemeldet');
+        }
+
+        function bindAccountEvents() {
+            const registerBtn = document.getElementById('accountRegisterBtn');
+            const loginBtn = document.getElementById('accountLoginBtn');
+            const logoutBtn = document.getElementById('accountLogoutBtn');
+            if (registerBtn) registerBtn.addEventListener('click', registerAccount);
+            if (loginBtn) loginBtn.addEventListener('click', loginAccount);
+            if (logoutBtn) logoutBtn.addEventListener('click', logoutAccount);
         }
 
         function checkAchievements() {
@@ -1230,11 +1455,18 @@
         }
 
         // Initialize
-        renderLevelButtons();
-        renderTopics();
-        renderExercise();
-        updateStats();
-        renderAchievements();
+        loadAccountStore();
+        if (accountStore.current && accountStore.accounts[accountStore.current]) {
+            applyAccountProgress(accountStore.current);
+        } else {
+            renderLevelButtons();
+            renderTopics();
+            renderExercise();
+            updateStats();
+            renderAchievements();
+            renderAccountUI();
+        }
+        bindAccountEvents();
         applyQueryPreset();
         openLevelFromHash();
         window.addEventListener('hashchange', openLevelFromHash);
