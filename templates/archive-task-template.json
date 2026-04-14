@@ -1,0 +1,14 @@
+﻿{
+  "id": "T-2-001",
+  "title": "Lineare Gleichung lösen",
+  "level": "2",
+  "sublevel": "2.1.1",
+  "topic": "Gleichungen lösen und umstellen",
+  "tags": ["gleichung", "termumformung"],
+  "difficulty": "mittel",
+  "question": "Löse 3x - 7 = 11.",
+  "answer": "x = 6",
+  "explanation": "+7 auf beiden Seiten ergibt 3x = 18, dann durch 3 teilen.",
+  "type": "kurzantwort",
+  "estimatedTime": 2
+}

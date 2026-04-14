@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MathLevel - Interaktiv Mathe lernen | Second-Order Resonance</title>
-    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Forschung & Simulation mit Übungen und Erklärungen.">
+    <meta name="description" content="Kostenlose interaktive Mathe-App. Lerne Mathematik von Grundlagen bis Forschung & Simulation mit Ãœbungen und ErklÃ¤rungen.">
     <meta name="theme-color" content="#1a1a2e">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -73,6 +73,70 @@
 
         .xp-text { font-size: 0.85rem; color: var(--gold); }
         .streak { font-size: 0.9rem; }
+
+        .account-panel {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .account-title {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .account-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto auto;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .account-input {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            padding: 0.55rem 0.65rem;
+            font: inherit;
+        }
+
+        .account-btn {
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 0.55rem 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .account-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .account-btn:hover { filter: brightness(1.08); }
+
+        .account-status {
+            margin-top: 0.55rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .account-badge {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
 
         /* Main Layout */
         .app-main {
@@ -373,6 +437,12 @@
             background: rgba(245, 197, 24, 0.08);
         }
         .achievement.not-earned { opacity: 0.3; filter: grayscale(1); }
+        .achievement.placeholder {
+            opacity: 0.72;
+            border-style: dashed;
+            border-color: rgba(245, 197, 24, 0.35);
+            background: rgba(245, 197, 24, 0.05);
+        }
         .achievement .ach-icon { font-size: 1.6rem; display: block; margin-bottom: 0.25rem; }
         .achievement .ach-label {
             font-size: 0.65rem;
@@ -389,6 +459,8 @@
             .level-btn { padding: 0.7rem 0.5rem; }
             .math-expression { font-size: 1.5rem; }
             .achievements-grid { grid-template-columns: repeat(3, 1fr); }
+            .account-row { grid-template-columns: 1fr; }
+            .account-badge { display: none; }
         }
     </style>
 </head>
@@ -407,9 +479,22 @@
             <span class="xp-text" id="xpText">150 XP</span>
         </div>
         <div class="streak" id="streak">3 Tage</div>
+        <div class="account-badge" id="accountBadge">Kein Account</div>
     </header>
 
     <main class="app-main">
+
+        <section class="account-panel">
+            <div class="account-title">Account</div>
+            <div class="account-row">
+                <input id="accountName" class="account-input" type="text" placeholder="Nutzername" autocomplete="username">
+                <input id="accountPassword" class="account-input" type="password" placeholder="Passwort" autocomplete="current-password">
+                <button id="accountRegisterBtn" class="account-btn primary" type="button">Registrieren</button>
+                <button id="accountLoginBtn" class="account-btn" type="button">Anmelden</button>
+                <button id="accountLogoutBtn" class="account-btn" type="button">Abmelden</button>
+            </div>
+            <div id="accountStatus" class="account-status">Kein Account aktiv. Fortschritt wird erst nach Anmeldung gespeichert.</div>
+        </section>
 
         <!-- Stats -->
         <div class="stats-bar">
@@ -446,15 +531,15 @@
             </button>
             <button class="level-btn l4" onclick="selectLevel(3)">
                 <span class="level-num">4</span>
-                <span class="level-name">Uni-Grundl.</span>
+                <span class="level-name">Universitätsgrundlagen</span>
             </button>
             <button class="level-btn l5" onclick="selectLevel(4)">
                 <span class="level-num">5</span>
-                <span class="level-name">Angew. Mathe</span>
+                <span class="level-name">Angewandte Mathematik</span>
             </button>
             <button class="level-btn l6" onclick="selectLevel(5)">
                 <span class="level-num">6</span>
-                <span class="level-name">Forschung</span>
+                <span class="level-name">Forschung &amp; Simulation</span>
             </button>
         </div>
 
@@ -474,7 +559,7 @@
                 <h4 id="feedbackTitle"></h4>
                 <p id="feedbackText"></p>
             </div>
-            <button class="next-btn" id="nextBtn" onclick="nextExercise()">Nächste Aufgabe</button>
+            <button class="next-btn" id="nextBtn" onclick="nextExercise()">NÃ¤chste Aufgabe</button>
         </div>
 
         <!-- Achievements -->
@@ -486,13 +571,13 @@
         <!-- YouTube CTA -->
         <div class="yt-cta">
             <h3>Mehr davon auf YouTube</h3>
-            <p>Ausführliche Video-Erklärungen zu jedem Thema mit Animationen und Beispielen</p>
+            <p>AusfÃ¼hrliche Video-ErklÃ¤rungen zu jedem Thema mit Animationen und Beispielen</p>
             <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" target="_blank" class="yt-btn">
                 Kanal abonnieren
             </a>
             <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem;">
                 <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Exponentielles%20Verhalten" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Exponentielles Verhalten</a>
-                <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Gleichungen lösen und umstellen</a>
+                <a href="https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen" target="_blank" class="yt-btn" style="padding:0.55rem 1rem;">Gleichungen lÃ¶sen und umstellen</a>
             </div>
         </div>
     </main>
@@ -501,20 +586,36 @@
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
 
-        // Achievement definitions
-        const ACHIEVEMENTS = [
-            { id: 'first_correct', icon: '⭐', label: 'Erster Schritt',  desc: 'Erste richtige Antwort',   check: s => s.correct >= 1 },
-            { id: 'ten_correct',   icon: '🎯', label: 'Zehn hoch',       desc: '10 richtige Antworten',     check: s => s.correct >= 10 },
-            { id: 'fifty_correct', icon: '🏆', label: 'Mathe-Profi',     desc: '50 richtige Antworten',     check: s => s.correct >= 50 },
-            { id: 'streak_3',      icon: '🔥', label: 'Auf Kurs',        desc: '3-Tage-Streak',             check: s => s.streak >= 3 },
-            { id: 'streak_7',      icon: '💥', label: 'Wochenkämpfer',  desc: '7-Tage-Streak',             check: s => s.streak >= 7 },
-            { id: 'xp_100',        icon: '💫', label: 'XP Sammler',      desc: '100 XP verdient',           check: s => s.xp >= 100 },
-            { id: 'xp_500',        icon: '🌟', label: 'Level Up',        desc: '500 XP verdient',           check: s => s.xp >= 500 },
-            { id: 'unlock_l2',     icon: '🔓', label: 'Aufsteiger',      desc: 'Level 2 freigeschaltet',    check: s => s.xp >= 50 },
-            { id: 'unlock_l6',     icon: '🔬', label: 'Forscher',        desc: 'Level 6 freigeschaltet',    check: s => s.xp >= 750 }
+        // Achievement definitions (live + placeholder architecture)
+        const ACHIEVEMENT_CATALOG = [
+            { id: 'first_correct', icon: '\u2B50', label: 'Erster Schritt', desc: 'Erste richtige Antwort', ruleKey: 'first_correct', stage: 'live' },
+            { id: 'ten_correct', icon: '\uD83C\uDFAF', label: 'Zehn hoch', desc: '10 richtige Antworten', ruleKey: 'ten_correct', stage: 'live' },
+            { id: 'fifty_correct', icon: '\uD83C\uDFC6', label: 'Mathe-Profi', desc: '50 richtige Antworten', ruleKey: 'fifty_correct', stage: 'live' },
+            { id: 'streak_3', icon: '\uD83D\uDD25', label: 'Auf Kurs', desc: '3-Tage-Streak', ruleKey: 'streak_3', stage: 'live' },
+            { id: 'streak_7', icon: '\uD83D\uDCA5', label: 'Wochenkaempfer', desc: '7-Tage-Streak', ruleKey: 'streak_7', stage: 'live' },
+            { id: 'xp_100', icon: '\uD83D\uDCAB', label: 'XP Sammler', desc: '100 XP verdient', ruleKey: 'xp_100', stage: 'live' },
+            { id: 'xp_500', icon: '\uD83C\uDF1F', label: 'Level Up', desc: '500 XP verdient', ruleKey: 'xp_500', stage: 'live' },
+            { id: 'unlock_l2', icon: '\uD83D\uDD13', label: 'Aufsteiger', desc: 'Level 2 freigeschaltet', ruleKey: 'unlock_l2', stage: 'live' },
+            { id: 'unlock_l6', icon: '\uD83D\uDD2C', label: 'Forscher', desc: 'Level 6 freigeschaltet', ruleKey: 'unlock_l6', stage: 'live' },
+            { id: 'placeholder_daily_goal', icon: '\uD83D\uDCC5', label: 'Tagesmission', desc: 'Platzhalter: taegliche Missionsreihe (in Arbeit)', stage: 'placeholder' },
+            { id: 'placeholder_precision', icon: '\uD83E\uDDEA', label: 'Praezision', desc: 'Platzhalter: Serienbonus fuer genaue Antworten', stage: 'placeholder' },
+            { id: 'placeholder_mastery', icon: '\uD83D\uDEE0\uFE0F', label: 'Meisterpfad', desc: 'Platzhalter: langfristige Mastery-Abzeichen', stage: 'placeholder' }
         ];
 
-        // Exercise Database
+        const ACHIEVEMENT_RULES = {
+            first_correct: s => s.correct >= 1,
+            ten_correct: s => s.correct >= 10,
+            fifty_correct: s => s.correct >= 50,
+            streak_3: s => s.streak >= 3,
+            streak_7: s => s.streak >= 7,
+            xp_100: s => s.xp >= 100,
+            xp_500: s => s.xp >= 500,
+            unlock_l2: s => s.xp >= 50,
+            unlock_l6: s => s.xp >= 750
+        };
+
+        const LIVE_ACHIEVEMENTS = ACHIEVEMENT_CATALOG.filter(a => a.stage === 'live');
+// Exercise Database
         const exercises = {
             0: { // Level 1 - Grundlagen
                 topics: ["Bruchrechnung", "Prozente", "Geometrie", "Dreisatz"],
@@ -526,7 +627,7 @@
                         options: ["2/5", "5/6", "1/5", "2/6"],
                         correct: 1,
                         difficulty: "easy",
-                        explanation: "Hauptnenner finden: 6. Also 3/6 + 2/6 = 5/6. Die Nenner müssen gleich sein, bevor man die Zähler addieren kann."
+                        explanation: "Hauptnenner finden: 6. Also 3/6 + 2/6 = 5/6. Die Nenner mÃ¼ssen gleich sein, bevor man die ZÃ¤hler addieren kann."
                     },
                     {
                         topic: "Bruchrechnung",
@@ -548,21 +649,21 @@
                     },
                     {
                         topic: "Geometrie",
-                        question: "Wie gro� ist die Fläche eines Kreises mit Radius r = 3?",
+                        question: "Wie groß ist die FlÃ¤che eines Kreises mit Radius r = 3?",
                         math: "A = pi * r^2 = ?",
                         options: ["9pi", "6pi", "3pi", "12pi"],
                         correct: 0,
                         difficulty: "easy",
-                        explanation: "A = pi * r^2 = pi * 3^2 = pi * 9 = 9pi (ungefähr 28.27)."
+                        explanation: "A = pi * r^2 = pi * 3^2 = pi * 9 = 9pi (ungefÃ¤hr 28.27)."
                     },
                     {
                         topic: "Dreisatz",
-                        question: "3 Äpfel kosten 1.50 Euro. Wie viel kosten 7 Äpfel?",
+                        question: "3 Ã„pfel kosten 1.50 Euro. Wie viel kosten 7 Ã„pfel?",
                         math: "3 -> 1.50 EUR\n7 -> ? EUR",
                         options: ["3.00", "3.50", "4.00", "4.50"],
                         correct: 1,
                         difficulty: "easy",
-                        explanation: "1 Apfel = 1.50/3 = 0.50 EUR. Also 7 Äpfel = 7 * 0.50 = 3.50 EUR."
+                        explanation: "1 Apfel = 1.50/3 = 0.50 EUR. Also 7 Ã„pfel = 7 * 0.50 = 3.50 EUR."
                     },
                     {
                         topic: "Bruchrechnung",
@@ -584,12 +685,12 @@
                     }
                 ]
             },
-            1: { // Level 2 - Mittelstufe
+            1: { // Level 2 - Aufbauwissen (Unter- & Mittelstufe)
                 topics: ["Gleichungen", "Funktionen", "Trigonometrie", "Potenzen"],
                 questions: [
                     {
                         topic: "Gleichungen",
-                        question: "Löse nach x auf:",
+                        question: "LÃ¶se nach x auf:",
                         math: "3x + 7 = 22",
                         options: ["x = 3", "x = 5", "x = 7", "x = 10"],
                         correct: 1,
@@ -598,7 +699,7 @@
                     },
                     {
                         topic: "Gleichungen",
-                        question: "Löse die quadratische Gleichung:",
+                        question: "LÃ¶se die quadratische Gleichung:",
                         math: "x^2 - 5x + 6 = 0",
                         options: ["x = 1, x = 6", "x = 2, x = 3", "x = -2, x = -3", "x = 3, x = -2"],
                         correct: 1,
@@ -652,7 +753,7 @@
                     }
                 ]
             },
-            2: { // Level 3 - Oberstufe
+            2: { // Level 3 - Vertiefung (Oberstufe / Schulabschlussniveau)
                 topics: ["Ableitungen", "Integrale", "Stochastik", "Vektoren"],
                 questions: [
                     {
@@ -693,12 +794,12 @@
                     },
                     {
                         topic: "Stochastik",
-                        question: "2 Würfel werden geworfen. Wie hoch ist P(Summe = 7)?",
+                        question: "2 WÃ¼rfel werden geworfen. Wie hoch ist P(Summe = 7)?",
                         math: "P(X = 7) = ?",
                         options: ["1/6", "5/36", "6/36", "7/36"],
                         correct: 2,
                         difficulty: "medium",
-                        explanation: "Mögliche Kombinationen für Summe 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 von 36 Möglichkeiten = 6/36 = 1/6."
+                        explanation: "MÃ¶gliche Kombinationen fÃ¼r Summe 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 von 36 MÃ¶glichkeiten = 6/36 = 1/6."
                     },
                     {
                         topic: "Integrale",
@@ -711,7 +812,7 @@
                     },
                     {
                         topic: "Vektoren",
-                        question: "Bestimme die Länge des Vektors:",
+                        question: "Bestimme die LÃ¤nge des Vektors:",
                         math: "v = (3, 4)",
                         options: ["5", "6", "7", "4"],
                         correct: 0,
@@ -720,7 +821,7 @@
                     }
                 ]
             },
-            3: { // Level 4 - Uni
+            3: { // Level 4 - Universitätsgrundlagen (Studienanfang)
                 topics: ["Lineare Algebra", "DGL", "Komplexe Zahlen", "Reihen"],
                 questions: [
                     {
@@ -730,11 +831,11 @@
                         options: ["5", "11", "8", "-5"],
                         correct: 0,
                         difficulty: "medium",
-                        explanation: "Für 2x2-Matrix: ad - bc = 2*4 - 1*3 = 8 - 3 = 5."
+                        explanation: "FÃ¼r 2x2-Matrix: ad - bc = 2*4 - 1*3 = 8 - 3 = 5."
                     },
                     {
                         topic: "DGL",
-                        question: "Löse die Differentialgleichung:",
+                        question: "LÃ¶se die Differentialgleichung:",
                         math: "y' = 2y, y(0) = 1",
                         options: ["y = e^(2t)", "y = 2e^t", "y = e^t + 1", "y = 2t"],
                         correct: 0,
@@ -757,16 +858,16 @@
                         options: ["1", "2", "unendlich", "1/2"],
                         correct: 1,
                         difficulty: "medium",
-                        explanation: "Geometrische Reihe: sum q^n = 1/(1-q) für |q|<1. Mit q=1/2: 1/(1-1/2) = 1/(1/2) = 2."
+                        explanation: "Geometrische Reihe: sum q^n = 1/(1-q) fÃ¼r |q|<1. Mit q=1/2: 1/(1-1/2) = 1/(1/2) = 2."
                     },
                     {
                         topic: "Lineare Algebra",
-                        question: "Sind diese Vektoren linear unabhängig?",
+                        question: "Sind diese Vektoren linear unabhÃ¤ngig?",
                         math: "v1 = (1,0,0)\nv2 = (0,1,0)\nv3 = (1,1,0)",
                         options: ["Ja", "Nein", "Nur v1 und v2", "Nicht bestimmbar"],
                         correct: 1,
                         difficulty: "hard",
-                        explanation: "v3 = v1 + v2, also ist v3 eine Linearkombination von v1 und v2. Die Vektoren sind linear abhängig."
+                        explanation: "v3 = v1 + v2, also ist v3 eine Linearkombination von v1 und v2. Die Vektoren sind linear abhÃ¤ngig."
                     },
                     {
                         topic: "Komplexe Zahlen",
@@ -779,7 +880,7 @@
                     },
                     {
                         topic: "Lineare Algebra",
-                        question: "Löse das lineare Gleichungssystem:",
+                        question: "LÃ¶se das lineare Gleichungssystem:",
                         math: "x + y = 4\nx - y = 2",
                         options: ["x=1, y=3", "x=2, y=2", "x=3, y=1", "x=4, y=0"],
                         correct: 2,
@@ -797,8 +898,8 @@
                         math: "F(w) = integral(-inf, inf) f(t) * e^(-jwt) dt",
                         options: [
                             "Zerlegung in Frequenzanteile",
-                            "Lösung von DGL",
-                            "Berechnung von Flächeninhalt",
+                            "LÃ¶sung von DGL",
+                            "Berechnung von FlÃ¤cheninhalt",
                             "Approximation von Polynomen"
                         ],
                         correct: 0,
@@ -812,7 +913,7 @@
                         options: ["1/(s-a)", "1/(s+a)", "s/(s-a)", "a/(s-a)"],
                         correct: 0,
                         difficulty: "medium",
-                        explanation: "L{e^(at)} = 1/(s-a) für Re(s) > a. Dies ist eine der wichtigsten Standardtransformationen."
+                        explanation: "L{e^(at)} = 1/(s-a) fÃ¼r Re(s) > a. Dies ist eine der wichtigsten Standardtransformationen."
                     },
                     {
                         topic: "Resonanz",
@@ -826,30 +927,30 @@
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "Resonanz tritt auf wenn die Anregungsfrequenz w gleich der Eigenfrequenz w0 = sqrt(k/m) ist. Dann wird die Amplitude maximal (bei Dämpfung c>0) oder unendlich (bei c=0)."
+                        explanation: "Resonanz tritt auf wenn die Anregungsfrequenz w gleich der Eigenfrequenz w0 = sqrt(k/m) ist. Dann wird die Amplitude maximal (bei DÃ¤mpfung c>0) oder unendlich (bei c=0)."
                     },
                     {
                         topic: "Regelungstechnik",
-                        question: "Was beschreibt die Übertragungsfunktion eines PT1-Glieds?",
+                        question: "Was beschreibt die Ãœbertragungsfunktion eines PT1-Glieds?",
                         math: "G(s) = ?",
                         options: ["K/(1+Ts)", "K*s/(1+Ts)", "K/(s+T)", "K*T*s"],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "PT1-Glied (Verzögerungsglied 1. Ordnung): G(s) = K/(1+Ts) mit Verstärkung K und Zeitkonstante T. Grundbaustein der Regelungstechnik."
+                        explanation: "PT1-Glied (VerzÃ¶gerungsglied 1. Ordnung): G(s) = K/(1+Ts) mit VerstÃ¤rkung K und Zeitkonstante T. Grundbaustein der Regelungstechnik."
                     },
                     {
                         topic: "Fourier",
                         question: "Welche Eigenschaft hat die DFT (Diskrete Fourier-Transformation)?",
                         math: "X[k] = sum(n=0, N-1) x[n] * e^(-j2pi*kn/N)",
                         options: [
-                            "Periodizität: X[k+N] = X[k]",
+                            "PeriodizitÃ¤t: X[k+N] = X[k]",
                             "X[k] ist immer reell",
                             "DFT ist nicht umkehrbar",
-                            "Nur für gerade N definiert"
+                            "Nur fÃ¼r gerade N definiert"
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "Die DFT ist periodisch mit Periode N. Außerdem ist sie umkehrbar (IDFT existiert) und für beliebiges N definiert."
+                        explanation: "Die DFT ist periodisch mit Periode N. AuÃŸerdem ist sie umkehrbar (IDFT existiert) und fÃ¼r beliebiges N definiert."
                     },
                     {
                         topic: "Laplace",
@@ -862,17 +963,17 @@
                     },
                     {
                         topic: "Regelungstechnik",
-                        question: "Welche Auswirkung hat höhere Dämpfung typischerweise?",
+                        question: "Welche Auswirkung hat hÃ¶here DÃ¤mpfung typischerweise?",
                         math: "c steigt",
                         options: [
-                            "Kleinere Überschwingung",
-                            "Größere Resonanzspitze",
+                            "Kleinere Ãœberschwingung",
+                            "GrÃ¶ÃŸere Resonanzspitze",
                             "Immer instabil",
-                            "Keine Änderung"
+                            "Keine Ã„nderung"
                         ],
                         correct: 0,
                         difficulty: "medium",
-                        explanation: "Mehr Dämpfung reduziert in der Regel Resonanzspitzen und Überschwingen."
+                        explanation: "Mehr DÃ¤mpfung reduziert in der Regel Resonanzspitzen und Ãœberschwingen."
                     }
                 ]
             },
@@ -881,26 +982,26 @@
                 questions: [
                     {
                         topic: "Partielle DGL",
-                        question: "Welcher Klasse gehört die Wärmeleitungsgleichung an?",
+                        question: "Welcher Klasse gehÃ¶rt die WÃ¤rmeleitungsgleichung an?",
                         math: "du/dt = k * d^2u/dx^2",
-                        options: ["Parabolisch", "Elliptisch", "Hyperbolisch", "Gewöhnlich"],
+                        options: ["Parabolisch", "Elliptisch", "Hyperbolisch", "GewÃ¶hnlich"],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "Die Wärmeleitungsgleichung ist eine parabolische PDE. Elliptisch: Laplace-Gleichung. Hyperbolisch: Wellengleichung. Die Klassifikation bestimmt Lösungsverhalten und Rand-/Anfangsbedingungen."
+                        explanation: "Die WÃ¤rmeleitungsgleichung ist eine parabolische PDE. Elliptisch: Laplace-Gleichung. Hyperbolisch: Wellengleichung. Die Klassifikation bestimmt LÃ¶sungsverhalten und Rand-/Anfangsbedingungen."
                     },
                     {
                         topic: "Stochastik",
                         question: "Was charakterisiert einen Wiener-Prozess W(t)?",
-                        math: "W(t) - W(s) ~ N(0, t-s)  für t > s",
+                        math: "W(t) - W(s) ~ N(0, t-s)  fÃ¼r t > s",
                         options: [
-                            "Unabhängige, normalverteilte Inkremente",
+                            "UnabhÃ¤ngige, normalverteilte Inkremente",
                             "Konstante Varianz",
                             "Deterministische Trajektorien",
                             "Diskrete Zufallsvariable"
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "Der Wiener-Prozess (Brownsche Bewegung) hat unabhängige, stationäre, normalverteilte Inkremente. Er ist Grundlage der stochastischen Analysis und von Ito-Integralen."
+                        explanation: "Der Wiener-Prozess (Brownsche Bewegung) hat unabhÃ¤ngige, stationÃ¤re, normalverteilte Inkremente. Er ist Grundlage der stochastischen Analysis und von Ito-Integralen."
                     },
                     {
                         topic: "Numerik",
@@ -909,11 +1010,11 @@
                         options: ["Ordnung 4", "Ordnung 2", "Ordnung 1 (Euler)", "Ordnung 8"],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "RK4 hat globalen Fehler O(h^4). Die vier Stufen k1-k4 sind Steigungsschätzungen am Anfang, der Mitte (2x) und am Ende des Intervalls. Der lokale Fehler beträgt O(h^5)."
+                        explanation: "RK4 hat globalen Fehler O(h^4). Die vier Stufen k1-k4 sind SteigungsschÃ¤tzungen am Anfang, der Mitte (2x) und am Ende des Intervalls. Der lokale Fehler betrÃ¤gt O(h^5)."
                     },
                     {
                         topic: "FEM",
-                        question: "Was minimiert die Finite-Elemente-Methode bei einem elastischen Körper?",
+                        question: "Was minimiert die Finite-Elemente-Methode bei einem elastischen KÃ¶rper?",
                         math: "Pi(u) = 1/2 * int(sigma:epsilon dV) - int(f*u dV)",
                         options: [
                             "Das totale potentielle Energie-Funktional",
@@ -923,30 +1024,30 @@
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "FEM basiert auf dem Prinzip der minimalen potenziellen Energie (Variationsprinzip). Das schwache Äquivalent der starken Form wird durch Galerkin-Ansätze diskretisiert: Ku = f."
+                        explanation: "FEM basiert auf dem Prinzip der minimalen potenziellen Energie (Variationsprinzip). Das schwache Ã„quivalent der starken Form wird durch Galerkin-AnsÃ¤tze diskretisiert: Ku = f."
                     },
                     {
                         topic: "Optimierung",
                         question: "Was sind die Karush-Kuhn-Tucker (KKT) Bedingungen?",
                         math: "min f(x)  s.t.  g_i(x) <= 0,  h_j(x) = 0",
                         options: [
-                            "Notwendige Optimalitätsbedingungen mit Lagrange-Multiplikatoren",
-                            "Hinreichende Bedingungen für globale Optima",
+                            "Notwendige OptimalitÃ¤tsbedingungen mit Lagrange-Multiplikatoren",
+                            "Hinreichende Bedingungen fÃ¼r globale Optima",
                             "Numerische Abbruchkriterien",
-                            "Regularisierungsbedingungen für ill-posed Probleme"
+                            "Regularisierungsbedingungen fÃ¼r ill-posed Probleme"
                         ],
                         correct: 0,
                         difficulty: "hard",
-                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei Konvexität auch hinreichend) für lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
+                        explanation: "KKT-Bedingungen verallgemeinern Lagrange-Multiplikatoren auf Ungleichungsnebenbedingungen. Sie sind notwendig (bei KonvexitÃ¤t auch hinreichend) fÃ¼r lokale Optima. Kernbedingung: Gradient der Lagrange-Funktion = 0."
                     },
                     {
                         topic: "Numerik",
                         question: "Wie skaliert der Speicherbedarf einer dichten N x N Matrix?",
-                        math: "Anzahl der Einträge",
+                        math: "Anzahl der EintrÃ¤ge",
                         options: ["O(N)", "O(N log N)", "O(N^2)", "O(2^N)"],
                         correct: 2,
                         difficulty: "medium",
-                        explanation: "Eine dichte Matrix besitzt N^2 Einträge, daher ist der Speicherbedarf quadratisch."
+                        explanation: "Eine dichte Matrix besitzt N^2 EintrÃ¤ge, daher ist der Speicherbedarf quadratisch."
                     },
                     {
                         topic: "Optimierung",
@@ -956,7 +1057,7 @@
                             "Schritt in Richtung des negativen Gradienten",
                             "Schritt in Richtung des positiven Gradienten",
                             "Immer exakt globales Optimum",
-                            "Nur für lineare Modelle"
+                            "Nur fÃ¼r lineare Modelle"
                         ],
                         correct: 0,
                         difficulty: "medium",
@@ -967,71 +1068,190 @@
         };
 
         // App State
-        let state = {
-            level: 0,
-            topic: null,
-            questionIdx: 0,
-            correct: 0,
-            total: 0,
-            xp: 0,
-            streak: 0,
-            lastSessionDate: null,
-            earnedAchievements: [],
-            answered: false
-        };
+        function createInitialState() {
+            return {
+                level: 0,
+                topic: null,
+                questionIdx: 0,
+                correct: 0,
+                total: 0,
+                xp: 0,
+                streak: 0,
+                lastSessionDate: null,
+                earnedAchievements: [],
+                answered: false
+            };
+        }
 
-        // Load saved state
-        try {
-            const saved = localStorage.getItem('mathlevel-state');
-            if (saved) {
-                const s = JSON.parse(saved);
-                state.correct = s.correct || 0;
-                state.total = s.total || 0;
-                state.xp = s.xp || 0;
-                state.streak = s.streak || 0;
-                state.lastSessionDate = s.lastSessionDate || null;
-                state.earnedAchievements = s.earnedAchievements || [];
+        let state = createInitialState();
 
-                // Reset streak if last session was more than 1 day ago
-                const today = new Date().toISOString().slice(0, 10);
-                const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-                if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {
-                    state.streak = 0;
-                }
+        const ACCOUNT_STORE_KEY = 'mathlevel-accounts-v1';
+        const PROGRESS_SCHEMA_VERSION = 2;
+        let accountStore = { accounts: {}, current: null };
+        let currentAccountId = null;
+
+        function getStateSnapshot() {
+            return {
+                correct: state.correct,
+                total: state.total,
+                xp: state.xp,
+                streak: state.streak,
+                lastSessionDate: state.lastSessionDate,
+                earnedAchievements: state.earnedAchievements.slice()
+            };
+        }
+
+        function applyStateSnapshot(s) {
+            const data = s || {};
+            state.correct = data.correct || 0;
+            state.total = data.total || 0;
+            state.xp = data.xp || 0;
+            state.streak = data.streak || 0;
+            state.lastSessionDate = data.lastSessionDate || null;
+            state.earnedAchievements = Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : [];
+
+            const today = new Date().toISOString().slice(0, 10);
+            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+            if (state.lastSessionDate !== today && state.lastSessionDate !== yesterday) {
+                state.streak = 0;
             }
-        } catch(e) {}
+        }
+
+        function normalizeSummarySnapshot(raw) {
+            const data = raw || {};
+            return {
+                correct: data.correct || 0,
+                total: data.total || 0,
+                xp: data.xp || 0,
+                streak: data.streak || 0,
+                lastSessionDate: data.lastSessionDate || null,
+                earnedAchievements: Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : []
+            };
+        }
+
+        function createProgressEnvelope(summaryLike) {
+            return {
+                schemaVersion: PROGRESS_SCHEMA_VERSION,
+                summary: normalizeSummarySnapshot(summaryLike),
+                dailyActivity: {},
+                weeklyXp: {},
+                lastActiveDate: null,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function normalizeProgressEnvelope(rawProgress) {
+            if (rawProgress && typeof rawProgress === 'object' && rawProgress.summary) {
+                return {
+                    schemaVersion: PROGRESS_SCHEMA_VERSION,
+                    summary: normalizeSummarySnapshot(rawProgress.summary),
+                    dailyActivity: rawProgress.dailyActivity && typeof rawProgress.dailyActivity === 'object' ? rawProgress.dailyActivity : {},
+                    weeklyXp: rawProgress.weeklyXp && typeof rawProgress.weeklyXp === 'object' ? rawProgress.weeklyXp : {},
+                    lastActiveDate: rawProgress.lastActiveDate || null,
+                    updatedAt: rawProgress.updatedAt || new Date().toISOString()
+                };
+            }
+            const legacySummary = normalizeSummarySnapshot(rawProgress);
+            const migrated = createProgressEnvelope(legacySummary);
+            migrated.lastActiveDate = legacySummary.lastSessionDate || null;
+            return migrated;
+        }
+
+        function normalizeAccountRecord(rawAccount, fallbackAccountId) {
+            const account = rawAccount && typeof rawAccount === 'object' ? rawAccount : {};
+            return {
+                username: account.username || fallbackAccountId || 'User',
+                password: account.password || '',
+                progress: normalizeProgressEnvelope(account.progress || {})
+            };
+        }
+
+        function getIsoWeekKey(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - day);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + '-W' + String(week).padStart(2, '0');
+        }
+
+        function ensureAccountProgressEnvelope(accountId) {
+            const account = accountStore.accounts[accountId];
+            if (!account) return null;
+            account.progress = normalizeProgressEnvelope(account.progress || {});
+            return account.progress;
+        }
+
+        function loadAccountStore() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (parsed && typeof parsed === 'object') {
+                    const rawAccounts = parsed.accounts && typeof parsed.accounts === 'object' ? parsed.accounts : {};
+                    const nextAccounts = {};
+                    Object.keys(rawAccounts).forEach((accountId) => {
+                        nextAccounts[accountId] = normalizeAccountRecord(rawAccounts[accountId], accountId);
+                    });
+                    accountStore.accounts = nextAccounts;
+                    accountStore.current = typeof parsed.current === 'string' ? parsed.current : null;
+                }
+            } catch (e) {}
+        }
+
+        function saveAccountStore() {
+            try {
+                localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
+            } catch (e) {}
+        }
 
         function saveState() {
+            if (!currentAccountId || !accountStore.accounts[currentAccountId]) return;
             try {
+                const progress = ensureAccountProgressEnvelope(currentAccountId);
+                if (!progress) return;
+                const previousSummary = normalizeSummarySnapshot(progress.summary);
                 const today = new Date().toISOString().slice(0, 10);
                 if (state.lastSessionDate !== today) {
                     state.streak = (state.streak || 0) + 1;
                     state.lastSessionDate = today;
                 }
-                localStorage.setItem('mathlevel-state', JSON.stringify({
-                    correct: state.correct,
-                    total: state.total,
-                    xp: state.xp,
-                    streak: state.streak,
-                    lastSessionDate: state.lastSessionDate,
-                    earnedAchievements: state.earnedAchievements
-                }));
+                const nextSummary = getStateSnapshot();
+                const xpDelta = Math.max(0, nextSummary.xp - previousSummary.xp);
+                const totalDelta = Math.max(0, nextSummary.total - previousSummary.total);
+                const correctDelta = Math.max(0, nextSummary.correct - previousSummary.correct);
+                const weekKey = getIsoWeekKey(new Date());
+
+                if (!progress.dailyActivity[today]) {
+                    progress.dailyActivity[today] = { answered: 0, correct: 0, xp: 0, events: 0 };
+                }
+                progress.dailyActivity[today].answered += totalDelta;
+                progress.dailyActivity[today].correct += correctDelta;
+                progress.dailyActivity[today].xp += xpDelta;
+                if (totalDelta > 0 || xpDelta > 0) {
+                    progress.dailyActivity[today].events += 1;
+                }
+
+                progress.weeklyXp[weekKey] = (progress.weeklyXp[weekKey] || 0) + xpDelta;
+                progress.summary = normalizeSummarySnapshot(nextSummary);
+                progress.lastActiveDate = today;
+                progress.updatedAt = new Date().toISOString();
+                saveAccountStore();
             } catch(e) {}
         }
-
         function isLevelUnlocked(idx) {
             return state.xp >= LEVEL_XP_THRESHOLDS[idx];
         }
 
         function renderLevelButtons() {
-            const levelNames = ['Grundlagen', 'Aufbauwissen', 'Vertiefung', 'Uni-Grundl.', 'Angew. Mathe', 'Forschung'];
+            const levelNames = ['Grundlagen', 'Aufbauwissen', 'Vertiefung', 'Universitätsgrundlagen', 'Angewandte Mathematik', 'Forschung & Simulation'];
             document.querySelectorAll('.level-btn').forEach((btn, i) => {
                 const unlocked = isLevelUnlocked(i);
                 btn.classList.toggle('locked', !unlocked);
                 btn.disabled = !unlocked;
                 btn.classList.toggle('active', i === state.level);
                 const nameEl = btn.querySelector('.level-name');
-                if (nameEl) nameEl.textContent = unlocked ? levelNames[i] : '🔒 ' + (LEVEL_XP_THRESHOLDS[i]) + ' XP';
+                if (nameEl) nameEl.textContent = unlocked ? levelNames[i] : 'LOCK ' + (LEVEL_XP_THRESHOLDS[i]) + ' XP';
             });
         }
 
@@ -1042,10 +1262,136 @@
             setTimeout(() => t.classList.remove('show'), 3000);
         }
 
+        function normalizeAccountId(name) {
+            return String(name || '').trim().toLowerCase();
+        }
+
+        function updateAccountHeader() {
+            const badge = document.getElementById('accountBadge');
+            if (!badge) return;
+            if (!currentAccountId || !accountStore.accounts[currentAccountId]) {
+                badge.textContent = 'Kein Account';
+                return;
+            }
+            badge.textContent = 'Account: ' + accountStore.accounts[currentAccountId].username;
+        }
+
+        function renderAccountUI() {
+            const status = document.getElementById('accountStatus');
+            const logoutBtn = document.getElementById('accountLogoutBtn');
+            if (!status || !logoutBtn) return;
+
+            if (!currentAccountId || !accountStore.accounts[currentAccountId]) {
+                status.textContent = 'Kein Account aktiv. Fortschritt wird erst nach Anmeldung gespeichert.';
+                logoutBtn.disabled = true;
+            } else {
+                status.textContent = 'Angemeldet als ' + accountStore.accounts[currentAccountId].username + '. Fortschritt wird accountbasiert gespeichert.';
+                logoutBtn.disabled = false;
+            }
+            updateAccountHeader();
+        }
+
+        function applyAccountProgress(accountId) {
+            const account = accountStore.accounts[accountId];
+            if (!account) return;
+            const progress = ensureAccountProgressEnvelope(accountId);
+            currentAccountId = accountId;
+            accountStore.current = accountId;
+            applyStateSnapshot(progress ? progress.summary : {});
+            saveAccountStore();
+            renderAccountUI();
+            renderLevelButtons();
+            renderTopics();
+            renderExercise();
+            updateStats();
+            renderAchievements();
+        }
+
+        function registerAccount() {
+            const nameInput = document.getElementById('accountName');
+            const passInput = document.getElementById('accountPassword');
+            const name = nameInput ? nameInput.value.trim() : '';
+            const pass = passInput ? passInput.value : '';
+
+            if (name.length < 3) {
+                showToast('Nutzername: mindestens 3 Zeichen');
+                return;
+            }
+            if (pass.length < 4) {
+                showToast('Passwort: mindestens 4 Zeichen');
+                return;
+            }
+
+            const accountId = normalizeAccountId(name);
+            if (accountStore.accounts[accountId]) {
+                showToast('Account existiert bereits');
+                return;
+            }
+
+            accountStore.accounts[accountId] = {
+                username: name,
+                password: pass,
+                progress: createProgressEnvelope(getStateSnapshot())
+            };
+            applyAccountProgress(accountId);
+            showToast('Account erstellt und angemeldet');
+            if (passInput) passInput.value = '';
+        }
+
+        function loginAccount() {
+            const nameInput = document.getElementById('accountName');
+            const passInput = document.getElementById('accountPassword');
+            const name = nameInput ? nameInput.value.trim() : '';
+            const pass = passInput ? passInput.value : '';
+            const accountId = normalizeAccountId(name);
+            const account = accountStore.accounts[accountId];
+
+            if (!account || account.password !== pass) {
+                showToast('Login fehlgeschlagen');
+                return;
+            }
+
+            applyAccountProgress(accountId);
+            showToast('Erfolgreich angemeldet');
+            if (passInput) passInput.value = '';
+        }
+
+        function logoutAccount() {
+            if (currentAccountId && accountStore.accounts[currentAccountId]) {
+                const progress = ensureAccountProgressEnvelope(currentAccountId);
+                if (progress) {
+                    progress.summary = normalizeSummarySnapshot(getStateSnapshot());
+                    progress.updatedAt = new Date().toISOString();
+                }
+            }
+            currentAccountId = null;
+            accountStore.current = null;
+            saveAccountStore();
+
+            state = createInitialState();
+            renderAccountUI();
+            renderLevelButtons();
+            renderTopics();
+            renderExercise();
+            updateStats();
+            renderAchievements();
+            showToast('Abgemeldet');
+        }
+
+        function bindAccountEvents() {
+            const registerBtn = document.getElementById('accountRegisterBtn');
+            const loginBtn = document.getElementById('accountLoginBtn');
+            const logoutBtn = document.getElementById('accountLogoutBtn');
+            if (registerBtn) registerBtn.addEventListener('click', registerAccount);
+            if (loginBtn) loginBtn.addEventListener('click', loginAccount);
+            if (logoutBtn) logoutBtn.addEventListener('click', logoutAccount);
+        }
         function checkAchievements() {
             let newlyEarned = false;
-            ACHIEVEMENTS.forEach(a => {
-                if (!state.earnedAchievements.includes(a.id) && a.check(state)) {
+            LIVE_ACHIEVEMENTS.forEach((a) => {
+                const rule = ACHIEVEMENT_RULES[a.ruleKey];
+                if (!rule) return;
+                if (!state.earnedAchievements.includes(a.id) && rule(state)) {
                     state.earnedAchievements.push(a.id);
                     showToast(a.icon + ' ' + a.label + ' freigeschaltet!');
                     newlyEarned = true;
@@ -1056,9 +1402,10 @@
 
         function renderAchievements() {
             const grid = document.getElementById('achievementsGrid');
-            grid.innerHTML = ACHIEVEMENTS.map(a => {
+            grid.innerHTML = ACHIEVEMENT_CATALOG.map((a) => {
                 const earned = state.earnedAchievements.includes(a.id);
-                return `<div class="achievement ${earned ? 'earned' : 'not-earned'}" title="${a.desc}">
+                const cssState = a.stage === 'placeholder' ? 'placeholder' : (earned ? 'earned' : 'not-earned');
+                return `<div class="achievement ${cssState}" title="${a.desc}">
                     <span class="ach-icon">${a.icon}</span>
                     <span class="ach-label">${a.label}</span>
                 </div>`;
@@ -1069,8 +1416,8 @@
             if (!isLevelUnlocked(level)) {
                 const needed = LEVEL_XP_THRESHOLDS[level] - state.xp;
                 const msg = document.getElementById('lockMsg');
-                msg.textContent = '🔒 Noch ' + needed + ' XP für Level ' + (level + 1);
-                setTimeout(() => { if (msg.textContent.startsWith('🔒')) msg.textContent = ''; }, 2500);
+                msg.textContent = 'ðŸ”’ Noch ' + needed + ' XP fÃ¼r Level ' + (level + 1);
+                setTimeout(() => { if (msg.textContent.startsWith('ðŸ”’')) msg.textContent = ''; }, 2500);
                 return false;
             }
             document.getElementById('lockMsg').textContent = '';

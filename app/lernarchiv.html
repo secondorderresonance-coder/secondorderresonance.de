@@ -296,6 +296,11 @@
         }
 
         .result.show { display: block; }
+        .inline-action {
+            width: auto;
+            display: inline-flex;
+            margin-top: 0.7rem;
+        }
 
         .result-actions {
             margin-top: 0.9rem;
@@ -537,7 +542,7 @@
             <div class="kpi-grid">
                 <div class="kpi">
                     <strong id="kpiCurrent">0</strong>
-                    <span>Aktuell verfügbare Aufgaben</span>
+                    <span>Aktuell verfÃ¼gbare Aufgaben</span>
                 </div>
                 <div class="kpi">
                     <strong id="kpiTarget">30000</strong>
@@ -550,6 +555,10 @@
                 <div class="kpi">
                     <strong id="kpiPlacement">30</strong>
                     <span>Fragen im Einstufungstest</span>
+                </div>
+                <div class="kpi">
+                    <strong id="kpiStreak">--</strong>
+                    <span>Aktive Lernserie (Account)</span>
                 </div>
             </div>
             <div class="level-progress" id="levelProgress"></div>
@@ -586,7 +595,7 @@
                 </div>
                 <div class="detail card" id="taskDetail">
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Wähle links eine Aufgabe aus, um Frage, Lösung und Erklärung zu sehen.</p>
+                    <p class="muted">WÃ¤hle links eine Aufgabe aus, um Frage, LÃ¶sung und ErklÃ¤rung zu sehen.</p>
                 </div>
             </div>
         </section>
@@ -629,7 +638,7 @@
 
         <section class="card" id="placement">
             <h2>Einstufungstest (30 Fragen)</h2>
-            <p class="muted">Der Test sampelt bewusst über alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
+            <p class="muted">Der Test sampelt bewusst Ã¼ber alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
             <div class="test-flow">
                 <button id="startTestBtn">Test starten</button>
                 <div class="test-progress"><div id="testProgressFill"></div></div>
@@ -642,7 +651,7 @@
 
         <section class="card">
             <h2>Level- und Sublevel-Taxonomie</h2>
-            <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
+            <p class="muted">Diese Struktur ist fÃ¼r den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
             <div class="taxonomy" id="taxonomyView"></div>
         </section>
     </main>
@@ -665,6 +674,222 @@
             testIndex: 0,
             testAnswers: []
         };
+        const ARCHIVE_FILTER_STATE_KEY = "sor-archive-filters-v1";
+        const ACCOUNT_STORE_KEY = "mathlevel-accounts-v1";
+
+        function getTodayKey() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        function getYesterdayKey() {
+            return new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        }
+
+        function getIsoWeekKey(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - day);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + "-W" + String(week).padStart(2, "0");
+        }
+
+        function normalizeSummarySnapshot(raw) {
+            const data = raw || {};
+            return {
+                correct: data.correct || 0,
+                total: data.total || 0,
+                xp: data.xp || 0,
+                streak: data.streak || 0,
+                lastSessionDate: data.lastSessionDate || null,
+                earnedAchievements: Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : []
+            };
+        }
+
+        function normalizeProgressEnvelope(rawProgress) {
+            if (rawProgress && typeof rawProgress === "object" && rawProgress.summary) {
+                return {
+                    schemaVersion: rawProgress.schemaVersion || 2,
+                    summary: normalizeSummarySnapshot(rawProgress.summary),
+                    dailyActivity: rawProgress.dailyActivity && typeof rawProgress.dailyActivity === "object" ? rawProgress.dailyActivity : {},
+                    weeklyXp: rawProgress.weeklyXp && typeof rawProgress.weeklyXp === "object" ? rawProgress.weeklyXp : {},
+                    lastActiveDate: rawProgress.lastActiveDate || null,
+                    updatedAt: rawProgress.updatedAt || new Date().toISOString()
+                };
+            }
+            const summary = normalizeSummarySnapshot(rawProgress);
+            return {
+                schemaVersion: 2,
+                summary,
+                dailyActivity: {},
+                weeklyXp: {},
+                lastActiveDate: summary.lastSessionDate || null,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function updateStreakKpi(value, hasAccount) {
+            const streakEl = document.getElementById("kpiStreak");
+            if (!streakEl) return;
+            if (!hasAccount) {
+                streakEl.textContent = "--";
+                return;
+            }
+            streakEl.textContent = String(value || 0) + " Tage";
+        }
+
+        function readCurrentAccountProgress() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return null;
+                const store = JSON.parse(raw);
+                if (!store || typeof store !== "object" || !store.current || !store.accounts || !store.accounts[store.current]) {
+                    return null;
+                }
+                const accountId = store.current;
+                const account = store.accounts[accountId];
+                account.progress = normalizeProgressEnvelope(account.progress || {});
+                return { store, accountId, account, progress: account.progress };
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function refreshStreakKpiFromAccount() {
+            const session = readCurrentAccountProgress();
+            if (!session) {
+                updateStreakKpi(0, false);
+                return;
+            }
+            updateStreakKpi(session.progress.summary.streak || 0, true);
+        }
+
+        function markAccountActivity(activityType) {
+            const session = readCurrentAccountProgress();
+            if (!session) return;
+
+            const today = getTodayKey();
+            const yesterday = getYesterdayKey();
+            const weekKey = getIsoWeekKey(new Date());
+            const summary = normalizeSummarySnapshot(session.progress.summary);
+
+            if (summary.lastSessionDate !== today) {
+                if (summary.lastSessionDate === yesterday) {
+                    summary.streak = (summary.streak || 0) + 1;
+                } else {
+                    summary.streak = 1;
+                }
+                summary.lastSessionDate = today;
+            }
+
+            if (!session.progress.dailyActivity[today]) {
+                session.progress.dailyActivity[today] = { answered: 0, correct: 0, xp: 0, events: 0, sources: [] };
+            }
+            session.progress.dailyActivity[today].events += 1;
+            if (activityType) {
+                const sources = Array.isArray(session.progress.dailyActivity[today].sources)
+                    ? session.progress.dailyActivity[today].sources
+                    : [];
+                if (!sources.includes(activityType)) sources.push(activityType);
+                session.progress.dailyActivity[today].sources = sources;
+            }
+
+            if (typeof session.progress.weeklyXp[weekKey] !== "number") {
+                session.progress.weeklyXp[weekKey] = 0;
+            }
+
+            session.progress.summary = summary;
+            session.progress.lastActiveDate = today;
+            session.progress.updatedAt = new Date().toISOString();
+
+            try {
+                localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(session.store));
+            } catch (_err) {
+            }
+
+            updateStreakKpi(summary.streak || 0, true);
+        }
+
+        function normalizeFilterState(raw) {
+            const levels = new Set(["all"].concat(data.taxonomy.map(t => t.level)));
+            const sublevels = new Set(["all"].concat(data.taxonomy.flatMap(t => t.sublevels.map(s => s.id))));
+            const topics = new Set(["all"].concat(Array.from(new Set(tasks.map(t => t.topic)))));
+            const taskIds = new Set(tasks.map(t => t.id));
+
+            const next = {
+                selectedLevel: String((raw && raw.selectedLevel) || "all"),
+                selectedSublevel: String((raw && raw.selectedSublevel) || "all"),
+                selectedTopic: String((raw && raw.selectedTopic) || "all"),
+                search: String((raw && raw.search) || "").trim(),
+                activeTaskId: raw && raw.activeTaskId ? String(raw.activeTaskId) : null
+            };
+
+            if (!levels.has(next.selectedLevel)) next.selectedLevel = "all";
+            if (!sublevels.has(next.selectedSublevel)) next.selectedSublevel = "all";
+            if (!topics.has(next.selectedTopic)) next.selectedTopic = "all";
+            if (next.search.length > 120) next.search = next.search.slice(0, 120);
+            if (next.activeTaskId && !taskIds.has(next.activeTaskId)) next.activeTaskId = null;
+
+            if (next.selectedLevel !== "all" && next.selectedSublevel !== "all" && !next.selectedSublevel.startsWith(next.selectedLevel + ".")) {
+                next.selectedSublevel = "all";
+            }
+
+            return next;
+        }
+
+        function readFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return normalizeFilterState({
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("q") || "",
+                activeTaskId: params.get("task") || null
+            });
+        }
+
+        function readFilterStateFromStorage() {
+            try {
+                const saved = localStorage.getItem(ARCHIVE_FILTER_STATE_KEY);
+                if (!saved) return normalizeFilterState({});
+                return normalizeFilterState(JSON.parse(saved));
+            } catch (_err) {
+                return normalizeFilterState({});
+            }
+        }
+
+        function hydrateFilterState() {
+            const storageState = readFilterStateFromStorage();
+            const params = new URLSearchParams(window.location.search);
+            const hasUrlParams = params.toString().length > 0;
+            const urlState = readFilterStateFromUrl();
+            const merged = hasUrlParams ? Object.assign({}, storageState, urlState) : storageState;
+            Object.assign(state, normalizeFilterState(merged));
+        }
+
+        function syncFilterState() {
+            const params = new URLSearchParams();
+            if (state.selectedLevel !== "all") params.set("level", state.selectedLevel);
+            if (state.selectedSublevel !== "all") params.set("sublevel", state.selectedSublevel);
+            if (state.selectedTopic !== "all") params.set("topic", state.selectedTopic);
+            if (state.search) params.set("q", state.search);
+            if (state.activeTaskId) params.set("task", state.activeTaskId);
+
+            const query = params.toString();
+            const nextUrl = window.location.pathname + (query ? ("?" + query) : "") + (window.location.hash || "");
+            window.history.replaceState(null, "", nextUrl);
+
+            try {
+                localStorage.setItem(ARCHIVE_FILTER_STATE_KEY, JSON.stringify({
+                    selectedLevel: state.selectedLevel,
+                    selectedSublevel: state.selectedSublevel,
+                    selectedTopic: state.selectedTopic,
+                    search: state.search,
+                    activeTaskId: state.activeTaskId
+                }));
+            } catch (_err) {
+            }
+        }
 
         function applyFilterState(nextState) {
             state.selectedLevel = nextState.selectedLevel || "all";
@@ -769,6 +994,7 @@
             }).join("");
 
             document.getElementById("levelProgress").innerHTML = html;
+            refreshStreakKpiFromAccount();
         }
 
         function renderFilters() {
@@ -835,8 +1061,10 @@
                 wrap.innerHTML = `<div class="task-item"><strong>Keine Treffer</strong><div class="task-meta">Passe Filter oder Suche an.</div></div>`;
                 document.getElementById("taskDetail").innerHTML = `
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Es ist aktuell keine Aufgabe ausgewählt.</p>
+                    <p class="muted">Es ist aktuell keine Aufgabe ausgewÃ¤hlt.</p>
                 `;
+                state.activeTaskId = null;
+                syncFilterState();
                 return;
             }
 
@@ -862,11 +1090,12 @@
             });
 
             renderTaskDetail();
+            syncFilterState();
         }
 
         const appTopicAliases = {
             "1": { Bruchrechnung: "Bruchrechnung", Prozentrechnung: "Prozente", Geometrie: "Geometrie", Dreisatz: "Dreisatz" },
-            "2": { "Gleichungen lösen und umstellen": "Gleichungen", Funktionen: "Funktionen", "Exponentielles Verhalten": "Potenzen" },
+            "2": { "Gleichungen lÃ¶sen und umstellen": "Gleichungen", Funktionen: "Funktionen", "Exponentielles Verhalten": "Potenzen" },
             "3": { Analysis: "Ableitungen", Kurvendiskussion: "Ableitungen", Stochastik: "Stochastik", Vektoren: "Vektoren" },
             "4": { "Lineare Algebra": "Lineare Algebra", Matrizen: "Lineare Algebra", Differentialgleichungen: "DGL" },
             "5": { Fourier: "Fourier", Laplace: "Laplace", Resonanz: "Resonanz", Regelungstechnik: "Regelungstechnik", Signale: "Fourier" },
@@ -884,6 +1113,7 @@
         function renderTaskDetail() {
             const task = tasks.find(t => t.id === state.activeTaskId);
             if (!task) return;
+            const appHref = `./index.html?level=${encodeURIComponent(task.level)}&topic=${encodeURIComponent(task.topic)}#level-${task.level}`;
 
             document.getElementById("taskDetail").innerHTML = `
                 <h3>${task.title}</h3>
@@ -899,11 +1129,11 @@
                     <p>${task.question}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Lösung</strong>
+                    <strong>Loesung</strong>
                     <p>${task.answer}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Erklärung</strong>
+                    <strong>Erklaerung</strong>
                     <p>${task.explanation}</p>
                 </div>
                 <div class="detail-block">
@@ -1027,6 +1257,20 @@
             return { estimatedLevel, estimatedSublevel, totalCorrect, stats };
         }
 
+        function applyPlacementRecommendation(result, scrollToArchive = false) {
+            state.selectedLevel = result.estimatedLevel;
+            state.selectedSublevel = result.estimatedSublevel;
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            renderFilters();
+            renderTaskList();
+            if (scrollToArchive) {
+                const archiveSection = document.getElementById("archiveBrowser");
+                if (archiveSection) archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function renderTestQuestion() {
             const box = document.getElementById("questionBox");
             const fill = document.getElementById("testProgressFill");
@@ -1077,6 +1321,8 @@
             const result = evaluatePlacement(state.testAnswers);
             const testResultEl = document.getElementById("testResult");
             const levelName = levelLabel(result.estimatedLevel);
+            applyPlacementRecommendation(result, false);
+            markAccountActivity("placement-finish");
 
             testResultEl.classList.add("show");
             testResultEl.innerHTML = `
@@ -1089,6 +1335,10 @@
                     <a class="detail-link" href="#archiveBrowser">Zum Archiv springen</a>
                 </div>
             `;
+            const placementToArchiveBtn = document.getElementById("placementToArchiveBtn");
+            if (placementToArchiveBtn) {
+                placementToArchiveBtn.addEventListener("click", () => applyPlacementRecommendation(result, true));
+            }
 
             document.getElementById("questionBox").innerHTML = `
                 <p><strong>Test abgeschlossen.</strong></p>
@@ -1109,7 +1359,8 @@
             state.testIndex = 0;
             state.testAnswers = [];
             document.getElementById("testResult").classList.remove("show");
-            document.getElementById("startTestBtn").textContent = "Test läuft";
+            document.getElementById("startTestBtn").textContent = "Test lÃ¤uft";
+            markAccountActivity("placement-start");
             renderTestQuestion();
         }
 
@@ -1171,6 +1422,7 @@
         applyFilterState(readFilterStateFromUrl());
 
         renderTopProgress();
+        hydrateFilterState();
         renderFilters();
         renderTaskList();
         renderTaxonomy();
