@@ -215,6 +215,24 @@
             color: var(--text-muted);
         }
 
+
+        .archive-app-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+            background: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .archive-app-link:hover {
+            background: #ff5a78;
+            border-color: #ff5a78;
+        }
         .test-flow {
             margin-top: 1rem;
             display: grid;
@@ -282,6 +300,44 @@
             .archive-layout { grid-template-columns: 1fr; }
             .filters { grid-template-columns: 1fr 1fr; }
             .level-row { grid-template-columns: 1fr; }
+            .task-list { max-height: 360px; }
+        }
+
+        @media (max-width: 640px) {
+            .topbar-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.75rem 0.85rem;
+            }
+
+            .top-links {
+                width: 100%;
+                flex-wrap: nowrap;
+                overflow: auto;
+                padding-bottom: 0.2rem;
+            }
+
+            .top-links a {
+                white-space: nowrap;
+                font-size: 0.84rem;
+                padding: 0.32rem 0.62rem;
+            }
+
+            .container {
+                padding: 1.1rem 0.7rem 2rem;
+                gap: 0.9rem;
+            }
+
+            .card {
+                padding: 0.95rem;
+                border-radius: 14px;
+            }
+
+            .filters { grid-template-columns: 1fr; }
+            .task-list { max-height: 300px; }
+            .question-box { padding: 0.85rem; }
+            .options { gap: 0.5rem; }
+            .result { padding: 0.85rem; }
         }
     </style>
 </head>
@@ -391,6 +447,88 @@
             testIndex: 0,
             testAnswers: []
         };
+        const ARCHIVE_FILTER_STATE_KEY = "sor-archive-filters-v1";
+
+        function normalizeFilterState(raw) {
+            const levels = new Set(["all"].concat(data.taxonomy.map(t => t.level)));
+            const sublevels = new Set(["all"].concat(data.taxonomy.flatMap(t => t.sublevels.map(s => s.id))));
+            const topics = new Set(["all"].concat(Array.from(new Set(tasks.map(t => t.topic)))));
+            const taskIds = new Set(tasks.map(t => t.id));
+
+            const next = {
+                selectedLevel: String((raw && raw.selectedLevel) || "all"),
+                selectedSublevel: String((raw && raw.selectedSublevel) || "all"),
+                selectedTopic: String((raw && raw.selectedTopic) || "all"),
+                search: String((raw && raw.search) || "").trim(),
+                activeTaskId: raw && raw.activeTaskId ? String(raw.activeTaskId) : null
+            };
+
+            if (!levels.has(next.selectedLevel)) next.selectedLevel = "all";
+            if (!sublevels.has(next.selectedSublevel)) next.selectedSublevel = "all";
+            if (!topics.has(next.selectedTopic)) next.selectedTopic = "all";
+            if (next.search.length > 120) next.search = next.search.slice(0, 120);
+            if (next.activeTaskId && !taskIds.has(next.activeTaskId)) next.activeTaskId = null;
+
+            if (next.selectedLevel !== "all" && next.selectedSublevel !== "all" && !next.selectedSublevel.startsWith(next.selectedLevel + ".")) {
+                next.selectedSublevel = "all";
+            }
+
+            return next;
+        }
+
+        function readFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return normalizeFilterState({
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("q") || "",
+                activeTaskId: params.get("task") || null
+            });
+        }
+
+        function readFilterStateFromStorage() {
+            try {
+                const saved = localStorage.getItem(ARCHIVE_FILTER_STATE_KEY);
+                if (!saved) return normalizeFilterState({});
+                return normalizeFilterState(JSON.parse(saved));
+            } catch (_err) {
+                return normalizeFilterState({});
+            }
+        }
+
+        function hydrateFilterState() {
+            const storageState = readFilterStateFromStorage();
+            const params = new URLSearchParams(window.location.search);
+            const hasUrlParams = params.toString().length > 0;
+            const urlState = readFilterStateFromUrl();
+            const merged = hasUrlParams ? Object.assign({}, storageState, urlState) : storageState;
+            Object.assign(state, normalizeFilterState(merged));
+        }
+
+        function syncFilterState() {
+            const params = new URLSearchParams();
+            if (state.selectedLevel !== "all") params.set("level", state.selectedLevel);
+            if (state.selectedSublevel !== "all") params.set("sublevel", state.selectedSublevel);
+            if (state.selectedTopic !== "all") params.set("topic", state.selectedTopic);
+            if (state.search) params.set("q", state.search);
+            if (state.activeTaskId) params.set("task", state.activeTaskId);
+
+            const query = params.toString();
+            const nextUrl = window.location.pathname + (query ? ("?" + query) : "") + (window.location.hash || "");
+            window.history.replaceState(null, "", nextUrl);
+
+            try {
+                localStorage.setItem(ARCHIVE_FILTER_STATE_KEY, JSON.stringify({
+                    selectedLevel: state.selectedLevel,
+                    selectedSublevel: state.selectedSublevel,
+                    selectedTopic: state.selectedTopic,
+                    search: state.search,
+                    activeTaskId: state.activeTaskId
+                }));
+            } catch (_err) {
+            }
+        }
 
         function levelLabel(level) {
             const item = data.taxonomy.find(t => t.level === level);
@@ -450,6 +588,11 @@
                 .map(topic => `<option value="${topic}">${topic}</option>`)
                 .join("");
             topicSelect.value = state.selectedTopic;
+
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput && searchInput.value !== state.search) {
+                searchInput.value = state.search;
+            }
         }
 
         function filteredTasks() {
@@ -476,6 +619,8 @@
                     <h3>Aufgabendetail</h3>
                     <p class="muted">Es ist aktuell keine Aufgabe ausgewählt.</p>
                 `;
+                state.activeTaskId = null;
+                syncFilterState();
                 return;
             }
 
@@ -499,11 +644,13 @@
             });
 
             renderTaskDetail();
+            syncFilterState();
         }
 
         function renderTaskDetail() {
             const task = tasks.find(t => t.id === state.activeTaskId);
             if (!task) return;
+            const appHref = `./index.html?level=${encodeURIComponent(task.level)}&topic=${encodeURIComponent(task.topic)}#level-${task.level}`;
 
             document.getElementById("taskDetail").innerHTML = `
                 <h3>${task.title}</h3>
@@ -519,16 +666,23 @@
                     <p>${task.question}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Lösung</strong>
+                    <strong>Loesung</strong>
                     <p>${task.answer}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Erklärung</strong>
+                    <strong>Erklaerung</strong>
                     <p>${task.explanation}</p>
                 </div>
                 <div class="detail-block">
                     <strong>Tags</strong>
                     <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
+                </div>
+                <div class="detail-block">
+                    <strong>Weiter ueben</strong>
+                    <p class="muted">Starte passende Uebungen direkt in der Mathe-App.</p>
+                    <div class="pill-row">
+                        <a class="archive-app-link" href="${appHref}">In der App ueben</a>
+                    </div>
                 </div>
             `;
         }
@@ -680,10 +834,12 @@
         }
 
         renderTopProgress();
+        hydrateFilterState();
         renderFilters();
         renderTaskList();
         renderTaxonomy();
         bindEvents();
+        syncFilterState();
     </script>
 </body>
 </html>

@@ -7,8 +7,8 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 400 Aufgaben pro Level in dieser Iteration
-- 2.400 Aufgaben insgesamt aktuell verfuegbar
+- 500 Aufgaben pro Level in dieser Iteration
+- 3.000 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -27,12 +27,12 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
-- [ ] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
-- [ ] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
-- [ ] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
-- [ ] Connect archive content more clearly with app exercises
-- [ ] Add level/sublevel deep links and saved filter state in the archive UI
-- [ ] Improve mobile layout of archive and placement sections after real-device pass
+- [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
+- [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
+- [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
+- [x] Connect archive content more clearly with app exercises
+- [x] Add level/sublevel deep links and saved filter state in the archive UI
+- [x] Improve mobile layout of archive and placement sections after real-device pass
 - [ ] Add placement result handoff to recommended archive filter preset
 
 ## P3

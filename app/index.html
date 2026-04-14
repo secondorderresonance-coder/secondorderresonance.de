@@ -1085,6 +1085,33 @@
             return true;
         }
 
+        function applyQueryPreset() {
+            const params = new URLSearchParams(window.location.search);
+            const levelParam = params.get('level');
+            const topicParam = params.get('topic');
+
+            if (levelParam && /^[1-6]$/.test(levelParam)) {
+                selectLevel(Number(levelParam) - 1);
+            }
+
+            if (topicParam) {
+                const requestedTopic = topicParam.trim().toLowerCase();
+                const match = exercises[state.level].topics.find((t) => t.toLowerCase() === requestedTopic);
+                if (match) {
+                    state.topic = match;
+                    state.questionIdx = 0;
+                    state.answered = false;
+                    renderTopics();
+                    renderExercise();
+                }
+            }
+
+            if (levelParam || topicParam) {
+                const target = document.getElementById('exerciseCard');
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         function openLevelFromHash() {
             const match = window.location.hash.match(/^#level-([1-6])$/);
             if (!match) return;
@@ -1208,6 +1235,7 @@
         renderExercise();
         updateStats();
         renderAchievements();
+        applyQueryPreset();
         openLevelFromHash();
         window.addEventListener('hashchange', openLevelFromHash);
     </script>

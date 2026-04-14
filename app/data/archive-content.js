@@ -39,6 +39,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "1.1", title: "Zahlen und Rechenregeln" },
                 { id: "1.1.1", title: "Grundrechenarten" },
+                { id: "1.1.1.a", title: "Kopfrechnen und Rechenstrategien" },
                 { id: "1.1.2", title: "Bruch- und Prozentrechnung" },
                 { id: "1.2", title: "Muster, Geometrie, Alltag" }
             ]
@@ -51,6 +52,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "2.1", title: "Terme und Gleichungen" },
                 { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
+                { id: "2.1.1.a", title: "Lineare Gleichungen mit Klammern" },
                 { id: "2.2", title: "Funktionen und Graphen" },
                 { id: "2.2.1", title: "Exponentielles Verhalten" }
             ]
@@ -63,6 +65,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "3.1", title: "Analysis" },
                 { id: "3.1.1", title: "Ableitung und Kurvendiskussion" },
+                { id: "3.1.1.a", title: "Ableitungsregeln kombiniert" },
                 { id: "3.2", title: "Stochastik und Vektoren" }
             ]
         },
@@ -74,6 +77,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "4.1", title: "Lineare Algebra" },
                 { id: "4.1.1", title: "Matrizen und Determinanten" },
+                { id: "4.1.1.a", title: "Determinanten in Anwendungen" },
                 { id: "4.2", title: "Analysis I und DGL" }
             ]
         },
@@ -85,6 +89,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "5.1", title: "Signale und Transformationen" },
                 { id: "5.1.1", title: "Fourier und Laplace" },
+                { id: "5.1.1.a", title: "Transformationen in Signalsystemen" },
                 { id: "5.2", title: "Systeme und Regelung" }
             ]
         },
@@ -96,6 +101,7 @@ window.SOR_ARCHIVE = {
             sublevels: [
                 { id: "6.1", title: "Numerische Simulation" },
                 { id: "6.1.1", title: "FEM und PDE" },
+                { id: "6.1.1.a", title: "FEM-Diskretisierung und Randbedingungen" },
                 { id: "6.2", title: "Stochastik und Optimierung" }
             ]
         }
@@ -105,7 +111,7 @@ window.SOR_ARCHIVE = {
             id: "T-1-001",
             title: "Bruchaddition mit Hauptnenner",
             level: "1",
-            sublevel: "1.1.2",
+            sublevel: "1.1.1.a",
             topic: "Bruchrechnung",
             tags: ["bruch", "grundlagen"],
             difficulty: "leicht",
@@ -190,7 +196,7 @@ window.SOR_ARCHIVE = {
             id: "T-2-001",
             title: "Lineare Gleichung lösen",
             level: "2",
-            sublevel: "2.1.1",
+            sublevel: "2.1.1.a",
             topic: "Gleichungen lösen und umstellen",
             tags: ["gleichung", "termumformung"],
             difficulty: "mittel",
@@ -275,7 +281,7 @@ window.SOR_ARCHIVE = {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
             level: "3",
-            sublevel: "3.1.1",
+            sublevel: "3.1.1.a",
             topic: "Analysis",
             tags: ["ableitung", "potenzregel"],
             difficulty: "mittel",
@@ -360,7 +366,7 @@ window.SOR_ARCHIVE = {
             id: "T-4-001",
             title: "Determinante 2x2",
             level: "4",
-            sublevel: "4.1.1",
+            sublevel: "4.1.1.a",
             topic: "Lineare Algebra",
             tags: ["determinante", "matrix"],
             difficulty: "mittel",
@@ -445,7 +451,7 @@ window.SOR_ARCHIVE = {
             id: "T-5-001",
             title: "Fourier-Idee",
             level: "5",
-            sublevel: "5.1",
+            sublevel: "5.1.1.a",
             topic: "Fourier",
             tags: ["frequenzen", "signal"],
             difficulty: "schwer",
@@ -530,7 +536,7 @@ window.SOR_ARCHIVE = {
             id: "T-6-001",
             title: "PDE-Klassifikation",
             level: "6",
-            sublevel: "6.1.1",
+            sublevel: "6.1.1.a",
             topic: "Partielle DGL",
             tags: ["pde", "klassifikation"],
             difficulty: "schwer",
@@ -610,7 +616,7 @@ window.SOR_ARCHIVE = {
             type: "konzeptfrage",
             estimatedTime: 3
         }
-    ], 400),
+    ], 500),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
         { id: "P02", level: "1", sublevel: "1.1.2", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
