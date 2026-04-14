@@ -13,22 +13,25 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Completed the next highest-priority open P3 task:
-- defined the archive content QA workflow and authoring guidelines for scaling to 30.000 tasks
+Worked on the next highest-priority open P2 task:
+- started the first focused L4-L6 archive expansion batch with textbook-style explanations
 
 Implementation details:
-- added `docs/archive-content-qa-workflow.md` with:
-  - mandatory explanation structure (core idea, intuition, steps, common mistake, quick check)
-  - quality gates for structural QA + pedagogical/manual QA
-  - L4-L6 didactic guidance focused on textbook-style explanations
-  - explicit source orientation for L4-L6 toward the two Karpfinger PDFs
-- appended a new P2 follow-up task for concrete L4-L6 archive expansion in small reviewable batches
+- added three new seed tasks in `app/data/archive-content.js`:
+  - `T-4-007` (Analysis I: geometric series convergence and sum)
+  - `T-5-007` (Laplace use in linear initial value problems)
+  - `T-6-007` (consistency-stability-convergence in numerical simulation)
+- each new explanation follows the didactic structure from the QA workflow:
+  - `Kernidee`, `Intuition`, `Schritte`, `Haeufiger Fehler`, `Schnellcheck`
+- this raises pedagogical depth for L4-L6 without changing site design or inflating scope
 
 ## Last validation
-- document marker checks:
-  - `rg -n "Source policy|Karpfinger|Mandatory explanation format|QA gates before merge|L4-L6 didactic guidance" docs/archive-content-qa-workflow.md`
 - marker checks:
-  - `rg -n "Expand L4-L6 archive slices|Define content QA workflow" BACKLOG.md`
+  - `rg -n "id: \"T-4-007\"|id: \"T-5-007\"|id: \"T-6-007\"|Kernidee:|Haeufiger Fehler:|Schnellcheck:" app/data/archive-content.js`
+- runtime seed checks:
+  - Node VM check confirms `T-4-007`, `T-5-007`, `T-6-007` exist in built archive tasks and contain the didactic markers
+- marker checks:
+  - `rg -n "Expand L4-L6 archive slices" BACKLOG.md`
 - archive data integrity check:
   - `node tools/archive-qa.js`
   - `OK: archive QA passed`
@@ -37,8 +40,7 @@ Implementation details:
   - `placementQuestions=30`
 
 ## Files touched in last task
-- `docs/archive-content-qa-workflow.md`
-- `BACKLOG.md`
+- `app/data/archive-content.js`
 - `STATUS.md`
 
 ## Blockers
@@ -46,4 +48,4 @@ None.
 
 ## Next logical step
 Start the next highest-priority open P2 task:
-- expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch in small batches.
+- continue L4-L6 archive expansion with the next small batch of textbook-style tasks and explanations aligned to Karpfinger Buch + Arbeitsbuch.
