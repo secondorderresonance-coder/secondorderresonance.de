@@ -14,19 +14,22 @@ Current implementation status:
 
 ## Last completed task
 Completed the next highest-priority open P3 task:
-- prepared local progress architecture for future XP and streak systems in `app/index.html`
+- added a local-first daily streak system for archive and placement interactions in `app/lernarchiv.html`
 
 Implementation details:
-- introduced a versioned progress envelope (`schemaVersion`, `summary`, `dailyActivity`, `weeklyXp`, `lastActiveDate`, `updatedAt`) per local account
-- added backward-compatible migration logic from legacy `progress` snapshots to the new envelope shape during account-store load
-- updated save flow to aggregate per-day activity counters (`answered`, `correct`, `xp`, `events`) and weekly XP buckets (ISO week key)
-- kept existing user-visible behavior intact while preparing structured storage for upcoming streak/achievement expansion
+- integrated `lernarchiv.html` with the shared account store key `mathlevel-accounts-v1`
+- added account-aware activity tracking for:
+  - opening archive tasks
+  - starting placement test
+  - finishing placement test
+- streak logic now updates `summary.streak` + `summary.lastSessionDate` (today/yesterday-aware) and records daily activity events in `dailyActivity`
+- added a streak KPI card (`kpiStreak`) in the archive dashboard to show the current account streak locally
 
 ## Last validation
-- script parse check for app inline JS:
-  - `vm.Script(...)` parse on `app/index.html` script block => OK
+- script parse check for archive inline JS:
+  - `vm.Script(...)` parse on `app/lernarchiv.html` script block => OK
 - marker checks:
-  - `rg -n "PROGRESS_SCHEMA_VERSION|createProgressEnvelope|normalizeProgressEnvelope|ensureAccountProgressEnvelope|dailyActivity|weeklyXp" app/index.html`
+  - `rg -n "kpiStreak|ACCOUNT_STORE_KEY|markAccountActivity|refreshStreakKpiFromAccount|placement-start|placement-finish|archive-task-open" app/lernarchiv.html`
 - archive data integrity check:
   - `node tools/archive-qa.js`
   - `OK: archive QA passed`
@@ -35,7 +38,7 @@ Implementation details:
   - `placementQuestions=30`
 
 ## Files touched in last task
-- `app/index.html`
+- `app/lernarchiv.html`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -44,4 +47,4 @@ None.
 
 ## Next logical step
 Start the next highest-priority open P3 task:
-- add daily streak system to archive and placement journey (local first, backend-ready later).
+- add achievement placeholder architecture without overbuilding.

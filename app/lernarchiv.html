@@ -379,6 +379,10 @@
                     <strong id="kpiPlacement">30</strong>
                     <span>Fragen im Einstufungstest</span>
                 </div>
+                <div class="kpi">
+                    <strong id="kpiStreak">--</strong>
+                    <span>Aktive Lernserie (Account)</span>
+                </div>
             </div>
             <div class="level-progress" id="levelProgress"></div>
         </section>
@@ -453,6 +457,140 @@
             testAnswers: []
         };
         const ARCHIVE_FILTER_STATE_KEY = "sor-archive-filters-v1";
+        const ACCOUNT_STORE_KEY = "mathlevel-accounts-v1";
+
+        function getTodayKey() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        function getYesterdayKey() {
+            return new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        }
+
+        function getIsoWeekKey(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - day);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + "-W" + String(week).padStart(2, "0");
+        }
+
+        function normalizeSummarySnapshot(raw) {
+            const data = raw || {};
+            return {
+                correct: data.correct || 0,
+                total: data.total || 0,
+                xp: data.xp || 0,
+                streak: data.streak || 0,
+                lastSessionDate: data.lastSessionDate || null,
+                earnedAchievements: Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : []
+            };
+        }
+
+        function normalizeProgressEnvelope(rawProgress) {
+            if (rawProgress && typeof rawProgress === "object" && rawProgress.summary) {
+                return {
+                    schemaVersion: rawProgress.schemaVersion || 2,
+                    summary: normalizeSummarySnapshot(rawProgress.summary),
+                    dailyActivity: rawProgress.dailyActivity && typeof rawProgress.dailyActivity === "object" ? rawProgress.dailyActivity : {},
+                    weeklyXp: rawProgress.weeklyXp && typeof rawProgress.weeklyXp === "object" ? rawProgress.weeklyXp : {},
+                    lastActiveDate: rawProgress.lastActiveDate || null,
+                    updatedAt: rawProgress.updatedAt || new Date().toISOString()
+                };
+            }
+            const summary = normalizeSummarySnapshot(rawProgress);
+            return {
+                schemaVersion: 2,
+                summary,
+                dailyActivity: {},
+                weeklyXp: {},
+                lastActiveDate: summary.lastSessionDate || null,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function updateStreakKpi(value, hasAccount) {
+            const streakEl = document.getElementById("kpiStreak");
+            if (!streakEl) return;
+            if (!hasAccount) {
+                streakEl.textContent = "--";
+                return;
+            }
+            streakEl.textContent = String(value || 0) + " Tage";
+        }
+
+        function readCurrentAccountProgress() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return null;
+                const store = JSON.parse(raw);
+                if (!store || typeof store !== "object" || !store.current || !store.accounts || !store.accounts[store.current]) {
+                    return null;
+                }
+                const accountId = store.current;
+                const account = store.accounts[accountId];
+                account.progress = normalizeProgressEnvelope(account.progress || {});
+                return { store, accountId, account, progress: account.progress };
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function refreshStreakKpiFromAccount() {
+            const session = readCurrentAccountProgress();
+            if (!session) {
+                updateStreakKpi(0, false);
+                return;
+            }
+            updateStreakKpi(session.progress.summary.streak || 0, true);
+        }
+
+        function markAccountActivity(activityType) {
+            const session = readCurrentAccountProgress();
+            if (!session) return;
+
+            const today = getTodayKey();
+            const yesterday = getYesterdayKey();
+            const weekKey = getIsoWeekKey(new Date());
+            const summary = normalizeSummarySnapshot(session.progress.summary);
+
+            if (summary.lastSessionDate !== today) {
+                if (summary.lastSessionDate === yesterday) {
+                    summary.streak = (summary.streak || 0) + 1;
+                } else {
+                    summary.streak = 1;
+                }
+                summary.lastSessionDate = today;
+            }
+
+            if (!session.progress.dailyActivity[today]) {
+                session.progress.dailyActivity[today] = { answered: 0, correct: 0, xp: 0, events: 0, sources: [] };
+            }
+            session.progress.dailyActivity[today].events += 1;
+            if (activityType) {
+                const sources = Array.isArray(session.progress.dailyActivity[today].sources)
+                    ? session.progress.dailyActivity[today].sources
+                    : [];
+                if (!sources.includes(activityType)) sources.push(activityType);
+                session.progress.dailyActivity[today].sources = sources;
+            }
+
+            if (typeof session.progress.weeklyXp[weekKey] !== "number") {
+                session.progress.weeklyXp[weekKey] = 0;
+            }
+
+            session.progress.summary = summary;
+            session.progress.lastActiveDate = today;
+            session.progress.updatedAt = new Date().toISOString();
+
+            try {
+                localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(session.store));
+            } catch (_err) {
+            }
+
+            updateStreakKpi(summary.streak || 0, true);
+        }
 
         function normalizeFilterState(raw) {
             const levels = new Set(["all"].concat(data.taxonomy.map(t => t.level)));
@@ -564,6 +702,7 @@
             }).join("");
 
             document.getElementById("levelProgress").innerHTML = html;
+            refreshStreakKpiFromAccount();
         }
 
         function renderFilters() {
@@ -645,6 +784,7 @@
                     state.activeTaskId = el.getAttribute("data-id");
                     renderTaskList();
                     renderTaskDetail();
+                    markAccountActivity("archive-task-open");
                 });
             });
 
@@ -793,6 +933,7 @@
             const testResultEl = document.getElementById("testResult");
             const levelName = levelLabel(result.estimatedLevel);
             applyPlacementRecommendation(result, false);
+            markAccountActivity("placement-finish");
 
             testResultEl.classList.add("show");
             testResultEl.innerHTML = `
@@ -823,6 +964,7 @@
             state.testAnswers = [];
             document.getElementById("testResult").classList.remove("show");
             document.getElementById("startTestBtn").textContent = "Test läuft";
+            markAccountActivity("placement-start");
             renderTestQuestion();
         }
 
