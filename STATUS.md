@@ -1,16 +1,33 @@
 # STATUS
 
+## Current version
+- `v1.1.4`
+
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 3.120 archive tasks (520 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, and now a global search plus a low-friction external suggestion flow on the landing page.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
 - 6 levels
 - 30.000 items overall
+- Duolingo-aehnliche guided learning journey for math/physics in SOR branding
+- Own SOR accounts on the website first and later in iOS/Android app flows
+- Free-first product direction with optional small premium tier later if demand supports it
 
 Current implementation status:
-- Early scalable foundation (not final archive volume)
+- Expanded scalable foundation (not final archive volume)
 - Architecture is designed for further growth without major restructuring
+- Homepage video cards now provide direct topic-based YouTube entry points instead of generic channel-only links
+- Active level framing now consistently reflects the 6-level target through Level 6 ("Forschung & Simulation")
+- Archive authoring has a documented seed-task template and a runnable QA check for taxonomy/data integrity
+- Taxonomy includes deeper pedagogical paths such as `1.1.2.a`, `2.1.1.a`, `3.1.1.a`, `4.1.1.a`, `5.1.1.a`, and `6.1.1.a`
+- Archive task details now link into the app with matching level/topic deeplinks where supported
+- Archive filters can now be restored from local state and shared via URL parameters for `level`, `sublevel`, `topic`, `search`, and `task`
+- Archive and placement sections now compress more cleanly on tablet and phone widths without changing the established visual identity
+- Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
+- The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
+- The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 
 ## Last completed task
 Worked on the next highest-priority open P2 task:
@@ -41,7 +58,29 @@ Implementation details:
 
 ## Files touched in last task
 - `app/data/archive-content.js`
+Completed the user-requested landing page utility additions in `index.html`:
+- Added a global quick-search hub that searches website sections, archive levels/sublevels, and archive topics from the shared archive data model.
+- Added an external quick-submit suggestion form for new task ideas with title, level 1-6 categorization, topic, detailed description, optional contact address, and screenshot preview.
+- Implemented a no-backend first flow: the page copies the structured suggestion text, opens a mail draft, and uses the native share sheet with attached image when browser support exists.
+- Kept the implementation focused to one page (`index.html`) and aligned with the current SOR design language.
+
+## Last validation
+- `rg -n "globalSearchInput|globalSearchResults|suggestionForm|suggestScreenshot|suggestionPreview|SOR_ARCHIVE|buildSearchEntries|navigator.share|mailto:" index.html -S`
+- Inline script syntax check via Node on `index.html`
+- `node tools/archive-qa.js`
+- QA result:
+  - tasks: 3120
+  - placement questions: 30
+  - level distribution: 520 tasks for each level 1-6
+  - overall result: OK
+- Static diff review confirmed the change stays focused on one landing-page search/suggestion enhancement plus run documentation.
+
+## Files touched in last task
+- `index.html`
+- `index.html`
+- `BACKLOG.md`
 - `STATUS.md`
+- `VERSION.md`
 
 ## Blockers
 None.
@@ -49,3 +88,9 @@ None.
 ## Next logical step
 Start the next highest-priority open P2 task:
 - continue L4-L6 archive expansion with the next small batch of textbook-style tasks and explanations aligned to Karpfinger Buch + Arbeitsbuch.
+Continue with the next highest-priority open tasks now queued after this run:
+1. Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context.
+2. Prepare local progress architecture for future XP and streak systems.
+3. Add daily streak system to archive and placement journey (local first, backend-ready later).
+4. Add achievement placeholder architecture without overbuilding.
+5. Define content QA workflow and authoring guidelines for scaling to 30.000 tasks.

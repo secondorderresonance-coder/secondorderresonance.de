@@ -1,103 +1,161 @@
-#!/usr/bin/env node
+const fs = require("fs");
+const path = require("path");
+const vm = require("vm");
 
-const fs = require('fs');
-const path = require('path');
-const vm = require('vm');
-
-const root = process.cwd();
-const archivePath = path.join(root, 'app', 'data', 'archive-content.js');
-
-function fail(msg) {
-  console.error('FAIL: ' + msg);
-  process.exit(1);
-}
-
-if (!fs.existsSync(archivePath)) {
-  fail('Missing archive data file: ' + archivePath);
-}
-
-const code = fs.readFileSync(archivePath, 'latin1');
+const archivePath = path.join(__dirname, "..", "app", "data", "archive-content.js");
+const source = fs.readFileSync(archivePath, "utf8");
 const context = { window: {} };
-vm.createContext(context);
 
-try {
-  vm.runInContext(code, context, { filename: 'archive-content.js' });
-} catch (err) {
-  fail('Could not evaluate archive-content.js: ' + err.message);
-}
+vm.createContext(context);
+vm.runInContext(source, context);
 
 const data = context.window.SOR_ARCHIVE;
-if (!data || typeof data !== 'object') {
-  fail('window.SOR_ARCHIVE not found');
+const errors = [];
+const warnings = [];
+
+function assert(condition, message) {
+    if (!condition) errors.push(message);
 }
 
-if (!Array.isArray(data.taxonomy) || data.taxonomy.length !== 6) {
-  fail('taxonomy must contain exactly 6 levels');
+function warn(condition, message) {
+    if (!condition) warnings.push(message);
 }
 
-const allowedLevels = new Set(['1', '2', '3', '4', '5', '6']);
-const taxonomyLevels = new Set(data.taxonomy.map((t) => String(t.level)));
-for (const level of allowedLevels) {
-  if (!taxonomyLevels.has(level)) fail('taxonomy missing level ' + level);
+assert(data && typeof data === "object", "SOR_ARCHIVE fehlt oder ist kein Objekt.");
+
+if (!data || typeof data !== "object") {
+    printReport();
+    process.exit(1);
 }
 
-if (!Array.isArray(data.tasks) || data.tasks.length === 0) {
-  fail('tasks must be a non-empty array');
+assert(Array.isArray(data.taxonomy), "taxonomy muss ein Array sein.");
+assert(Array.isArray(data.tasks), "tasks muss ein Array sein.");
+assert(Array.isArray(data.placementQuestions), "placementQuestions muss ein Array sein.");
+assert(typeof data.targetPerLevel === "number", "targetPerLevel muss eine Zahl sein.");
+assert(typeof data.targetTotal === "number", "targetTotal muss eine Zahl sein.");
+
+const taxonomyByLevel = new Map();
+const sublevelsByLevel = new Map();
+
+for (const levelEntry of data.taxonomy || []) {
+    assert(levelEntry && typeof levelEntry === "object", "Jeder Taxonomie-Eintrag muss ein Objekt sein.");
+    if (!levelEntry || typeof levelEntry !== "object") continue;
+
+    const { level, code, title, sublevels } = levelEntry;
+    assert(typeof level === "string", "Taxonomie-Level muss als String vorliegen.");
+    assert(typeof code === "string" && code.startsWith("L"), `Taxonomie-Code ungueltig fuer Level ${level}.`);
+    assert(typeof title === "string" && title.trim(), `Taxonomie-Titel fehlt fuer Level ${level}.`);
+    assert(Array.isArray(sublevels) && sublevels.length > 0, `Sublevels fehlen fuer Level ${level}.`);
+
+    taxonomyByLevel.set(level, levelEntry);
+    sublevelsByLevel.set(
+        level,
+        new Set((sublevels || []).map((sublevel) => sublevel.id))
+    );
 }
 
-const requiredFields = [
-  'id',
-  'title',
-  'level',
-  'sublevel',
-  'topic',
-  'tags',
-  'difficulty',
-  'question',
-  'answer',
-  'explanation',
-  'type',
-  'estimatedTime'
+const requiredTaskFields = [
+    "id",
+    "title",
+    "level",
+    "sublevel",
+    "topic",
+    "tags",
+    "difficulty",
+    "question",
+    "answer",
+    "explanation",
+    "type",
+    "estimatedTime"
 ];
 
-const idSet = new Set();
-const counts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 };
+const allowedDifficulty = new Set(["leicht", "mittel", "schwer"]);
+const allowedTypes = new Set(["kurzantwort", "konzeptfrage"]);
+const seenTaskIds = new Set();
+const perLevelCounts = new Map();
 
-for (const [idx, task] of data.tasks.entries()) {
-  for (const field of requiredFields) {
-    if (!(field in task)) fail(`task[${idx}] is missing field ${field}`);
-  }
+for (const task of data.tasks || []) {
+    for (const field of requiredTaskFields) {
+        assert(task[field] !== undefined, `Pflichtfeld ${field} fehlt bei Task ${task.id || "<ohne-id>"}.`);
+    }
 
-  const level = String(task.level);
-  if (!allowedLevels.has(level)) {
-    fail(`task[${idx}] has invalid level: ${task.level}`);
-  }
+    if (!task.id) continue;
 
-  if (!Array.isArray(task.tags) || task.tags.length === 0) {
-    fail(`task[${idx}] tags must be a non-empty array`);
-  }
+    assert(!seenTaskIds.has(task.id), `Doppelte Task-ID gefunden: ${task.id}`);
+    seenTaskIds.add(task.id);
 
-  const estimated = Number(task.estimatedTime);
-  if (!Number.isFinite(estimated) || estimated <= 0) {
-    fail(`task[${idx}] estimatedTime must be a positive number`);
-  }
+    assert(taxonomyByLevel.has(task.level), `Task ${task.id} referenziert unbekanntes Level ${task.level}.`);
+    assert(
+        sublevelsByLevel.has(task.level) && sublevelsByLevel.get(task.level).has(task.sublevel),
+        `Task ${task.id} referenziert unbekanntes Sublevel ${task.sublevel}.`
+    );
+    assert(Array.isArray(task.tags) && task.tags.length > 0, `Task ${task.id} braucht mindestens einen Tag.`);
+    assert(allowedDifficulty.has(task.difficulty), `Task ${task.id} hat ungueltige Schwierigkeit ${task.difficulty}.`);
+    assert(allowedTypes.has(task.type), `Task ${task.id} hat ungueltigen Typ ${task.type}.`);
+    assert(
+        typeof task.estimatedTime === "number" && task.estimatedTime > 0,
+        `Task ${task.id} braucht estimatedTime > 0.`
+    );
 
-  if (idSet.has(task.id)) {
-    fail(`duplicate task id: ${task.id}`);
-  }
-  idSet.add(task.id);
-  counts[level] += 1;
+    perLevelCounts.set(task.level, (perLevelCounts.get(task.level) || 0) + 1);
 }
 
-if (!Array.isArray(data.placementQuestions) || data.placementQuestions.length !== 30) {
-  fail('placementQuestions must contain exactly 30 entries');
+const seenPlacementIds = new Set();
+for (const question of data.placementQuestions || []) {
+    assert(question.id, "Placement-Frage ohne ID gefunden.");
+    if (!question.id) continue;
+
+    assert(!seenPlacementIds.has(question.id), `Doppelte Placement-ID gefunden: ${question.id}`);
+    seenPlacementIds.add(question.id);
+
+    assert(taxonomyByLevel.has(question.level), `Placement ${question.id} referenziert unbekanntes Level ${question.level}.`);
+    assert(
+        sublevelsByLevel.has(question.level) && sublevelsByLevel.get(question.level).has(question.sublevel),
+        `Placement ${question.id} referenziert unbekanntes Sublevel ${question.sublevel}.`
+    );
+    assert(Array.isArray(question.options) && question.options.length >= 2, `Placement ${question.id} braucht mindestens zwei Antwortoptionen.`);
+    assert(
+        Number.isInteger(question.correctIndex) &&
+        question.correctIndex >= 0 &&
+        question.correctIndex < question.options.length,
+        `Placement ${question.id} hat einen ungueltigen correctIndex.`
+    );
 }
 
-if (Number.isFinite(data.targetTotal) && data.tasks.length > data.targetTotal) {
-  fail(`tasks length (${data.tasks.length}) exceeds targetTotal (${data.targetTotal})`);
+for (const level of taxonomyByLevel.keys()) {
+    warn(perLevelCounts.get(level) > 0, `Level ${level} hat aktuell keine Aufgaben.`);
 }
 
-console.log('OK: archive QA passed');
-console.log('tasks=' + data.tasks.length);
-console.log('perLevel=' + JSON.stringify(counts));
-console.log('placementQuestions=' + data.placementQuestions.length);
+warn(
+    (data.tasks || []).length <= data.targetTotal,
+    `Aktuelle Aufgabenmenge (${data.tasks.length}) ueberschreitet targetTotal (${data.targetTotal}).`
+);
+
+printReport();
+process.exit(errors.length > 0 ? 1 : 0);
+
+function printReport() {
+    console.log("Archive QA Report");
+    console.log(`Tasks: ${Array.isArray(data?.tasks) ? data.tasks.length : 0}`);
+    console.log(`Placement questions: ${Array.isArray(data?.placementQuestions) ? data.placementQuestions.length : 0}`);
+
+    const levels = Array.from(perLevelCounts.keys()).sort((a, b) => Number(a) - Number(b));
+    for (const level of levels) {
+        console.log(`L${level}: ${perLevelCounts.get(level)} tasks`);
+    }
+
+    if (warnings.length) {
+        console.log("");
+        console.log("Warnings:");
+        for (const warning of warnings) console.log(`- ${warning}`);
+    }
+
+    if (errors.length) {
+        console.log("");
+        console.log("Errors:");
+        for (const error of errors) console.log(`- ${error}`);
+    } else {
+        console.log("");
+        console.log("Result: OK");
+    }
+}

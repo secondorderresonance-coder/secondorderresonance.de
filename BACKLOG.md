@@ -1,5 +1,10 @@
 # BACKLOG
 
+## Strategische Produktziele
+- Duolingo-aehnliche Lernreise fuer Mathe und Physik, aber im Second-Order-Resonance-Stil statt als Kopie
+- Eigene SOR-Accounts auf Website und spaeter in iOS/Android-App
+- Zunaechst kostenloses Kernprodukt, spaeter optional kleine Premium-Stufe bei genug Nachfrage
+
 ## Archiv Zielbild
 - 5.000 Aufgaben pro Level (L1-L6)
 - 30.000 Aufgaben insgesamt im Archiv
@@ -9,6 +14,8 @@
 ## Aktueller Meilenstein
 - 500 Aufgaben pro Level in dieser Iteration
 - 3.000 Aufgaben insgesamt aktuell verfuegbar
+- 520 Aufgaben pro Level in dieser Iteration
+- 3.120 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -42,3 +49,20 @@
 - [x] Add daily streak system to archive and placement journey (local first, backend-ready later)
 - [x] Add achievement placeholder architecture without overbuilding
 - [x] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [x] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [x] Add global search function across website and archive themes
+- [x] Add external quick-submit suggestion form for new task ideas with level categorization
+- [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
+
+## P3
+- [ ] Prepare local progress architecture for future XP and streak systems
+- [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
+- [ ] Add achievement placeholder architecture without overbuilding
+- [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [ ] Define Duolingo-aehnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
+- [ ] Define web account creation and login foundation for SOR (free-first, app-ready)
+- [ ] Define free-first monetization path with optional small premium tier later
+- [ ] Define SOR account and sync architecture for future iOS/Android app login
+- [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+- [ ] Add backend/moderation pipeline for external task suggestions after validating demand
+

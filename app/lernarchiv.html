@@ -151,6 +151,27 @@
             margin-bottom: 0.9rem;
         }
 
+        .filter-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .ghost-btn {
+            width: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.18);
+            color: var(--text);
+            padding: 0.55rem 0.9rem;
+        }
+
+        .ghost-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem; }
 
         select, input, button {
@@ -215,24 +236,24 @@
             color: var(--text-muted);
         }
 
-
-        .archive-app-link {
+        .detail-link {
             display: inline-flex;
             align-items: center;
-            text-decoration: none;
-            color: #fff;
-            background: var(--accent);
-            border: 1px solid var(--accent);
+            gap: 0.35rem;
             border-radius: 999px;
-            padding: 0.5rem 0.85rem;
+            padding: 0.45rem 0.9rem;
+            text-decoration: none;
+            background: rgba(233, 69, 96, 0.12);
+            border: 1px solid rgba(233, 69, 96, 0.35);
+            color: var(--text);
             font-size: 0.86rem;
             font-weight: 600;
         }
 
-        .archive-app-link:hover {
-            background: #ff5a78;
-            border-color: #ff5a78;
+        .detail-link:hover {
+            background: rgba(233, 69, 96, 0.2);
         }
+
         .test-flow {
             margin-top: 1rem;
             display: grid;
@@ -281,6 +302,108 @@
             margin-top: 0.7rem;
         }
 
+        .result-actions {
+            margin-top: 0.9rem;
+            display: flex;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .visual-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            gap: 1rem;
+            align-items: stretch;
+            margin-top: 1rem;
+        }
+
+        .visual-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1rem;
+        }
+
+        .visual-panel h3 {
+            margin-bottom: 0.45rem;
+            font-size: 1.15rem;
+        }
+
+        .formula-line {
+            margin-top: 0.8rem;
+            font-family: "Cambria Math", "Times New Roman", serif;
+            font-size: 1.25rem;
+            color: var(--gold);
+        }
+
+        .visual-controls {
+            display: grid;
+            gap: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .visual-control {
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .visual-control label {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            color: var(--text);
+        }
+
+        .visual-control input[type="range"] {
+            padding: 0;
+        }
+
+        .visual-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        .visual-metric {
+            border-radius: 12px;
+            padding: 0.85rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .visual-metric strong {
+            display: block;
+            color: var(--gold);
+            font-size: 1.05rem;
+        }
+
+        .visual-metric span {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .visual-canvas {
+            width: 100%;
+            min-height: 360px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: radial-gradient(circle at top, rgba(15, 52, 96, 0.45), rgba(26, 26, 46, 0.95));
+            overflow: hidden;
+        }
+
+        .visual-canvas svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .visual-note {
+            margin-top: 0.9rem;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
         .taxonomy {
             margin-top: 1rem;
             display: grid;
@@ -305,44 +428,98 @@
             .archive-layout { grid-template-columns: 1fr; }
             .filters { grid-template-columns: 1fr 1fr; }
             .level-row { grid-template-columns: 1fr; }
+            .detail { min-height: 0; }
             .task-list { max-height: 360px; }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 720px) {
             .topbar-inner {
-                flex-direction: column;
                 align-items: flex-start;
-                padding: 0.75rem 0.85rem;
+                flex-direction: column;
             }
 
             .top-links {
                 width: 100%;
-                flex-wrap: nowrap;
-                overflow: auto;
-                padding-bottom: 0.2rem;
             }
 
             .top-links a {
-                white-space: nowrap;
-                font-size: 0.84rem;
-                padding: 0.32rem 0.62rem;
+                flex: 1 1 auto;
+                text-align: center;
             }
 
             .container {
-                padding: 1.1rem 0.7rem 2rem;
-                gap: 0.9rem;
+                padding: 1.25rem 0.85rem 2.4rem;
             }
 
             .card {
-                padding: 0.95rem;
-                border-radius: 14px;
+                padding: 1rem;
+                border-radius: 16px;
             }
 
-            .filters { grid-template-columns: 1fr; }
-            .task-list { max-height: 300px; }
-            .question-box { padding: 0.85rem; }
-            .options { gap: 0.5rem; }
-            .result { padding: 0.85rem; }
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tools {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .filter-tools .ghost-btn {
+                width: 100%;
+            }
+
+            .task-list {
+                max-height: none;
+                padding-right: 0;
+            }
+
+            .question-box,
+            .result {
+                padding: 0.9rem;
+            }
+
+            .tax-item ul {
+                padding-left: 1rem;
+            }
+
+            .visual-layout,
+            .visual-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-canvas {
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .headline {
+                font-size: 1.7rem;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .kpi {
+                padding: 0.75rem;
+            }
+
+            .level-row {
+                gap: 0.35rem;
+            }
+
+            .task-item,
+            .question-box,
+            .tax-item {
+                padding: 0.75rem;
+            }
+
+            .detail-link {
+                justify-content: center;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -365,7 +542,7 @@
             <div class="kpi-grid">
                 <div class="kpi">
                     <strong id="kpiCurrent">0</strong>
-                    <span>Aktuell verfügbare Aufgaben</span>
+                    <span>Aktuell verfÃ¼gbare Aufgaben</span>
                 </div>
                 <div class="kpi">
                     <strong id="kpiTarget">30000</strong>
@@ -410,19 +587,58 @@
                             <input id="searchInput" type="search" placeholder="z.B. Exponentielles Verhalten">
                         </div>
                     </div>
-                    <p class="muted" id="resultCount"></p>
+                    <div class="filter-tools">
+                        <p class="muted" id="resultCount"></p>
+                        <button type="button" class="ghost-btn" id="copyFilterLinkBtn">Filter-Link kopieren</button>
+                    </div>
                     <div class="task-list" id="taskList"></div>
                 </div>
                 <div class="detail card" id="taskDetail">
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Wähle links eine Aufgabe aus, um Frage, Lösung und Erklärung zu sehen.</p>
+                    <p class="muted">WÃ¤hle links eine Aufgabe aus, um Frage, LÃ¶sung und ErklÃ¤rung zu sehen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" id="pythagoras-visual">
+            <h2>Interaktive Visualisierung: Satz des Pythagoras</h2>
+            <p class="muted">Verschiebe die beiden Katheten und beobachte live, wie sich Dreieck, Quadrate und Hypotenuse gemeinsam veraendern.</p>
+            <div class="visual-layout">
+                <div class="visual-panel">
+                    <h3>Geometrie zum Anfassen</h3>
+                    <p class="muted">Das Modul startet bewusst einfach: zwei Regler, ein rechtwinkliges Dreieck und die Flaechen auf allen drei Seiten.</p>
+                    <div class="visual-controls">
+                        <div class="visual-control">
+                            <label for="pythagorasA">Kathete a <strong id="pythagorasAValue">6</strong></label>
+                            <input id="pythagorasA" type="range" min="2" max="12" step="1" value="6">
+                        </div>
+                        <div class="visual-control">
+                            <label for="pythagorasB">Kathete b <strong id="pythagorasBValue">8</strong></label>
+                            <input id="pythagorasB" type="range" min="2" max="12" step="1" value="8">
+                        </div>
+                    </div>
+                    <div class="formula-line" id="pythagorasFormula">6^2 + 8^2 = 10.00^2</div>
+                    <div class="visual-metrics">
+                        <div class="visual-metric"><strong id="pythagorasHypotenuse">10.00</strong><span>Hypotenuse c</span></div>
+                        <div class="visual-metric"><strong id="pythagorasAreaSum">100</strong><span>a^2 + b^2</span></div>
+                        <div class="visual-metric"><strong id="pythagorasAreaC">100.00</strong><span>c^2</span></div>
+                        <div class="visual-metric"><strong id="pythagorasRatio">1.00</strong><span>Vergleich c^2 / (a^2+b^2)</span></div>
+                    </div>
+                    <div class="pill-row" style="margin-top:1rem">
+                        <button type="button" class="ghost-btn" id="pythagorasArchiveBtn">Archiv auf Geometrie setzen</button>
+                        <a class="detail-link" href="../index.html#pythagoras-preview">Zur Website-Vorschau</a>
+                    </div>
+                    <p class="visual-note">Dieses erste Visual ist als Fundament gedacht. Spaeter koennen hier animierte Beweise, Aufgabenpfade und Missionen anschliessen.</p>
+                </div>
+                <div class="visual-canvas">
+                    <svg id="pythagorasSvg" viewBox="0 0 520 360" role="img" aria-label="Interaktive Pythagoras-Visualisierung"></svg>
                 </div>
             </div>
         </section>
 
         <section class="card" id="placement">
             <h2>Einstufungstest (30 Fragen)</h2>
-            <p class="muted">Der Test sampelt bewusst über alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
+            <p class="muted">Der Test sampelt bewusst Ã¼ber alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
             <div class="test-flow">
                 <button id="startTestBtn">Test starten</button>
                 <div class="test-progress"><div id="testProgressFill"></div></div>
@@ -435,7 +651,7 @@
 
         <section class="card">
             <h2>Level- und Sublevel-Taxonomie</h2>
-            <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
+            <p class="muted">Diese Struktur ist fÃ¼r den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
             <div class="taxonomy" id="taxonomyView"></div>
         </section>
     </main>
@@ -445,6 +661,8 @@
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
         const placementQuestions = data.placementQuestions.slice();
+        const ARCHIVE_STATE_KEY = "sor-archive-filters";
+        const pythagorasState = { a: 6, b: 8 };
 
         const state = {
             selectedLevel: "all",
@@ -673,6 +891,80 @@
             }
         }
 
+        function applyFilterState(nextState) {
+            state.selectedLevel = nextState.selectedLevel || "all";
+            state.selectedSublevel = nextState.selectedSublevel || "all";
+            state.selectedTopic = nextState.selectedTopic || "all";
+            state.search = nextState.search || "";
+            state.activeTaskId = nextState.activeTaskId || null;
+        }
+
+        function readFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("search") || "",
+                activeTaskId: params.get("task") || null
+            };
+        }
+
+        function readSavedFilterState() {
+            try {
+                const raw = localStorage.getItem(ARCHIVE_STATE_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function saveFilterState() {
+            try {
+                localStorage.setItem(ARCHIVE_STATE_KEY, JSON.stringify({
+                    selectedLevel: state.selectedLevel,
+                    selectedSublevel: state.selectedSublevel,
+                    selectedTopic: state.selectedTopic,
+                    search: state.search,
+                    activeTaskId: state.activeTaskId
+                }));
+            } catch (error) {
+                return;
+            }
+        }
+
+        function syncUrlFromState() {
+            const params = new URLSearchParams();
+            if (state.selectedLevel !== "all") params.set("level", state.selectedLevel);
+            if (state.selectedSublevel !== "all") params.set("sublevel", state.selectedSublevel);
+            if (state.selectedTopic !== "all") params.set("topic", state.selectedTopic);
+            if (state.search) params.set("search", state.search);
+            if (state.activeTaskId) params.set("task", state.activeTaskId);
+            const query = params.toString();
+            const nextUrl = query ? `${window.location.pathname}?${query}${window.location.hash}` : `${window.location.pathname}${window.location.hash}`;
+            window.history.replaceState({}, "", nextUrl);
+        }
+
+        function refreshArchiveView() {
+            renderFilters();
+            renderTaskList();
+            saveFilterState();
+            syncUrlFromState();
+        }
+
+        function copyCurrentFilterLink() {
+            const href = window.location.href;
+            const feedback = document.getElementById("resultCount");
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(href).then(() => {
+                    feedback.textContent = "Filter-Link kopiert.";
+                    window.setTimeout(() => renderTaskList(), 1200);
+                });
+                return;
+            }
+            feedback.textContent = href;
+        }
+
         function levelLabel(level) {
             const item = data.taxonomy.find(t => t.level === level);
             return item ? item.code + " - " + item.title : "Level " + level;
@@ -709,6 +1001,7 @@
             const levelSelect = document.getElementById("levelFilter");
             const sublevelSelect = document.getElementById("sublevelFilter");
             const topicSelect = document.getElementById("topicFilter");
+            const searchInput = document.getElementById("searchInput");
 
             levelSelect.innerHTML = `<option value="all">Alle Level</option>` + data.taxonomy
                 .map(t => `<option value="${t.level}">${t.code} - ${t.title}</option>`)
@@ -727,16 +1020,23 @@
             }
             sublevelSelect.value = state.selectedSublevel;
 
-            const topics = Array.from(new Set(tasks.map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
-            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + topics
+            const visibleTopics = Array.from(new Set(filteredTasksForCurrentLevel().map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
+            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + visibleTopics
                 .map(topic => `<option value="${topic}">${topic}</option>`)
                 .join("");
-            topicSelect.value = state.selectedTopic;
-
-            const searchInput = document.getElementById("searchInput");
-            if (searchInput && searchInput.value !== state.search) {
-                searchInput.value = state.search;
+            if (!visibleTopics.includes(state.selectedTopic)) {
+                state.selectedTopic = "all";
             }
+            topicSelect.value = state.selectedTopic;
+            searchInput.value = state.search;
+        }
+
+        function filteredTasksForCurrentLevel() {
+            return tasks.filter(task => {
+                if (state.selectedLevel !== "all" && task.level !== state.selectedLevel) return false;
+                if (state.selectedSublevel !== "all" && task.sublevel !== state.selectedSublevel) return false;
+                return true;
+            });
         }
 
         function filteredTasks() {
@@ -761,7 +1061,7 @@
                 wrap.innerHTML = `<div class="task-item"><strong>Keine Treffer</strong><div class="task-meta">Passe Filter oder Suche an.</div></div>`;
                 document.getElementById("taskDetail").innerHTML = `
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Es ist aktuell keine Aufgabe ausgewählt.</p>
+                    <p class="muted">Es ist aktuell keine Aufgabe ausgewÃ¤hlt.</p>
                 `;
                 state.activeTaskId = null;
                 syncFilterState();
@@ -784,12 +1084,30 @@
                     state.activeTaskId = el.getAttribute("data-id");
                     renderTaskList();
                     renderTaskDetail();
-                    markAccountActivity("archive-task-open");
+                    saveFilterState();
+                    syncUrlFromState();
                 });
             });
 
             renderTaskDetail();
             syncFilterState();
+        }
+
+        const appTopicAliases = {
+            "1": { Bruchrechnung: "Bruchrechnung", Prozentrechnung: "Prozente", Geometrie: "Geometrie", Dreisatz: "Dreisatz" },
+            "2": { "Gleichungen lÃ¶sen und umstellen": "Gleichungen", Funktionen: "Funktionen", "Exponentielles Verhalten": "Potenzen" },
+            "3": { Analysis: "Ableitungen", Kurvendiskussion: "Ableitungen", Stochastik: "Stochastik", Vektoren: "Vektoren" },
+            "4": { "Lineare Algebra": "Lineare Algebra", Matrizen: "Lineare Algebra", Differentialgleichungen: "DGL" },
+            "5": { Fourier: "Fourier", Laplace: "Laplace", Resonanz: "Resonanz", Regelungstechnik: "Regelungstechnik", Signale: "Fourier" },
+            "6": { "Partielle DGL": "Partielle DGL", Stochastik: "Stochastik", Numerik: "Numerik", FEM: "FEM", Optimierung: "Optimierung" }
+        };
+
+        function buildAppExerciseHref(task) {
+            const params = new URLSearchParams();
+            params.set("level", task.level);
+            const topic = appTopicAliases[task.level] ? appTopicAliases[task.level][task.topic] : "";
+            if (topic) params.set("topic", topic);
+            return `./index.html?${params.toString()}#level-${task.level}`;
         }
 
         function renderTaskDetail() {
@@ -823,10 +1141,9 @@
                     <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
                 </div>
                 <div class="detail-block">
-                    <strong>Weiter ueben</strong>
-                    <p class="muted">Starte passende Uebungen direkt in der Mathe-App.</p>
+                    <strong>Weiterlernen</strong>
                     <div class="pill-row">
-                        <a class="archive-app-link" href="${appHref}">In der App ueben</a>
+                        <a class="detail-link" href="${buildAppExerciseHref(task)}">Passende App-Uebung</a>
                     </div>
                 </div>
             `;
@@ -838,11 +1155,70 @@
                     <strong>${level.code} - ${level.title}</strong>
                     <div class="muted">${level.description}</div>
                     <ul>
-                        ${level.sublevels.map(sub => `<li>${sub.id} - ${sub.title}</li>`).join("")}
+                        ${level.sublevels.map(sub => { const depth = Math.max(0, sub.id.split(".").length - 2); return `<li style="padding-left:${depth * 1.1}rem">${sub.id} - ${sub.title}</li>`; }).join("")}
                     </ul>
                 </div>
             `).join("");
             document.getElementById("taxonomyView").innerHTML = html;
+        }
+
+        function renderPythagorasVisual() {
+            const svg = document.getElementById("pythagorasSvg");
+            if (!svg) return;
+
+            const a = pythagorasState.a;
+            const b = pythagorasState.b;
+            const scale = 16;
+            const ax = a * scale;
+            const by = b * scale;
+            const origin = { x: 170, y: 255 };
+            const pointB = { x: origin.x + ax, y: origin.y };
+            const pointC = { x: origin.x, y: origin.y - by };
+            const hyp = Math.sqrt(a * a + b * b);
+            const normal = { x: -by / hyp, y: -ax / hyp };
+            const offset = { x: normal.x * hyp * scale, y: normal.y * hyp * scale };
+            const pointD = { x: pointB.x + offset.x, y: pointB.y + offset.y };
+            const pointE = { x: pointC.x + offset.x, y: pointC.y + offset.y };
+
+            const format = value => Number(value).toFixed(2);
+            document.getElementById("pythagorasAValue").textContent = String(a);
+            document.getElementById("pythagorasBValue").textContent = String(b);
+            document.getElementById("pythagorasHypotenuse").textContent = format(hyp);
+            document.getElementById("pythagorasAreaSum").textContent = String(a * a + b * b);
+            document.getElementById("pythagorasAreaC").textContent = format(hyp * hyp);
+            document.getElementById("pythagorasRatio").textContent = format((hyp * hyp) / (a * a + b * b));
+            document.getElementById("pythagorasFormula").textContent = `${a}^2 + ${b}^2 = ${format(hyp)}^2`;
+
+            svg.innerHTML = `
+                <rect x="0" y="0" width="520" height="360" fill="transparent"></rect>
+                <polygon points="${origin.x},${origin.y} ${pointB.x},${pointB.y} ${pointC.x},${pointC.y}" fill="rgba(233,69,96,0.18)" stroke="#e94560" stroke-width="3"></polygon>
+                <rect x="${origin.x}" y="${origin.y}" width="14" height="14" fill="none" stroke="#f5c518" stroke-width="2"></rect>
+                <rect x="${origin.x}" y="${origin.y}" width="${ax}" height="${ax}" transform="translate(0 ${ax}) scale(1 -1)" fill="rgba(74,222,128,0.14)" stroke="#4ade80" stroke-width="2"></rect>
+                <rect x="${origin.x - by}" y="${origin.y - by}" width="${by}" height="${by}" fill="rgba(96,165,250,0.14)" stroke="#60a5fa" stroke-width="2"></rect>
+                <polygon points="${pointC.x},${pointC.y} ${pointB.x},${pointB.y} ${pointD.x},${pointD.y} ${pointE.x},${pointE.y}" fill="rgba(245,197,24,0.16)" stroke="#f5c518" stroke-width="2"></polygon>
+                <line x1="${origin.x}" y1="${origin.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="#4ade80" stroke-width="4"></line>
+                <line x1="${origin.x}" y1="${origin.y}" x2="${pointC.x}" y2="${pointC.y}" stroke="#60a5fa" stroke-width="4"></line>
+                <line x1="${pointC.x}" y1="${pointC.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="#f5c518" stroke-width="4"></line>
+                <text x="${origin.x + ax / 2}" y="${origin.y + 24}" fill="#4ade80" text-anchor="middle" font-size="18" font-weight="700">a = ${a}</text>
+                <text x="${origin.x - 18}" y="${origin.y - by / 2}" fill="#60a5fa" text-anchor="end" font-size="18" font-weight="700">b = ${b}</text>
+                <text x="${(pointB.x + pointC.x) / 2 + 18}" y="${(pointB.y + pointC.y) / 2 - 8}" fill="#f5c518" font-size="18" font-weight="700">c = ${format(hyp)}</text>
+                <text x="${origin.x + ax / 2}" y="${origin.y + ax / 2 + 12}" fill="#4ade80" text-anchor="middle" font-size="18">a^2 = ${a * a}</text>
+                <text x="${origin.x - by / 2}" y="${origin.y - by / 2 + 6}" fill="#60a5fa" text-anchor="middle" font-size="18">b^2 = ${b * b}</text>
+                <text x="${(pointC.x + pointD.x) / 2 + 10}" y="${(pointC.y + pointD.y) / 2 + 10}" fill="#f5c518" font-size="18">c^2 = ${format(hyp * hyp)}</text>
+            `;
+        }
+
+        function applyGeometryArchivePreset() {
+            state.selectedLevel = "1";
+            state.selectedSublevel = "1.2";
+            state.selectedTopic = "Geometrie";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection && archiveSection.scrollIntoView) {
+                archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         }
 
         function getSublevelRecommendation(level, accuracy) {
@@ -926,6 +1302,19 @@
             });
         }
 
+        function applyPlacementRecommendation(result) {
+            state.selectedLevel = result.estimatedLevel;
+            state.selectedSublevel = result.estimatedSublevel;
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection && archiveSection.scrollIntoView) {
+                archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function finishPlacement() {
             const fill = document.getElementById("testProgressFill");
             fill.style.width = "100%";
@@ -940,9 +1329,11 @@
                 <h3>Dein Ergebnis</h3>
                 <p>Du hast <strong>${result.totalCorrect} von ${placementQuestions.length}</strong> Fragen korrekt beantwortet.</p>
                 <p>Empfohlener Einstieg: <strong>${levelName}</strong>, Sublevel <strong>${result.estimatedSublevel}</strong>.</p>
-                <p>Der Archiv-Filter wurde direkt auf diese Empfehlung gesetzt.</p>
-                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level höher oder tiefer wechseln, je nachdem wie sicher du dich fühlst.</p>
-                <button id="placementToArchiveBtn" class="inline-action" type="button">Empfehlung im Archiv anzeigen</button>
+                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level hoeher oder tiefer wechseln, je nachdem wie sicher du dich fuehlst.</p>
+                <div class="result-actions">
+                    <button type="button" id="applyPlacementBtn">Empfohlenes Archiv oeffnen</button>
+                    <a class="detail-link" href="#archiveBrowser">Zum Archiv springen</a>
+                </div>
             `;
             const placementToArchiveBtn = document.getElementById("placementToArchiveBtn");
             if (placementToArchiveBtn) {
@@ -954,6 +1345,11 @@
                 <p class="muted">Wenn du den Test erneut starten willst, klicke unten.</p>
             `;
 
+            const applyPlacementBtn = document.getElementById("applyPlacementBtn");
+            applyPlacementBtn.addEventListener("click", () => {
+                applyPlacementRecommendation(result);
+            });
+
             const startBtn = document.getElementById("startTestBtn");
             startBtn.textContent = "Test neu starten";
         }
@@ -963,7 +1359,7 @@
             state.testIndex = 0;
             state.testAnswers = [];
             document.getElementById("testResult").classList.remove("show");
-            document.getElementById("startTestBtn").textContent = "Test läuft";
+            document.getElementById("startTestBtn").textContent = "Test lÃ¤uft";
             markAccountActivity("placement-start");
             renderTestQuestion();
         }
@@ -974,40 +1370,66 @@
             const topicFilter = document.getElementById("topicFilter");
             const searchInput = document.getElementById("searchInput");
             const startTestBtn = document.getElementById("startTestBtn");
+            const copyFilterLinkBtn = document.getElementById("copyFilterLinkBtn");
+            const pythagorasA = document.getElementById("pythagorasA");
+            const pythagorasB = document.getElementById("pythagorasB");
+            const pythagorasArchiveBtn = document.getElementById("pythagorasArchiveBtn");
 
             levelFilter.addEventListener("change", (e) => {
                 state.selectedLevel = e.target.value;
-                renderFilters();
-                renderTaskList();
+                refreshArchiveView();
             });
 
             sublevelFilter.addEventListener("change", (e) => {
                 state.selectedSublevel = e.target.value;
-                renderTaskList();
+                refreshArchiveView();
             });
 
             topicFilter.addEventListener("change", (e) => {
                 state.selectedTopic = e.target.value;
-                renderTaskList();
+                refreshArchiveView();
             });
 
             searchInput.addEventListener("input", (e) => {
                 state.search = e.target.value.trim();
-                renderTaskList();
+                refreshArchiveView();
             });
 
             startTestBtn.addEventListener("click", () => {
                 startPlacement();
             });
+
+            copyFilterLinkBtn.addEventListener("click", () => {
+                copyCurrentFilterLink();
+            });
+
+            pythagorasA.addEventListener("input", (e) => {
+                pythagorasState.a = Number(e.target.value);
+                renderPythagorasVisual();
+            });
+
+            pythagorasB.addEventListener("input", (e) => {
+                pythagorasState.b = Number(e.target.value);
+                renderPythagorasVisual();
+            });
+
+            pythagorasArchiveBtn.addEventListener("click", () => {
+                applyGeometryArchivePreset();
+            });
         }
+
+        applyFilterState(readSavedFilterState() || {});
+        applyFilterState(readFilterStateFromUrl());
 
         renderTopProgress();
         hydrateFilterState();
         renderFilters();
         renderTaskList();
         renderTaxonomy();
+        renderPythagorasVisual();
         bindEvents();
-        syncFilterState();
+        saveFilterState();
+        syncUrlFromState();
     </script>
 </body>
 </html>
