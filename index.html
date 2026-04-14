@@ -798,37 +798,7 @@
         <h2 class="section-title">Neueste Videos</h2>
         <p class="section-subtitle">Jede Woche neue Erklärungen, Tricks und Deep Dives</p>
 
-        <div class="video-grid">
-            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
-                <div class="video-thumbnail" style="background: linear-gradient(135deg, #e94560, #0f3460);">
-                    <div class="play-btn"></div>
-                </div>
-                <div class="video-info">
-                    <h3>Resonanz erklärt in 6 Leveln</h3>
-                    <p>Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, 5 Perspektiven</p>
-                </div>
-            </a>
-
-            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
-                <div class="video-thumbnail" style="background: linear-gradient(135deg, #f5c518, #e94560);">
-                    <div class="play-btn"></div>
-                </div>
-                <div class="video-info">
-                    <h3>Fourier-Transformation: Wie Spotify deine Musik versteht</h3>
-                    <p>Die Mathe hinter Musik-Streaming - visuell und intuitiv</p>
-                </div>
-            </a>
-
-            <a class="video-card" href="https://www.youtube.com/@Second-OrderResonance" target="_blank" style="text-decoration:none;color:inherit">
-                <div class="video-thumbnail" style="background: linear-gradient(135deg, #0f3460, #4ade80);">
-                    <div class="play-btn"></div>
-                </div>
-                <div class="video-info">
-                    <h3>Der Mathe-Trick den dir niemand zeigt</h3>
-                    <p>Schnell multiplizieren, Kopfrechnen und mehr - in 60 Sekunden</p>
-                </div>
-            </a>
-        </div>
+        <div class="video-grid" id="latestVideosGrid"></div>
     </section>
 
     <!-- Archiv -->
@@ -974,6 +944,43 @@
                     }
                 });
             });
+
+            const featuredVideos = [
+                {
+                    href: 'https://www.youtube.com/@Second-OrderResonance/search?query=Resonanz',
+                    gradient: 'linear-gradient(135deg, #e94560, #0f3460)',
+                    title: 'Resonanz erklärt in 6 Leveln',
+                    description: 'Vom Schaukeln bis zur Brückenkatastrophe - ein Phänomen, sechs Perspektiven.'
+                },
+                {
+                    href: 'https://www.youtube.com/@Second-OrderResonance/search?query=Fourier-Transformation',
+                    gradient: 'linear-gradient(135deg, #f5c518, #e94560)',
+                    title: 'Fourier-Transformation: Musik sichtbar machen',
+                    description: 'Anschauliche Einstiege in Frequenzen, Spektren und echte Anwendungen.'
+                },
+                {
+                    href: 'https://www.youtube.com/@Second-OrderResonance/search?query=Gleichungen%20l%C3%B6sen%20und%20umstellen',
+                    gradient: 'linear-gradient(135deg, #0f3460, #4ade80)',
+                    title: 'Gleichungen lösen und umstellen',
+                    description: 'Systematisch umformen und sicher nach Variablen auflösen.'
+                }
+            ];
+
+            const latestVideosGrid = document.getElementById('latestVideosGrid');
+            if (latestVideosGrid) {
+                featuredVideos.forEach((video) => {
+                    const card = document.createElement('a');
+                    card.className = 'video-card';
+                    card.href = video.href;
+                    card.target = '_blank';
+                    card.rel = 'noopener noreferrer';
+                    card.style.textDecoration = 'none';
+                    card.style.color = 'inherit';
+                    card.innerHTML = '<div class="video-thumbnail" style="background: ' + video.gradient + ';"><div class="play-btn"></div></div>'
+                        + '<div class="video-info"><h3>' + video.title + '</h3><p>' + video.description + '</p></div>';
+                    latestVideosGrid.appendChild(card);
+                });
+            }
         })();
     </script>
 

@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 600 archive tasks (100 per level) for this iteration.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 2.400 archive tasks (400 per level) for this iteration.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -13,33 +13,23 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Expanded the archive milestone from starter scope to 600 tasks total while preserving the scalable architecture:
-- scalable task data model + taxonomy for L1-L6 with hierarchical sublevels
-- generated task corpus with 100 tasks per level (600 total) from structured seed content
-- new archive interface with level/sublevel/topic filters, search, and task detail view
-- new placement test flow with 30 questions, progress tracking, scoring, and level/sublevel recommendation
+Continued the highest-priority open P2 curriculum expansion workstream with one focused scaling step.
+- increased generated archive volume in `app/data/archive-content.js` from 300 to 400 tasks per level
+- resulting total is now 2.400 tasks across L1-L6 (400 each)
 
 ## Last validation
-- `rg -n "buildTaskArchive|tasks: buildTaskArchive|targetPerLevel|targetTotal|placementQuestions" app/data/archive-content.js app/lernarchiv.html`
-- `node -e "..."` runtime check on `app/data/archive-content.js`:
-  - total tasks: 600
-  - distribution: 100 tasks for each level 1-6
-- manual diff review for:
+- `rg -n "\], 400\),|buildTaskArchive|targetPerLevel|targetTotal" app/data/archive-content.js`
+- `node -e` (vm runtime check of `app/data/archive-content.js`):
+  - total tasks: 2400
+  - distribution: 400 tasks for each level 1-6
+  - placement questions: 30
+- manual diff review of:
   - `app/data/archive-content.js`
-  - `app/lernarchiv.html`
-  - `index.html`
   - `BACKLOG.md`
   - `STATUS.md`
-- static logic validation by inspection:
-  - archive filters and search use shared scalable task dataset
-  - placement test runs one question at a time for 30 questions
-  - result maps to plausible level + sublevel recommendation
-  - progress display shows current vs target (5.000/level, 30.000 total)
 
 ## Files touched in last task
 - `app/data/archive-content.js`
-- `app/lernarchiv.html`
-- `index.html`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -47,7 +37,5 @@ Expanded the archive milestone from starter scope to 600 tasks total while prese
 None.
 
 ## Next logical step
-Execute the next major expansion workstreams:
-- curriculum expansion with quality control toward the 30.000 target
-- deeper sublevel structure where needed
-- streak/progress integration across archive and placement flow
+Start the next highest-priority open task in P2:
+- continue curriculum expansion in small increments toward 3.000+ curated tasks while preserving pedagogical quality.
