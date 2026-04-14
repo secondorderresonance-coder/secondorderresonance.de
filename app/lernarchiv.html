@@ -275,6 +275,11 @@
         }
 
         .result.show { display: block; }
+        .inline-action {
+            width: auto;
+            display: inline-flex;
+            margin-top: 0.7rem;
+        }
 
         .taxonomy {
             margin-top: 1rem;
@@ -378,7 +383,7 @@
             <div class="level-progress" id="levelProgress"></div>
         </section>
 
-        <section class="card">
+        <section class="card" id="archiveBrowser">
             <h2>Archiv durchsuchen</h2>
             <p class="muted">Filtere nach Level, Sublevel und Thema oder suche direkt nach Aufgabeninhalt.</p>
             <div class="archive-layout">
@@ -736,6 +741,20 @@
             return { estimatedLevel, estimatedSublevel, totalCorrect, stats };
         }
 
+        function applyPlacementRecommendation(result, scrollToArchive = false) {
+            state.selectedLevel = result.estimatedLevel;
+            state.selectedSublevel = result.estimatedSublevel;
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            renderFilters();
+            renderTaskList();
+            if (scrollToArchive) {
+                const archiveSection = document.getElementById("archiveBrowser");
+                if (archiveSection) archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function renderTestQuestion() {
             const box = document.getElementById("questionBox");
             const fill = document.getElementById("testProgressFill");
@@ -773,14 +792,21 @@
             const result = evaluatePlacement(state.testAnswers);
             const testResultEl = document.getElementById("testResult");
             const levelName = levelLabel(result.estimatedLevel);
+            applyPlacementRecommendation(result, false);
 
             testResultEl.classList.add("show");
             testResultEl.innerHTML = `
                 <h3>Dein Ergebnis</h3>
                 <p>Du hast <strong>${result.totalCorrect} von ${placementQuestions.length}</strong> Fragen korrekt beantwortet.</p>
                 <p>Empfohlener Einstieg: <strong>${levelName}</strong>, Sublevel <strong>${result.estimatedSublevel}</strong>.</p>
+                <p>Der Archiv-Filter wurde direkt auf diese Empfehlung gesetzt.</p>
                 <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level höher oder tiefer wechseln, je nachdem wie sicher du dich fühlst.</p>
+                <button id="placementToArchiveBtn" class="inline-action" type="button">Empfehlung im Archiv anzeigen</button>
             `;
+            const placementToArchiveBtn = document.getElementById("placementToArchiveBtn");
+            if (placementToArchiveBtn) {
+                placementToArchiveBtn.addEventListener("click", () => applyPlacementRecommendation(result, true));
+            }
 
             document.getElementById("questionBox").innerHTML = `
                 <p><strong>Test abgeschlossen.</strong></p>

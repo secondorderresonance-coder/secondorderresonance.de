@@ -33,7 +33,7 @@
 - [x] Connect archive content more clearly with app exercises
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [x] Improve mobile layout of archive and placement sections after real-device pass
-- [ ] Add placement result handoff to recommended archive filter preset
+- [x] Add placement result handoff to recommended archive filter preset
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)

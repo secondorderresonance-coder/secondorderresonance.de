@@ -13,22 +13,20 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Implemented two user-requested improvements:
-- landing page impressum mail now uses the same visual style as surrounding text (no default blue link color)
-- local account creation/login/logout in `app/index.html` with per-account progress persistence
+Completed the next highest-priority open P2 task:
+- placement result now hands off directly to a recommended archive filter preset in `app/lernarchiv.html`
 
-Account implementation details:
-- account panel with fields/buttons: register, login, logout
-- account badge in header showing active account
-- progress state saved per account in localStorage key `mathlevel-accounts-v1`
-- existing XP/streak/correct/total/achievements are restored per account on login
-- logout resets to a clean local session while preserving saved account progress
+Implementation details:
+- after test completion, recommended `level` + `sublevel` are applied immediately to archive filters
+- URL + local filter storage are updated through the existing `syncFilterState()` flow
+- added a result CTA (`Empfehlung im Archiv anzeigen`) that reapplies the preset and scrolls to the archive section
+- kept scope focused to placement-to-archive handoff without redesign
 
 ## Last validation
-- script parse check for app inline JS:
-  - `vm.Script(...)` parse on `app/index.html` script block => OK
+- script parse check for archive inline JS:
+  - `vm.Script(...)` parse on `app/lernarchiv.html` script block => OK
 - marker checks:
-  - `rg -n "legal-card a|ACCOUNT_STORE_KEY|bindAccountEvents|applyAccountProgress|account-panel" index.html app/index.html`
+  - `rg -n "applyPlacementRecommendation|placementToArchiveBtn|archiveBrowser|inline-action" app/lernarchiv.html`
 - archive data integrity check:
   - `node tools/archive-qa.js`
   - `OK: archive QA passed`
@@ -37,8 +35,7 @@ Account implementation details:
   - `placementQuestions=30`
 
 ## Files touched in last task
-- `index.html`
-- `app/index.html`
+- `app/lernarchiv.html`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -46,5 +43,5 @@ Account implementation details:
 None.
 
 ## Next logical step
-Integrate the new account context into archive + placement flow:
-- pass placement result into recommended archive filter preset for the active account.
+Start the next highest-priority open P3 task:
+- prepare local progress architecture for future XP and streak systems.
