@@ -1064,6 +1064,7 @@
         let state = createInitialState();
 
         const ACCOUNT_STORE_KEY = 'mathlevel-accounts-v1';
+        const PROGRESS_SCHEMA_VERSION = 2;
         let accountStore = { accounts: {}, current: null };
         let currentAccountId = null;
 
@@ -1094,13 +1095,83 @@
             }
         }
 
+        function normalizeSummarySnapshot(raw) {
+            const data = raw || {};
+            return {
+                correct: data.correct || 0,
+                total: data.total || 0,
+                xp: data.xp || 0,
+                streak: data.streak || 0,
+                lastSessionDate: data.lastSessionDate || null,
+                earnedAchievements: Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : []
+            };
+        }
+
+        function createProgressEnvelope(summaryLike) {
+            return {
+                schemaVersion: PROGRESS_SCHEMA_VERSION,
+                summary: normalizeSummarySnapshot(summaryLike),
+                dailyActivity: {},
+                weeklyXp: {},
+                lastActiveDate: null,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function normalizeProgressEnvelope(rawProgress) {
+            if (rawProgress && typeof rawProgress === 'object' && rawProgress.summary) {
+                return {
+                    schemaVersion: PROGRESS_SCHEMA_VERSION,
+                    summary: normalizeSummarySnapshot(rawProgress.summary),
+                    dailyActivity: rawProgress.dailyActivity && typeof rawProgress.dailyActivity === 'object' ? rawProgress.dailyActivity : {},
+                    weeklyXp: rawProgress.weeklyXp && typeof rawProgress.weeklyXp === 'object' ? rawProgress.weeklyXp : {},
+                    lastActiveDate: rawProgress.lastActiveDate || null,
+                    updatedAt: rawProgress.updatedAt || new Date().toISOString()
+                };
+            }
+            const legacySummary = normalizeSummarySnapshot(rawProgress);
+            const migrated = createProgressEnvelope(legacySummary);
+            migrated.lastActiveDate = legacySummary.lastSessionDate || null;
+            return migrated;
+        }
+
+        function normalizeAccountRecord(rawAccount, fallbackAccountId) {
+            const account = rawAccount && typeof rawAccount === 'object' ? rawAccount : {};
+            return {
+                username: account.username || fallbackAccountId || 'User',
+                password: account.password || '',
+                progress: normalizeProgressEnvelope(account.progress || {})
+            };
+        }
+
+        function getIsoWeekKey(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - day);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + '-W' + String(week).padStart(2, '0');
+        }
+
+        function ensureAccountProgressEnvelope(accountId) {
+            const account = accountStore.accounts[accountId];
+            if (!account) return null;
+            account.progress = normalizeProgressEnvelope(account.progress || {});
+            return account.progress;
+        }
+
         function loadAccountStore() {
             try {
                 const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
                 if (!raw) return;
                 const parsed = JSON.parse(raw);
                 if (parsed && typeof parsed === 'object') {
-                    accountStore.accounts = parsed.accounts && typeof parsed.accounts === 'object' ? parsed.accounts : {};
+                    const rawAccounts = parsed.accounts && typeof parsed.accounts === 'object' ? parsed.accounts : {};
+                    const nextAccounts = {};
+                    Object.keys(rawAccounts).forEach((accountId) => {
+                        nextAccounts[accountId] = normalizeAccountRecord(rawAccounts[accountId], accountId);
+                    });
+                    accountStore.accounts = nextAccounts;
                     accountStore.current = typeof parsed.current === 'string' ? parsed.current : null;
                 }
             } catch (e) {}
@@ -1115,12 +1186,34 @@
         function saveState() {
             if (!currentAccountId || !accountStore.accounts[currentAccountId]) return;
             try {
+                const progress = ensureAccountProgressEnvelope(currentAccountId);
+                if (!progress) return;
+                const previousSummary = normalizeSummarySnapshot(progress.summary);
                 const today = new Date().toISOString().slice(0, 10);
                 if (state.lastSessionDate !== today) {
                     state.streak = (state.streak || 0) + 1;
                     state.lastSessionDate = today;
                 }
-                accountStore.accounts[currentAccountId].progress = getStateSnapshot();
+                const nextSummary = getStateSnapshot();
+                const xpDelta = Math.max(0, nextSummary.xp - previousSummary.xp);
+                const totalDelta = Math.max(0, nextSummary.total - previousSummary.total);
+                const correctDelta = Math.max(0, nextSummary.correct - previousSummary.correct);
+                const weekKey = getIsoWeekKey(new Date());
+
+                if (!progress.dailyActivity[today]) {
+                    progress.dailyActivity[today] = { answered: 0, correct: 0, xp: 0, events: 0 };
+                }
+                progress.dailyActivity[today].answered += totalDelta;
+                progress.dailyActivity[today].correct += correctDelta;
+                progress.dailyActivity[today].xp += xpDelta;
+                if (totalDelta > 0 || xpDelta > 0) {
+                    progress.dailyActivity[today].events += 1;
+                }
+
+                progress.weeklyXp[weekKey] = (progress.weeklyXp[weekKey] || 0) + xpDelta;
+                progress.summary = normalizeSummarySnapshot(nextSummary);
+                progress.lastActiveDate = today;
+                progress.updatedAt = new Date().toISOString();
                 saveAccountStore();
             } catch(e) {}
         }
@@ -1136,7 +1229,7 @@
                 btn.disabled = !unlocked;
                 btn.classList.toggle('active', i === state.level);
                 const nameEl = btn.querySelector('.level-name');
-                if (nameEl) nameEl.textContent = unlocked ? levelNames[i] : '🔒 ' + (LEVEL_XP_THRESHOLDS[i]) + ' XP';
+                if (nameEl) nameEl.textContent = unlocked ? levelNames[i] : 'LOCK ' + (LEVEL_XP_THRESHOLDS[i]) + ' XP';
             });
         }
 
@@ -1179,9 +1272,10 @@
         function applyAccountProgress(accountId) {
             const account = accountStore.accounts[accountId];
             if (!account) return;
+            const progress = ensureAccountProgressEnvelope(accountId);
             currentAccountId = accountId;
             accountStore.current = accountId;
-            applyStateSnapshot(account.progress || {});
+            applyStateSnapshot(progress ? progress.summary : {});
             saveAccountStore();
             renderAccountUI();
             renderLevelButtons();
@@ -1215,7 +1309,7 @@
             accountStore.accounts[accountId] = {
                 username: name,
                 password: pass,
-                progress: getStateSnapshot()
+                progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
             showToast('Account erstellt und angemeldet');
@@ -1242,7 +1336,11 @@
 
         function logoutAccount() {
             if (currentAccountId && accountStore.accounts[currentAccountId]) {
-                accountStore.accounts[currentAccountId].progress = getStateSnapshot();
+                const progress = ensureAccountProgressEnvelope(currentAccountId);
+                if (progress) {
+                    progress.summary = normalizeSummarySnapshot(getStateSnapshot());
+                    progress.updatedAt = new Date().toISOString();
+                }
             }
             currentAccountId = null;
             accountStore.current = null;
@@ -1266,7 +1364,6 @@
             if (loginBtn) loginBtn.addEventListener('click', loginAccount);
             if (logoutBtn) logoutBtn.addEventListener('click', logoutAccount);
         }
-
         function checkAchievements() {
             let newlyEarned = false;
             ACHIEVEMENTS.forEach(a => {
