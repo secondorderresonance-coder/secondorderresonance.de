@@ -14,22 +14,21 @@ Current implementation status:
 
 ## Last completed task
 Completed the next highest-priority open P3 task:
-- added a lightweight achievement placeholder architecture in `app/index.html`
+- defined the archive content QA workflow and authoring guidelines for scaling to 30.000 tasks
 
 Implementation details:
-- replaced static achievement array with a catalog-based architecture:
-  - `ACHIEVEMENT_CATALOG` (supports `stage: live | placeholder`)
-  - `ACHIEVEMENT_RULES` map
-  - `LIVE_ACHIEVEMENTS` derived list for unlock checks
-- kept unlock behavior for existing live achievements unchanged
-- added three visible placeholder achievements as non-unlockable roadmap badges
-- added dedicated placeholder card styling (`.achievement.placeholder`) to distinguish roadmap badges from locked live badges
+- added `docs/archive-content-qa-workflow.md` with:
+  - mandatory explanation structure (core idea, intuition, steps, common mistake, quick check)
+  - quality gates for structural QA + pedagogical/manual QA
+  - L4-L6 didactic guidance focused on textbook-style explanations
+  - explicit source orientation for L4-L6 toward the two Karpfinger PDFs
+- appended a new P2 follow-up task for concrete L4-L6 archive expansion in small reviewable batches
 
 ## Last validation
-- script parse check for app inline JS:
-  - `vm.Script(...)` parse on `app/index.html` script block => OK
+- document marker checks:
+  - `rg -n "Source policy|Karpfinger|Mandatory explanation format|QA gates before merge|L4-L6 didactic guidance" docs/archive-content-qa-workflow.md`
 - marker checks:
-  - `rg -n "ACHIEVEMENT_CATALOG|ACHIEVEMENT_RULES|LIVE_ACHIEVEMENTS|placeholder_daily_goal|achievement\\.placeholder|cssState" app/index.html`
+  - `rg -n "Expand L4-L6 archive slices|Define content QA workflow" BACKLOG.md`
 - archive data integrity check:
   - `node tools/archive-qa.js`
   - `OK: archive QA passed`
@@ -38,7 +37,7 @@ Implementation details:
   - `placementQuestions=30`
 
 ## Files touched in last task
-- `app/index.html`
+- `docs/archive-content-qa-workflow.md`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -46,5 +45,5 @@ Implementation details:
 None.
 
 ## Next logical step
-Start the next highest-priority open P3 task:
-- define content QA workflow and authoring guidelines for scaling to 30.000 tasks.
+Start the next highest-priority open P2 task:
+- expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch in small batches.

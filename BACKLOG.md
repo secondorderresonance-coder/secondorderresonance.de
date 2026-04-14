@@ -34,10 +34,11 @@
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [x] Improve mobile layout of archive and placement sections after real-device pass
 - [x] Add placement result handoff to recommended archive filter preset
+- [ ] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches)
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)
 - [x] Prepare local progress architecture for future XP and streak systems
 - [x] Add daily streak system to archive and placement journey (local first, backend-ready later)
 - [x] Add achievement placeholder architecture without overbuilding
-- [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [x] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
