@@ -14,22 +14,22 @@ Current implementation status:
 
 ## Last completed task
 Completed the next highest-priority open P3 task:
-- added a local-first daily streak system for archive and placement interactions in `app/lernarchiv.html`
+- added a lightweight achievement placeholder architecture in `app/index.html`
 
 Implementation details:
-- integrated `lernarchiv.html` with the shared account store key `mathlevel-accounts-v1`
-- added account-aware activity tracking for:
-  - opening archive tasks
-  - starting placement test
-  - finishing placement test
-- streak logic now updates `summary.streak` + `summary.lastSessionDate` (today/yesterday-aware) and records daily activity events in `dailyActivity`
-- added a streak KPI card (`kpiStreak`) in the archive dashboard to show the current account streak locally
+- replaced static achievement array with a catalog-based architecture:
+  - `ACHIEVEMENT_CATALOG` (supports `stage: live | placeholder`)
+  - `ACHIEVEMENT_RULES` map
+  - `LIVE_ACHIEVEMENTS` derived list for unlock checks
+- kept unlock behavior for existing live achievements unchanged
+- added three visible placeholder achievements as non-unlockable roadmap badges
+- added dedicated placeholder card styling (`.achievement.placeholder`) to distinguish roadmap badges from locked live badges
 
 ## Last validation
-- script parse check for archive inline JS:
-  - `vm.Script(...)` parse on `app/lernarchiv.html` script block => OK
+- script parse check for app inline JS:
+  - `vm.Script(...)` parse on `app/index.html` script block => OK
 - marker checks:
-  - `rg -n "kpiStreak|ACCOUNT_STORE_KEY|markAccountActivity|refreshStreakKpiFromAccount|placement-start|placement-finish|archive-task-open" app/lernarchiv.html`
+  - `rg -n "ACHIEVEMENT_CATALOG|ACHIEVEMENT_RULES|LIVE_ACHIEVEMENTS|placeholder_daily_goal|achievement\\.placeholder|cssState" app/index.html`
 - archive data integrity check:
   - `node tools/archive-qa.js`
   - `OK: archive QA passed`
@@ -38,7 +38,7 @@ Implementation details:
   - `placementQuestions=30`
 
 ## Files touched in last task
-- `app/lernarchiv.html`
+- `app/index.html`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -47,4 +47,4 @@ None.
 
 ## Next logical step
 Start the next highest-priority open P3 task:
-- add achievement placeholder architecture without overbuilding.
+- define content QA workflow and authoring guidelines for scaling to 30.000 tasks.

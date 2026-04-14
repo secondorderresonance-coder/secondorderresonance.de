@@ -437,6 +437,12 @@
             background: rgba(245, 197, 24, 0.08);
         }
         .achievement.not-earned { opacity: 0.3; filter: grayscale(1); }
+        .achievement.placeholder {
+            opacity: 0.72;
+            border-style: dashed;
+            border-color: rgba(245, 197, 24, 0.35);
+            background: rgba(245, 197, 24, 0.05);
+        }
         .achievement .ach-icon { font-size: 1.6rem; display: block; margin-bottom: 0.25rem; }
         .achievement .ach-label {
             font-size: 0.65rem;
@@ -580,20 +586,36 @@
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
 
-        // Achievement definitions
-        const ACHIEVEMENTS = [
-            { id: 'first_correct', icon: '⭐', label: 'Erster Schritt',  desc: 'Erste richtige Antwort',   check: s => s.correct >= 1 },
-            { id: 'ten_correct',   icon: '🎯', label: 'Zehn hoch',       desc: '10 richtige Antworten',     check: s => s.correct >= 10 },
-            { id: 'fifty_correct', icon: '🏆', label: 'Mathe-Profi',     desc: '50 richtige Antworten',     check: s => s.correct >= 50 },
-            { id: 'streak_3',      icon: '🔥', label: 'Auf Kurs',        desc: '3-Tage-Streak',             check: s => s.streak >= 3 },
-            { id: 'streak_7',      icon: '💥', label: 'Wochenkämpfer',  desc: '7-Tage-Streak',             check: s => s.streak >= 7 },
-            { id: 'xp_100',        icon: '💫', label: 'XP Sammler',      desc: '100 XP verdient',           check: s => s.xp >= 100 },
-            { id: 'xp_500',        icon: '🌟', label: 'Level Up',        desc: '500 XP verdient',           check: s => s.xp >= 500 },
-            { id: 'unlock_l2',     icon: '🔓', label: 'Aufsteiger',      desc: 'Level 2 freigeschaltet',    check: s => s.xp >= 50 },
-            { id: 'unlock_l6',     icon: '🔬', label: 'Forscher',        desc: 'Level 6 freigeschaltet',    check: s => s.xp >= 750 }
+        // Achievement definitions (live + placeholder architecture)
+        const ACHIEVEMENT_CATALOG = [
+            { id: 'first_correct', icon: '\u2B50', label: 'Erster Schritt', desc: 'Erste richtige Antwort', ruleKey: 'first_correct', stage: 'live' },
+            { id: 'ten_correct', icon: '\uD83C\uDFAF', label: 'Zehn hoch', desc: '10 richtige Antworten', ruleKey: 'ten_correct', stage: 'live' },
+            { id: 'fifty_correct', icon: '\uD83C\uDFC6', label: 'Mathe-Profi', desc: '50 richtige Antworten', ruleKey: 'fifty_correct', stage: 'live' },
+            { id: 'streak_3', icon: '\uD83D\uDD25', label: 'Auf Kurs', desc: '3-Tage-Streak', ruleKey: 'streak_3', stage: 'live' },
+            { id: 'streak_7', icon: '\uD83D\uDCA5', label: 'Wochenkaempfer', desc: '7-Tage-Streak', ruleKey: 'streak_7', stage: 'live' },
+            { id: 'xp_100', icon: '\uD83D\uDCAB', label: 'XP Sammler', desc: '100 XP verdient', ruleKey: 'xp_100', stage: 'live' },
+            { id: 'xp_500', icon: '\uD83C\uDF1F', label: 'Level Up', desc: '500 XP verdient', ruleKey: 'xp_500', stage: 'live' },
+            { id: 'unlock_l2', icon: '\uD83D\uDD13', label: 'Aufsteiger', desc: 'Level 2 freigeschaltet', ruleKey: 'unlock_l2', stage: 'live' },
+            { id: 'unlock_l6', icon: '\uD83D\uDD2C', label: 'Forscher', desc: 'Level 6 freigeschaltet', ruleKey: 'unlock_l6', stage: 'live' },
+            { id: 'placeholder_daily_goal', icon: '\uD83D\uDCC5', label: 'Tagesmission', desc: 'Platzhalter: taegliche Missionsreihe (in Arbeit)', stage: 'placeholder' },
+            { id: 'placeholder_precision', icon: '\uD83E\uDDEA', label: 'Praezision', desc: 'Platzhalter: Serienbonus fuer genaue Antworten', stage: 'placeholder' },
+            { id: 'placeholder_mastery', icon: '\uD83D\uDEE0\uFE0F', label: 'Meisterpfad', desc: 'Platzhalter: langfristige Mastery-Abzeichen', stage: 'placeholder' }
         ];
 
-        // Exercise Database
+        const ACHIEVEMENT_RULES = {
+            first_correct: s => s.correct >= 1,
+            ten_correct: s => s.correct >= 10,
+            fifty_correct: s => s.correct >= 50,
+            streak_3: s => s.streak >= 3,
+            streak_7: s => s.streak >= 7,
+            xp_100: s => s.xp >= 100,
+            xp_500: s => s.xp >= 500,
+            unlock_l2: s => s.xp >= 50,
+            unlock_l6: s => s.xp >= 750
+        };
+
+        const LIVE_ACHIEVEMENTS = ACHIEVEMENT_CATALOG.filter(a => a.stage === 'live');
+// Exercise Database
         const exercises = {
             0: { // Level 1 - Grundlagen
                 topics: ["Bruchrechnung", "Prozente", "Geometrie", "Dreisatz"],
@@ -1366,8 +1388,10 @@
         }
         function checkAchievements() {
             let newlyEarned = false;
-            ACHIEVEMENTS.forEach(a => {
-                if (!state.earnedAchievements.includes(a.id) && a.check(state)) {
+            LIVE_ACHIEVEMENTS.forEach((a) => {
+                const rule = ACHIEVEMENT_RULES[a.ruleKey];
+                if (!rule) return;
+                if (!state.earnedAchievements.includes(a.id) && rule(state)) {
                     state.earnedAchievements.push(a.id);
                     showToast(a.icon + ' ' + a.label + ' freigeschaltet!');
                     newlyEarned = true;
@@ -1378,9 +1402,10 @@
 
         function renderAchievements() {
             const grid = document.getElementById('achievementsGrid');
-            grid.innerHTML = ACHIEVEMENTS.map(a => {
+            grid.innerHTML = ACHIEVEMENT_CATALOG.map((a) => {
                 const earned = state.earnedAchievements.includes(a.id);
-                return `<div class="achievement ${earned ? 'earned' : 'not-earned'}" title="${a.desc}">
+                const cssState = a.stage === 'placeholder' ? 'placeholder' : (earned ? 'earned' : 'not-earned');
+                return `<div class="achievement ${cssState}" title="${a.desc}">
                     <span class="ach-icon">${a.icon}</span>
                     <span class="ach-label">${a.label}</span>
                 </div>`;

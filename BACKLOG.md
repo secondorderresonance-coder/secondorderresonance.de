@@ -39,5 +39,5 @@
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)
 - [x] Prepare local progress architecture for future XP and streak systems
 - [x] Add daily streak system to archive and placement journey (local first, backend-ready later)
-- [ ] Add achievement placeholder architecture without overbuilding
+- [x] Add achievement placeholder architecture without overbuilding
 - [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
