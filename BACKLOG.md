@@ -52,17 +52,21 @@
 - [x] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
 - [x] Add global search function across website and archive themes
 - [x] Add external quick-submit suggestion form for new task ideas with level categorization
+- [x] Fix account init bug (loadAccountStore + bindAccountEvents not called on page load)
+- [x] Add hearts/lives system (5 hearts, lose on wrong answer, auto-refill every 30 min)
+- [x] Overhaul account panel UI (two-state: logged-in card with avatar vs. tabbed login/register form)
+- [x] Extend account data model with avatarColor, createdAt, hearts, heartsLastRefill
+- [x] Add daily mission widget (progress bar toward 5 Aufgaben/day)
+- [x] Activate daily_goal and precision_3 achievements (were placeholders)
+- [x] Create profile page (app/profil.html) with stats, heatmap, weekly XP chart, level progress
 - [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
-## P3
-- [ ] Prepare local progress architecture for future XP and streak systems
-- [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
-- [ ] Add achievement placeholder architecture without overbuilding
-- [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
-- [ ] Define Duolingo-aehnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
-- [ ] Define web account creation and login foundation for SOR (free-first, app-ready)
+## P4
+- [ ] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
+- [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
 - [ ] Define free-first monetization path with optional small premium tier later
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
 - [ ] Add backend/moderation pipeline for external task suggestions after validating demand
+- [ ] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
 
