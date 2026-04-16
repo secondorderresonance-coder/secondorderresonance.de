@@ -452,6 +452,59 @@
         }
         .achievement.earned .ach-label { color: var(--gold); }
 
+        /* Hearts */
+        .hearts-display { display: flex; gap: 2px; align-items: center; }
+        .hearts-display .heart-full  { color: #ef4444; font-size: 1.05rem; line-height: 1; }
+        .hearts-display .heart-empty { color: rgba(255,255,255,0.18); font-size: 1.05rem; line-height: 1; }
+
+        /* Account avatar */
+        .account-avatar {
+            width: 46px; height: 46px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; font-weight: 800; color: #fff;
+            background: var(--accent); flex-shrink: 0; user-select: none;
+        }
+
+        /* Account tabs */
+        .account-tabs { display: flex; gap: 0.4rem; margin-bottom: 0.8rem; }
+        .account-tab {
+            padding: 0.38rem 1rem; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: transparent; color: var(--text-muted);
+            cursor: pointer; font-size: 0.85rem; font-weight: 600;
+            transition: all 0.2s;
+        }
+        .account-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .account-tab:hover:not(.active) { border-color: rgba(255,255,255,0.35); color: var(--text); }
+
+        /* Mission card */
+        .mission-card {
+            background: var(--secondary); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 0.85rem 1.2rem; margin-bottom: 1.2rem;
+        }
+        .mission-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.55rem; }
+        .mission-label { font-weight: 600; font-size: 0.88rem; flex: 1; }
+        .mission-count { font-size: 0.82rem; color: var(--text-muted); }
+        .mission-bar-track { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .mission-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.6s; }
+
+        /* Logged-in account card */
+        .account-logged-in-row {
+            display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;
+        }
+        .account-logged-in-meta { flex: 1; min-width: 0; }
+        .account-logged-in-name { font-weight: 700; color: var(--gold); font-size: 1.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .account-logged-in-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.1rem; }
+        .account-actions { display: flex; gap: 0.4rem; }
+        .account-link-btn {
+            text-decoration: none; border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.07); color: var(--text);
+            border-radius: 10px; padding: 0.5rem 0.8rem; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;
+            transition: filter 0.15s;
+        }
+        .account-link-btn:hover { filter: brightness(1.15); }
+
         /* Responsive */
         @media (max-width: 600px) {
             .options { grid-template-columns: 1fr; }
@@ -461,6 +514,7 @@
             .achievements-grid { grid-template-columns: repeat(3, 1fr); }
             .account-row { grid-template-columns: 1fr; }
             .account-badge { display: none; }
+            .hearts-display { display: none; }
         }
     </style>
 </head>
@@ -478,6 +532,7 @@
             </div>
             <span class="xp-text" id="xpText">150 XP</span>
         </div>
+        <div class="hearts-display" id="heartsDisplay"></div>
         <div class="streak" id="streak">3 Tage</div>
         <div class="account-badge" id="accountBadge">Kein Account</div>
     </header>
@@ -486,14 +541,33 @@
 
         <section class="account-panel">
             <div class="account-title">Account</div>
-            <div class="account-row">
-                <input id="accountName" class="account-input" type="text" placeholder="Nutzername" autocomplete="username">
-                <input id="accountPassword" class="account-input" type="password" placeholder="Passwort" autocomplete="current-password">
-                <button id="accountRegisterBtn" class="account-btn primary" type="button">Registrieren</button>
-                <button id="accountLoginBtn" class="account-btn" type="button">Anmelden</button>
-                <button id="accountLogoutBtn" class="account-btn" type="button">Abmelden</button>
+
+            <!-- Eingeloggt -->
+            <div id="accountLoggedIn" class="account-logged-in-row" style="display:none">
+                <div class="account-avatar" id="accountAvatarEl">?</div>
+                <div class="account-logged-in-meta">
+                    <div class="account-logged-in-name" id="accountDisplayName">Username</div>
+                    <div class="account-logged-in-hint">Lokal gespeichert &middot; Cloud-Sync geplant</div>
+                </div>
+                <div class="account-actions">
+                    <a href="profil.html" class="account-link-btn">&#128202; Profil</a>
+                    <button id="accountLogoutBtn" class="account-link-btn" type="button">Abmelden</button>
+                </div>
             </div>
-            <div id="accountStatus" class="account-status">Kein Account aktiv. Fortschritt wird erst nach Anmeldung gespeichert.</div>
+
+            <!-- Ausgeloggt -->
+            <div id="accountLoggedOut">
+                <div class="account-tabs">
+                    <button class="account-tab active" id="tabLogin" onclick="switchTab('login')">Anmelden</button>
+                    <button class="account-tab" id="tabRegister" onclick="switchTab('register')">Registrieren</button>
+                </div>
+                <div class="account-row">
+                    <input id="accountName" class="account-input" type="text" placeholder="Nutzername" autocomplete="username">
+                    <input id="accountPassword" class="account-input" type="password" placeholder="Passwort" autocomplete="current-password">
+                    <button id="accountActionBtn" class="account-btn primary" type="button" onclick="accountAction()">Anmelden</button>
+                </div>
+                <div id="accountStatus" class="account-status">Melde dich an oder erstelle ein kostenloses SOR-Konto.</div>
+            </div>
         </section>
 
         <!-- Stats -->
@@ -509,6 +583,18 @@
             <div class="stat">
                 <div class="stat-value" id="accuracyPct">-</div>
                 <div class="stat-label">Genauigkeit</div>
+            </div>
+        </div>
+
+        <!-- Daily mission -->
+        <div class="mission-card">
+            <div class="mission-header">
+                <span style="font-size:1rem">&#128197;</span>
+                <span class="mission-label">Tagesziel</span>
+                <span class="mission-count" id="missionText">0 / 5 Aufgaben</span>
+            </div>
+            <div class="mission-bar-track">
+                <div class="mission-bar-fill" id="missionProgress" style="width:0%"></div>
             </div>
         </div>
 
@@ -597,8 +683,8 @@
             { id: 'xp_500', icon: '\uD83C\uDF1F', label: 'Level Up', desc: '500 XP verdient', ruleKey: 'xp_500', stage: 'live' },
             { id: 'unlock_l2', icon: '\uD83D\uDD13', label: 'Aufsteiger', desc: 'Level 2 freigeschaltet', ruleKey: 'unlock_l2', stage: 'live' },
             { id: 'unlock_l6', icon: '\uD83D\uDD2C', label: 'Forscher', desc: 'Level 6 freigeschaltet', ruleKey: 'unlock_l6', stage: 'live' },
-            { id: 'placeholder_daily_goal', icon: '\uD83D\uDCC5', label: 'Tagesmission', desc: 'Platzhalter: taegliche Missionsreihe (in Arbeit)', stage: 'placeholder' },
-            { id: 'placeholder_precision', icon: '\uD83E\uDDEA', label: 'Praezision', desc: 'Platzhalter: Serienbonus fuer genaue Antworten', stage: 'placeholder' },
+            { id: 'daily_goal', icon: '\uD83D\uDCC5', label: 'Tagesziel', desc: '5 Aufgaben an einem Tag l\u00f6sen', ruleKey: 'daily_goal', stage: 'live' },
+            { id: 'precision_3', icon: '\uD83E\uDDEA', label: 'Pr\u00e4zision', desc: '3 Antworten hintereinander richtig', ruleKey: 'precision_3', stage: 'live' },
             { id: 'placeholder_mastery', icon: '\uD83D\uDEE0\uFE0F', label: 'Meisterpfad', desc: 'Platzhalter: langfristige Mastery-Abzeichen', stage: 'placeholder' }
         ];
 
@@ -611,7 +697,15 @@
             xp_100: s => s.xp >= 100,
             xp_500: s => s.xp >= 500,
             unlock_l2: s => s.xp >= 50,
-            unlock_l6: s => s.xp >= 750
+            unlock_l6: s => s.xp >= 750,
+            daily_goal: () => {
+                if (!currentAccountId || !accountStore.accounts[currentAccountId]) return false;
+                const prog = accountStore.accounts[currentAccountId].progress;
+                if (!prog || !prog.dailyActivity) return false;
+                const today = new Date().toISOString().slice(0, 10);
+                return !!(prog.dailyActivity[today] && prog.dailyActivity[today].answered >= 5);
+            },
+            precision_3: s => (s.consecutiveCorrect || 0) >= 3
         };
 
         const LIVE_ACHIEVEMENTS = ACHIEVEMENT_CATALOG.filter(a => a.stage === 'live');
@@ -1079,7 +1173,8 @@
                 streak: 0,
                 lastSessionDate: null,
                 earnedAchievements: [],
-                answered: false
+                answered: false,
+                consecutiveCorrect: 0
             };
         }
 
@@ -1109,6 +1204,7 @@
             state.streak = data.streak || 0;
             state.lastSessionDate = data.lastSessionDate || null;
             state.earnedAchievements = Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : [];
+            state.consecutiveCorrect = 0;
 
             const today = new Date().toISOString().slice(0, 10);
             const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
@@ -1157,11 +1253,20 @@
             return migrated;
         }
 
+        const AVATAR_COLORS = ['#e94560','#8b5cf6','#60a5fa','#4ade80','#f59e0b','#ec4899'];
+        const HEARTS_MAX = 5;
+        const HEARTS_REFILL_MS = 30 * 60 * 1000; // 1 Herz pro 30 Min
+
         function normalizeAccountRecord(rawAccount, fallbackAccountId) {
             const account = rawAccount && typeof rawAccount === 'object' ? rawAccount : {};
+            const colorIdx = (fallbackAccountId || '').charCodeAt(0) % AVATAR_COLORS.length;
             return {
                 username: account.username || fallbackAccountId || 'User',
                 password: account.password || '',
+                avatarColor: account.avatarColor || AVATAR_COLORS[colorIdx],
+                createdAt: account.createdAt || new Date().toISOString(),
+                hearts: typeof account.hearts === 'number' ? Math.min(account.hearts, HEARTS_MAX) : HEARTS_MAX,
+                heartsLastRefill: account.heartsLastRefill || new Date().toISOString(),
                 progress: normalizeProgressEnvelope(account.progress || {})
             };
         }
@@ -1203,6 +1308,58 @@
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
             } catch (e) {}
+        }
+
+        function renderHearts() {
+            const el = document.getElementById('heartsDisplay');
+            if (!el) return;
+            const hearts = (currentAccountId && accountStore.accounts[currentAccountId])
+                ? accountStore.accounts[currentAccountId].hearts
+                : HEARTS_MAX;
+            el.innerHTML = Array.from({length: HEARTS_MAX}, (_, i) =>
+                `<span class="${i < hearts ? 'heart-full' : 'heart-empty'}">&#9829;</span>`
+            ).join('');
+        }
+
+        function refillHeartsIfNeeded(accountId) {
+            const account = accountStore.accounts[accountId];
+            if (!account) return;
+            const now = Date.now();
+            const lastRefill = account.heartsLastRefill ? new Date(account.heartsLastRefill).getTime() : now;
+            const toAdd = Math.floor((now - lastRefill) / HEARTS_REFILL_MS);
+            if (toAdd > 0 && account.hearts < HEARTS_MAX) {
+                account.hearts = Math.min((account.hearts || 0) + toAdd, HEARTS_MAX);
+                account.heartsLastRefill = new Date(lastRefill + toAdd * HEARTS_REFILL_MS).toISOString();
+                saveAccountStore();
+            }
+        }
+
+        function deductHeart(accountId) {
+            const account = accountStore.accounts[accountId];
+            if (!account || account.hearts <= 0) return;
+            account.hearts--;
+            saveAccountStore();
+        }
+
+        function updateDailyMission() {
+            const fillEl = document.getElementById('missionProgress');
+            const textEl = document.getElementById('missionText');
+            if (!fillEl || !textEl) return;
+            const DAILY_GOAL = 5;
+            let todayAnswered = 0;
+            if (currentAccountId && accountStore.accounts[currentAccountId]) {
+                const prog = ensureAccountProgressEnvelope(currentAccountId);
+                const today = new Date().toISOString().slice(0, 10);
+                if (prog && prog.dailyActivity && prog.dailyActivity[today]) {
+                    todayAnswered = prog.dailyActivity[today].answered || 0;
+                }
+            }
+            const done = Math.min(todayAnswered, DAILY_GOAL);
+            fillEl.style.width = (done / DAILY_GOAL * 100) + '%';
+            fillEl.style.background = done >= DAILY_GOAL ? 'var(--success)' : 'var(--gold)';
+            textEl.textContent = done >= DAILY_GOAL
+                ? '\u2713 Tagesziel erreicht!'
+                : done + ' / ' + DAILY_GOAL + ' Aufgaben';
         }
 
         function saveState() {
@@ -1269,31 +1426,61 @@
         function updateAccountHeader() {
             const badge = document.getElementById('accountBadge');
             if (!badge) return;
-            if (!currentAccountId || !accountStore.accounts[currentAccountId]) {
-                badge.textContent = 'Kein Account';
-                return;
-            }
-            badge.textContent = 'Account: ' + accountStore.accounts[currentAccountId].username;
+            badge.textContent = (currentAccountId && accountStore.accounts[currentAccountId])
+                ? accountStore.accounts[currentAccountId].username
+                : 'Kein Account';
+        }
+
+        let currentTab = 'login';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const loginTab = document.getElementById('tabLogin');
+            const regTab = document.getElementById('tabRegister');
+            const actionBtn = document.getElementById('accountActionBtn');
+            const status = document.getElementById('accountStatus');
+            if (loginTab) loginTab.classList.toggle('active', tab === 'login');
+            if (regTab) regTab.classList.toggle('active', tab === 'register');
+            if (actionBtn) actionBtn.textContent = tab === 'login' ? 'Anmelden' : 'Registrieren';
+            if (status) status.textContent = tab === 'login'
+                ? 'Melde dich mit deinem bestehenden Konto an.'
+                : 'Erstelle dein kostenloses SOR-Konto.';
+        }
+
+        function accountAction() {
+            if (currentTab === 'login') loginAccount();
+            else registerAccount();
         }
 
         function renderAccountUI() {
-            const status = document.getElementById('accountStatus');
-            const logoutBtn = document.getElementById('accountLogoutBtn');
-            if (!status || !logoutBtn) return;
+            const loggedIn = document.getElementById('accountLoggedIn');
+            const loggedOut = document.getElementById('accountLoggedOut');
+            if (!loggedIn || !loggedOut) return;
 
-            if (!currentAccountId || !accountStore.accounts[currentAccountId]) {
-                status.textContent = 'Kein Account aktiv. Fortschritt wird erst nach Anmeldung gespeichert.';
-                logoutBtn.disabled = true;
+            if (currentAccountId && accountStore.accounts[currentAccountId]) {
+                const account = accountStore.accounts[currentAccountId];
+                loggedIn.style.display = 'flex';
+                loggedOut.style.display = 'none';
+                const avatarEl = document.getElementById('accountAvatarEl');
+                const nameEl = document.getElementById('accountDisplayName');
+                if (avatarEl) {
+                    avatarEl.textContent = account.username.charAt(0).toUpperCase();
+                    avatarEl.style.background = account.avatarColor || '#e94560';
+                }
+                if (nameEl) nameEl.textContent = account.username;
             } else {
-                status.textContent = 'Angemeldet als ' + accountStore.accounts[currentAccountId].username + '. Fortschritt wird accountbasiert gespeichert.';
-                logoutBtn.disabled = false;
+                loggedIn.style.display = 'none';
+                loggedOut.style.display = 'block';
             }
             updateAccountHeader();
+            renderHearts();
+            updateDailyMission();
         }
 
         function applyAccountProgress(accountId) {
             const account = accountStore.accounts[accountId];
             if (!account) return;
+            refillHeartsIfNeeded(accountId);
             const progress = ensureAccountProgressEnvelope(accountId);
             currentAccountId = accountId;
             accountStore.current = accountId;
@@ -1331,6 +1518,10 @@
             accountStore.accounts[accountId] = {
                 username: name,
                 password: pass,
+                avatarColor: AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
+                createdAt: new Date().toISOString(),
+                hearts: HEARTS_MAX,
+                heartsLastRefill: new Date().toISOString(),
                 progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
@@ -1379,12 +1570,12 @@
         }
 
         function bindAccountEvents() {
-            const registerBtn = document.getElementById('accountRegisterBtn');
-            const loginBtn = document.getElementById('accountLoginBtn');
             const logoutBtn = document.getElementById('accountLogoutBtn');
-            if (registerBtn) registerBtn.addEventListener('click', registerAccount);
-            if (loginBtn) loginBtn.addEventListener('click', loginAccount);
             if (logoutBtn) logoutBtn.addEventListener('click', logoutAccount);
+            ['accountName', 'accountPassword'].forEach(function(id) {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') accountAction(); });
+            });
         }
         function checkAchievements() {
             let newlyEarned = false;
@@ -1531,11 +1722,14 @@
 
             if (isCorrect) {
                 state.correct++;
+                state.consecutiveCorrect = (state.consecutiveCorrect || 0) + 1;
                 const xpGain = q.difficulty === 'easy' ? 10 : q.difficulty === 'medium' ? 20 : 30;
                 state.xp += xpGain;
                 feedback.className = 'feedback correct-fb show';
                 document.getElementById('feedbackTitle').textContent = 'Richtig! +' + xpGain + ' XP';
             } else {
+                state.consecutiveCorrect = 0;
+                if (currentAccountId) { deductHeart(currentAccountId); renderHearts(); }
                 feedback.className = 'feedback wrong-fb show';
                 document.getElementById('feedbackTitle').textContent = 'Leider falsch';
             }
@@ -1545,6 +1739,7 @@
 
             updateStats();
             saveState();
+            updateDailyMission();
             checkAchievements();
         }
 
@@ -1565,11 +1760,22 @@
         }
 
         // Initialize
+        loadAccountStore();
+        if (accountStore.current && accountStore.accounts[accountStore.current]) {
+            currentAccountId = accountStore.current;
+            refillHeartsIfNeeded(currentAccountId);
+            const savedProgress = ensureAccountProgressEnvelope(currentAccountId);
+            if (savedProgress) applyStateSnapshot(savedProgress.summary);
+        }
+        bindAccountEvents();
+        renderAccountUI();
         renderLevelButtons();
         renderTopics();
         renderExercise();
         updateStats();
         renderAchievements();
+        renderHearts();
+        updateDailyMission();
         openFromLocation();
         window.addEventListener('hashchange', openFromLocation);
     </script>
