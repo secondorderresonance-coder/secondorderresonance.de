@@ -13,32 +13,21 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Expanded the archive milestone from starter scope to 600 tasks total while preserving the scalable architecture:
-- scalable task data model + taxonomy for L1-L6 with hierarchical sublevels
-- generated task corpus with 100 tasks per level (600 total) from structured seed content
-- new archive interface with level/sublevel/topic filters, search, and task detail view
-- new placement test flow with 30 questions, progress tracking, scoring, and level/sublevel recommendation
+Completed the highest-priority open P1 item by refining the homepage video block into a clean section with direct links to existing YouTube videos:
+- replaced generic channel links in the "Neueste Videos" cards with concrete video URLs where available
+- kept the third card as a direct channel-videos overview entry for broader browsing
+- preserved the established visual style and existing section layout
 
 ## Last validation
-- `rg -n "buildTaskArchive|tasks: buildTaskArchive|targetPerLevel|targetTotal|placementQuestions" app/data/archive-content.js app/lernarchiv.html`
-- `node -e "..."` runtime check on `app/data/archive-content.js`:
-  - total tasks: 600
-  - distribution: 100 tasks for each level 1-6
-- manual diff review for:
-  - `app/data/archive-content.js`
-  - `app/lernarchiv.html`
-  - `index.html`
-  - `BACKLOG.md`
-  - `STATUS.md`
-- static logic validation by inspection:
-  - archive filters and search use shared scalable task dataset
-  - placement test runs one question at a time for 30 questions
-  - result maps to plausible level + sublevel recommendation
-  - progress display shows current vs target (5.000/level, 30.000 total)
+- `rg -n -F "https://youtu.be/4MfNDj7GfQ8" index.html`
+- `rg -n -F "https://youtu.be/3n05QLJ-u4E" index.html`
+- `rg -n -F "https://www.youtube.com/@Second-OrderResonance/videos" index.html`
+- manual section inspection in `index.html` to verify:
+  - video section structure and styling remain unchanged
+  - cards now point to direct existing videos + channel videos overview
+  - copy still matches the site tone and educational framing
 
 ## Files touched in last task
-- `app/data/archive-content.js`
-- `app/lernarchiv.html`
 - `index.html`
 - `BACKLOG.md`
 - `STATUS.md`
@@ -47,7 +36,5 @@ Expanded the archive milestone from starter scope to 600 tasks total while prese
 None.
 
 ## Next logical step
-Execute the next major expansion workstreams:
-- curriculum expansion with quality control toward the 30.000 target
-- deeper sublevel structure where needed
-- streak/progress integration across archive and placement flow
+Execute the remaining open P1 task:
+- check for any residual 5-level references and migrate them consistently to the mandatory 6-level system across UI text and data structures.
