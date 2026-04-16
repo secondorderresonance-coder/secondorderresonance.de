@@ -1,5 +1,10 @@
 # BACKLOG
 
+## Strategische Produktziele
+- Duolingo-aehnliche Lernreise fuer Mathe und Physik, aber im Second-Order-Resonance-Stil statt als Kopie
+- Eigene SOR-Accounts auf Website und spaeter in iOS/Android-App
+- Zunaechst kostenloses Kernprodukt, spaeter optional kleine Premium-Stufe bei genug Nachfrage
+
 ## Archiv Zielbild
 - 5.000 Aufgaben pro Level (L1-L6)
 - 30.000 Aufgaben insgesamt im Archiv
@@ -7,8 +12,10 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 100 Aufgaben pro Level in dieser Iteration
-- 600 Aufgaben insgesamt aktuell verfuegbar
+- 500 Aufgaben pro Level in dieser Iteration
+- 3.000 Aufgaben insgesamt aktuell verfuegbar
+- 520 Aufgaben pro Level in dieser Iteration
+- 3.120 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -24,19 +31,42 @@
 - [x] Expand archive content to 100 tasks per level (600 total) using scalable generation architecture
 - [x] Ensure TikTok link is visible in the social/media area
 - [x] Add a clean video section linking existing YouTube videos
-- [ ] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
+- [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
-- [ ] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
-- [ ] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
-- [ ] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
-- [ ] Connect archive content more clearly with app exercises
-- [ ] Add level/sublevel deep links and saved filter state in the archive UI
-- [ ] Improve mobile layout of archive and placement sections after real-device pass
-- [ ] Add placement result handoff to recommended archive filter preset
+- [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
+- [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
+- [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
+- [x] Connect archive content more clearly with app exercises
+- [x] Add level/sublevel deep links and saved filter state in the archive UI
+- [x] Improve mobile layout of archive and placement sections after real-device pass
+- [x] Add placement result handoff to recommended archive filter preset
+- [ ] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches)
 
 ## P3
-- [ ] Prepare local progress architecture for future XP and streak systems
-- [ ] Add daily streak system to archive and placement journey (local first, backend-ready later)
-- [ ] Add achievement placeholder architecture without overbuilding
-- [ ] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [x] Add local account creation/login with per-account local progress storage (local-first foundation)
+- [x] Prepare local progress architecture for future XP and streak systems
+- [x] Add daily streak system to archive and placement journey (local first, backend-ready later)
+- [x] Add achievement placeholder architecture without overbuilding
+- [x] Define content QA workflow and authoring guidelines for scaling to 30.000 tasks
+- [x] Add first interactive visual module for "Satz des Pythagoras" in website + archive context
+- [x] Add global search function across website and archive themes
+- [x] Add external quick-submit suggestion form for new task ideas with level categorization
+- [x] Fix account init bug (loadAccountStore + bindAccountEvents not called on page load)
+- [x] Add hearts/lives system (5 hearts, lose on wrong answer, auto-refill every 30 min)
+- [x] Overhaul account panel UI (two-state: logged-in card with avatar vs. tabbed login/register form)
+- [x] Extend account data model with avatarColor, createdAt, hearts, heartsLastRefill
+- [x] Add daily mission widget (progress bar toward 5 Aufgaben/day)
+- [x] Activate daily_goal and precision_3 achievements (were placeholders)
+- [x] Create profile page (app/profil.html) with stats, heatmap, weekly XP chart, level progress
+- [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
+
+## P4
+- [ ] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
+- [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
+- [ ] Define free-first monetization path with optional small premium tier later
+- [ ] Define SOR account and sync architecture for future iOS/Android app login
+- [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+- [ ] Add backend/moderation pipeline for external task suggestions after validating demand
+- [ ] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
+

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Profil | Second-Order Resonance</title>
+    <meta name="description" content="Dein persönliches SOR-Lernprofil: XP, Streak, Achievements und Aktivitätshistorie.">
+    <meta name="theme-color" content="#1a1a2e">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+            --error: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .app-header {
+            background: var(--secondary);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(233,69,96,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-logo { font-weight: 700; font-size: 1.2rem; color: var(--gold); }
+        .app-logo span { color: var(--accent); }
+
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            padding: 0.4rem 0.8rem; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
+        }
+        .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+
+        /* Main */
+        .profile-main {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        /* No account state */
+        .no-account {
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+        .no-account h2 { color: var(--gold); margin-bottom: 0.8rem; }
+        .no-account p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        .btn-primary {
+            display: inline-block; padding: 0.8rem 2rem;
+            background: var(--accent); color: #fff; border-radius: 50px;
+            text-decoration: none; font-weight: 700; transition: all 0.3s;
+        }
+        .btn-primary:hover { background: #ff5a78; }
+
+        /* Profile hero */
+        .profile-hero {
+            background: var(--secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 800; color: #fff;
+            flex-shrink: 0;
+        }
+
+        .profile-meta { flex: 1; min-width: 0; }
+        .profile-username {
+            font-size: 1.6rem; font-weight: 800; color: var(--gold);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .profile-since { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .profile-storage-note {
+            font-size: 0.78rem; color: rgba(255,255,255,0.35);
+            margin-top: 0.4rem;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--secondary);
+            border-radius: 14px;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .stat-card-value { font-size: 2rem; font-weight: 800; color: var(--gold); }
+        .stat-card-value.green { color: var(--success); }
+        .stat-card-value.red { color: #ef4444; }
+        .stat-card-value.purple { color: #8b5cf6; }
+        .stat-card-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+        /* Section headers */
+        .section-title {
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Achievements */
+        .achievements-section { margin-bottom: 1.5rem; }
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 0.6rem;
+        }
+        .achievement {
+            background: var(--secondary);
+            border-radius: 12px;
+            padding: 0.8rem 0.3rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .achievement.earned { border-color: var(--gold); background: rgba(245,197,24,0.08); }
+        .achievement.not-earned { opacity: 0.28; filter: grayscale(1); }
+        .achievement.placeholder {
+            opacity: 0.6; border-style: dashed;
+            border-color: rgba(245,197,24,0.3); background: rgba(245,197,24,0.04);
+        }
+        .ach-icon { font-size: 1.6rem; display: block; margin-bottom: 0.2rem; }
+        .ach-label { font-size: 0.63rem; color: var(--text-muted); line-height: 1.3; display: block; }
+        .achievement.earned .ach-label { color: var(--gold); }
+
+        /* Activity heatmap */
+        .heatmap-section { margin-bottom: 1.5rem; }
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(14, 1fr);
+            gap: 3px;
+        }
+        .heatmap-day {
+            aspect-ratio: 1;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.07);
+            position: relative;
+            cursor: default;
+        }
+        .heatmap-day.level-1 { background: rgba(74,222,128,0.25); }
+        .heatmap-day.level-2 { background: rgba(74,222,128,0.5); }
+        .heatmap-day.level-3 { background: rgba(74,222,128,0.8); }
+        .heatmap-day.today { outline: 2px solid var(--accent); outline-offset: 1px; }
+        .heatmap-labels {
+            display: flex; justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        .heatmap-label { font-size: 0.7rem; color: var(--text-muted); }
+
+        /* Weekly XP chart */
+        .chart-section { margin-bottom: 1.5rem; }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 100px;
+        }
+        .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .bar-fill {
+            width: 100%; border-radius: 4px 4px 0 0;
+            background: var(--accent2); transition: height 0.4s;
+            min-height: 2px;
+        }
+        .bar-fill.current-week { background: var(--gold); }
+        .bar-label { font-size: 0.62rem; color: var(--text-muted); text-align: center; }
+
+        /* Level progress */
+        .levels-section { margin-bottom: 1.5rem; }
+        .level-progress-row {
+            display: flex; align-items: center; gap: 0.7rem;
+            margin-bottom: 0.6rem;
+        }
+        .level-badge {
+            width: 28px; height: 28px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+        }
+        .level-progress-bar-track {
+            flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;
+        }
+        .level-progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+        .level-progress-xp { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+
+        /* Hearts */
+        .hearts-row { display: flex; gap: 4px; margin-bottom: 1.5rem; align-items: center; }
+        .heart-full { color: #ef4444; font-size: 1.4rem; }
+        .heart-empty { color: rgba(255,255,255,0.15); font-size: 1.4rem; }
+        .hearts-refill-hint { font-size: 0.78rem; color: var(--text-muted); margin-left: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .profile-hero { flex-direction: column; text-align: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .heatmap-grid { grid-template-columns: repeat(7, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="app-logo">Math<span>Level</span></div>
+        <a href="index.html" class="back-btn">&#8592; Zur App</a>
+    </header>
+
+    <main class="profile-main" id="profileMain">
+        <div class="no-account" id="noAccountMsg" style="display:none">
+            <h2>Kein Account aktiv</h2>
+            <p>Melde dich an oder erstelle ein kostenloses Konto, um dein Profil zu sehen.</p>
+            <a href="index.html" class="btn-primary">Zur App &amp; Anmelden</a>
+        </div>
+        <div id="profileContent" style="display:none">
+
+            <!-- Hero -->
+            <div class="profile-hero">
+                <div class="profile-avatar" id="profileAvatar">?</div>
+                <div class="profile-meta">
+                    <div class="profile-username" id="profileUsername">Username</div>
+                    <div class="profile-since" id="profileSince"></div>
+                    <div class="profile-storage-note">Lokal gespeichert &middot; Cloud-Sync geplant</div>
+                </div>
+            </div>
+
+            <!-- Hearts -->
+            <div class="section-title">Herzen</div>
+            <div class="hearts-row" id="heartsRow">
+                <span class="hearts-refill-hint" id="heartsHint"></span>
+            </div>
+
+            <!-- Key stats -->
+            <div class="section-title" style="margin-top:1.5rem">Statistiken</div>
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <!-- Achievements -->
+            <div class="achievements-section">
+                <div class="section-title">Abzeichen</div>
+                <div class="achievements-grid" id="achievementsGrid"></div>
+            </div>
+
+            <!-- Activity heatmap (last 28 days) -->
+            <div class="heatmap-section">
+                <div class="section-title">Aktivit&auml;t (letzte 28 Tage)</div>
+                <div class="heatmap-grid" id="heatmapGrid"></div>
+                <div class="heatmap-labels">
+                    <span class="heatmap-label" id="heatmapStart"></span>
+                    <span class="heatmap-label">Heute</span>
+                </div>
+            </div>
+
+            <!-- Weekly XP chart (last 8 weeks) -->
+            <div class="chart-section">
+                <div class="section-title">W&ouml;chentliches XP (letzte 8 Wochen)</div>
+                <div class="bar-chart" id="weeklyChart"></div>
+            </div>
+
+            <!-- Level XP progress -->
+            <div class="levels-section">
+                <div class="section-title">Level-Freischaltung</div>
+                <div id="levelProgressRows"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const ACCOUNT_STORE_KEY = 'mathlevel-accounts-v1';
+        const HEARTS_MAX = 5;
+        const HEARTS_REFILL_MS = 30 * 60 * 1000;
+
+        const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
+        const LEVEL_COLORS = ['#4ade80','#facc15','#f59e0b','#60a5fa','#8b5cf6','#6b7280'];
+        const LEVEL_NAMES = ['Grundlagen','Aufbauwissen','Vertiefung','Universit\u00e4tsgrundlagen','Angewandte Mathematik','Forschung & Simulation'];
+
+        const ACHIEVEMENT_CATALOG = [
+            { id: 'first_correct',  icon: '\u2B50',         label: 'Erster Schritt',    desc: 'Erste richtige Antwort',              stage: 'live' },
+            { id: 'ten_correct',    icon: '\uD83C\uDFAF',   label: 'Zehn hoch',         desc: '10 richtige Antworten',               stage: 'live' },
+            { id: 'fifty_correct',  icon: '\uD83C\uDFC6',   label: 'Mathe-Profi',       desc: '50 richtige Antworten',               stage: 'live' },
+            { id: 'streak_3',       icon: '\uD83D\uDD25',   label: 'Auf Kurs',          desc: '3-Tage-Streak',                       stage: 'live' },
+            { id: 'streak_7',       icon: '\uD83D\uDCA5',   label: 'Wochenkämpfer',     desc: '7-Tage-Streak',                       stage: 'live' },
+            { id: 'xp_100',         icon: '\uD83D\uDCAB',   label: 'XP Sammler',        desc: '100 XP verdient',                     stage: 'live' },
+            { id: 'xp_500',         icon: '\uD83C\uDF1F',   label: 'Level Up',          desc: '500 XP verdient',                     stage: 'live' },
+            { id: 'unlock_l2',      icon: '\uD83D\uDD13',   label: 'Aufsteiger',        desc: 'Level 2 freigeschaltet',              stage: 'live' },
+            { id: 'unlock_l6',      icon: '\uD83D\uDD2C',   label: 'Forscher',          desc: 'Level 6 freigeschaltet',              stage: 'live' },
+            { id: 'daily_goal',     icon: '\uD83D\uDCC5',   label: 'Tagesziel',         desc: '5 Aufgaben an einem Tag lösen',       stage: 'live' },
+            { id: 'precision_3',    icon: '\uD83E\uDDEA',   label: 'Präzision',         desc: '3 Antworten hintereinander richtig',  stage: 'live' },
+            { id: 'placeholder_mastery', icon: '\uD83D\uDEE0\uFE0F', label: 'Meisterpfad', desc: 'Langfristige Mastery-Abzeichen', stage: 'placeholder' }
+        ];
+
+        function loadAccountStore() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return null;
+                const parsed = JSON.parse(raw);
+                if (!parsed || typeof parsed !== 'object') return null;
+                return parsed;
+            } catch (e) { return null; }
+        }
+
+        function getIsoWeekKey(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - day);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + '-W' + String(week).padStart(2, '0');
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            return d.toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function renderHearts(account) {
+            const row = document.getElementById('heartsRow');
+            const hint = document.getElementById('heartsHint');
+            const hearts = typeof account.hearts === 'number' ? account.hearts : HEARTS_MAX;
+            const heartsHtml = Array.from({length: HEARTS_MAX}, (_, i) =>
+                `<span class="${i < hearts ? 'heart-full' : 'heart-empty'}">&#9829;</span>`
+            ).join('');
+
+            let hintText = '';
+            if (hearts < HEARTS_MAX && account.heartsLastRefill) {
+                const lastRefill = new Date(account.heartsLastRefill).getTime();
+                const toNext = HEARTS_REFILL_MS - ((Date.now() - lastRefill) % HEARTS_REFILL_MS);
+                const mins = Math.ceil(toNext / 60000);
+                hintText = 'Nächstes Herz in ~' + mins + ' Min';
+            } else if (hearts >= HEARTS_MAX) {
+                hintText = 'Alle Herzen voll';
+            }
+
+            row.innerHTML = heartsHtml + `<span class="hearts-refill-hint">${hintText}</span>`;
+        }
+
+        function renderStats(summary, account) {
+            const acc = summary.total > 0 ? Math.round(summary.correct / summary.total * 100) : 0;
+            const hearts = typeof account.hearts === 'number' ? account.hearts : HEARTS_MAX;
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-card-value">${summary.xp || 0}</div>
+                    <div class="stat-card-label">XP gesamt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value green">${summary.streak || 0}</div>
+                    <div class="stat-card-label">Tage-Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value">${summary.correct || 0}</div>
+                    <div class="stat-card-label">Richtige Antworten</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value purple">${acc}%</div>
+                    <div class="stat-card-label">Genauigkeit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value">${summary.total || 0}</div>
+                    <div class="stat-card-label">Aufgaben gesamt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value red">${hearts} / ${HEARTS_MAX}</div>
+                    <div class="stat-card-label">Herzen</div>
+                </div>
+            `;
+        }
+
+        function renderAchievements(earned) {
+            document.getElementById('achievementsGrid').innerHTML = ACHIEVEMENT_CATALOG.map(a => {
+                const isEarned = earned.includes(a.id);
+                const cssState = a.stage === 'placeholder' ? 'placeholder' : (isEarned ? 'earned' : 'not-earned');
+                return `<div class="achievement ${cssState}" title="${a.desc}">
+                    <span class="ach-icon">${a.icon}</span>
+                    <span class="ach-label">${a.label}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function renderHeatmap(dailyActivity) {
+            const grid = document.getElementById('heatmapGrid');
+            const startLabel = document.getElementById('heatmapStart');
+            const today = new Date();
+            const days = [];
+            for (let i = 27; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                days.push(d.toISOString().slice(0, 10));
+            }
+            startLabel.textContent = formatDate(days[0]).replace(/\d{4}$/, '').trim().replace(/\.$/, '');
+
+            grid.innerHTML = days.map(dateStr => {
+                const activity = (dailyActivity || {})[dateStr];
+                const answered = activity ? (activity.answered || 0) : 0;
+                const isToday = dateStr === today.toISOString().slice(0, 10);
+                let level = 0;
+                if (answered >= 1) level = 1;
+                if (answered >= 5) level = 2;
+                if (answered >= 10) level = 3;
+                const title = answered > 0 ? `${dateStr}: ${answered} Aufgaben` : dateStr;
+                return `<div class="heatmap-day level-${level}${isToday ? ' today' : ''}" title="${title}"></div>`;
+            }).join('');
+        }
+
+        function renderWeeklyChart(weeklyXp) {
+            const chart = document.getElementById('weeklyChart');
+            const today = new Date();
+            const weeks = [];
+            for (let i = 7; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i * 7);
+                weeks.push(getIsoWeekKey(d));
+            }
+            const values = weeks.map(w => (weeklyXp || {})[w] || 0);
+            const maxVal = Math.max(...values, 1);
+            const currentWeek = getIsoWeekKey(today);
+
+            chart.innerHTML = weeks.map((w, idx) => {
+                const xp = values[idx];
+                const heightPct = Math.max(xp / maxVal * 100, xp > 0 ? 4 : 0);
+                const isCurrent = w === currentWeek;
+                const label = idx === weeks.length - 1 ? 'diese Wo.' : ('KW' + w.split('-W')[1]);
+                return `<div class="bar-col">
+                    <div class="bar-fill${isCurrent ? ' current-week' : ''}" style="height:${heightPct}px" title="${w}: ${xp} XP"></div>
+                    <div class="bar-label">${label}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderLevelProgress(xp) {
+            const container = document.getElementById('levelProgressRows');
+            container.innerHTML = LEVEL_XP_THRESHOLDS.map((threshold, idx) => {
+                const color = LEVEL_COLORS[idx];
+                const nextThreshold = LEVEL_XP_THRESHOLDS[idx + 1] || threshold + 250;
+                const unlocked = xp >= threshold;
+                const fillPct = unlocked
+                    ? Math.min((xp - threshold) / (nextThreshold - threshold) * 100, 100)
+                    : 0;
+                return `<div class="level-progress-row">
+                    <div class="level-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">L${idx + 1}</div>
+                    <div class="level-progress-bar-track">
+                        <div class="level-progress-bar-fill" style="width:${fillPct}%;background:${color}"></div>
+                    </div>
+                    <div class="level-progress-xp">${unlocked ? xp - threshold + ' XP' : threshold + ' XP nötig'}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function init() {
+            const store = loadAccountStore();
+            if (!store || !store.current || !store.accounts || !store.accounts[store.current]) {
+                document.getElementById('noAccountMsg').style.display = 'block';
+                return;
+            }
+
+            const accountId = store.current;
+            const account = store.accounts[accountId];
+            const progress = account.progress || {};
+            const summary = (progress.summary) || {};
+            const dailyActivity = progress.dailyActivity || {};
+            const weeklyXp = progress.weeklyXp || {};
+            const earnedAchievements = Array.isArray(summary.earnedAchievements) ? summary.earnedAchievements : [];
+
+            document.getElementById('profileContent').style.display = 'block';
+
+            // Avatar
+            const avatarEl = document.getElementById('profileAvatar');
+            avatarEl.textContent = account.username.charAt(0).toUpperCase();
+            avatarEl.style.background = account.avatarColor || '#e94560';
+
+            document.getElementById('profileUsername').textContent = account.username;
+            document.getElementById('profileSince').textContent = account.createdAt
+                ? 'Dabei seit ' + formatDate(account.createdAt)
+                : '';
+
+            renderHearts(account);
+            renderStats(summary, account);
+            renderAchievements(earnedAchievements);
+            renderHeatmap(dailyActivity);
+            renderWeeklyChart(weeklyXp);
+            renderLevelProgress(summary.xp || 0);
+        }
+
+        init();
+    </script>
+
+</body>
+</html>

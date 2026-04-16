@@ -151,6 +151,27 @@
             margin-bottom: 0.9rem;
         }
 
+        .filter-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .ghost-btn {
+            width: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.18);
+            color: var(--text);
+            padding: 0.55rem 0.9rem;
+        }
+
+        .ghost-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem; }
 
         select, input, button {
@@ -215,6 +236,24 @@
             color: var(--text-muted);
         }
 
+        .detail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            border-radius: 999px;
+            padding: 0.45rem 0.9rem;
+            text-decoration: none;
+            background: rgba(233, 69, 96, 0.12);
+            border: 1px solid rgba(233, 69, 96, 0.35);
+            color: var(--text);
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .detail-link:hover {
+            background: rgba(233, 69, 96, 0.2);
+        }
+
         .test-flow {
             margin-top: 1rem;
             display: grid;
@@ -257,6 +296,113 @@
         }
 
         .result.show { display: block; }
+        .inline-action {
+            width: auto;
+            display: inline-flex;
+            margin-top: 0.7rem;
+        }
+
+        .result-actions {
+            margin-top: 0.9rem;
+            display: flex;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .visual-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            gap: 1rem;
+            align-items: stretch;
+            margin-top: 1rem;
+        }
+
+        .visual-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1rem;
+        }
+
+        .visual-panel h3 {
+            margin-bottom: 0.45rem;
+            font-size: 1.15rem;
+        }
+
+        .formula-line {
+            margin-top: 0.8rem;
+            font-family: "Cambria Math", "Times New Roman", serif;
+            font-size: 1.25rem;
+            color: var(--gold);
+        }
+
+        .visual-controls {
+            display: grid;
+            gap: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .visual-control {
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .visual-control label {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            color: var(--text);
+        }
+
+        .visual-control input[type="range"] {
+            padding: 0;
+        }
+
+        .visual-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        .visual-metric {
+            border-radius: 12px;
+            padding: 0.85rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .visual-metric strong {
+            display: block;
+            color: var(--gold);
+            font-size: 1.05rem;
+        }
+
+        .visual-metric span {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .visual-canvas {
+            width: 100%;
+            min-height: 360px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: radial-gradient(circle at top, rgba(15, 52, 96, 0.45), rgba(26, 26, 46, 0.95));
+            overflow: hidden;
+        }
+
+        .visual-canvas svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .visual-note {
+            margin-top: 0.9rem;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
 
         .taxonomy {
             margin-top: 1rem;
@@ -282,6 +428,98 @@
             .archive-layout { grid-template-columns: 1fr; }
             .filters { grid-template-columns: 1fr 1fr; }
             .level-row { grid-template-columns: 1fr; }
+            .detail { min-height: 0; }
+            .task-list { max-height: 360px; }
+        }
+
+        @media (max-width: 720px) {
+            .topbar-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .top-links {
+                width: 100%;
+            }
+
+            .top-links a {
+                flex: 1 1 auto;
+                text-align: center;
+            }
+
+            .container {
+                padding: 1.25rem 0.85rem 2.4rem;
+            }
+
+            .card {
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tools {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .filter-tools .ghost-btn {
+                width: 100%;
+            }
+
+            .task-list {
+                max-height: none;
+                padding-right: 0;
+            }
+
+            .question-box,
+            .result {
+                padding: 0.9rem;
+            }
+
+            .tax-item ul {
+                padding-left: 1rem;
+            }
+
+            .visual-layout,
+            .visual-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-canvas {
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .headline {
+                font-size: 1.7rem;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .kpi {
+                padding: 0.75rem;
+            }
+
+            .level-row {
+                gap: 0.35rem;
+            }
+
+            .task-item,
+            .question-box,
+            .tax-item {
+                padding: 0.75rem;
+            }
+
+            .detail-link {
+                justify-content: center;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -304,7 +542,7 @@
             <div class="kpi-grid">
                 <div class="kpi">
                     <strong id="kpiCurrent">0</strong>
-                    <span>Aktuell verfügbare Aufgaben</span>
+                    <span>Aktuell verfÃ¼gbare Aufgaben</span>
                 </div>
                 <div class="kpi">
                     <strong id="kpiTarget">30000</strong>
@@ -318,11 +556,15 @@
                     <strong id="kpiPlacement">30</strong>
                     <span>Fragen im Einstufungstest</span>
                 </div>
+                <div class="kpi">
+                    <strong id="kpiStreak">--</strong>
+                    <span>Aktive Lernserie (Account)</span>
+                </div>
             </div>
             <div class="level-progress" id="levelProgress"></div>
         </section>
 
-        <section class="card">
+        <section class="card" id="archiveBrowser">
             <h2>Archiv durchsuchen</h2>
             <p class="muted">Filtere nach Level, Sublevel und Thema oder suche direkt nach Aufgabeninhalt.</p>
             <div class="archive-layout">
@@ -345,19 +587,58 @@
                             <input id="searchInput" type="search" placeholder="z.B. Exponentielles Verhalten">
                         </div>
                     </div>
-                    <p class="muted" id="resultCount"></p>
+                    <div class="filter-tools">
+                        <p class="muted" id="resultCount"></p>
+                        <button type="button" class="ghost-btn" id="copyFilterLinkBtn">Filter-Link kopieren</button>
+                    </div>
                     <div class="task-list" id="taskList"></div>
                 </div>
                 <div class="detail card" id="taskDetail">
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Wähle links eine Aufgabe aus, um Frage, Lösung und Erklärung zu sehen.</p>
+                    <p class="muted">WÃ¤hle links eine Aufgabe aus, um Frage, LÃ¶sung und ErklÃ¤rung zu sehen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" id="pythagoras-visual">
+            <h2>Interaktive Visualisierung: Satz des Pythagoras</h2>
+            <p class="muted">Verschiebe die beiden Katheten und beobachte live, wie sich Dreieck, Quadrate und Hypotenuse gemeinsam veraendern.</p>
+            <div class="visual-layout">
+                <div class="visual-panel">
+                    <h3>Geometrie zum Anfassen</h3>
+                    <p class="muted">Das Modul startet bewusst einfach: zwei Regler, ein rechtwinkliges Dreieck und die Flaechen auf allen drei Seiten.</p>
+                    <div class="visual-controls">
+                        <div class="visual-control">
+                            <label for="pythagorasA">Kathete a <strong id="pythagorasAValue">6</strong></label>
+                            <input id="pythagorasA" type="range" min="2" max="12" step="1" value="6">
+                        </div>
+                        <div class="visual-control">
+                            <label for="pythagorasB">Kathete b <strong id="pythagorasBValue">8</strong></label>
+                            <input id="pythagorasB" type="range" min="2" max="12" step="1" value="8">
+                        </div>
+                    </div>
+                    <div class="formula-line" id="pythagorasFormula">6^2 + 8^2 = 10.00^2</div>
+                    <div class="visual-metrics">
+                        <div class="visual-metric"><strong id="pythagorasHypotenuse">10.00</strong><span>Hypotenuse c</span></div>
+                        <div class="visual-metric"><strong id="pythagorasAreaSum">100</strong><span>a^2 + b^2</span></div>
+                        <div class="visual-metric"><strong id="pythagorasAreaC">100.00</strong><span>c^2</span></div>
+                        <div class="visual-metric"><strong id="pythagorasRatio">1.00</strong><span>Vergleich c^2 / (a^2+b^2)</span></div>
+                    </div>
+                    <div class="pill-row" style="margin-top:1rem">
+                        <button type="button" class="ghost-btn" id="pythagorasArchiveBtn">Archiv auf Geometrie setzen</button>
+                        <a class="detail-link" href="../index.html#pythagoras-preview">Zur Website-Vorschau</a>
+                    </div>
+                    <p class="visual-note">Dieses erste Visual ist als Fundament gedacht. Spaeter koennen hier animierte Beweise, Aufgabenpfade und Missionen anschliessen.</p>
+                </div>
+                <div class="visual-canvas">
+                    <svg id="pythagorasSvg" viewBox="0 0 520 360" role="img" aria-label="Interaktive Pythagoras-Visualisierung"></svg>
                 </div>
             </div>
         </section>
 
         <section class="card" id="placement">
             <h2>Einstufungstest (30 Fragen)</h2>
-            <p class="muted">Der Test sampelt bewusst über alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
+            <p class="muted">Der Test sampelt bewusst Ã¼ber alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
             <div class="test-flow">
                 <button id="startTestBtn">Test starten</button>
                 <div class="test-progress"><div id="testProgressFill"></div></div>
@@ -370,7 +651,7 @@
 
         <section class="card">
             <h2>Level- und Sublevel-Taxonomie</h2>
-            <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
+            <p class="muted">Diese Struktur ist fÃ¼r den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
             <div class="taxonomy" id="taxonomyView"></div>
         </section>
     </main>
@@ -380,6 +661,8 @@
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
         const placementQuestions = data.placementQuestions.slice();
+        const ARCHIVE_STATE_KEY = "sor-archive-filters";
+        const pythagorasState = { a: 6, b: 8 };
 
         const state = {
             selectedLevel: "all",
@@ -391,6 +674,296 @@
             testIndex: 0,
             testAnswers: []
         };
+        const ARCHIVE_FILTER_STATE_KEY = "sor-archive-filters-v1";
+        const ACCOUNT_STORE_KEY = "mathlevel-accounts-v1";
+
+        function getTodayKey() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        function getYesterdayKey() {
+            return new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        }
+
+        function getIsoWeekKey(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - day);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + "-W" + String(week).padStart(2, "0");
+        }
+
+        function normalizeSummarySnapshot(raw) {
+            const data = raw || {};
+            return {
+                correct: data.correct || 0,
+                total: data.total || 0,
+                xp: data.xp || 0,
+                streak: data.streak || 0,
+                lastSessionDate: data.lastSessionDate || null,
+                earnedAchievements: Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : []
+            };
+        }
+
+        function normalizeProgressEnvelope(rawProgress) {
+            if (rawProgress && typeof rawProgress === "object" && rawProgress.summary) {
+                return {
+                    schemaVersion: rawProgress.schemaVersion || 2,
+                    summary: normalizeSummarySnapshot(rawProgress.summary),
+                    dailyActivity: rawProgress.dailyActivity && typeof rawProgress.dailyActivity === "object" ? rawProgress.dailyActivity : {},
+                    weeklyXp: rawProgress.weeklyXp && typeof rawProgress.weeklyXp === "object" ? rawProgress.weeklyXp : {},
+                    lastActiveDate: rawProgress.lastActiveDate || null,
+                    updatedAt: rawProgress.updatedAt || new Date().toISOString()
+                };
+            }
+            const summary = normalizeSummarySnapshot(rawProgress);
+            return {
+                schemaVersion: 2,
+                summary,
+                dailyActivity: {},
+                weeklyXp: {},
+                lastActiveDate: summary.lastSessionDate || null,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function updateStreakKpi(value, hasAccount) {
+            const streakEl = document.getElementById("kpiStreak");
+            if (!streakEl) return;
+            if (!hasAccount) {
+                streakEl.textContent = "--";
+                return;
+            }
+            streakEl.textContent = String(value || 0) + " Tage";
+        }
+
+        function readCurrentAccountProgress() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return null;
+                const store = JSON.parse(raw);
+                if (!store || typeof store !== "object" || !store.current || !store.accounts || !store.accounts[store.current]) {
+                    return null;
+                }
+                const accountId = store.current;
+                const account = store.accounts[accountId];
+                account.progress = normalizeProgressEnvelope(account.progress || {});
+                return { store, accountId, account, progress: account.progress };
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function refreshStreakKpiFromAccount() {
+            const session = readCurrentAccountProgress();
+            if (!session) {
+                updateStreakKpi(0, false);
+                return;
+            }
+            updateStreakKpi(session.progress.summary.streak || 0, true);
+        }
+
+        function markAccountActivity(activityType) {
+            const session = readCurrentAccountProgress();
+            if (!session) return;
+
+            const today = getTodayKey();
+            const yesterday = getYesterdayKey();
+            const weekKey = getIsoWeekKey(new Date());
+            const summary = normalizeSummarySnapshot(session.progress.summary);
+
+            if (summary.lastSessionDate !== today) {
+                if (summary.lastSessionDate === yesterday) {
+                    summary.streak = (summary.streak || 0) + 1;
+                } else {
+                    summary.streak = 1;
+                }
+                summary.lastSessionDate = today;
+            }
+
+            if (!session.progress.dailyActivity[today]) {
+                session.progress.dailyActivity[today] = { answered: 0, correct: 0, xp: 0, events: 0, sources: [] };
+            }
+            session.progress.dailyActivity[today].events += 1;
+            if (activityType) {
+                const sources = Array.isArray(session.progress.dailyActivity[today].sources)
+                    ? session.progress.dailyActivity[today].sources
+                    : [];
+                if (!sources.includes(activityType)) sources.push(activityType);
+                session.progress.dailyActivity[today].sources = sources;
+            }
+
+            if (typeof session.progress.weeklyXp[weekKey] !== "number") {
+                session.progress.weeklyXp[weekKey] = 0;
+            }
+
+            session.progress.summary = summary;
+            session.progress.lastActiveDate = today;
+            session.progress.updatedAt = new Date().toISOString();
+
+            try {
+                localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(session.store));
+            } catch (_err) {
+            }
+
+            updateStreakKpi(summary.streak || 0, true);
+        }
+
+        function normalizeFilterState(raw) {
+            const levels = new Set(["all"].concat(data.taxonomy.map(t => t.level)));
+            const sublevels = new Set(["all"].concat(data.taxonomy.flatMap(t => t.sublevels.map(s => s.id))));
+            const topics = new Set(["all"].concat(Array.from(new Set(tasks.map(t => t.topic)))));
+            const taskIds = new Set(tasks.map(t => t.id));
+
+            const next = {
+                selectedLevel: String((raw && raw.selectedLevel) || "all"),
+                selectedSublevel: String((raw && raw.selectedSublevel) || "all"),
+                selectedTopic: String((raw && raw.selectedTopic) || "all"),
+                search: String((raw && raw.search) || "").trim(),
+                activeTaskId: raw && raw.activeTaskId ? String(raw.activeTaskId) : null
+            };
+
+            if (!levels.has(next.selectedLevel)) next.selectedLevel = "all";
+            if (!sublevels.has(next.selectedSublevel)) next.selectedSublevel = "all";
+            if (!topics.has(next.selectedTopic)) next.selectedTopic = "all";
+            if (next.search.length > 120) next.search = next.search.slice(0, 120);
+            if (next.activeTaskId && !taskIds.has(next.activeTaskId)) next.activeTaskId = null;
+
+            if (next.selectedLevel !== "all" && next.selectedSublevel !== "all" && !next.selectedSublevel.startsWith(next.selectedLevel + ".")) {
+                next.selectedSublevel = "all";
+            }
+
+            return next;
+        }
+
+        function readFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return normalizeFilterState({
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("q") || "",
+                activeTaskId: params.get("task") || null
+            });
+        }
+
+        function readFilterStateFromStorage() {
+            try {
+                const saved = localStorage.getItem(ARCHIVE_FILTER_STATE_KEY);
+                if (!saved) return normalizeFilterState({});
+                return normalizeFilterState(JSON.parse(saved));
+            } catch (_err) {
+                return normalizeFilterState({});
+            }
+        }
+
+        function hydrateFilterState() {
+            const storageState = readFilterStateFromStorage();
+            const params = new URLSearchParams(window.location.search);
+            const hasUrlParams = params.toString().length > 0;
+            const urlState = readFilterStateFromUrl();
+            const merged = hasUrlParams ? Object.assign({}, storageState, urlState) : storageState;
+            Object.assign(state, normalizeFilterState(merged));
+        }
+
+        function syncFilterState() {
+            const params = new URLSearchParams();
+            if (state.selectedLevel !== "all") params.set("level", state.selectedLevel);
+            if (state.selectedSublevel !== "all") params.set("sublevel", state.selectedSublevel);
+            if (state.selectedTopic !== "all") params.set("topic", state.selectedTopic);
+            if (state.search) params.set("q", state.search);
+            if (state.activeTaskId) params.set("task", state.activeTaskId);
+
+            const query = params.toString();
+            const nextUrl = window.location.pathname + (query ? ("?" + query) : "") + (window.location.hash || "");
+            window.history.replaceState(null, "", nextUrl);
+
+            try {
+                localStorage.setItem(ARCHIVE_FILTER_STATE_KEY, JSON.stringify({
+                    selectedLevel: state.selectedLevel,
+                    selectedSublevel: state.selectedSublevel,
+                    selectedTopic: state.selectedTopic,
+                    search: state.search,
+                    activeTaskId: state.activeTaskId
+                }));
+            } catch (_err) {
+            }
+        }
+
+        function applyFilterState(nextState) {
+            state.selectedLevel = nextState.selectedLevel || "all";
+            state.selectedSublevel = nextState.selectedSublevel || "all";
+            state.selectedTopic = nextState.selectedTopic || "all";
+            state.search = nextState.search || "";
+            state.activeTaskId = nextState.activeTaskId || null;
+        }
+
+        function readFilterStateFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                selectedLevel: params.get("level") || "all",
+                selectedSublevel: params.get("sublevel") || "all",
+                selectedTopic: params.get("topic") || "all",
+                search: params.get("search") || "",
+                activeTaskId: params.get("task") || null
+            };
+        }
+
+        function readSavedFilterState() {
+            try {
+                const raw = localStorage.getItem(ARCHIVE_STATE_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function saveFilterState() {
+            try {
+                localStorage.setItem(ARCHIVE_STATE_KEY, JSON.stringify({
+                    selectedLevel: state.selectedLevel,
+                    selectedSublevel: state.selectedSublevel,
+                    selectedTopic: state.selectedTopic,
+                    search: state.search,
+                    activeTaskId: state.activeTaskId
+                }));
+            } catch (error) {
+                return;
+            }
+        }
+
+        function syncUrlFromState() {
+            const params = new URLSearchParams();
+            if (state.selectedLevel !== "all") params.set("level", state.selectedLevel);
+            if (state.selectedSublevel !== "all") params.set("sublevel", state.selectedSublevel);
+            if (state.selectedTopic !== "all") params.set("topic", state.selectedTopic);
+            if (state.search) params.set("search", state.search);
+            if (state.activeTaskId) params.set("task", state.activeTaskId);
+            const query = params.toString();
+            const nextUrl = query ? `${window.location.pathname}?${query}${window.location.hash}` : `${window.location.pathname}${window.location.hash}`;
+            window.history.replaceState({}, "", nextUrl);
+        }
+
+        function refreshArchiveView() {
+            renderFilters();
+            renderTaskList();
+            saveFilterState();
+            syncUrlFromState();
+        }
+
+        function copyCurrentFilterLink() {
+            const href = window.location.href;
+            const feedback = document.getElementById("resultCount");
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(href).then(() => {
+                    feedback.textContent = "Filter-Link kopiert.";
+                    window.setTimeout(() => renderTaskList(), 1200);
+                });
+                return;
+            }
+            feedback.textContent = href;
+        }
 
         function levelLabel(level) {
             const item = data.taxonomy.find(t => t.level === level);
@@ -421,12 +994,14 @@
             }).join("");
 
             document.getElementById("levelProgress").innerHTML = html;
+            refreshStreakKpiFromAccount();
         }
 
         function renderFilters() {
             const levelSelect = document.getElementById("levelFilter");
             const sublevelSelect = document.getElementById("sublevelFilter");
             const topicSelect = document.getElementById("topicFilter");
+            const searchInput = document.getElementById("searchInput");
 
             levelSelect.innerHTML = `<option value="all">Alle Level</option>` + data.taxonomy
                 .map(t => `<option value="${t.level}">${t.code} - ${t.title}</option>`)
@@ -445,11 +1020,23 @@
             }
             sublevelSelect.value = state.selectedSublevel;
 
-            const topics = Array.from(new Set(tasks.map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
-            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + topics
+            const visibleTopics = Array.from(new Set(filteredTasksForCurrentLevel().map(t => t.topic))).sort((a, b) => a.localeCompare(b, "de"));
+            topicSelect.innerHTML = `<option value="all">Alle Themen</option>` + visibleTopics
                 .map(topic => `<option value="${topic}">${topic}</option>`)
                 .join("");
+            if (!visibleTopics.includes(state.selectedTopic)) {
+                state.selectedTopic = "all";
+            }
             topicSelect.value = state.selectedTopic;
+            searchInput.value = state.search;
+        }
+
+        function filteredTasksForCurrentLevel() {
+            return tasks.filter(task => {
+                if (state.selectedLevel !== "all" && task.level !== state.selectedLevel) return false;
+                if (state.selectedSublevel !== "all" && task.sublevel !== state.selectedSublevel) return false;
+                return true;
+            });
         }
 
         function filteredTasks() {
@@ -474,8 +1061,10 @@
                 wrap.innerHTML = `<div class="task-item"><strong>Keine Treffer</strong><div class="task-meta">Passe Filter oder Suche an.</div></div>`;
                 document.getElementById("taskDetail").innerHTML = `
                     <h3>Aufgabendetail</h3>
-                    <p class="muted">Es ist aktuell keine Aufgabe ausgewählt.</p>
+                    <p class="muted">Es ist aktuell keine Aufgabe ausgewÃ¤hlt.</p>
                 `;
+                state.activeTaskId = null;
+                syncFilterState();
                 return;
             }
 
@@ -495,15 +1084,36 @@
                     state.activeTaskId = el.getAttribute("data-id");
                     renderTaskList();
                     renderTaskDetail();
+                    saveFilterState();
+                    syncUrlFromState();
                 });
             });
 
             renderTaskDetail();
+            syncFilterState();
+        }
+
+        const appTopicAliases = {
+            "1": { Bruchrechnung: "Bruchrechnung", Prozentrechnung: "Prozente", Geometrie: "Geometrie", Dreisatz: "Dreisatz" },
+            "2": { "Gleichungen lÃ¶sen und umstellen": "Gleichungen", Funktionen: "Funktionen", "Exponentielles Verhalten": "Potenzen" },
+            "3": { Analysis: "Ableitungen", Kurvendiskussion: "Ableitungen", Stochastik: "Stochastik", Vektoren: "Vektoren" },
+            "4": { "Lineare Algebra": "Lineare Algebra", Matrizen: "Lineare Algebra", Differentialgleichungen: "DGL" },
+            "5": { Fourier: "Fourier", Laplace: "Laplace", Resonanz: "Resonanz", Regelungstechnik: "Regelungstechnik", Signale: "Fourier" },
+            "6": { "Partielle DGL": "Partielle DGL", Stochastik: "Stochastik", Numerik: "Numerik", FEM: "FEM", Optimierung: "Optimierung" }
+        };
+
+        function buildAppExerciseHref(task) {
+            const params = new URLSearchParams();
+            params.set("level", task.level);
+            const topic = appTopicAliases[task.level] ? appTopicAliases[task.level][task.topic] : "";
+            if (topic) params.set("topic", topic);
+            return `./index.html?${params.toString()}#level-${task.level}`;
         }
 
         function renderTaskDetail() {
             const task = tasks.find(t => t.id === state.activeTaskId);
             if (!task) return;
+            const appHref = `./index.html?level=${encodeURIComponent(task.level)}&topic=${encodeURIComponent(task.topic)}#level-${task.level}`;
 
             document.getElementById("taskDetail").innerHTML = `
                 <h3>${task.title}</h3>
@@ -519,16 +1129,22 @@
                     <p>${task.question}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Lösung</strong>
+                    <strong>Loesung</strong>
                     <p>${task.answer}</p>
                 </div>
                 <div class="detail-block">
-                    <strong>Erklärung</strong>
+                    <strong>Erklaerung</strong>
                     <p>${task.explanation}</p>
                 </div>
                 <div class="detail-block">
                     <strong>Tags</strong>
                     <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
+                </div>
+                <div class="detail-block">
+                    <strong>Weiterlernen</strong>
+                    <div class="pill-row">
+                        <a class="detail-link" href="${buildAppExerciseHref(task)}">Passende App-Uebung</a>
+                    </div>
                 </div>
             `;
         }
@@ -539,11 +1155,70 @@
                     <strong>${level.code} - ${level.title}</strong>
                     <div class="muted">${level.description}</div>
                     <ul>
-                        ${level.sublevels.map(sub => `<li>${sub.id} - ${sub.title}</li>`).join("")}
+                        ${level.sublevels.map(sub => { const depth = Math.max(0, sub.id.split(".").length - 2); return `<li style="padding-left:${depth * 1.1}rem">${sub.id} - ${sub.title}</li>`; }).join("")}
                     </ul>
                 </div>
             `).join("");
             document.getElementById("taxonomyView").innerHTML = html;
+        }
+
+        function renderPythagorasVisual() {
+            const svg = document.getElementById("pythagorasSvg");
+            if (!svg) return;
+
+            const a = pythagorasState.a;
+            const b = pythagorasState.b;
+            const scale = 16;
+            const ax = a * scale;
+            const by = b * scale;
+            const origin = { x: 170, y: 255 };
+            const pointB = { x: origin.x + ax, y: origin.y };
+            const pointC = { x: origin.x, y: origin.y - by };
+            const hyp = Math.sqrt(a * a + b * b);
+            const normal = { x: -by / hyp, y: -ax / hyp };
+            const offset = { x: normal.x * hyp * scale, y: normal.y * hyp * scale };
+            const pointD = { x: pointB.x + offset.x, y: pointB.y + offset.y };
+            const pointE = { x: pointC.x + offset.x, y: pointC.y + offset.y };
+
+            const format = value => Number(value).toFixed(2);
+            document.getElementById("pythagorasAValue").textContent = String(a);
+            document.getElementById("pythagorasBValue").textContent = String(b);
+            document.getElementById("pythagorasHypotenuse").textContent = format(hyp);
+            document.getElementById("pythagorasAreaSum").textContent = String(a * a + b * b);
+            document.getElementById("pythagorasAreaC").textContent = format(hyp * hyp);
+            document.getElementById("pythagorasRatio").textContent = format((hyp * hyp) / (a * a + b * b));
+            document.getElementById("pythagorasFormula").textContent = `${a}^2 + ${b}^2 = ${format(hyp)}^2`;
+
+            svg.innerHTML = `
+                <rect x="0" y="0" width="520" height="360" fill="transparent"></rect>
+                <polygon points="${origin.x},${origin.y} ${pointB.x},${pointB.y} ${pointC.x},${pointC.y}" fill="rgba(233,69,96,0.18)" stroke="#e94560" stroke-width="3"></polygon>
+                <rect x="${origin.x}" y="${origin.y}" width="14" height="14" fill="none" stroke="#f5c518" stroke-width="2"></rect>
+                <rect x="${origin.x}" y="${origin.y}" width="${ax}" height="${ax}" transform="translate(0 ${ax}) scale(1 -1)" fill="rgba(74,222,128,0.14)" stroke="#4ade80" stroke-width="2"></rect>
+                <rect x="${origin.x - by}" y="${origin.y - by}" width="${by}" height="${by}" fill="rgba(96,165,250,0.14)" stroke="#60a5fa" stroke-width="2"></rect>
+                <polygon points="${pointC.x},${pointC.y} ${pointB.x},${pointB.y} ${pointD.x},${pointD.y} ${pointE.x},${pointE.y}" fill="rgba(245,197,24,0.16)" stroke="#f5c518" stroke-width="2"></polygon>
+                <line x1="${origin.x}" y1="${origin.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="#4ade80" stroke-width="4"></line>
+                <line x1="${origin.x}" y1="${origin.y}" x2="${pointC.x}" y2="${pointC.y}" stroke="#60a5fa" stroke-width="4"></line>
+                <line x1="${pointC.x}" y1="${pointC.y}" x2="${pointB.x}" y2="${pointB.y}" stroke="#f5c518" stroke-width="4"></line>
+                <text x="${origin.x + ax / 2}" y="${origin.y + 24}" fill="#4ade80" text-anchor="middle" font-size="18" font-weight="700">a = ${a}</text>
+                <text x="${origin.x - 18}" y="${origin.y - by / 2}" fill="#60a5fa" text-anchor="end" font-size="18" font-weight="700">b = ${b}</text>
+                <text x="${(pointB.x + pointC.x) / 2 + 18}" y="${(pointB.y + pointC.y) / 2 - 8}" fill="#f5c518" font-size="18" font-weight="700">c = ${format(hyp)}</text>
+                <text x="${origin.x + ax / 2}" y="${origin.y + ax / 2 + 12}" fill="#4ade80" text-anchor="middle" font-size="18">a^2 = ${a * a}</text>
+                <text x="${origin.x - by / 2}" y="${origin.y - by / 2 + 6}" fill="#60a5fa" text-anchor="middle" font-size="18">b^2 = ${b * b}</text>
+                <text x="${(pointC.x + pointD.x) / 2 + 10}" y="${(pointC.y + pointD.y) / 2 + 10}" fill="#f5c518" font-size="18">c^2 = ${format(hyp * hyp)}</text>
+            `;
+        }
+
+        function applyGeometryArchivePreset() {
+            state.selectedLevel = "1";
+            state.selectedSublevel = "1.2";
+            state.selectedTopic = "Geometrie";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection && archiveSection.scrollIntoView) {
+                archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         }
 
         function getSublevelRecommendation(level, accuracy) {
@@ -582,6 +1257,20 @@
             return { estimatedLevel, estimatedSublevel, totalCorrect, stats };
         }
 
+        function applyPlacementRecommendation(result, scrollToArchive = false) {
+            state.selectedLevel = result.estimatedLevel;
+            state.selectedSublevel = result.estimatedSublevel;
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            renderFilters();
+            renderTaskList();
+            if (scrollToArchive) {
+                const archiveSection = document.getElementById("archiveBrowser");
+                if (archiveSection) archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function renderTestQuestion() {
             const box = document.getElementById("questionBox");
             const fill = document.getElementById("testProgressFill");
@@ -613,25 +1302,53 @@
             });
         }
 
+        function applyPlacementRecommendation(result) {
+            state.selectedLevel = result.estimatedLevel;
+            state.selectedSublevel = result.estimatedSublevel;
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection && archiveSection.scrollIntoView) {
+                archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
         function finishPlacement() {
             const fill = document.getElementById("testProgressFill");
             fill.style.width = "100%";
             const result = evaluatePlacement(state.testAnswers);
             const testResultEl = document.getElementById("testResult");
             const levelName = levelLabel(result.estimatedLevel);
+            applyPlacementRecommendation(result, false);
+            markAccountActivity("placement-finish");
 
             testResultEl.classList.add("show");
             testResultEl.innerHTML = `
                 <h3>Dein Ergebnis</h3>
                 <p>Du hast <strong>${result.totalCorrect} von ${placementQuestions.length}</strong> Fragen korrekt beantwortet.</p>
                 <p>Empfohlener Einstieg: <strong>${levelName}</strong>, Sublevel <strong>${result.estimatedSublevel}</strong>.</p>
-                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level höher oder tiefer wechseln, je nachdem wie sicher du dich fühlst.</p>
+                <p>Diese Einstufung ist eine Startempfehlung. Du kannst jederzeit ein Level hoeher oder tiefer wechseln, je nachdem wie sicher du dich fuehlst.</p>
+                <div class="result-actions">
+                    <button type="button" id="applyPlacementBtn">Empfohlenes Archiv oeffnen</button>
+                    <a class="detail-link" href="#archiveBrowser">Zum Archiv springen</a>
+                </div>
             `;
+            const placementToArchiveBtn = document.getElementById("placementToArchiveBtn");
+            if (placementToArchiveBtn) {
+                placementToArchiveBtn.addEventListener("click", () => applyPlacementRecommendation(result, true));
+            }
 
             document.getElementById("questionBox").innerHTML = `
                 <p><strong>Test abgeschlossen.</strong></p>
                 <p class="muted">Wenn du den Test erneut starten willst, klicke unten.</p>
             `;
+
+            const applyPlacementBtn = document.getElementById("applyPlacementBtn");
+            applyPlacementBtn.addEventListener("click", () => {
+                applyPlacementRecommendation(result);
+            });
 
             const startBtn = document.getElementById("startTestBtn");
             startBtn.textContent = "Test neu starten";
@@ -642,7 +1359,8 @@
             state.testIndex = 0;
             state.testAnswers = [];
             document.getElementById("testResult").classList.remove("show");
-            document.getElementById("startTestBtn").textContent = "Test läuft";
+            document.getElementById("startTestBtn").textContent = "Test lÃ¤uft";
+            markAccountActivity("placement-start");
             renderTestQuestion();
         }
 
@@ -652,38 +1370,66 @@
             const topicFilter = document.getElementById("topicFilter");
             const searchInput = document.getElementById("searchInput");
             const startTestBtn = document.getElementById("startTestBtn");
+            const copyFilterLinkBtn = document.getElementById("copyFilterLinkBtn");
+            const pythagorasA = document.getElementById("pythagorasA");
+            const pythagorasB = document.getElementById("pythagorasB");
+            const pythagorasArchiveBtn = document.getElementById("pythagorasArchiveBtn");
 
             levelFilter.addEventListener("change", (e) => {
                 state.selectedLevel = e.target.value;
-                renderFilters();
-                renderTaskList();
+                refreshArchiveView();
             });
 
             sublevelFilter.addEventListener("change", (e) => {
                 state.selectedSublevel = e.target.value;
-                renderTaskList();
+                refreshArchiveView();
             });
 
             topicFilter.addEventListener("change", (e) => {
                 state.selectedTopic = e.target.value;
-                renderTaskList();
+                refreshArchiveView();
             });
 
             searchInput.addEventListener("input", (e) => {
                 state.search = e.target.value.trim();
-                renderTaskList();
+                refreshArchiveView();
             });
 
             startTestBtn.addEventListener("click", () => {
                 startPlacement();
             });
+
+            copyFilterLinkBtn.addEventListener("click", () => {
+                copyCurrentFilterLink();
+            });
+
+            pythagorasA.addEventListener("input", (e) => {
+                pythagorasState.a = Number(e.target.value);
+                renderPythagorasVisual();
+            });
+
+            pythagorasB.addEventListener("input", (e) => {
+                pythagorasState.b = Number(e.target.value);
+                renderPythagorasVisual();
+            });
+
+            pythagorasArchiveBtn.addEventListener("click", () => {
+                applyGeometryArchivePreset();
+            });
         }
 
+        applyFilterState(readSavedFilterState() || {});
+        applyFilterState(readFilterStateFromUrl());
+
         renderTopProgress();
+        hydrateFilterState();
         renderFilters();
         renderTaskList();
         renderTaxonomy();
+        renderPythagorasVisual();
         bindEvents();
+        saveFilterState();
+        syncUrlFromState();
     </script>
 </body>
 </html>
