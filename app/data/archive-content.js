@@ -482,6 +482,36 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-4-008",
+            title: "Eigenwerte einer 2x2-Matrix",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenwerte", "determinante", "charakteristisches-polynom"],
+            difficulty: "schwer",
+            question: "Berechne die Eigenwerte der Matrix A = [[3,1],[0,2]].",
+            answer: "lambda_1 = 3, lambda_2 = 2",
+            explanation: "Kernidee: Eigenwerte erhaelt man als Nullstellen des charakteristischen Polynoms det(A - lambda*I) = 0. Intuition: Ein Eigenvektor wird durch A nur gestreckt, nicht gedreht; lambda gibt den Streckfaktor an. Schritte: 1) Bilde A - lambda*I = [[3-lambda, 1],[0, 2-lambda]]. 2) Determinante: (3-lambda)(2-lambda) - 0 = 0. 3) Nullstellen: lambda_1=3 und lambda_2=2. 4) Da A obere Dreiecksmatrix, liest man Eigenwerte direkt von der Diagonale ab. Haeufiger Fehler: Das Minuszeichen vor lambda*I vergessen. Schnellcheck: Spur(A) = 5 = lambda_1 + lambda_2 und det(A) = 6 = lambda_1 * lambda_2 stimmen ueberein.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-4-009",
+            title: "Grenzwert einer rationalen Folge",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis I",
+            tags: ["grenzwert", "folge", "unendlich"],
+            difficulty: "mittel",
+            question: "Bestimme den Grenzwert von a_n = (2n+3)/(n+1) fuer n->unendlich.",
+            answer: "2",
+            explanation: "Kernidee: Fuer rationale Folgen dividiert man Zaehler und Nenner durch die hoechste Potenz im Nenner. Intuition: Fuer sehr grosses n dominieren die fuehrenden Terme; konstante Summanden werden unbedeutend. Schritte: 1) Teile Zaehler und Nenner durch n: (2+3/n)/(1+1/n). 2) Fuer n->inf: 3/n->0 und 1/n->0. 3) Grenzwert = 2/1 = 2. Haeufiger Fehler: Den Grenzwert als 3/1 = 3 zu lesen, weil man die 3 im Zaehler mit dem n verrechnet. Schnellcheck: a_100 = 203/101 ≈ 2,009 liegt nahe an 2.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
             id: "T-5-001",
             title: "Fourier-Idee",
             level: "5",
@@ -578,6 +608,36 @@ window.SOR_ARCHIVE = {
             answer: "Weil sie Ableitungen in algebraische Terme ueberfuehrt und Anfangswerte direkt einbindet.",
             explanation: "Kernidee: Im s-Bereich wird aus einer DGL ein algebraisches Gleichungssystem. Intuition: Statt wiederholt abzuleiten und zu integrieren, rechnet man mit Faktoren wie s*Y(s) und loest dann einfacher nach Y(s) auf. Schritte: 1) Transformiere jede Ableitung, z.B. L{y'}=sY(s)-y(0). 2) Setze Anfangswerte ein. 3) Stelle nach Y(s) um. 4) Interpretiere Pole/Nullstellen fuer Dynamik und Stabilitaet. Haeufiger Fehler: Anfangswerte beim Transformieren vergessen. Schnellcheck: Ohne Anfangswerte muss die transformierte Gleichung nur noch Y(s) und Eingangsanteile enthalten.",
             type: "konzeptfrage",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-5-008",
+            title: "Sprungantwort eines PT1-Glieds",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["pt1", "sprungantwort", "laplace"],
+            difficulty: "schwer",
+            question: "Ein PT1-Glied hat G(s) = 2/(1+3s). Wie lautet die Sprungantwort y(t) fuer t>=0?",
+            answer: "y(t) = 2*(1 - e^(-t/3))",
+            explanation: "Kernidee: Die Sprungantwort ist die Systemantwort auf einen Einheitssprung u(t)=1, d.h. U(s)=1/s. Im Bildbereich multipliziert man G(s) mit U(s) und transformiert zurueck. Intuition: Das PT1-Glied ist ein Tiefpassfilter erster Ordnung; es folgt dem Sprung exponentiell mit der Zeitkonstante T=3. Schritte: 1) Y(s) = G(s)/s = 2/[s(1+3s)]. 2) Partialbruchzerlegung: 2/[s(1+3s)] = 2/s - 6/(1+3s). 3) Ruecktransformation: y(t)=2-2*e^(-t/3). 4) Endwert y(inf)=2 entspricht Verstaerkung K=2 des PT1. Haeufiger Fehler: Die Zeitkonstante T als Exponent statt 1/T zu verwenden. Schnellcheck: Bei t=T=3 gilt y(3) = 2*(1-1/e) ≈ 1,26, also ca. 63 % des Endwerts.",
+            type: "kurzantwort",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation einer geometrischen Folge",
+            level: "5",
+            sublevel: "5.1.1.b",
+            topic: "Signale",
+            tags: ["z-transformation", "diskret", "geometrisch"],
+            difficulty: "schwer",
+            question: "Bestimme die Z-Transformierte von x[n] = a^n * u[n] fuer |z| > |a|.",
+            answer: "X(z) = z/(z-a)",
+            explanation: "Kernidee: Die Z-Transformation uebertraegt diskrete Signale in den z-Bereich, analog zur Laplace-Transformation fuer zeitkontinuierliche Signale. Intuition: Die geometrische Folge a^n ist die einfachste diskrete Exponentialfunktion; ihre Z-Transformierte hat einen Pol bei z=a. Schritte: 1) Definition: X(z) = sum_{n=0}^{inf} a^n * z^{-n}. 2) Geometrische Reihe: = sum (a/z)^n = 1/(1-a/z) fuer |a/z|<1. 3) Vereinfachen: = z/(z-a). Haeufiger Fehler: ROC (Region of Convergence) nicht anzugeben; ohne |z|>|a| ist die Transformierte nicht eindeutig. Schnellcheck: Fuer a=0 folgt X(z)=1, was x[n]=delta[n] entspricht.",
+            type: "kurzantwort",
             estimatedTime: 6
         },
 
@@ -679,6 +739,36 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Konvergenz entsteht aus zwei Bausteinen: das Verfahren muss das richtige Problem approximieren und numerische Fehler duerfen nicht wachsen. Intuition: Konsistenz sagt, dass das lokale Rechenrezept zur DGL passt; Stabilitaet sorgt dafuer, dass Rundungs- und Stoerfehler nicht explodieren. Schritte: 1) Pruefe Konsistenz ueber lokalen Fehler gegen 0 fuer h->0. 2) Pruefe Stabilitaet, z.B. Fehlerschaetzung bleibt beschraenkt. 3) Folgere Konvergenz fuer lineare gut gestellte Probleme. 4) Interpretiere das Ergebnis immer mit Schrittweitenstudie. Haeufiger Fehler: Nur Konsistenz zu testen und daraus direkt Konvergenz zu behaupten. Schnellcheck: Halbierst du h, muss die Loesung systematisch naeher an eine Referenzloesung ruecken.",
             type: "konzeptfrage",
             estimatedTime: 7
+        },
+
+        {
+            id: "T-6-008",
+            title: "Gauss-Quadratur vs. Newton-Cotes",
+            level: "6",
+            sublevel: "6.1",
+            topic: "Numerik",
+            tags: ["quadratur", "integration", "gauss"],
+            difficulty: "schwer",
+            question: "Warum erzielt die Gauss-Quadratur mit n Stuetzstellen eine hoehere Genauigkeit als die Newton-Cotes-Formel mit denselben n Stuetzstellen?",
+            answer: "Gauss-Quadratur erreicht Polynomexaktheit der Ordnung 2n-1, weil sowohl Stuetzstellen als auch Gewichte optimiert werden.",
+            explanation: "Kernidee: Newton-Cotes legt Stuetzstellen aequidistant fest und optimiert nur die Gewichte (Polynomexaktheit n-1 oder n). Gauss-Quadratur waehlt hingegen sowohl Stuetzstellen als auch Gewichte optimal und verdoppelt dadurch die Genauigkeitsordnung. Intuition: Mehr Freiheitsgrade (Stuetzstellen + Gewichte) erlauben es, Polynome hoeheren Grades exakt zu integrieren. Schritte: 1) Gauss-Legendre-Stuetzstellen sind die Nullstellen des Legendre-Polynoms P_n. 2) Gewichte ergeben sich aus der Bedingung, Polynome bis Grad 2n-1 exakt zu integrieren. 3) Vergleich: Simpson (Newton-Cotes, n=3) exakt bis Grad 3; Gauss mit n=2 exakt bis Grad 3, aber mit nur 2 Stuetzstellen. Haeufiger Fehler: Gauss-Quadratur auf stark nicht-glatten Funktionen anzuwenden, wo die Polynomapproximation versagt. Schnellcheck: Gauss mit n=1 ergibt die Mittelpunktregel, die Polynome bis Grad 1 exakt integriert.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Ito-Formel vs. klassische Kettenregel",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastische Analysis",
+            tags: ["ito", "sde", "stochastik"],
+            difficulty: "schwer",
+            question: "Was unterscheidet die Ito-Formel von der klassischen Kettenregel, wenn X_t ein Ito-Prozess ist?",
+            answer: "Die Ito-Formel enthaelt einen zusaetzlichen quadratischen Variationsterm (1/2)*f''(X_t)*(sigma)^2*dt.",
+            explanation: "Kernidee: Bei stochastischen Prozessen ist (dW_t)^2 = dt (Ito-Isometrie), nicht 0 wie in der klassischen Analysis. Deshalb liefert eine naive Kettenregel ein falsches Ergebnis. Intuition: Die Brownschen Pfade sind zu 'rau' (nicht differenzierbar), sodass quadratische Terme nicht verschwinden. Schritte: 1) Sei f zweimal stetig differenzierbar. 2) Taylor bis zweite Ordnung: df = f'dX + (1/2)f''(dX)^2. 3) Mit dX = mu*dt + sigma*dW_t und (dW_t)^2=dt ergibt (dX)^2 = sigma^2*dt. 4) Ito-Formel: df = (f'*mu + (1/2)*f''*sigma^2)*dt + f'*sigma*dW_t. Haeufiger Fehler: Den Ito-Korrekturterm (1/2)*f''*sigma^2*dt zu vergessen und dadurch falsche Drift-Terme zu erhalten. Schnellcheck: Fuer f(x)=x^2 und X_t=W_t ergibt Ito: d(W_t^2) = dt + 2*W_t*dW_t, also W_t^2 - t = Martingal.",
+            type: "konzeptfrage",
+            estimatedTime: 8
         }
     ], 520),
     placementQuestions: [

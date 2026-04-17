@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.0`
+- `v1.2.1`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,33 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.2.1)
+L4-L6 archive expansion: added 2 textbook-style seed tasks per level (6 tasks total).
+
+### Changes in this iteration
+- **T-4-008** (Eigenwerte einer 2x2-Matrix, sublevel 4.1.1.b): characteristic polynomial approach, Spur/det Schnellcheck, Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck format.
+- **T-4-009** (Grenzwert einer rationalen Folge, sublevel 4.2): leading-term division technique, numerical Schnellcheck at n=100.
+- **T-5-008** (Sprungantwort eines PT1-Glieds, sublevel 5.2): Laplace-domain step response, 63%-rule Schnellcheck.
+- **T-5-009** (Z-Transformation einer geometrischen Folge, sublevel 5.1.1.b): geometric series derivation, ROC discussion, delta-function Schnellcheck.
+- **T-6-008** (Gauss-Quadratur vs. Newton-Cotes, sublevel 6.1): 2n-1 exactness argument, midpoint-rule special case Schnellcheck.
+- **T-6-009** (Ito-Formel vs. klassische Kettenregel, sublevel 6.2): quadratic variation term, W_t^2 martingale Schnellcheck.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK: tasks=3120, 520 per level, 30 placement questions
+- All 6 new IDs confirmed: T-4-008, T-4-009, T-5-008, T-5-009, T-6-008, T-6-009
+- No regressions in task count or distribution
+
+### Blockers
+None.
+
+### Next logical step
+Continue L4-L6 expansion with the next small batch, or start the next open P3 task: interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
 
 ## Last completed task (v1.2.0)
 Account system overhaul + Duolingo-like gamification foundation:
