@@ -59,7 +59,8 @@
 - [x] Add daily mission widget (progress bar toward 5 Aufgaben/day)
 - [x] Activate daily_goal and precision_3 achievements (were placeholders)
 - [x] Create profile page (app/profil.html) with stats, heatmap, weekly XP chart, level progress
-- [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
+- [x] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
+- [x] Add lesson session flow to app (5-question lessons, lesson-complete modal with XP/stats, Nächste Lektion button)
 
 ## P4
 - [ ] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity

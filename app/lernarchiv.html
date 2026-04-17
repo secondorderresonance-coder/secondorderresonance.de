@@ -636,6 +636,41 @@
             </div>
         </section>
 
+        <section class="card" id="argand-visual">
+            <h2>Interaktive Visualisierung: Argand-Ebene (Komplexe Zahlen)</h2>
+            <p class="muted">Verschiebe Real- und Imaginärteil und beobachte live, wie sich Betrag, Argument und konjugiert komplexe Zahl verändern.</p>
+            <div class="visual-layout">
+                <div class="visual-panel">
+                    <h3>Die komplexe Zahlenebene</h3>
+                    <p class="muted">Jede komplexe Zahl z = a + bi entspricht einem Punkt in der Ebene. Die x-Achse ist der Realteil, die y-Achse der Imaginärteil.</p>
+                    <div class="visual-controls">
+                        <div class="visual-control">
+                            <label for="argandA">Realteil a <strong id="argandAValue">3</strong></label>
+                            <input id="argandA" type="range" min="-5" max="5" step="0.5" value="3">
+                        </div>
+                        <div class="visual-control">
+                            <label for="argandB">Imaginärteil b <strong id="argandBValue">4</strong></label>
+                            <input id="argandB" type="range" min="-5" max="5" step="0.5" value="4">
+                        </div>
+                    </div>
+                    <div class="formula-line" id="argandFormula">z = 3 + 4i &nbsp;|&nbsp; |z| = 5.00 &nbsp;|&nbsp; arg(z) = 53.1°</div>
+                    <div class="visual-metrics">
+                        <div class="visual-metric"><strong id="argandZ">3 + 4i</strong><span>z</span></div>
+                        <div class="visual-metric"><strong id="argandZConj">3 − 4i</strong><span>z* (Konjugierte)</span></div>
+                        <div class="visual-metric"><strong id="argandMod">5.00</strong><span>|z| Betrag</span></div>
+                        <div class="visual-metric"><strong id="argandArg">53.1°</strong><span>arg(z) Argument</span></div>
+                    </div>
+                    <div class="pill-row" style="margin-top:1rem">
+                        <button type="button" class="ghost-btn" id="argandArchiveBtn">Archiv auf Komplexe Zahlen setzen</button>
+                    </div>
+                    <p class="visual-note">Goldener Punkt = z, blauer Punkt = z* (Spiegelung an der reellen Achse). Der rote Strich zeigt den Betrag |z|.</p>
+                </div>
+                <div class="visual-canvas">
+                    <svg id="argandSvg" viewBox="0 0 520 360" role="img" aria-label="Interaktive Argand-Ebene"></svg>
+                </div>
+            </div>
+        </section>
+
         <section class="card" id="placement">
             <h2>Einstufungstest (30 Fragen)</h2>
             <p class="muted">Der Test sampelt bewusst über alle Schwierigkeitsebenen und schaetzt dein aktuelles Lernniveau.</p>
@@ -663,6 +698,7 @@
         const placementQuestions = data.placementQuestions.slice();
         const ARCHIVE_STATE_KEY = "sor-archive-filters";
         const pythagorasState = { a: 6, b: 8 };
+        const argandState = { a: 3, b: 4 };
 
         const state = {
             selectedLevel: "all",
@@ -1221,6 +1257,102 @@
             }
         }
 
+        function renderArgandVisual() {
+            const svg = document.getElementById("argandSvg");
+            if (!svg) return;
+
+            const a = argandState.a;
+            const b = argandState.b;
+            const cx = 260, cy = 180, scale = 40;
+            const mod = Math.sqrt(a * a + b * b);
+            const argRad = Math.atan2(b, a);
+            const argDeg = argRad * 180 / Math.PI;
+
+            const fmt = n => Number(n).toFixed(2);
+            const fmtDeg = n => Number(n).toFixed(1);
+            const fmtZ = (re, im) => {
+                if (im === 0) return String(re);
+                if (re === 0) return im + 'i';
+                return im < 0 ? re + ' \u2212 ' + Math.abs(im) + 'i' : re + ' + ' + im + 'i';
+            };
+
+            document.getElementById("argandAValue").textContent = String(a);
+            document.getElementById("argandBValue").textContent = String(b);
+            document.getElementById("argandZ").textContent = fmtZ(a, b);
+            document.getElementById("argandZConj").textContent = fmtZ(a, -b);
+            document.getElementById("argandMod").textContent = fmt(mod);
+            document.getElementById("argandArg").textContent = fmtDeg(argDeg) + '\u00b0';
+            document.getElementById("argandFormula").textContent =
+                'z = ' + fmtZ(a, b) + '  |  |z| = ' + fmt(mod) + '  |  arg(z) = ' + fmtDeg(argDeg) + '\u00b0';
+
+            const zx = cx + a * scale;
+            const zy = cy - b * scale;
+            const zcx = cx + a * scale;
+            const zcy = cy + b * scale;
+
+            // Grid
+            let grid = '', labels = '';
+            for (let i = -5; i <= 5; i++) {
+                const gx = cx + i * scale, gy = cy + i * scale;
+                grid += '<line x1="' + gx + '" y1="20" x2="' + gx + '" y2="340" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>';
+                grid += '<line x1="20" y1="' + gy + '" x2="500" y2="' + gy + '" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>';
+                if (i !== 0) {
+                    labels += '<text x="' + gx + '" y="' + (cy + 16) + '" fill="rgba(255,255,255,0.3)" text-anchor="middle" font-size="11">' + i + '</text>';
+                    labels += '<text x="' + (cx - 7) + '" y="' + (cy - i * scale + 4) + '" fill="rgba(255,255,255,0.3)" text-anchor="end" font-size="11">' + i + '</text>';
+                }
+            }
+
+            // Angle arc
+            let arc = '';
+            if (mod > 0.4) {
+                const R = Math.min(mod * scale * 0.38, 36);
+                const ex = cx + R * Math.cos(argRad);
+                const ey = cy - R * Math.sin(argRad);
+                const lf = Math.abs(argDeg) > 180 ? 1 : 0;
+                const sw = b >= 0 ? 0 : 1;
+                arc = '<path d="M ' + (cx + R) + ' ' + cy + ' A ' + R + ' ' + R + ' 0 ' + lf + ' ' + sw + ' ' + ex + ' ' + ey + '" fill="none" stroke="rgba(233,69,96,0.6)" stroke-width="2"/>';
+            }
+
+            // Conjugate
+            let conjEl = '';
+            if (b !== 0) {
+                conjEl = '<line x1="' + cx + '" y1="' + cy + '" x2="' + zcx + '" y2="' + zcy + '" stroke="#60a5fa" stroke-width="2" stroke-dasharray="5 3" opacity="0.65"/>'
+                    + '<circle cx="' + zcx + '" cy="' + zcy + '" r="6" fill="rgba(96,165,250,0.6)" stroke="#60a5fa" stroke-width="2"/>'
+                    + '<text x="' + (zcx + 10) + '" y="' + (zcy + 5) + '" fill="#60a5fa" font-size="13" font-weight="600">z*</text>';
+            }
+
+            // Projection dashes
+            const proj = (mod > 0.2 && (a !== 0 || b !== 0))
+                ? '<line x1="' + zx + '" y1="' + zy + '" x2="' + zx + '" y2="' + cy + '" stroke="rgba(245,197,24,0.3)" stroke-width="1" stroke-dasharray="4 3"/>'
+                + '<line x1="' + cx + '" y1="' + zy + '" x2="' + zx + '" y2="' + zy + '" stroke="rgba(245,197,24,0.3)" stroke-width="1" stroke-dasharray="4 3"/>'
+                : '';
+
+            svg.innerHTML = grid
+                + '<line x1="20" y1="' + cy + '" x2="500" y2="' + cy + '" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>'
+                + '<line x1="' + cx + '" y1="20" x2="' + cx + '" y2="340" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>'
+                + '<text x="496" y="' + (cy - 8) + '" fill="rgba(255,255,255,0.5)" font-size="13" text-anchor="end">Re</text>'
+                + '<text x="' + (cx + 7) + '" y="26" fill="rgba(255,255,255,0.5)" font-size="13">Im</text>'
+                + labels
+                + arc
+                + proj
+                + '<line x1="' + cx + '" y1="' + cy + '" x2="' + zx + '" y2="' + zy + '" stroke="#e94560" stroke-width="2.5" stroke-dasharray="7 3"/>'
+                + conjEl
+                + (mod > 0.5 ? '<text x="' + ((cx + zx) / 2 + 8) + '" y="' + ((cy + zy) / 2 - 7) + '" fill="#e94560" font-size="12" font-weight="600">|z|=' + fmt(mod) + '</text>' : '')
+                + '<circle cx="' + zx + '" cy="' + zy + '" r="8" fill="rgba(245,197,24,0.25)" stroke="#f5c518" stroke-width="3"/>'
+                + '<text x="' + (zx + 12) + '" y="' + (zy - 8) + '" fill="#f5c518" font-size="15" font-weight="700">z</text>';
+        }
+
+        function applyComplexArchivePreset() {
+            state.selectedLevel = "4";
+            state.selectedSublevel = "all";
+            state.selectedTopic = "Komplexe Zahlen";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection) archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
         function getSublevelRecommendation(level, accuracy) {
             const levelEntry = data.taxonomy.find(t => t.level === level);
             if (!levelEntry) return level + ".1";
@@ -1416,6 +1548,22 @@
             pythagorasArchiveBtn.addEventListener("click", () => {
                 applyGeometryArchivePreset();
             });
+
+            const argandA = document.getElementById("argandA");
+            const argandB = document.getElementById("argandB");
+            const argandArchiveBtn = document.getElementById("argandArchiveBtn");
+
+            if (argandA) argandA.addEventListener("input", (e) => {
+                argandState.a = Number(e.target.value);
+                renderArgandVisual();
+            });
+            if (argandB) argandB.addEventListener("input", (e) => {
+                argandState.b = Number(e.target.value);
+                renderArgandVisual();
+            });
+            if (argandArchiveBtn) argandArchiveBtn.addEventListener("click", () => {
+                applyComplexArchivePreset();
+            });
         }
 
         applyFilterState(readSavedFilterState() || {});
@@ -1427,6 +1575,7 @@
         renderTaskList();
         renderTaxonomy();
         renderPythagorasVisual();
+        renderArgandVisual();
         bindEvents();
         saveFilterState();
         syncUrlFromState();

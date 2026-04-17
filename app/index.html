@@ -505,6 +505,52 @@
         }
         .account-link-btn:hover { filter: brightness(1.15); }
 
+        /* Lesson progress bar */
+        .lesson-progress-track {
+            height: 5px; background: rgba(255,255,255,0.08);
+            border-radius: 3px; overflow: hidden;
+            margin: -0.8rem 0 1.2rem;
+        }
+        .lesson-progress-fill {
+            height: 100%; background: var(--accent);
+            border-radius: 3px; transition: width 0.45s;
+        }
+
+        /* Lesson complete modal */
+        .lesson-modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.78); z-index: 500;
+            align-items: center; justify-content: center; padding: 1rem;
+        }
+        .lesson-modal.show { display: flex; }
+        .lesson-modal-card {
+            background: var(--secondary); border-radius: 24px;
+            padding: 2.2rem 2rem; max-width: 380px; width: 100%;
+            border: 1px solid rgba(255,255,255,0.1); text-align: center;
+            animation: popIn 0.38s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.72); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lesson-modal-icon { font-size: 3rem; margin-bottom: 0.4rem; }
+        .lesson-modal-title { font-size: 1.45rem; font-weight: 800; margin-bottom: 1rem; }
+        .lesson-stats-row {
+            display: flex; justify-content: space-around;
+            gap: 0.5rem; margin: 1rem 0 1.6rem;
+        }
+        .ls-stat-val { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+        .ls-stat-val.green { color: var(--success); }
+        .ls-stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
+        .lesson-modal-btns { display: flex; flex-direction: column; gap: 0.55rem; }
+        .lesson-modal-pause {
+            background: transparent; border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-muted); border-radius: 50px; padding: 0.75rem;
+            cursor: pointer; font-size: 0.9rem; font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .lesson-modal-pause:hover { border-color: rgba(255,255,255,0.4); }
+
         /* Responsive */
         @media (max-width: 600px) {
             .options { grid-template-columns: 1fr; }
@@ -522,6 +568,32 @@
 
     <!-- Toast notification -->
     <div id="toast" class="toast"></div>
+
+    <!-- Lesson complete modal -->
+    <div class="lesson-modal" id="lessonModal">
+        <div class="lesson-modal-card">
+            <div class="lesson-modal-icon">&#127881;</div>
+            <div class="lesson-modal-title">Lektion abgeschlossen!</div>
+            <div class="lesson-stats-row">
+                <div>
+                    <div class="ls-stat-val" id="lcXp">+0 XP</div>
+                    <div class="ls-stat-label">XP verdient</div>
+                </div>
+                <div>
+                    <div class="ls-stat-val green" id="lcCorrect">0 / 5</div>
+                    <div class="ls-stat-label">Richtig</div>
+                </div>
+                <div>
+                    <div class="ls-stat-val" id="lcStreak">0 Tage</div>
+                    <div class="ls-stat-label">Streak</div>
+                </div>
+            </div>
+            <div class="lesson-modal-btns">
+                <button class="next-btn show" onclick="nextLesson()" style="margin:0">N&auml;chste Lektion &#8594;</button>
+                <button class="lesson-modal-pause" onclick="pauseLesson()">Pause einlegen</button>
+            </div>
+        </div>
+    </div>
 
     <!-- App Header -->
     <header class="app-header">
@@ -636,7 +708,10 @@
         <div class="exercise-card" id="exerciseCard">
             <div class="exercise-header">
                 <span class="exercise-tag tag-easy" id="diffTag">Einfach</span>
-                <span class="exercise-progress" id="progressText">Aufgabe 1</span>
+                <span class="exercise-progress" id="progressText">1 / 5</span>
+            </div>
+            <div class="lesson-progress-track">
+                <div class="lesson-progress-fill" id="lessonProgressFill" style="width:0%"></div>
             </div>
             <div class="question" id="questionText"></div>
             <div class="math-expression" id="mathExpr"></div>
@@ -671,6 +746,7 @@
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
+        const LESSON_SIZE = 5;
 
         // Achievement definitions (live + placeholder architecture)
         const ACHIEVEMENT_CATALOG = [
@@ -1174,7 +1250,10 @@
                 lastSessionDate: null,
                 earnedAchievements: [],
                 answered: false,
-                consecutiveCorrect: 0
+                consecutiveCorrect: 0,
+                lessonProgress: 0,
+                lessonXpStart: 0,
+                lessonCorrect: 0
             };
         }
 
@@ -1205,6 +1284,8 @@
             state.lastSessionDate = data.lastSessionDate || null;
             state.earnedAchievements = Array.isArray(data.earnedAchievements) ? data.earnedAchievements.slice() : [];
             state.consecutiveCorrect = 0;
+            state.lessonProgress = 0;
+            state.lessonCorrect = 0;
 
             const today = new Date().toISOString().slice(0, 10);
             const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
@@ -1616,6 +1697,9 @@
             state.topic = null;
             state.questionIdx = 0;
             state.answered = false;
+            state.lessonProgress = 0;
+            state.lessonXpStart = state.xp;
+            state.lessonCorrect = 0;
 
             renderLevelButtons();
             renderTopics();
@@ -1661,6 +1745,9 @@
             state.topic = state.topic === topic ? null : topic;
             state.questionIdx = 0;
             state.answered = false;
+            state.lessonProgress = 0;
+            state.lessonXpStart = state.xp;
+            state.lessonCorrect = 0;
             renderTopics();
             renderExercise();
         }
@@ -1685,7 +1772,10 @@
             tag.className = 'exercise-tag tag-' + q.difficulty;
 
             // Progress
-            document.getElementById('progressText').textContent = `Aufgabe ${state.questionIdx + 1}`;
+            const lp = state.lessonProgress;
+            document.getElementById('progressText').textContent = (lp + 1) + ' / ' + LESSON_SIZE;
+            const lpFill = document.getElementById('lessonProgressFill');
+            if (lpFill) lpFill.style.width = (lp / LESSON_SIZE * 100) + '%';
 
             // Question
             document.getElementById('questionText').textContent = q.question;
@@ -1720,8 +1810,10 @@
                 if (i === selected && !isCorrect) btn.classList.add('wrong');
             });
 
+            state.lessonProgress++;
             if (isCorrect) {
                 state.correct++;
+                state.lessonCorrect++;
                 state.consecutiveCorrect = (state.consecutiveCorrect || 0) + 1;
                 const xpGain = q.difficulty === 'easy' ? 10 : q.difficulty === 'medium' ? 20 : 30;
                 state.xp += xpGain;
@@ -1734,6 +1826,10 @@
                 document.getElementById('feedbackTitle').textContent = 'Leider falsch';
             }
 
+            const isLastInLesson = state.lessonProgress >= LESSON_SIZE;
+            const nextLabel = isLastInLesson ? 'Lektion abschlie\u00dfen \u2192' : 'N\u00e4chste Aufgabe';
+            document.getElementById('nextBtn').textContent = nextLabel;
+
             document.getElementById('feedbackText').textContent = q.explanation;
             document.getElementById('nextBtn').className = 'next-btn show';
 
@@ -1744,8 +1840,38 @@
         }
 
         function nextExercise() {
+            if (state.lessonProgress >= LESSON_SIZE) {
+                showLessonComplete();
+                return;
+            }
             state.questionIdx++;
             renderExercise();
+        }
+
+        function showLessonComplete() {
+            const xpGained = state.xp - state.lessonXpStart;
+            document.getElementById('lcXp').textContent = '+' + xpGained + ' XP';
+            document.getElementById('lcCorrect').textContent = state.lessonCorrect + ' / ' + LESSON_SIZE;
+            document.getElementById('lcStreak').textContent = state.streak + ' Tage';
+            document.getElementById('lessonModal').classList.add('show');
+            const lpFill = document.getElementById('lessonProgressFill');
+            if (lpFill) lpFill.style.width = '100%';
+        }
+
+        function nextLesson() {
+            document.getElementById('lessonModal').classList.remove('show');
+            state.lessonProgress = 0;
+            state.lessonXpStart = state.xp;
+            state.lessonCorrect = 0;
+            state.questionIdx++;
+            renderExercise();
+        }
+
+        function pauseLesson() {
+            document.getElementById('lessonModal').classList.remove('show');
+            state.lessonProgress = 0;
+            state.lessonXpStart = state.xp;
+            state.lessonCorrect = 0;
         }
 
         function updateStats() {
@@ -1767,6 +1893,7 @@
             const savedProgress = ensureAccountProgressEnvelope(currentAccountId);
             if (savedProgress) applyStateSnapshot(savedProgress.summary);
         }
+        state.lessonXpStart = state.xp;
         bindAccountEvents();
         renderAccountUI();
         renderLevelButtons();

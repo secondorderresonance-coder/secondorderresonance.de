@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.0`
+- `v1.3.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,22 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.3.0)
+Argand-Ebene interactive visual + Lesson session flow:
+
+### Changes in this iteration
+- **Argand-Ebene visual** (`app/lernarchiv.html`): Interactive complex number plane. Two sliders (Re, Im from −5 to 5, step 0.5). SVG renders z (gold), z* conjugate (blue), |z| modulus line (red dashed), angle arc, projection dashes, and grid. Live metrics: z, z*, |z|, arg(z)°. Button to set archive filter to "Komplexe Zahlen / Level 4".
+- **Argand teaser on landing page** (`index.html`): Added a second archive-note card alongside the Pythagoras teaser. Search index updated with Argand keywords.
+- **Lesson session flow** (`app/index.html`): Exercises are now grouped into lessons of 5 questions. A progress bar in the exercise card header shows 1/5 → 5/5. After answering the 5th question, a modal ("Lektion abgeschlossen!") shows XP earned in this lesson, correct/5, and streak. Two buttons: "Nächste Lektion →" starts a fresh 5-question session; "Pause einlegen" closes the modal. Lesson state resets on level/topic change and on login.
+
+### Files touched
+- `app/lernarchiv.html`
+- `app/index.html`
+- `index.html`
+- `STATUS.md`
+- `BACKLOG.md`
+- `VERSION.md`
 
 ## Last completed task (v1.2.0)
 Account system overhaul + Duolingo-like gamification foundation:
