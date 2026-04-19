@@ -29,6 +29,28 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 
+## Last completed task (v1.2.1)
+L4-L6 archive expansion: second textbook-style batch (T-4-008, T-5-008, T-6-008)
+
+### Changes in this iteration
+- Added **T-4-008** (Analysis I: Taylor-Reihe von sin(x) um x=0 bis x^3) with full Kernidee/Intuition/Schritte/Haeufiger-Fehler/Schnellcheck didactic template.
+- Added **T-5-008** (Signale und Systeme: Z-Transformation ROC kausaler Signale) with full didactic template aligned to discrete-time systems analysis.
+- Added **T-6-008** (FEM: schwache Formulierung und Galerkin-Methode) with full didactic template covering variational foundations and LGS assembly.
+- Each explanation follows the documented QA didactic structure: Kernidee, Intuition, Schritte, Haeufiger Fehler, Schnellcheck.
+- Archive QA validated: 3120 tasks total, 520 per level, 30 placement questions — all OK.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → tasks=3120, perLevel=520 for all 6 levels, result=OK
+- grep confirmed all three task IDs and all five didactic markers present
+
+### Next logical step
+- Continue with the next open task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context (P3).
+
 ## Last completed task (v1.2.0)
 Account system overhaul + Duolingo-like gamification foundation:
 

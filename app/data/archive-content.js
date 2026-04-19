@@ -482,6 +482,21 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-4-008",
+            title: "Taylor-Reihe von sin(x) um x=0",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis I",
+            tags: ["taylor", "reihe", "approximation"],
+            difficulty: "schwer",
+            question: "Entwickle sin(x) in eine Taylor-Reihe um x=0 bis einschliesslich x^3.",
+            answer: "sin(x) ≈ x - x^3/6",
+            explanation: "Kernidee: Die Taylor-Reihe approximiert glatte Funktionen lokal durch Polynome mit Ableitungen im Entwicklungspunkt. Intuition: Nahe x=0 'benimmt sich' sin(x) wie x; der kubische Term x^3/6 korrigiert bereits die erste Kruemmung. Schritte: 1) Berechne f(0)=0, f'(0)=1, f''(0)=0, f'''(0)=-1. 2) Taylorformel: f(0)/0! + f'(0)/1!*x + f''(0)/2!*x^2 + f'''(0)/3!*x^3. 3) Einsetzen: 0 + x + 0 - x^3/6. 4) Probe bei x=0.1: sin(0.1)≈0.09983, Approx 0.1-0.000167≈0.09983. Haeufiger Fehler: Die Fakultaeten im Nenner vergessen; jedes Glied hat k! im Nenner. Schnellcheck: Fuer kleines x dominiert der lineare Term; der kubische korrigiert nach unten.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
             id: "T-5-001",
             title: "Fourier-Idee",
             level: "5",
@@ -582,6 +597,21 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-5-008",
+            title: "Z-Transformation: Konvergenzbereich kausaler Signale",
+            level: "5",
+            sublevel: "5.1",
+            topic: "Signale und Systeme",
+            tags: ["z-transformation", "roc", "kausal", "diskret"],
+            difficulty: "schwer",
+            question: "Erklaere die Bedeutung des Konvergenzbereichs (ROC) der Z-Transformation fuer ein kausales Signal.",
+            answer: "Der ROC liegt ausserhalb eines Kreises |z|>r; dort existiert die Z-Transformierte; fuer stabile kausale Systeme enthaelt er den Einheitskreis.",
+            explanation: "Kernidee: Die Z-Transformation X(z)=sum x[n]*z^{-n} macht aus diskreten Folgen rationale Funktionen und ermoeglicht Systemanalyse analog zur Laplace-Transformation. Intuition: Grosse |z| daempfen spaetere Glieder z^{-n} staerker, daher konvergiert die Reihe ab einem bestimmten Radius; kausale Signale starten erst ab n=0. Schritte: 1) Definiere X(z)=sum_{n>=0} x[n]*z^{-n}. 2) Pruefe Konvergenz: sicher fuer |z|>max Pol-Betrag. 3) ROC fuer kausales x[n] ist |z|>r. 4) Stabilitaet: alle Pole im Einheitskreis, ROC enthaelt |z|=1. Haeufiger Fehler: Pole mit ROC verwechseln; Pole liegen am Rand, nicht innerhalb des ROC. Schnellcheck: Liegt der Einheitskreis im ROC? Dann ist das System BIBO-stabil.",
+            type: "konzeptfrage",
+            estimatedTime: 6
+        },
+
+        {
             id: "T-6-001",
             title: "PDE-Klassifikation",
             level: "6",
@@ -677,6 +707,21 @@ window.SOR_ARCHIVE = {
             question: "Erklaere den Zusammenhang zwischen Konsistenz, Stabilitaet und Konvergenz bei linearen Anfangswertproblemen.",
             answer: "Ein konsistentes und stabiles Verfahren ist konvergent (Lax-Idee fuer lineare gut gestellte Probleme).",
             explanation: "Kernidee: Konvergenz entsteht aus zwei Bausteinen: das Verfahren muss das richtige Problem approximieren und numerische Fehler duerfen nicht wachsen. Intuition: Konsistenz sagt, dass das lokale Rechenrezept zur DGL passt; Stabilitaet sorgt dafuer, dass Rundungs- und Stoerfehler nicht explodieren. Schritte: 1) Pruefe Konsistenz ueber lokalen Fehler gegen 0 fuer h->0. 2) Pruefe Stabilitaet, z.B. Fehlerschaetzung bleibt beschraenkt. 3) Folgere Konvergenz fuer lineare gut gestellte Probleme. 4) Interpretiere das Ergebnis immer mit Schrittweitenstudie. Haeufiger Fehler: Nur Konsistenz zu testen und daraus direkt Konvergenz zu behaupten. Schnellcheck: Halbierst du h, muss die Loesung systematisch naeher an eine Referenzloesung ruecken.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-008",
+            title: "Schwache Formulierung und Galerkin-Methode (FEM-Grundlage)",
+            level: "6",
+            sublevel: "6.1.1.b",
+            topic: "FEM",
+            tags: ["fem", "schwache-form", "galerkin", "variationsformulierung"],
+            difficulty: "schwer",
+            question: "Erklaere, warum bei der FEM zunaechst eine schwache Formulierung gebildet wird und wie die Galerkin-Methode darauf aufbaut.",
+            answer: "Die schwache Form schwaeche die Glattheitsforderung per partieller Integration; Galerkin waehlt Test- und Ansatzraum identisch und fuehrt auf das lineare System K*u=f.",
+            explanation: "Kernidee: Viele physikalische PDEs haben keine klassisch glatten Loesungen; die schwache Form verschiebt Ableitungen per partieller Integration auf die Testfunktion und eroeffnet stueckweise Polynome als Ansatz. Intuition: Statt dass die PDE punktweise gilt, soll sie im Mittel (gewichtet mit Testfunktionen) erfuellt sein; das erlaubt Ansaetze auf Gittern. Schritte: 1) Multipliziere starke Form mit Testfunktion v und integriere. 2) Partielle Integration schiebt hohe Ableitungen von u auf v. 3) Waehle endlich-dimensionalen Ansatzraum V_h (stueckweise Polynome). 4) Galerkin: Test- und Ansatzraum identisch, ergibt K*u=f mit Steifigkeitsmatrix K. 5) Loese lineares System. Haeufiger Fehler: Randbedingungen falsch einarbeiten; Neumann-RB folgen natuerlich, Dirichlet-RB muessen explizit aufgezwungen werden. Schnellcheck: K muss fuer elliptische Probleme symmetrisch positiv definit sein; wenn nicht, steckt oft ein Fehler in den Randbedingungen.",
             type: "konzeptfrage",
             estimatedTime: 7
         }
