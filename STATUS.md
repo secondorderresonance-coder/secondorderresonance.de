@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.0`
+- `v1.2.1`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,31 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.2.1)
+Second focused L4-L6 archive expansion batch with textbook-style explanations:
+
+### Changes in this iteration
+- **T-4-008** (Taylorentwicklung von e^x): Taylor series at x=0, infinite convergence radius, full Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck structure.
+- **T-5-008** (Partialbruchzerlegung fuer inverse Laplace-Transformation): Why and how partial fractions are used for inverse Laplace, including Mehrfachpole caution.
+- **T-6-008** (Schwache Formulierung und Galerkin-FEM): Full derivation from strong PDE through weak form to Galerkin stiffness matrix.
+- All three tasks follow the same didactic template as T-4-007, T-5-007, T-6-007.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=3120, 520 per level
+- Marker grep confirmed all three new IDs and didactic structure keys present
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L4-L6 expansion with another small batch (T-4-009, T-5-009, T-6-009) covering topics such as Eigenwertprobleme (L4), Z-Transformation (L5), stochastische DGL / Ito-Kalkuel (L6).
+- Or proceed to next open P3 task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
 
 ## Last completed task (v1.2.0)
 Account system overhaul + Duolingo-like gamification foundation:
