@@ -542,6 +542,9 @@
         .ls-stat-val { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
         .ls-stat-val.green { color: var(--success); }
         .ls-stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
+        .lesson-stars { font-size: 2rem; letter-spacing: 0.2rem; margin: 0.3rem 0 0.8rem; }
+        .lesson-stars .star-filled { color: var(--gold); }
+        .lesson-stars .star-empty { color: rgba(255,255,255,0.2); }
         .lesson-modal-btns { display: flex; flex-direction: column; gap: 0.55rem; }
         .lesson-modal-pause {
             background: transparent; border: 1px solid rgba(255,255,255,0.18);
@@ -574,6 +577,7 @@
         <div class="lesson-modal-card">
             <div class="lesson-modal-icon">&#127881;</div>
             <div class="lesson-modal-title">Lektion abgeschlossen!</div>
+            <div class="lesson-stars" id="lcStars">&#9733;&#9733;&#9733;</div>
             <div class="lesson-stats-row">
                 <div>
                     <div class="ls-stat-val" id="lcXp">+0 XP</div>
@@ -853,6 +857,51 @@
                         correct: 1,
                         difficulty: "easy",
                         explanation: "20% von 60 sind 12. Deshalb kostet der Pullover danach 48 Euro."
+                    },
+                    {
+                        topic: "Geometrie",
+                        question: "Ein rechtwinkliges Dreieck hat Katheten a=6 und b=8. Wie lang ist die Hypotenuse?",
+                        math: "c = sqrt(a^2 + b^2) = ?",
+                        options: ["10", "12", "14", "sqrt(100)"],
+                        correct: 0,
+                        difficulty: "easy",
+                        explanation: "Pythagoras: c = sqrt(6^2 + 8^2) = sqrt(36 + 64) = sqrt(100) = 10."
+                    },
+                    {
+                        topic: "Dreisatz",
+                        question: "Ein Auto fährt 90 km in 1,5 Stunden. Wie weit kommt es in 4 Stunden?",
+                        math: "1.5 h -> 90 km\n4 h -> ? km",
+                        options: ["200 km", "240 km", "270 km", "300 km"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "Geschwindigkeit: 90/1.5 = 60 km/h. In 4 Stunden: 4 * 60 = 240 km."
+                    },
+                    {
+                        topic: "Bruchrechnung",
+                        question: "Berechne:",
+                        math: "3/4 : 3/8 = ?",
+                        options: ["1/2", "1", "2", "9/32"],
+                        correct: 2,
+                        difficulty: "easy",
+                        explanation: "Division durch einen Bruch = Multiplikation mit dem Kehrwert: 3/4 * 8/3 = 24/12 = 2."
+                    },
+                    {
+                        topic: "Prozente",
+                        question: "Ein Preis steigt von 50 auf 65 Euro. Um wie viel Prozent ist er gestiegen?",
+                        math: "Prozentuale Steigerung = ?",
+                        options: ["15%", "20%", "25%", "30%"],
+                        correct: 3,
+                        difficulty: "easy",
+                        explanation: "Steigerung: 65 - 50 = 15. Prozentuell: 15/50 * 100 = 30%."
+                    },
+                    {
+                        topic: "Geometrie",
+                        question: "Wie groß ist der Umfang eines Rechtecks mit Länge 8 und Breite 5?",
+                        math: "U = 2*(l + b) = ?",
+                        options: ["13", "26", "40", "45"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "U = 2*(8 + 5) = 2*13 = 26."
                     }
                 ]
             },
@@ -921,6 +970,51 @@
                         correct: 0,
                         difficulty: "easy",
                         explanation: "Bei gleicher Basis werden die Exponenten addiert: 3 + 2 = 5."
+                    },
+                    {
+                        topic: "Trigonometrie",
+                        question: "Berechne:",
+                        math: "cos(60°) = ?",
+                        options: ["sqrt(3)/2", "1/2", "sqrt(2)/2", "1"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "cos(60°) = 1/2. Merke: cos(0°)=1, cos(30°)=√3/2, cos(60°)=1/2, cos(90°)=0."
+                    },
+                    {
+                        topic: "Gleichungen",
+                        question: "Löse das Gleichungssystem:",
+                        math: "2x + y = 7\nx - y = 2",
+                        options: ["x=2, y=3", "x=3, y=1", "x=1, y=5", "x=4, y=-1"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Addition der Gleichungen: 3x = 9 → x = 3. Einsetzen: y = x - 2 = 1."
+                    },
+                    {
+                        topic: "Funktionen",
+                        question: "Bestimme den Scheitelpunkt der Parabel:",
+                        math: "f(x) = x^2 - 4x + 3",
+                        options: ["(2, -1)", "(2, 3)", "(4, 3)", "(-2, 15)"],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Scheitelpunktform durch quadratische Ergänzung: (x-2)^2 - 1. Scheitelpunkt = (2, -1)."
+                    },
+                    {
+                        topic: "Potenzen",
+                        question: "Vereinfache:",
+                        math: "2^(-3) = ?",
+                        options: ["-8", "1/8", "8", "-1/8"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "Negative Exponenten: a^(-n) = 1/a^n. Also 2^(-3) = 1/2^3 = 1/8."
+                    },
+                    {
+                        topic: "Gleichungen",
+                        question: "Löse nach x auf:",
+                        math: "x/3 + 2 = 5",
+                        options: ["x = 7", "x = 9", "x = 1", "x = 21"],
+                        correct: 1,
+                        difficulty: "easy",
+                        explanation: "x/3 = 3 → x = 9. Erst 2 subtrahieren, dann mit 3 multiplizieren."
                     }
                 ]
             },
@@ -989,6 +1083,51 @@
                         correct: 0,
                         difficulty: "easy",
                         explanation: "Betrag: |v| = sqrt(3^2 + 4^2) = sqrt(25) = 5."
+                    },
+                    {
+                        topic: "Stochastik",
+                        question: "Eine faire Münze wird 3-mal geworfen. Wie groß ist P(genau 2x Kopf)?",
+                        math: "P(X=2) mit X ~ B(3, 0.5) = ?",
+                        options: ["1/4", "3/8", "1/2", "1/8"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Binomialkoeffizient: C(3,2)*(0.5)^2*(0.5)^1 = 3 * 1/4 * 1/2 = 3/8."
+                    },
+                    {
+                        topic: "Ableitungen",
+                        question: "Bestimme die Ableitung mit Kettenregel:",
+                        math: "f(x) = sin(3x)\nf'(x) = ?",
+                        options: ["sin(3x)", "cos(3x)", "3*cos(3x)", "-3*sin(3x)"],
+                        correct: 2,
+                        difficulty: "medium",
+                        explanation: "Kettenregel: f'(x) = cos(3x) * 3 = 3cos(3x). Äußere Ableitung mal innere Ableitung."
+                    },
+                    {
+                        topic: "Integrale",
+                        question: "Berechne mit Substitution u = x^2+1:",
+                        math: "integral 2x * (x^2+1)^3 dx = ?",
+                        options: ["(x^2+1)^4/4 + C", "(x^2+1)^4 + C", "2x*(x^2+1)^4/4 + C", "8x*(x^2+1)^2 + C"],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Mit u = x^2+1, du = 2x dx: integral u^3 du = u^4/4 + C = (x^2+1)^4/4 + C."
+                    },
+                    {
+                        topic: "Vektoren",
+                        question: "Berechne den Betrag des Kreuzprodukts:",
+                        math: "a = (1,0,0), b = (0,1,0)\n|a x b| = ?",
+                        options: ["0", "1", "sqrt(2)", "2"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "a x b = (0,0,1) da a und b senkrecht stehen. Betrag = 1. Allgemein: |a×b| = |a||b|sin(θ)."
+                    },
+                    {
+                        topic: "Stochastik",
+                        question: "P(A) = 0.6, P(B|A) = 0.5. Wie groß ist P(A und B)?",
+                        math: "P(A ∩ B) = ?",
+                        options: ["0.2", "0.3", "0.5", "0.6"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Multiplikationssatz: P(A∩B) = P(A)*P(B|A) = 0.6 * 0.5 = 0.3."
                     }
                 ]
             },
@@ -1057,6 +1196,51 @@
                         correct: 2,
                         difficulty: "medium",
                         explanation: "Addieren ergibt 2x = 6 und damit x = 3. Eingesetzt folgt y = 1."
+                    },
+                    {
+                        topic: "Reihen",
+                        question: "Was liefert die Taylor-Reihe von e^x bei x=0 bis zum Term x^2?",
+                        math: "e^x ≈ ?",
+                        options: ["1 + x + x^2", "1 + x + x^2/2", "x + x^2/2", "1 + 2x + x^2"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Taylor-Reihe: e^x = sum x^n/n! = 1 + x + x^2/2! + ... Die ersten drei Terme: 1 + x + x^2/2."
+                    },
+                    {
+                        topic: "DGL",
+                        question: "Welche allgemeine Lösung hat y'' + y = 0?",
+                        math: "Charakteristisches Polynom: r^2 + 1 = 0",
+                        options: ["y = C1*e^x + C2*e^(-x)", "y = C1*sin(x) + C2*cos(x)", "y = C1*x + C2", "y = C1*e^(ix)"],
+                        correct: 1,
+                        difficulty: "hard",
+                        explanation: "Charakteristische Wurzeln: r = ±i (rein imaginär). Allgemeine Lösung: y = C1*cos(x) + C2*sin(x)."
+                    },
+                    {
+                        topic: "Komplexe Zahlen",
+                        question: "Was besagt die Euler-Formel?",
+                        math: "e^(i*pi) = ?",
+                        options: ["-1", "1", "i", "0"],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Euler's Identität: e^(iπ) = cos(π) + i*sin(π) = -1 + 0 = -1. Eine der schönsten Formeln der Mathematik."
+                    },
+                    {
+                        topic: "Lineare Algebra",
+                        question: "Welche Eigenwerte hat die Matrix?",
+                        math: "A = |2  0|\n    |0  3|",
+                        options: ["1 und 6", "2 und 3", "0 und 5", "2 und -3"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Bei Diagonalmatrizen sind die Eigenwerte die Diagonaleinträge: λ1 = 2, λ2 = 3."
+                    },
+                    {
+                        topic: "Reihen",
+                        question: "Konvergiert die harmonische Reihe?",
+                        math: "sum(n=1, inf) 1/n = ?",
+                        options: ["Ja, gegen 2", "Ja, gegen pi/2", "Nein, divergiert", "Ja, gegen ln(2)"],
+                        correct: 2,
+                        difficulty: "hard",
+                        explanation: "Die harmonische Reihe divergiert, obwohl die Glieder gegen 0 gehen. Klassischer Gegenbeispiel: Konvergenz der Glieder ist notwendig, aber nicht hinreichend."
                     }
                 ]
             },
@@ -1145,6 +1329,61 @@
                         correct: 0,
                         difficulty: "medium",
                         explanation: "Mehr DÃ¤mpfung reduziert in der Regel Resonanzspitzen und Ãœberschwingen."
+                    },
+                    {
+                        topic: "Fourier",
+                        question: "Was sagt der Satz von Parseval?",
+                        math: "integral |f(t)|^2 dt = ?",
+                        options: [
+                            "(1/2pi) * integral |F(w)|^2 dw",
+                            "integral |F(w)| dw",
+                            "integral F(w) dw",
+                            "max |F(w)|"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Parseval: Die Gesamtenergie im Zeitbereich ist gleich der Gesamtenergie im Frequenzbereich (skaliert mit 1/2pi). Energieerhaltung durch Fourier-Transformation."
+                    },
+                    {
+                        topic: "Laplace",
+                        question: "Was ist die Laplace-Transformierte der Heaviside-Funktion theta(t)?",
+                        math: "L{theta(t)} = ?",
+                        options: ["1/s", "1/s^2", "s", "e^(-s)"],
+                        correct: 0,
+                        difficulty: "medium",
+                        explanation: "Die Sprungfunktion theta(t)=1 für t≥0 hat L-Transformierte 1/s. Grundlegende Tabellentransformation."
+                    },
+                    {
+                        topic: "Resonanz",
+                        question: "Wie ist der Gütefaktor Q definiert?",
+                        math: "Q = ?",
+                        options: [
+                            "w0 / (2*delta)",
+                            "2*delta / w0",
+                            "w0 * delta",
+                            "1 / w0"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Q = w0 / (2δ) mit Eigenfrequenz w0 und Abklingkonstante δ. Hoher Q = schmale Resonanz = wenig Dämpfung."
+                    },
+                    {
+                        topic: "Regelungstechnik",
+                        question: "Welcher Regleranteil eliminiert stationäre Regelabweichungen?",
+                        math: "PID: K_P * e + K_I * integral(e) + K_D * de/dt",
+                        options: ["P-Anteil", "I-Anteil", "D-Anteil", "Keiner"],
+                        correct: 1,
+                        difficulty: "medium",
+                        explanation: "Der I-Anteil integriert den Fehler auf. Solange eine Regelabweichung e≠0 besteht, wächst der I-Term und treibt e gegen 0."
+                    },
+                    {
+                        topic: "Fourier",
+                        question: "Welche Symmetrie gilt für das Spektrum eines reellen Signals f(t)?",
+                        math: "F(-w) = ?",
+                        options: ["F(w)", "F*(w)", "-F(w)", "1/F(w)"],
+                        correct: 1,
+                        difficulty: "hard",
+                        explanation: "Für reelle f(t) gilt: F(-ω) = F*(ω) (konjugiert-symmetrisch). Dies nennt man Hermite-Symmetrie."
                     }
                 ]
             },
@@ -1233,6 +1472,76 @@
                         correct: 0,
                         difficulty: "medium",
                         explanation: "Das Verfahren bewegt sich entlang des negativen Gradienten in Richtung lokaler Abnahme."
+                    },
+                    {
+                        topic: "Stochastik",
+                        question: "Was beschreibt die Ito-Formel für f(W_t)?",
+                        math: "df = f'(W_t)dW_t + (1/2)f''(W_t)dt",
+                        options: [
+                            "Stochastisches Analogon der Kettenregel",
+                            "Gewöhnliche Kettenregel",
+                            "Partielle Integration",
+                            "Euler-Maruyama-Schema"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Die Ito-Formel ist die stochastische Kettenregel. Der zusätzliche (1/2)f''dt-Term entsteht aus der Quadratvariation des Wiener-Prozesses: (dW)^2 = dt."
+                    },
+                    {
+                        topic: "Numerik",
+                        question: "Wie lautet die zentrale Differenzenapproximation von f''(x)?",
+                        math: "f''(x) ≈ ?  mit Schrittweite h",
+                        options: [
+                            "(f(x+h) - 2f(x) + f(x-h)) / h^2",
+                            "(f(x+h) - f(x)) / h",
+                            "(f(x+h) - f(x-h)) / (2h)",
+                            "(f(x) - f(x-h)) / h"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Zweite Ableitung via zentraler Differenz: (f(x+h) - 2f(x) + f(x-h))/h². Fehler O(h²). Basis vieler FDM-Verfahren."
+                    },
+                    {
+                        topic: "Partielle DGL",
+                        question: "Welche Gleichung beschreibt eine Welle?",
+                        math: "Wellengleichung = ?",
+                        options: [
+                            "d^2u/dt^2 = c^2 * d^2u/dx^2",
+                            "du/dt = k * d^2u/dx^2",
+                            "d^2u/dx^2 + d^2u/dy^2 = 0",
+                            "du/dt + u*du/dx = 0"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Die Wellengleichung u_tt = c²u_xx ist hyperbolisch. c ist die Wellengeschwindigkeit. Parabolisch=Wärme, Elliptisch=Laplace."
+                    },
+                    {
+                        topic: "FEM",
+                        question: "Was sind Formfunktionen (Shape Functions) in der FEM?",
+                        math: "u_h(x) = sum N_i(x) * u_i",
+                        options: [
+                            "Lokale Basisfunktionen zur Interpolation im Element",
+                            "Steifigkeitsmatrixeinträge",
+                            "Randbedingungsvektoren",
+                            "Iterationsschritte beim Lösen"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Formfunktionen N_i interpolieren die Lösung innerhalb eines Elements. Sie erfüllen N_i(x_j)=δ_ij und ermöglichen lokale Approximation der globalen Lösung."
+                    },
+                    {
+                        topic: "Optimierung",
+                        question: "Wann ist ein lokales Minimum eines konvexen Problems auch global?",
+                        math: "f konvex, x* lokal optimal",
+                        options: [
+                            "Immer",
+                            "Nur wenn f differenzierbar",
+                            "Nur bei eindeutigem Minimum",
+                            "Nie garantiert"
+                        ],
+                        correct: 0,
+                        difficulty: "hard",
+                        explanation: "Bei konvexen Problemen ist jedes lokale Minimum auch globales Minimum. Dies ist der zentrale Vorteil konvexer Optimierung: kein Steckenbleiben in lokalen Minima."
                     }
                 ]
             }
@@ -1854,6 +2163,10 @@
             document.getElementById('lcXp').textContent = '+' + xpGained + ' XP';
             document.getElementById('lcCorrect').textContent = state.lessonCorrect + ' / ' + LESSON_SIZE;
             document.getElementById('lcStreak').textContent = state.streak + ' Tage';
+            const stars = state.lessonCorrect >= LESSON_SIZE ? 3 : state.lessonCorrect >= LESSON_SIZE - 1 ? 2 : 1;
+            document.getElementById('lcStars').innerHTML = Array.from({length: 3}, (_, i) =>
+                '<span class="' + (i < stars ? 'star-filled' : 'star-empty') + '">&#9733;</span>'
+            ).join('');
             document.getElementById('lessonModal').classList.add('show');
             const lpFill = document.getElementById('lessonProgressFill');
             if (lpFill) lpFill.style.width = '100%';

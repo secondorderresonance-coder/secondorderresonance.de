@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.4.0`
+- `v1.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,23 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.5.0)
+Exercise pool expansion + lesson star rating:
+
+### Changes in this iteration
+- **`app/index.html`**: Added 5 new questions per level (30 total, L1–L6), bringing each level from 7 to 12 questions. Prevents repeat questions within a 5-question lesson session.
+  - L1 (Grundlagen): Pythagoras, Dreisatz auto speed, Bruch-Division, Prozent-Steigerung, Rechteck-Umfang
+  - L2 (Aufbauwissen): cos(60°), Gleichungssystem, Parabel-Scheitelpunkt, negative Potenzen, Bruchgleichung
+  - L3 (Vertiefung): Binomialverteilung, Kettenregel, Substitutionsintegral, Kreuzprodukt-Betrag, bedingte Wahrscheinlichkeit
+  - L4 (Uni-Grundlagen): Taylor-Reihe, DGL 2. Ordnung, Euler-Formel, Eigenwerte Diagonalmatrix, harmonische Reihe
+  - L5 (Angewandte Mathe): Parseval, Heaviside-Laplace, Gütefaktor Q, I-Anteil PID, Hermite-Symmetrie
+  - L6 (Forschung): Ito-Formel, FDM zweite Ableitung, Wellengleichung, FEM-Formfunktionen, konvexe Optimierung
+- **Lesson complete modal**: Added 1–3 star rating. 5/5 = 3 Sterne, 4/5 = 2 Sterne, ≤3/5 = 1 Stern. Stars render as gold filled / dimmed empty using CSS classes.
+
+### Files touched
+- `app/index.html`
+- `STATUS.md`, `BACKLOG.md`, `VERSION.md`
 
 ## Last completed task (v1.4.0)
 Lernpfad – Duolingo-style visual skill map:

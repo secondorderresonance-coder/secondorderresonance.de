@@ -1,6 +1,6 @@
 # Website Version
 
-Current website version: `v1.4.0`
+Current website version: `v1.5.0`
 
 Versioning note:
 - This file is the canonical version marker for iterative website runs.
