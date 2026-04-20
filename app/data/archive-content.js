@@ -679,6 +679,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Konvergenz entsteht aus zwei Bausteinen: das Verfahren muss das richtige Problem approximieren und numerische Fehler duerfen nicht wachsen. Intuition: Konsistenz sagt, dass das lokale Rechenrezept zur DGL passt; Stabilitaet sorgt dafuer, dass Rundungs- und Stoerfehler nicht explodieren. Schritte: 1) Pruefe Konsistenz ueber lokalen Fehler gegen 0 fuer h->0. 2) Pruefe Stabilitaet, z.B. Fehlerschaetzung bleibt beschraenkt. 3) Folgere Konvergenz fuer lineare gut gestellte Probleme. 4) Interpretiere das Ergebnis immer mit Schrittweitenstudie. Haeufiger Fehler: Nur Konsistenz zu testen und daraus direkt Konvergenz zu behaupten. Schnellcheck: Halbierst du h, muss die Loesung systematisch naeher an eine Referenzloesung ruecken.",
             type: "konzeptfrage",
             estimatedTime: 7
+        },
+
+        {
+            id: "T-4-008",
+            title: "Taylorentwicklung von e^x",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis I",
+            tags: ["taylor", "potenzreihe", "approximation"],
+            difficulty: "schwer",
+            question: "Schreibe die Taylorreihe von e^x um den Punkt x=0 auf und nenne ihren Konvergenzradius.",
+            answer: "e^x = sum_{k=0}^{inf} x^k / k! fuer alle x in R; Konvergenzradius R = inf.",
+            explanation: "Kernidee: Jede glatte Funktion laesst sich lokal durch ein Polynom beliebiger Ordnung approximieren; bei e^x konvergiert diese Approximation sogar auf ganz R. Intuition: Die Ableitungen von e^x sind alle wieder e^x, also ist jeder Taylorkoeffizient a_k = f^(k)(0)/k! = 1/k!. Schritte: 1) Berechne f^(k)(x)=e^x fuer alle k. 2) Werte bei x=0 aus: f^(k)(0)=1. 3) Taylorkoeffizient: a_k = 1/k!. 4) Reihe: sum_{k=0}^{inf} x^k/k!. 5) Konvergenzradius via Quotientenkriterium: |a_{k+1}/a_k| = 1/(k+1) -> 0, also R=inf. Haeufiger Fehler: Nur die ersten 3-4 Glieder hinschreiben ohne Konvergenzbetrachtung. Schnellcheck: Fuer x=1 liefert die Reihe 1+1+1/2+1/6+... ≈ 2.718, was mit e uebereinstimmt.",
+            type: "kurzantwort",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-5-008",
+            title: "Partialbruchzerlegung fuer inverse Laplace-Transformation",
+            level: "5",
+            sublevel: "5.1.1.b",
+            topic: "Laplace",
+            tags: ["laplace", "partialbruch", "ruecktransformation"],
+            difficulty: "schwer",
+            question: "Beschreibe die Partialbruchzerlegung und warum sie bei der inversen Laplace-Transformation eingesetzt wird.",
+            answer: "Eine gebrochenrationale Funktion Y(s) wird in einfache Brueche mit bekannten Ruecktransformierten zerlegt, z.B. A/(s-a) -> A*e^(at).",
+            explanation: "Kernidee: Die inverse Laplace-Transformation ist fuer einfache Terme tabellarisch bekannt; Partialbrueche bringen jede gebrochenrationale Funktion auf diese Form. Intuition: Statt eine komplizierte Ruecktransformation zu berechnen, schreibt man Y(s) als Summe von Bruchtermen, deren Bilder man aus der Laplace-Tabelle abliest. Schritte: 1) Faktorisiere den Nenner von Y(s), z.B. (s-a)(s-b). 2) Schreibe Y(s) = A/(s-a) + B/(s-b). 3) Bestimme A und B durch Koeffizientenvergleich oder Einsetzen der Pole. 4) Transformiere jeden Term zurueck: A/(s-a) -> A*e^(at). Haeufiger Fehler: Mehrfachpole vergessen, die Terme der Form A/(s-a)^2 benoetigen. Schnellcheck: Addiere die Partialbrueche und pruefe, ob Y(s) reproduziert wird.",
+            type: "konzeptfrage",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-6-008",
+            title: "Schwache Formulierung und Galerkin-FEM",
+            level: "6",
+            sublevel: "6.1.1.b",
+            topic: "FEM",
+            tags: ["fem", "schwache-formulierung", "galerkin"],
+            difficulty: "schwer",
+            question: "Erklaere, wie die schwache (variationelle) Formulierung einer PDE den Weg zur Galerkin-FEM eroeffnet.",
+            answer: "Die starke PDE wird mit Testfunktionen multipliziert und integriert; partiell integriert senkt das die Glaettenanforderung und liefert ein Bilinearform-Problem, das Galerkin auf einem Ansatzraum approximiert.",
+            explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
+            type: "konzeptfrage",
+            estimatedTime: 8
         }
     ], 520),
     placementQuestions: [
