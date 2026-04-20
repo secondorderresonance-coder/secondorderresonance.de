@@ -63,7 +63,8 @@
 - [x] Add lesson session flow to app (5-question lessons, lesson-complete modal with XP/stats, Nächste Lektion button)
 
 ## P4
-- [ ] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
+- [x] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity
+- [x] Create visual Lernpfad page (app/lernpfad.html) with skill map, level chapters, topic nodes, XP progress
 - [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
 - [ ] Define free-first monetization path with optional small premium tier later
 - [ ] Define SOR account and sync architecture for future iOS/Android app login

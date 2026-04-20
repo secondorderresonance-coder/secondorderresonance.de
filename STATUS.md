@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.3.0`
+- `v1.4.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,20 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.4.0)
+Lernpfad – Duolingo-style visual skill map:
+
+### Changes in this iteration
+- **`app/lernpfad.html`** (new): Full visual learning path page. Vertical layout with a colour-coded spine line connecting 6 level chapters. Each chapter shows: colour-coded dot + level badge, title, subtitle, XP progress bar, topic nodes (clickable when unlocked, dimmed when locked), and a "Lektion starten" CTA button. Reads XP from localStorage – locked levels shown at 55% opacity with lock icon + XP requirement. Topic nodes deep-link directly into `app/index.html?level=X&topic=Y`. Overview bar at top shows total XP, levels unlocked, and streak. Guest note shown when no account found.
+- **`app/index.html`** header: Logo is now a link to lernpfad.html; added a small "🗺 Pfad" navigation button.
+- **`app/profil.html`** header: Added "🗺 Lernpfad" button alongside the back button.
+
+### Files touched
+- `app/lernpfad.html` (new)
+- `app/index.html`
+- `app/profil.html`
+- `STATUS.md`, `BACKLOG.md`, `VERSION.md`
 
 ## Last completed task (v1.3.0)
 Argand-Ebene interactive visual + Lesson session flow:

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lernpfad | Second-Order Resonance</title>
+    <meta name="description" content="Dein persönlicher Mathematik-Lernpfad – von den Grundlagen bis zur Forschung. Level für Level freischalten.">
+    <meta name="theme-color" content="#1a1a2e">
+    <style>
+        :root {
+            --primary:    #1a1a2e;
+            --secondary:  #16213e;
+            --accent:     #e94560;
+            --text:       #eee;
+            --text-muted: #aaa;
+            --gold:       #f5c518;
+            --success:    #4ade80;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .app-header {
+            background: var(--secondary);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(233,69,96,.2);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .app-logo { font-weight: 700; font-size: 1.2rem; color: var(--gold); }
+        .app-logo span { color: var(--accent); }
+
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+
+        .xp-bar-wrap { display: flex; align-items: center; gap: .5rem; }
+        .xp-bar-track { width: 110px; height: 7px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden; }
+        .xp-bar-fill  { height: 100%; background: var(--gold); border-radius: 4px; transition: width .5s; }
+        .xp-label { font-size: .82rem; color: var(--gold); white-space: nowrap; }
+
+        .back-btn {
+            display: inline-flex; align-items: center; gap: .35rem;
+            color: var(--text-muted); text-decoration: none; font-size: .88rem;
+            padding: .4rem .8rem; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.1); transition: all .2s;
+        }
+        .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+
+        /* ── Main ── */
+        .path-main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 2.5rem 1rem 5rem;
+        }
+
+        .path-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .path-hero h1 { font-size: 1.9rem; font-weight: 800; margin-bottom: .4rem; }
+        .path-hero h1 span { color: var(--accent); }
+        .path-hero p { color: var(--text-muted); font-size: .95rem; }
+
+        /* ── Vertical path connector ── */
+        .path-spine {
+            position: relative;
+        }
+        .path-spine::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom,
+                #4ade80 0%,
+                #facc15 20%,
+                #f59e0b 38%,
+                #60a5fa 56%,
+                #8b5cf6 76%,
+                #6b7280 100%);
+            border-radius: 2px;
+            opacity: .35;
+        }
+
+        /* ── Level chapter ── */
+        .level-chapter {
+            position: relative;
+            padding-left: 72px;
+            margin-bottom: 2.2rem;
+        }
+
+        .level-dot {
+            position: absolute;
+            left: 12px;
+            top: 18px;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .85rem; font-weight: 800; color: #fff;
+            border: 3px solid transparent;
+            z-index: 1;
+        }
+
+        .level-card {
+            background: var(--secondary);
+            border-radius: 18px;
+            padding: 1.4rem 1.5rem;
+            border: 1px solid rgba(255,255,255,.08);
+            transition: border-color .2s;
+        }
+        .level-card.unlocked { border-color: rgba(255,255,255,.12); }
+        .level-card.locked   { opacity: .55; }
+
+        .level-card-header {
+            display: flex; align-items: center; gap: .8rem;
+            margin-bottom: .9rem;
+        }
+        .level-badge {
+            padding: .25rem .7rem; border-radius: 20px;
+            font-size: .72rem; font-weight: 700;
+            letter-spacing: .05em; white-space: nowrap;
+        }
+        .level-title { font-size: 1.05rem; font-weight: 700; flex: 1; }
+        .level-lock-note { font-size: .78rem; color: var(--text-muted); }
+
+        /* XP progress bar inside card */
+        .level-xp-row {
+            display: flex; align-items: center; gap: .6rem;
+            margin-bottom: 1rem;
+        }
+        .level-xp-track {
+            flex: 1; height: 5px; background: rgba(255,255,255,.09);
+            border-radius: 3px; overflow: hidden;
+        }
+        .level-xp-fill { height: 100%; border-radius: 3px; transition: width .5s; }
+        .level-xp-label { font-size: .72rem; color: var(--text-muted); white-space: nowrap; }
+
+        /* Topic nodes */
+        .topics-grid {
+            display: flex; flex-wrap: wrap; gap: .55rem;
+        }
+
+        .topic-node {
+            display: inline-flex; align-items: center; gap: .45rem;
+            padding: .55rem 1rem;
+            border-radius: 50px;
+            font-size: .88rem; font-weight: 600;
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+            color: var(--text);
+        }
+        .topic-node.unlocked {
+            background: rgba(255,255,255,.07);
+            border-color: rgba(255,255,255,.15);
+        }
+        .topic-node.unlocked:hover {
+            background: rgba(255,255,255,.13);
+            border-color: rgba(255,255,255,.3);
+            transform: translateY(-1px);
+        }
+        .topic-node.locked {
+            background: rgba(255,255,255,.03);
+            border-color: rgba(255,255,255,.07);
+            color: var(--text-muted);
+            cursor: default;
+            pointer-events: none;
+        }
+        .topic-icon { font-size: 1rem; }
+
+        /* Free-play button per level */
+        .level-cta {
+            margin-top: 1rem;
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: .6rem 1.4rem;
+            background: var(--accent); color: #fff;
+            border-radius: 50px; font-size: .88rem; font-weight: 700;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: all .25s;
+        }
+        .level-cta:hover { background: #ff5a78; transform: translateY(-1px); }
+        .level-cta.disabled {
+            background: rgba(255,255,255,.07);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* No account note */
+        .guest-note {
+            background: rgba(233,69,96,.08);
+            border: 1px solid rgba(233,69,96,.2);
+            border-radius: 12px;
+            padding: .9rem 1.2rem;
+            font-size: .85rem; color: var(--text-muted);
+            margin-bottom: 2rem; text-align: center;
+        }
+        .guest-note a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+        /* Completion badge at top */
+        .progress-overview {
+            background: var(--secondary);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,.08);
+            display: flex; align-items: center; gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .progress-stat { text-align: center; flex: 1; min-width: 80px; }
+        .progress-stat-val { font-size: 1.6rem; font-weight: 800; color: var(--gold); }
+        .progress-stat-label { font-size: .72rem; color: var(--text-muted); margin-top: .15rem; }
+
+        @media (max-width: 520px) {
+            .path-spine::before { left: 16px; }
+            .level-chapter { padding-left: 52px; }
+            .level-dot { left: 0; width: 32px; height: 32px; top: 20px; font-size: .75rem; }
+            .header-right .xp-bar-wrap { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="app-logo">Math<span>Level</span></div>
+        <div class="header-right">
+            <div class="xp-bar-wrap">
+                <div class="xp-bar-track">
+                    <div class="xp-bar-fill" id="xpFill" style="width:0%"></div>
+                </div>
+                <span class="xp-label" id="xpLabel">0 XP</span>
+            </div>
+            <a href="index.html" class="back-btn">&#8592; Zur App</a>
+        </div>
+    </header>
+
+    <main class="path-main">
+
+        <div class="path-hero">
+            <h1>Dein <span>Lernpfad</span></h1>
+            <p>Schalte Level für Level frei – von den Grundlagen bis zur Forschung.</p>
+        </div>
+
+        <div id="guestNote" class="guest-note" style="display:none">
+            Ohne Account wird kein Fortschritt gespeichert.&nbsp;
+            <a href="index.html">Jetzt anmelden &rarr;</a>
+        </div>
+
+        <div class="progress-overview" id="progressOverview">
+            <div class="progress-stat">
+                <div class="progress-stat-val" id="overviewXp">0</div>
+                <div class="progress-stat-label">XP gesamt</div>
+            </div>
+            <div class="progress-stat">
+                <div class="progress-stat-val" id="overviewLevels">1 / 6</div>
+                <div class="progress-stat-label">Level freigeschaltet</div>
+            </div>
+            <div class="progress-stat">
+                <div class="progress-stat-val" id="overviewStreak">0</div>
+                <div class="progress-stat-label">Tage-Streak</div>
+            </div>
+        </div>
+
+        <div class="path-spine" id="pathSpine"></div>
+
+    </main>
+
+    <script>
+        const ACCOUNT_STORE_KEY = 'mathlevel-accounts-v1';
+        const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
+
+        const LEVELS = [
+            {
+                id: 1, code: 'L1', title: 'Grundlagen',
+                subtitle: 'Grundschule & Unterstufe',
+                color: '#4ade80', bg: 'rgba(74,222,128,0.15)',
+                topics: [
+                    { name: 'Bruchrechnung', icon: '\u00bd' },
+                    { name: 'Prozente',      icon: '%'       },
+                    { name: 'Geometrie',     icon: '\u25b3'  },
+                    { name: 'Dreisatz',      icon: '\u221d'  }
+                ]
+            },
+            {
+                id: 2, code: 'L2', title: 'Aufbauwissen',
+                subtitle: 'Unter- & Mittelstufe',
+                color: '#facc15', bg: 'rgba(250,204,21,0.15)',
+                topics: [
+                    { name: 'Gleichungen',    icon: 'x\ufe0f' },
+                    { name: 'Funktionen',     icon: 'f(x)'    },
+                    { name: 'Trigonometrie',  icon: 'sin'      },
+                    { name: 'Potenzen',       icon: 'x\u00b2' }
+                ]
+            },
+            {
+                id: 3, code: 'L3', title: 'Vertiefung',
+                subtitle: 'Oberstufe / Schulabschluss',
+                color: '#f59e0b', bg: 'rgba(245,158,11,0.15)',
+                topics: [
+                    { name: 'Ableitungen',  icon: "f\u2032" },
+                    { name: 'Integrale',    icon: '\u222b'  },
+                    { name: 'Stochastik',   icon: '\uD83C\uDFB2' },
+                    { name: 'Vektoren',     icon: '\u2192'  }
+                ]
+            },
+            {
+                id: 4, code: 'L4', title: 'Universit\u00e4tsgrundlagen',
+                subtitle: 'Studienanfang',
+                color: '#60a5fa', bg: 'rgba(96,165,250,0.15)',
+                topics: [
+                    { name: 'Lineare Algebra',   icon: '[M]'   },
+                    { name: 'DGL',               icon: "y\u2032" },
+                    { name: 'Komplexe Zahlen',   icon: 'i'     },
+                    { name: 'Reihen',            icon: '\u03a3' }
+                ]
+            },
+            {
+                id: 5, code: 'L5', title: 'Angewandte Mathematik',
+                subtitle: 'Fortgeschrittenes Studium',
+                color: '#8b5cf6', bg: 'rgba(139,92,246,0.15)',
+                topics: [
+                    { name: 'Fourier',           icon: '\u223c'  },
+                    { name: 'Laplace',           icon: '\u2112'  },
+                    { name: 'Resonanz',          icon: '\u03c9'  },
+                    { name: 'Regelungstechnik',  icon: '\u2699\ufe0f' }
+                ]
+            },
+            {
+                id: 6, code: 'L6', title: 'Forschung & Simulation',
+                subtitle: 'Wissenschaft / Spezialisierung',
+                color: '#9ca3af', bg: 'rgba(156,163,175,0.15)',
+                topics: [
+                    { name: 'Partielle DGL',  icon: '\u2202'  },
+                    { name: 'Stochastik',     icon: '\uD83D\uDCC8' },
+                    { name: 'Numerik',        icon: '\u2248'  },
+                    { name: 'FEM',            icon: '\u29c6'  },
+                    { name: 'Optimierung',    icon: '\u2197\ufe0f' }
+                ]
+            }
+        ];
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+                if (!raw) return null;
+                const store = JSON.parse(raw);
+                if (!store || !store.current || !store.accounts) return null;
+                const account = store.accounts[store.current];
+                if (!account) return null;
+                const summary = (account.progress && account.progress.summary) || {};
+                return {
+                    xp:     summary.xp     || 0,
+                    streak: summary.streak || 0,
+                    username: account.username || 'Gast'
+                };
+            } catch (e) { return null; }
+        }
+
+        function isUnlocked(levelIdx, xp) {
+            return xp >= LEVEL_XP_THRESHOLDS[levelIdx];
+        }
+
+        function xpInLevel(levelIdx, xp) {
+            const start = LEVEL_XP_THRESHOLDS[levelIdx];
+            const end   = LEVEL_XP_THRESHOLDS[levelIdx + 1] || start + 250;
+            const earned = Math.max(0, xp - start);
+            const range  = end - start;
+            return { earned, range, pct: Math.min(earned / range * 100, 100) };
+        }
+
+        function buildPath(xp) {
+            const spine = document.getElementById('pathSpine');
+            spine.innerHTML = '';
+
+            LEVELS.forEach((level, idx) => {
+                const unlocked = isUnlocked(idx, xp);
+                const { earned, range, pct } = xpInLevel(idx, xp);
+
+                const chapter = document.createElement('div');
+                chapter.className = 'level-chapter';
+
+                // Dot
+                const dot = document.createElement('div');
+                dot.className = 'level-dot';
+                dot.textContent = level.id;
+                dot.style.background = unlocked ? level.color : '#374151';
+                dot.style.borderColor = unlocked ? level.color : '#4b5563';
+                dot.style.boxShadow   = unlocked ? '0 0 12px ' + level.color + '55' : 'none';
+                chapter.appendChild(dot);
+
+                // Card
+                const card = document.createElement('div');
+                card.className = 'level-card ' + (unlocked ? 'unlocked' : 'locked');
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'level-card-header';
+
+                const badge = document.createElement('span');
+                badge.className = 'level-badge';
+                badge.textContent = level.code;
+                badge.style.background = unlocked ? level.bg    : 'rgba(255,255,255,0.05)';
+                badge.style.color      = unlocked ? level.color : '#6b7280';
+                badge.style.border     = '1px solid ' + (unlocked ? level.color + '44' : 'rgba(255,255,255,0.08)');
+
+                const title = document.createElement('div');
+                title.className = 'level-title';
+                title.textContent = level.title;
+
+                header.appendChild(badge);
+                header.appendChild(title);
+
+                if (!unlocked) {
+                    const lockNote = document.createElement('div');
+                    lockNote.className = 'level-lock-note';
+                    lockNote.textContent = '\uD83D\uDD12 ' + LEVEL_XP_THRESHOLDS[idx] + ' XP';
+                    header.appendChild(lockNote);
+                }
+                card.appendChild(header);
+
+                // Subtitle
+                const sub = document.createElement('div');
+                sub.style.cssText = 'font-size:.78rem;color:var(--text-muted);margin-bottom:.9rem;margin-top:-.3rem';
+                sub.textContent = level.subtitle;
+                card.appendChild(sub);
+
+                // XP progress bar
+                const xpRow = document.createElement('div');
+                xpRow.className = 'level-xp-row';
+                if (unlocked) {
+                    const track = document.createElement('div');
+                    track.className = 'level-xp-track';
+                    const fill = document.createElement('div');
+                    fill.className = 'level-xp-fill';
+                    fill.style.width = pct + '%';
+                    fill.style.background = level.color;
+                    track.appendChild(fill);
+                    const label = document.createElement('div');
+                    label.className = 'level-xp-label';
+                    label.textContent = earned + ' / ' + range + ' XP';
+                    xpRow.appendChild(track);
+                    xpRow.appendChild(label);
+                }
+                card.appendChild(xpRow);
+
+                // Topics
+                const grid = document.createElement('div');
+                grid.className = 'topics-grid';
+
+                level.topics.forEach(topic => {
+                    const node = document.createElement('a');
+                    node.className = 'topic-node ' + (unlocked ? 'unlocked' : 'locked');
+                    if (unlocked) {
+                        node.href = 'index.html?level=' + level.id + '&topic=' + encodeURIComponent(topic.name);
+                    }
+
+                    const icon = document.createElement('span');
+                    icon.className = 'topic-icon';
+                    icon.textContent = topic.icon;
+
+                    const name = document.createElement('span');
+                    name.textContent = topic.name;
+
+                    node.appendChild(icon);
+                    node.appendChild(name);
+
+                    if (unlocked) {
+                        node.style.borderColor = level.color + '55';
+                        node.addEventListener('mouseenter', () => {
+                            node.style.background = level.bg;
+                            node.style.borderColor = level.color + 'aa';
+                        });
+                        node.addEventListener('mouseleave', () => {
+                            node.style.background = 'rgba(255,255,255,.07)';
+                            node.style.borderColor = level.color + '55';
+                        });
+                    }
+
+                    grid.appendChild(node);
+                });
+                card.appendChild(grid);
+
+                // CTA button
+                const cta = document.createElement('a');
+                cta.className = 'level-cta' + (unlocked ? '' : ' disabled');
+                cta.textContent = unlocked ? 'Lektion starten \u2192' : '\uD83D\uDD12 Gesperrt';
+                if (unlocked) {
+                    cta.href = 'index.html?level=' + level.id;
+                    cta.style.background = level.color;
+                    cta.style.color = level.id === 2 || level.id === 3 ? '#000' : '#fff';
+                }
+                card.appendChild(cta);
+
+                chapter.appendChild(card);
+                spine.appendChild(chapter);
+            });
+        }
+
+        function init() {
+            const state = loadState();
+            const xp = state ? state.xp : 0;
+
+            // Guest note
+            if (!state) {
+                document.getElementById('guestNote').style.display = 'block';
+            }
+
+            // Header XP
+            document.getElementById('xpFill').style.width = (xp % 500) / 5 + '%';
+            document.getElementById('xpLabel').textContent = xp + ' XP';
+
+            // Overview stats
+            const unlockedCount = LEVEL_XP_THRESHOLDS.filter(t => xp >= t).length;
+            document.getElementById('overviewXp').textContent = xp;
+            document.getElementById('overviewLevels').textContent = unlockedCount + ' / 6';
+            document.getElementById('overviewStreak').textContent = state ? state.streak : 0;
+
+            // Build path
+            buildPath(xp);
+        }
+
+        init();
+    </script>
+
+</body>
+</html>
