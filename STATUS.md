@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.1`
+- `v1.2.2`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,31 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.2.2)
+Third focused L4-L6 archive expansion batch with textbook-style explanations:
+
+### Changes in this iteration
+- **T-4-009** (Eigenwertprobleme und Diagonalisierung): Full diagonalization walkthrough — characteristic polynomial, eigenspace computation, P*D*P^(-1) factorization, and the common defective-matrix pitfall.
+- **T-5-009** (Z-Transformation und zeitdiskrete Systeme): Discrete-time LTI systems via Z-transform, derivation of H(z), pole-stability condition |a|<1, ROC caution for causal systems.
+- **T-6-009** (Ito-Kalkuel und stochastische DGL): Ito lemma derivation, (dW)^2=dt correction term, full Ito-form SDE workflow and geometric Brownian motion as example.
+- All three tasks follow the same didactic template: Kernidee / Intuition / Schritte / Haeufiger Fehler / Schnellcheck.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=3120, 520 per level
+- Marker grep confirmed all three new IDs and full didactic structure keys present
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L4-L6 expansion with another small batch (T-4-010, T-5-010, T-6-010) covering e.g. Fourier-Reihen (L4), nichtlineare Regelung/Lyapunov (L5), Monte-Carlo-Methoden (L6).
+- Or proceed to next open P3 task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
 
 ## Last completed task (v1.2.1)
 Second focused L4-L6 archive expansion batch with textbook-style explanations:

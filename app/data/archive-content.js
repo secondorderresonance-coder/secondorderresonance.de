@@ -724,6 +724,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
             type: "konzeptfrage",
             estimatedTime: 8
+        },
+
+        {
+            id: "T-4-009",
+            title: "Eigenwertprobleme und Diagonalisierung",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenwert", "eigenvektor", "diagonalisierung"],
+            difficulty: "schwer",
+            question: "Erklaere, wie man eine diagonalisierbare Matrix A auf Diagonalform bringt, und nenne die Bedingung dafuer.",
+            answer: "A = P * D * P^(-1), wobei P die Matrix der Eigenvektoren ist und D die Diagonalmatrix der Eigenwerte. Voraussetzung: A hat n linear unabhaengige Eigenvektoren.",
+            explanation: "Kernidee: Diagonalisierung entkoppelt das lineare System, weil in Eigenvektorbasis jede Achse nur mit ihrem Eigenwert skaliert wird. Intuition: In der gedrehten Basis wirkt A wie eine einfache Streckung – aufwendige Matrizenpotenzen oder DGL-Systeme werden damit trivial. Schritte: 1) Bestimme Eigenwerte via det(A - lambda*I) = 0 (charakteristisches Polynom). 2) Finde zu jedem Eigenwert lambda_i den Eigenraum ker(A - lambda_i*I). 3) Pruefe, ob n linear unabhaengige Eigenvektoren existieren. 4) Bilde P aus den Eigenvektoren als Spalten und D = diag(lambda_1, ..., lambda_n). 5) Verifiziere A*P = P*D. Haeufiger Fehler: Mehrfache Eigenwerte koennen algebraisch vielfach, aber geometrisch einfach sein – dann ist A nicht diagonalisierbar. Schnellcheck: Berechne P*D*P^(-1) und vergleiche mit A.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation und zeitdiskrete Systeme",
+            level: "5",
+            sublevel: "5.1.1.b",
+            topic: "Signalverarbeitung",
+            tags: ["z-transformation", "diskret", "uebertragungsfunktion"],
+            difficulty: "schwer",
+            question: "Erklaere die Z-Transformation und wie sie bei zeitdiskreten LTI-Systemen die Uebertragungsfunktion liefert.",
+            answer: "Die Z-Transformation X(z) = sum_{k=-inf}^{inf} x[k] * z^(-k) macht aus einer Differenzengleichung eine algebraische Gleichung; die Uebertragungsfunktion ist H(z) = Y(z)/X(z).",
+            explanation: "Kernidee: Die Z-Transformation ist das zeitdiskrete Gegenstueck zur Laplace-Transformation – sie macht Faltung zur Multiplikation im Z-Bereich. Intuition: Statt Differenzengleichungen rekursiv auszuwerten, rechnet man mit Verhaeltnissen von Polynomen in z und liest Stabilitaet sowie Frequenzverhalten direkt ab. Schritte: 1) Transformiere die Differenzengleichung, z.B. y[k] = a*y[k-1] + b*x[k] ergibt Y(z) = a*z^(-1)*Y(z) + b*X(z). 2) Stelle nach Y(z)/X(z) um: H(z) = b/(1 - a*z^(-1)). 3) Pol bei z=a: stabil genau dann, wenn |a| < 1. 4) Fuer Frequenzgang: ersetze z = e^(j*omega). Haeufiger Fehler: Kausalitaet vergessen: bei kausalen Systemen ist die ROC ausserhalb des aeussersten Pols. Schnellcheck: Fuer a=0 wird H(z)=b – das ist ein reines Verstaerkungssystem ohne Gedaechtnis.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Ito-Kalkuel und stochastische DGL",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastik",
+            tags: ["ito", "stochastische-dgl", "wiener-prozess"],
+            difficulty: "schwer",
+            question: "Erklaere das Ito-Lemma und wie es bei der Herleitung stochastischer DGL verwendet wird.",
+            answer: "Das Ito-Lemma ist die stochastische Kettenregel: fuer f(t,W_t) gilt df = (df/dt + 1/2 * d^2f/dW^2) dt + df/dW dW_t, wobei der Korrekturterm 1/2*... aus (dW)^2=dt entsteht.",
+            explanation: "Kernidee: Im stochastischen Kalkuel gilt (dW_t)^2 = dt statt Null – dadurch entsteht ein zusaetzlicher deterministischer Driftterm in der Kettenregel. Intuition: Ein klassischer Physiker wuerde (dW)^2 ≈ 0 setzen; das ist falsch fuer Brownsche Bewegung, weil deren Pfade quadratische Variation haben. Schritte: 1) Schreibe die stochastische DGL in Ito-Form: dX_t = mu(t,X_t) dt + sigma(t,X_t) dW_t. 2) Wende das Ito-Lemma auf f(t,X_t) an: df = (df/dt + mu*df/dx + 1/2 * sigma^2 * d^2f/dx^2) dt + sigma*df/dx dW_t. 3) Waehle f geschickt (z.B. f = ln X fuer geometrische Brownsche Bewegung). 4) Integriere die resultierende einfachere SDE. Haeufiger Fehler: Den Ito-Korrekturterm 1/2*sigma^2*f'' vergessen und damit eine falsche Drift zu erhalten. Schnellcheck: Fuer f(x)=x (Identitaet) muss das Ito-Lemma die urspruengliche SDE reproduzieren.",
+            type: "konzeptfrage",
+            estimatedTime: 8
         }
     ], 520),
     placementQuestions: [
