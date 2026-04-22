@@ -72,5 +72,5 @@
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
 - [ ] Add backend/moderation pipeline for external task suggestions after validating demand
-- [ ] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
+- [x] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
 

@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.5.0`
+- `v1.6.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,22 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.6.0)
+Weekly leaderboard on profile page:
+
+### Changes in this iteration
+- **`app/profil.html`**: Added weekly leaderboard widget between the XP chart and level-progress sections.
+  - Reads all accounts from `mathlevel-accounts-v1` localStorage key
+  - Ranks entries by current ISO week's XP (descending), top 10 shown
+  - Medals 🥇🥈🥉 for top 3, numeric rank for positions 4–10
+  - Logged-in user's row has a gold border + "(du)" label
+  - "Nur du" fallback message when only one account exists on the device
+  - Uses existing `getIsoWeekKey()` helper and `ACCOUNT_STORE_KEY` constant — no duplication
+
+### Files touched
+- `app/profil.html`
+- `STATUS.md`, `BACKLOG.md`, `VERSION.md`
 
 ## Last completed task (v1.5.0)
 Exercise pool expansion + lesson star rating:

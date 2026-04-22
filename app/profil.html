@@ -203,6 +203,26 @@
         .bar-fill.current-week { background: var(--gold); }
         .bar-label { font-size: 0.62rem; color: var(--text-muted); text-align: center; }
 
+        /* Leaderboard */
+        .leaderboard-section { margin-bottom: 1.5rem; }
+        .leaderboard-list { display: flex; flex-direction: column; gap: 0.45rem; }
+        .lb-row {
+            display: flex; align-items: center; gap: 0.7rem;
+            background: var(--secondary); border-radius: 10px;
+            padding: 0.55rem 0.85rem;
+            border: 1px solid transparent;
+        }
+        .lb-row.lb-me { border-color: var(--gold); }
+        .lb-rank { font-size: 1rem; font-weight: 800; width: 1.8rem; text-align: center; color: var(--text-muted); }
+        .lb-avatar-sm {
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.8rem; color: #fff; flex-shrink: 0;
+        }
+        .lb-name { flex: 1; font-size: 0.9rem; font-weight: 600; }
+        .lb-xp { font-size: 0.88rem; font-weight: 700; color: var(--gold); }
+        .lb-empty { color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 0.6rem 0; }
+
         /* Level progress */
         .levels-section { margin-bottom: 1.5rem; }
         .level-progress-row {
@@ -292,6 +312,12 @@
             <div class="chart-section">
                 <div class="section-title">W&ouml;chentliches XP (letzte 8 Wochen)</div>
                 <div class="bar-chart" id="weeklyChart"></div>
+            </div>
+
+            <!-- Weekly leaderboard -->
+            <div class="leaderboard-section">
+                <div class="section-title">Wöchentliches Leaderboard</div>
+                <div id="leaderboardList" class="leaderboard-list"></div>
             </div>
 
             <!-- Level XP progress -->
@@ -465,6 +491,38 @@
             }).join('');
         }
 
+        function renderLeaderboard(currentUsername) {
+            const container = document.getElementById('leaderboardList');
+            const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
+            if (!raw) { container.innerHTML = '<div class="lb-empty">Noch keine Daten.</div>'; return; }
+            let store;
+            try { store = JSON.parse(raw); } catch(e) { return; }
+            const accounts = store.accounts || {};
+            const weekKey = getIsoWeekKey(new Date());
+            const entries = Object.values(accounts).map(acc => ({
+                username: acc.username || '?',
+                avatarColor: acc.avatarColor || '#888',
+                xp: (acc.progress && acc.progress.weeklyXp && acc.progress.weeklyXp[weekKey]) || 0
+            })).sort((a, b) => b.xp - a.xp);
+
+            if (entries.length <= 1) {
+                container.innerHTML = '<div class="lb-empty">Nur du – registriere weitere Accounts, um eine Rangliste zu sehen.</div>';
+                return;
+            }
+
+            const medals = ['🥇', '🥈', '🥉'];
+            container.innerHTML = entries.slice(0, 10).map((e, i) => {
+                const isMe = e.username === currentUsername;
+                const rank = medals[i] || (i + 1);
+                return `<div class="lb-row${isMe ? ' lb-me' : ''}">
+                    <div class="lb-rank">${rank}</div>
+                    <div class="lb-avatar-sm" style="background:${e.avatarColor}">${e.username.charAt(0).toUpperCase()}</div>
+                    <div class="lb-name">${e.username}${isMe ? ' <span style="color:var(--gold);font-size:0.75rem">(du)</span>' : ''}</div>
+                    <div class="lb-xp">${e.xp} XP</div>
+                </div>`;
+            }).join('');
+        }
+
         function renderLevelProgress(xp) {
             const container = document.getElementById('levelProgressRows');
             container.innerHTML = LEVEL_XP_THRESHOLDS.map((threshold, idx) => {
@@ -516,6 +574,7 @@
             renderAchievements(earnedAchievements);
             renderHeatmap(dailyActivity);
             renderWeeklyChart(weeklyXp);
+            renderLeaderboard(account.username);
             renderLevelProgress(summary.xp || 0);
         }
 
