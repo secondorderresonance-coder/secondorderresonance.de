@@ -724,6 +724,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
             type: "konzeptfrage",
             estimatedTime: 8
+        },
+
+        {
+            id: "T-4-009",
+            title: "Eigenwertprobleme",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["eigenwerte", "eigenvektoren", "diagonalisierung"],
+            difficulty: "schwer",
+            question: "Beschreibe, wie man Eigenwerte und Eigenvektoren einer quadratischen Matrix A berechnet.",
+            answer: "Eigenwerte lambda aus det(A - lambda*I) = 0 (charakteristisches Polynom); Eigenvektoren aus (A - lambda*I)*v = 0.",
+            explanation: "Kernidee: Eigenvektoren geben Richtungen an, entlang derer eine lineare Abbildung nur streckt oder staucht – der Skalierungsfaktor ist der Eigenwert. Intuition: Wirft man eine Matrix auf einen Eigenvektor, zeigt das Bild genau in dieselbe Richtung; nur die Laenge aendert sich. Das macht Eigenwertzerlegungen nuetzlich fuer Diagonalisierung, Stabilitaetsanalyse und PCA. Schritte: 1) Bilde das charakteristische Polynom p(lambda) = det(A - lambda*I). 2) Loese p(lambda) = 0 nach lambda; jede Loesung ist ein Eigenwert. 3) Setze jeden Eigenwert in (A - lambda*I)*v = 0 ein und bestimme den Nullraum – die Eigenraeume. 4) Pruefe algebraische und geometrische Vielfachheit; stimmen sie ueberein, ist A diagonalisierbar. Haeufiger Fehler: Vielfachheit ignorieren – ein doppelter Eigenwert muss nicht zwei linear unabhaengige Eigenvektoren liefern. Schnellcheck: Eigenwerte einer Diagonalmatrix sind die Diagonaleintraege; teste das Verfahren zuerst an einem einfachen 2x2-Beispiel.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation fuer zeitdiskrete Systeme",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Signalverarbeitung",
+            tags: ["z-transformation", "zeitdiskret", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Was ist die Z-Transformation und wofuer wird sie bei zeitdiskreten LZI-Systemen eingesetzt?",
+            answer: "X(z) = sum_{k=0}^{inf} x[k]*z^{-k}; sie uebertraegt Faltungssummen in Produkte und erlaubt Pol-Nullstellen-Analyse diskreter Systeme.",
+            explanation: "Kernidee: Die Z-Transformation ist das zeitdiskrete Analogon der Laplace-Transformation – Faltungsoperationen werden zu algebraischen Produkten. Intuition: Statt Folgen zu falten, multipliziert man ihre Z-Transformierten; Pol-Nullstellen von H(z) zeigen Stabilitaet und Frequenzgang des diskreten Systems. Schritte: 1) Schreibe die einseitige Z-Transformierte: X(z) = sum_{k=0}^{inf} x[k]*z^{-k}. 2) Nutze Tabellenwerte (z.B. Z{a^k*u[k]} = z/(z-a)) und Linearitaet. 3) Berechne die Uebertragungsfunktion H(z) = Y(z)/X(z) aus der Differenzengleichung. 4) Pruefe Stabilitaet: alle Pole muessen |z|<1 erfuellen (kausales System). 5) Ruecktransformiere ggf. via Partialbruchzerlegung in z. Haeufiger Fehler: Stabilitaetsbedingung mit der s-Ebene verwechseln – fuer die z-Ebene gilt |z|<1, nicht Re(s)<0. Schnellcheck: Fuer H(z)=1 muss die Ruecktransformation den Einheitsimpuls delta[k] ergeben.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Stochastische DGL und Ito-Kalkuel",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastik",
+            tags: ["sde", "ito", "wiener-prozess", "stochastisch"],
+            difficulty: "schwer",
+            question: "Erklaere den Unterschied zwischen einer gewoehnlichen DGL und einer stochastischen DGL (SDE) im Ito-Sinne und nenne den Ito-Korrekturterm.",
+            answer: "Eine SDE ergaenzt die DGL um einen Wiener-Prozess-Diffusionsterm dW_t; das Ito-Lemma liefert einen Korrekturterm 1/2 * d^2f/dx^2 * sigma^2 dt, der aus der quadratischen Variation des Wiener-Prozesses folgt.",
+            explanation: "Kernidee: Eine SDE modelliert Systeme mit echten Zufallseinfluessen; der Diffusionsterm sigma*dW_t macht klassische Kettenregeln ungueltig. Intuition: Physikalische Systeme wie Brownsche Bewegung, Finanzkurse oder Populationsdynamiken unterliegen zufaelligen Stoeranteilen; die SDE beschreibt deren Wahrscheinlichkeitsverteilung statt einzelner Trajektorien. Schritte: 1) Schreibe die SDE in Ito-Form: dX_t = mu(X_t,t) dt + sigma(X_t,t) dW_t. 2) Interpretiere mu*dt als deterministischen Drift und sigma*dW_t als stochastischen Diffusionsanteil. 3) Wende das Ito-Lemma an, um Funktionen f(X_t) zu transformieren: df = (df/dx*mu + 1/2*d^2f/dx^2*sigma^2) dt + df/dx*sigma dW_t. 4) Loesung entweder analytisch (z.B. geometrische Brownsche Bewegung) oder numerisch (Euler-Maruyama). Haeufiger Fehler: Klassische Kettenregel ohne den Ito-Korrekturterm 1/2*d^2f/dx^2*sigma^2 verwenden – dieser ergibt sich zwingend aus der quadratischen Variation (dW_t)^2 = dt. Schnellcheck: Fuer sigma=0 muss die SDE zur gewoehnlichen DGL entarten; pruefe ob das Ergebnis dann konsistent ist.",
+            type: "konzeptfrage",
+            estimatedTime: 8
         }
     ], 520),
     placementQuestions: [
