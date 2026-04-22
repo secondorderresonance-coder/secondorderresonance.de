@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.6.0`
+- `v1.7.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,19 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.7.0)
+Audio feedback, floating XP animation, Streak Freeze item:
+
+### Changes in this iteration
+- **Sound effects** (`app/index.html`): Web Audio API (no audio files). Ascending triad (C5-E5-G5) on correct answer, falling buzz on wrong answer. AudioContext created lazily on first interaction — no autoplay policy issues.
+- **Floating +XP animation**: When answering correctly, a gold "+N XP" text spawns near the XP bar and floats upward with a fade-out CSS animation. CSS `@keyframes floatUp` added.
+- **Streak Freeze item**: Costs 100 XP; shown in a widget below the daily mission bar. Stored per account as `streakFreezes` + `streakFreezeUsed`. When the streak would reset (no session yesterday), a freeze is consumed silently and a toast fires instead. Multiple freezes can be stacked. Button disabled when XP < 100.
+- Account data model extended: `streakFreezes: 0`, `streakFreezeUsed: null` added to `normalizeAccountRecord()` (migration-safe).
+
+### Files touched
+- `app/index.html`
+- `STATUS.md`, `BACKLOG.md`, `VERSION.md`
 
 ## Last completed task (v1.6.0)
 Weekly leaderboard on profile page:
