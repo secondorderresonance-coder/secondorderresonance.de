@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.7.0`
+- `v1.8.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,17 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.8.0)
+Level-up celebration modal + perfect lesson bonus:
+
+### Changes in this iteration
+- **Level-up modal** (`app/index.html`): When XP crosses a LEVEL_XP_THRESHOLDS boundary mid-session, a full-screen modal fires after the lesson modal closes. Shows the level badge (colour-coded, pulsing animation), level name, XP requirement, and a "Weiter machen!" CTA. Multiple level-ups in one session are queued via `pendingLevelUp` and shown sequentially. `checkLevelUp(xpBefore, xpAfter)` scans thresholds at every XP gain.
+- **Perfect lesson bonus** (`app/index.html`): A 5/5 lesson awards +20 bonus XP on top of the earned XP. The lesson-complete modal shows a gold gradient "⭐ PERFEKT +20 XP BONUS" badge that animates in. The bonus also feeds into level-up detection.
+
+### Files touched
+- `app/index.html`
+- `STATUS.md`, `VERSION.md`
 
 ## Last completed task (v1.7.0)
 Audio feedback, floating XP animation, Streak Freeze item:

@@ -554,6 +554,48 @@
         }
         .lesson-modal-pause:hover { border-color: rgba(255,255,255,0.4); }
 
+        /* Perfect lesson bonus badge */
+        .perfect-bonus {
+            display: none; background: linear-gradient(135deg,#f5c518,#ff9500);
+            color: #111; font-weight: 900; font-size: 0.85rem;
+            border-radius: 20px; padding: 0.3rem 0.85rem; margin: 0.2rem auto 0.6rem;
+            letter-spacing: 0.04em;
+        }
+        .perfect-bonus.show { display: inline-block; animation: popIn 0.35s ease; }
+
+        /* Level-up modal */
+        .levelup-modal {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+            align-items: center; justify-content: center;
+        }
+        .levelup-modal.show { display: flex; }
+        .levelup-card {
+            background: var(--secondary); border-radius: 20px;
+            padding: 2.5rem 2rem; text-align: center; max-width: 340px; width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+        }
+        .levelup-badge {
+            width: 80px; height: 80px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 900; color: #fff;
+            margin: 0 auto 1rem; box-shadow: 0 0 30px rgba(255,255,255,0.2);
+            animation: pulseBadge 0.8s ease infinite alternate;
+        }
+        @keyframes pulseBadge {
+            from { box-shadow: 0 0 15px rgba(255,255,255,0.2); transform: scale(1); }
+            to   { box-shadow: 0 0 35px rgba(255,255,255,0.45); transform: scale(1.06); }
+        }
+        .levelup-label { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem; }
+        .levelup-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.4rem; }
+        .levelup-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.6rem; }
+        .levelup-btn {
+            background: var(--gold); color: #111; border: none; border-radius: 50px;
+            padding: 0.85rem 2rem; font-weight: 800; font-size: 1rem;
+            cursor: pointer; font-family: inherit; width: 100%;
+        }
+
         /* Floating XP animation */
         .xp-float {
             position: fixed; pointer-events: none; z-index: 9999;
@@ -622,10 +664,22 @@
                     <div class="ls-stat-label">Streak</div>
                 </div>
             </div>
+            <div class="perfect-bonus" id="perfectBonus">&#9733; PERFEKT +20 XP BONUS</div>
             <div class="lesson-modal-btns">
                 <button class="next-btn show" onclick="nextLesson()" style="margin:0">N&auml;chste Lektion &#8594;</button>
                 <button class="lesson-modal-pause" onclick="pauseLesson()">Pause einlegen</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Level-up modal -->
+    <div class="levelup-modal" id="levelUpModal">
+        <div class="levelup-card">
+            <div class="levelup-badge" id="luBadge">L1</div>
+            <div class="levelup-label">Neues Level freigeschaltet!</div>
+            <div class="levelup-title" id="luTitle">Grundlagen</div>
+            <div class="levelup-sub" id="luSub">Du hast das n&auml;chste Level erreicht.</div>
+            <button class="levelup-btn" onclick="closeLevelUp()">Weiter machen! &#8594;</button>
         </div>
     </div>
 
@@ -2257,7 +2311,9 @@
                 state.lessonCorrect++;
                 state.consecutiveCorrect = (state.consecutiveCorrect || 0) + 1;
                 const xpGain = q.difficulty === 'easy' ? 10 : q.difficulty === 'medium' ? 20 : 30;
+                const xpBefore = state.xp;
                 state.xp += xpGain;
+                checkLevelUp(xpBefore, state.xp);
                 feedback.className = 'feedback correct-fb show';
                 document.getElementById('feedbackTitle').textContent = 'Richtig! +' + xpGain + ' XP';
                 playCorrectSound();
@@ -2284,6 +2340,39 @@
             renderStreakFreezeBar();
         }
 
+        // ── Level-up detection ──────────────────────────────────────────────
+        const LEVEL_NAMES_APP = ['Grundlagen','Aufbauwissen','Vertiefung','Universitätsgrundlagen','Angewandte Mathematik','Forschung & Simulation'];
+        const LEVEL_COLORS_APP = ['#4ade80','#facc15','#f59e0b','#60a5fa','#8b5cf6','#6b7280'];
+        let pendingLevelUp = null;
+
+        function checkLevelUp(xpBefore, xpAfter) {
+            for (let i = 1; i < LEVEL_XP_THRESHOLDS.length; i++) {
+                if (xpBefore < LEVEL_XP_THRESHOLDS[i] && xpAfter >= LEVEL_XP_THRESHOLDS[i]) {
+                    pendingLevelUp = i;
+                    break;
+                }
+            }
+        }
+
+        function showLevelUp() {
+            if (pendingLevelUp === null) return;
+            const lvl = pendingLevelUp;
+            pendingLevelUp = null;
+            const color = LEVEL_COLORS_APP[lvl] || '#f5c518';
+            const badge = document.getElementById('luBadge');
+            badge.textContent = 'L' + (lvl + 1);
+            badge.style.background = color;
+            badge.style.boxShadow = '0 0 30px ' + color + '88';
+            document.getElementById('luTitle').textContent = LEVEL_NAMES_APP[lvl] || ('Level ' + (lvl + 1));
+            document.getElementById('luSub').textContent = 'Du hast ' + LEVEL_XP_THRESHOLDS[lvl] + ' XP erreicht. Neue Themen sind freigeschaltet!';
+            document.getElementById('levelUpModal').classList.add('show');
+        }
+
+        function closeLevelUp() {
+            document.getElementById('levelUpModal').classList.remove('show');
+            if (pendingLevelUp !== null) showLevelUp();
+        }
+
         function nextExercise() {
             if (state.lessonProgress >= LESSON_SIZE) {
                 showLessonComplete();
@@ -2294,14 +2383,24 @@
         }
 
         function showLessonComplete() {
+            const isPerfect = state.lessonCorrect >= LESSON_SIZE;
+            if (isPerfect) {
+                const xpBefore = state.xp;
+                state.xp += 20;
+                checkLevelUp(xpBefore, state.xp);
+                saveState();
+                updateStats();
+            }
             const xpGained = state.xp - state.lessonXpStart;
             document.getElementById('lcXp').textContent = '+' + xpGained + ' XP';
             document.getElementById('lcCorrect').textContent = state.lessonCorrect + ' / ' + LESSON_SIZE;
             document.getElementById('lcStreak').textContent = state.streak + ' Tage';
-            const stars = state.lessonCorrect >= LESSON_SIZE ? 3 : state.lessonCorrect >= LESSON_SIZE - 1 ? 2 : 1;
+            const stars = isPerfect ? 3 : state.lessonCorrect >= LESSON_SIZE - 1 ? 2 : 1;
             document.getElementById('lcStars').innerHTML = Array.from({length: 3}, (_, i) =>
                 '<span class="' + (i < stars ? 'star-filled' : 'star-empty') + '">&#9733;</span>'
             ).join('');
+            const perfEl = document.getElementById('perfectBonus');
+            if (perfEl) perfEl.className = 'perfect-bonus' + (isPerfect ? ' show' : '');
             document.getElementById('lessonModal').classList.add('show');
             const lpFill = document.getElementById('lessonProgressFill');
             if (lpFill) lpFill.style.width = '100%';
@@ -2314,6 +2413,7 @@
             state.lessonCorrect = 0;
             state.questionIdx++;
             renderExercise();
+            showLevelUp();
         }
 
         function pauseLesson() {
@@ -2321,6 +2421,7 @@
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
+            showLevelUp();
         }
 
         function updateStats() {
