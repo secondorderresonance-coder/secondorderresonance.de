@@ -626,6 +626,54 @@
         .sf-btn:disabled { opacity: 0.4; cursor: default; }
         .sf-active { font-size: 0.78rem; color: var(--gold); font-weight: 700; }
 
+        /* Achievement unlocked modal */
+        .ach-modal {
+            display: none; position: fixed; inset: 0; z-index: 2100;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+            align-items: center; justify-content: center;
+        }
+        .ach-modal.show { display: flex; }
+        .ach-modal-card {
+            background: var(--secondary); border-radius: 20px;
+            padding: 2.2rem 2rem; text-align: center; max-width: 320px; width: 88%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+            border: 1px solid rgba(245,197,24,0.3);
+        }
+        .ach-modal-icon { font-size: 3.5rem; margin-bottom: 0.5rem; animation: pulseBadge 0.9s ease infinite alternate; }
+        .ach-modal-label { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
+        .ach-modal-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 0.3rem; }
+        .ach-modal-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.4rem; }
+        .ach-modal-btn {
+            background: var(--gold); color: #111; border: none; border-radius: 50px;
+            padding: 0.75rem 2rem; font-weight: 800; font-size: 0.95rem;
+            cursor: pointer; font-family: inherit; width: 100%;
+        }
+
+        /* Daily challenge card */
+        .daily-challenge {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(96,165,250,0.1));
+            border: 1px solid rgba(139,92,246,0.4); border-radius: 14px;
+            padding: 0.9rem 1rem; margin-bottom: 0.8rem;
+        }
+        .dc-header { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; }
+        .dc-badge {
+            background: linear-gradient(135deg,#8b5cf6,#60a5fa); color: #fff;
+            font-size: 0.68rem; font-weight: 800; border-radius: 10px;
+            padding: 0.15rem 0.55rem; letter-spacing: 0.05em; white-space: nowrap;
+        }
+        .dc-title { font-weight: 700; font-size: 0.88rem; flex: 1; }
+        .dc-xp { font-size: 0.78rem; color: var(--gold); font-weight: 700; }
+        .dc-question { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+        .dc-btn {
+            background: linear-gradient(135deg,#8b5cf6,#60a5fa); color: #fff;
+            border: none; border-radius: 20px; padding: 0.45rem 1.1rem;
+            font-weight: 700; font-size: 0.82rem; cursor: pointer;
+            font-family: inherit; transition: opacity 0.2s;
+        }
+        .dc-btn:disabled { opacity: 0.4; cursor: default; }
+        .dc-done { font-size: 0.8rem; color: var(--success); font-weight: 700; }
+
         /* Responsive */
         @media (max-width: 600px) {
             .options { grid-template-columns: 1fr; }
@@ -643,6 +691,17 @@
 
     <!-- Toast notification -->
     <div id="toast" class="toast"></div>
+
+    <!-- Achievement unlocked modal -->
+    <div class="ach-modal" id="achModal">
+        <div class="ach-modal-card">
+            <div class="ach-modal-icon" id="achModalIcon">⭐</div>
+            <div class="ach-modal-label">Abzeichen freigeschaltet!</div>
+            <div class="ach-modal-title" id="achModalTitle">Erster Schritt</div>
+            <div class="ach-modal-desc" id="achModalDesc">Erste richtige Antwort</div>
+            <button class="ach-modal-btn" onclick="closeAchModal()">Weiter! &#8594;</button>
+        </div>
+    </div>
 
     <!-- Lesson complete modal -->
     <div class="lesson-modal" id="lessonModal">
@@ -745,6 +804,18 @@
                 <div class="stat-value" id="accuracyPct">-</div>
                 <div class="stat-label">Genauigkeit</div>
             </div>
+        </div>
+
+        <!-- Daily Challenge -->
+        <div class="daily-challenge" id="dailyChallengeCard" style="display:none">
+            <div class="dc-header">
+                <div class="dc-badge">&#9889; TAGESAUFGABE</div>
+                <div class="dc-title" id="dcTitle">Aufgabe des Tages</div>
+                <div class="dc-xp" id="dcXpLabel">2&#215; XP</div>
+            </div>
+            <div class="dc-question" id="dcQuestion">Lade...</div>
+            <button class="dc-btn" id="dcBtn" onclick="startDailyChallenge()">Jetzt lösen →</button>
+            <span class="dc-done" id="dcDone" style="display:none">&#10003; Heute erledigt</span>
         </div>
 
         <!-- Daily mission -->
@@ -2153,6 +2224,21 @@
                 if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') accountAction(); });
             });
         }
+        // ── Achievement modal queue ─────────────────────────────────────────
+        let achQueue = [];
+        function showNextAch() {
+            if (!achQueue.length) return;
+            const a = achQueue.shift();
+            document.getElementById('achModalIcon').textContent = a.icon;
+            document.getElementById('achModalTitle').textContent = a.label;
+            document.getElementById('achModalDesc').textContent = a.desc;
+            document.getElementById('achModal').classList.add('show');
+        }
+        function closeAchModal() {
+            document.getElementById('achModal').classList.remove('show');
+            setTimeout(showNextAch, 250);
+        }
+
         function checkAchievements() {
             let newlyEarned = false;
             LIVE_ACHIEVEMENTS.forEach((a) => {
@@ -2160,11 +2246,56 @@
                 if (!rule) return;
                 if (!state.earnedAchievements.includes(a.id) && rule(state)) {
                     state.earnedAchievements.push(a.id);
-                    showToast(a.icon + ' ' + a.label + ' freigeschaltet!');
+                    achQueue.push(a);
                     newlyEarned = true;
                 }
             });
-            if (newlyEarned) renderAchievements();
+            if (newlyEarned) {
+                renderAchievements();
+                if (achQueue.length === 1) showNextAch();
+            }
+        }
+
+        // ── Daily Challenge ─────────────────────────────────────────────────
+        const DC_KEY = 'sor-daily-challenge-v1';
+
+        function getDailyChallenge() {
+            const today = new Date().toISOString().slice(0, 10);
+            const seed = today.split('-').reduce((a, v) => a + parseInt(v, 10), 0);
+            const allLevels = Object.keys(exercises).map(Number);
+            const lvl = allLevels[seed % allLevels.length];
+            const qs = exercises[lvl].questions;
+            const q = qs[seed % qs.length];
+            return { date: today, lvl, q };
+        }
+
+        function renderDailyChallenge() {
+            const card = document.getElementById('dailyChallengeCard');
+            if (!card) return;
+            const { date, lvl, q } = getDailyChallenge();
+            const today = new Date().toISOString().slice(0, 10);
+            let stored = {};
+            try { stored = JSON.parse(localStorage.getItem(DC_KEY) || '{}'); } catch(e) {}
+            const done = stored.date === today && stored.completed;
+
+            document.getElementById('dcTitle').textContent = q.topic + ' – Level ' + (lvl + 1);
+            document.getElementById('dcQuestion').textContent = (q.math || q.question).slice(0, 80);
+            document.getElementById('dcXpLabel').textContent = done ? '' : '2× XP';
+            document.getElementById('dcBtn').style.display = done ? 'none' : 'inline-block';
+            document.getElementById('dcDone').style.display = done ? 'inline' : 'none';
+            card.style.display = 'block';
+        }
+
+        function startDailyChallenge() {
+            const { lvl, q } = getDailyChallenge();
+            state.level = lvl;
+            state.topic = q.topic;
+            state.dailyChallengeActive = true;
+            document.getElementById('dcBtn').disabled = true;
+            renderLevelButtons();
+            renderTopics();
+            renderExercise(true);
+            document.getElementById('dcBtn').disabled = false;
         }
 
         function renderAchievements() {
@@ -2256,14 +2387,21 @@
         }
 
         function renderExercise() {
-            const qs = getFilteredQuestions();
-            if (qs.length === 0) return;
-
-            const q = qs[state.questionIdx % qs.length];
+            let q, isDC = false;
+            if (state.dailyChallengeActive) {
+                q = getDailyChallenge().q;
+                isDC = true;
+                state.dailyChallengeActive = false;
+            } else {
+                const qs = getFilteredQuestions();
+                if (qs.length === 0) return;
+                q = qs[state.questionIdx % qs.length];
+            }
+            state._currentDC = isDC;
 
             // Difficulty tag
             const tag = document.getElementById('diffTag');
-            tag.textContent = q.difficulty === 'easy' ? 'Einfach' : q.difficulty === 'medium' ? 'Mittel' : 'Schwer';
+            tag.textContent = (isDC ? '⚡ 2× XP — ' : '') + (q.difficulty === 'easy' ? 'Einfach' : q.difficulty === 'medium' ? 'Mittel' : 'Schwer');
             tag.className = 'exercise-tag tag-' + q.difficulty;
 
             // Progress
@@ -2275,6 +2413,7 @@
             // Question
             document.getElementById('questionText').textContent = q.question;
             document.getElementById('mathExpr').textContent = q.math;
+            state._dcQuestion = isDC ? q : null;
 
             // Options
             const container = document.getElementById('optionsContainer');
@@ -2295,8 +2434,8 @@
 
             const isCorrect = selected === correct;
             const feedback = document.getElementById('feedback');
-            const qs = getFilteredQuestions();
-            const q = qs[state.questionIdx % qs.length];
+            const isDC = !!state._dcQuestion;
+            const q = isDC ? state._dcQuestion : getFilteredQuestions()[state.questionIdx % getFilteredQuestions().length];
 
             // Highlight options
             document.querySelectorAll('.option-btn').forEach((btn, i) => {
@@ -2310,14 +2449,21 @@
                 state.correct++;
                 state.lessonCorrect++;
                 state.consecutiveCorrect = (state.consecutiveCorrect || 0) + 1;
-                const xpGain = q.difficulty === 'easy' ? 10 : q.difficulty === 'medium' ? 20 : 30;
+                const baseXp = q.difficulty === 'easy' ? 10 : q.difficulty === 'medium' ? 20 : 30;
+                const xpGain = isDC ? baseXp * 2 : baseXp;
                 const xpBefore = state.xp;
                 state.xp += xpGain;
                 checkLevelUp(xpBefore, state.xp);
                 feedback.className = 'feedback correct-fb show';
-                document.getElementById('feedbackTitle').textContent = 'Richtig! +' + xpGain + ' XP';
+                document.getElementById('feedbackTitle').textContent = 'Richtig! +' + xpGain + ' XP' + (isDC ? ' ⚡' : '');
                 playCorrectSound();
                 spawnXpFloat(xpGain, document.getElementById('xpFill'));
+                if (isDC) {
+                    const today = new Date().toISOString().slice(0, 10);
+                    localStorage.setItem(DC_KEY, JSON.stringify({ date: today, completed: true }));
+                    state._dcQuestion = null;
+                    renderDailyChallenge();
+                }
             } else {
                 state.consecutiveCorrect = 0;
                 if (currentAccountId) { deductHeart(currentAccountId); renderHearts(); }
@@ -2454,6 +2600,7 @@
         renderHearts();
         updateDailyMission();
         renderStreakFreezeBar();
+        renderDailyChallenge();
         openFromLocation();
         window.addEventListener('hashchange', openFromLocation);
     </script>

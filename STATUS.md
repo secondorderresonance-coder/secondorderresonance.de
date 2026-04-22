@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.8.0`
+- `v1.9.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,17 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.9.0)
+Achievement modal + Daily Challenge (Tagesaufgabe):
+
+### Changes in this iteration
+- **Achievement unlocked modal** (`app/index.html`): Replaces the plain toast for achievement unlocks with a full-screen modal showing the achievement icon (pulsing animation), name, and description. Multiple achievements earned in one session are queued via `achQueue` and shown sequentially after each "Weiter!" click.
+- **Daily Challenge / Tagesaufgabe** (`app/index.html`): A highlighted purple/blue card shown above the daily mission bar. One deterministic question per day (derived from the ISO date seed across the exercise pool). Clicking "Jetzt lösen →" loads that question with `⚡ 2× XP` multiplier. On correct answer the bonus XP is awarded, localStorage key `sor-daily-challenge-v1` marks completion, and the card updates to show "✓ Heute erledigt". Resets automatically the next calendar day.
+
+### Files touched
+- `app/index.html`
+- `STATUS.md`, `VERSION.md`
 
 ## Last completed task (v1.8.0)
 Level-up celebration modal + perfect lesson bonus:
