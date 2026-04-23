@@ -724,6 +724,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
             type: "konzeptfrage",
             estimatedTime: 8
+        },
+
+        {
+            id: "T-4-009",
+            title: "Eigenwertprobleme und charakteristisches Polynom",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenwerte", "eigenvektoren", "charakteristisches-polynom"],
+            difficulty: "schwer",
+            question: "Beschreibe das Vorgehen zur Bestimmung von Eigenwerten und Eigenvektoren einer quadratischen Matrix A.",
+            answer: "Eigenwerte erhaelt man als Nullstellen von det(A - lambda*I) = 0; Eigenvektoren folgen dann aus (A - lambda*I)v = 0 fuer jeden Eigenwert.",
+            explanation: "Kernidee: Ein Eigenvektor aendert seine Richtung unter A nicht; er wird nur skaliert. Dieser Skalierungsfaktor ist der zugehoerige Eigenwert. Intuition: Die Gleichung Av = lambda*v bedeutet, dass v eine ausgezeichnete Richtung ist, die A nur streckt oder staucht. Durch Umformung zu (A - lambda*I)v = 0 und der Forderung nach nichttrivialen Loesungen ergibt sich das Nullstellenproblem. Schritte: 1) Bilde das charakteristische Polynom p(lambda) = det(A - lambda*I). 2) Loese p(lambda) = 0 nach lambda auf; die Loesungen sind die Eigenwerte. 3) Setze jeden Eigenwert lambda_i einzeln in (A - lambda_i*I)v = 0 ein. 4) Bestimme den Loesungsraum (Eigenraum) durch Gausselimination. Haeufiger Fehler: Bei komplexen Eigenwerten nur den Realteil benutzen oder vergessen, dass konjugiert-komplexe Paare auftreten. Schnellcheck: Die Summe der Eigenwerte muss gleich der Spur von A sein (Spur = Summe der Diagonalelemente); das Produkt gleich der Determinante.",
+            type: "kurzantwort",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation und zeitdiskrete Systeme",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Signalverarbeitung",
+            tags: ["z-transformation", "zeitdiskret", "digital"],
+            difficulty: "schwer",
+            question: "Erklaere die Rolle der Z-Transformation fuer zeitdiskrete Systeme und ihr Analogon zur Laplace-Transformation.",
+            answer: "Die Z-Transformation ueberfuehrt Differenzengleichungen in algebraische Gleichungen in z, analog zur Laplace-Transformation fuer kontinuierliche Systeme.",
+            explanation: "Kernidee: Zeitdiskrete LTI-Systeme werden durch Differenzengleichungen beschrieben; die Z-Transformation macht daraus rationale Ausdruecke in z, die man algebraisch manipulieren kann. Intuition: Wie die Laplace-Transformation Ableitungen in s-Faktoren verwandelt, verwandelt die Z-Transformation Verzoegerungen um einen Schritt in den Faktor z^{-1}. Schritte: 1) Definiere X(z) = sum_{n=0}^{inf} x[n] z^{-n}. 2) Nutze die Verschiebungseigenschaft: Z{x[n-1]} = z^{-1} X(z). 3) Forme die Differenzengleichung in z-Bereich um und loese nach Y(z)/X(z) auf (Uebertragungsfunktion). 4) Pol- und Nullstellenlage in der z-Ebene bestimmt Stabilitaet (alle Pole im Einheitskreis). Haeufiger Fehler: Die Stabilitaetsbedingung aus der s-Ebene (Re<0) direkt in die z-Ebene uebertragen, statt den Einheitskreis zu pruefen. Schnellcheck: Liegt z=1 ausserhalb der Polmenge und alle Pole erfuellen |z_i|<1, ist das System stabil.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Stochastische DGL und Ito-Kalkuel",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastische Analysis",
+            tags: ["ito", "sde", "wiener-prozess", "stochastik"],
+            difficulty: "schwer",
+            question: "Erklaere die Grundidee einer stochastischen Differentialgleichung (SDE) und warum das Ito-Kalkuel benoetigt wird.",
+            answer: "Eine SDE ergaenzt eine gewoehnliche DGL um einen Wiener-Prozess-Term; Ito-Kalkuel liefert die passende Kettenregel, weil Pfade des Wiener-Prozesses nicht differenzierbar sind.",
+            explanation: "Kernidee: Reale Systeme unterliegen zufaelligen Stoerungen; eine SDE dX = f(X,t)dt + g(X,t)dW modelliert das, indem ein deterministischer Driftterm und ein stochastischer Diffusionsterm kombiniert werden. Intuition: Im Unterschied zu gewoehnlichen DGLs ist dW kein normales Differential, weil der Wiener-Prozess nirgends differenzierbar ist. Klassisches Newton-Leibniz-Kalkuel versagt daher. Schritte: 1) Schreibe die SDE: dX = mu(X,t)dt + sigma(X,t)dW. 2) Verstehe dW als Inkrement eines Wiener-Prozesses mit Varianz dt. 3) Wende Ito-Lemma an fuer eine Funktion F(X,t): dF = (dF/dt + mu*dF/dX + sigma^2/2 * d^2F/dX^2)dt + sigma*dF/dX*dW. 4) Der Korrekturterm sigma^2/2 * d^2F/dX^2 (Ito-Korrektur) hat keine Entsprechung im klassischen Kalkuel. Haeufiger Fehler: Klasssische Kettenregel ohne Ito-Korrektur verwenden; fuehrt auf systematisch falsche Ergebnisse. Schnellcheck: Bei sigma=0 reduziert sich das Ito-Lemma auf die klassische Kettenregel, was als Konsistenztest dient.",
+            type: "konzeptfrage",
+            estimatedTime: 9
         }
     ], 520),
     placementQuestions: [
