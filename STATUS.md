@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.1`
+- `v1.2.2`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,33 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.2.2)
+Third focused L4-L6 archive expansion batch with textbook-style explanations (P2 workstream complete):
+
+### Changes in this iteration
+- **T-4-009** (Eigenwerte via charakteristisches Polynom): Full Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck walkthrough of computing eigenvalues for a concrete 2x2 matrix via det(A-lambda*I)=0, with Spur/det cross-check.
+- **T-5-009** (Z-Transformation und zeitdiskrete Systeme): Explains Z-transform as the discrete counterpart to Laplace, the z^{-1} delay operator, pole-based stability within the unit circle, and contrasts with Laplace stability criterion.
+- **T-6-009** (Ito-Lemma und stochastische Differentialgleichungen): Derives Ito's lemma from Taylor expansion, explains why (dW)^2=dt is non-negligible, and cross-checks via d(W^2)=2W dW+dt.
+- All three follow the same didactic template as T-4-007 through T-4-008 series.
+- The open P2 task "Expand L4-L6 archive slices" is now marked complete in BACKLOG.md.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=3120, 520 per level
+- Marker grep confirmed all three new seed IDs and didactic structure keys (Kernidee, Intuition, Schritte, Haeufiger Fehler, Schnellcheck) present
+
+### Blockers
+None.
+
+### Next logical step
+- All P1 and P2 tasks are complete.
+- Next open task is the last P3 item: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context.
+- After that, the remaining open work is in P4 (Duolingo-like guided journey, Cloud-Sync, monetization plan, mobile app MVP).
 
 ## Last completed task (v1.2.1)
 Second focused L4-L6 archive expansion batch with textbook-style explanations:

@@ -724,6 +724,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
             type: "konzeptfrage",
             estimatedTime: 8
+        },
+
+        {
+            id: "T-4-009",
+            title: "Eigenwerte via charakteristisches Polynom",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenwert", "charakteristisches-polynom", "berechnung"],
+            difficulty: "schwer",
+            question: "Bestimme die Eigenwerte der Matrix A = [[2,1],[1,2]].",
+            answer: "lambda_1 = 1, lambda_2 = 3",
+            explanation: "Kernidee: Eigenwerte sind die Werte lambda, fuer die (A - lambda*I) singulaer ist, also det(A - lambda*I) = 0. Intuition: Ist A - lambda*I singulaer, gibt es einen Vektor v != 0 mit (A - lambda*I)v = 0, d.h. Av = lambda*v. Schritte: 1) Bilde A - lambda*I = [[2-lambda, 1],[1, 2-lambda]]. 2) Berechne die Determinante: (2-lambda)^2 - 1 = 0. 3) Loese: (2-lambda)^2 = 1 -> 2-lambda = +/-1. 4) Erster Wert: 2-lambda=1 -> lambda=1. Zweiter: 2-lambda=-1 -> lambda=3. Haeufiger Fehler: Das Vorzeichen beim Aufstellen von A-lambda*I falsch setzen, z.B. A+lambda*I statt A-lambda*I. Schnellcheck: Spur(A)=4=1+3 und det(A)=3=1*3 stimmen mit den Eigenwerten ueberein.",
+            type: "kurzantwort",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation und zeitdiskrete Systeme",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Z-Transformation",
+            tags: ["z-transformation", "zeitdiskret", "pole", "signalverarbeitung"],
+            difficulty: "schwer",
+            question: "Erklaere die Z-Transformation und warum sie das diskrete Gegenstueck zur Laplace-Transformation ist.",
+            answer: "Die Z-Transformation ueberfuehrt eine zeitdiskrete Folge x[k] in X(z) = sum_{k=0}^{inf} x[k]*z^{-k}; Pole von X(z) beschreiben die Dynamik des diskreten Systems.",
+            explanation: "Kernidee: Wie die Laplace-Transformation lineare DGL algebraisiert, ueberfuehrt die Z-Transformation lineare Differenzengleichungen in algebraische Gleichungen im z-Bereich. Intuition: Der Operator z^{-1} entspricht einer Verzoegerung um einen Abtastschritt; damit kann man Differenzengleichungen y[k]=a*y[k-1]+b*x[k] direkt als Y(z)=a*z^{-1}*Y(z)+b*X(z) schreiben und nach Y(z)/X(z) aufloesen. Schritte: 1) Schreibe die Differenzengleichung auf. 2) Wende die Z-Transformation an und nutze z^{-1} fuer Zeitverschiebung. 3) Loese nach der Uebertragungsfunktion H(z)=Y(z)/X(z) auf. 4) Bestimme Pole (Nullstellen des Nenners) und pruefe Stabilitaet: alle Pole muessen innerhalb des Einheitskreises liegen. Haeufiger Fehler: Stabilitaetskriterium verwechseln: bei Laplace Re(Pol)<0 stabil, bei Z-Transformation |Pol|<1 stabil. Schnellcheck: H(z)=1/(1-a*z^{-1}) hat einen Pol bei z=a; fuer |a|<1 stabil, fuer |a|>=1 instabil.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Ito-Lemma und stochastische Differentialgleichungen",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastik",
+            tags: ["ito", "sde", "wiener-prozess", "stochastische-analysis"],
+            difficulty: "schwer",
+            question: "Formuliere das Ito-Lemma fuer eine glatte Funktion f(t, W_t) eines Wiener-Prozesses und erklaere den zusaetzlichen Term gegenueber der klassischen Kettenregel.",
+            answer: "df = (df/dt) dt + (df/dW) dW + (1/2)(d^2f/dW^2) dt; der Zusatzterm (1/2)f'' dt entsteht, weil (dW)^2 = dt in der stochastischen Analysis.",
+            explanation: "Kernidee: Die klassische Kettenregel versagt fuer Funktionen eines Wiener-Prozesses, weil W_t quadratische Variation dt besitzt statt 0. Intuition: Bei deterministischen Pfaden gilt (dx)^2 = o(dt) und faellt weg; bei W_t ist aber E[(dW)^2] = dt, also ist (dW)^2 = dt kein vernachlaessigbarer Term zweiter Ordnung mehr. Schritte: 1) Schreibe Taylor-Entwicklung von f bis zur zweiten Ordnung in dW und dt. 2) Ersetze (dW)^2 = dt (Ito-Isometrie). 3) Vernachlaessige (dW)(dt) und (dt)^2 als hoehere Ordnung. 4) Ergebnis: df = f_t dt + f_W dW + (1/2) f_{WW} dt. Haeufiger Fehler: Den Korrektturterm (1/2)f'' dt vergessen und das Ergebnis mit der klassischen Kettenregel gleichzusetzen. Schnellcheck: Fuer f(W_t)=W_t^2 liefert Ito: d(W^2)=2W dW + dt; Erwartungswert E[W_t^2]=t bestaetigt den dt-Term.",
+            type: "konzeptfrage",
+            estimatedTime: 9
         }
     ], 520),
     placementQuestions: [
