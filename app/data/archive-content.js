@@ -724,6 +724,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
             type: "konzeptfrage",
             estimatedTime: 8
+        },
+
+        {
+            id: "T-4-009",
+            title: "Eigenwertprobleme: Berechnung und Bedeutung",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenwert", "eigenvektor", "spektrum", "lineare-algebra"],
+            difficulty: "schwer",
+            question: "Erklaere, wie Eigenwerte und Eigenvektoren einer quadratischen Matrix berechnet werden, und nenne zwei wichtige Anwendungen.",
+            answer: "Eigenwerte lambda erhaelt man aus det(A - lambda*I) = 0; zu jedem lambda loest man (A - lambda*I)v = 0 nach dem Eigenvektor v. Anwendungen: Stabilitaetsanalyse von DGL-Systemen, Hauptachsentransformation quadratischer Formen.",
+            explanation: "Kernidee: Eigenvektoren sind Richtungen, die unter der linearen Abbildung A nur skaliert, nicht gedreht werden; der Skalierungsfaktor ist der zugehoerige Eigenwert. Intuition: Stellt man ein dynamisches System x'=Ax als Linearkombination von Eigenvektoren dar, entkoppeln die Gleichungen – jede Komponente waechst oder faellt exponentiell mit e^(lambda*t). Schritte: 1) Bilde das charakteristische Polynom: p(lambda) = det(A - lambda*I). 2) Loese p(lambda) = 0; die Loesungen sind die Eigenwerte. 3) Setze jedes lambda_i in (A - lambda_i*I)v = 0 ein und bestimme den Kern (Null-Eigenraum). 4) Waehlte eine Basis des Eigenraums als Eigenvektor(en). 5) Pruefe: A*v_i = lambda_i * v_i. Haeufiger Fehler: Beim Aufstellen von det(A - lambda*I) Vorzeichen vertauschen, besonders bei der Diagonale. Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte – beides laesst sich schnell verifizieren.",
+            type: "kurzantwort",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation: Definition und Anwendung",
+            level: "5",
+            sublevel: "5.1.1.b",
+            topic: "Z-Transformation",
+            tags: ["z-transform", "diskret", "differenzengleichung", "signalverarbeitung"],
+            difficulty: "schwer",
+            question: "Definiere die Z-Transformation und erklaere, wie sie zur Loesung linearer Differenzengleichungen mit konstanten Koeffizienten eingesetzt wird.",
+            answer: "Z{x[n]} = X(z) = sum_{n=0}^{inf} x[n] * z^{-n}. Sie verwandelt eine Differenzengleichung in eine algebraische Gleichung in z; nach Umformen und Partialburch-Zerlegung folgt x[n] durch inverse Z-Transformation.",
+            explanation: "Kernidee: Die Z-Transformation ist das zeitdiskrete Analogon der Laplace-Transformation: Sie kartiert Zeitfolgen in den z-Bereich, wo Verzoegerungen zu Multiplikation mit z^{-1} werden. Intuition: Ein lineares zeitinvariantes (LTI) System reagiert im z-Bereich mit H(z) = Y(z)/X(z); Pole und Nullstellen von H(z) bestimmen Stabilitaet und Frequenzgang. Schritte: 1) Schreibe die Differenzengleichung, z.B. y[n] - a*y[n-1] = x[n]. 2) Wende Z an: Y(z) - a*z^{-1}*Y(z) = X(z). 3) Loese nach Y(z): Y(z) = X(z) / (1 - a*z^{-1}). 4) Bringe auf gebrochenrationale Form und fuehre ggf. Partialbruch durch. 5) Schlage Korrespondenz in der Z-Tabelle nach, z.B. 1/(1 - a*z^{-1}) <-> a^n * u[n]. Haeufiger Fehler: Konvergenzbereich (ROC) vergessen, der die Eindeutigkeit der Ruecktransformation sichert. Schnellcheck: Setze z = e^{j*omega} (Einheitskreis) ein, um den Frequenzgang H(e^{j*omega}) zu erhalten und stabile Pole (|z| < 1) zu pruefen.",
+            type: "kurzantwort",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Ito-Kalkuel und stochastische Differentialgleichungen",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastische Analysis",
+            tags: ["ito", "sde", "wiener-prozess", "stochastik"],
+            difficulty: "schwer",
+            question: "Formuliere das Ito-Lemma fuer eine glatte Funktion f(t, X_t) und erklaere, warum es sich von der klassischen Kettenregel unterscheidet.",
+            answer: "df = (df/dt + mu*df/dX + sigma^2/2 * d^2f/dX^2) dt + sigma * df/dX dW_t. Der zusaetzliche Term sigma^2/2 * d^2f/dX^2 entsteht, weil (dW_t)^2 = dt in der stochastischen Rechnung nicht wie im Determinismus gegen null geht.",
+            explanation: "Kernidee: Der Wiener-Prozess W_t hat quadratische Variation [W]_t = t, nicht null; das erzwingt einen Korrektturterm zweiter Ordnung in der Taylorreihe, der in der klassischen Analysis verschwindet. Intuition: Stellt man sich W_t als 'raues' Pfad mit unendlich vielen kleinen Zufallosprung vor, wachsen (delta W)^2-Terme wie delta t – daher taucht ein zweiter Ableitungsterm auf, der aus rein deterministischer Sicht null waere. Schritte: 1) Starte mit X_t, das die SDE dX = mu dt + sigma dW erfuellt. 2) Taylorentwickle df bis zweiter Ordnung: df = f_t dt + f_X dX + 1/2 f_{XX} (dX)^2 + ... 3) Ersetze (dX)^2 = sigma^2 dt, da (dt)^2 = dt*dW = 0 und (dW)^2 = dt. 4) Fasse zusammen: df = (f_t + mu*f_X + sigma^2/2 * f_{XX}) dt + sigma*f_X dW_t. Haeufiger Fehler: Den Ito-Korrekturterm weglassen und nur die klassische Kettenregel benutzen, was zu falschen Ergebnissen fuehrt. Schnellcheck: Wende das Ito-Lemma auf f(X_t)=X_t^2 mit dX=dW an: df = dt + 2X_t dW_t, also E[X_t^2] = t – konsistent mit Var(W_t)=t.",
+            type: "konzeptfrage",
+            estimatedTime: 8
         }
     ], 520),
     placementQuestions: [

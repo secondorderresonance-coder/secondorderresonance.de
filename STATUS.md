@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.1`
+- `v1.2.2`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,31 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v1.2.2)
+Third focused L4-L6 archive expansion batch with textbook-style explanations:
+
+### Changes in this iteration
+- **T-4-009** (Eigenwertprobleme: Berechnung und Bedeutung): Characteristic polynomial, eigenvalue/eigenvector computation steps, stability application, trace/determinant quick-check. Full Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck structure.
+- **T-5-009** (Z-Transformation: Definition und Anwendung): Definition as discrete-time Laplace analogue, solving difference equations, ROC, frequency-domain check via unit circle. Same didactic template.
+- **T-6-009** (Ito-Kalkuel und stochastische Differentialgleichungen): Ito lemma derivation, quadratic variation of Wiener process, comparison with classical chain rule, Ito correction term, E[X_t^2]=t quick-check.
+- All three follow the same didactic template as previous T-*-007 / T-*-008 batches.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=3120, 520 per level
+- Marker grep confirmed all three new IDs and didactic structure keys present
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L4-L6 expansion with another small batch (T-4-010, T-5-010, T-6-010) covering topics such as Funktionenreihen/Fourier-Reihen (L4), Regelkreisoptimierung/PID-Auslegung (L5), PDE-Klassifizierung und Charakteristiken (L6).
+- Or proceed to next open P3 task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
 
 ## Last completed task (v1.2.1)
 Second focused L4-L6 archive expansion batch with textbook-style explanations:
