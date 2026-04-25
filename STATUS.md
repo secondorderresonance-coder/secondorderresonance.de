@@ -13,32 +13,22 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Expanded the archive milestone from starter scope to 600 tasks total while preserving the scalable architecture:
-- scalable task data model + taxonomy for L1-L6 with hierarchical sublevels
-- generated task corpus with 100 tasks per level (600 total) from structured seed content
-- new archive interface with level/sublevel/topic filters, search, and task detail view
-- new placement test flow with 30 questions, progress tracking, scoring, and level/sublevel recommendation
+Completed the highest-priority open P1 task by making the homepage video section link directly to existing YouTube videos:
+- updated "Neueste Videos" card links to two concrete video URLs
+- kept the third card as a channel videos-overview entry
+- preserved existing card layout, styling, and copy (no redesign)
 
 ## Last validation
-- `rg -n "buildTaskArchive|tasks: buildTaskArchive|targetPerLevel|targetTotal|placementQuestions" app/data/archive-content.js app/lernarchiv.html`
-- `node -e "..."` runtime check on `app/data/archive-content.js`:
-  - total tasks: 600
-  - distribution: 100 tasks for each level 1-6
+- `rg -n "Neueste Videos|youtu\\.be/4MfNDj7GfQ8|youtu\\.be/3n05QLJ-u4E|@Second-OrderResonance/videos" index.html`
 - manual diff review for:
-  - `app/data/archive-content.js`
-  - `app/lernarchiv.html`
   - `index.html`
   - `BACKLOG.md`
   - `STATUS.md`
-- static logic validation by inspection:
-  - archive filters and search use shared scalable task dataset
-  - placement test runs one question at a time for 30 questions
-  - result maps to plausible level + sublevel recommendation
-  - progress display shows current vs target (5.000/level, 30.000 total)
+- static markup check by inspection:
+  - video links open concrete existing content
+  - section structure and visual identity are unchanged
 
 ## Files touched in last task
-- `app/data/archive-content.js`
-- `app/lernarchiv.html`
 - `index.html`
 - `BACKLOG.md`
 - `STATUS.md`
@@ -47,7 +37,6 @@ Expanded the archive milestone from starter scope to 600 tasks total while prese
 None.
 
 ## Next logical step
-Execute the next major expansion workstreams:
-- curriculum expansion with quality control toward the 30.000 target
-- deeper sublevel structure where needed
-- streak/progress integration across archive and placement flow
+Complete the remaining open P1 consistency pass:
+- check for any legacy 5-level references
+- migrate any remaining occurrences to the mandatory 6-level system
