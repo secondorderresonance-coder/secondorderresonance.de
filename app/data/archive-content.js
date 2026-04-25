@@ -724,6 +724,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt die PDE punktweise zu erfuellen, fordert man Orthogonalitaet des Residuums gegenueber einem Raum von Testfunktionen. Intuition: Damit reichen stueckweise polynomiale Ansaetze auf einem Gitter aus, weil die Schwachform glattere Loesungen nicht voraussetzt. Schritte: 1) Multipliziere die starke Form Lu=f mit einer Testfunktion v und integriere ueber das Gebiet. 2) Partielle Integration uebertraegt Ableitungen auf v und bringt natuerliche Randbedingungen ins Integral. 3) Ergebnis ist a(u,v)=l(v) fuer alle v im Testraum. 4) Galerkin-Wahl: Ansatz- und Testraum sind identisch und endlichdimensional (z.B. stueckweise lineare Hutfunktionen). 5) Dies fuehrt auf ein lineares Gleichungssystem K*u=f (Steifigkeitsmatrix). Haeufiger Fehler: Randbedingungen nach der partiellen Integration vergessen oder falsch zuordnen. Schnellcheck: Fuer konstante Koeffizienten und gleichmaessiges Gitter sollte K symmetrisch und positiv definit sein.",
             type: "konzeptfrage",
             estimatedTime: 8
+        },
+
+        {
+            id: "T-4-009",
+            title: "Eigenwerte und Eigenvektoren",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenwert", "eigenvektor", "charakteristisches-polynom"],
+            difficulty: "schwer",
+            question: "Was sind Eigenwerte und Eigenvektoren einer Matrix A, und wie berechnet man sie?",
+            answer: "Eigenwerte λ sind Loesungen von det(A - λI) = 0; zugehoerige Eigenvektoren loesen (A - λI)v = 0 mit v ≠ 0.",
+            explanation: "Kernidee: Eigenvektoren sind Richtungen, die unter der linearen Abbildung A unveraendert bleiben – sie werden nur gestreckt oder gestaucht. Intuition: A dreht und streckt den Raum; Eigenvektoren sind die speziellen Richtungen, die nicht verdreht werden. Der Eigenwert gibt den Streckfaktor an. Schritte: 1) Bilde das charakteristische Polynom p(λ) = det(A - λI). 2) Loese p(λ) = 0, um alle Eigenwerte zu erhalten. 3) Setze jeden Eigenwert λ_i zurueck in (A - λ_i I)v = 0 ein. 4) Loese das homogene LGS via Gauss-Elimination – die nicht-trivialen Loesungen bilden den Eigenraum. Haeufiger Fehler: Den Nullvektor als Eigenvektor akzeptieren oder vergessen, dass ein Eigenwert mehrfach auftreten kann (algebraische vs. geometrische Vielfachheit). Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte – nutze beides zur Plausibilitaetspruefung.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-5-009",
+            title: "Z-Transformation diskreter Systeme",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Signalverarbeitung",
+            tags: ["z-transformation", "diskret", "differenzengleichung"],
+            difficulty: "schwer",
+            question: "Erklaere die Z-Transformation und warum sie fuer zeitdiskrete LTI-Systeme verwendet wird.",
+            answer: "X(z) = sum_{n=0}^{inf} x[n] z^{-n} uebertraegt diskrete Folgen in den z-Bereich, wo Differenzengleichungen zu algebraischen Ausdruecken werden – analog zur Laplace-Transformation fuer kontinuierliche Systeme.",
+            explanation: "Kernidee: Wie Laplace Differentialgleichungen algebraisiert, macht Z dasselbe mit Differenzengleichungen diskreter Systeme. Intuition: Zeitverschiebung um einen Schritt wird im z-Bereich zur Multiplikation mit z^{-1}; dadurch wird eine Rekursion zu einem Polynombruch H(z) = Y(z)/X(z). Schritte: 1) Definiere X(z) = sum_{n=0}^{inf} x[n] z^{-n} (einseitige Z-Transformation). 2) Nutze die Verschiebungseigenschaft: Z{x[n-1]} = z^{-1} X(z). 3) Schreibe die Differenzengleichung im z-Bereich und bilde die Uebertragungsfunktion H(z). 4) Invertiere via Partialbruchzerlegung und Tabelle. Haeufiger Fehler: Anfangsbedingungen bei der einseitigen Z-Transformation vergessen – sie erscheinen als zusaetzliche Terme und duerfen nicht weggelassen werden. Schnellcheck: Fuer z = e^{jω} (Einheitskreis) entspricht H(z) dem Frequenzgang H(e^{jω}) des diskreten Systems.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Ito-Lemma und stochastisches Kalkuel",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastik",
+            tags: ["ito", "sde", "wiener-prozess", "stochastisch"],
+            difficulty: "schwer",
+            question: "Formuliere das Ito-Lemma und erklaere, warum es sich vom klassischen Kettenregel-Kalkuel unterscheidet.",
+            answer: "Fuer f(t, X_t) mit dX_t = μ dt + σ dW_t gilt: df = (∂f/∂t + μ ∂f/∂x + ½σ² ∂²f/∂x²) dt + σ ∂f/∂x dW_t. Der Zusatzterm ½σ² ∂²f/∂x² entsteht, weil (dW_t)² = dt in quadratischer Variation.",
+            explanation: "Kernidee: Das Ito-Lemma ist die stochastische Verallgemeinerung der Kettenregel; wegen der Zufaelligkeit des Wiener-Prozesses taucht ein Korrekturglied zweiter Ordnung auf, das im deterministischen Kalkuel verschwindet. Intuition: Im klassischen Kalkuel ist (dt)² = 0 und (dt)(dW) = 0. Beim Wiener-Prozess gilt jedoch (dW)² = dt – also erster Ordnung in dt – das erzwingt den Zusatzterm in der Taylor-Entwicklung von f. Schritte: 1) Expandiere f(t, X_t) via Taylor bis zur zweiten Ordnung in dx und dt. 2) Ersetze (dX)² = σ² dt (Ito-Isometrie) und (dX)(dt) = 0, (dt)² = 0. 3) Sammle dt-Terme und dW_t-Terme getrennt. 4) Ergebnis ist die Ito-SDE fuer f. Haeufiger Fehler: Den Korrekturterm ½σ² ∂²f/∂x² vergessen und klassisch differenzieren – das entspricht der Stratonovich-Konvention, nicht der Ito-Konvention, und liefert ein anderes Ergebnis. Schnellcheck: Fuer f(X_t) = X_t² und reine Brownsche Bewegung (μ=0) ergibt Ito: d(X_t²) = σ² dt + 2X_t σ dW_t – der Term σ² dt ist der charakteristische Ito-Korrekturterm.",
+            type: "konzeptfrage",
+            estimatedTime: 8
         }
     ], 520),
     placementQuestions: [
