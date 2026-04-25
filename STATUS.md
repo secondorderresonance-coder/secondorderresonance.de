@@ -13,23 +13,25 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Completed the highest-priority open P1 task by making the homepage video section link directly to existing YouTube videos:
-- updated "Neueste Videos" card links to two concrete video URLs
-- kept the third card as a channel videos-overview entry
-- preserved existing card layout, styling, and copy (no redesign)
+Completed the remaining open P1 consistency pass for the mandatory 6-level model:
+- checked repository references for legacy 5-level wording in relevant website files
+- migrated the remaining visible wording from "5 Perspektiven" to "6 Perspektiven" in the homepage video card copy
+- aligned the tracked diff-artifact file text reference so no 5-level wording remains there either
 
 ## Last validation
-- `rg -n "Neueste Videos|youtu\\.be/4MfNDj7GfQ8|youtu\\.be/3n05QLJ-u4E|@Second-OrderResonance/videos" index.html`
+- `git grep -n -E "5[- ]level|5 level|5 levels|5 Perspektiven" -- .`
+- `rg -n -S "5[- ]level|5 level|5 levels|5 Perspektiven" index.html app`
 - manual diff review for:
   - `index.html`
+  - `and clean archive update`
   - `BACKLOG.md`
   - `STATUS.md`
-- static markup check by inspection:
-  - video links open concrete existing content
-  - section structure and visual identity are unchanged
+- static copy check by inspection:
+  - homepage wording now consistently reflects 6 perspectives/levels
 
 ## Files touched in last task
 - `index.html`
+- `and clean archive update`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -37,6 +39,5 @@ Completed the highest-priority open P1 task by making the homepage video section
 None.
 
 ## Next logical step
-Complete the remaining open P1 consistency pass:
-- check for any legacy 5-level references
-- migrate any remaining occurrences to the mandatory 6-level system
+Move to the top P2 foundation item:
+- start a small first step for archive deep-linking and saved filter state in `app/lernarchiv.html`
