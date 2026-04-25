@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 600 archive tasks (100 per level) for this iteration.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 900 archive tasks (150 per level) for this iteration.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -13,25 +13,23 @@ Current implementation status:
 - Architecture is designed for further growth without major restructuring
 
 ## Last completed task
-Completed the remaining open P1 consistency pass for the mandatory 6-level model:
-- checked repository references for legacy 5-level wording in relevant website files
-- migrated the remaining visible wording from "5 Perspektiven" to "6 Perspektiven" in the homepage video card copy
-- aligned the tracked diff-artifact file text reference so no 5-level wording remains there either
+Started the highest-priority open P2 curriculum expansion workstream with one focused milestone step:
+- increased archive generation volume from 100 to 150 tasks per level
+- expanded available archive content from 600 to 900 tasks total
+- kept the same scalable data model and UI behavior (no redesign)
 
 ## Last validation
-- `git grep -n -E "5[- ]level|5 level|5 levels|5 Perspektiven" -- .`
-- `rg -n -S "5[- ]level|5 level|5 levels|5 Perspektiven" index.html app`
+- `rg -n "\], 150\),|\], 100\)," app/data/archive-content.js`
+- `node -e "const fs=require('fs');const vm=require('vm');const code=fs.readFileSync('app/data/archive-content.js','utf8');const ctx={window:{}};vm.createContext(ctx);vm.runInContext(code,ctx);const tasks=ctx.window.SOR_ARCHIVE.tasks;const by={};tasks.forEach(t=>by[t.level]=(by[t.level]||0)+1);console.log(JSON.stringify({total:tasks.length,byLevel:by},null,2));"`
 - manual diff review for:
-  - `index.html`
-  - `and clean archive update`
+  - `app/data/archive-content.js`
   - `BACKLOG.md`
   - `STATUS.md`
-- static copy check by inspection:
-  - homepage wording now consistently reflects 6 perspectives/levels
+- static archive check by inspection:
+  - archive uses the same filters/detail flow on the expanded dataset
 
 ## Files touched in last task
-- `index.html`
-- `and clean archive update`
+- `app/data/archive-content.js`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -39,5 +37,5 @@ Completed the remaining open P1 consistency pass for the mandatory 6-level model
 None.
 
 ## Next logical step
-Move to the top P2 foundation item:
-- start a small first step for archive deep-linking and saved filter state in `app/lernarchiv.html`
+Continue the same P2 curriculum expansion workstream with another small quality-focused increment:
+- add additional curated base tasks per level to increase topic diversity before the next volume bump
