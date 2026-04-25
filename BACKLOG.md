@@ -7,8 +7,8 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 150 Aufgaben pro Level in dieser Iteration
-- 900 Aufgaben insgesamt aktuell verfuegbar
+- 180 Aufgaben pro Level in dieser Iteration
+- 1.080 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
