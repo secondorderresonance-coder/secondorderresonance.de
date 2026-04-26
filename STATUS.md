@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.3`
+- `v1.2.4`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -29,6 +29,30 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.4)
+Fourth focused L4-L6 archive expansion batch with textbook-style explanations:
+
+### Changes in this iteration
+- **T-4-010** (Spektralsatz fuer symmetrische Matrizen): Orthogonale Diagonalisierbarkeit, reelle Eigenwerte, Gram-Schmidt im Eigenraum, Spur/det-Schnellcheck.
+- **T-5-010** (Diskrete Fourier-Transformation und FFT): DFT-Formel, Frequenzbin-Intuition, Cooley-Tukey O(N log N), Konjugiertssymmetrie, Parseval-Schnellcheck.
+- **T-6-010** (KKT-Bedingungen fuer nichtlineare Optimierung): Lagrangefunktion, alle vier KKT-Bedingungen, Komplementaritaet, Vorzeichen-Schnellcheck.
+- Alle drei Tasks folgen dem Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck-Template.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=6000, 1000 per level, 30 placement questions
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with T-4-011, T-5-011, T-6-011 (z.B. Metrische Raeume / Banachraum, Zustandsraumdarstellung / Regelbarkeit, Monte-Carlo-Simulation).
+- Oder wechseln zu P3: Interaktives Visualmodul fuer "Komplexe Zahlen" (Argand-Ebene).
 
 ## Last completed task (v1.2.3)
 Focused expansion + account-identity update in one iteration:

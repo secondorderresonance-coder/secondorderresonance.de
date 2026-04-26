@@ -1129,6 +1129,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Reale Systeme unterliegen zufaelligen Stoerungen; eine SDE dX = f(X,t)dt + g(X,t)dW modelliert das, indem ein deterministischer Driftterm und ein stochastischer Diffusionsterm kombiniert werden. Intuition: Im Unterschied zu gewoehnlichen DGLs ist dW kein normales Differential, weil der Wiener-Prozess nirgends differenzierbar ist. Klassisches Newton-Leibniz-Kalkuel versagt daher. Schritte: 1) Schreibe die SDE: dX = mu(X,t)dt + sigma(X,t)dW. 2) Verstehe dW als Inkrement eines Wiener-Prozesses mit Varianz dt. 3) Wende Ito-Lemma an fuer eine Funktion F(X,t): dF = (dF/dt + mu*dF/dX + sigma^2/2 * d^2F/dX^2)dt + sigma*dF/dX*dW. 4) Der Korrekturterm sigma^2/2 * d^2F/dX^2 (Ito-Korrektur) hat keine Entsprechung im klassischen Kalkuel. Haeufiger Fehler: Klasssische Kettenregel ohne Ito-Korrektur verwenden; fuehrt auf systematisch falsche Ergebnisse. Schnellcheck: Bei sigma=0 reduziert sich das Ito-Lemma auf die klassische Kettenregel, was als Konsistenztest dient.",
             type: "konzeptfrage",
             estimatedTime: 9
+        },
+
+        {
+            id: "T-4-010",
+            title: "Spektralsatz fuer symmetrische Matrizen",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["spektralsatz", "eigenwerte", "orthogonal", "symmetrisch"],
+            difficulty: "schwer",
+            question: "Formuliere den Spektralsatz fuer reelle symmetrische Matrizen und erklaere seine Konsequenzen.",
+            answer: "Jede reelle symmetrische Matrix A ist orthogonal diagonalisierbar: Es existiert eine orthogonale Matrix Q mit Q^T A Q = diag(lambda_1,...,lambda_n); alle Eigenwerte sind reell und Eigenvektoren zu verschiedenen Eigenwerten stehen senkrecht aufeinander.",
+            explanation: "Kernidee: Symmetrie erzwingt reelle Eigenwerte und orthogonale Eigenvektoren – das macht symmetrische Matrizen besonders gut analysierbar. Intuition: Physikalisch beschreiben symmetrische Matrizen konservative Systeme (z.B. Traegheitstensoren); ihre Eigenvektoren sind die natuerlichen Hauptachsen des Systems. Schritte: 1) Berechne Eigenwerte als Nullstellen des charakteristischen Polynoms – alle sind reell (Beweis: ueber komplexe Konjugation). 2) Fuer verschiedene Eigenwerte sind Eigenvektoren automatisch orthogonal. 3) Bei mehrfachen Eigenwerten: Gram-Schmidt im jeweiligen Eigenraum. 4) Normiere alle Eigenvektoren und bilde Q aus ihnen als Spalten. 5) Pruefe Q^T Q = I und Q^T A Q = Diagonalmatrix. Haeufiger Fehler: Symmetrie (A = A^T) mit positiv-definit verwechseln – Symmetrie allein sagt nichts ueber das Vorzeichen der Eigenwerte aus. Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte; beide muessen mit dem charakteristischen Polynom uebereinstimmen.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-010",
+            title: "Diskrete Fourier-Transformation und FFT",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Signalverarbeitung",
+            tags: ["dft", "fft", "frequenzanalyse", "cooley-tukey"],
+            difficulty: "schwer",
+            question: "Erklaere die Diskrete Fourier-Transformation (DFT) und den Unterschied zur FFT.",
+            answer: "DFT: X[k] = sum_{n=0}^{N-1} x[n] * e^{-j2pi*kn/N} transformiert N Samples in N Frequenzkomponenten (O(N^2)). FFT ist ein effizienter Algorithmus zur DFT-Berechnung in O(N log N) via Butterfly-Struktur (Cooley-Tukey).",
+            explanation: "Kernidee: Die DFT zerlegt ein diskretes Signal in seine Frequenzanteile – genau wie die kontinuierliche Fourier-Transformation, aber auf einem endlichen Gitter mit periodischer Fortsetzung. Intuition: Jedes der N Frequenzbins misst die Korrelation des Signals mit einer komplexen Schwingung der Frequenz k/N (relativ zur Abtastrate) – das ist ein inneres Produkt im N-dimensionalen Signalraum. Schritte: 1) Setze W_N = e^{-j2pi/N} (N-te Einheitswurzel). 2) Berechne X[k] = sum_{n=0}^{N-1} x[n] * W_N^{kn} fuer k=0,...,N-1. 3) FFT: Teile die Summe in Gerade/Ungerade (Decimation-in-Time), wende DFT rekursiv an (O(N log N)). 4) Nutze IFFT fuer Ruecktransformation: x[n] = (1/N) sum_{k} X[k] W_N^{-kn}. Haeufiger Fehler: Periodizitaet der DFT vergessen – X[k+N] = X[k] – und negative Frequenzen (k > N/2) falsch interpretieren. Schnellcheck: Fuer ein reelles Signal ist X[N-k] = X[k]* (konjugiert-symmetrisch); Parseval-Theorem prueft Energieerhaltung.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-6-010",
+            title: "KKT-Bedingungen fuer nichtlineare Optimierung",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["kkt", "lagrange", "nebenbedingungen", "optimierung"],
+            difficulty: "schwer",
+            question: "Formuliere die Karush-Kuhn-Tucker-Bedingungen (KKT) fuer ein nichtlineares Problem mit Ungleichungsnebenbedingungen.",
+            answer: "Fuer min f(x) s.t. g_i(x) <= 0 und h_j(x) = 0 lauten die KKT-Bedingungen: (1) Stationaritaet: nabla f + sum mu_i nabla g_i + sum lambda_j nabla h_j = 0; (2) Primale Zulaessigkeit; (3) Duale Zulaessigkeit: mu_i >= 0; (4) Komplementaritaet: mu_i * g_i = 0.",
+            explanation: "Kernidee: An einem lokalen Minimum muss der Gradient der Zielfunktion in den Kegel der aktiven Nebenbedingungsgradienten fallen – KKT formalisiert diese geometrische Bedingung algebraisch. Intuition: Die Komplementaritaet mu_i * g_i = 0 erzwingt: Entweder eine Nebenbedingung ist aktiv (g_i = 0, mu_i frei) oder inaktiv (g_i < 0, dann muss mu_i = 0); inaktive Nebenbedingungen duerfen das Optimum nicht beeinflussen. Schritte: 1) Bilde Lagrangefunktion L = f + sum mu_i g_i + sum lambda_j h_j. 2) Setze nabla_x L = 0 (Stationaritaet). 3) Pruefe g_i(x*) <= 0 und h_j(x*) = 0 (primale Zulaessigkeit). 4) Verlange mu_i >= 0 (duale Zulaessigkeit bei Minimierung). 5) Verifiziere mu_i * g_i = 0 fuer alle i (Komplementaritaet). Haeufiger Fehler: Vorzeichen der Multiplikatoren verwechseln: bei Minimierung mu_i >= 0, bei Maximierung mu_i <= 0; falsche Vorzeichen fuehren auf Sattelpunkte statt Minima. Schnellcheck: Ohne aktive Ungleichungsnebenbedingungen reduzieren sich KKT auf klassische Lagrange-Bedingungen der Gleichungsnebenbedingungen.",
+            type: "konzeptfrage",
+            estimatedTime: 9
         }
     ], 1000),
     placementQuestions: [
