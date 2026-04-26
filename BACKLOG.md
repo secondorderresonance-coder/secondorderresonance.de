@@ -12,10 +12,8 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 500 Aufgaben pro Level in dieser Iteration
-- 3.000 Aufgaben insgesamt aktuell verfuegbar
-- 520 Aufgaben pro Level in dieser Iteration
-- 3.120 Aufgaben insgesamt aktuell verfuegbar
+- 1.000 Aufgaben pro Level in dieser Iteration
+- 6.000 Aufgaben insgesamt aktuell verfuegbar
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -59,6 +57,7 @@
 - [x] Add daily mission widget (progress bar toward 5 Aufgaben/day)
 - [x] Activate daily_goal and precision_3 achievements (were placeholders)
 - [x] Create profile page (app/profil.html) with stats, heatmap, weekly XP chart, level progress
+- [x] Migrate local account registration/login to email-based identity with per-email progress storage
 - [ ] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 
 ## P4
