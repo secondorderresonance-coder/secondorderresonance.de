@@ -80,6 +80,31 @@ None.
 - Continue L4-L6 expansion with another small batch (T-4-010, T-5-010, T-6-010) covering further university/research topics.
 - Or proceed to next open P3 task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
 
+## Last completed task (v1.2.2)
+Third focused L4-L6 archive expansion batch with textbook-style explanations:
+
+### Changes in this iteration
+- **T-4-009** (Eigenwerte und Eigenvektoren): Characteristic polynomial approach, algebraic vs. geometric multiplicity, trace/det Schnellcheck — full Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck structure.
+- **T-5-009** (Z-Transformation diskreter Systeme): Role of the Z-transform for discrete LTI systems, shift property, Uebertragungsfunktion H(z), frequency-response interpretation on the unit circle.
+- **T-6-009** (Ito-Lemma und stochastisches Kalkuel): Quadratic variation argument, Ito vs. Stratonovich distinction, worked Schnellcheck with f(X_t)=X_t².
+- All three tasks follow the same didactic template as the T-x-007 and T-x-008 batches.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=3120, 520 per level, 30 placement questions
+- Grep confirmed T-4-009, T-5-009, T-6-009 IDs and all five didactic-structure markers present
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L4-L6 expansion with T-4-010, T-5-010, T-6-010 (e.g. Lineare Abbildungen / Spektralsatz, Diskrete Fourier-Transformation / FFT, Optimierungsprobleme mit Nebenbedingungen / KKT-Bedingungen).
+- Or proceed to next open P3 task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
+
 ## Last completed task (v1.2.1)
 Second focused L4-L6 archive expansion batch with textbook-style explanations:
 
