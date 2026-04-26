@@ -1432,6 +1432,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Newton-artige Richtung mit guenstiger Kruemmungsapproximation. Intuition: Gradientabstieg sieht nur Steilheit, BFGS sieht zusaetzlich Talform und richtet Schritte besser aus. Schritte: 1) Starte mit H_0=I. 2) Richtung p_k = -H_k * grad f(x_k). 3) Finde Schrittweite alpha_k per Line-Search (Wolfe-Bedingungen). 4) Setze s_k = x_{k+1}-x_k und y_k = grad f_{k+1}-grad f_k. 5) Update H_k mit BFGS-Formel unter y_k^T s_k > 0. Haeufiger Fehler: Ohne geeignete Line-Search kann y_k^T s_k <= 0 auftreten; dann verliert die Approximation positive Definitheit. Schnellcheck: In gut konditionierten Problemen sinkt f(x_k) meist deutlich schneller als bei konstantem Lernraten-Gradientabstieg.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-017",
+            title: "Konditionszahl und numerische Stabilitaet linearer Systeme",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["konditionszahl", "stabilitaet", "lineares-system", "numerik"],
+            difficulty: "schwer",
+            question: "Warum ist die Konditionszahl fuer das Loesen von Ax=b wichtig?",
+            answer: "Die Konditionszahl kappa(A)=||A||*||A^{-1}|| misst, wie stark Datenfehler in b oder A auf die Loesung x verstaerkt werden. Grosse kappa bedeutet hohe Empfindlichkeit und potenziell unzuverlaessige numerische Resultate.",
+            explanation: "Kernidee: Nicht nur das Verfahren, auch das Problem selbst kann numerisch schwierig sein. Intuition: Bei fast singulaeren Matrizen kippt die Loesung schon bei kleinen Stoerungen stark. Schritte: 1) Schaetze kappa(A) in geeigneter Norm (oft 2-Norm via SVD). 2) Analysiere relative Fehlerbeziehung ||delta x||/||x|| <= kappa(A) * ||delta b||/||b||. 3) Verwende stabile Loeser (QR/SVD) statt expliziter Inversion. 4) Skaliere Variablen, wenn Spalten stark unterschiedliche Groessen haben. 5) Pruefe Residuum und Sensitivitaet gemeinsam. Haeufiger Fehler: Kleines Residuum als Garantie fuer kleine Loesungsfehler interpretieren; bei hoher Konditionszahl kann die Loesung trotzdem ungenau sein. Schnellcheck: Wenn sigma_min sehr klein ist, wird kappa(A)=sigma_max/sigma_min gross und das Problem schlecht konditioniert.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-017",
+            title: "Beobachtbarkeit und Kalman-Rangbedingung",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["beobachtbarkeit", "kalman", "zustandsraum", "schaetzung"],
+            difficulty: "schwer",
+            question: "Wie prueft man bei einem linearen Zustandsraumsystem, ob alle Zustaende beobachtbar sind?",
+            answer: "Fuer dx/dt=Ax+Bu, y=Cx+Du ist das Paar (A,C) beobachtbar, wenn die Beobachtbarkeitsmatrix O=[C; CA; ...; CA^(n-1)] vollen Rang n hat. Dann lassen sich alle Zustaende aus Ausgangssignalen rekonstruieren.",
+            explanation: "Kernidee: Beobachtbarkeit beschreibt Informationszugang zu internen Zustaenden ueber Messungen. Intuition: Wenn ein Modus im Ausgang unsichtbar bleibt, kann kein Beobachter ihn robust schaetzen. Schritte: 1) Baue O aus C, CA, ..., CA^(n-1). 2) Berechne Rang(O). 3) Rang=n bedeutet voll beobachtbar. 4) Bei Rangdefizit pruefe Sensorsetup oder Modellstruktur. 5) Fuer Entwurf von Luenberger/Kalman-Beobachtern zusaetzlich Eigenwertlage und Rauschmodell beachten. Haeufiger Fehler: Regelbarkeit und Beobachtbarkeit verwechseln; sie sind dual, aber nicht identisch. Schnellcheck: Fehlender Rang in O deutet direkt auf nicht messbare Zustandsrichtungen hin.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-017",
+            title: "Konjugierte Gradientenmethode fuer SPD-Systeme",
+            level: "6",
+            sublevel: "6.1.1.b",
+            topic: "Numerische Simulation",
+            tags: ["cg", "iterativ", "spd", "krylov"],
+            difficulty: "schwer",
+            question: "Warum ist die konjugierte Gradientenmethode (CG) fuer grosse symmetrisch positiv definite Systeme effizient?",
+            answer: "CG nutzt A-konjugierte Suchrichtungen und minimiert den quadratischen Fehler im Krylov-Unterraum. Dadurch erreicht es oft in deutlich weniger Schritten als stationaere Iterationen eine hohe Genauigkeit, ohne Matrixfaktorisierung.",
+            explanation: "Kernidee: CG verbindet Gradienteninformation mit orthogonalen Suchrichtungen, die sich nicht gegenseitig zerstoeren. Intuition: Jede Iteration loest optimal im aktuell erweiterten Krylov-Unterraum. Schritte: 1) Starte mit x_0, r_0=b-Ax_0, p_0=r_0. 2) Berechne alpha_k=(r_k^T r_k)/(p_k^T A p_k). 3) Update x_{k+1}=x_k+alpha_k p_k und r_{k+1}=r_k-alpha_k A p_k. 4) Setze beta_k=(r_{k+1}^T r_{k+1})/(r_k^T r_k), p_{k+1}=r_{k+1}+beta_k p_k. 5) Optional: Preconditioning fuer bessere Kondition. Haeufiger Fehler: CG auf nicht-SPD-Matrizen anwenden; dann sind Konvergenzaussagen nicht gueltig. Schnellcheck: Mit gutem Preconditioner sinkt die Iterationszahl oft drastisch.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1000),
     placementQuestions: [
