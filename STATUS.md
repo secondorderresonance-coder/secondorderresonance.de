@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.6`
+- `v1.2.7`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -29,6 +29,28 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.7)
+Sixth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-012** (Hilberträume und L2-Skalarprodukt): Sesquilinearität, Positivität, Riesz-Fischer-Vollständigkeit, Fourier/Parseval-Schnellcheck.
+- **T-5-012** (Frequenzgang und Nyquist-Diagramm): G(jω) als Betrag/Phasen-Beschreibung, Nyquist-Stabilitätskriterium, Phasen-/Amplitudenrand-Faustregeln.
+- **T-6-012** (Finite-Differenzen-Methode): Zentraldifferenz O(h²), explizites CFL-Kriterium, Crank-Nicolson unbedingt stabil, Monotonie-Schnellcheck.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=6000, 1000 per level
+
+### Blockers
+None.
+
+### Next logical step
+- P2 weiter: T-4-013, T-5-013, T-6-013.
+- Oder P3: Interaktives Visualmodul Komplexe Zahlen (Argand-Ebene).
 
 ## Last completed task (v1.2.6)
 Impressum email color fix + umlaut encoding sweep:

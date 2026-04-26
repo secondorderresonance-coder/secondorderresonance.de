@@ -1219,6 +1219,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt ein Integral analytisch oder auf einem Gitter zu berechnen, zieht man Zufallsstichproben und mittelt die Funktionswerte – der Erwartungswert dieses Schaetzers ist gleich dem Integral (Gesetz der grossen Zahlen). Intuition: In d Dimensionen benoetigt ein Gitterverfahren mit k Punkten pro Achse insgesamt k^d Auswertungen (Fluch der Dimensionalitaet); Monte-Carlo braucht unabhaengig von d nur O(1/eps^2) Stichproben fuer Fehler eps. Schritte: 1) Schreibe Integral als Erwartungswert: integral_{[0,1]^d} f(x)dx = E[f(X)] mit X~U([0,1]^d). 2) Ziehe N unabhaengige Stichproben X_1,...,X_N. 3) Schaetze: I_N = (1/N) sum f(X_i). 4) Fehler: std(I_N) = sigma_f / sqrt(N), wobei sigma_f^2 = Var(f(X)). 5) Varianzreduktion: Importance Sampling, Antithetic Variables oder Control Variates senken sigma_f^2. Haeufiger Fehler: Den Fehler O(1/sqrt(N)) falsch lesen – fuer eps=0.01 braucht man 10^4 Stichproben, nicht 100; der Fehler faellt nur langsam. Schnellcheck: Fuer f=Indikator eines Kreises schaetzt Monte-Carlo pi: zaehle Treffer in der Einheitskreisscheibe und multipliziere mit 4.",
             type: "konzeptfrage",
             estimatedTime: 9
+        },
+
+        {
+            id: "T-4-012",
+            title: "Hilbertraeume und L2-Skalarprodukt",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis I",
+            tags: ["hilbertraum", "l2", "skalarprodukt", "orthogonalitaet"],
+            difficulty: "schwer",
+            question: "Was ist ein Hilbertraum und wie ist das Skalarprodukt im L2([a,b]) definiert?",
+            answer: "Ein Hilbertraum ist ein vollstaendiger (Banach-)Raum mit Skalarprodukt. Im L2([a,b]) lautet es: <f,g> = integral_a^b f(x)*g(x) dx. Vollstaendigkeit bedeutet, dass Cauchy-Folgen konvergieren.",
+            explanation: "Kernidee: Hilbertraeume verallgemeinern die euklidische Geometrie auf unendlichdimensionale Funktionenraeume – Begriffe wie Laenge, Winkel und Orthogonalitaet bleiben sinnvoll. Intuition: Zwei Funktionen f und g sind 'senkrecht', wenn ihr inneres Produkt integral f(x)g(x)dx = 0 ist – genau wie orthogonale Vektoren kein 'Laengenstueck' voneinander tragen. Schritte: 1) Pruefe Sesquilinearitaet: <alpha*f+g, h> = alpha*<f,h> + <g,h>. 2) Konjugatsymmetrie: <f,g> = conj(<g,f>). 3) Positivitaet: <f,f> >= 0, Gleichheit nur fuer f=0 fast ueberall. 4) Norm: ||f|| = sqrt(<f,f>). 5) Vollstaendigkeit: Jede L2-Cauchy-Folge konvergiert in L2 (Riesz-Fischer). Haeufiger Fehler: L2 mit C([a,b]) gleichsetzen – C ist nicht vollstaendig bezueglich der L2-Norm; ein uniformer Grenzwert stetiger Funktionen kann unstetig sein. Schnellcheck: Fourier-Reihen konvergieren im L2-Sinn gegen die Funktion; Parsevals Gleichheit sum |a_n|^2 = (1/pi)*||f||^2 ist ein Hilbertraum-Resultat.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-012",
+            title: "Frequenzgang und Nyquist-Diagramm",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["frequenzgang", "nyquist", "stabilitaet", "bode"],
+            difficulty: "schwer",
+            question: "Was beschreibt der Frequenzgang G(jw) eines LTI-Systems, und was zeigt das Nyquist-Diagramm?",
+            answer: "G(jw) = G(s)|_{s=jw} beschreibt Betrag (Verstaerkung) und Phase der stationaeren Systemantwort auf sin(wt). Das Nyquist-Diagramm traegt G(jw) in der komplexen Ebene fuer w von -inf bis +inf auf und erlaubt Stabilitaetsaussagen ueber die Umfahrung des kritischen Punkts -1.",
+            explanation: "Kernidee: Das LTI-System transformiert einen Eingang sin(wt) in einen Ausgang |G(jw)| * sin(wt + arg(G(jw))) – Betrag und Phase haengen von der Frequenz ab und sind im Frequenzgang vollstaendig kodiert. Intuition: Im Bode-Diagramm liest man Daempfung und Phasenverschiebung fuer jede Frequenz ab; das Nyquist-Diagramm zeigt alle Frequenzen auf einen Blick als geschlossene Kurve in der Gauss'schen Ebene. Schritte: 1) Setze s = jw in G(s) ein und berechne |G(jw)| und arg(G(jw)) fuer w >= 0. 2) Zeichne G(jw) in der komplexen Ebene (Realteil vs. Imaginaerteil). 3) Stabilitaetskriterium (Nyquist): Zaehle Umfahrungen des Punktes -1+0j; stabile Strecke + stabiler Regler genau dann, wenn keine Umfahrung. 4) Phasenrand: Winkelabstand zwischen -180° und arg(G(jw_c)) beim Betragsdurchgang. Haeufiger Fehler: Nyquist-Kriterium nur fuer stabiles Minimalphase-System anwenden; bei Totzeitgliedern oder Rechtsseitenpolen muss die vollstaendige Verallgemeinerung benutzt werden. Schnellcheck: Phasenrand > 45° und Amplitudenrand > 6 dB gelten als Faustregeln fuer robuste Stabilitaet.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-6-012",
+            title: "Finite-Differenzen-Methode fuer PDEs",
+            level: "6",
+            sublevel: "6.1",
+            topic: "Numerische Simulation",
+            tags: ["finite-differenzen", "fdm", "diskretisierung", "pde"],
+            difficulty: "schwer",
+            question: "Erklaere das Prinzip der Finite-Differenzen-Methode (FDM) fuer eine einfache PDE wie die Waermeleitungsgleichung.",
+            answer: "FDM ersetzt die partielle Ableitung durch Differenzenquotienten auf einem Gitter: d²u/dx² ≈ (u_{i+1} - 2u_i + u_{i-1})/h². Die Waermeleitungsgleichung du/dt = alpha * d²u/dx² wird so zu einem ODE-System (Methodenlinien) oder direkt zu einem impliziten linearen System (Crank-Nicolson).",
+            explanation: "Kernidee: Ableitungen werden durch endliche Differenzen approximiert; das kontinuierliche PDE-Problem wird auf ein diskretes algebraisches Gleichungssystem reduziert. Intuition: Ein feineres Gitter (kleines h) verbessert die Approximation; der Fehler der Zentraldifferenz ist O(h^2), der der Vorwaertsdifferenz O(h). Schritte: 1) Diskretisiere x-Achse: x_i = a + i*h, i=0,...,N. 2) Ersetze d²u/dx² durch (u_{i+1}-2u_i+u_{i-1})/h² (Zentraldifferenz). 3) Explizites Euler-Verfahren in t: u_i^{n+1} = u_i^n + dt*alpha*(u_{i+1}^n - 2u_i^n + u_{i-1}^n)/h^2; stabil nur fuer dt <= h^2/(2*alpha). 4) Implizites Verfahren (Crank-Nicolson): zweite Ordnung in t, unbedingt stabil. Haeufiger Fehler: Das CFL-Stabilitaetskriterium (dt/h^2 <= 0.5/alpha) beim expliziten Verfahren verletzen – das fuehrt zu exponentiell wachsenden Loesungen. Schnellcheck: Fuer konstante Anfangsbedingung und Dirichlet-Randbedingungen sollte die numerische Loesung monoton gegen die stationaere Loesung relaxieren.",
+            type: "konzeptfrage",
+            estimatedTime: 9
         }
     ], 1000),
     placementQuestions: [
