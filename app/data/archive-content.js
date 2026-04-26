@@ -1906,6 +1906,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Ungleichungsnebenbedingungen werden ueber eine Barriere ins Innere gezogen und simultan mit Dualvariablen behandelt. Intuition: Statt Randpunkte direkt anzuspringen, folgt das Verfahren einem glatten Zentralpfad bis nahe zur optimalen Randloesung. Schritte: 1) Formuliere primal-duale KKT mit Slackvariablen. 2) Ersetze Komplementaritaet durch s_i*z_i = mu. 3) Bilde Newton-System fuer Residuen. 4) Berechne Schrittweiten, damit s,z positiv bleiben. 5) Reduziere mu und wiederhole bis Toleranz. Haeufiger Fehler: Zu grosse Schrittweite; dann verlassen Slack/Dualvariablen den positiven Bereich. Schnellcheck: Sinkende primal-, dual- und Komplementaritaetsresiduen zeigen korrekte Konvergenzrichtung.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-022",
+            title: "Gram-Schmidt und QR-Konstruktion",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["gram-schmidt", "qr", "orthogonal", "basis"],
+            difficulty: "schwer",
+            question: "Wie erzeugt das Gram-Schmidt-Verfahren aus linear unabhaengigen Vektoren eine orthonormale Basis?",
+            answer: "Jeder neue Vektor wird um Projektionen auf bereits erzeugte Basisvektoren bereinigt und danach normiert. So entstehen orthogonale Einheitsvektoren q_i; die Koeffizienten bilden zusammen R in A=QR.",
+            explanation: "Kernidee: Orthogonalisierung trennt Richtungen sauber und macht lineare Algebra numerisch handhabbarer. Intuition: Jeder Schritt entfernt den Anteil, der bereits durch vorige Basisvektoren erklaert ist. Schritte: 1) Starte mit a_1,...,a_n. 2) Setze u_k = a_k - sum_j<k proj_{q_j}(a_k). 3) Normiere q_k = u_k/||u_k||. 4) Sammle q_k als Spalten von Q. 5) Setze R=Q^T A. Haeufiger Fehler: Klassisches Gram-Schmidt ohne Reorthogonalisierung bei schlechter Kondition; Orthogonalitaet geht numerisch verloren. Schnellcheck: Q^T Q sollte nahe I liegen.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-022",
+            title: "Nyquist-Kriterium und Umlaufzahl",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["nyquist", "stabilitaet", "umlaufzahl", "frequenzgang"],
+            difficulty: "schwer",
+            question: "Wie verknuepft das Nyquist-Kriterium die Umlaufzahl um -1 mit der Stabilitaet des geschlossenen Kreises?",
+            answer: "Die Nyquist-Kurve von L(jw) liefert die Umlaufzahl N um den kritischen Punkt -1. Mit P (rechte Halbebenenpole von L) gilt Z=P-N; Z=0 bedeutet keine instabilen Pole im geschlossenen Kreis.",
+            explanation: "Kernidee: Stabilitaet wird ueber eine komplexe Ortskurve statt direkt ueber Polstellenanalyse geprueft. Intuition: Die Lage der Nyquist-Kurve relativ zu -1 kodiert, ob Rueckkopplung offene Instabilitaet kompensiert oder verstaerkt. Schritte: 1) Bestimme offene Polezahl P in RHP. 2) Zeichne Nyquist-Ortskurve von L(jw). 3) Zaehle orientierte Umlaeufe N um -1. 4) Berechne Z=P-N. 5) Fordere Z=0 fuer geschlossene Stabilitaet. Haeufiger Fehler: Richtung der Umlaeufe falsch zaehlen oder Spiegelast fuer negative Frequenzen vergessen. Schnellcheck: Bei P=0 darf die Kurve -1 nicht umlaufen.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-022",
+            title: "Trust-Region-Verfahren und Cauchy-Punkt",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["trust-region", "cauchy-punkt", "modell", "konvergenz"],
+            difficulty: "schwer",
+            question: "Was unterscheidet Trust-Region-Verfahren von Line-Search und welche Rolle spielt der Cauchy-Punkt?",
+            answer: "Trust-Region optimiert ein lokales quadratisches Modell nur innerhalb eines Radius Delta. Der Cauchy-Punkt ist eine guenstige, garantierte Verbesserungsrichtung entlang des negativen Gradienten im Trust-Ball.",
+            explanation: "Kernidee: Nicht die Schrittweite entlang einer festen Richtung wird gesucht, sondern ein Modellminimum in einer vertrauenswuerdigen Umgebung. Intuition: Wenn das Modell unzuverlaessig ist, wird Delta verkleinert; bei gutem Modell wird Delta vergroessert. Schritte: 1) Baue lokales Modell m_k(p). 2) Loese (exakt/approx.) min m_k(p) s.t. ||p||<=Delta_k. 3) Nutze Cauchy-Punkt als robuste Untergrenze. 4) Vergleiche reale vs. modellierte Reduktion rho_k. 5) Passe Delta_k an und akzeptiere/verwerfe Schritt. Haeufiger Fehler: Delta nicht adaptiv aktualisieren; dann fehlen Robustheit oder Effizienz. Schnellcheck: Positive rho_k nahe 1 zeigt gute Modellguete und rechtfertigt groessere Region.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
