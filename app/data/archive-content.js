@@ -1864,6 +1864,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Adaptive Daempfung kontrolliert Schrittweite und Richtung in schlecht konditionierten Bereichen. Intuition: Grosses lambda macht kurze, sichere Schritte; kleines lambda nutzt schnelle Gauss-Newton-Information. Schritte: 1) Stelle LM-System auf. 2) Loese nach delta. 3) Teste, ob ||r(x+delta)|| sinkt. 4) Reduziere lambda bei erfolgreichem Schritt, erhoehe sonst lambda. 5) Wiederhole bis Konvergenz. Haeufiger Fehler: Lambda starr lassen; dann verliert LM entweder Robustheit oder Geschwindigkeit. Schnellcheck: Bei guter Modellnaehe sollte lambda gegen 0 tendieren und LM sich wie Gauss-Newton verhalten.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-021",
+            title: "Hauptkomponentenanalyse als SVD-Anwendung",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["pca", "svd", "dimension", "daten"],
+            difficulty: "schwer",
+            question: "Wie haengt die Hauptkomponentenanalyse (PCA) mit der SVD einer zentrierten Datenmatrix zusammen?",
+            answer: "Fuer zentrierte Datenmatrix X liefert X=U*Sigma*V^T die Hauptachsen in V. Die groessten Singulaerwerte bestimmen die wichtigsten Varianzrichtungen; Projektion erfolgt ueber die ersten Spalten von V.",
+            explanation: "Kernidee: PCA sucht orthogonale Richtungen maximaler Varianz, SVD liefert diese direkt numerisch stabil. Intuition: Die Datenwolke wird in ein Koordinatensystem gedreht, in dem die meiste Information in wenigen Achsen liegt. Schritte: 1) Zentriere Features (Mittelwert abziehen). 2) Berechne SVD von X. 3) Waehle k groesste Singulaerwerte/Komponenten. 4) Projiziere zentrierte Daten auf V_k. 5) Evaluiere erklaerte Varianz ueber Sigma. Haeufiger Fehler: PCA ohne Zentrierung; dann dominiert der Mittelwert statt der Streuung. Schnellcheck: Summe der quadrierten Singulaerwerte entspricht der Gesamtvarianz (bis auf Skalierungsfaktor).",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-021",
+            title: "Bode-Diagramm und Stabilitaetsreserven",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["bode", "phasenreserve", "amplitudenreserve", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Wie liest man aus dem Bode-Diagramm Phasenreserve und Amplitudenreserve ab?",
+            answer: "Die Phasenreserve wird bei der Durchtrittsfrequenz |G(jw)|=1 aus dem Abstand der Phase zu -180 Grad bestimmt. Die Amplitudenreserve wird bei Phase -180 Grad aus dem Abstand des Betrags zu 0 dB bestimmt.",
+            explanation: "Kernidee: Stabilitaetsreserven messen Robustheit gegen Modellfehler und Verzoegerungen im Frequenzbereich. Intuition: Je mehr Abstand zu kritischen Punkten, desto toleranter reagiert der Kreis auf Unsicherheiten. Schritte: 1) Bestimme Gain-Crossover (0 dB). 2) Lies dort Phase und berechne PM = 180 + Phase. 3) Bestimme Phase-Crossover (-180 Grad). 4) Lies dort Betrag und berechne GM als Abstand zu 0 dB. 5) Pruefe, ob Reserven in Zielbereich liegen. Haeufiger Fehler: Frequenzen in Hz und rad/s verwechseln; das verschiebt alle Ablesungen. Schnellcheck: Positive PM und GM groesser als 0 dB deuten auf nominal stabile Reserve hin.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-021",
+            title: "Primal-Dual Interior-Point Grundidee",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["interior-point", "primal-dual", "kkt", "barriere"],
+            difficulty: "schwer",
+            question: "Was ist die zentrale Idee eines primal-dualen Interior-Point-Verfahrens fuer konvexe Optimierung?",
+            answer: "Das Verfahren loest KKT-Bedingungen zusammen mit Barriere- und Zentralpfadgleichungen. Primal- und duale Variablen werden gemeinsam ueber Newton-Schritte aktualisiert, waehrend die Barriere sukzessive reduziert wird.",
+            explanation: "Kernidee: Ungleichungsnebenbedingungen werden ueber eine Barriere ins Innere gezogen und simultan mit Dualvariablen behandelt. Intuition: Statt Randpunkte direkt anzuspringen, folgt das Verfahren einem glatten Zentralpfad bis nahe zur optimalen Randloesung. Schritte: 1) Formuliere primal-duale KKT mit Slackvariablen. 2) Ersetze Komplementaritaet durch s_i*z_i = mu. 3) Bilde Newton-System fuer Residuen. 4) Berechne Schrittweiten, damit s,z positiv bleiben. 5) Reduziere mu und wiederhole bis Toleranz. Haeufiger Fehler: Zu grosse Schrittweite; dann verlassen Slack/Dualvariablen den positiven Bereich. Schnellcheck: Sinkende primal-, dual- und Komplementaritaetsresiduen zeigen korrekte Konvergenzrichtung.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
