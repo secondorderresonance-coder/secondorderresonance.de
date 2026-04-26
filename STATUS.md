@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.5`
+- `v1.2.8`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -29,6 +29,70 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.8)
+Seventh L4-L6 archive expansion batch + residual umlaut fixes:
+
+### Changes in this iteration
+- **T-4-013** (Lineare Abbildungen und Matrizen): Kern/Bild/Dimensionssatz, Abbildungsmatrix, Injektivitaet über dim(Kern).
+- **T-5-013** (PID-Regler Entwurf und Stabilitaet): P/I/D-Anteile, Uebertragungsfunktion, Ziegler-Nichols, Rauschen und D-Anteil-Warnung.
+- **T-6-013** (Finite-Elemente-Methode Steifigkeitsmatrix): Galerkin-Variationsformulierung, Elementassemblierung, Dirichlet-RB, Symmetrie-/Definitheitsprüfung.
+- Residuale Umlaut-Fixes: „Inkremente ?ber" → „Inkremente über" (T-5-007 explanation), „M?nze" → „Münze" (Placement P13).
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+
+### Validation
+- `node -e "..."` → tasks=6000, 1000 per level (L1-L6)
+
+### Blockers
+None.
+
+### Next logical step
+- P2 weiter: T-4-014, T-5-014, T-6-014 (z.B. Eigenwerte/Spektralsatz, Zustandsraumdarstellung, Variationsrechnung/Euler-Lagrange).
+- Oder P3: Interaktives Visualmodul Komplexe Zahlen (Argand-Ebene).
+
+## Last completed task (v1.2.7)
+Sixth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-012** (Hilberträume und L2-Skalarprodukt): Sesquilinearität, Positivität, Riesz-Fischer-Vollständigkeit, Fourier/Parseval-Schnellcheck.
+- **T-5-012** (Frequenzgang und Nyquist-Diagramm): G(jω) als Betrag/Phasen-Beschreibung, Nyquist-Stabilitätskriterium, Phasen-/Amplitudenrand-Faustregeln.
+- **T-6-012** (Finite-Differenzen-Methode): Zentraldifferenz O(h²), explizites CFL-Kriterium, Crank-Nicolson unbedingt stabil, Monotonie-Schnellcheck.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=6000, 1000 per level
+
+### Blockers
+None.
+
+## Last completed task (v1.2.6)
+Impressum email color fix + umlaut encoding sweep:
+
+### Changes in this iteration
+- `index.html`: Impressum `.legal-card a` changed from `color: inherit` to `color: var(--text-muted)` so the email address renders in the same color as the name instead of browser-default link blue.
+- `app/data/archive-content.js`: Swept all broken umlaut `?` placeholders — fixed ~25 occurrences across questions, answers, explanations, taxonomy titles, and the buildTaskArchive template string. Affected: ä/ö/ü in words like „lösen", „Lösung", „für", „Universitätsgrundlagen", „Wärmeleitungsgleichung", „Dämpfung", „Verstärkung", „Optimalitätsbedingungen" etc.
+
+### Files touched
+- `index.html`
+- `app/data/archive-content.js`
+- `STATUS.md`
+
+### Validation
+- Grep confirms 0 remaining `[a-z]?[a-zA-Z]` broken-umlaut patterns in archive-content.js
+- `node tools/archive-qa.js` → OK, tasks=6000, 1000 per level
+
+### Blockers
+None.
+
+### Next logical step
+- Continue archive expansion: T-4-012, T-5-012, T-6-012.
+- Or P3: Interaktives Visualmodul Komplexe Zahlen (Argand-Ebene).
 
 ## Last completed task (v1.2.5)
 Fifth focused L4-L6 archive expansion batch with textbook-style explanations:
