@@ -1,4 +1,4 @@
-function buildTaskArchive(baseTasks, targetPerLevel) {
+﻿function buildTaskArchive(baseTasks, targetPerLevel) {
     const byLevel = {};
     baseTasks.forEach(task => {
         if (!byLevel[task.level]) byLevel[task.level] = [];
@@ -20,7 +20,7 @@ function buildTaskArchive(baseTasks, targetPerLevel) {
                 id: `T-${level}-${serial}`,
                 title: `${seed.title} (Variante ${variant})`,
                 question: `${seed.question} [Serie ${variant}]`,
-                explanation: `${seed.explanation} Diese Aufgabe ist Teil der skalierbaren Serie ${variant} für Level ${level}.`
+                explanation: `${seed.explanation} Diese Aufgabe ist Teil der skalierbaren Serie ${variant} fÃ¼r Level ${level}.`
             });
         }
     });
@@ -53,9 +53,9 @@ window.SOR_ARCHIVE = {
             description: "Unter- und Mittelstufe",
             sublevels: [
                 { id: "2.1", title: "Terme und Gleichungen" },
-                { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
+                { id: "2.1.1", title: "Gleichungen lÃ¶sen und umstellen" },
                 { id: "2.1.1.a", title: "Lineare Gleichungen mit Klammern" },
-                { id: "2.1.1", title: "Gleichungen lösen und umstellen" },
+                { id: "2.1.1", title: "Gleichungen lÃ¶sen und umstellen" },
                 { id: "2.1.1.a", title: "Lineare Gleichungen" },
                 { id: "2.1.1.b", title: "Formeln umstellen" },
                 { id: "2.2", title: "Funktionen und Graphen" },
@@ -81,7 +81,7 @@ window.SOR_ARCHIVE = {
         {
             level: "4",
             code: "L4",
-            title: "Universitätsgrundlagen",
+            title: "UniversitÃ¤tsgrundlagen",
             description: "Studienanfang",
             sublevels: [
                 { id: "4.1", title: "Lineare Algebra" },
@@ -159,7 +159,7 @@ window.SOR_ARCHIVE = {
             topic: "Geometrie",
             tags: ["rechteck", "umfang"],
             difficulty: "leicht",
-            question: "Ein Rechteck hat Länge 7 cm und Breite 4 cm. Bestimme den Umfang.",
+            question: "Ein Rechteck hat LÃ¤nge 7 cm und Breite 4 cm. Bestimme den Umfang.",
             answer: "22 cm",
             explanation: "U = 2 * (7 + 4) = 22 cm.",
             type: "kurzantwort",
@@ -201,7 +201,7 @@ window.SOR_ARCHIVE = {
             topic: "Bruchrechnung",
             tags: ["bruch", "darstellung"],
             difficulty: "leicht",
-            question: "Schreibe 0,75 als vollständig gekürzten Bruch.",
+            question: "Schreibe 0,75 als vollstÃ¤ndig gekÃ¼rzten Bruch.",
             answer: "3/4",
             explanation: "0,75 = 75/100 = 3/4.",
             type: "kurzantwort",
@@ -247,8 +247,8 @@ window.SOR_ARCHIVE = {
             tags: ["dreieck", "flaeche"],
             difficulty: "leicht",
             question: "Ein Dreieck hat Grundlinie 10 cm und Hoehe 6 cm. Wie gross ist seine Flaeche?",
-            answer: "30 cm²",
-            explanation: "A = Grundlinie * Hoehe / 2 = 10 * 6 / 2 = 30 cm².",
+            answer: "30 cmÂ²",
+            explanation: "A = Grundlinie * Hoehe / 2 = 10 * 6 / 2 = 30 cmÂ².",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -327,17 +327,105 @@ window.SOR_ARCHIVE = {
             type: "kurzantwort",
             estimatedTime: 1
         },
+        {
+            id: "T-1-015",
+            title: "Schriftliche Multiplikation",
+            level: "1",
+            sublevel: "1.1.1.a",
+            topic: "Grundrechenarten",
+            tags: ["multiplikation", "kopfrechnen"],
+            difficulty: "leicht",
+            question: "Berechne 24 * 15.",
+            answer: "360",
+            explanation: "24*15 = 24*(10+5) = 240 + 120 = 360.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
 
         {
+            id: "T-1-016",
+            title: "Bruch von einer Groesse",
+            level: "1",
+            sublevel: "1.1.2.a",
+            topic: "Bruchrechnung",
+            tags: ["bruch", "anteil"],
+            difficulty: "leicht",
+            question: "Wie viel ist 3/5 von 50?",
+            answer: "30",
+            explanation: "Ein Fuenftel von 50 ist 10, also sind drei Fuenftel 30.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-017",
+            title: "Prozentualer Rabatt",
+            level: "1",
+            sublevel: "1.1.2.b",
+            topic: "Prozentrechnung",
+            tags: ["prozent", "rabatt", "alltag"],
+            difficulty: "leicht",
+            question: "Ein Rucksack kostet 80 Euro. Es gibt 25% Rabatt. Wie hoch ist der neue Preis?",
+            answer: "60 Euro",
+            explanation: "25% von 80 sind 20. Neuer Preis: 80 - 20 = 60 Euro.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-018",
+            title: "Flaeche Rechteck",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Geometrie",
+            tags: ["flaeche", "rechteck"],
+            difficulty: "leicht",
+            question: "Ein Rechteck hat Laenge 9 cm und Breite 4 cm. Berechne die Flaeche.",
+            answer: "36 cm^2",
+            explanation: "A = Laenge * Breite = 9 * 4 = 36 cm^2.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-019",
+            title: "Zeit umrechnen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["einheiten", "zeit", "alltag"],
+            difficulty: "leicht",
+            question: "Wie viele Minuten sind 2,5 Stunden?",
+            answer: "150 Minuten",
+            explanation: "1 Stunde = 60 Minuten, also 2,5 * 60 = 150.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-020",
+            title: "Kreisdiagramm deuten",
+            level: "1",
+            sublevel: "1.1.2.b",
+            topic: "Prozentrechnung",
+            tags: ["diagramm", "prozent"],
+            difficulty: "mittel",
+            question: "In einer Klasse sind 20% mit dem Fahrrad gekommen. Die Klasse hat 30 Schueler. Wie viele sind mit dem Fahrrad gekommen?",
+            answer: "6",
+            explanation: "20% von 30 sind 0,2 * 30 = 6.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+        {
             id: "T-2-001",
-            title: "Lineare Gleichung lösen",
+            title: "Lineare Gleichung lÃ¶sen",
             level: "2",
             sublevel: "2.1.1.a",
-            topic: "Gleichungen lösen und umstellen",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             tags: ["gleichung", "termumformung"],
             difficulty: "mittel",
-            question: "Löse 3x - 7 = 11.",
+            question: "LÃ¶se 3x - 7 = 11.",
             answer: "x = 6",
             explanation: "+7 auf beiden Seiten ergibt 3x = 18, dann durch 3 teilen.",
             type: "kurzantwort",
@@ -348,9 +436,9 @@ window.SOR_ARCHIVE = {
             title: "Formel nach Variable umstellen",
             level: "2",
             sublevel: "2.1.1",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             sublevel: "2.1.1.b",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             tags: ["formelumstellung"],
             difficulty: "mittel",
             question: "Stelle A = b * h / 2 nach h um.",
@@ -409,7 +497,7 @@ window.SOR_ARCHIVE = {
             topic: "Funktionen",
             tags: ["einsetzen"],
             difficulty: "mittel",
-            question: "Berechne f(4) für f(x)=2x-3.",
+            question: "Berechne f(4) fÃ¼r f(x)=2x-3.",
             answer: "5",
             explanation: "2 * 4 - 3 = 8 - 3 = 5.",
             type: "kurzantwort",
@@ -421,12 +509,12 @@ window.SOR_ARCHIVE = {
             title: "Quadratische Gleichung pq-Formel",
             level: "2",
             sublevel: "2.1.1.a",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             tags: ["quadratisch", "pq-formel"],
             difficulty: "mittel",
-            question: "Loese x² - 5x + 6 = 0 mit der pq-Formel.",
+            question: "Loese xÂ² - 5x + 6 = 0 mit der pq-Formel.",
             answer: "x = 2 oder x = 3",
-            explanation: "p = -5, q = 6. x = 5/2 ± sqrt((5/2)² - 6) = 2,5 ± 0,5. Ergebnisse: x=3 und x=2.",
+            explanation: "p = -5, q = 6. x = 5/2 Â± sqrt((5/2)Â² - 6) = 2,5 Â± 0,5. Ergebnisse: x=3 und x=2.",
             type: "kurzantwort",
             estimatedTime: 4
         },
@@ -436,7 +524,7 @@ window.SOR_ARCHIVE = {
             title: "Lineares Gleichungssystem",
             level: "2",
             sublevel: "2.1.1.a",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             tags: ["gleichungssystem", "substitution"],
             difficulty: "mittel",
             question: "Loese das System: x + y = 7 und x - y = 3.",
@@ -451,12 +539,12 @@ window.SOR_ARCHIVE = {
             title: "Binomische Formel anwenden",
             level: "2",
             sublevel: "2.1.1.a",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             tags: ["binom", "termumformung"],
             difficulty: "mittel",
-            question: "Forme (a + 3)² vollstaendig aus.",
-            answer: "a² + 6a + 9",
-            explanation: "(a+b)² = a² + 2ab + b². Hier b=3: a² + 6a + 9.",
+            question: "Forme (a + 3)Â² vollstaendig aus.",
+            answer: "aÂ² + 6a + 9",
+            explanation: "(a+b)Â² = aÂ² + 2ab + bÂ². Hier b=3: aÂ² + 6a + 9.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -484,9 +572,9 @@ window.SOR_ARCHIVE = {
             topic: "Funktionen",
             tags: ["sinus", "trigonometrie"],
             difficulty: "mittel",
-            question: "Wie gross ist sin(30°)?",
+            question: "Wie gross ist sin(30Â°)?",
             answer: "1/2 (= 0,5)",
-            explanation: "Im rechtwinkligen Dreieck mit 30° entspricht die Gegenkathete der Haelfte der Hypotenuse: sin(30°) = 1/2.",
+            explanation: "Im rechtwinkligen Dreieck mit 30Â° entspricht die Gegenkathete der Haelfte der Hypotenuse: sin(30Â°) = 1/2.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -499,9 +587,9 @@ window.SOR_ARCHIVE = {
             topic: "Exponentielles Verhalten",
             tags: ["logarithmus", "potenz"],
             difficulty: "mittel",
-            question: "Berechne log₂(16).",
+            question: "Berechne logâ‚‚(16).",
             answer: "4",
-            explanation: "log₂(16) = x bedeutet 2^x = 16 = 2^4, also x = 4.",
+            explanation: "logâ‚‚(16) = x bedeutet 2^x = 16 = 2^4, also x = 4.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -526,16 +614,104 @@ window.SOR_ARCHIVE = {
             title: "Betragsgleichung loesen",
             level: "2",
             sublevel: "2.1.1.a",
-            topic: "Gleichungen lösen und umstellen",
+            topic: "Gleichungen lÃ¶sen und umstellen",
             tags: ["betrag", "fallunterscheidung"],
             difficulty: "mittel",
             question: "Loese |x - 4| = 6.",
             answer: "x = 10 oder x = -2",
-            explanation: "Fall 1: x - 4 = 6 → x = 10. Fall 2: x - 4 = -6 → x = -2. Beide pruefen: |10-4|=6 ✓ und |-2-4|=6 ✓.",
+            explanation: "Fall 1: x - 4 = 6 â†’ x = 10. Fall 2: x - 4 = -6 â†’ x = -2. Beide pruefen: |10-4|=6 âœ“ und |-2-4|=6 âœ“.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+        {
+            id: "T-2-015",
+            title: "Lineares Gleichungssystem mit Einsetzverfahren",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen loesen und umstellen",
+            tags: ["lgs", "einsetzverfahren"],
+            difficulty: "mittel",
+            question: "Loese das System y = 2x + 1 und 3x + y = 16.",
+            answer: "x = 3, y = 7",
+            explanation: "Einsetzen: 3x + (2x+1) = 16 -> 5x+1=16 -> x=3. Dann y=2*3+1=7.",
             type: "kurzantwort",
             estimatedTime: 3
         },
 
+        {
+            id: "T-2-016",
+            title: "Binomische Formel anwenden",
+            level: "2",
+            sublevel: "2.1.1.b",
+            topic: "Gleichungen loesen und umstellen",
+            tags: ["binom", "terme"],
+            difficulty: "mittel",
+            question: "Vereinfache (x + 5)^2.",
+            answer: "x^2 + 10x + 25",
+            explanation: "(a+b)^2 = a^2 + 2ab + b^2 mit a=x, b=5.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-017",
+            title: "Parabel Scheitelpunkt",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen und Graphen",
+            tags: ["parabel", "scheitelpunkt"],
+            difficulty: "mittel",
+            question: "Bestimme den Scheitelpunkt von f(x) = (x - 2)^2 + 3.",
+            answer: "S(2|3)",
+            explanation: "Scheitelpunktform f(x)=(x-d)^2+e hat Scheitel bei (d|e).",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-018",
+            title: "Steigung aus zwei Punkten",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen und Graphen",
+            tags: ["steigung", "gerade"],
+            difficulty: "mittel",
+            question: "Wie gross ist die Steigung der Geraden durch A(1|2) und B(5|10)?",
+            answer: "2",
+            explanation: "m = (10-2)/(5-1) = 8/4 = 2.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-019",
+            title: "Pythagoras anwenden",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen und Graphen",
+            tags: ["pythagoras", "geometrie"],
+            difficulty: "mittel",
+            question: "Ein rechtwinkliges Dreieck hat Katheten 6 cm und 8 cm. Wie lang ist die Hypotenuse?",
+            answer: "10 cm",
+            explanation: "c = sqrt(6^2 + 8^2) = sqrt(36+64) = sqrt(100) = 10.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-020",
+            title: "Wahrscheinlichkeit mit Baumdiagramm",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["wahrscheinlichkeit", "baumdiagramm"],
+            difficulty: "mittel",
+            question: "Eine faire Muenze wird zweimal geworfen. Wie gross ist die Wahrscheinlichkeit fuer genau einmal Kopf?",
+            answer: "1/2",
+            explanation: "Gueltige Ergebnisse: Kopf-Zahl und Zahl-Kopf. Das sind 2 von 4 gleich wahrscheinlichen Ergebnissen.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
         {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
@@ -558,9 +734,9 @@ window.SOR_ARCHIVE = {
             topic: "Analysis",
             tags: ["quadratisch", "nullstelle"],
             difficulty: "mittel",
-            question: "Löse x^2 - 9 = 0.",
+            question: "LÃ¶se x^2 - 9 = 0.",
             answer: "x = -3 oder x = 3",
-            explanation: "x^2=9, also zwei Lösungen.",
+            explanation: "x^2=9, also zwei LÃ¶sungen.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -615,7 +791,7 @@ window.SOR_ARCHIVE = {
             tags: ["ableitung", "monotonie"],
             difficulty: "schwer",
             question: "Ist f(x)=x^3 streng monoton steigend?",
-            answer: "Ja, für alle x",
+            answer: "Ja, fÃ¼r alle x",
             explanation: "f'(x)=3x^2 ist nie negativ, daher steigt f global.",
             type: "konzeptfrage",
             estimatedTime: 3
@@ -629,9 +805,9 @@ window.SOR_ARCHIVE = {
             topic: "Analysis",
             tags: ["integral", "substitution"],
             difficulty: "schwer",
-            question: "Berechne ∫ 2x * e^(x²) dx.",
-            answer: "e^(x²) + C",
-            explanation: "Substitution: u = x², du = 2x dx. Das Integral wird zu ∫ e^u du = e^u + C = e^(x²) + C.",
+            question: "Berechne âˆ« 2x * e^(xÂ²) dx.",
+            answer: "e^(xÂ²) + C",
+            explanation: "Substitution: u = xÂ², du = 2x dx. Das Integral wird zu âˆ« e^u du = e^u + C = e^(xÂ²) + C.",
             type: "kurzantwort",
             estimatedTime: 4
         },
@@ -644,9 +820,9 @@ window.SOR_ARCHIVE = {
             topic: "Analysis",
             tags: ["integral", "partielle-integration"],
             difficulty: "schwer",
-            question: "Berechne ∫ x * e^x dx mit partieller Integration.",
+            question: "Berechne âˆ« x * e^x dx mit partieller Integration.",
             answer: "(x - 1) * e^x + C",
-            explanation: "Formel: ∫ u v' dx = uv - ∫ u' v dx. Wahl: u=x, v'=e^x, also u'=1, v=e^x. Ergibt: x*e^x - ∫ e^x dx = x*e^x - e^x + C = (x-1)*e^x + C.",
+            explanation: "Formel: âˆ« u v' dx = uv - âˆ« u' v dx. Wahl: u=x, v'=e^x, also u'=1, v=e^x. Ergibt: x*e^x - âˆ« e^x dx = x*e^x - e^x + C = (x-1)*e^x + C.",
             type: "kurzantwort",
             estimatedTime: 5
         },
@@ -659,7 +835,7 @@ window.SOR_ARCHIVE = {
             topic: "Stochastik und Vektoren",
             tags: ["skalarprodukt", "vektor"],
             difficulty: "mittel",
-            question: "Berechne das Skalarprodukt (2, 3, 1) · (1, 0, 2).",
+            question: "Berechne das Skalarprodukt (2, 3, 1) Â· (1, 0, 2).",
             answer: "4",
             explanation: "Skalarprodukt: 2*1 + 3*0 + 1*2 = 2 + 0 + 2 = 4.",
             type: "kurzantwort",
@@ -691,7 +867,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Berechne (2 + 3i)(1 - i).",
             answer: "5 + i",
-            explanation: "Ausmultiplizieren: 2*1 + 2*(-i) + 3i*1 + 3i*(-i) = 2 - 2i + 3i - 3i². Mit i²=-1: 2 + i + 3 = 5 + i.",
+            explanation: "Ausmultiplizieren: 2*1 + 2*(-i) + 3i*1 + 3i*(-i) = 2 - 2i + 3i - 3iÂ². Mit iÂ²=-1: 2 + i + 3 = 5 + i.",
             type: "kurzantwort",
             estimatedTime: 3
         },
@@ -704,9 +880,9 @@ window.SOR_ARCHIVE = {
             topic: "Analysis",
             tags: ["grenzwert", "lhopital"],
             difficulty: "schwer",
-            question: "Bestimme lim_{x→0} sin(x)/x.",
+            question: "Bestimme lim_{xâ†’0} sin(x)/x.",
             answer: "1",
-            explanation: "Form 0/0 → L'Hopital anwenden: lim_{x→0} cos(x)/1 = cos(0) = 1. Alternativ: Taylorentwicklung sin(x) ≈ x gibt sin(x)/x → 1.",
+            explanation: "Form 0/0 â†’ L'Hopital anwenden: lim_{xâ†’0} cos(x)/1 = cos(0) = 1. Alternativ: Taylorentwicklung sin(x) â‰ˆ x gibt sin(x)/x â†’ 1.",
             type: "kurzantwort",
             estimatedTime: 3
         },
@@ -734,13 +910,101 @@ window.SOR_ARCHIVE = {
             topic: "Analysis",
             tags: ["integral", "bestimmt"],
             difficulty: "mittel",
-            question: "Berechne ∫₀² x² dx.",
+            question: "Berechne âˆ«â‚€Â² xÂ² dx.",
             answer: "8/3",
-            explanation: "Stammfunktion: x³/3. Auswertung: [x³/3]₀² = 8/3 - 0 = 8/3.",
+            explanation: "Stammfunktion: xÂ³/3. Auswertung: [xÂ³/3]â‚€Â² = 8/3 - 0 = 8/3.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+        {
+            id: "T-3-015",
+            title: "Quadratische Gleichung mit pq-Formel",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["quadratisch", "pq-formel"],
+            difficulty: "mittel",
+            question: "Loese x^2 - 6x + 5 = 0.",
+            answer: "x = 1 oder x = 5",
+            explanation: "Faktorisieren oder pq-Formel: (x-1)(x-5)=0, also x=1 oder x=5.",
             type: "kurzantwort",
             estimatedTime: 3
         },
 
+        {
+            id: "T-3-016",
+            title: "Exponentialfunktion aus zwei Punkten",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["exponentialfunktion", "modellierung"],
+            difficulty: "schwer",
+            question: "Bestimme f(x)=a*b^x mit f(0)=3 und f(2)=12.",
+            answer: "f(x) = 3 * 2^x",
+            explanation: "Aus f(0)=a folgt a=3. Dann 12=f(2)=3*b^2 -> b^2=4 -> b=2 (Wachstum).",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-017",
+            title: "Sinus und Kosinus am Einheitskreis",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["trigonometrie", "einheitskreis"],
+            difficulty: "mittel",
+            question: "Bestimme sin(30 Grad) und cos(60 Grad).",
+            answer: "sin(30 Grad)=1/2, cos(60 Grad)=1/2",
+            explanation: "Beide Winkel gehoeren zu den Standardwerten am Einheitskreis.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-3-018",
+            title: "Vektorlaenge berechnen",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["vektor", "betrag"],
+            difficulty: "mittel",
+            question: "Berechne den Betrag von v=(3,-4).",
+            answer: "5",
+            explanation: "|v| = sqrt(3^2 + (-4)^2) = sqrt(9+16) = 5.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-3-019",
+            title: "Bedingte Wahrscheinlichkeit",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["stochastik", "bedingt"],
+            difficulty: "schwer",
+            question: "In einer Gruppe sind 60% weiblich. 30% aller Personen spielen Fussball, davon sind 40% weiblich. Wie gross ist P(Fussball | weiblich)?",
+            answer: "20%",
+            explanation: "P(W)=0,6. P(F)=0,3. P(W und F)=0,4*0,3=0,12. Dann P(F|W)=0,12/0,6=0,2=20%.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-020",
+            title: "Tangentengleichung",
+            level: "3",
+            sublevel: "3.1.1.b",
+            topic: "Analysis",
+            tags: ["tangente", "ableitung"],
+            difficulty: "schwer",
+            question: "Bestimme die Tangente an f(x)=x^2 im Punkt x0=3.",
+            answer: "y = 6x - 9",
+            explanation: "f'(x)=2x, also m=f'(3)=6. Punkt: (3,9). Tangente: y-9=6(x-3) -> y=6x-9.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
         {
             id: "T-4-001",
             title: "Determinante 2x2",
@@ -763,7 +1027,7 @@ window.SOR_ARCHIVE = {
             topic: "Lineare Algebra",
             tags: ["lgs"],
             difficulty: "schwer",
-            question: "Löse x+y=5 und x-y=1.",
+            question: "LÃ¶se x+y=5 und x-y=1.",
             answer: "x=3, y=2",
             explanation: "Addieren liefert 2x=6 -> x=3, dann y=2.",
             type: "kurzantwort",
@@ -778,7 +1042,7 @@ window.SOR_ARCHIVE = {
             tags: ["eigenwert", "konzept"],
             difficulty: "schwer",
             question: "Was bedeutet A v = lambda v anschaulich?",
-            answer: "v behält Richtung, nur die Länge skaliert mit lambda",
+            answer: "v behÃ¤lt Richtung, nur die LÃ¤nge skaliert mit lambda",
             explanation: "Eigenvektoren werden durch A nur gestreckt oder gespiegelt.",
             type: "konzeptfrage",
             estimatedTime: 4
@@ -791,7 +1055,7 @@ window.SOR_ARCHIVE = {
             topic: "Differentialgleichungen",
             tags: ["dgl", "trennung"],
             difficulty: "schwer",
-            question: "Löse y' = 3y mit y(0)=2.",
+            question: "LÃ¶se y' = 3y mit y(0)=2.",
             answer: "y(t)=2e^(3t)",
             explanation: "Standardform y'=ky -> y=Ae^(kt), Anfangsbedingung bestimmt A=2.",
             type: "kurzantwort",
@@ -865,7 +1129,7 @@ window.SOR_ARCHIVE = {
             difficulty: "mittel",
             question: "Bestimme L{1}.",
             answer: "1/s",
-            explanation: "Standardtransformation für t >= 0.",
+            explanation: "Standardtransformation fÃ¼r t >= 0.",
             type: "kurzantwort",
             estimatedTime: 2
         },
@@ -879,7 +1143,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Wann wird die Antwort eines linearen Schwingers maximal?",
             answer: "Wenn Anregungsfrequenz nahe der Eigenfrequenz liegt",
-            explanation: "Dann tritt Resonanz auf; Dämpfung begrenzt die Amplitude.",
+            explanation: "Dann tritt Resonanz auf; DÃ¤mpfung begrenzt die Amplitude.",
             type: "konzeptfrage",
             estimatedTime: 4
         },
@@ -889,11 +1153,11 @@ window.SOR_ARCHIVE = {
             level: "5",
             sublevel: "5.2",
             topic: "Regelungstechnik",
-            tags: ["pt1", "übertragungsfunktion"],
+            tags: ["pt1", "Ã¼bertragungsfunktion"],
             difficulty: "schwer",
-            question: "Wie lautet die Übertragungsfunktion eines PT1-Glieds?",
+            question: "Wie lautet die Ãœbertragungsfunktion eines PT1-Glieds?",
             answer: "G(s)=K/(1+Ts)",
-            explanation: "K ist Verstärkung, T Zeitkonstante.",
+            explanation: "K ist VerstÃ¤rkung, T Zeitkonstante.",
             type: "kurzantwort",
             estimatedTime: 3
         },
@@ -921,7 +1185,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Welche zwei Kurven zeigt ein Bode-Diagramm?",
             answer: "Betragsgang und Phasengang",
-            explanation: "Beide über der logarithmischen Frequenzachse.",
+            explanation: "Beide Ã¼ber der logarithmischen Frequenzachse.",
             type: "kurzantwort",
             estimatedTime: 3
         },
@@ -949,9 +1213,9 @@ window.SOR_ARCHIVE = {
             topic: "Partielle DGL",
             tags: ["pde", "klassifikation"],
             difficulty: "schwer",
-            question: "Zu welcher Klasse gehört die Wärmeleitungsgleichung?",
+            question: "Zu welcher Klasse gehÃ¶rt die WÃ¤rmeleitungsgleichung?",
             answer: "Parabolisch",
-            explanation: "Wärmeleitung besitzt diffusionsartiges Verhalten.",
+            explanation: "WÃ¤rmeleitung besitzt diffusionsartiges Verhalten.",
             type: "kurzantwort",
             estimatedTime: 4
         },
@@ -964,8 +1228,8 @@ window.SOR_ARCHIVE = {
             tags: ["wiener", "zufallsprozess"],
             difficulty: "schwer",
             question: "Nenne eine Kerneigenschaft des Wiener-Prozesses.",
-            answer: "Unabhängige normalverteilte Inkremente",
-            explanation: "Inkremente über disjunkte Intervalle sind unabhängig.",
+            answer: "UnabhÃ¤ngige normalverteilte Inkremente",
+            explanation: "Inkremente Ã¼ber disjunkte Intervalle sind unabhÃ¤ngig.",
             type: "konzeptfrage",
             estimatedTime: 4
         },
@@ -1005,8 +1269,8 @@ window.SOR_ARCHIVE = {
             topic: "Optimierung",
             tags: ["kkt", "nebenbedingungen"],
             difficulty: "schwer",
-            question: "Wofür stehen die KKT-Bedingungen?",
-            answer: "Notwendige Optimalitätsbedingungen bei Nebenbedingungen",
+            question: "WofÃ¼r stehen die KKT-Bedingungen?",
+            answer: "Notwendige OptimalitÃ¤tsbedingungen bei Nebenbedingungen",
             explanation: "Sie erweitern Lagrange-Multiplikatoren auf Ungleichungen.",
             type: "kurzantwort",
             estimatedTime: 4
@@ -1021,7 +1285,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Was passiert in der Regel mit dem Diskretisierungsfehler bei feinerem Gitter?",
             answer: "Er sinkt",
-            explanation: "Feineres Gitter verbessert die Approximation der kontinuierlichen Lösung.",
+            explanation: "Feineres Gitter verbessert die Approximation der kontinuierlichen LÃ¶sung.",
             type: "konzeptfrage",
             estimatedTime: 3
         },
@@ -1051,7 +1315,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Schreibe die Taylorreihe von e^x um den Punkt x=0 auf und nenne ihren Konvergenzradius.",
             answer: "e^x = sum_{k=0}^{inf} x^k / k! fuer alle x in R; Konvergenzradius R = inf.",
-            explanation: "Kernidee: Jede glatte Funktion laesst sich lokal durch ein Polynom beliebiger Ordnung approximieren; bei e^x konvergiert diese Approximation sogar auf ganz R. Intuition: Die Ableitungen von e^x sind alle wieder e^x, also ist jeder Taylorkoeffizient a_k = f^(k)(0)/k! = 1/k!. Schritte: 1) Berechne f^(k)(x)=e^x fuer alle k. 2) Werte bei x=0 aus: f^(k)(0)=1. 3) Taylorkoeffizient: a_k = 1/k!. 4) Reihe: sum_{k=0}^{inf} x^k/k!. 5) Konvergenzradius via Quotientenkriterium: |a_{k+1}/a_k| = 1/(k+1) -> 0, also R=inf. Haeufiger Fehler: Nur die ersten 3-4 Glieder hinschreiben ohne Konvergenzbetrachtung. Schnellcheck: Fuer x=1 liefert die Reihe 1+1+1/2+1/6+... ≈ 2.718, was mit e uebereinstimmt.",
+            explanation: "Kernidee: Jede glatte Funktion laesst sich lokal durch ein Polynom beliebiger Ordnung approximieren; bei e^x konvergiert diese Approximation sogar auf ganz R. Intuition: Die Ableitungen von e^x sind alle wieder e^x, also ist jeder Taylorkoeffizient a_k = f^(k)(0)/k! = 1/k!. Schritte: 1) Berechne f^(k)(x)=e^x fuer alle k. 2) Werte bei x=0 aus: f^(k)(0)=1. 3) Taylorkoeffizient: a_k = 1/k!. 4) Reihe: sum_{k=0}^{inf} x^k/k!. 5) Konvergenzradius via Quotientenkriterium: |a_{k+1}/a_k| = 1/(k+1) -> 0, also R=inf. Haeufiger Fehler: Nur die ersten 3-4 Glieder hinschreiben ohne Konvergenzbetrachtung. Schnellcheck: Fuer x=1 liefert die Reihe 1+1+1/2+1/6+... â‰ˆ 2.718, was mit e uebereinstimmt.",
             type: "kurzantwort",
             estimatedTime: 6
         },
@@ -1141,7 +1405,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Formuliere den Spektralsatz fuer reelle symmetrische Matrizen und erklaere seine Konsequenzen.",
             answer: "Jede reelle symmetrische Matrix A ist orthogonal diagonalisierbar: Es existiert eine orthogonale Matrix Q mit Q^T A Q = diag(lambda_1,...,lambda_n); alle Eigenwerte sind reell und Eigenvektoren zu verschiedenen Eigenwerten stehen senkrecht aufeinander.",
-            explanation: "Kernidee: Symmetrie erzwingt reelle Eigenwerte und orthogonale Eigenvektoren – das macht symmetrische Matrizen besonders gut analysierbar. Intuition: Physikalisch beschreiben symmetrische Matrizen konservative Systeme (z.B. Traegheitstensoren); ihre Eigenvektoren sind die natuerlichen Hauptachsen des Systems. Schritte: 1) Berechne Eigenwerte als Nullstellen des charakteristischen Polynoms – alle sind reell (Beweis: ueber komplexe Konjugation). 2) Fuer verschiedene Eigenwerte sind Eigenvektoren automatisch orthogonal. 3) Bei mehrfachen Eigenwerten: Gram-Schmidt im jeweiligen Eigenraum. 4) Normiere alle Eigenvektoren und bilde Q aus ihnen als Spalten. 5) Pruefe Q^T Q = I und Q^T A Q = Diagonalmatrix. Haeufiger Fehler: Symmetrie (A = A^T) mit positiv-definit verwechseln – Symmetrie allein sagt nichts ueber das Vorzeichen der Eigenwerte aus. Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte; beide muessen mit dem charakteristischen Polynom uebereinstimmen.",
+            explanation: "Kernidee: Symmetrie erzwingt reelle Eigenwerte und orthogonale Eigenvektoren â€“ das macht symmetrische Matrizen besonders gut analysierbar. Intuition: Physikalisch beschreiben symmetrische Matrizen konservative Systeme (z.B. Traegheitstensoren); ihre Eigenvektoren sind die natuerlichen Hauptachsen des Systems. Schritte: 1) Berechne Eigenwerte als Nullstellen des charakteristischen Polynoms â€“ alle sind reell (Beweis: ueber komplexe Konjugation). 2) Fuer verschiedene Eigenwerte sind Eigenvektoren automatisch orthogonal. 3) Bei mehrfachen Eigenwerten: Gram-Schmidt im jeweiligen Eigenraum. 4) Normiere alle Eigenvektoren und bilde Q aus ihnen als Spalten. 5) Pruefe Q^T Q = I und Q^T A Q = Diagonalmatrix. Haeufiger Fehler: Symmetrie (A = A^T) mit positiv-definit verwechseln â€“ Symmetrie allein sagt nichts ueber das Vorzeichen der Eigenwerte aus. Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte; beide muessen mit dem charakteristischen Polynom uebereinstimmen.",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1156,7 +1420,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Erklaere die Diskrete Fourier-Transformation (DFT) und den Unterschied zur FFT.",
             answer: "DFT: X[k] = sum_{n=0}^{N-1} x[n] * e^{-j2pi*kn/N} transformiert N Samples in N Frequenzkomponenten (O(N^2)). FFT ist ein effizienter Algorithmus zur DFT-Berechnung in O(N log N) via Butterfly-Struktur (Cooley-Tukey).",
-            explanation: "Kernidee: Die DFT zerlegt ein diskretes Signal in seine Frequenzanteile – genau wie die kontinuierliche Fourier-Transformation, aber auf einem endlichen Gitter mit periodischer Fortsetzung. Intuition: Jedes der N Frequenzbins misst die Korrelation des Signals mit einer komplexen Schwingung der Frequenz k/N (relativ zur Abtastrate) – das ist ein inneres Produkt im N-dimensionalen Signalraum. Schritte: 1) Setze W_N = e^{-j2pi/N} (N-te Einheitswurzel). 2) Berechne X[k] = sum_{n=0}^{N-1} x[n] * W_N^{kn} fuer k=0,...,N-1. 3) FFT: Teile die Summe in Gerade/Ungerade (Decimation-in-Time), wende DFT rekursiv an (O(N log N)). 4) Nutze IFFT fuer Ruecktransformation: x[n] = (1/N) sum_{k} X[k] W_N^{-kn}. Haeufiger Fehler: Periodizitaet der DFT vergessen – X[k+N] = X[k] – und negative Frequenzen (k > N/2) falsch interpretieren. Schnellcheck: Fuer ein reelles Signal ist X[N-k] = X[k]* (konjugiert-symmetrisch); Parseval-Theorem prueft Energieerhaltung.",
+            explanation: "Kernidee: Die DFT zerlegt ein diskretes Signal in seine Frequenzanteile â€“ genau wie die kontinuierliche Fourier-Transformation, aber auf einem endlichen Gitter mit periodischer Fortsetzung. Intuition: Jedes der N Frequenzbins misst die Korrelation des Signals mit einer komplexen Schwingung der Frequenz k/N (relativ zur Abtastrate) â€“ das ist ein inneres Produkt im N-dimensionalen Signalraum. Schritte: 1) Setze W_N = e^{-j2pi/N} (N-te Einheitswurzel). 2) Berechne X[k] = sum_{n=0}^{N-1} x[n] * W_N^{kn} fuer k=0,...,N-1. 3) FFT: Teile die Summe in Gerade/Ungerade (Decimation-in-Time), wende DFT rekursiv an (O(N log N)). 4) Nutze IFFT fuer Ruecktransformation: x[n] = (1/N) sum_{k} X[k] W_N^{-kn}. Haeufiger Fehler: Periodizitaet der DFT vergessen â€“ X[k+N] = X[k] â€“ und negative Frequenzen (k > N/2) falsch interpretieren. Schnellcheck: Fuer ein reelles Signal ist X[N-k] = X[k]* (konjugiert-symmetrisch); Parseval-Theorem prueft Energieerhaltung.",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1171,7 +1435,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Formuliere die Karush-Kuhn-Tucker-Bedingungen (KKT) fuer ein nichtlineares Problem mit Ungleichungsnebenbedingungen.",
             answer: "Fuer min f(x) s.t. g_i(x) <= 0 und h_j(x) = 0 lauten die KKT-Bedingungen: (1) Stationaritaet: nabla f + sum mu_i nabla g_i + sum lambda_j nabla h_j = 0; (2) Primale Zulaessigkeit; (3) Duale Zulaessigkeit: mu_i >= 0; (4) Komplementaritaet: mu_i * g_i = 0.",
-            explanation: "Kernidee: An einem lokalen Minimum muss der Gradient der Zielfunktion in den Kegel der aktiven Nebenbedingungsgradienten fallen – KKT formalisiert diese geometrische Bedingung algebraisch. Intuition: Die Komplementaritaet mu_i * g_i = 0 erzwingt: Entweder eine Nebenbedingung ist aktiv (g_i = 0, mu_i frei) oder inaktiv (g_i < 0, dann muss mu_i = 0); inaktive Nebenbedingungen duerfen das Optimum nicht beeinflussen. Schritte: 1) Bilde Lagrangefunktion L = f + sum mu_i g_i + sum lambda_j h_j. 2) Setze nabla_x L = 0 (Stationaritaet). 3) Pruefe g_i(x*) <= 0 und h_j(x*) = 0 (primale Zulaessigkeit). 4) Verlange mu_i >= 0 (duale Zulaessigkeit bei Minimierung). 5) Verifiziere mu_i * g_i = 0 fuer alle i (Komplementaritaet). Haeufiger Fehler: Vorzeichen der Multiplikatoren verwechseln: bei Minimierung mu_i >= 0, bei Maximierung mu_i <= 0; falsche Vorzeichen fuehren auf Sattelpunkte statt Minima. Schnellcheck: Ohne aktive Ungleichungsnebenbedingungen reduzieren sich KKT auf klassische Lagrange-Bedingungen der Gleichungsnebenbedingungen.",
+            explanation: "Kernidee: An einem lokalen Minimum muss der Gradient der Zielfunktion in den Kegel der aktiven Nebenbedingungsgradienten fallen â€“ KKT formalisiert diese geometrische Bedingung algebraisch. Intuition: Die Komplementaritaet mu_i * g_i = 0 erzwingt: Entweder eine Nebenbedingung ist aktiv (g_i = 0, mu_i frei) oder inaktiv (g_i < 0, dann muss mu_i = 0); inaktive Nebenbedingungen duerfen das Optimum nicht beeinflussen. Schritte: 1) Bilde Lagrangefunktion L = f + sum mu_i g_i + sum lambda_j h_j. 2) Setze nabla_x L = 0 (Stationaritaet). 3) Pruefe g_i(x*) <= 0 und h_j(x*) = 0 (primale Zulaessigkeit). 4) Verlange mu_i >= 0 (duale Zulaessigkeit bei Minimierung). 5) Verifiziere mu_i * g_i = 0 fuer alle i (Komplementaritaet). Haeufiger Fehler: Vorzeichen der Multiplikatoren verwechseln: bei Minimierung mu_i >= 0, bei Maximierung mu_i <= 0; falsche Vorzeichen fuehren auf Sattelpunkte statt Minima. Schnellcheck: Ohne aktive Ungleichungsnebenbedingungen reduzieren sich KKT auf klassische Lagrange-Bedingungen der Gleichungsnebenbedingungen.",
             type: "konzeptfrage",
             estimatedTime: 9
         },
@@ -1185,8 +1449,8 @@ window.SOR_ARCHIVE = {
             tags: ["metrischer-raum", "cauchy-folge", "vollstaendigkeit", "banachraum"],
             difficulty: "schwer",
             question: "Was ist ein metrischer Raum, und wann nennt man ihn vollstaendig (Banachraum)?",
-            answer: "Ein metrischer Raum (X, d) hat eine Metrik d: X×X → R_{>=0} mit Positivitaet, Symmetrie und Dreiecksungleichung. Vollstaendig heisst er, wenn jede Cauchy-Folge in X konvergiert. Ein vollstaendiger normierter Vektorraum heisst Banachraum.",
-            explanation: "Kernidee: Vollstaendigkeit sichert, dass 'fast konvergente' Folgen wirklich konvergieren – ohne diese Garantie koennen Limites ausserhalb des Raumes liegen. Intuition: Die rationalen Zahlen Q sind kein vollstaendiger metrischer Raum: Die Folge 3, 3.1, 3.14, 3.141, ... ist eine Cauchy-Folge in Q, konvergiert aber gegen pi, das nicht in Q liegt. Die reellen Zahlen R sind die 'Vervollstaendigung' von Q. Schritte: 1) Definiere Metrik d und pruefe alle drei Axiome (d(x,y)=0 gdw x=y; d(x,y)=d(y,x); d(x,z)<=d(x,y)+d(y,z)). 2) Eine Folge (x_n) ist Cauchy, wenn fuer jedes eps>0 ein N existiert, sodass d(x_m,x_n)<eps fuer alle m,n>N. 3) Konvergente Folgen sind stets Cauchy; umgekehrt gilt das nur in vollstaendigen Raeumen. 4) Wichtige Beispiele: R^n mit euklidischer Norm (vollstaendig), L^p-Raeume (vollstaendig), C([a,b]) mit Supremumsnorm (vollstaendig). Haeufiger Fehler: Cauchy-Folge mit konvergenter Folge gleichsetzen – Cauchy impliziert nur potentielle Konvergenz, realisiert sie aber nur im vollstaendigen Raum. Schnellcheck: In R^n ist jede beschraenkte Folge nach Bolzano-Weierstrass konvergent; das ist eine Folge der Vollstaendigkeit.",
+            answer: "Ein metrischer Raum (X, d) hat eine Metrik d: XÃ—X â†’ R_{>=0} mit Positivitaet, Symmetrie und Dreiecksungleichung. Vollstaendig heisst er, wenn jede Cauchy-Folge in X konvergiert. Ein vollstaendiger normierter Vektorraum heisst Banachraum.",
+            explanation: "Kernidee: Vollstaendigkeit sichert, dass 'fast konvergente' Folgen wirklich konvergieren â€“ ohne diese Garantie koennen Limites ausserhalb des Raumes liegen. Intuition: Die rationalen Zahlen Q sind kein vollstaendiger metrischer Raum: Die Folge 3, 3.1, 3.14, 3.141, ... ist eine Cauchy-Folge in Q, konvergiert aber gegen pi, das nicht in Q liegt. Die reellen Zahlen R sind die 'Vervollstaendigung' von Q. Schritte: 1) Definiere Metrik d und pruefe alle drei Axiome (d(x,y)=0 gdw x=y; d(x,y)=d(y,x); d(x,z)<=d(x,y)+d(y,z)). 2) Eine Folge (x_n) ist Cauchy, wenn fuer jedes eps>0 ein N existiert, sodass d(x_m,x_n)<eps fuer alle m,n>N. 3) Konvergente Folgen sind stets Cauchy; umgekehrt gilt das nur in vollstaendigen Raeumen. 4) Wichtige Beispiele: R^n mit euklidischer Norm (vollstaendig), L^p-Raeume (vollstaendig), C([a,b]) mit Supremumsnorm (vollstaendig). Haeufiger Fehler: Cauchy-Folge mit konvergenter Folge gleichsetzen â€“ Cauchy impliziert nur potentielle Konvergenz, realisiert sie aber nur im vollstaendigen Raum. Schnellcheck: In R^n ist jede beschraenkte Folge nach Bolzano-Weierstrass konvergent; das ist eine Folge der Vollstaendigkeit.",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1201,7 +1465,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Erklaere die Zustandsraumdarstellung eines LTI-Systems und das Kalman-Kriterium fuer Regelbarkeit.",
             answer: "LTI-Zustandsraum: dx/dt = Ax + Bu, y = Cx + Du. Das System ist regelbar, wenn die Regelbarkeitsmatrix R = [B | AB | A^2B | ... | A^{n-1}B] vollen Zeilenrang n hat.",
-            explanation: "Kernidee: Die Zustandsraumdarstellung beschreibt das interne Systemverhalten vollstaendig; Regelbarkeit sagt, ob ein Eingang u(t) jeden beliebigen Zustand in endlicher Zeit erreichen kann. Intuition: Wenn R keinen vollen Rang hat, gibt es Zustandsrichtungen, die der Eingang u nicht 'beruehren' kann – diese Richtungen sind fuer immer dem Einfluss des Reglers entzogen. Schritte: 1) Schreibe das System in Zustandsform: Systemmatrix A (n×n), Eingangsmatrix B (n×m), Ausgangsmatrix C (p×n). 2) Bilde die Regelbarkeitsmatrix R = [B | AB | A^2 B | ... | A^{n-1} B] (n × n*m). 3) Berechne rank(R): bei rank(R)=n vollstaendig regelbar, sonst nicht. 4) Bei Teilregelbarkeit: Kalman-Zerlegung trennt regelbaren und nicht-regelbaren Teilraum. Haeufiger Fehler: Regelbarkeit mit Beobachtbarkeit verwechseln – Beobachtbarkeit fragt, ob der Zustand aus Messdaten rekonstruierbar ist (duales Problem mit Beobachtbarkeitsmatrix O). Schnellcheck: Ein Einzel-Ein-/Ausgang-System (SISO) der Ordnung n ist regelbar, wenn keine Pol-Nullstellen-Kuerzung in G(s)=C(sI-A)^{-1}B existiert.",
+            explanation: "Kernidee: Die Zustandsraumdarstellung beschreibt das interne Systemverhalten vollstaendig; Regelbarkeit sagt, ob ein Eingang u(t) jeden beliebigen Zustand in endlicher Zeit erreichen kann. Intuition: Wenn R keinen vollen Rang hat, gibt es Zustandsrichtungen, die der Eingang u nicht 'beruehren' kann â€“ diese Richtungen sind fuer immer dem Einfluss des Reglers entzogen. Schritte: 1) Schreibe das System in Zustandsform: Systemmatrix A (nÃ—n), Eingangsmatrix B (nÃ—m), Ausgangsmatrix C (pÃ—n). 2) Bilde die Regelbarkeitsmatrix R = [B | AB | A^2 B | ... | A^{n-1} B] (n Ã— n*m). 3) Berechne rank(R): bei rank(R)=n vollstaendig regelbar, sonst nicht. 4) Bei Teilregelbarkeit: Kalman-Zerlegung trennt regelbaren und nicht-regelbaren Teilraum. Haeufiger Fehler: Regelbarkeit mit Beobachtbarkeit verwechseln â€“ Beobachtbarkeit fragt, ob der Zustand aus Messdaten rekonstruierbar ist (duales Problem mit Beobachtbarkeitsmatrix O). Schnellcheck: Ein Einzel-Ein-/Ausgang-System (SISO) der Ordnung n ist regelbar, wenn keine Pol-Nullstellen-Kuerzung in G(s)=C(sI-A)^{-1}B existiert.",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1215,8 +1479,8 @@ window.SOR_ARCHIVE = {
             tags: ["monte-carlo", "stochastik", "integration", "varianzreduktion"],
             difficulty: "schwer",
             question: "Erklaere das Prinzip der Monte-Carlo-Integration und analysiere ihre Konvergenzrate.",
-            answer: "Monte-Carlo schaetzt integral f(x)dx ≈ (1/N) * sum f(x_i) mit gleichverteilten x_i; der statistische Fehler skaliert mit O(1/sqrt(N)) – unabhaengig von der Dimension d, was bei hochdimensionalen Problemen deterministische Methoden uebertrifft.",
-            explanation: "Kernidee: Statt ein Integral analytisch oder auf einem Gitter zu berechnen, zieht man Zufallsstichproben und mittelt die Funktionswerte – der Erwartungswert dieses Schaetzers ist gleich dem Integral (Gesetz der grossen Zahlen). Intuition: In d Dimensionen benoetigt ein Gitterverfahren mit k Punkten pro Achse insgesamt k^d Auswertungen (Fluch der Dimensionalitaet); Monte-Carlo braucht unabhaengig von d nur O(1/eps^2) Stichproben fuer Fehler eps. Schritte: 1) Schreibe Integral als Erwartungswert: integral_{[0,1]^d} f(x)dx = E[f(X)] mit X~U([0,1]^d). 2) Ziehe N unabhaengige Stichproben X_1,...,X_N. 3) Schaetze: I_N = (1/N) sum f(X_i). 4) Fehler: std(I_N) = sigma_f / sqrt(N), wobei sigma_f^2 = Var(f(X)). 5) Varianzreduktion: Importance Sampling, Antithetic Variables oder Control Variates senken sigma_f^2. Haeufiger Fehler: Den Fehler O(1/sqrt(N)) falsch lesen – fuer eps=0.01 braucht man 10^4 Stichproben, nicht 100; der Fehler faellt nur langsam. Schnellcheck: Fuer f=Indikator eines Kreises schaetzt Monte-Carlo pi: zaehle Treffer in der Einheitskreisscheibe und multipliziere mit 4.",
+            answer: "Monte-Carlo schaetzt integral f(x)dx â‰ˆ (1/N) * sum f(x_i) mit gleichverteilten x_i; der statistische Fehler skaliert mit O(1/sqrt(N)) â€“ unabhaengig von der Dimension d, was bei hochdimensionalen Problemen deterministische Methoden uebertrifft.",
+            explanation: "Kernidee: Statt ein Integral analytisch oder auf einem Gitter zu berechnen, zieht man Zufallsstichproben und mittelt die Funktionswerte â€“ der Erwartungswert dieses Schaetzers ist gleich dem Integral (Gesetz der grossen Zahlen). Intuition: In d Dimensionen benoetigt ein Gitterverfahren mit k Punkten pro Achse insgesamt k^d Auswertungen (Fluch der Dimensionalitaet); Monte-Carlo braucht unabhaengig von d nur O(1/eps^2) Stichproben fuer Fehler eps. Schritte: 1) Schreibe Integral als Erwartungswert: integral_{[0,1]^d} f(x)dx = E[f(X)] mit X~U([0,1]^d). 2) Ziehe N unabhaengige Stichproben X_1,...,X_N. 3) Schaetze: I_N = (1/N) sum f(X_i). 4) Fehler: std(I_N) = sigma_f / sqrt(N), wobei sigma_f^2 = Var(f(X)). 5) Varianzreduktion: Importance Sampling, Antithetic Variables oder Control Variates senken sigma_f^2. Haeufiger Fehler: Den Fehler O(1/sqrt(N)) falsch lesen â€“ fuer eps=0.01 braucht man 10^4 Stichproben, nicht 100; der Fehler faellt nur langsam. Schnellcheck: Fuer f=Indikator eines Kreises schaetzt Monte-Carlo pi: zaehle Treffer in der Einheitskreisscheibe und multipliziere mit 4.",
             type: "konzeptfrage",
             estimatedTime: 9
         },
@@ -1231,7 +1495,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Was ist ein Hilbertraum und wie ist das Skalarprodukt im L2([a,b]) definiert?",
             answer: "Ein Hilbertraum ist ein vollstaendiger (Banach-)Raum mit Skalarprodukt. Im L2([a,b]) lautet es: <f,g> = integral_a^b f(x)*g(x) dx. Vollstaendigkeit bedeutet, dass Cauchy-Folgen konvergieren.",
-            explanation: "Kernidee: Hilbertraeume verallgemeinern die euklidische Geometrie auf unendlichdimensionale Funktionenraeume – Begriffe wie Laenge, Winkel und Orthogonalitaet bleiben sinnvoll. Intuition: Zwei Funktionen f und g sind 'senkrecht', wenn ihr inneres Produkt integral f(x)g(x)dx = 0 ist – genau wie orthogonale Vektoren kein 'Laengenstueck' voneinander tragen. Schritte: 1) Pruefe Sesquilinearitaet: <alpha*f+g, h> = alpha*<f,h> + <g,h>. 2) Konjugatsymmetrie: <f,g> = conj(<g,f>). 3) Positivitaet: <f,f> >= 0, Gleichheit nur fuer f=0 fast ueberall. 4) Norm: ||f|| = sqrt(<f,f>). 5) Vollstaendigkeit: Jede L2-Cauchy-Folge konvergiert in L2 (Riesz-Fischer). Haeufiger Fehler: L2 mit C([a,b]) gleichsetzen – C ist nicht vollstaendig bezueglich der L2-Norm; ein uniformer Grenzwert stetiger Funktionen kann unstetig sein. Schnellcheck: Fourier-Reihen konvergieren im L2-Sinn gegen die Funktion; Parsevals Gleichheit sum |a_n|^2 = (1/pi)*||f||^2 ist ein Hilbertraum-Resultat.",
+            explanation: "Kernidee: Hilbertraeume verallgemeinern die euklidische Geometrie auf unendlichdimensionale Funktionenraeume â€“ Begriffe wie Laenge, Winkel und Orthogonalitaet bleiben sinnvoll. Intuition: Zwei Funktionen f und g sind 'senkrecht', wenn ihr inneres Produkt integral f(x)g(x)dx = 0 ist â€“ genau wie orthogonale Vektoren kein 'Laengenstueck' voneinander tragen. Schritte: 1) Pruefe Sesquilinearitaet: <alpha*f+g, h> = alpha*<f,h> + <g,h>. 2) Konjugatsymmetrie: <f,g> = conj(<g,f>). 3) Positivitaet: <f,f> >= 0, Gleichheit nur fuer f=0 fast ueberall. 4) Norm: ||f|| = sqrt(<f,f>). 5) Vollstaendigkeit: Jede L2-Cauchy-Folge konvergiert in L2 (Riesz-Fischer). Haeufiger Fehler: L2 mit C([a,b]) gleichsetzen â€“ C ist nicht vollstaendig bezueglich der L2-Norm; ein uniformer Grenzwert stetiger Funktionen kann unstetig sein. Schnellcheck: Fourier-Reihen konvergieren im L2-Sinn gegen die Funktion; Parsevals Gleichheit sum |a_n|^2 = (1/pi)*||f||^2 ist ein Hilbertraum-Resultat.",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1246,7 +1510,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Was beschreibt der Frequenzgang G(jw) eines LTI-Systems, und was zeigt das Nyquist-Diagramm?",
             answer: "G(jw) = G(s)|_{s=jw} beschreibt Betrag (Verstaerkung) und Phase der stationaeren Systemantwort auf sin(wt). Das Nyquist-Diagramm traegt G(jw) in der komplexen Ebene fuer w von -inf bis +inf auf und erlaubt Stabilitaetsaussagen ueber die Umfahrung des kritischen Punkts -1.",
-            explanation: "Kernidee: Das LTI-System transformiert einen Eingang sin(wt) in einen Ausgang |G(jw)| * sin(wt + arg(G(jw))) – Betrag und Phase haengen von der Frequenz ab und sind im Frequenzgang vollstaendig kodiert. Intuition: Im Bode-Diagramm liest man Daempfung und Phasenverschiebung fuer jede Frequenz ab; das Nyquist-Diagramm zeigt alle Frequenzen auf einen Blick als geschlossene Kurve in der Gauss'schen Ebene. Schritte: 1) Setze s = jw in G(s) ein und berechne |G(jw)| und arg(G(jw)) fuer w >= 0. 2) Zeichne G(jw) in der komplexen Ebene (Realteil vs. Imaginaerteil). 3) Stabilitaetskriterium (Nyquist): Zaehle Umfahrungen des Punktes -1+0j; stabile Strecke + stabiler Regler genau dann, wenn keine Umfahrung. 4) Phasenrand: Winkelabstand zwischen -180° und arg(G(jw_c)) beim Betragsdurchgang. Haeufiger Fehler: Nyquist-Kriterium nur fuer stabiles Minimalphase-System anwenden; bei Totzeitgliedern oder Rechtsseitenpolen muss die vollstaendige Verallgemeinerung benutzt werden. Schnellcheck: Phasenrand > 45° und Amplitudenrand > 6 dB gelten als Faustregeln fuer robuste Stabilitaet.",
+            explanation: "Kernidee: Das LTI-System transformiert einen Eingang sin(wt) in einen Ausgang |G(jw)| * sin(wt + arg(G(jw))) â€“ Betrag und Phase haengen von der Frequenz ab und sind im Frequenzgang vollstaendig kodiert. Intuition: Im Bode-Diagramm liest man Daempfung und Phasenverschiebung fuer jede Frequenz ab; das Nyquist-Diagramm zeigt alle Frequenzen auf einen Blick als geschlossene Kurve in der Gauss'schen Ebene. Schritte: 1) Setze s = jw in G(s) ein und berechne |G(jw)| und arg(G(jw)) fuer w >= 0. 2) Zeichne G(jw) in der komplexen Ebene (Realteil vs. Imaginaerteil). 3) Stabilitaetskriterium (Nyquist): Zaehle Umfahrungen des Punktes -1+0j; stabile Strecke + stabiler Regler genau dann, wenn keine Umfahrung. 4) Phasenrand: Winkelabstand zwischen -180Â° und arg(G(jw_c)) beim Betragsdurchgang. Haeufiger Fehler: Nyquist-Kriterium nur fuer stabiles Minimalphase-System anwenden; bei Totzeitgliedern oder Rechtsseitenpolen muss die vollstaendige Verallgemeinerung benutzt werden. Schnellcheck: Phasenrand > 45Â° und Amplitudenrand > 6 dB gelten als Faustregeln fuer robuste Stabilitaet.",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1260,8 +1524,8 @@ window.SOR_ARCHIVE = {
             tags: ["finite-differenzen", "fdm", "diskretisierung", "pde"],
             difficulty: "schwer",
             question: "Erklaere das Prinzip der Finite-Differenzen-Methode (FDM) fuer eine einfache PDE wie die Waermeleitungsgleichung.",
-            answer: "FDM ersetzt die partielle Ableitung durch Differenzenquotienten auf einem Gitter: d²u/dx² ≈ (u_{i+1} - 2u_i + u_{i-1})/h². Die Waermeleitungsgleichung du/dt = alpha * d²u/dx² wird so zu einem ODE-System (Methodenlinien) oder direkt zu einem impliziten linearen System (Crank-Nicolson).",
-            explanation: "Kernidee: Ableitungen werden durch endliche Differenzen approximiert; das kontinuierliche PDE-Problem wird auf ein diskretes algebraisches Gleichungssystem reduziert. Intuition: Ein feineres Gitter (kleines h) verbessert die Approximation; der Fehler der Zentraldifferenz ist O(h^2), der der Vorwaertsdifferenz O(h). Schritte: 1) Diskretisiere x-Achse: x_i = a + i*h, i=0,...,N. 2) Ersetze d²u/dx² durch (u_{i+1}-2u_i+u_{i-1})/h² (Zentraldifferenz). 3) Explizites Euler-Verfahren in t: u_i^{n+1} = u_i^n + dt*alpha*(u_{i+1}^n - 2u_i^n + u_{i-1}^n)/h^2; stabil nur fuer dt <= h^2/(2*alpha). 4) Implizites Verfahren (Crank-Nicolson): zweite Ordnung in t, unbedingt stabil. Haeufiger Fehler: Das CFL-Stabilitaetskriterium (dt/h^2 <= 0.5/alpha) beim expliziten Verfahren verletzen – das fuehrt zu exponentiell wachsenden Loesungen. Schnellcheck: Fuer konstante Anfangsbedingung und Dirichlet-Randbedingungen sollte die numerische Loesung monoton gegen die stationaere Loesung relaxieren.",
+            answer: "FDM ersetzt die partielle Ableitung durch Differenzenquotienten auf einem Gitter: dÂ²u/dxÂ² â‰ˆ (u_{i+1} - 2u_i + u_{i-1})/hÂ². Die Waermeleitungsgleichung du/dt = alpha * dÂ²u/dxÂ² wird so zu einem ODE-System (Methodenlinien) oder direkt zu einem impliziten linearen System (Crank-Nicolson).",
+            explanation: "Kernidee: Ableitungen werden durch endliche Differenzen approximiert; das kontinuierliche PDE-Problem wird auf ein diskretes algebraisches Gleichungssystem reduziert. Intuition: Ein feineres Gitter (kleines h) verbessert die Approximation; der Fehler der Zentraldifferenz ist O(h^2), der der Vorwaertsdifferenz O(h). Schritte: 1) Diskretisiere x-Achse: x_i = a + i*h, i=0,...,N. 2) Ersetze dÂ²u/dxÂ² durch (u_{i+1}-2u_i+u_{i-1})/hÂ² (Zentraldifferenz). 3) Explizites Euler-Verfahren in t: u_i^{n+1} = u_i^n + dt*alpha*(u_{i+1}^n - 2u_i^n + u_{i-1}^n)/h^2; stabil nur fuer dt <= h^2/(2*alpha). 4) Implizites Verfahren (Crank-Nicolson): zweite Ordnung in t, unbedingt stabil. Haeufiger Fehler: Das CFL-Stabilitaetskriterium (dt/h^2 <= 0.5/alpha) beim expliziten Verfahren verletzen â€“ das fuehrt zu exponentiell wachsenden Loesungen. Schnellcheck: Fuer konstante Anfangsbedingung und Dirichlet-Randbedingungen sollte die numerische Loesung monoton gegen die stationaere Loesung relaxieren.",
             type: "konzeptfrage",
             estimatedTime: 9
         },
@@ -1274,8 +1538,8 @@ window.SOR_ARCHIVE = {
             tags: ["lineare-abbildungen", "matrix", "kern", "bild", "dimensionssatz"],
             difficulty: "mittel",
             question: "Was ist eine lineare Abbildung und wie haengt sie mit Matrizen zusammen? Erklaere Kern und Bild.",
-            answer: "Eine lineare Abbildung f: V → W erfuellt f(u+v) = f(u)+f(v) und f(λv) = λf(v). Jede lineare Abbildung zwischen endlichdimensionalen Raeumen laesst sich durch eine Matrix A darstellen: f(v) = A·v. Kern(f) = {v | Av=0}, Bild(f) = {Av | v ∈ V}. Dimensionssatz: dim(Kern) + dim(Bild) = dim(V).",
-            explanation: "Kernidee: Lineare Abbildungen sind Strukturerhaltende Abbildungen zwischen Vektorraeumen – sie bewahren Addition und Skalierung. Intuition: Eine Matrix kodiert, wohin die Basisvektoren abgebildet werden; alles andere folgt durch Linearitaet. Schritte: 1) Pruefe Linearitaet: f(αu+βv) = αf(u)+βf(v) fuer alle u,v,α,β. 2) Schreibe die Abbildungsmatrix A: j-te Spalte = f(e_j). 3) Kern: Loese Av=0 (homogenes LGS). 4) Bild: Spaltenraum von A (linear unabhaengige Spalten). 5) Dimensionssatz pruefen. Haeufiger Fehler: Kern und Nullraum gleichsetzen – der Kern ist genau der Nullraum von A, also korrekt, aber man vergisst oft, dass dim(Kern)>0 bedeutet, dass die Abbildung nicht injektiv ist. Schnellcheck: rang(A) + dim(Kern(A)) = n (Spaltenanzahl).",
+            answer: "Eine lineare Abbildung f: V â†’ W erfuellt f(u+v) = f(u)+f(v) und f(Î»v) = Î»f(v). Jede lineare Abbildung zwischen endlichdimensionalen Raeumen laesst sich durch eine Matrix A darstellen: f(v) = AÂ·v. Kern(f) = {v | Av=0}, Bild(f) = {Av | v âˆˆ V}. Dimensionssatz: dim(Kern) + dim(Bild) = dim(V).",
+            explanation: "Kernidee: Lineare Abbildungen sind Strukturerhaltende Abbildungen zwischen Vektorraeumen â€“ sie bewahren Addition und Skalierung. Intuition: Eine Matrix kodiert, wohin die Basisvektoren abgebildet werden; alles andere folgt durch Linearitaet. Schritte: 1) Pruefe Linearitaet: f(Î±u+Î²v) = Î±f(u)+Î²f(v) fuer alle u,v,Î±,Î². 2) Schreibe die Abbildungsmatrix A: j-te Spalte = f(e_j). 3) Kern: Loese Av=0 (homogenes LGS). 4) Bild: Spaltenraum von A (linear unabhaengige Spalten). 5) Dimensionssatz pruefen. Haeufiger Fehler: Kern und Nullraum gleichsetzen â€“ der Kern ist genau der Nullraum von A, also korrekt, aber man vergisst oft, dass dim(Kern)>0 bedeutet, dass die Abbildung nicht injektiv ist. Schnellcheck: rang(A) + dim(Kern(A)) = n (Spaltenanzahl).",
             type: "konzeptfrage",
             estimatedTime: 8
         },
@@ -1288,8 +1552,8 @@ window.SOR_ARCHIVE = {
             tags: ["pid", "regler", "stabilitaet", "regelkreis", "uebertragungsfunktion"],
             difficulty: "schwer",
             question: "Erklaere den PID-Regler: Welche Rolle spielen P-, I- und D-Anteil? Wie beeinflusst jeder Anteil das Systemverhalten?",
-            answer: "P-Anteil: proportional zum Fehler e(t); erhoehte Verstaerkung K_P reduziert stationaere Regelabweichung, kann aber Schwingungen erzeugen. I-Anteil: integriert den Fehler; eliminiert stationaere Regelabweichung, verlangsamt Reaktion. D-Anteil: proportional zur Fehleraenderungsrate; daempft Schwingungen, verstaerkt Rauschen. Gesamtsteuergroesse: u(t) = K_P·e + K_I·∫e dt + K_D·(de/dt).",
-            explanation: "Kernidee: Jeder Anteil des PID-Reglers korrigiert eine andere Eigenschaft der Regelabweichung – Groesse, Akkumulation und Aenderungsrate. Intuition: P 'sieht' den jetzigen Fehler, I 'erinnert' sich an vergangene Fehler, D 'antizipiert' zukuenftige Fehler. Schritte: 1) Modelliere Strecke G(s). 2) Bestimme Uebertragungsfunktion des PID: C(s) = K_P + K_I/s + K_D·s. 3) Geschlossener Regelkreis: T(s) = C(s)G(s)/(1+C(s)G(s)). 4) Stabilitaetsanalyse mit Hurwitz oder Bode-Diagramm. 5) Parametertuning (z.B. Ziegler-Nichols). Haeufiger Fehler: D-Anteil auf verrauschtes Signal setzen – dadurch wird das Rauschen extrem verstaerkt; Low-Pass-Filter auf Messsignal notwendig. Schnellcheck: Einheitssprungantwort pruefen – kein Überschwingen > 20%, Ausregelzeit akzeptabel.",
+            answer: "P-Anteil: proportional zum Fehler e(t); erhoehte Verstaerkung K_P reduziert stationaere Regelabweichung, kann aber Schwingungen erzeugen. I-Anteil: integriert den Fehler; eliminiert stationaere Regelabweichung, verlangsamt Reaktion. D-Anteil: proportional zur Fehleraenderungsrate; daempft Schwingungen, verstaerkt Rauschen. Gesamtsteuergroesse: u(t) = K_PÂ·e + K_IÂ·âˆ«e dt + K_DÂ·(de/dt).",
+            explanation: "Kernidee: Jeder Anteil des PID-Reglers korrigiert eine andere Eigenschaft der Regelabweichung â€“ Groesse, Akkumulation und Aenderungsrate. Intuition: P 'sieht' den jetzigen Fehler, I 'erinnert' sich an vergangene Fehler, D 'antizipiert' zukuenftige Fehler. Schritte: 1) Modelliere Strecke G(s). 2) Bestimme Uebertragungsfunktion des PID: C(s) = K_P + K_I/s + K_DÂ·s. 3) Geschlossener Regelkreis: T(s) = C(s)G(s)/(1+C(s)G(s)). 4) Stabilitaetsanalyse mit Hurwitz oder Bode-Diagramm. 5) Parametertuning (z.B. Ziegler-Nichols). Haeufiger Fehler: D-Anteil auf verrauschtes Signal setzen â€“ dadurch wird das Rauschen extrem verstaerkt; Low-Pass-Filter auf Messsignal notwendig. Schnellcheck: Einheitssprungantwort pruefen â€“ kein Ãœberschwingen > 20%, Ausregelzeit akzeptabel.",
             type: "konzeptfrage",
             estimatedTime: 9
         },
@@ -1302,8 +1566,8 @@ window.SOR_ARCHIVE = {
             tags: ["fem", "steifigkeitsmatrix", "galerkin", "variationsformulierung", "numerik"],
             difficulty: "schwer",
             question: "Beschreibe die Grundidee der Finiten-Elemente-Methode (FEM). Wie entsteht die Steifigkeitsmatrix?",
-            answer: "FEM loest PDEs durch Diskretisierung des Gebiets in Elemente und Approximation der Loesung durch stueckweise Polynome (Ansatzfunktionen). Die schwache Formulierung (Galerkin) fuehrt auf: ∫∇u·∇v dΩ = ∫f·v dΩ. Die Steifigkeitsmatrix K hat Eintraege K_{ij} = ∫∇φ_i·∇φ_j dΩ (Skalarprodukt der Gradientinterpolierter Basisfunktionen).",
-            explanation: "Kernidee: Das Problem wird von der starken Differentialgleichungsform in eine integrale schwache Form transformiert, die numerisch loesbar ist. Intuition: Man 'trickst' die PDE aus – statt exakt zu loesen, sucht man die beste Approximation in einem endlichdimensionalen Funktionenraum. Schritte: 1) Variationsformulierung: Multipliziere PDE mit Testfunktion v, integriere partiell. 2) Waehle Ansatzraum: stueckweise lineare/quadratische Polynome auf Dreieck/Viereck-Elementen. 3) Assembliere lokale Elementsteifigkeitsmatrizen K_e. 4) Assembliere globale Steifigkeitsmatrix K. 5) Loese lineares System Ku = F (mit Randbedingungen). Haeufiger Fehler: Randbedingungen falsch einbinden – Dirichlet-Bedingungen muessen Zeilen/Spalten der Steifigkeitsmatrix ersetzen, nicht nur die Lastvektor-Eintraege aendern. Schnellcheck: K muss symmetrisch und positiv (semi-)definit sein; Determinante null bei rein Neumann-Bedingungen (Eindeutigkeitsverlust).",
+            answer: "FEM loest PDEs durch Diskretisierung des Gebiets in Elemente und Approximation der Loesung durch stueckweise Polynome (Ansatzfunktionen). Die schwache Formulierung (Galerkin) fuehrt auf: âˆ«âˆ‡uÂ·âˆ‡v dÎ© = âˆ«fÂ·v dÎ©. Die Steifigkeitsmatrix K hat Eintraege K_{ij} = âˆ«âˆ‡Ï†_iÂ·âˆ‡Ï†_j dÎ© (Skalarprodukt der Gradientinterpolierter Basisfunktionen).",
+            explanation: "Kernidee: Das Problem wird von der starken Differentialgleichungsform in eine integrale schwache Form transformiert, die numerisch loesbar ist. Intuition: Man 'trickst' die PDE aus â€“ statt exakt zu loesen, sucht man die beste Approximation in einem endlichdimensionalen Funktionenraum. Schritte: 1) Variationsformulierung: Multipliziere PDE mit Testfunktion v, integriere partiell. 2) Waehle Ansatzraum: stueckweise lineare/quadratische Polynome auf Dreieck/Viereck-Elementen. 3) Assembliere lokale Elementsteifigkeitsmatrizen K_e. 4) Assembliere globale Steifigkeitsmatrix K. 5) Loese lineares System Ku = F (mit Randbedingungen). Haeufiger Fehler: Randbedingungen falsch einbinden â€“ Dirichlet-Bedingungen muessen Zeilen/Spalten der Steifigkeitsmatrix ersetzen, nicht nur die Lastvektor-Eintraege aendern. Schnellcheck: K muss symmetrisch und positiv (semi-)definit sein; Determinante null bei rein Neumann-Bedingungen (Eindeutigkeitsverlust).",
             type: "konzeptfrage",
             estimatedTime: 10
         },
@@ -1399,7 +1663,7 @@ window.SOR_ARCHIVE = {
             topic: "Lineare Algebra",
             tags: ["least-squares", "pseudoinverse", "ueberbestimmt", "svd"],
             difficulty: "schwer",
-            question: "Wie loest man ein ueberbestimmtes lineares System Ax≈b im Least-Squares-Sinn?",
+            question: "Wie loest man ein ueberbestimmtes lineares System Axâ‰ˆb im Least-Squares-Sinn?",
             answer: "Man minimiert ||Ax-b||_2. Fuer vollen Spaltenrang gilt x*=(A^T A)^{-1}A^T b; allgemein x*=A^+b mit der Moore-Penrose-Pseudoinversen.",
             explanation: "Kernidee: Wenn Ax=b keine exakte Loesung hat, sucht man die beste Approximation mit minimalem Residuum. Intuition: Geometrisch ist Ax* die orthogonale Projektion von b auf den Spaltenraum von A. Schritte: 1) Formuliere Minimierungsproblem min_x ||Ax-b||_2^2. 2) Leite Normalgleichungen ab: A^T A x = A^T b. 3) Loese mit stabilen Verfahren (QR oder SVD statt direkter Inversion). 4) Bei Rangdefizit nutze Pseudoinverse A^+=V*Sigma^+*U^T aus SVD. Haeufiger Fehler: Normalgleichungen direkt invertieren; das verschlechtert die Kondition numerisch. Schnellcheck: Residuum r=b-Ax* ist orthogonal zum Spaltenraum: A^T r=0.",
             type: "konzeptfrage",
@@ -1475,7 +1739,7 @@ window.SOR_ARCHIVE = {
             type: "konzeptfrage",
             estimatedTime: 10
         }
-    ], 1000),
+    ], 1500),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
         { id: "P02", level: "1", sublevel: "1.1.2.a", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
@@ -1483,37 +1747,39 @@ window.SOR_ARCHIVE = {
         { id: "P04", level: "1", sublevel: "1.2", topic: "Dreisatz", prompt: "2 kg kosten 6 Euro. Was kosten 1 kg?", options: ["2 Euro", "3 Euro", "4 Euro", "6 Euro"], correctIndex: 1 },
         { id: "P05", level: "1", sublevel: "1.1.2.b", topic: "Prozent", prompt: "10% von 90 sind ...", options: ["9", "10", "90", "0,9"], correctIndex: 0 },
 
-        { id: "P06", level: "2", sublevel: "2.1.1.a", topic: "Gleichungen", prompt: "Löse 2x + 4 = 12.", options: ["x=2", "x=3", "x=4", "x=6"], correctIndex: 2 },
+        { id: "P06", level: "2", sublevel: "2.1.1.a", topic: "Gleichungen", prompt: "LÃ¶se 2x + 4 = 12.", options: ["x=2", "x=3", "x=4", "x=6"], correctIndex: 2 },
         { id: "P07", level: "2", sublevel: "2.1.1.b", topic: "Umformen", prompt: "Stelle v=s/t nach t um.", options: ["t=v/s", "t=s/v", "t=sv", "t=s-v"], correctIndex: 1 },
-        { id: "P08", level: "2", sublevel: "2.2", topic: "Lineare Funktion", prompt: "f(x)=3x-1. Wie groß ist f(2)?", options: ["4", "5", "6", "7"], correctIndex: 1 },
+        { id: "P08", level: "2", sublevel: "2.2", topic: "Lineare Funktion", prompt: "f(x)=3x-1. Wie groÃŸ ist f(2)?", options: ["4", "5", "6", "7"], correctIndex: 1 },
         { id: "P09", level: "2", sublevel: "2.2.1.a", topic: "Exponentiell", prompt: "Was ist 2^5?", options: ["10", "16", "32", "64"], correctIndex: 2 },
         { id: "P10", level: "2", sublevel: "2.2.1.a", topic: "Wachstum", prompt: "Eine Menge verdreifacht sich je Schritt. Start 2. Nach zwei Schritten?", options: ["6", "9", "12", "18"], correctIndex: 3 },
 
         { id: "P11", level: "3", sublevel: "3.1.1.a", topic: "Ableitung", prompt: "Ableitung von x^3 ist ...", options: ["x^2", "2x", "3x^2", "3x"], correctIndex: 2 },
         { id: "P12", level: "3", sublevel: "3.1", topic: "Integral", prompt: "Stammfunktion von 4x ist ...", options: ["2x^2 + C", "4x^2 + C", "x^4 + C", "4 + C"], correctIndex: 0 },
-        { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire Münze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
+        { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire MÃ¼nze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
         { id: "P14", level: "3", sublevel: "3.2", topic: "Vektoren", prompt: "(1,2) + (3,4) = ?", options: ["(4,6)", "(3,8)", "(2,2)", "(4,8)"], correctIndex: 0 },
-        { id: "P15", level: "3", sublevel: "3.1", topic: "Nullstellen", prompt: "Löse x^2=16.", options: ["x=4", "x=-4", "x=+-4", "x=8"], correctIndex: 2 },
+        { id: "P15", level: "3", sublevel: "3.1", topic: "Nullstellen", prompt: "LÃ¶se x^2=16.", options: ["x=4", "x=-4", "x=+-4", "x=8"], correctIndex: 2 },
 
         { id: "P16", level: "4", sublevel: "4.1.1.b", topic: "Determinante", prompt: "det([[1,2],[3,4]]) = ?", options: ["-2", "2", "10", "0"], correctIndex: 0 },
         { id: "P17", level: "4", sublevel: "4.1", topic: "LGS", prompt: "x+y=6 und x-y=2. x=?", options: ["2", "3", "4", "5"], correctIndex: 2 },
         { id: "P18", level: "4", sublevel: "4.2", topic: "DGL", prompt: "Welche Funktion l?st y'=y?", options: ["y=t", "y=e^t", "y=t^2", "y=1/t"], correctIndex: 1 },
         { id: "P19", level: "4", sublevel: "4.2", topic: "Grenzwert", prompt: "lim n->inf (1/n) ist ...", options: ["1", "0", "unendlich", "-1"], correctIndex: 1 },
-        { id: "P20", level: "4", sublevel: "4.1", topic: "Eigenvektor", prompt: "Ein Eigenvektor behält unter A ...", options: ["nur Betrag", "nur Richtung", "Richtung bis auf Vorzeichen", "gar nichts"], correctIndex: 2 },
+        { id: "P20", level: "4", sublevel: "4.1", topic: "Eigenvektor", prompt: "Ein Eigenvektor behÃ¤lt unter A ...", options: ["nur Betrag", "nur Richtung", "Richtung bis auf Vorzeichen", "gar nichts"], correctIndex: 2 },
 
         { id: "P21", level: "5", sublevel: "5.1.1.b", topic: "Laplace", prompt: "L{e^(at)} lautet ...", options: ["1/(s+a)", "1/(s-a)", "a/(s-a)", "s/(s-a)"], correctIndex: 1 },
         { id: "P22", level: "5", sublevel: "5.1.1.a", topic: "Fourier", prompt: "Fourier liefert primaer ...", options: ["Zeitwerte", "Frequenzanteile", "Integrationsgrenzen", "Vektoren"], correctIndex: 1 },
         { id: "P23", level: "5", sublevel: "5.2", topic: "Regelung", prompt: "PT1-Glied: G(s)=?", options: ["K/(1+Ts)", "K*s", "1/(s^2)", "K+Ts"], correctIndex: 0 },
-        { id: "P24", level: "5", sublevel: "5.2", topic: "Resonanz", prompt: "Resonanz tritt auf, wenn ...", options: ["Frequenzen weit auseinander liegen", "Anregung nahe Eigenfrequenz ist", "Dämpfung maximal ist", "Kraft null ist"], correctIndex: 1 },
+        { id: "P24", level: "5", sublevel: "5.2", topic: "Resonanz", prompt: "Resonanz tritt auf, wenn ...", options: ["Frequenzen weit auseinander liegen", "Anregung nahe Eigenfrequenz ist", "DÃ¤mpfung maximal ist", "Kraft null ist"], correctIndex: 1 },
         { id: "P25", level: "5", sublevel: "5.1.1", topic: "Signalverarbeitung", prompt: "Faltung beschreibt ...", options: ["Differenzbildung", "Systemantwort aus Eingang und Impulsantwort", "Mittelwert", "Ableitung"], correctIndex: 1 },
 
-        { id: "P26", level: "6", sublevel: "6.1.1.a", topic: "PDE", prompt: "Wärmeleitungsgleichung ist ...", options: ["elliptisch", "parabolisch", "hyperbolisch", "algebraisch"], correctIndex: 1 },
-        { id: "P27", level: "6", sublevel: "6.2", topic: "Stochastik", prompt: "Wiener-Prozess hat ...", options: ["deterministische Schritte", "unabhängige normalverteilte Inkremente", "endliche Werte", "periodische Lösungen"], correctIndex: 1 },
+        { id: "P26", level: "6", sublevel: "6.1.1.a", topic: "PDE", prompt: "WÃ¤rmeleitungsgleichung ist ...", options: ["elliptisch", "parabolisch", "hyperbolisch", "algebraisch"], correctIndex: 1 },
+        { id: "P27", level: "6", sublevel: "6.2", topic: "Stochastik", prompt: "Wiener-Prozess hat ...", options: ["deterministische Schritte", "unabhÃ¤ngige normalverteilte Inkremente", "endliche Werte", "periodische LÃ¶sungen"], correctIndex: 1 },
         { id: "P28", level: "6", sublevel: "6.1", topic: "Numerik", prompt: "RK4 hat globale Ordnung ...", options: ["1", "2", "3", "4"], correctIndex: 3 },
-        { id: "P29", level: "6", sublevel: "6.1.1.b", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter Lösung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
-        { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "Optimalitätsbedingungen mit Nebenbedingungen", "Integrationsregeln", "Fehlerschätzer"], correctIndex: 1 }
+        { id: "P29", level: "6", sublevel: "6.1.1.b", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter LÃ¶sung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
+        { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "OptimalitÃ¤tsbedingungen mit Nebenbedingungen", "Integrationsregeln", "FehlerschÃ¤tzer"], correctIndex: 1 }
     ]
 };
+
+
 
 
 

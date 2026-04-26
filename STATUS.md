@@ -1,11 +1,11 @@
 # STATUS
 
 ## Current version
-- `v1.2.12`
+- `v1.2.13`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 6.000 archive tasks (1.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 9.000 archive tasks (1.500 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -29,6 +29,30 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.13)
+Focused L1-L3 school-coverage expansion batch + larger archive volume:
+
+### Changes in this iteration
+- Added six new L1 seed tasks (`T-1-015` to `T-1-020`) across arithmetic fluency, fractions, percentages, geometry, and unit conversions.
+- Added six new L2 seed tasks (`T-2-015` to `T-2-020`) across linear systems, binomials, parabola interpretation, slope, Pythagoras, and probability.
+- Added six new L3 seed tasks (`T-3-015` to `T-3-020`) across quadratic equations, exponential modeling, trigonometry, vectors, conditional probability, and tangent equations.
+- Increased scalable archive generation from `1000` to `1500` tasks per level.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-1-020`, `T-2-020`, `T-3-020`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L1-L3 curriculum expansion with the next mapped school-topic batch while preserving small reviewable increments.
 
 ## Last completed task (v1.2.12)
 Eleventh focused L4-L6 archive expansion batch:

@@ -12,8 +12,9 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 1.000 Aufgaben pro Level in dieser Iteration
-- 6.000 Aufgaben insgesamt aktuell verfuegbar
+- 1.500 Aufgaben pro Level in dieser Iteration
+- 9.000 Aufgaben insgesamt aktuell verfuegbar
+- L1-L3 Schulabdeckung erweitert bis T-1-020 / T-2-020 / T-3-020
 - L4-L6 Ausbau-Batches aktuell erweitert bis T-4-017 / T-5-017 / T-6-017
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
@@ -40,7 +41,9 @@
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [x] Improve mobile layout of archive and placement sections after real-device pass
 - [x] Add placement result handoff to recommended archive filter preset
+- [x] Expand L1-L3 school curriculum coverage batch with broader topics (Arithmetik, Geometrie, Funktionen, Stochastik, Trigonometrie)
 - [ ] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches)
+- [ ] Continue L1-L3 school curriculum expansion in small mapped batches (remaining topic matrix toward full school coverage)
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)
