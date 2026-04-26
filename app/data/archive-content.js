@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Rayleigh-Quotient und Eigenwertnahe",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["rayleigh", "eigenwert", "symmetrisch", "approximation"],
+            difficulty: "schwer",
+            question: "Warum liefert der Rayleigh-Quotient gute Eigenwertapproximationen fuer symmetrische Matrizen?",
+            answer: "Fuer symmetrische A gilt rho(x)=x^T A x / (x^T x). Liegt x nahe an einem Eigenvektor, ist rho(x) nahe beim zugehoerigen Eigenwert; am exakten Eigenvektor nimmt rho genau diesen Eigenwert an.",
+            explanation: "Kernidee: Der Rayleigh-Quotient komprimiert die Wirkung von A auf Richtung x zu einem Skalar und ist fuer symmetrische Matrizen variational charakterisiert. Intuition: Je staerker x in einer Eigenrichtung liegt, desto klarer spiegelt rho den zugehoerigen Spektralwert wider. Schritte: 1) Waehle x!=0. 2) Berechne rho(x). 3) Bestimme Residuum r=A*x-rho*x. 4) Kleines ||r|| deutet auf gute Eigenpaarnaehe. 5) In Iterationen (z.B. Potenziteration) rho pro Schritt verfolgen. Haeufiger Fehler: Auf nichtsymmetrische Matrizen dieselben Variationsaussagen uebertragen. Schnellcheck: Bei normiertem Eigenvektor v gilt rho(v)=v^TAv=lambda.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-025",
+            title: "Frequenzvorsteuerung im Tracking",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["vorsteuerung", "tracking", "frequenzbereich", "regelung"],
+            difficulty: "schwer",
+            question: "Wann verbessert eine Vorsteuerung das Sollwerttracking in einem Regelkreis?",
+            answer: "Vorsteuerung hilft, wenn ein Streckenmodell verfuegbar ist und Sollwertaenderungen dominant sind. Sie kompensiert bekannte Dynamikanteile vorab, waehrend Rueckfuehrung Restfehler und Stoerungen korrigiert.",
+            explanation: "Kernidee: Rueckfuehrung und Vorsteuerung haben unterschiedliche Aufgaben: Robustheit vs. proaktive Sollwertabbildung. Intuition: Statt erst auf Fehler zu reagieren, wird ein passender Stellimpuls direkt aus dem Sollwert berechnet. Schritte: 1) Leite Feedforward F(s) aus invertierter/teilinvertierter Strecke ab. 2) Kombiniere u = u_ff + u_fb. 3) Begrenze hohe Frequenzanteile (nicht kausal/rauschsensitiv). 4) Tune Rueckfuehrung fuer Robustheit. 5) Teste Tracking bei Rampen/Sinusprofilen. Haeufiger Fehler: Exakte Inversion nicht-minimumphasiger Strecken versuchen; das fuehrt zu Instabilitaetsrisiken. Schnellcheck: Bei guter Vorsteuerung sinkt stationaerer und dynamischer Sollfolgefehler deutlich ohne Verlust an Stabilitaetsreserven.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-025",
+            title: "BFGS vs. L-BFGS bei grosser Dimension",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["bfgs", "lbfgs", "speicher", "grossdimension"],
+            difficulty: "schwer",
+            question: "Warum verwendet man bei sehr grossen Problemen oft L-BFGS statt vollem BFGS?",
+            answer: "Volles BFGS speichert eine dxd-Hesseinverse-Approximation und skaliert speichermaessig quadratisch. L-BFGS nutzt nur wenige Korrekturpaare (s_k,y_k) und bleibt damit bei O(m*d) Speicher deutlich leichtergewichtig.",
+            explanation: "Kernidee: L-BFGS behaelt Quasi-Newton-Richtungen bei, vermeidet aber die volle Matrixspeicherung. Intuition: Nur die juengste Kruemmungsinformation ist oft ausreichend, um gute Suchrichtungen zu erzeugen. Schritte: 1) Speichere letzte m Paare (s_i,y_i). 2) Nutze Two-Loop-Recursion zur Richtung p_k. 3) Fuehre Line-Search (Wolfe) durch. 4) Update Speicherfenster mit neuem Paar. 5) Waehle m als Trade-off zwischen Speicher und Richtungsqualitaet. Haeufiger Fehler: Zu kleines m bei stark gekruemmten Problemen; dann naehert sich Verhalten gradientenabstiegsartig an. Schnellcheck: Gegen SGD/Adam zeigt L-BFGS auf glatten Deterministikproblemen oft schnellere Funktionswertreduktion pro Iteration.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
