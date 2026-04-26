@@ -209,6 +209,126 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-1-007",
+            title: "Negative Zahlen addieren",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["negativ", "addition"],
+            difficulty: "leicht",
+            question: "Was ergibt -4 + 7?",
+            answer: "3",
+            explanation: "Auf dem Zahlenstrahl von -4 sieben Schritte nach rechts: -4 + 7 = 3.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-008",
+            title: "Zahlenstrahl Vergleich",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["negativ", "vergleich", "zahlenstrahl"],
+            difficulty: "leicht",
+            question: "Welche Zahl liegt weiter rechts auf dem Zahlenstrahl: -3 oder -8?",
+            answer: "-3",
+            explanation: "Je weiter rechts, desto groesser. -3 > -8, also liegt -3 weiter rechts.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-009",
+            title: "Flaeche Dreieck",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Geometrie",
+            tags: ["dreieck", "flaeche"],
+            difficulty: "leicht",
+            question: "Ein Dreieck hat Grundlinie 10 cm und Hoehe 6 cm. Wie gross ist seine Flaeche?",
+            answer: "30 cm²",
+            explanation: "A = Grundlinie * Hoehe / 2 = 10 * 6 / 2 = 30 cm².",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-010",
+            title: "Einheitenumrechnung km zu m",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["einheiten", "umrechnung"],
+            difficulty: "leicht",
+            question: "Wie viele Meter sind 3,5 km?",
+            answer: "3500 m",
+            explanation: "1 km = 1000 m, also 3,5 * 1000 = 3500 m.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-011",
+            title: "Mittelwert berechnen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["mittelwert", "statistik"],
+            difficulty: "leicht",
+            question: "Berechne den Mittelwert von 4, 7, 9, 10.",
+            answer: "7,5",
+            explanation: "Summe: 4+7+9+10 = 30. Anzahl: 4. Mittelwert: 30/4 = 7,5.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-012",
+            title: "Teilbarkeit durch 3",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["teilbarkeit", "quersumme"],
+            difficulty: "leicht",
+            question: "Ist 138 durch 3 teilbar? Erklaere kurz.",
+            answer: "Ja, weil die Quersumme 1+3+8=12 durch 3 teilbar ist.",
+            explanation: "Teilbarkeitsregel: Eine Zahl ist durch 3 teilbar, wenn ihre Quersumme durch 3 teilbar ist. 1+3+8=12, 12/3=4, also ja.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-013",
+            title: "Runden auf zwei Dezimalstellen",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["runden", "dezimal"],
+            difficulty: "leicht",
+            question: "Runde 4,765 auf zwei Dezimalstellen.",
+            answer: "4,77",
+            explanation: "Die dritte Dezimalstelle ist 5, also wird die zweite Stelle aufgerundet: 4,77.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-014",
+            title: "Einfache Gleichung loesen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["gleichung", "einstufig"],
+            difficulty: "leicht",
+            question: "Loese x + 9 = 15.",
+            answer: "x = 6",
+            explanation: "9 von beiden Seiten subtrahieren: x = 15 - 9 = 6.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
             id: "T-2-001",
             title: "Lineare Gleichung l?sen",
             level: "2",
@@ -297,6 +417,126 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-2-007",
+            title: "Quadratische Gleichung pq-Formel",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["quadratisch", "pq-formel"],
+            difficulty: "mittel",
+            question: "Loese x² - 5x + 6 = 0 mit der pq-Formel.",
+            answer: "x = 2 oder x = 3",
+            explanation: "p = -5, q = 6. x = 5/2 ± sqrt((5/2)² - 6) = 2,5 ± 0,5. Ergebnisse: x=3 und x=2.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-2-008",
+            title: "Lineares Gleichungssystem",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["gleichungssystem", "substitution"],
+            difficulty: "mittel",
+            question: "Loese das System: x + y = 7 und x - y = 3.",
+            answer: "x = 5, y = 2",
+            explanation: "Addition beider Gleichungen: 2x = 10, also x = 5. Einsetzen: 5 + y = 7, also y = 2.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-2-009",
+            title: "Binomische Formel anwenden",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["binom", "termumformung"],
+            difficulty: "mittel",
+            question: "Forme (a + 3)² vollstaendig aus.",
+            answer: "a² + 6a + 9",
+            explanation: "(a+b)² = a² + 2ab + b². Hier b=3: a² + 6a + 9.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-010",
+            title: "Wurzel vereinfachen",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["wurzel", "vereinfachen"],
+            difficulty: "mittel",
+            question: "Vereinfache sqrt(50).",
+            answer: "5 * sqrt(2)",
+            explanation: "sqrt(50) = sqrt(25 * 2) = sqrt(25) * sqrt(2) = 5 * sqrt(2).",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-011",
+            title: "Sinus Standardwinkel",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen",
+            tags: ["sinus", "trigonometrie"],
+            difficulty: "mittel",
+            question: "Wie gross ist sin(30°)?",
+            answer: "1/2 (= 0,5)",
+            explanation: "Im rechtwinkligen Dreieck mit 30° entspricht die Gegenkathete der Haelfte der Hypotenuse: sin(30°) = 1/2.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-012",
+            title: "Logarithmus berechnen",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["logarithmus", "potenz"],
+            difficulty: "mittel",
+            question: "Berechne log₂(16).",
+            answer: "4",
+            explanation: "log₂(16) = x bedeutet 2^x = 16 = 2^4, also x = 4.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-013",
+            title: "Arithmetische Folge Formel",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["folge", "arithmetisch"],
+            difficulty: "mittel",
+            question: "Eine Folge beginnt 3, 7, 11, 15, ... . Wie lautet das allgemeine Glied a_n?",
+            answer: "a_n = 4n - 1",
+            explanation: "Startwert a_1 = 3, Differenz d = 4. a_n = a_1 + (n-1)*d = 3 + 4(n-1) = 4n - 1.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-2-014",
+            title: "Betragsgleichung loesen",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["betrag", "fallunterscheidung"],
+            difficulty: "mittel",
+            question: "Loese |x - 4| = 6.",
+            answer: "x = 10 oder x = -2",
+            explanation: "Fall 1: x - 4 = 6 → x = 10. Fall 2: x - 4 = -6 → x = -2. Beide pruefen: |10-4|=6 ✓ und |-2-4|=6 ✓.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
             level: "3",
@@ -378,6 +618,126 @@ window.SOR_ARCHIVE = {
             answer: "Ja, f?r alle x",
             explanation: "f'(x)=3x^2 ist nie negativ, daher steigt f global.",
             type: "konzeptfrage",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-007",
+            title: "Integration durch Substitution",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "substitution"],
+            difficulty: "schwer",
+            question: "Berechne ∫ 2x * e^(x²) dx.",
+            answer: "e^(x²) + C",
+            explanation: "Substitution: u = x², du = 2x dx. Das Integral wird zu ∫ e^u du = e^u + C = e^(x²) + C.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-008",
+            title: "Partielle Integration",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "partielle-integration"],
+            difficulty: "schwer",
+            question: "Berechne ∫ x * e^x dx mit partieller Integration.",
+            answer: "(x - 1) * e^x + C",
+            explanation: "Formel: ∫ u v' dx = uv - ∫ u' v dx. Wahl: u=x, v'=e^x, also u'=1, v=e^x. Ergibt: x*e^x - ∫ e^x dx = x*e^x - e^x + C = (x-1)*e^x + C.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-3-009",
+            title: "Skalarprodukt berechnen",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["skalarprodukt", "vektor"],
+            difficulty: "mittel",
+            question: "Berechne das Skalarprodukt (2, 3, 1) · (1, 0, 2).",
+            answer: "4",
+            explanation: "Skalarprodukt: 2*1 + 3*0 + 1*2 = 2 + 0 + 2 = 4.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-3-010",
+            title: "Matrizenmultiplikation",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["matrix", "multiplikation"],
+            difficulty: "schwer",
+            question: "Berechne [[1,2],[3,4]] * [[0,1],[1,0]].",
+            answer: "[[2,1],[4,3]]",
+            explanation: "Zeile mal Spalte: (1*0+2*1, 1*1+2*0) = (2,1); (3*0+4*1, 3*1+4*0) = (4,3). Ergebnis: [[2,1],[4,3]].",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-011",
+            title: "Komplexe Zahlen multiplizieren",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["komplex", "multiplikation"],
+            difficulty: "schwer",
+            question: "Berechne (2 + 3i)(1 - i).",
+            answer: "5 + i",
+            explanation: "Ausmultiplizieren: 2*1 + 2*(-i) + 3i*1 + 3i*(-i) = 2 - 2i + 3i - 3i². Mit i²=-1: 2 + i + 3 = 5 + i.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-012",
+            title: "Grenzwert mit L'Hopital",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["grenzwert", "lhopital"],
+            difficulty: "schwer",
+            question: "Bestimme lim_{x→0} sin(x)/x.",
+            answer: "1",
+            explanation: "Form 0/0 → L'Hopital anwenden: lim_{x→0} cos(x)/1 = cos(0) = 1. Alternativ: Taylorentwicklung sin(x) ≈ x gibt sin(x)/x → 1.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-013",
+            title: "Trennbare Differentialgleichung",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["dgl", "trennung-der-variablen"],
+            difficulty: "schwer",
+            question: "Loese y' = y mit Anfangsbedingung y(0) = 3.",
+            answer: "y = 3 * e^x",
+            explanation: "Trennung: dy/y = dx. Integration: ln|y| = x + C. Allgemein: y = A*e^x. Einsetzen y(0)=3: A=3. Ergebnis: y = 3*e^x.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-3-014",
+            title: "Bestimmtes Integral berechnen",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "bestimmt"],
+            difficulty: "mittel",
+            question: "Berechne ∫₀² x² dx.",
+            answer: "8/3",
+            explanation: "Stammfunktion: x³/3. Auswertung: [x³/3]₀² = 8/3 - 0 = 8/3.",
+            type: "kurzantwort",
             estimatedTime: 3
         },
 
@@ -767,6 +1127,96 @@ window.SOR_ARCHIVE = {
             question: "Erklaere die Grundidee einer stochastischen Differentialgleichung (SDE) und warum das Ito-Kalkuel benoetigt wird.",
             answer: "Eine SDE ergaenzt eine gewoehnliche DGL um einen Wiener-Prozess-Term; Ito-Kalkuel liefert die passende Kettenregel, weil Pfade des Wiener-Prozesses nicht differenzierbar sind.",
             explanation: "Kernidee: Reale Systeme unterliegen zufaelligen Stoerungen; eine SDE dX = f(X,t)dt + g(X,t)dW modelliert das, indem ein deterministischer Driftterm und ein stochastischer Diffusionsterm kombiniert werden. Intuition: Im Unterschied zu gewoehnlichen DGLs ist dW kein normales Differential, weil der Wiener-Prozess nirgends differenzierbar ist. Klassisches Newton-Leibniz-Kalkuel versagt daher. Schritte: 1) Schreibe die SDE: dX = mu(X,t)dt + sigma(X,t)dW. 2) Verstehe dW als Inkrement eines Wiener-Prozesses mit Varianz dt. 3) Wende Ito-Lemma an fuer eine Funktion F(X,t): dF = (dF/dt + mu*dF/dX + sigma^2/2 * d^2F/dX^2)dt + sigma*dF/dX*dW. 4) Der Korrekturterm sigma^2/2 * d^2F/dX^2 (Ito-Korrektur) hat keine Entsprechung im klassischen Kalkuel. Haeufiger Fehler: Klasssische Kettenregel ohne Ito-Korrektur verwenden; fuehrt auf systematisch falsche Ergebnisse. Schnellcheck: Bei sigma=0 reduziert sich das Ito-Lemma auf die klassische Kettenregel, was als Konsistenztest dient.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+
+        {
+            id: "T-4-010",
+            title: "Spektralsatz fuer symmetrische Matrizen",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["spektralsatz", "eigenwerte", "orthogonal", "symmetrisch"],
+            difficulty: "schwer",
+            question: "Formuliere den Spektralsatz fuer reelle symmetrische Matrizen und erklaere seine Konsequenzen.",
+            answer: "Jede reelle symmetrische Matrix A ist orthogonal diagonalisierbar: Es existiert eine orthogonale Matrix Q mit Q^T A Q = diag(lambda_1,...,lambda_n); alle Eigenwerte sind reell und Eigenvektoren zu verschiedenen Eigenwerten stehen senkrecht aufeinander.",
+            explanation: "Kernidee: Symmetrie erzwingt reelle Eigenwerte und orthogonale Eigenvektoren – das macht symmetrische Matrizen besonders gut analysierbar. Intuition: Physikalisch beschreiben symmetrische Matrizen konservative Systeme (z.B. Traegheitstensoren); ihre Eigenvektoren sind die natuerlichen Hauptachsen des Systems. Schritte: 1) Berechne Eigenwerte als Nullstellen des charakteristischen Polynoms – alle sind reell (Beweis: ueber komplexe Konjugation). 2) Fuer verschiedene Eigenwerte sind Eigenvektoren automatisch orthogonal. 3) Bei mehrfachen Eigenwerten: Gram-Schmidt im jeweiligen Eigenraum. 4) Normiere alle Eigenvektoren und bilde Q aus ihnen als Spalten. 5) Pruefe Q^T Q = I und Q^T A Q = Diagonalmatrix. Haeufiger Fehler: Symmetrie (A = A^T) mit positiv-definit verwechseln – Symmetrie allein sagt nichts ueber das Vorzeichen der Eigenwerte aus. Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte; beide muessen mit dem charakteristischen Polynom uebereinstimmen.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-010",
+            title: "Diskrete Fourier-Transformation und FFT",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Signalverarbeitung",
+            tags: ["dft", "fft", "frequenzanalyse", "cooley-tukey"],
+            difficulty: "schwer",
+            question: "Erklaere die Diskrete Fourier-Transformation (DFT) und den Unterschied zur FFT.",
+            answer: "DFT: X[k] = sum_{n=0}^{N-1} x[n] * e^{-j2pi*kn/N} transformiert N Samples in N Frequenzkomponenten (O(N^2)). FFT ist ein effizienter Algorithmus zur DFT-Berechnung in O(N log N) via Butterfly-Struktur (Cooley-Tukey).",
+            explanation: "Kernidee: Die DFT zerlegt ein diskretes Signal in seine Frequenzanteile – genau wie die kontinuierliche Fourier-Transformation, aber auf einem endlichen Gitter mit periodischer Fortsetzung. Intuition: Jedes der N Frequenzbins misst die Korrelation des Signals mit einer komplexen Schwingung der Frequenz k/N (relativ zur Abtastrate) – das ist ein inneres Produkt im N-dimensionalen Signalraum. Schritte: 1) Setze W_N = e^{-j2pi/N} (N-te Einheitswurzel). 2) Berechne X[k] = sum_{n=0}^{N-1} x[n] * W_N^{kn} fuer k=0,...,N-1. 3) FFT: Teile die Summe in Gerade/Ungerade (Decimation-in-Time), wende DFT rekursiv an (O(N log N)). 4) Nutze IFFT fuer Ruecktransformation: x[n] = (1/N) sum_{k} X[k] W_N^{-kn}. Haeufiger Fehler: Periodizitaet der DFT vergessen – X[k+N] = X[k] – und negative Frequenzen (k > N/2) falsch interpretieren. Schnellcheck: Fuer ein reelles Signal ist X[N-k] = X[k]* (konjugiert-symmetrisch); Parseval-Theorem prueft Energieerhaltung.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-6-010",
+            title: "KKT-Bedingungen fuer nichtlineare Optimierung",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["kkt", "lagrange", "nebenbedingungen", "optimierung"],
+            difficulty: "schwer",
+            question: "Formuliere die Karush-Kuhn-Tucker-Bedingungen (KKT) fuer ein nichtlineares Problem mit Ungleichungsnebenbedingungen.",
+            answer: "Fuer min f(x) s.t. g_i(x) <= 0 und h_j(x) = 0 lauten die KKT-Bedingungen: (1) Stationaritaet: nabla f + sum mu_i nabla g_i + sum lambda_j nabla h_j = 0; (2) Primale Zulaessigkeit; (3) Duale Zulaessigkeit: mu_i >= 0; (4) Komplementaritaet: mu_i * g_i = 0.",
+            explanation: "Kernidee: An einem lokalen Minimum muss der Gradient der Zielfunktion in den Kegel der aktiven Nebenbedingungsgradienten fallen – KKT formalisiert diese geometrische Bedingung algebraisch. Intuition: Die Komplementaritaet mu_i * g_i = 0 erzwingt: Entweder eine Nebenbedingung ist aktiv (g_i = 0, mu_i frei) oder inaktiv (g_i < 0, dann muss mu_i = 0); inaktive Nebenbedingungen duerfen das Optimum nicht beeinflussen. Schritte: 1) Bilde Lagrangefunktion L = f + sum mu_i g_i + sum lambda_j h_j. 2) Setze nabla_x L = 0 (Stationaritaet). 3) Pruefe g_i(x*) <= 0 und h_j(x*) = 0 (primale Zulaessigkeit). 4) Verlange mu_i >= 0 (duale Zulaessigkeit bei Minimierung). 5) Verifiziere mu_i * g_i = 0 fuer alle i (Komplementaritaet). Haeufiger Fehler: Vorzeichen der Multiplikatoren verwechseln: bei Minimierung mu_i >= 0, bei Maximierung mu_i <= 0; falsche Vorzeichen fuehren auf Sattelpunkte statt Minima. Schnellcheck: Ohne aktive Ungleichungsnebenbedingungen reduzieren sich KKT auf klassische Lagrange-Bedingungen der Gleichungsnebenbedingungen.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+
+        {
+            id: "T-4-011",
+            title: "Metrische Raeume und Vollstaendigkeit",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis I",
+            tags: ["metrischer-raum", "cauchy-folge", "vollstaendigkeit", "banachraum"],
+            difficulty: "schwer",
+            question: "Was ist ein metrischer Raum, und wann nennt man ihn vollstaendig (Banachraum)?",
+            answer: "Ein metrischer Raum (X, d) hat eine Metrik d: X×X → R_{>=0} mit Positivitaet, Symmetrie und Dreiecksungleichung. Vollstaendig heisst er, wenn jede Cauchy-Folge in X konvergiert. Ein vollstaendiger normierter Vektorraum heisst Banachraum.",
+            explanation: "Kernidee: Vollstaendigkeit sichert, dass 'fast konvergente' Folgen wirklich konvergieren – ohne diese Garantie koennen Limites ausserhalb des Raumes liegen. Intuition: Die rationalen Zahlen Q sind kein vollstaendiger metrischer Raum: Die Folge 3, 3.1, 3.14, 3.141, ... ist eine Cauchy-Folge in Q, konvergiert aber gegen pi, das nicht in Q liegt. Die reellen Zahlen R sind die 'Vervollstaendigung' von Q. Schritte: 1) Definiere Metrik d und pruefe alle drei Axiome (d(x,y)=0 gdw x=y; d(x,y)=d(y,x); d(x,z)<=d(x,y)+d(y,z)). 2) Eine Folge (x_n) ist Cauchy, wenn fuer jedes eps>0 ein N existiert, sodass d(x_m,x_n)<eps fuer alle m,n>N. 3) Konvergente Folgen sind stets Cauchy; umgekehrt gilt das nur in vollstaendigen Raeumen. 4) Wichtige Beispiele: R^n mit euklidischer Norm (vollstaendig), L^p-Raeume (vollstaendig), C([a,b]) mit Supremumsnorm (vollstaendig). Haeufiger Fehler: Cauchy-Folge mit konvergenter Folge gleichsetzen – Cauchy impliziert nur potentielle Konvergenz, realisiert sie aber nur im vollstaendigen Raum. Schnellcheck: In R^n ist jede beschraenkte Folge nach Bolzano-Weierstrass konvergent; das ist eine Folge der Vollstaendigkeit.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-011",
+            title: "Zustandsraumdarstellung und Regelbarkeit",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["zustandsraum", "regelbarkeit", "kalman", "state-space"],
+            difficulty: "schwer",
+            question: "Erklaere die Zustandsraumdarstellung eines LTI-Systems und das Kalman-Kriterium fuer Regelbarkeit.",
+            answer: "LTI-Zustandsraum: dx/dt = Ax + Bu, y = Cx + Du. Das System ist regelbar, wenn die Regelbarkeitsmatrix R = [B | AB | A^2B | ... | A^{n-1}B] vollen Zeilenrang n hat.",
+            explanation: "Kernidee: Die Zustandsraumdarstellung beschreibt das interne Systemverhalten vollstaendig; Regelbarkeit sagt, ob ein Eingang u(t) jeden beliebigen Zustand in endlicher Zeit erreichen kann. Intuition: Wenn R keinen vollen Rang hat, gibt es Zustandsrichtungen, die der Eingang u nicht 'beruehren' kann – diese Richtungen sind fuer immer dem Einfluss des Reglers entzogen. Schritte: 1) Schreibe das System in Zustandsform: Systemmatrix A (n×n), Eingangsmatrix B (n×m), Ausgangsmatrix C (p×n). 2) Bilde die Regelbarkeitsmatrix R = [B | AB | A^2 B | ... | A^{n-1} B] (n × n*m). 3) Berechne rank(R): bei rank(R)=n vollstaendig regelbar, sonst nicht. 4) Bei Teilregelbarkeit: Kalman-Zerlegung trennt regelbaren und nicht-regelbaren Teilraum. Haeufiger Fehler: Regelbarkeit mit Beobachtbarkeit verwechseln – Beobachtbarkeit fragt, ob der Zustand aus Messdaten rekonstruierbar ist (duales Problem mit Beobachtbarkeitsmatrix O). Schnellcheck: Ein Einzel-Ein-/Ausgang-System (SISO) der Ordnung n ist regelbar, wenn keine Pol-Nullstellen-Kuerzung in G(s)=C(sI-A)^{-1}B existiert.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-6-011",
+            title: "Monte-Carlo-Integration und Konvergenz",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Numerische Simulation",
+            tags: ["monte-carlo", "stochastik", "integration", "varianzreduktion"],
+            difficulty: "schwer",
+            question: "Erklaere das Prinzip der Monte-Carlo-Integration und analysiere ihre Konvergenzrate.",
+            answer: "Monte-Carlo schaetzt integral f(x)dx ≈ (1/N) * sum f(x_i) mit gleichverteilten x_i; der statistische Fehler skaliert mit O(1/sqrt(N)) – unabhaengig von der Dimension d, was bei hochdimensionalen Problemen deterministische Methoden uebertrifft.",
+            explanation: "Kernidee: Statt ein Integral analytisch oder auf einem Gitter zu berechnen, zieht man Zufallsstichproben und mittelt die Funktionswerte – der Erwartungswert dieses Schaetzers ist gleich dem Integral (Gesetz der grossen Zahlen). Intuition: In d Dimensionen benoetigt ein Gitterverfahren mit k Punkten pro Achse insgesamt k^d Auswertungen (Fluch der Dimensionalitaet); Monte-Carlo braucht unabhaengig von d nur O(1/eps^2) Stichproben fuer Fehler eps. Schritte: 1) Schreibe Integral als Erwartungswert: integral_{[0,1]^d} f(x)dx = E[f(X)] mit X~U([0,1]^d). 2) Ziehe N unabhaengige Stichproben X_1,...,X_N. 3) Schaetze: I_N = (1/N) sum f(X_i). 4) Fehler: std(I_N) = sigma_f / sqrt(N), wobei sigma_f^2 = Var(f(X)). 5) Varianzreduktion: Importance Sampling, Antithetic Variables oder Control Variates senken sigma_f^2. Haeufiger Fehler: Den Fehler O(1/sqrt(N)) falsch lesen – fuer eps=0.01 braucht man 10^4 Stichproben, nicht 100; der Fehler faellt nur langsam. Schnellcheck: Fuer f=Indikator eines Kreises schaetzt Monte-Carlo pi: zaehle Treffer in der Einheitskreisscheibe und multipliziere mit 4.",
             type: "konzeptfrage",
             estimatedTime: 9
         }

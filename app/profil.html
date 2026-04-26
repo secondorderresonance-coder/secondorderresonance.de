@@ -500,10 +500,11 @@
 
             // Avatar
             const avatarEl = document.getElementById('profileAvatar');
-            avatarEl.textContent = account.username.charAt(0).toUpperCase();
+            const profileLabel = account.displayName || account.username || (account.email || 'U').split('@')[0];
+            avatarEl.textContent = profileLabel.charAt(0).toUpperCase();
             avatarEl.style.background = account.avatarColor || '#e94560';
 
-            document.getElementById('profileUsername').textContent = account.username;
+            document.getElementById('profileUsername').textContent = profileLabel;
             document.getElementById('profileSince').textContent = account.createdAt
                 ? 'Dabei seit ' + formatDate(account.createdAt)
                 : '';
