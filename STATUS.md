@@ -33,10 +33,10 @@ Current implementation status:
 Third focused L4-L6 archive expansion batch with textbook-style explanations:
 
 ### Changes in this iteration
-- **T-4-009** (Eigenwertprobleme: Berechnung und Bedeutung): Characteristic polynomial, eigenvalue/eigenvector computation steps, stability application, trace/determinant quick-check. Full Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck structure.
-- **T-5-009** (Z-Transformation: Definition und Anwendung): Definition as discrete-time Laplace analogue, solving difference equations, ROC, frequency-domain check via unit circle. Same didactic template.
-- **T-6-009** (Ito-Kalkuel und stochastische Differentialgleichungen): Ito lemma derivation, quadratic variation of Wiener process, comparison with classical chain rule, Ito correction term, E[X_t^2]=t quick-check.
-- All three follow the same didactic template as previous T-*-007 / T-*-008 batches.
+- **T-4-009** (Eigenwertprobleme und charakteristisches Polynom): Full walkthrough — det(A-lambda*I)=0 to eigenvectors via Gaussian elimination; Spur/Determinante Schnellcheck.
+- **T-5-009** (Z-Transformation und zeitdiskrete Systeme): Z-transform analogy to Laplace, shift property, unit-circle stability criterion, Ito correction missing from classical calculus.
+- **T-6-009** (Stochastische DGL und Ito-Kalkuel): SDE drift+diffusion model, Ito lemma with correction term, classical-calculus reduction check.
+- All three tasks follow the same didactic template (Kernidee/Intuition/Schritte/Haeufiger Fehler/Schnellcheck).
 
 ### Files touched
 - `app/data/archive-content.js`
@@ -45,13 +45,13 @@ Third focused L4-L6 archive expansion batch with textbook-style explanations:
 
 ### Validation
 - `node tools/archive-qa.js` → OK, tasks=3120, 520 per level
-- Marker grep confirmed all three new IDs and didactic structure keys present
+- Marker grep confirmed all three new IDs (T-4-009, T-5-009, T-6-009) and didactic structure present
 
 ### Blockers
 None.
 
 ### Next logical step
-- Continue L4-L6 expansion with another small batch (T-4-010, T-5-010, T-6-010) covering topics such as Funktionenreihen/Fourier-Reihen (L4), Regelkreisoptimierung/PID-Auslegung (L5), PDE-Klassifizierung und Charakteristiken (L6).
+- Continue L4-L6 expansion with another small batch (T-4-010, T-5-010, T-6-010) covering further university/research topics.
 - Or proceed to next open P3 task: Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene).
 
 ## Last completed task (v1.2.1)

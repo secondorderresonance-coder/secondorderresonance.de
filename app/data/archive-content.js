@@ -728,47 +728,47 @@ window.SOR_ARCHIVE = {
 
         {
             id: "T-4-009",
-            title: "Eigenwertprobleme: Berechnung und Bedeutung",
+            title: "Eigenwertprobleme und charakteristisches Polynom",
             level: "4",
             sublevel: "4.1.1.b",
             topic: "Lineare Algebra",
-            tags: ["eigenwert", "eigenvektor", "spektrum", "lineare-algebra"],
+            tags: ["eigenwerte", "eigenvektoren", "charakteristisches-polynom"],
             difficulty: "schwer",
-            question: "Erklaere, wie Eigenwerte und Eigenvektoren einer quadratischen Matrix berechnet werden, und nenne zwei wichtige Anwendungen.",
-            answer: "Eigenwerte lambda erhaelt man aus det(A - lambda*I) = 0; zu jedem lambda loest man (A - lambda*I)v = 0 nach dem Eigenvektor v. Anwendungen: Stabilitaetsanalyse von DGL-Systemen, Hauptachsentransformation quadratischer Formen.",
-            explanation: "Kernidee: Eigenvektoren sind Richtungen, die unter der linearen Abbildung A nur skaliert, nicht gedreht werden; der Skalierungsfaktor ist der zugehoerige Eigenwert. Intuition: Stellt man ein dynamisches System x'=Ax als Linearkombination von Eigenvektoren dar, entkoppeln die Gleichungen – jede Komponente waechst oder faellt exponentiell mit e^(lambda*t). Schritte: 1) Bilde das charakteristische Polynom: p(lambda) = det(A - lambda*I). 2) Loese p(lambda) = 0; die Loesungen sind die Eigenwerte. 3) Setze jedes lambda_i in (A - lambda_i*I)v = 0 ein und bestimme den Kern (Null-Eigenraum). 4) Waehlte eine Basis des Eigenraums als Eigenvektor(en). 5) Pruefe: A*v_i = lambda_i * v_i. Haeufiger Fehler: Beim Aufstellen von det(A - lambda*I) Vorzeichen vertauschen, besonders bei der Diagonale. Schnellcheck: Spur(A) = Summe der Eigenwerte; det(A) = Produkt der Eigenwerte – beides laesst sich schnell verifizieren.",
+            question: "Beschreibe das Vorgehen zur Bestimmung von Eigenwerten und Eigenvektoren einer quadratischen Matrix A.",
+            answer: "Eigenwerte erhaelt man als Nullstellen von det(A - lambda*I) = 0; Eigenvektoren folgen dann aus (A - lambda*I)v = 0 fuer jeden Eigenwert.",
+            explanation: "Kernidee: Ein Eigenvektor aendert seine Richtung unter A nicht; er wird nur skaliert. Dieser Skalierungsfaktor ist der zugehoerige Eigenwert. Intuition: Die Gleichung Av = lambda*v bedeutet, dass v eine ausgezeichnete Richtung ist, die A nur streckt oder staucht. Durch Umformung zu (A - lambda*I)v = 0 und der Forderung nach nichttrivialen Loesungen ergibt sich das Nullstellenproblem. Schritte: 1) Bilde das charakteristische Polynom p(lambda) = det(A - lambda*I). 2) Loese p(lambda) = 0 nach lambda auf; die Loesungen sind die Eigenwerte. 3) Setze jeden Eigenwert lambda_i einzeln in (A - lambda_i*I)v = 0 ein. 4) Bestimme den Loesungsraum (Eigenraum) durch Gausselimination. Haeufiger Fehler: Bei komplexen Eigenwerten nur den Realteil benutzen oder vergessen, dass konjugiert-komplexe Paare auftreten. Schnellcheck: Die Summe der Eigenwerte muss gleich der Spur von A sein (Spur = Summe der Diagonalelemente); das Produkt gleich der Determinante.",
             type: "kurzantwort",
             estimatedTime: 7
         },
 
         {
             id: "T-5-009",
-            title: "Z-Transformation: Definition und Anwendung",
+            title: "Z-Transformation und zeitdiskrete Systeme",
             level: "5",
-            sublevel: "5.1.1.b",
-            topic: "Z-Transformation",
-            tags: ["z-transform", "diskret", "differenzengleichung", "signalverarbeitung"],
+            sublevel: "5.1.1.a",
+            topic: "Signalverarbeitung",
+            tags: ["z-transformation", "zeitdiskret", "digital"],
             difficulty: "schwer",
-            question: "Definiere die Z-Transformation und erklaere, wie sie zur Loesung linearer Differenzengleichungen mit konstanten Koeffizienten eingesetzt wird.",
-            answer: "Z{x[n]} = X(z) = sum_{n=0}^{inf} x[n] * z^{-n}. Sie verwandelt eine Differenzengleichung in eine algebraische Gleichung in z; nach Umformen und Partialburch-Zerlegung folgt x[n] durch inverse Z-Transformation.",
-            explanation: "Kernidee: Die Z-Transformation ist das zeitdiskrete Analogon der Laplace-Transformation: Sie kartiert Zeitfolgen in den z-Bereich, wo Verzoegerungen zu Multiplikation mit z^{-1} werden. Intuition: Ein lineares zeitinvariantes (LTI) System reagiert im z-Bereich mit H(z) = Y(z)/X(z); Pole und Nullstellen von H(z) bestimmen Stabilitaet und Frequenzgang. Schritte: 1) Schreibe die Differenzengleichung, z.B. y[n] - a*y[n-1] = x[n]. 2) Wende Z an: Y(z) - a*z^{-1}*Y(z) = X(z). 3) Loese nach Y(z): Y(z) = X(z) / (1 - a*z^{-1}). 4) Bringe auf gebrochenrationale Form und fuehre ggf. Partialbruch durch. 5) Schlage Korrespondenz in der Z-Tabelle nach, z.B. 1/(1 - a*z^{-1}) <-> a^n * u[n]. Haeufiger Fehler: Konvergenzbereich (ROC) vergessen, der die Eindeutigkeit der Ruecktransformation sichert. Schnellcheck: Setze z = e^{j*omega} (Einheitskreis) ein, um den Frequenzgang H(e^{j*omega}) zu erhalten und stabile Pole (|z| < 1) zu pruefen.",
-            type: "kurzantwort",
+            question: "Erklaere die Rolle der Z-Transformation fuer zeitdiskrete Systeme und ihr Analogon zur Laplace-Transformation.",
+            answer: "Die Z-Transformation ueberfuehrt Differenzengleichungen in algebraische Gleichungen in z, analog zur Laplace-Transformation fuer kontinuierliche Systeme.",
+            explanation: "Kernidee: Zeitdiskrete LTI-Systeme werden durch Differenzengleichungen beschrieben; die Z-Transformation macht daraus rationale Ausdruecke in z, die man algebraisch manipulieren kann. Intuition: Wie die Laplace-Transformation Ableitungen in s-Faktoren verwandelt, verwandelt die Z-Transformation Verzoegerungen um einen Schritt in den Faktor z^{-1}. Schritte: 1) Definiere X(z) = sum_{n=0}^{inf} x[n] z^{-n}. 2) Nutze die Verschiebungseigenschaft: Z{x[n-1]} = z^{-1} X(z). 3) Forme die Differenzengleichung in z-Bereich um und loese nach Y(z)/X(z) auf (Uebertragungsfunktion). 4) Pol- und Nullstellenlage in der z-Ebene bestimmt Stabilitaet (alle Pole im Einheitskreis). Haeufiger Fehler: Die Stabilitaetsbedingung aus der s-Ebene (Re<0) direkt in die z-Ebene uebertragen, statt den Einheitskreis zu pruefen. Schnellcheck: Liegt z=1 ausserhalb der Polmenge und alle Pole erfuellen |z_i|<1, ist das System stabil.",
+            type: "konzeptfrage",
             estimatedTime: 7
         },
 
         {
             id: "T-6-009",
-            title: "Ito-Kalkuel und stochastische Differentialgleichungen",
+            title: "Stochastische DGL und Ito-Kalkuel",
             level: "6",
             sublevel: "6.2",
             topic: "Stochastische Analysis",
             tags: ["ito", "sde", "wiener-prozess", "stochastik"],
             difficulty: "schwer",
-            question: "Formuliere das Ito-Lemma fuer eine glatte Funktion f(t, X_t) und erklaere, warum es sich von der klassischen Kettenregel unterscheidet.",
-            answer: "df = (df/dt + mu*df/dX + sigma^2/2 * d^2f/dX^2) dt + sigma * df/dX dW_t. Der zusaetzliche Term sigma^2/2 * d^2f/dX^2 entsteht, weil (dW_t)^2 = dt in der stochastischen Rechnung nicht wie im Determinismus gegen null geht.",
-            explanation: "Kernidee: Der Wiener-Prozess W_t hat quadratische Variation [W]_t = t, nicht null; das erzwingt einen Korrektturterm zweiter Ordnung in der Taylorreihe, der in der klassischen Analysis verschwindet. Intuition: Stellt man sich W_t als 'raues' Pfad mit unendlich vielen kleinen Zufallosprung vor, wachsen (delta W)^2-Terme wie delta t – daher taucht ein zweiter Ableitungsterm auf, der aus rein deterministischer Sicht null waere. Schritte: 1) Starte mit X_t, das die SDE dX = mu dt + sigma dW erfuellt. 2) Taylorentwickle df bis zweiter Ordnung: df = f_t dt + f_X dX + 1/2 f_{XX} (dX)^2 + ... 3) Ersetze (dX)^2 = sigma^2 dt, da (dt)^2 = dt*dW = 0 und (dW)^2 = dt. 4) Fasse zusammen: df = (f_t + mu*f_X + sigma^2/2 * f_{XX}) dt + sigma*f_X dW_t. Haeufiger Fehler: Den Ito-Korrekturterm weglassen und nur die klassische Kettenregel benutzen, was zu falschen Ergebnissen fuehrt. Schnellcheck: Wende das Ito-Lemma auf f(X_t)=X_t^2 mit dX=dW an: df = dt + 2X_t dW_t, also E[X_t^2] = t – konsistent mit Var(W_t)=t.",
+            question: "Erklaere die Grundidee einer stochastischen Differentialgleichung (SDE) und warum das Ito-Kalkuel benoetigt wird.",
+            answer: "Eine SDE ergaenzt eine gewoehnliche DGL um einen Wiener-Prozess-Term; Ito-Kalkuel liefert die passende Kettenregel, weil Pfade des Wiener-Prozesses nicht differenzierbar sind.",
+            explanation: "Kernidee: Reale Systeme unterliegen zufaelligen Stoerungen; eine SDE dX = f(X,t)dt + g(X,t)dW modelliert das, indem ein deterministischer Driftterm und ein stochastischer Diffusionsterm kombiniert werden. Intuition: Im Unterschied zu gewoehnlichen DGLs ist dW kein normales Differential, weil der Wiener-Prozess nirgends differenzierbar ist. Klassisches Newton-Leibniz-Kalkuel versagt daher. Schritte: 1) Schreibe die SDE: dX = mu(X,t)dt + sigma(X,t)dW. 2) Verstehe dW als Inkrement eines Wiener-Prozesses mit Varianz dt. 3) Wende Ito-Lemma an fuer eine Funktion F(X,t): dF = (dF/dt + mu*dF/dX + sigma^2/2 * d^2F/dX^2)dt + sigma*dF/dX*dW. 4) Der Korrekturterm sigma^2/2 * d^2F/dX^2 (Ito-Korrektur) hat keine Entsprechung im klassischen Kalkuel. Haeufiger Fehler: Klasssische Kettenregel ohne Ito-Korrektur verwenden; fuehrt auf systematisch falsche Ergebnisse. Schnellcheck: Bei sigma=0 reduziert sich das Ito-Lemma auf die klassische Kettenregel, was als Konsistenztest dient.",
             type: "konzeptfrage",
-            estimatedTime: 8
+            estimatedTime: 9
         }
     ], 520),
     placementQuestions: [
