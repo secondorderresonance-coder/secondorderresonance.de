@@ -1990,6 +1990,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: SQP approximiert die nichtlineare Aufgabe lokal durch ein QP und nutzt dessen starke numerische Loeser. Intuition: Statt das ganze Problem auf einmal zu loesen, verbessert jede QP-Loesung die Nebenbedingungserfuellung und Optimalitaet. Schritte: 1) Linearisieren der Nebenbedingungen in x_k. 2) Aufbau einer Lagrange-Hesse-Approximation. 3) Loesen des QP-Subproblems fuer Richtung d_k. 4) Schrittweitenwahl via Merit- oder Filterstrategie. 5) Update von x und Multiplikatoren. Haeufiger Fehler: Nebenbedingungen nur schwach gewichten; dann werden zwar Kosten verbessert, aber Feasibility stagniert. Schnellcheck: Rueckgang von KKT-Residualen und Nebenbedingungsverletzung zeigt korrekten Fortschritt.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-024",
+            title: "Eigenraumdimension und Diagonalisierbarkeit",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["eigenraum", "diagonalisierung", "vielfachheit", "matrix"],
+            difficulty: "schwer",
+            question: "Wie entscheidet man ueber Diagonalisierbarkeit einer Matrix mithilfe der Eigenraumdimensionen?",
+            answer: "Eine Matrix ist diagonalisierbar, wenn die Summe der Dimensionen aller Eigenraeume gleich n ist. Aequivalent: Fuer jeden Eigenwert muss geometrische Vielfachheit = algebraische Vielfachheit gelten.",
+            explanation: "Kernidee: Diagonalisierung benoetigt eine Basis aus n linear unabhaengigen Eigenvektoren. Intuition: Fehlen Eigenvektoren, bleiben Jordan-Bloecke >1 und verhindern eine reine Diagonalform. Schritte: 1) Bestimme Eigenwerte aus dem charakteristischen Polynom. 2) Berechne je Eigenwert den Eigenraum ker(A-lambda I). 3) Ermittle geometrische Vielfachheit als Eigenraumdimension. 4) Vergleiche mit algebraischer Vielfachheit. 5) Summiere alle Eigenraumdimensionen und pruefe auf n. Haeufiger Fehler: Verschiedene Eigenwerte als notwendige Bedingung missverstehen; sie sind nur hinreichend. Schnellcheck: Defekte Eigenwerte (geom. < alg.) zeigen sofort Nicht-Diagonalisierbarkeit.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-024",
+            title: "PID-Tuning und Anti-Windup",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["pid", "anti-windup", "saettigung", "tuning"],
+            difficulty: "schwer",
+            question: "Warum ist Anti-Windup bei PID-Reglern mit Stellgroessenbegrenzung wichtig?",
+            answer: "Ohne Anti-Windup kann der I-Anteil bei Saettigung weiter integrieren und grosse Ueberschwinger verursachen. Anti-Windup begrenzt oder rueckfuehrt den Integrator, sodass der Regler nach Saettigung schneller stabilisiert.",
+            explanation: "Kernidee: Integratoraufbau waehrend Aktorsperre fuehrt zu verzogenem Reglerzustand. Intuition: Wenn der Stellbefehl nicht umgesetzt werden kann, darf der Integrator den Fehler nicht 'blind' weiter aufsummieren. Schritte: 1) Erkenne Stellsaettigung u=u_max/min. 2) Nutze Integrator-Clamping oder Back-Calculation. 3) Tune Anti-Windup-Verstaerkung passend zur Aktordynamik. 4) Pruefe Sprungantwort mit/ohne Saettigung. 5) Balanciere Regelguete vs. Robustheit. Haeufiger Fehler: Nur Kp/Ki/Kd abstimmen und Saettigungslogik ignorieren. Schnellcheck: Mit Anti-Windup sinken Nachlaufzeit und Ueberschwingen nach Saettigungsphasen deutlich.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-024",
+            title: "ADMM fuer verteilte konvexe Optimierung",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["admm", "augmented-lagrangian", "distributed", "konvex"],
+            difficulty: "schwer",
+            question: "Welche Idee steckt hinter ADMM bei Problemen der Form min f(x)+g(z) mit Nebenbedingung Ax+Bz=c?",
+            answer: "ADMM kombiniert aufgespaltene Teilminimierungen mit dualem Update auf Basis der augmentierten Lagrangefunktion. Dadurch lassen sich x- und z-Subprobleme getrennt und oft parallel loesen.",
+            explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
