@@ -14,6 +14,7 @@
 ## Aktueller Meilenstein
 - 1.000 Aufgaben pro Level in dieser Iteration
 - 6.000 Aufgaben insgesamt aktuell verfuegbar
+- L4-L6 Ausbau-Batches aktuell erweitert bis T-4-015 / T-5-015 / T-6-015
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
