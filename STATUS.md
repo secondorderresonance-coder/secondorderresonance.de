@@ -1,11 +1,11 @@
 # STATUS
 
 ## Current version
-- `v1.2.10`
+- `v1.2.20`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 6.000 archive tasks (1.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 9.000 archive tasks (1.500 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -29,6 +29,237 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.20)
+Eighteenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-024** (Eigenraumdimension und Diagonalisierbarkeit): geometrische/algebraische Vielfachheit und defekte Eigenwerte.
+- **T-5-024** (PID-Tuning und Anti-Windup): Integrator-Saettigung, Clamping/Back-Calculation und Stabilitaetswirkung.
+- **T-6-024** (ADMM): augmentierte Lagrangefunktion, Blockupdates und Residuen-basiertes Tuning.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-024`, `T-5-024`, `T-6-024`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-025`, `T-5-025`, `T-6-025`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.19)
+Seventeenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-023** (LU-Zerlegung und Pivotisierung): Stabilitaetsgrund fuer `PA=LU`, Vorwaerts-/Rueckwaertseinsetzen.
+- **T-5-023** (Root-Locus und Kompensatorwirkung): Einfluss zusaetzlicher Nullstellen auf Polpfade und Daempfung.
+- **T-6-023** (SQP-Grundidee): QP-Teilprobleme, linearisierte Nebenbedingungen, KKT-nahe Suchrichtung.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-023`, `T-5-023`, `T-6-023`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-024`, `T-5-024`, `T-6-024`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.18)
+Sixteenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-022** (Gram-Schmidt und QR-Konstruktion): Orthogonalisierungsschritte, numerische Stabilitaet, Bezug zu `A=QR`.
+- **T-5-022** (Nyquist-Kriterium und Umlaufzahl): Zusammenhang von `N`, `P`, `Z` und geschlossener Stabilitaet.
+- **T-6-022** (Trust-Region und Cauchy-Punkt): Modellguete `rho`, adaptive Regionsgroesse, robuste Schrittwahl.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-022`, `T-5-022`, `T-6-022`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-023`, `T-5-023`, `T-6-023`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.17)
+Fifteenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-021** (Hauptkomponentenanalyse als SVD-Anwendung): Zentrierung, Komponentenwahl und erklaerte Varianz.
+- **T-5-021** (Bode-Diagramm und Stabilitaetsreserven): Phasenreserve/Amplitudenreserve und robuste Reglerintuition.
+- **T-6-021** (Primal-Dual Interior-Point): Zentralpfad, KKT-Newton-Schritte und Positivitaetsbedingungen.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-021`, `T-5-021`, `T-6-021`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-022`, `T-5-022`, `T-6-022`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.16)
+Fourteenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-020** (Singulaerwerte und numerischer Rang): SVD-basierte Rangdiagnose mit toleranzbasierter Trennung.
+- **T-5-020** (Diskreter Kalman-Filter und Kovarianz-Update): Unsicherheitspropagation, Gewinnbildung, Joseph-Form-Hinweis.
+- **T-6-020** (Levenberg-Marquardt): Daempfung als Trust-Region-Mechanik zwischen Gradientabstieg und Gauss-Newton.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-020`, `T-5-020`, `T-6-020`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-021`, `T-5-021`, `T-6-021`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.15)
+Thirteenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-019** (Spektralradius und Potenziteration): Dominanter Eigenwert, Rayleigh-Quotient, Spektralabstand als Konvergenztreiber.
+- **T-5-019** (Diskrete Zustandsregler und Pole Placement): Steuerbarkeit, Polwahl im Einheitskreis, Stellaufwand-Trade-off.
+- **T-6-019** (Gauss-Newton fuer nichtlineare Ausgleichsprobleme): Struktur von Least-Squares, Jacobian-Schritt, Daempfungsoption.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-019`, `T-5-019`, `T-6-019`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-020`, `T-5-020`, `T-6-020`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.14)
+Twelfth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-018** (Orthogonale Projektion und QR-Zerlegung): Projektion auf Spaltenraum, stabiles Least-Squares ueber Dreieckssystem.
+- **T-5-018** (Luenberger-Beobachter): Fehlerdynamik `A-LC`, Beobachtbarkeit, Pole-Placement-Trade-offs.
+- **T-6-018** (Newton fuer nichtlineare Systeme): Jacobian-basierte Korrekturschritte, Daempfung, lokale quadratische Konvergenz.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-018`, `T-5-018`, `T-6-018`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-019`, `T-5-019`, `T-6-019`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.13)
+Focused L1-L3 school-coverage expansion batch + larger archive volume:
+
+### Changes in this iteration
+- Added six new L1 seed tasks (`T-1-015` to `T-1-020`) across arithmetic fluency, fractions, percentages, geometry, and unit conversions.
+- Added six new L2 seed tasks (`T-2-015` to `T-2-020`) across linear systems, binomials, parabola interpretation, slope, Pythagoras, and probability.
+- Added six new L3 seed tasks (`T-3-015` to `T-3-020`) across quadratic equations, exponential modeling, trigonometry, vectors, conditional probability, and tangent equations.
+- Increased scalable archive generation from `1000` to `1500` tasks per level.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-1-020`, `T-2-020`, `T-3-020`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L1-L3 curriculum expansion with the next mapped school-topic batch while preserving small reviewable increments.
+
+## Last completed task (v1.2.12)
+Eleventh focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-017** (Konditionszahl und numerische Stabilitaet): Sensitivitaet von Ax=b, SVD-Bezug, Residuum-vs-Loesungsfehler.
+- **T-5-017** (Beobachtbarkeit und Kalman-Rangbedingung): Beobachtbarkeitsmatrix, Rangkriterium, Abgrenzung zu Regelbarkeit.
+- **T-6-017** (Konjugierte Gradientenmethode): Krylov-Idee, A-konjugierte Richtungen, Preconditioning-Hinweis.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=6000, 1000 per level
+- marker check: `T-4-017`, `T-5-017`, `T-6-017`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-018`, `T-5-018`, `T-6-018`) while preserving the didactic explanation template.
+
+## Last completed task (v1.2.11)
+Tenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-016** (Least-Squares und Moore-Penrose-Pseudoinverse): Normalgleichungen, QR/SVD-Hinweis, Projektionsinterpretation.
+- **T-5-016** (Kalman-Filter): Vorhersage/Update-Gleichungen, Bedeutung von Q/R, Stabilitaetsintuition.
+- **T-6-016** (Quasi-Newton BFGS): Hesse-Approximation, Wolfe-Line-Search, Konvergenzintuition.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=6000, 1000 per level
+- marker check: `T-4-016`, `T-5-016`, `T-6-016`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-017`, `T-5-017`, `T-6-017`) while preserving the didactic explanation template.
 
 ## Last completed task (v1.2.10)
 Ninth focused L4-L6 archive expansion batch:
