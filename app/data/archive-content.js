@@ -209,6 +209,126 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-1-007",
+            title: "Negative Zahlen addieren",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["negativ", "addition"],
+            difficulty: "leicht",
+            question: "Was ergibt -4 + 7?",
+            answer: "3",
+            explanation: "Auf dem Zahlenstrahl von -4 sieben Schritte nach rechts: -4 + 7 = 3.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-008",
+            title: "Zahlenstrahl Vergleich",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["negativ", "vergleich", "zahlenstrahl"],
+            difficulty: "leicht",
+            question: "Welche Zahl liegt weiter rechts auf dem Zahlenstrahl: -3 oder -8?",
+            answer: "-3",
+            explanation: "Je weiter rechts, desto groesser. -3 > -8, also liegt -3 weiter rechts.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-009",
+            title: "Flaeche Dreieck",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Geometrie",
+            tags: ["dreieck", "flaeche"],
+            difficulty: "leicht",
+            question: "Ein Dreieck hat Grundlinie 10 cm und Hoehe 6 cm. Wie gross ist seine Flaeche?",
+            answer: "30 cm²",
+            explanation: "A = Grundlinie * Hoehe / 2 = 10 * 6 / 2 = 30 cm².",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-010",
+            title: "Einheitenumrechnung km zu m",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["einheiten", "umrechnung"],
+            difficulty: "leicht",
+            question: "Wie viele Meter sind 3,5 km?",
+            answer: "3500 m",
+            explanation: "1 km = 1000 m, also 3,5 * 1000 = 3500 m.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-011",
+            title: "Mittelwert berechnen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["mittelwert", "statistik"],
+            difficulty: "leicht",
+            question: "Berechne den Mittelwert von 4, 7, 9, 10.",
+            answer: "7,5",
+            explanation: "Summe: 4+7+9+10 = 30. Anzahl: 4. Mittelwert: 30/4 = 7,5.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-012",
+            title: "Teilbarkeit durch 3",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["teilbarkeit", "quersumme"],
+            difficulty: "leicht",
+            question: "Ist 138 durch 3 teilbar? Erklaere kurz.",
+            answer: "Ja, weil die Quersumme 1+3+8=12 durch 3 teilbar ist.",
+            explanation: "Teilbarkeitsregel: Eine Zahl ist durch 3 teilbar, wenn ihre Quersumme durch 3 teilbar ist. 1+3+8=12, 12/3=4, also ja.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-013",
+            title: "Runden auf zwei Dezimalstellen",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["runden", "dezimal"],
+            difficulty: "leicht",
+            question: "Runde 4,765 auf zwei Dezimalstellen.",
+            answer: "4,77",
+            explanation: "Die dritte Dezimalstelle ist 5, also wird die zweite Stelle aufgerundet: 4,77.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
+            id: "T-1-014",
+            title: "Einfache Gleichung loesen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["gleichung", "einstufig"],
+            difficulty: "leicht",
+            question: "Loese x + 9 = 15.",
+            answer: "x = 6",
+            explanation: "9 von beiden Seiten subtrahieren: x = 15 - 9 = 6.",
+            type: "kurzantwort",
+            estimatedTime: 1
+        },
+
+        {
             id: "T-2-001",
             title: "Lineare Gleichung l?sen",
             level: "2",
@@ -297,6 +417,126 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-2-007",
+            title: "Quadratische Gleichung pq-Formel",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["quadratisch", "pq-formel"],
+            difficulty: "mittel",
+            question: "Loese x² - 5x + 6 = 0 mit der pq-Formel.",
+            answer: "x = 2 oder x = 3",
+            explanation: "p = -5, q = 6. x = 5/2 ± sqrt((5/2)² - 6) = 2,5 ± 0,5. Ergebnisse: x=3 und x=2.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-2-008",
+            title: "Lineares Gleichungssystem",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["gleichungssystem", "substitution"],
+            difficulty: "mittel",
+            question: "Loese das System: x + y = 7 und x - y = 3.",
+            answer: "x = 5, y = 2",
+            explanation: "Addition beider Gleichungen: 2x = 10, also x = 5. Einsetzen: 5 + y = 7, also y = 2.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-2-009",
+            title: "Binomische Formel anwenden",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["binom", "termumformung"],
+            difficulty: "mittel",
+            question: "Forme (a + 3)² vollstaendig aus.",
+            answer: "a² + 6a + 9",
+            explanation: "(a+b)² = a² + 2ab + b². Hier b=3: a² + 6a + 9.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-010",
+            title: "Wurzel vereinfachen",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["wurzel", "vereinfachen"],
+            difficulty: "mittel",
+            question: "Vereinfache sqrt(50).",
+            answer: "5 * sqrt(2)",
+            explanation: "sqrt(50) = sqrt(25 * 2) = sqrt(25) * sqrt(2) = 5 * sqrt(2).",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-011",
+            title: "Sinus Standardwinkel",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen",
+            tags: ["sinus", "trigonometrie"],
+            difficulty: "mittel",
+            question: "Wie gross ist sin(30°)?",
+            answer: "1/2 (= 0,5)",
+            explanation: "Im rechtwinkligen Dreieck mit 30° entspricht die Gegenkathete der Haelfte der Hypotenuse: sin(30°) = 1/2.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-012",
+            title: "Logarithmus berechnen",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["logarithmus", "potenz"],
+            difficulty: "mittel",
+            question: "Berechne log₂(16).",
+            answer: "4",
+            explanation: "log₂(16) = x bedeutet 2^x = 16 = 2^4, also x = 4.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-013",
+            title: "Arithmetische Folge Formel",
+            level: "2",
+            sublevel: "2.2.1.a",
+            topic: "Exponentielles Verhalten",
+            tags: ["folge", "arithmetisch"],
+            difficulty: "mittel",
+            question: "Eine Folge beginnt 3, 7, 11, 15, ... . Wie lautet das allgemeine Glied a_n?",
+            answer: "a_n = 4n - 1",
+            explanation: "Startwert a_1 = 3, Differenz d = 4. a_n = a_1 + (n-1)*d = 3 + 4(n-1) = 4n - 1.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-2-014",
+            title: "Betragsgleichung loesen",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen lösen und umstellen",
+            tags: ["betrag", "fallunterscheidung"],
+            difficulty: "mittel",
+            question: "Loese |x - 4| = 6.",
+            answer: "x = 10 oder x = -2",
+            explanation: "Fall 1: x - 4 = 6 → x = 10. Fall 2: x - 4 = -6 → x = -2. Beide pruefen: |10-4|=6 ✓ und |-2-4|=6 ✓.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
             level: "3",
@@ -378,6 +618,126 @@ window.SOR_ARCHIVE = {
             answer: "Ja, f?r alle x",
             explanation: "f'(x)=3x^2 ist nie negativ, daher steigt f global.",
             type: "konzeptfrage",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-007",
+            title: "Integration durch Substitution",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "substitution"],
+            difficulty: "schwer",
+            question: "Berechne ∫ 2x * e^(x²) dx.",
+            answer: "e^(x²) + C",
+            explanation: "Substitution: u = x², du = 2x dx. Das Integral wird zu ∫ e^u du = e^u + C = e^(x²) + C.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-008",
+            title: "Partielle Integration",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "partielle-integration"],
+            difficulty: "schwer",
+            question: "Berechne ∫ x * e^x dx mit partieller Integration.",
+            answer: "(x - 1) * e^x + C",
+            explanation: "Formel: ∫ u v' dx = uv - ∫ u' v dx. Wahl: u=x, v'=e^x, also u'=1, v=e^x. Ergibt: x*e^x - ∫ e^x dx = x*e^x - e^x + C = (x-1)*e^x + C.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-3-009",
+            title: "Skalarprodukt berechnen",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["skalarprodukt", "vektor"],
+            difficulty: "mittel",
+            question: "Berechne das Skalarprodukt (2, 3, 1) · (1, 0, 2).",
+            answer: "4",
+            explanation: "Skalarprodukt: 2*1 + 3*0 + 1*2 = 2 + 0 + 2 = 4.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-3-010",
+            title: "Matrizenmultiplikation",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["matrix", "multiplikation"],
+            difficulty: "schwer",
+            question: "Berechne [[1,2],[3,4]] * [[0,1],[1,0]].",
+            answer: "[[2,1],[4,3]]",
+            explanation: "Zeile mal Spalte: (1*0+2*1, 1*1+2*0) = (2,1); (3*0+4*1, 3*1+4*0) = (4,3). Ergebnis: [[2,1],[4,3]].",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-011",
+            title: "Komplexe Zahlen multiplizieren",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["komplex", "multiplikation"],
+            difficulty: "schwer",
+            question: "Berechne (2 + 3i)(1 - i).",
+            answer: "5 + i",
+            explanation: "Ausmultiplizieren: 2*1 + 2*(-i) + 3i*1 + 3i*(-i) = 2 - 2i + 3i - 3i². Mit i²=-1: 2 + i + 3 = 5 + i.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-012",
+            title: "Grenzwert mit L'Hopital",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["grenzwert", "lhopital"],
+            difficulty: "schwer",
+            question: "Bestimme lim_{x→0} sin(x)/x.",
+            answer: "1",
+            explanation: "Form 0/0 → L'Hopital anwenden: lim_{x→0} cos(x)/1 = cos(0) = 1. Alternativ: Taylorentwicklung sin(x) ≈ x gibt sin(x)/x → 1.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-013",
+            title: "Trennbare Differentialgleichung",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["dgl", "trennung-der-variablen"],
+            difficulty: "schwer",
+            question: "Loese y' = y mit Anfangsbedingung y(0) = 3.",
+            answer: "y = 3 * e^x",
+            explanation: "Trennung: dy/y = dx. Integration: ln|y| = x + C. Allgemein: y = A*e^x. Einsetzen y(0)=3: A=3. Ergebnis: y = 3*e^x.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-3-014",
+            title: "Bestimmtes Integral berechnen",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "bestimmt"],
+            difficulty: "mittel",
+            question: "Berechne ∫₀² x² dx.",
+            answer: "8/3",
+            explanation: "Stammfunktion: x³/3. Auswertung: [x³/3]₀² = 8/3 - 0 = 8/3.",
+            type: "kurzantwort",
             estimatedTime: 3
         },
 
