@@ -1306,6 +1306,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Das Problem wird von der starken Differentialgleichungsform in eine integrale schwache Form transformiert, die numerisch loesbar ist. Intuition: Man 'trickst' die PDE aus – statt exakt zu loesen, sucht man die beste Approximation in einem endlichdimensionalen Funktionenraum. Schritte: 1) Variationsformulierung: Multipliziere PDE mit Testfunktion v, integriere partiell. 2) Waehle Ansatzraum: stueckweise lineare/quadratische Polynome auf Dreieck/Viereck-Elementen. 3) Assembliere lokale Elementsteifigkeitsmatrizen K_e. 4) Assembliere globale Steifigkeitsmatrix K. 5) Loese lineares System Ku = F (mit Randbedingungen). Haeufiger Fehler: Randbedingungen falsch einbinden – Dirichlet-Bedingungen muessen Zeilen/Spalten der Steifigkeitsmatrix ersetzen, nicht nur die Lastvektor-Eintraege aendern. Schnellcheck: K muss symmetrisch und positiv (semi-)definit sein; Determinante null bei rein Neumann-Bedingungen (Eindeutigkeitsverlust).",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-014",
+            title: "Singulaerwertzerlegung (SVD) und Rangstruktur",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["svd", "rang", "orthogonal", "matrixfaktorisierung"],
+            difficulty: "schwer",
+            question: "Erklaere die Singulaerwertzerlegung A = U*Sigma*V^T und ihren Nutzen fuer Rang- und Approximationsfragen.",
+            answer: "Jede reelle Matrix A besitzt eine SVD mit orthogonalen U,V und diagonalem Sigma (nichtnegative Singulaerwerte). Die Anzahl positiver Singulaerwerte ist der Rang; mit den groessten k Singulaerwerten erhaelt man die beste Rang-k-Approximation (Eckart-Young).",
+            explanation: "Kernidee: Die SVD zerlegt jede Matrix in reine Drehungen/Spiegelungen (U,V) plus Skalierungen (Sigma). Intuition: Geometrisch bildet A die Einheitskugel auf ein Ellipsoid ab; dessen Halbachsen sind die Singulaerwerte. Schritte: 1) Bestimme Eigenwerte von A^T A (nichtnegativ). 2) Singulaerwerte sind sigma_i = sqrt(lambda_i). 3) Rechte Singulaervektoren aus Eigenvektoren von A^T A. 4) Linke Singulaervektoren u_i = A v_i / sigma_i. 5) Setze A = U Sigma V^T zusammen und lies Rang/Approximation ab. Haeufiger Fehler: Singulaerwerte mit Eigenwerten verwechseln; bei nichtsymmetrischen Matrizen sind das unterschiedliche Konzepte. Schnellcheck: Frobeniusnorm bleibt invariant unter orthogonalen Transformationen; Rang(A) entspricht Anzahl sigma_i > 0.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-014",
+            title: "Wurzelortskurve und Reglerentwurf",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["wurzelortskurve", "regelkreis", "pole", "entwurf"],
+            difficulty: "schwer",
+            question: "Was zeigt die Wurzelortskurve und wie nutzt man sie zum Reglerentwurf?",
+            answer: "Die Wurzelortskurve zeigt die Lage der geschlossenen Polstellen in Abhaengigkeit vom Verstaerkungsparameter K. Sie hilft, K so zu waehlen, dass Daempfung, Einschwingzeit und Stabilitaet die Anforderungen erfuellen.",
+            explanation: "Kernidee: Die Dynamik des geschlossenen Kreises wird durch Pole bestimmt; mit der Wurzelortskurve sieht man ihre Bewegung bei variierendem K direkt. Intuition: Startpunkte sind offene Pole, Endpunkte offene Nullstellen bzw. Asymptoten ins Unendliche. Schritte: 1) Schreibe offene Uebertragungsfunktion L(s)=K*G(s). 2) Charakteristische Gleichung: 1+L(s)=0. 3) Trage offene Pole/Nullstellen ein. 4) Nutze Winkel- und Betragsbedingung fuer Punkte auf der Kurve. 5) Waehle K am Schnitt mit gewuenschter Daempfungslinie und pruefe Schrittantwort. Haeufiger Fehler: Nur Stabilitaet (Re<0) betrachten und dynamische Kennwerte ignorieren; ein stabiles System kann trotzdem unbrauchbar langsam oder stark schwingend sein. Schnellcheck: Fuer dominante Pole gilt naehrungsweise zeta = -Re(s)/|s| und T_s ~ 4/|Re(s)|.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-014",
+            title: "Adjungierte Methode fuer gradientenbasierte Optimierung",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Numerische Simulation",
+            tags: ["adjungiert", "optimierung", "pde", "gradient"],
+            difficulty: "schwer",
+            question: "Erklaere das Adjungiertenverfahren zur effizienten Gradientenberechnung bei PDE-beschraenkter Optimierung.",
+            answer: "Statt den Zielfunktionsgradienten nach jedem Parameter einzeln per Vorwaertssensitivitaet zu berechnen, loest man ein adjungiertes Problem. Damit kostet der Gradient asymptotisch etwa eine Vorwaerts- plus eine Rueckwaertsloesung, unabhaengig von der Parameterzahl.",
+            explanation: "Kernidee: Das Adjungiertenverfahren verschiebt Ableitungen von vielen Parametern auf ein einziges adjungiertes Feld. Intuition: Bei tausenden Parametern ist Vorwaertsdifferenzierung zu teuer; adjungiert rechnet den gesamten Gradient in einem Schritt aus. Schritte: 1) Formuliere Zielfunktion J(u,m) mit Zustandsgleichung F(u,m)=0. 2) Bilde Lagrangefunktion L(u,m,p)=J(u,m)+p^T F(u,m). 3) Waehle adjungierte Variable p so, dass dL/du=0 (adjungierte Gleichung). 4) Dann folgt Gradient aus dL/dm ohne explizite du/dm-Terme. 5) Nutze Gradient in Optimierer (z.B. L-BFGS). Haeufiger Fehler: Diskretisiere-then-adjoint und adjoint-then-diskretisiere verwechseln; inkonsistente Diskretisierung liefert fehlerhafte Gradienten. Schnellcheck: Vergleich gegen finite Differenzen auf wenigen Testparametern (Gradient-Check) muss fuer kleine Schritte gut uebereinstimmen.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1000),
     placementQuestions: [
