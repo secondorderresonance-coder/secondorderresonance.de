@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.14`
+- `v1.2.15`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,29 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.15)
+Thirteenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-019** (Spektralradius und Potenziteration): Dominanter Eigenwert, Rayleigh-Quotient, Spektralabstand als Konvergenztreiber.
+- **T-5-019** (Diskrete Zustandsregler und Pole Placement): Steuerbarkeit, Polwahl im Einheitskreis, Stellaufwand-Trade-off.
+- **T-6-019** (Gauss-Newton fuer nichtlineare Ausgleichsprobleme): Struktur von Least-Squares, Jacobian-Schritt, Daempfungsoption.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-019`, `T-5-019`, `T-6-019`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-020`, `T-5-020`, `T-6-020`) while preserving the didactic explanation template.
 
 ## Last completed task (v1.2.14)
 Twelfth focused L4-L6 archive expansion batch:

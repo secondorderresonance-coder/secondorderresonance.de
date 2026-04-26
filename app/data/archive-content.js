@@ -1780,6 +1780,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Linearisierung von F um x_k liefert ein lokales lineares Korrekturproblem. Intuition: Newton springt zur Nullstelle der Tangentialapproximation statt nur in Gradientenrichtung. Schritte: 1) Berechne F(x_k) und Jacobian J_F(x_k). 2) Loese lineares System fuer delta_k. 3) Update x_{k+1}=x_k+delta_k. 4) Optional Daempfung/Line-Search bei schlechter Startnaehe. 5) Stoppe bei kleinem ||F(x)|| und/oder ||delta||. Haeufiger Fehler: Schlecht konditionierten Jacobian ignorieren; dann werden Schritte instabil oder unzuverlaessig. Schnellcheck: Halbiert sich die Zahl korrekter Stellen pro Iteration nicht, ist man oft ausserhalb des quadratischen Konvergenzbereichs.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-019",
+            title: "Spektralradius und Potenziteration",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["spektralradius", "potenziteration", "eigenwert", "konvergenz"],
+            difficulty: "schwer",
+            question: "Wie bestimmt die Potenziteration den dominanten Eigenwert einer Matrix?",
+            answer: "Man iteriert v_{k+1}=A*v_k/||A*v_k||. Unter passenden Bedingungen konvergiert v_k gegen den Eigenvektor zum betragsgroessten Eigenwert; der Eigenwert folgt z.B. ueber den Rayleigh-Quotienten.",
+            explanation: "Kernidee: Wiederholtes Anwenden von A verstaerkt die dominante Eigenrichtung relativ zu allen anderen. Intuition: Komponenten in kleineren Eigenrichtungen schrumpfen relativ mit Faktor |lambda_i/lambda_max|. Schritte: 1) Waehle Startvektor v_0 mit Anteil in dominanter Eigenrichtung. 2) Berechne w_k=A*v_k und normiere v_{k+1}=w_k/||w_k||. 3) Schaetze lambda_k mit rho(v_k)=v_k^T A v_k / (v_k^T v_k). 4) Beobachte Konvergenz von v_k und lambda_k. 5) Stoppe bei kleinem A*v-lambda*v-Residuum. Haeufiger Fehler: Startvektor orthogonal zum dominanten Eigenvektor; dann bleibt die dominante Richtung unsichtbar. Schnellcheck: Konvergenzrate haengt stark vom Spektralabstand |lambda_2/lambda_1| ab.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-019",
+            title: "Diskrete Zustandsregler und Pole Placement",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["zustandsregler", "diskret", "pole-placement", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Wie entwirft man fuer x_{k+1}=A*x_k+B*u_k einen diskreten Zustandsregler per Pole Placement?",
+            answer: "Mit u_k=-K*x_k wird die geschlossene Dynamik A_cl=A-BK. Ist (A,B) steuerbar, kann K so gewaehlt werden, dass die Eigenwerte von A_cl an gewuenschten Stellen im Einheitskreis liegen.",
+            explanation: "Kernidee: Pole Placement formt das Zeitverhalten direkt ueber die Eigenwerte der geschlossenen Matrix. Intuition: In diskreter Zeit bedeutet Stabilitaet |lambda|<1; je naeher bei 0, desto schneller die Ausregelung. Schritte: 1) Pruefe Steuerbarkeit von (A,B). 2) Waehle Zielpole gemaess Einschwingzeit/Daempfung. 3) Berechne K (Ackermann oder numerische Routine). 4) Simuliere Antwort auf Startfehler und Stoerungen. 5) Optional Vorfilter fuer stationaeren Sollwertfehler. Haeufiger Fehler: Zielpole zu aggressiv waehlen; das erhoeht Stellaufwand und Rauschempfindlichkeit. Schnellcheck: Liegen alle Eigenwerte von A-BK strikt im Einheitskreis, ist das lineare System asymptotisch stabil.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-019",
+            title: "Gauss-Newton fuer nichtlineare Ausgleichsprobleme",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["gauss-newton", "least-squares", "jacobian", "numerik"],
+            difficulty: "schwer",
+            question: "Wann ist das Gauss-Newton-Verfahren fuer min ||r(x)||_2^2 sinnvoll und wie lautet der Schritt?",
+            answer: "Bei nichtlinearen Least-Squares-Problemen mit moderaten Residuen ist Gauss-Newton effizient. Der Schritt loest (J^T J)*delta = -J^T r und setzt x_{k+1}=x_k+delta (ggf. gedaempft).",
+            explanation: "Kernidee: Gauss-Newton nutzt die Struktur 'Summe von Quadraten' und approximiert die Hesse-Matrix durch J^T J. Intuition: Zweite Ableitungen der Residuen werden vernachlaessigt, was Aufwand spart und oft robust genug ist. Schritte: 1) Bestimme Residuenvektor r(x_k) und Jacobian J(x_k). 2) Loese Normalgleichungen oder stabiler per QR/SVD. 3) Update x_{k+1}=x_k+delta. 4) Optional Daempfung/Trust-Region (Levenberg-Marquardt) bei schlechter Lokalisierung. 5) Pruefe Rueckgang von ||r|| und Schrittlaenge. Haeufiger Fehler: Direkte Inversion von J^T J bei schlechter Kondition; numerisch instabil. Schnellcheck: Bei kleinen Endresiduen zeigt Gauss-Newton nahe der Loesung oft schnelle (nahezu quadratische) Konvergenz.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
