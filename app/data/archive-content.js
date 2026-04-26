@@ -1822,6 +1822,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Gauss-Newton nutzt die Struktur 'Summe von Quadraten' und approximiert die Hesse-Matrix durch J^T J. Intuition: Zweite Ableitungen der Residuen werden vernachlaessigt, was Aufwand spart und oft robust genug ist. Schritte: 1) Bestimme Residuenvektor r(x_k) und Jacobian J(x_k). 2) Loese Normalgleichungen oder stabiler per QR/SVD. 3) Update x_{k+1}=x_k+delta. 4) Optional Daempfung/Trust-Region (Levenberg-Marquardt) bei schlechter Lokalisierung. 5) Pruefe Rueckgang von ||r|| und Schrittlaenge. Haeufiger Fehler: Direkte Inversion von J^T J bei schlechter Kondition; numerisch instabil. Schnellcheck: Bei kleinen Endresiduen zeigt Gauss-Newton nahe der Loesung oft schnelle (nahezu quadratische) Konvergenz.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-020",
+            title: "Singulaerwerte und numerischer Rang",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["svd", "singulaerwerte", "rang", "numerik"],
+            difficulty: "schwer",
+            question: "Wie nutzt man Singulaerwerte, um den numerischen Rang einer Matrix zu bestimmen?",
+            answer: "Mit der SVD A=U*Sigma*V^T betrachtet man die Groesse der Singulaerwerte. Werte unterhalb einer Toleranz gelten numerisch als 0; die Anzahl signifikanter Singulaerwerte ist der numerische Rang.",
+            explanation: "Kernidee: In realen Daten trennen Singulaerwerte Signalrichtung und Rauschanteile. Intuition: Exakt null ist selten; stattdessen sucht man einen deutlichen Abfall im Spektrum relativ zur Skalierung. Schritte: 1) Berechne Singulaerwerte sigma_1>=...>=sigma_n. 2) Waehle Toleranz, z.B. tol = eps * max(m,n) * sigma_1. 3) Zaehle r = #{sigma_i > tol}. 4) Nutze r fuer Rangdiagnose, Konditionsabschaetzung und Reduktion. 5) Optional: truncate SVD fuer robuste Approximation. Haeufiger Fehler: Starre absolute Toleranz verwenden, ohne Datenmassstab zu beachten. Schnellcheck: Ist sigma_r deutlich groesser als sigma_{r+1}, ist die Rangtrennung meist stabil.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-020",
+            title: "Diskreter Kalman-Filter und Kovarianz-Update",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["kalman", "diskret", "kovarianz", "schaetzung"],
+            difficulty: "schwer",
+            question: "Welche Rolle spielt das Kovarianz-Update im diskreten Kalman-Filter?",
+            answer: "Das Kovarianz-Update quantifiziert Unsicherheit nach Vorhersage und Messkorrektur. Es bestimmt den Kalman-Gewinn und sorgt dafuer, dass neue Messungen entsprechend ihrer Verlaesslichkeit gewichtet werden.",
+            explanation: "Kernidee: Unsicherheitspropagation ist der Kern des Filters, nicht nur die Zustandsgleichung. Intuition: Ohne P-Update weiss der Filter nicht, wann er Modell oder Messung mehr vertrauen soll. Schritte: 1) Vorhersage: P^- = A P A^T + Q. 2) Innovation: S = H P^- H^T + R. 3) Gewinn: K = P^- H^T S^{-1}. 4) Update: P = (I-KH)P^- (oder Joseph-Form numerisch stabiler). 5) Pruefe Symmetrie/Positivitaet von P. Haeufiger Fehler: Nur x updaten und P vernachlaessigen; dann driftet die Schaetzqualitaet. Schnellcheck: Groesseres R fuehrt typischerweise zu kleinerem K und langsamerer Messnachfuehrung.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-020",
+            title: "Levenberg-Marquardt als Trust-Region-Idee",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["levenberg-marquardt", "trust-region", "least-squares", "daempfung"],
+            difficulty: "schwer",
+            question: "Warum ist Levenberg-Marquardt oft robuster als reines Gauss-Newton bei nichtlinearen Fits?",
+            answer: "Levenberg-Marquardt ergaenzt das Gauss-Newton-System um Daempfung: (J^T J + lambda I)delta = -J^T r. Dadurch werden Schritte bei schlechter Lokalisierung stabilisiert und zwischen Gradientabstieg und Gauss-Newton interpoliert.",
+            explanation: "Kernidee: Adaptive Daempfung kontrolliert Schrittweite und Richtung in schlecht konditionierten Bereichen. Intuition: Grosses lambda macht kurze, sichere Schritte; kleines lambda nutzt schnelle Gauss-Newton-Information. Schritte: 1) Stelle LM-System auf. 2) Loese nach delta. 3) Teste, ob ||r(x+delta)|| sinkt. 4) Reduziere lambda bei erfolgreichem Schritt, erhoehe sonst lambda. 5) Wiederhole bis Konvergenz. Haeufiger Fehler: Lambda starr lassen; dann verliert LM entweder Robustheit oder Geschwindigkeit. Schnellcheck: Bei guter Modellnaehe sollte lambda gegen 0 tendieren und LM sich wie Gauss-Newton verhalten.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
