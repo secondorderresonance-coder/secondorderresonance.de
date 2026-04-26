@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.7`
+- `v1.2.8`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -30,6 +30,29 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
+## Last completed task (v1.2.8)
+Seventh L4-L6 archive expansion batch + residual umlaut fixes:
+
+### Changes in this iteration
+- **T-4-013** (Lineare Abbildungen und Matrizen): Kern/Bild/Dimensionssatz, Abbildungsmatrix, Injektivitaet über dim(Kern).
+- **T-5-013** (PID-Regler Entwurf und Stabilitaet): P/I/D-Anteile, Uebertragungsfunktion, Ziegler-Nichols, Rauschen und D-Anteil-Warnung.
+- **T-6-013** (Finite-Elemente-Methode Steifigkeitsmatrix): Galerkin-Variationsformulierung, Elementassemblierung, Dirichlet-RB, Symmetrie-/Definitheitsprüfung.
+- Residuale Umlaut-Fixes: „Inkremente ?ber" → „Inkremente über" (T-5-007 explanation), „M?nze" → „Münze" (Placement P13).
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+
+### Validation
+- `node -e "..."` → tasks=6000, 1000 per level (L1-L6)
+
+### Blockers
+None.
+
+### Next logical step
+- P2 weiter: T-4-014, T-5-014, T-6-014 (z.B. Eigenwerte/Spektralsatz, Zustandsraumdarstellung, Variationsrechnung/Euler-Lagrange).
+- Oder P3: Interaktives Visualmodul Komplexe Zahlen (Argand-Ebene).
+
 ## Last completed task (v1.2.7)
 Sixth focused L4-L6 archive expansion batch:
 
@@ -47,10 +70,6 @@ Sixth focused L4-L6 archive expansion batch:
 
 ### Blockers
 None.
-
-### Next logical step
-- P2 weiter: T-4-013, T-5-013, T-6-013.
-- Oder P3: Interaktives Visualmodul Komplexe Zahlen (Argand-Ebene).
 
 ## Last completed task (v1.2.6)
 Impressum email color fix + umlaut encoding sweep:

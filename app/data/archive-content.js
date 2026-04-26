@@ -965,7 +965,7 @@ window.SOR_ARCHIVE = {
             difficulty: "schwer",
             question: "Nenne eine Kerneigenschaft des Wiener-Prozesses.",
             answer: "Unabhängige normalverteilte Inkremente",
-            explanation: "Inkremente ?ber disjunkte Intervalle sind unabhängig.",
+            explanation: "Inkremente über disjunkte Intervalle sind unabhängig.",
             type: "konzeptfrage",
             estimatedTime: 4
         },
@@ -1264,6 +1264,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Ableitungen werden durch endliche Differenzen approximiert; das kontinuierliche PDE-Problem wird auf ein diskretes algebraisches Gleichungssystem reduziert. Intuition: Ein feineres Gitter (kleines h) verbessert die Approximation; der Fehler der Zentraldifferenz ist O(h^2), der der Vorwaertsdifferenz O(h). Schritte: 1) Diskretisiere x-Achse: x_i = a + i*h, i=0,...,N. 2) Ersetze d²u/dx² durch (u_{i+1}-2u_i+u_{i-1})/h² (Zentraldifferenz). 3) Explizites Euler-Verfahren in t: u_i^{n+1} = u_i^n + dt*alpha*(u_{i+1}^n - 2u_i^n + u_{i-1}^n)/h^2; stabil nur fuer dt <= h^2/(2*alpha). 4) Implizites Verfahren (Crank-Nicolson): zweite Ordnung in t, unbedingt stabil. Haeufiger Fehler: Das CFL-Stabilitaetskriterium (dt/h^2 <= 0.5/alpha) beim expliziten Verfahren verletzen – das fuehrt zu exponentiell wachsenden Loesungen. Schnellcheck: Fuer konstante Anfangsbedingung und Dirichlet-Randbedingungen sollte die numerische Loesung monoton gegen die stationaere Loesung relaxieren.",
             type: "konzeptfrage",
             estimatedTime: 9
+        },
+        {
+            id: "T-4-013",
+            title: "Lineare Abbildungen und Matrizen",
+            level: "4",
+            sublevel: "4.1",
+            topic: "Lineare Algebra",
+            tags: ["lineare-abbildungen", "matrix", "kern", "bild", "dimensionssatz"],
+            difficulty: "mittel",
+            question: "Was ist eine lineare Abbildung und wie haengt sie mit Matrizen zusammen? Erklaere Kern und Bild.",
+            answer: "Eine lineare Abbildung f: V → W erfuellt f(u+v) = f(u)+f(v) und f(λv) = λf(v). Jede lineare Abbildung zwischen endlichdimensionalen Raeumen laesst sich durch eine Matrix A darstellen: f(v) = A·v. Kern(f) = {v | Av=0}, Bild(f) = {Av | v ∈ V}. Dimensionssatz: dim(Kern) + dim(Bild) = dim(V).",
+            explanation: "Kernidee: Lineare Abbildungen sind Strukturerhaltende Abbildungen zwischen Vektorraeumen – sie bewahren Addition und Skalierung. Intuition: Eine Matrix kodiert, wohin die Basisvektoren abgebildet werden; alles andere folgt durch Linearitaet. Schritte: 1) Pruefe Linearitaet: f(αu+βv) = αf(u)+βf(v) fuer alle u,v,α,β. 2) Schreibe die Abbildungsmatrix A: j-te Spalte = f(e_j). 3) Kern: Loese Av=0 (homogenes LGS). 4) Bild: Spaltenraum von A (linear unabhaengige Spalten). 5) Dimensionssatz pruefen. Haeufiger Fehler: Kern und Nullraum gleichsetzen – der Kern ist genau der Nullraum von A, also korrekt, aber man vergisst oft, dass dim(Kern)>0 bedeutet, dass die Abbildung nicht injektiv ist. Schnellcheck: rang(A) + dim(Kern(A)) = n (Spaltenanzahl).",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+        {
+            id: "T-5-013",
+            title: "PID-Regler: Entwurf und Stabilitaet",
+            level: "5",
+            sublevel: "5.1",
+            topic: "Regelungstechnik",
+            tags: ["pid", "regler", "stabilitaet", "regelkreis", "uebertragungsfunktion"],
+            difficulty: "schwer",
+            question: "Erklaere den PID-Regler: Welche Rolle spielen P-, I- und D-Anteil? Wie beeinflusst jeder Anteil das Systemverhalten?",
+            answer: "P-Anteil: proportional zum Fehler e(t); erhoehte Verstaerkung K_P reduziert stationaere Regelabweichung, kann aber Schwingungen erzeugen. I-Anteil: integriert den Fehler; eliminiert stationaere Regelabweichung, verlangsamt Reaktion. D-Anteil: proportional zur Fehleraenderungsrate; daempft Schwingungen, verstaerkt Rauschen. Gesamtsteuergroesse: u(t) = K_P·e + K_I·∫e dt + K_D·(de/dt).",
+            explanation: "Kernidee: Jeder Anteil des PID-Reglers korrigiert eine andere Eigenschaft der Regelabweichung – Groesse, Akkumulation und Aenderungsrate. Intuition: P 'sieht' den jetzigen Fehler, I 'erinnert' sich an vergangene Fehler, D 'antizipiert' zukuenftige Fehler. Schritte: 1) Modelliere Strecke G(s). 2) Bestimme Uebertragungsfunktion des PID: C(s) = K_P + K_I/s + K_D·s. 3) Geschlossener Regelkreis: T(s) = C(s)G(s)/(1+C(s)G(s)). 4) Stabilitaetsanalyse mit Hurwitz oder Bode-Diagramm. 5) Parametertuning (z.B. Ziegler-Nichols). Haeufiger Fehler: D-Anteil auf verrauschtes Signal setzen – dadurch wird das Rauschen extrem verstaerkt; Low-Pass-Filter auf Messsignal notwendig. Schnellcheck: Einheitssprungantwort pruefen – kein Überschwingen > 20%, Ausregelzeit akzeptabel.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-013",
+            title: "Finite-Elemente-Methode: Steifigkeitsmatrix",
+            level: "6",
+            sublevel: "6.1",
+            topic: "Numerische Methoden",
+            tags: ["fem", "steifigkeitsmatrix", "galerkin", "variationsformulierung", "numerik"],
+            difficulty: "schwer",
+            question: "Beschreibe die Grundidee der Finiten-Elemente-Methode (FEM). Wie entsteht die Steifigkeitsmatrix?",
+            answer: "FEM loest PDEs durch Diskretisierung des Gebiets in Elemente und Approximation der Loesung durch stueckweise Polynome (Ansatzfunktionen). Die schwache Formulierung (Galerkin) fuehrt auf: ∫∇u·∇v dΩ = ∫f·v dΩ. Die Steifigkeitsmatrix K hat Eintraege K_{ij} = ∫∇φ_i·∇φ_j dΩ (Skalarprodukt der Gradientinterpolierter Basisfunktionen).",
+            explanation: "Kernidee: Das Problem wird von der starken Differentialgleichungsform in eine integrale schwache Form transformiert, die numerisch loesbar ist. Intuition: Man 'trickst' die PDE aus – statt exakt zu loesen, sucht man die beste Approximation in einem endlichdimensionalen Funktionenraum. Schritte: 1) Variationsformulierung: Multipliziere PDE mit Testfunktion v, integriere partiell. 2) Waehle Ansatzraum: stueckweise lineare/quadratische Polynome auf Dreieck/Viereck-Elementen. 3) Assembliere lokale Elementsteifigkeitsmatrizen K_e. 4) Assembliere globale Steifigkeitsmatrix K. 5) Loese lineares System Ku = F (mit Randbedingungen). Haeufiger Fehler: Randbedingungen falsch einbinden – Dirichlet-Bedingungen muessen Zeilen/Spalten der Steifigkeitsmatrix ersetzen, nicht nur die Lastvektor-Eintraege aendern. Schnellcheck: K muss symmetrisch und positiv (semi-)definit sein; Determinante null bei rein Neumann-Bedingungen (Eindeutigkeitsverlust).",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1000),
     placementQuestions: [
@@ -1281,7 +1323,7 @@ window.SOR_ARCHIVE = {
 
         { id: "P11", level: "3", sublevel: "3.1.1.a", topic: "Ableitung", prompt: "Ableitung von x^3 ist ...", options: ["x^2", "2x", "3x^2", "3x"], correctIndex: 2 },
         { id: "P12", level: "3", sublevel: "3.1", topic: "Integral", prompt: "Stammfunktion von 4x ist ...", options: ["2x^2 + C", "4x^2 + C", "x^4 + C", "4 + C"], correctIndex: 0 },
-        { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire M?nze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
+        { id: "P13", level: "3", sublevel: "3.2", topic: "Wahrscheinlichkeit", prompt: "Eine faire Münze: P(Kopf)=?", options: ["0,25", "0,5", "0,75", "1"], correctIndex: 1 },
         { id: "P14", level: "3", sublevel: "3.2", topic: "Vektoren", prompt: "(1,2) + (3,4) = ?", options: ["(4,6)", "(3,8)", "(2,2)", "(4,8)"], correctIndex: 0 },
         { id: "P15", level: "3", sublevel: "3.1", topic: "Nullstellen", prompt: "Löse x^2=16.", options: ["x=4", "x=-4", "x=+-4", "x=8"], correctIndex: 2 },
 
