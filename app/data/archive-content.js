@@ -1948,6 +1948,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Nicht die Schrittweite entlang einer festen Richtung wird gesucht, sondern ein Modellminimum in einer vertrauenswuerdigen Umgebung. Intuition: Wenn das Modell unzuverlaessig ist, wird Delta verkleinert; bei gutem Modell wird Delta vergroessert. Schritte: 1) Baue lokales Modell m_k(p). 2) Loese (exakt/approx.) min m_k(p) s.t. ||p||<=Delta_k. 3) Nutze Cauchy-Punkt als robuste Untergrenze. 4) Vergleiche reale vs. modellierte Reduktion rho_k. 5) Passe Delta_k an und akzeptiere/verwerfe Schritt. Haeufiger Fehler: Delta nicht adaptiv aktualisieren; dann fehlen Robustheit oder Effizienz. Schnellcheck: Positive rho_k nahe 1 zeigt gute Modellguete und rechtfertigt groessere Region.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-023",
+            title: "LU-Zerlegung und Pivotisierung",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["lu", "pivot", "gauss", "lineares-system"],
+            difficulty: "schwer",
+            question: "Warum nutzt man bei der LU-Zerlegung in der Praxis meist partielle Pivotisierung?",
+            answer: "Pivotisierung (PA=LU) vermeidet kleine/Null-Pivots und reduziert Rundungsfehler. Dadurch wird das Loesen von Ax=b numerisch stabiler als bei reiner LU ohne Zeilenvertauschung.",
+            explanation: "Kernidee: Rechenstabilitaet haengt stark von der Pivotwahl waehrend der Elimination ab. Intuition: Ein zu kleiner Pivot verstaerkt Divisionseffekte und Rundungsrauschen massiv. Schritte: 1) Suche in jeder Spalte den betragsgroessten Pivot unterhalb der Diagonale. 2) Tausche Zeilen (Permutation P). 3) Fuehre Elimination aus und speichere Multiplikatoren in L. 4) Loese danach Ly=Pb und Ux=y. 5) Nutze Faktorisierung fuer mehrere rechte Seiten effizient wieder. Haeufiger Fehler: LU ohne Pivotisierung als allgemein stabil betrachten. Schnellcheck: Grosse Pivotwachstumsfaktoren sind Warnsignal fuer numerische Probleme.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-023",
+            title: "Root-Locus und Kompensatorwirkung",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["root-locus", "kompensator", "pole", "nullstellen"],
+            difficulty: "schwer",
+            question: "Wie beeinflusst ein zusaetzlicher Regler-Nullpunkt den Root-Locus des geschlossenen Kreises?",
+            answer: "Ein Regler-Nullpunkt zieht Locus-Aeste in seine Richtung und kann dominante Pole guenstiger platzieren. So lassen sich Daempfung und Einschwingverhalten gezielt verbessern, wenn die Pol-Nullstellen-Lage passend gewaehlt wird.",
+            explanation: "Kernidee: Root-Locus zeigt, wie sich geschlossene Pole mit Verstarkung K bewegen; zusaetzliche Pol/Nullstellen formen diese Bahn. Intuition: Nullstellen 'ziehen', Pole 'stossen' die Locus-Aeste im komplexen Plan. Schritte: 1) Bestimme offene Pol/Nullstellen. 2) Zeichne Basisskizze des Root-Locus. 3) Fuege Kompensator-Nullpunkt hinzu und bewerte Aesteverlauf. 4) Waehle K fuer gewuenschte Dominantpole. 5) Verifiziere Zeitantwort und Reserven im Frequenzbereich. Haeufiger Fehler: Nur Lage auf Realachse betrachten und komplexe Dominantpole ignorieren. Schnellcheck: Winkelbedingung am Zielpol muss weiterhin erfuellt sein.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-023",
+            title: "SQP-Grundidee fuer nichtlineare Nebenbedingungen",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["sqp", "kkt", "quadratisches-programm", "nebenbedingungen"],
+            difficulty: "schwer",
+            question: "Was ist der zentrale Schritt im Sequential Quadratic Programming (SQP)?",
+            answer: "In jeder Iteration wird ein quadratisches Teilproblem mit linearisierten Nebenbedingungen geloest. Dessen Loesung liefert eine Suchrichtung, die primal-duale KKT-Bedingungen der nichtlinearen Aufgabe sukzessive erfuellt.",
+            explanation: "Kernidee: SQP approximiert die nichtlineare Aufgabe lokal durch ein QP und nutzt dessen starke numerische Loeser. Intuition: Statt das ganze Problem auf einmal zu loesen, verbessert jede QP-Loesung die Nebenbedingungserfuellung und Optimalitaet. Schritte: 1) Linearisieren der Nebenbedingungen in x_k. 2) Aufbau einer Lagrange-Hesse-Approximation. 3) Loesen des QP-Subproblems fuer Richtung d_k. 4) Schrittweitenwahl via Merit- oder Filterstrategie. 5) Update von x und Multiplikatoren. Haeufiger Fehler: Nebenbedingungen nur schwach gewichten; dann werden zwar Kosten verbessert, aber Feasibility stagniert. Schnellcheck: Rueckgang von KKT-Residualen und Nebenbedingungsverletzung zeigt korrekten Fortschritt.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
