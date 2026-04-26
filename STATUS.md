@@ -1,11 +1,11 @@
 # STATUS
 
 ## Current version
-- `v1.2.2`
+- `v1.2.3`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 3.120 archive tasks (520 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, and now a global search plus a low-friction external suggestion flow on the landing page.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 6.000 archive tasks (1.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -28,6 +28,32 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+- Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.3)
+Focused expansion + account-identity update in one iteration:
+
+### Changes in this iteration
+- Increased scalable archive volume from 520 to 1.000 tasks per level (`app/data/archive-content.js`), resulting in 6.000 tasks total.
+- Switched account registration/login input to email-based identity in `app/index.html`.
+- Added email format validation and persisted `email` in normalized account records while preserving per-account progress envelopes.
+- Updated milestone tracking in `BACKLOG.md`.
+
+### Files touched
+- `app/data/archive-content.js`
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` expected and executed after change (see current run output).
+- Grep checks for account UI/input and email validation logic in `app/index.html`.
+
+### Blockers
+None.
+
+### Next logical step
+- Implement real cloud-backed email auth + progress sync (Firebase Auth + Firestore) so accounts work across devices, not just local browser storage.
 
 ## Last completed task (v1.2.2)
 Third focused L4-L6 archive expansion batch with textbook-style explanations:

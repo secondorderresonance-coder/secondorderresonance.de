@@ -562,11 +562,11 @@
                     <button class="account-tab" id="tabRegister" onclick="switchTab('register')">Registrieren</button>
                 </div>
                 <div class="account-row">
-                    <input id="accountName" class="account-input" type="text" placeholder="Nutzername" autocomplete="username">
+                    <input id="accountName" class="account-input" type="email" placeholder="E-Mail-Adresse" autocomplete="email">
                     <input id="accountPassword" class="account-input" type="password" placeholder="Passwort" autocomplete="current-password">
                     <button id="accountActionBtn" class="account-btn primary" type="button" onclick="accountAction()">Anmelden</button>
                 </div>
-                <div id="accountStatus" class="account-status">Melde dich an oder erstelle ein kostenloses SOR-Konto.</div>
+                <div id="accountStatus" class="account-status">Melde dich mit deiner E-Mail an oder erstelle ein kostenloses SOR-Konto.</div>
             </div>
         </section>
 
@@ -1262,6 +1262,7 @@
             const colorIdx = (fallbackAccountId || '').charCodeAt(0) % AVATAR_COLORS.length;
             return {
                 username: account.username || fallbackAccountId || 'User',
+                email: account.email || ((fallbackAccountId || '').includes('@') ? fallbackAccountId : ''),
                 password: account.password || '',
                 avatarColor: account.avatarColor || AVATAR_COLORS[colorIdx],
                 createdAt: account.createdAt || new Date().toISOString(),
@@ -1423,6 +1424,14 @@
             return String(name || '').trim().toLowerCase();
         }
 
+        function normalizeEmail(email) {
+            return String(email || '').trim().toLowerCase();
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizeEmail(email));
+        }
+
         function updateAccountHeader() {
             const badge = document.getElementById('accountBadge');
             if (!badge) return;
@@ -1443,8 +1452,8 @@
             if (regTab) regTab.classList.toggle('active', tab === 'register');
             if (actionBtn) actionBtn.textContent = tab === 'login' ? 'Anmelden' : 'Registrieren';
             if (status) status.textContent = tab === 'login'
-                ? 'Melde dich mit deinem bestehenden Konto an.'
-                : 'Erstelle dein kostenloses SOR-Konto.';
+                ? 'Melde dich mit deiner registrierten E-Mail an.'
+                : 'Erstelle dein kostenloses SOR-Konto mit E-Mail.';
         }
 
         function accountAction() {
@@ -1497,11 +1506,11 @@
         function registerAccount() {
             const nameInput = document.getElementById('accountName');
             const passInput = document.getElementById('accountPassword');
-            const name = nameInput ? nameInput.value.trim() : '';
+            const email = nameInput ? normalizeEmail(nameInput.value) : '';
             const pass = passInput ? passInput.value : '';
 
-            if (name.length < 3) {
-                showToast('Nutzername: mindestens 3 Zeichen');
+            if (!isValidEmail(email)) {
+                showToast('Bitte eine gueltige E-Mail-Adresse eingeben');
                 return;
             }
             if (pass.length < 4) {
@@ -1509,14 +1518,16 @@
                 return;
             }
 
-            const accountId = normalizeAccountId(name);
+            const accountId = normalizeAccountId(email);
             if (accountStore.accounts[accountId]) {
-                showToast('Account existiert bereits');
+                showToast('E-Mail ist bereits registriert');
                 return;
             }
 
+            const username = email.split('@')[0] || 'User';
             accountStore.accounts[accountId] = {
-                username: name,
+                username,
+                email,
                 password: pass,
                 avatarColor: AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
                 createdAt: new Date().toISOString(),
@@ -1532,11 +1543,15 @@
         function loginAccount() {
             const nameInput = document.getElementById('accountName');
             const passInput = document.getElementById('accountPassword');
-            const name = nameInput ? nameInput.value.trim() : '';
+            const email = nameInput ? normalizeEmail(nameInput.value) : '';
             const pass = passInput ? passInput.value : '';
-            const accountId = normalizeAccountId(name);
+            const accountId = normalizeAccountId(email);
             const account = accountStore.accounts[accountId];
 
+            if (!isValidEmail(email)) {
+                showToast('Bitte eine gueltige E-Mail-Adresse eingeben');
+                return;
+            }
             if (!account || account.password !== pass) {
                 showToast('Login fehlgeschlagen');
                 return;
