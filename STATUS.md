@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.4`
+- `v1.2.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -29,6 +29,28 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.5)
+Fifth focused L4-L6 archive expansion batch with textbook-style explanations:
+
+### Changes in this iteration
+- **T-4-011** (Metrische Raeume und Vollstaendigkeit): Metrik-Axiome, Cauchy-Folge vs. Konvergenz, Banachraum-Definition, pi-in-Q-Gegenbeispiel, Bolzano-Weierstrass-Schnellcheck.
+- **T-5-011** (Zustandsraumdarstellung und Regelbarkeit): Zustandsform dx/dt=Ax+Bu, Kalman-Regelbarkeitsmatrix, Vollrang-Kriterium, Abgrenzung Regelbarkeit vs. Beobachtbarkeit, SISO Pol-Nullstellen-Schnellcheck.
+- **T-6-011** (Monte-Carlo-Integration): Erwartungswert-Interpretation, Fluch der Dimensionalitaet, O(1/sqrt(N))-Fehler, Varianzreduktion, pi-Schaetz-Schnellcheck.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=6000, 1000 per level, 30 placement questions
+
+### Blockers
+None.
+
+### Next logical step
+- P2 weiter: T-4-012, T-5-012, T-6-012 (z.B. Hilbertraeume / L2-Raum, Frequenzgang und Nyquist-Diagramm, Finite-Differenzen-Methode).
+- Oder Wechsel zu P3: Interaktives Visualmodul fuer Komplexe Zahlen (Argand-Ebene).
 
 ## Last completed task (v1.2.4)
 Fourth focused L4-L6 archive expansion batch with textbook-style explanations:

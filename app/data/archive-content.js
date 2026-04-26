@@ -1174,6 +1174,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: An einem lokalen Minimum muss der Gradient der Zielfunktion in den Kegel der aktiven Nebenbedingungsgradienten fallen – KKT formalisiert diese geometrische Bedingung algebraisch. Intuition: Die Komplementaritaet mu_i * g_i = 0 erzwingt: Entweder eine Nebenbedingung ist aktiv (g_i = 0, mu_i frei) oder inaktiv (g_i < 0, dann muss mu_i = 0); inaktive Nebenbedingungen duerfen das Optimum nicht beeinflussen. Schritte: 1) Bilde Lagrangefunktion L = f + sum mu_i g_i + sum lambda_j h_j. 2) Setze nabla_x L = 0 (Stationaritaet). 3) Pruefe g_i(x*) <= 0 und h_j(x*) = 0 (primale Zulaessigkeit). 4) Verlange mu_i >= 0 (duale Zulaessigkeit bei Minimierung). 5) Verifiziere mu_i * g_i = 0 fuer alle i (Komplementaritaet). Haeufiger Fehler: Vorzeichen der Multiplikatoren verwechseln: bei Minimierung mu_i >= 0, bei Maximierung mu_i <= 0; falsche Vorzeichen fuehren auf Sattelpunkte statt Minima. Schnellcheck: Ohne aktive Ungleichungsnebenbedingungen reduzieren sich KKT auf klassische Lagrange-Bedingungen der Gleichungsnebenbedingungen.",
             type: "konzeptfrage",
             estimatedTime: 9
+        },
+
+        {
+            id: "T-4-011",
+            title: "Metrische Raeume und Vollstaendigkeit",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis I",
+            tags: ["metrischer-raum", "cauchy-folge", "vollstaendigkeit", "banachraum"],
+            difficulty: "schwer",
+            question: "Was ist ein metrischer Raum, und wann nennt man ihn vollstaendig (Banachraum)?",
+            answer: "Ein metrischer Raum (X, d) hat eine Metrik d: X×X → R_{>=0} mit Positivitaet, Symmetrie und Dreiecksungleichung. Vollstaendig heisst er, wenn jede Cauchy-Folge in X konvergiert. Ein vollstaendiger normierter Vektorraum heisst Banachraum.",
+            explanation: "Kernidee: Vollstaendigkeit sichert, dass 'fast konvergente' Folgen wirklich konvergieren – ohne diese Garantie koennen Limites ausserhalb des Raumes liegen. Intuition: Die rationalen Zahlen Q sind kein vollstaendiger metrischer Raum: Die Folge 3, 3.1, 3.14, 3.141, ... ist eine Cauchy-Folge in Q, konvergiert aber gegen pi, das nicht in Q liegt. Die reellen Zahlen R sind die 'Vervollstaendigung' von Q. Schritte: 1) Definiere Metrik d und pruefe alle drei Axiome (d(x,y)=0 gdw x=y; d(x,y)=d(y,x); d(x,z)<=d(x,y)+d(y,z)). 2) Eine Folge (x_n) ist Cauchy, wenn fuer jedes eps>0 ein N existiert, sodass d(x_m,x_n)<eps fuer alle m,n>N. 3) Konvergente Folgen sind stets Cauchy; umgekehrt gilt das nur in vollstaendigen Raeumen. 4) Wichtige Beispiele: R^n mit euklidischer Norm (vollstaendig), L^p-Raeume (vollstaendig), C([a,b]) mit Supremumsnorm (vollstaendig). Haeufiger Fehler: Cauchy-Folge mit konvergenter Folge gleichsetzen – Cauchy impliziert nur potentielle Konvergenz, realisiert sie aber nur im vollstaendigen Raum. Schnellcheck: In R^n ist jede beschraenkte Folge nach Bolzano-Weierstrass konvergent; das ist eine Folge der Vollstaendigkeit.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-011",
+            title: "Zustandsraumdarstellung und Regelbarkeit",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["zustandsraum", "regelbarkeit", "kalman", "state-space"],
+            difficulty: "schwer",
+            question: "Erklaere die Zustandsraumdarstellung eines LTI-Systems und das Kalman-Kriterium fuer Regelbarkeit.",
+            answer: "LTI-Zustandsraum: dx/dt = Ax + Bu, y = Cx + Du. Das System ist regelbar, wenn die Regelbarkeitsmatrix R = [B | AB | A^2B | ... | A^{n-1}B] vollen Zeilenrang n hat.",
+            explanation: "Kernidee: Die Zustandsraumdarstellung beschreibt das interne Systemverhalten vollstaendig; Regelbarkeit sagt, ob ein Eingang u(t) jeden beliebigen Zustand in endlicher Zeit erreichen kann. Intuition: Wenn R keinen vollen Rang hat, gibt es Zustandsrichtungen, die der Eingang u nicht 'beruehren' kann – diese Richtungen sind fuer immer dem Einfluss des Reglers entzogen. Schritte: 1) Schreibe das System in Zustandsform: Systemmatrix A (n×n), Eingangsmatrix B (n×m), Ausgangsmatrix C (p×n). 2) Bilde die Regelbarkeitsmatrix R = [B | AB | A^2 B | ... | A^{n-1} B] (n × n*m). 3) Berechne rank(R): bei rank(R)=n vollstaendig regelbar, sonst nicht. 4) Bei Teilregelbarkeit: Kalman-Zerlegung trennt regelbaren und nicht-regelbaren Teilraum. Haeufiger Fehler: Regelbarkeit mit Beobachtbarkeit verwechseln – Beobachtbarkeit fragt, ob der Zustand aus Messdaten rekonstruierbar ist (duales Problem mit Beobachtbarkeitsmatrix O). Schnellcheck: Ein Einzel-Ein-/Ausgang-System (SISO) der Ordnung n ist regelbar, wenn keine Pol-Nullstellen-Kuerzung in G(s)=C(sI-A)^{-1}B existiert.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-6-011",
+            title: "Monte-Carlo-Integration und Konvergenz",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Numerische Simulation",
+            tags: ["monte-carlo", "stochastik", "integration", "varianzreduktion"],
+            difficulty: "schwer",
+            question: "Erklaere das Prinzip der Monte-Carlo-Integration und analysiere ihre Konvergenzrate.",
+            answer: "Monte-Carlo schaetzt integral f(x)dx ≈ (1/N) * sum f(x_i) mit gleichverteilten x_i; der statistische Fehler skaliert mit O(1/sqrt(N)) – unabhaengig von der Dimension d, was bei hochdimensionalen Problemen deterministische Methoden uebertrifft.",
+            explanation: "Kernidee: Statt ein Integral analytisch oder auf einem Gitter zu berechnen, zieht man Zufallsstichproben und mittelt die Funktionswerte – der Erwartungswert dieses Schaetzers ist gleich dem Integral (Gesetz der grossen Zahlen). Intuition: In d Dimensionen benoetigt ein Gitterverfahren mit k Punkten pro Achse insgesamt k^d Auswertungen (Fluch der Dimensionalitaet); Monte-Carlo braucht unabhaengig von d nur O(1/eps^2) Stichproben fuer Fehler eps. Schritte: 1) Schreibe Integral als Erwartungswert: integral_{[0,1]^d} f(x)dx = E[f(X)] mit X~U([0,1]^d). 2) Ziehe N unabhaengige Stichproben X_1,...,X_N. 3) Schaetze: I_N = (1/N) sum f(X_i). 4) Fehler: std(I_N) = sigma_f / sqrt(N), wobei sigma_f^2 = Var(f(X)). 5) Varianzreduktion: Importance Sampling, Antithetic Variables oder Control Variates senken sigma_f^2. Haeufiger Fehler: Den Fehler O(1/sqrt(N)) falsch lesen – fuer eps=0.01 braucht man 10^4 Stichproben, nicht 100; der Fehler faellt nur langsam. Schnellcheck: Fuer f=Indikator eines Kreises schaetzt Monte-Carlo pi: zaehle Treffer in der Einheitskreisscheibe und multipliziere mit 4.",
+            type: "konzeptfrage",
+            estimatedTime: 9
         }
     ], 1000),
     placementQuestions: [
