@@ -1738,6 +1738,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: CG verbindet Gradienteninformation mit orthogonalen Suchrichtungen, die sich nicht gegenseitig zerstoeren. Intuition: Jede Iteration loest optimal im aktuell erweiterten Krylov-Unterraum. Schritte: 1) Starte mit x_0, r_0=b-Ax_0, p_0=r_0. 2) Berechne alpha_k=(r_k^T r_k)/(p_k^T A p_k). 3) Update x_{k+1}=x_k+alpha_k p_k und r_{k+1}=r_k-alpha_k A p_k. 4) Setze beta_k=(r_{k+1}^T r_{k+1})/(r_k^T r_k), p_{k+1}=r_{k+1}+beta_k p_k. 5) Optional: Preconditioning fuer bessere Kondition. Haeufiger Fehler: CG auf nicht-SPD-Matrizen anwenden; dann sind Konvergenzaussagen nicht gueltig. Schnellcheck: Mit gutem Preconditioner sinkt die Iterationszahl oft drastisch.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-018",
+            title: "Orthogonale Projektion und QR-Zerlegung",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["projektion", "qr", "orthogonal", "least-squares"],
+            difficulty: "schwer",
+            question: "Wie hilft die QR-Zerlegung bei orthogonalen Projektionen und Least-Squares-Problemen?",
+            answer: "Mit A=QR (Q orthonormal, R obere Dreiecksmatrix) wird die Projektion auf den Spaltenraum von A zu p=Q*Q^T*b. Least-Squares reduziert sich auf das stabile Dreieckssystem R*x=Q^T*b.",
+            explanation: "Kernidee: QR trennt Richtung (Q) und Skalierung/Kopplung (R) und vermeidet numerisch heikle Normalgleichungen. Intuition: Q beschreibt eine orthonormale Basis des Spaltenraums, daher ist Q*Q^T die saubere Projektionsabbildung. Schritte: 1) Berechne QR per Householder oder modifiziertem Gram-Schmidt. 2) Projektion: p=Q*Q^T*b. 3) Residuum r=b-p ist orthogonal zu allen Spalten von A. 4) Fuer Least-Squares loese R*x=Q^T*b. 5) Pruefe ||r||_2 als Guetemass. Haeufiger Fehler: Q als quadratisch missverstehen; bei m>n ist Q oft m x n. Schnellcheck: Q^T*Q=I_n muss gelten.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-018",
+            title: "Luenberger-Beobachter und Fehlerdynamik",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["luenberger", "beobachter", "zustandsraum", "pole-placement"],
+            difficulty: "schwer",
+            question: "Wie funktioniert ein Luenberger-Beobachter und wovon haengt die Konvergenz des Schaetzfehlers ab?",
+            answer: "Der Beobachter nutzt dx_hat/dt = A*x_hat + B*u + L*(y - C*x_hat). Der Fehler e=x-x_hat folgt e_dot=(A-LC)e. Konvergenz haengt von den Eigenwerten von A-LC und Beobachtbarkeit ab.",
+            explanation: "Kernidee: Der Beobachter korrigiert das Modell mit dem Innovationssignal y-C*x_hat. Intuition: L bestimmt, wie aggressiv Messfehler gegen Modellfehler gewichtet werden. Schritte: 1) Pruefe Beobachtbarkeit von (A,C). 2) Waehle Beobachterpole fuer A-LC (oft schneller als Regelkreis). 3) Bestimme L via Pole-Placement oder Kalman-Ansatz. 4) Simuliere e_dot=(A-LC)e auf Messrauschen. 5) Tune L gegen Rauschverstaerkung. Haeufiger Fehler: Pole zu weit links setzen; das beschleunigt zwar, verstaerkt aber Rauschen stark. Schnellcheck: Wenn Re(lambda(A-LC))<0 fuer alle Eigenwerte, konvergiert der lineare zeitinvariante Beobachter asymptotisch.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-018",
+            title: "Newton-Verfahren fuer nichtlineare Gleichungssysteme",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["newton", "jacobi", "nichtlinear", "konvergenz"],
+            difficulty: "schwer",
+            question: "Wie wird das Newton-Verfahren auf ein nichtlineares Gleichungssystem F(x)=0 angewendet?",
+            answer: "In Iteration k loest man J_F(x_k)*delta_k = -F(x_k) und setzt x_{k+1}=x_k+delta_k. Bei guter Startnaehe und regularem Jacobian zeigt Newton lokal quadratische Konvergenz.",
+            explanation: "Kernidee: Linearisierung von F um x_k liefert ein lokales lineares Korrekturproblem. Intuition: Newton springt zur Nullstelle der Tangentialapproximation statt nur in Gradientenrichtung. Schritte: 1) Berechne F(x_k) und Jacobian J_F(x_k). 2) Loese lineares System fuer delta_k. 3) Update x_{k+1}=x_k+delta_k. 4) Optional Daempfung/Line-Search bei schlechter Startnaehe. 5) Stoppe bei kleinem ||F(x)|| und/oder ||delta||. Haeufiger Fehler: Schlecht konditionierten Jacobian ignorieren; dann werden Schritte instabil oder unzuverlaessig. Schnellcheck: Halbiert sich die Zahl korrekter Stellen pro Iteration nicht, ist man oft ausserhalb des quadratischen Konvergenzbereichs.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
