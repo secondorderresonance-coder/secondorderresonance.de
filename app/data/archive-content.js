@@ -1390,6 +1390,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: SGD ersetzt den exakten Gradienten durch einen verrauschten, aber billigen Schaetzer. Intuition: Viele kleine, schnelle Schritte mit leichtem Rauschen koennen globale Strukturen schneller finden als seltene, teure Vollgradienten-Schritte. Schritte: 1) Waehle Batchgroesse b (z.B. 32-512). 2) Ziehe zufaelligen Batch und berechne g_t = (1/b) sum grad l_i(theta_t). 3) Update: theta_{t+1}=theta_t - eta_t g_t. 4) Nutze Lernratenplan (Decay/Warmup) oder Adaptive Optimierer. 5) Kontrolliere Val-Fehler fuer Early Stopping. Haeufiger Fehler: Zu grosse konstante Lernrate; dann oszilliert das Verfahren trotz fallendem Trainingsverlust. Schnellcheck: Verdopplung von b reduziert Gradientenvarianz, erhoeht aber Rechenzeit pro Schritt; optimale Batchgroesse ist ein Trade-off.",
             type: "konzeptfrage",
             estimatedTime: 9
+        },
+        {
+            id: "T-4-016",
+            title: "Least-Squares und Moore-Penrose-Pseudoinverse",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["least-squares", "pseudoinverse", "ueberbestimmt", "svd"],
+            difficulty: "schwer",
+            question: "Wie loest man ein ueberbestimmtes lineares System Ax≈b im Least-Squares-Sinn?",
+            answer: "Man minimiert ||Ax-b||_2. Fuer vollen Spaltenrang gilt x*=(A^T A)^{-1}A^T b; allgemein x*=A^+b mit der Moore-Penrose-Pseudoinversen.",
+            explanation: "Kernidee: Wenn Ax=b keine exakte Loesung hat, sucht man die beste Approximation mit minimalem Residuum. Intuition: Geometrisch ist Ax* die orthogonale Projektion von b auf den Spaltenraum von A. Schritte: 1) Formuliere Minimierungsproblem min_x ||Ax-b||_2^2. 2) Leite Normalgleichungen ab: A^T A x = A^T b. 3) Loese mit stabilen Verfahren (QR oder SVD statt direkter Inversion). 4) Bei Rangdefizit nutze Pseudoinverse A^+=V*Sigma^+*U^T aus SVD. Haeufiger Fehler: Normalgleichungen direkt invertieren; das verschlechtert die Kondition numerisch. Schnellcheck: Residuum r=b-Ax* ist orthogonal zum Spaltenraum: A^T r=0.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-016",
+            title: "Kalman-Filter fuer lineare Zustandsraummodelle",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["kalman-filter", "zustandsraum", "schaetzung", "rauschen"],
+            difficulty: "schwer",
+            question: "Was macht der Kalman-Filter und warum ist er in linearen gauesschen Modellen optimal?",
+            answer: "Der Kalman-Filter schaetzt rekursiv den Zustand aus Modell und verrauschten Messungen. Bei linearen Modellen mit gauesschem Rauschen minimiert er den mittleren quadratischen Schaetzfehler (MMSE).",
+            explanation: "Kernidee: Der Filter kombiniert Vorhersage aus Systemdynamik mit Korrektur aus Messdaten. Intuition: Unsichere Messungen werden nicht blind uebernommen; der Kalman-Gewinn gewichtet Modellvertrauen gegen Messvertrauen. Schritte: 1) Vorhersage: x^- = A x + B u, P^- = A P A^T + Q. 2) Innovation: y~ = z - H x^-. 3) Innovationskovarianz: S = H P^- H^T + R. 4) Gewinn: K = P^- H^T S^{-1}. 5) Update: x = x^- + K y~, P = (I-KH)P^-. Haeufiger Fehler: Q und R ohne physikalische Skalierung waehlen; dann divergiert der Filter oder reagiert zu traege. Schnellcheck: Bei kleinerem R vertraut der Filter Messungen staerker (groesseres K).",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-6-016",
+            title: "Quasi-Newton BFGS und Hesse-Approximation",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["bfgs", "quasi-newton", "hesse", "line-search"],
+            difficulty: "schwer",
+            question: "Warum ist BFGS oft effizienter als reiner Gradientabstieg bei glatten Optimierungsproblemen?",
+            answer: "BFGS approximiert die inverse Hesse-Matrix iterativ und nutzt damit lokale Kruemmungsinformation. Das beschleunigt die Konvergenz deutlich gegenueber Gradientabstieg, ohne die echte Hesse-Matrix explizit zu berechnen.",
+            explanation: "Kernidee: Newton-artige Richtung mit guenstiger Kruemmungsapproximation. Intuition: Gradientabstieg sieht nur Steilheit, BFGS sieht zusaetzlich Talform und richtet Schritte besser aus. Schritte: 1) Starte mit H_0=I. 2) Richtung p_k = -H_k * grad f(x_k). 3) Finde Schrittweite alpha_k per Line-Search (Wolfe-Bedingungen). 4) Setze s_k = x_{k+1}-x_k und y_k = grad f_{k+1}-grad f_k. 5) Update H_k mit BFGS-Formel unter y_k^T s_k > 0. Haeufiger Fehler: Ohne geeignete Line-Search kann y_k^T s_k <= 0 auftreten; dann verliert die Approximation positive Definitheit. Schnellcheck: In gut konditionierten Problemen sinkt f(x_k) meist deutlich schneller als bei konstantem Lernraten-Gradientabstieg.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1000),
     placementQuestions: [
@@ -1430,6 +1472,7 @@ window.SOR_ARCHIVE = {
         { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "Optimalitätsbedingungen mit Nebenbedingungen", "Integrationsregeln", "Fehlerschätzer"], correctIndex: 1 }
     ]
 };
+
 
 
 

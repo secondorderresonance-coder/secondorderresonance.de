@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.10`
+- `v1.2.11`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -29,6 +29,29 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v1.2.11)
+Tenth focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-016** (Least-Squares und Moore-Penrose-Pseudoinverse): Normalgleichungen, QR/SVD-Hinweis, Projektionsinterpretation.
+- **T-5-016** (Kalman-Filter): Vorhersage/Update-Gleichungen, Bedeutung von Q/R, Stabilitaetsintuition.
+- **T-6-016** (Quasi-Newton BFGS): Hesse-Approximation, Wolfe-Line-Search, Konvergenzintuition.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=6000, 1000 per level
+- marker check: `T-4-016`, `T-5-016`, `T-6-016`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next small L4-L6 batch (`T-4-017`, `T-5-017`, `T-6-017`) while preserving the didactic explanation template.
 
 ## Last completed task (v1.2.10)
 Ninth focused L4-L6 archive expansion batch:
