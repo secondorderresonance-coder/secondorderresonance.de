@@ -1348,6 +1348,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Das Adjungiertenverfahren verschiebt Ableitungen von vielen Parametern auf ein einziges adjungiertes Feld. Intuition: Bei tausenden Parametern ist Vorwaertsdifferenzierung zu teuer; adjungiert rechnet den gesamten Gradient in einem Schritt aus. Schritte: 1) Formuliere Zielfunktion J(u,m) mit Zustandsgleichung F(u,m)=0. 2) Bilde Lagrangefunktion L(u,m,p)=J(u,m)+p^T F(u,m). 3) Waehle adjungierte Variable p so, dass dL/du=0 (adjungierte Gleichung). 4) Dann folgt Gradient aus dL/dm ohne explizite du/dm-Terme. 5) Nutze Gradient in Optimierer (z.B. L-BFGS). Haeufiger Fehler: Diskretisiere-then-adjoint und adjoint-then-diskretisiere verwechseln; inkonsistente Diskretisierung liefert fehlerhafte Gradienten. Schnellcheck: Vergleich gegen finite Differenzen auf wenigen Testparametern (Gradient-Check) muss fuer kleine Schritte gut uebereinstimmen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-015",
+            title: "Jordan-Normalform und algebraische Vielfachheit",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["jordanform", "eigenwerte", "vielfachheit", "lineare-algebra"],
+            difficulty: "schwer",
+            question: "Wann ist eine Matrix diagonalisierbar und welche Rolle spielt die Jordan-Normalform?",
+            answer: "Eine Matrix ist diagonalisierbar, wenn fuer jeden Eigenwert die geometrische und algebraische Vielfachheit uebereinstimmen. Andernfalls beschreibt die Jordan-Normalform die Struktur ueber Jordan-Bloecke.",
+            explanation: "Kernidee: Die Jordanform ist die feinste Darstellung linearer Abbildungen bis auf Basiswechsel. Intuition: Fehlende Eigenvektoren werden durch verallgemeinerte Eigenvektoren ersetzt; jeder Jordan-Block kodiert eine 'fast diagonale' Dynamik. Schritte: 1) Bestimme Eigenwerte und algebraische Vielfachheiten aus dem charakteristischen Polynom. 2) Bestimme geometrische Vielfachheit als Dimension von ker(A-lambda I). 3) Vergleiche beide Vielfachheiten je Eigenwert. 4) Bei Ungleichheit konstruiere Jordan-Ketten ueber ker((A-lambda I)^k). 5) Setze Jordanmatrix J und Transformationsmatrix P mit A=PJP^{-1}. Haeufiger Fehler: Diagonalisierbarkeit nur aus verschiedenen Eigenwerten folgern; das ist hinreichend, aber nicht notwendig. Schnellcheck: Summe der Blockgroessen pro Eigenwert ergibt dessen algebraische Vielfachheit.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-015",
+            title: "LQR-Regler und Riccati-Gleichung",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["lqr", "riccati", "optimalregelung", "zustandsraum"],
+            difficulty: "schwer",
+            question: "Erklaere den linearen quadratischen Regler (LQR) und die Bedeutung der Riccati-Gleichung.",
+            answer: "Beim LQR minimiert man J = Integral(x^TQx + u^TRu)dt fuer dx/dt = Ax+Bu. Der optimale Zustandsrueckfuehrungsregler lautet u = -Kx mit K = R^{-1}B^TP, wobei P aus der algebraischen Riccati-Gleichung folgt.",
+            explanation: "Kernidee: LQR liefert einen systematischen Kompromiss zwischen Zustandsguete und Stellaufwand. Intuition: Q bestraft grosse Zustandsabweichungen, R bestraft aggressive Stellgroessen; P fasst diese Zielabwaegung dynamisch zusammen. Schritte: 1) Waehle Q semidefinit und R positiv definit. 2) Loese die algebraische Riccati-Gleichung A^TP + PA - PBR^{-1}B^TP + Q = 0. 3) Berechne K = R^{-1}B^TP. 4) Nutze u=-Kx und pruefe Eigenwerte von A-BK (Stabilitaet). 5) Optional: Gewichtungsmatrizen iterativ tunen. Haeufiger Fehler: Q und R ohne Skalierung waehlen; dann dominiert entweder Stellgroesse oder Zustand zu stark. Schnellcheck: Groesseres R fuehrt typischerweise zu kleineren Stellaktionen und langsamerer Dynamik.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-015",
+            title: "Stochastischer Gradient und Mini-Batch-Optimierung",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Numerische Simulation",
+            tags: ["sgd", "mini-batch", "optimierung", "konvergenz"],
+            difficulty: "schwer",
+            question: "Warum verwendet man bei grossen Datensaetzen SGD/Mini-Batch-Verfahren statt voller Gradienten?",
+            answer: "Volle Gradienten sind bei grossen N teuer. Mini-Batches liefern unverzerrte, guenstige Gradientenschaetzungen pro Schritt und erreichen bei passender Lernrate oft schneller gute Loesungen in Wandzeit.",
+            explanation: "Kernidee: SGD ersetzt den exakten Gradienten durch einen verrauschten, aber billigen Schaetzer. Intuition: Viele kleine, schnelle Schritte mit leichtem Rauschen koennen globale Strukturen schneller finden als seltene, teure Vollgradienten-Schritte. Schritte: 1) Waehle Batchgroesse b (z.B. 32-512). 2) Ziehe zufaelligen Batch und berechne g_t = (1/b) sum grad l_i(theta_t). 3) Update: theta_{t+1}=theta_t - eta_t g_t. 4) Nutze Lernratenplan (Decay/Warmup) oder Adaptive Optimierer. 5) Kontrolliere Val-Fehler fuer Early Stopping. Haeufiger Fehler: Zu grosse konstante Lernrate; dann oszilliert das Verfahren trotz fallendem Trainingsverlust. Schnellcheck: Verdopplung von b reduziert Gradientenvarianz, erhoeht aber Rechenzeit pro Schritt; optimale Batchgroesse ist ein Trade-off.",
+            type: "konzeptfrage",
+            estimatedTime: 9
         }
     ], 1000),
     placementQuestions: [
