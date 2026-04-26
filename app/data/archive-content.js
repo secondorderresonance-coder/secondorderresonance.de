@@ -1390,6 +1390,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: SGD ersetzt den exakten Gradienten durch einen verrauschten, aber billigen Schaetzer. Intuition: Viele kleine, schnelle Schritte mit leichtem Rauschen koennen globale Strukturen schneller finden als seltene, teure Vollgradienten-Schritte. Schritte: 1) Waehle Batchgroesse b (z.B. 32-512). 2) Ziehe zufaelligen Batch und berechne g_t = (1/b) sum grad l_i(theta_t). 3) Update: theta_{t+1}=theta_t - eta_t g_t. 4) Nutze Lernratenplan (Decay/Warmup) oder Adaptive Optimierer. 5) Kontrolliere Val-Fehler fuer Early Stopping. Haeufiger Fehler: Zu grosse konstante Lernrate; dann oszilliert das Verfahren trotz fallendem Trainingsverlust. Schnellcheck: Verdopplung von b reduziert Gradientenvarianz, erhoeht aber Rechenzeit pro Schritt; optimale Batchgroesse ist ein Trade-off.",
             type: "konzeptfrage",
             estimatedTime: 9
+        },
+
+        {
+            id: "T-4-016",
+            title: "Normen, Konvergenz und Konditionszahl",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["norm", "konvergenz", "konditionszahl", "numerische-algebra"],
+            difficulty: "schwer",
+            question: "Was ist die Konditionszahl einer Matrix und warum ist sie fuer numerische Berechnungen entscheidend?",
+            answer: "Die Konditionszahl kappa(A) = ||A|| * ||A^{-1}|| misst, wie stark relative Eingangsfehler auf die Loesung eines LGS verstaerkt werden. Eine hohe Konditionszahl bedeutet schlecht konditioniertes System: kleine Stoerungen in b fuehren zu grossen Fehlern in x.",
+            explanation: "Kernidee: Die Konditionszahl quantifiziert die Empfindlichkeit der Loesung gegenueber Stoerungen in den Eingabedaten. Intuition: Ein schlecht konditioniertes System ist wie eine sehr flache Parabel – ein kleiner Schritt in der falschen Richtung kann das Ergebnis stark aendern. Schritte: 1) Waehle eine Matrixnorm (z.B. Spektralnorm ||A||_2 = maximaler Singulaerwert). 2) Berechne kappa(A) = sigma_max / sigma_min (Verhaeltnis groesster zu kleinster Singulaerwert). 3) Loesung von Ax=b: relativer Fehler ||dx||/||x|| <= kappa(A) * ||db||/||b||. 4) Hohe kappa (z.B. kappa > 10^6) bedeutet Verlust von 6 Stellen Genauigkeit bei Gleitkommarechnung. 5) Vorkonditionierer reduzieren kappa(P^{-1}A) < kappa(A). Haeufiger Fehler: Singulalitaet (kappa = unendlich) mit schlechter Konditionierung (kappa sehr gross, aber endlich) verwechseln; ein singulaeres System ist nicht loesbar, ein schlecht konditioniertes liefert unzuverlaessige Ergebnisse. Schnellcheck: det(A) nahe null deutet auf hohe Konditionszahl hin, ist aber kein zuverlaessiges Mass – verwende besser SVD.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-016",
+            title: "Luenberger-Beobachter und Beobachtbarkeit",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["beobachter", "luenberger", "beobachtbarkeit", "zustandsschaetzung"],
+            difficulty: "schwer",
+            question: "Was ist ein Luenberger-Beobachter und wie haengt er mit der Beobachtbarkeit des Systems zusammen?",
+            answer: "Ein Luenberger-Beobachter schaetzt den nicht direkt messbaren Zustandsvektor x durch dx_hat/dt = A*x_hat + B*u + L*(y - C*x_hat). Die Beobachterverstaerkungsmatrix L wird so gewaehlt, dass A-LC stabile Eigenwerte hat; das gelingt genau dann, wenn das System vollstaendig beobachtbar ist.",
+            explanation: "Kernidee: Wenn nicht alle Zustandsgroessen messbar sind, rekonstruiert der Beobachter den Zustand dynamisch aus Eingang u und Ausgang y. Intuition: Die Korrektur L*(y-C*x_hat) zieht den geschaetzten Zustand laufend zur gemessenen Realitaet hin – aehnlich wie ein PID-Regler den Fehler minimiert. Schritte: 1) Pruefe Beobachtbarkeit: Bildung der Beobachtbarkeitsmatrix O=[C; CA; CA^2; ...; CA^{n-1}]; System beobachtbar iff rang(O)=n. 2) Waehle gewuenschte Beobachtereigenwerte (mindestens 3-5x schneller als Regelkreis). 3) Berechne L mit Ackermann-Formel oder Pol-Placement-Algorithmus. 4) Implementiere Beobachterdynamik parallel zum Regler. 5) Stabilitaetsprufung: Eigenwerte von A-LC muessen alle negativen Realteil haben. Haeufiger Fehler: Beobachtereigenwerte zu langsam waehlen; dann reagiert die Schaetzung zu traege auf Stoerungen und der Regelkreis wird in der Praxis instabil. Schnellcheck: Spuridentitaet – Spur(A-LC) = Summe der gewuenschten Beobachtereigenwerte.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+
+        {
+            id: "T-6-016",
+            title: "Variationsrechnung und Euler-Lagrange-Gleichung",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Numerische Simulation",
+            tags: ["variationsrechnung", "euler-lagrange", "funktionale", "optimierung"],
+            difficulty: "schwer",
+            question: "Erklaere das Grundprinzip der Variationsrechnung und leite die Euler-Lagrange-Gleichung her.",
+            answer: "Die Variationsrechnung minimiert Funktionale J[y] = Integral L(x,y,y') dx. Die notwendige Bedingung fuer ein Extremum ist die Euler-Lagrange-Gleichung: dL/dy - d/dx(dL/dy') = 0. Sie ist eine gew. DGL fuer die gesuchte Funktion y(x).",
+            explanation: "Kernidee: Statt eine Funktion zu optimieren, optimiert man hier ein Funktional – eine 'Funktion von Funktionen'. Intuition: Man stoert die Optimalloesung y mit einer kleinen Variation epsilon*eta(x) (eta glatt, am Rand 0) und fordert dJ/depsilon|_{epsilon=0} = 0 – genau wie bei gew. Extrema. Schritte: 1) Schreibe Funktional J[y] = Integral_a^b L(x,y,y') dx. 2) Variiere: J[y+epsilon*eta] - J[y] = epsilon*Integral(dL/dy*eta + dL/dy'*eta') dx + O(epsilon^2). 3) Partielle Integration des zweiten Terms: Integral dL/dy'*eta' dx = [dL/dy'*eta]_a^b - Integral d/dx(dL/dy')*eta dx. 4) Randterme verschwinden (eta(a)=eta(b)=0). 5) Da eta beliebig, muss dL/dy - d/dx(dL/dy') = 0 punktweise gelten. Haeufiger Fehler: Randbedingungen vergessen oder falsche Partialableitungen von L berechnen; bei Mehrvariablenproblemen (y = y(x_1,...,x_n)) gibt es mehrere Euler-Lagrange-Gleichungen. Schnellcheck: Fuer L = (1/2)(y')^2 - V(y) ergibt E-L genau y'' = -dV/dy – die Newton'sche Bewegungsgleichung.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1000),
     placementQuestions: [
