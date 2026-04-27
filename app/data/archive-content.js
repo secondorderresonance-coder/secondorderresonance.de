@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Determinanten: Entwicklungssatz und Leibniz-Formel",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["determinante", "laplace-entwicklung", "leibniz", "matrix"],
+            difficulty: "mittel",
+            question: "Wie berechnet man die Determinante einer n×n-Matrix effizient mithilfe des Laplace-Entwicklungssatzes?",
+            answer: "Man entwickelt nach einer Zeile oder Spalte mit moeglichst vielen Nullen: det(A) = Summe a_ij * (-1)^(i+j) * M_ij, wobei M_ij die Unterdeterminante nach Streichen von Zeile i und Spalte j ist. Rekursion bis 2×2.",
+            explanation: "Kernidee: Determinanten messen das orientierte Volumen einer linearen Abbildung; Laplace reduziert die Berechnung schrittweise. Intuition: Eine Zeile mit Nullen macht viele Terme verschwinden und spart Rechenaufwand erheblich. Schritte: 1) Waehle die Zeile oder Spalte mit den meisten Nullen. 2) Bilde fuer jeden Nichtnulleintrag die Kofaktoren (-1)^(i+j) * M_ij. 3) Multipliziere Eintraege mit ihren Kofaktoren und summiere. 4) Fuehre Rekursion bis auf 2×2-Determinanten fort. 5) Kontrolliere Vorzeichen mit Schachbrettmuster. Haeufiger Fehler: Vorzeichen-Schachbrettmuster vergessen; der (1,1)-Kofaktor hat immer positives Vorzeichen. Schnellcheck: det(2×2) = ad-bc; das liefert den Rekursionsanker.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+        {
+            id: "T-5-025",
+            title: "Diskretisierung kontinuierlicher Regelstrecken",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["diskretisierung", "zoh", "tustin", "abtastsystem"],
+            difficulty: "schwer",
+            question: "Welche Methoden gibt es zur Diskretisierung einer kontinuierlichen Uebertragungsfunktion G(s) und welche Stabilitaetseigenschaften haben sie?",
+            answer: "Gaengige Methoden: Halteglied nullter Ordnung (ZOH, exakt fuer stueckweise konstante Eingaben), Euler-Vorwaerts (instabilisierend bei grosser Schrittweite), Euler-Rueckwaerts (daempfend) und Bilinear-Methode/Tustin (konformal, Stabilaet-erhaltend). Wahl der Abtastrate bestimmt Qualitaet.",
+            explanation: "Kernidee: Digitale Regler benoetigen eine zeitdiskrete Entsprechung des kontinuierlichen Pflanzenmodells. Intuition: Unterschiedliche Diskretisierungen verschieben Pole aus dem linksseitigen s-Halbplan unterschiedlich ins Innere des z-Einheitskreises. Schritte: 1) Entscheide Methode anhand Anforderungen (Treue vs. Robustheit). 2) ZOH: c2d mit exactem Matrixexponential. 3) Tustin: s -> 2/T*(z-1)/(z+1) erhaelt stabiles Verhalten. 4) Pruefe Pole im z-Bereich: |z|<1 fuer Stabilitaet. 5) Waehle Abtastzeit T mindestens 10x schneller als dominante Zeitkonstante. Haeufiger Fehler: Euler-Vorwaerts bei langsamer Abtastrate anwenden; Pole wandern leicht ausserhalb des Einheitskreises. Schnellcheck: Tustin mappt den linken s-Halbplan bijektiv auf das Innere des z-Einheitskreises.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-025",
+            title: "Variance Reduction: SVRG und SAGA",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["svrg", "saga", "varianzreduktion", "stochastisch"],
+            difficulty: "schwer",
+            question: "Wie reduzieren SVRG und SAGA die Varianz stochastischer Gradienten und welchen Konvergenzvorteil bieten sie gegenueber SGD?",
+            answer: "SVRG und SAGA verwenden Kontrollvariaten basierend auf gespeicherten alten Gradienten, um den Erwartungswert des stochastischen Gradienten auf den exakten Gradienten zu zentrieren. Dadurch sinkt Varianz auf O(1/n) pro Epoche und lineare Konvergenz ist fuer stark konvexe Funktionen moeglich.",
+            explanation: "Kernidee: SGD konvergiert nur sublinear, weil jeder Mini-Batch-Gradient verrauscht ist; Varianzreduktion beseitigt dieses Rauschen asymptotisch. Intuition: Man speichert alte Gradienten als Ankerpunkt und korrigiert den neuen Gradienten so, dass der Bias verschwindet. Schritte: 1) SVRG: Berechne alle n Gradienten periodisch (full-gradient snapshot). 2) Bilde korrigierten Gradienten g_i - nabla f_i(x_tilde) + mu_tilde. 3) SAGA: Halte Tabelle aller zuletzt berechneten Gradienten und aktualisiere Einzeleintraege. 4) Pruefe Speicherbedarf: SVRG O(1), SAGA O(n*d). 5) Waehle Lernrate passend zur starken Konvexitaetskonstante. Haeufiger Fehler: SAGA-Gradientenspeicher nicht initialisieren; dann entsteht Bias in fruehen Iterationen. Schnellcheck: Lineare Konvergenz heisst Fehler nimmt je Iteration um konstanten Faktor ab, unabhaengig von n.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
