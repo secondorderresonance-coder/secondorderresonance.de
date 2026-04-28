@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Jordansche Normalform und nilpotente Bloecke",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["jordan", "nilpotent", "normalform", "eigenraum"],
+            difficulty: "schwer",
+            question: "Was ist die Jordansche Normalform und wann wird sie anstelle der Diagonalform verwendet?",
+            answer: "Die Jordansche Normalform J ist eine blockdiagonale Matrix mit Jordan-Bloecken auf der Diagonale. Sie existiert fuer jede komplexe Matrix und verallgemeinert die Diagonalform auf den Fall defekter Eigenwerte (geom. Vielfachheit < alg. Vielfachheit).",
+            explanation: "Kernidee: Jede komplexe Matrix ist aehnlich zu einer blockdiagonalen Matrix, bei der jeder Block einem Eigenwert entspricht und Einsen auf der oberen Nebendiagonale den Defekt kodiert. Intuition: Wo eine diagonale Basis fehlt, liefert eine Jordan-Basis aus Haupt- und Eigenvektoren die naechstbeste Normalform; nilpotente Bloecke beschreiben genau den 'Versatz' gegenueber echter Diagonalisierbarkeit. Schritte: 1) Berechne Eigenwerte und algebraische Vielfachheiten aus det(A-lambda I)=0. 2) Bestimme je Eigenwert die Eigenraumdimension (geometrische Vielfachheit). 3) Schliesse auf Jordan-Blockstruktur aus der Differenz alg. minus geom. Vielfachheit. 4) Bestimme Hauptvektoren via (A-lambda I)^k v=0 fuer k>1. 5) Bilde Transformationsmatrix P aus Eigen- und Hauptvektoren und verifiziere A=PJP^{-1}. Haeufiger Fehler: Nur den Eigenraum berechnen und Hauptvektoren vergessen, was zu einer unvollstaendigen Basis fuehrt. Schnellcheck: Trace und Determinante von J stimmen mit A ueberein; nilpotenter Block hat Spur 0 und Determinante 0.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-5-025",
+            title: "Model Predictive Control (MPC) Grundlagen",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["mpc", "praediktion", "optimierung", "horizont"],
+            difficulty: "schwer",
+            question: "Wie funktioniert Model Predictive Control und welche Rolle spielen Praeduktionshorizont und rollende Optimierung?",
+            answer: "MPC loest in jedem Schritt ein endlich-dimensionales Optimierungsproblem ueber einen Praediktionshorizont N, wendet nur den ersten Stellschritt an und verschiebt den Horizont dann um einen Schritt (Rolling Horizon). Das erlaubt explizite Stell- und Zustandsbeschraenkungen.",
+            explanation: "Kernidee: Anstatt einen statischen Regler zu verwenden, optimiert MPC online eine Sequenz zukuenftiger Stellgroessen unter expliziter Beruecksichtigung von Modell, Beschraenkungen und Guetekriterium. Intuition: Der Regler 'sieht' N Schritte in die Zukunft, waehlt das beste Steuergesetz und wirft danach alles ausser dem ersten Schritt weg, weil er im naechsten Abtastschritt neu rechnet. Schritte: 1) Definiere Praediktionshorizont N und Stellhorizont M <= N. 2) Propagiere Zustandsmodell x_{k+1}=Ax_k+Bu_k ueber den Horizont. 3) Formuliere quadratisches Gutefunktional sum(x^T Q x + u^T R u). 4) Ergaenze Stell- und Zustandsbeschraenkungen als lineare Ungleichungen. 5) Loese das QP, wende u_0* an, schiebe Horizont vor. Haeufiger Fehler: Zu kurzen Horizont waehlen, sodass Endkosten grosses Defizit gegenueber unendlichem Horizont hinterlassen und Stabilitaet nicht garantiert ist. Schnellcheck: Mit terminalem Gewicht P (Riccati-Loesung) und N gross genug verhalt sich MPC wie LQR; Stabilitaetsbeweis via Lyapunov-Endkosten.",
+            type: "konzeptfrage",
+            estimatedTime: 11
+        },
+        {
+            id: "T-6-025",
+            title: "Semidefinite Programmierung und LMI-Formulierungen",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["sdp", "lmi", "positiv-semidefinit", "konvex"],
+            difficulty: "schwer",
+            question: "Was ist Semidefinite Programmierung und warum lassen sich viele Stabilitaets- und Robustheitsprobleme als SDP formulieren?",
+            answer: "SDP minimiert ein lineares Zielfunktional unter der Nebenbedingung, dass eine affin von den Variablen abhaengige symmetrische Matrix positiv semidefinit bleibt. Lyapunov- und Riccati-Ungleichungen fuer Stabilitaet lassen sich direkt als LMIs (lineare Matrixungleichungen) schreiben, die effizient mit Interior-Point-Methoden geloest werden.",
+            explanation: "Kernidee: SDP verallgemeinert lineare Programme auf den Kegel positiv-semidefiniter Matrizen; duale Schranken und primal-duale Loesungsverfahren sind direkt auf diesen Kegel uebertragbar. Intuition: Viele Stabilitaetsbedingungen (z.B. V(x)=x^T P x Lyapunov-Funktion mit P>0) sind Positivitaetsbedingungen an Matrizen und damit natuerliche SDP-Constraints. Schritte: 1) Identifiziere die Entscheidungsvariablen (z.B. Lyapunov-Matrix P). 2) Formuliere Zielfunktion linear in den Variablen. 3) Schreibe Stabilitaets-/Robustheitsbedingung als LMI: F_0 + sum_i x_i F_i >= 0. 4) Ergaenze ggf. Schur-Komplement-Trick fuer nichtlineare Terme. 5) Loese mit Interior-Point-SDP-Solver (z.B. SeDuMi, MOSEK). Haeufiger Fehler: Schur-Komplement falsch anwenden und Aequivalenz der Umformung nicht pruefen, was unzulaessige oder zu konservative LMIs erzeugt. Schnellcheck: Bei korrekter LMI-Formulierung stimmt die duale Loesung mit theoretisch erwarteten Lagrange-Multiplikatoren ueberein.",
+            type: "konzeptfrage",
+            estimatedTime: 11
         }
     ], 1500),
     placementQuestions: [
