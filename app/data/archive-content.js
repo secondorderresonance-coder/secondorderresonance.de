@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Duale Raeume und Linearformen",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["dualraum", "linearform", "funktional", "vektorraum"],
+            difficulty: "schwer",
+            question: "Was ist der duale Raum V* eines Vektorraums V und wozu dient er?",
+            answer: "V* ist der Vektorraum aller linearen Abbildungen f: V -> K. Solche Funktionale beschreiben Skalierungen, Projektionen und Koordinatendarstellungen koordinatenfrei. Dim(V*)=Dim(V) fuer endlichdimensionale Raeume.",
+            explanation: "Kernidee: Jeder Vektorraum traegt einen natuerlichen Begleitraum aus linearen Skalarwertfunktionen. Intuition: Waehrend Vektoren Objekte repraesentieren, messen Kovektoren (Linearformen) diese Objekte auf einer Skala. Schritte: 1) Waehle Basis {e1,...,en} von V. 2) Definiere duale Basis {e*1,...,e*n} durch e*i(ej)=delta_ij. 3) Jede Linearform f laesst sich als Linearkombination der dualen Basisvektoren schreiben. 4) Berechne Koordinaten von f als Zeile einer Matrix. 5) Nutze den Dualraum fuer koordinatenfreie Formulierung von Gradienten und Covektoren. Haeufiger Fehler: V und V* verwechseln; sie sind isomorph aber nicht kanonisch identisch ohne Skalarprodukt. Schnellcheck: Die doppelte Dualisierung (V**)=V liefert denselben Raum fuer endliche Dimension.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-5-025",
+            title: "Modellpraediktive Regelung (MPC) Grundidee",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["mpc", "praediktion", "optimierung", "zustandsraum"],
+            difficulty: "schwer",
+            question: "Welche Kernidee steckt hinter der modellpraediktiven Regelung (MPC)?",
+            answer: "MPC loest in jedem Abtastschritt ein endlichhorizontiges Optimierungsproblem ueber ein Systemmodell, wendet nur den ersten Stellbefehl an und wiederholt dies gleitend. So werden Beschraenkungen explizit eingehalten und Guetekriterien optimiert.",
+            explanation: "Kernidee: Online-Optimierung mit Systemmodell und gleitendem Horizont ermoeglicht vorausschauende Regelung unter Beschraenkungen. Intuition: Der Regler 'denkt' N Schritte voraus und waehlt die Steuerfolge, die Kosten minimiert, ohne Stellgrenzen oder Zustandsgrenzen zu verletzen. Schritte: 1) Definiere Praediktionshorizont N und Kosten J(x,u). 2) Loeser QP/NLP mit Systemdynamik als Gleichungsbedingung und Box-Constraints. 3) Wende u*_0 an, verwirf Rest. 4) Verschiebe Horizont um 1 Schritt. 5) Pruefe rekursive Stabilitaet durch terminale Kostenfunktion oder Endmengenbedingung. Haeufiger Fehler: Horizont zu kurz waehlen und damit Stabilitaet und Beschraenkungserfuellung gefaehrden. Schnellcheck: Sinken Zustandsabweichung und Stellaufwand gemeinsam, funktioniert die Optimierung korrekt.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-6-025",
+            title: "Semidefinite Programmierung (SDP)",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["sdp", "semidefinit", "konvex", "lmi"],
+            difficulty: "schwer",
+            question: "Was unterscheidet semidefinite Programmierung (SDP) von linearer Programmierung (LP)?",
+            answer: "SDP optimiert eine lineare Zielfunktion ueber den Kegel der positiv semidefiniten Matrizen statt ueber einen Polyeder. Matrixungleichungen (LMI) ersetzen skalare Ungleichungen und erlauben Formulierung von Stabilitaets- und Robustheitsbedingungen.",
+            explanation: "Kernidee: Der SDP-Kegel PSD ist konvex, weshalb globale Optima in Polynomialzeit gefunden werden koennen. Intuition: Statt Skalarungleichungen x>=0 fordert man X PSD, was Korrelationen und Spektralbedingungen direkt kodiert. Schritte: 1) Formuliere Zielfunktion als Spur c^T x oder tr(CX). 2) Schreibe Nebenbedingungen als LMI F(x)=F0+sum xi*Fi >= 0 (PSD). 3) Nutze Interior-Point-Solver (z.B. SCS, MOSEK). 4) Lese Loesung X* aus und extrahiere Rangstruktur. 5) Verifiziere Optimalitaet ueber duale SDP-Zertifikate. Haeufiger Fehler: Numerischen Rang-Defekt des Loesers als echte Rangaussage missverstehen; Nachbearbeitung via Cholesky-Dekomposition noetig. Schnellcheck: Duales und primales Zielfunktionswert sollten bei konvergiertem Solver fast uebereinstimmen (Dualitaetsgap nahe Null).",
+            type: "konzeptfrage",
+            estimatedTime: 11
         }
     ], 1500),
     placementQuestions: [
