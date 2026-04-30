@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Fourierreihen und L2-Konvergenz",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis",
+            tags: ["fourierreihe", "l2-konvergenz", "koeffizienten", "orthogonalsystem"],
+            difficulty: "schwer",
+            question: "Wie werden Fourierkoeffizienten berechnet und welche Konvergenz garantiert die L2-Theorie?",
+            answer: "Die Koeffizienten a_n = (1/pi)*Integral f(x)cos(nx)dx und b_n = (1/pi)*Integral f(x)sin(nx)dx ergeben sich aus dem L2-Skalarprodukt. Die Fourierreihe konvergiert im L2-Sinne gegen f: ||f - S_N f||_2 -> 0, bestaetigt durch Parseval.",
+            explanation: "Kernidee: Sinus/Kosinus bilden ein vollstaendiges Orthonormalsystem in L2([-pi,pi]), sodass jede quadratintegrierbare Funktion eindeutig entwickelt werden kann. Intuition: Jeder Koeffizient misst den 'Anteil' einer Schwingungsfrequenz – analog zur Projektion auf eine Basis. Schritte: 1) Pruefe f in L2([-pi,pi]). 2) Berechne a_0 = (1/2pi)*Integral f dx als Mittelwert. 3) Berechne a_n und b_n via jeweiligem Skalarprodukt. 4) Forme Partialsumme S_N f. 5) Nutze Parseval: Summe(a_n^2+b_n^2) = (2/pi)*||f||_2^2 als Guetekontrolle. Haeufiger Fehler: Punktweise Konvergenz mit L2-Konvergenz gleichsetzen; an Unstetigkeitsstellen (Gibbs-Phaenomen) divergiert die Partialsumme punktweise. Schnellcheck: Verschwinden die Koeffizienten fuer grosse n schnell, konvergiert die Reihe auch punktweise gut.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-025",
+            title: "Modellpraediktive Regelung (MPC)",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["mpc", "vorhersagehorizont", "optimierung", "nebenbedingungen"],
+            difficulty: "schwer",
+            question: "Wie funktioniert das Grundprinzip der modellpraedikativen Regelung (MPC) und warum handhabt sie Nebenbedingungen direkt?",
+            answer: "MPC loest online in jedem Abtastschritt ein endlich-horizontiges Optimierungsproblem, das Stellgroessen- und Zustandsbeschraenkungen explizit als Constraint einbettet. Nur der erste Schritt des optimalen Stellvektors wird angewendet, dann wird neu gerechnet (receding horizon).",
+            explanation: "Kernidee: Statt einen Regler offline zu entwerfen, wird in jedem Schritt eine optimale Steuerstrategie fuer das naechste Zeitfenster berechnet. Intuition: Aehnlich einem Fahrer, der N Schritte vorausplant, nur den ersten Lenkeinschlag ausfuehrt und dann den Horizont vorschiebt. Schritte: 1) Aufstellung des Praediktionsmodells x_{k+1}=Ax_k+Bu_k. 2) Formuliere Kostenfunktion ueber Horizont N (Zustandsfehler + Stellaufwand). 3) Fuege Constraints fuer u und x ein. 4) Loese QP (lineare Modelle) oder NLP (nichtlinear) online. 5) Wende u_0* an, schiebe Horizont vor. Haeufiger Fehler: Horizont zu kurz waehlen und Stabilitaetsgarantien ignorieren; terminaler Kostensatz oder Endconstraint sichern Stabilitaet. Schnellcheck: Groesserer Horizont naehert sich dem globalen Optimum, ist aber rechenaufwaendiger; in der Praxis genuegen oft 10–30 Schritte.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-6-025",
+            title: "Spektrale Methoden und Tschebyscheff-Approximation",
+            level: "6",
+            sublevel: "6.1",
+            topic: "Numerik",
+            tags: ["spektral", "chebyshev", "approximation", "konvergenz"],
+            difficulty: "schwer",
+            question: "Was unterscheidet spektrale Methoden von Finite-Differenzen-Methoden und was bedeutet spektrale Genauigkeit?",
+            answer: "Spektrale Methoden approximieren die Loesung durch globale Basisfunktionen (Fourier, Chebyshev). Bei glatten Loesungen konvergiert der Fehler schneller als jede feste Potenz von N (exponentielle/spektrale Konvergenz), waehrend FDM nur algebraisch konvergiert.",
+            explanation: "Kernidee: Globale Polynome oder trigonometrische Funktionen beschreiben glatte Loesungen mit weit weniger Freiheitsgraden als lokale Gitterverfahren. Intuition: Eine einzige Fourierwelle beschreibt periodische Loesungen exakt, waehrend FDM mit N Gitterpunkten nur O(h^p) erreicht. Schritte: 1) Waehle Basis: Fourier fuer periodische Gebiete, Chebyshev fuer nicht-periodisches [-1,1]. 2) Diskretisiere die DGL im spektralen Raum (Differentiation wird zur Multiplikation mit Frequenz). 3) Nutze FFT oder DCT fuer schnelle Transformation. 4) Loese das resultierende (kompakte) lineare System. 5) Transformiere zurueck in den physikalischen Raum. Haeufiger Fehler: Spektrale Methoden auf Loesungen mit Unstetigkeiten anwenden; dann degradiert das Gibbs-Phaenomen die Konvergenz auf algebraisch. Schnellcheck: Logarithmischer Fehlerplot vs. N zeigt bei spektralen Methoden eine Gerade (exponentiell), bei FDM eine Kurve mit fixer Steigung.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
