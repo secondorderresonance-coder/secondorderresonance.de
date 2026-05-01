@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Normierte Raeume und Aequivalenz von Normen",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis",
+            tags: ["norm", "normierter-raum", "aequivalenz", "funktionenraum"],
+            difficulty: "schwer",
+            question: "Was bedeutet Normenaequivalenz in endlichdimensionalen Raeumen, und warum gilt sie dort immer?",
+            answer: "Zwei Normen sind aequivalent, wenn es Konstanten c, C > 0 gibt mit c*||x||_a <= ||x||_b <= C*||x||_a fuer alle x. In endlichdimensionalen Raeumen sind alle Normen aequivalent, weil die Einheitskugel kompakt ist und die Norm-Koeffizientenabbildung stetig invertierbar bleibt.",
+            explanation: "Kernidee: Normenaequivalenz sichert, dass Konvergenz, Stetigkeit und Beschraenktheit normunabhaengig sind. Intuition: Im R^n ist die Einheitssphaerae kompakt; daher nimmt jede stetige, positive Funktion dort Minimum und Maximum an, was direkt die Konstanten c und C liefert. Schritte: 1) Zeige, dass ||x||_b als Funktion von ||x||_a stetig ist. 2) Betrachte die Einheitssphaerae S_a = {x : ||x||_a = 1}. 3) Da S_a kompakt (endlichdim.), nimmt ||x||_b auf S_a sein Maximum C und Minimum c > 0 an. 4) Skalierungsargument ergibt die globale Ungleichungskette. Haeufiger Fehler: Aequivalenz auf unendlichdimensionale Raeume uebertragen; dort gelten z.B. L1 und L2 nicht aequivalent. Schnellcheck: In R^n: ||x||_inf <= ||x||_2 <= sqrt(n)*||x||_inf ist eine explizite Aequivalenzkette.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-5-025",
+            title: "Modellpraediktive Regelung (MPC) Grundprinzip",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["mpc", "praediktiv", "optimierung", "horizont"],
+            difficulty: "schwer",
+            question: "Wie funktioniert das gleitende Horizont-Prinzip bei MPC?",
+            answer: "MPC loest in jedem Schritt ein endlichhorizontales Optimierungsproblem ueber zukuenftige Stellgroessen, wendet nur den ersten optimalen Eingang an und verschiebt dann den Horizont um einen Schritt.",
+            explanation: "Kernidee: Statt eines statischen Reglers optimiert MPC online eine Eingangssequenz unter Nebenbedingungen auf einem Praediktionshorizont N. Intuition: Der Regler schaut N Schritte voraus, minimiert eine Guetefunktion (z.B. quadratische Kosten) und respektiert dabei Stell- und Zustandsgrenzen. Schritte: 1) Messe aktuellen Zustand x_k. 2) Loese QP ueber Eingangssequenz u_0,...,u_{N-1} bei Systemmodell und Nebenbedingungen. 3) Wende nur u_0 an. 4) Verschiebe Horizont: k -> k+1. 5) Wiederhole ab Schritt 1. Haeufiger Fehler: Praediktionshorizont zu kurz waehlen, sodass Stabilitaetsgarantien wegfallen oder Nebenbedingungen zu spaet aktiv werden. Schnellcheck: Stabiles MPC besitzt typisch einen terminalen Zustandsterm und eine terminale Menge zur Garantie rekursiver Zulaessigkeit.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-6-025",
+            title: "A-posteriori Fehlerabschaetzung und adaptive FEM",
+            level: "6",
+            sublevel: "6.1.1.a",
+            topic: "Numerik",
+            tags: ["fem", "fehlerschaetzung", "adaptiv", "pde"],
+            difficulty: "schwer",
+            question: "Welche Idee steckt hinter a-posteriori Fehlerschaetzern in der adaptiven FEM?",
+            answer: "A-posteriori Schaetzer berechnen aus der berechneten Naeherungsloesung lokal messbare Indikatoren (z.B. Residuen, Sprungterme) und steuern damit zielgerichtete Netzverfeinerung dort, wo der Fehler gross ist.",
+            explanation: "Kernidee: Statt gleichmaessig zu verfeinern, lokalisiert ein Residualschaetzer Bereiche mit hohem Fehler und verfeinert nur dort. Intuition: Glatte Bereiche brauchen kein feines Netz; Singularitaeten und Schichten brauchen konzentrierte Ressourcen. Schritte: 1) Loese FEM-Problem auf grobem Netz. 2) Berechne je Element den Residualindikator eta_K (Volumenresiduum + Sprungterm). 3) Markiere Elemente mit eta_K > Theta * max eta. 4) Verfeinere markierte Elemente (z.B. bisection). 5) Loese erneut und pruefe globalen Schaetzwert. Haeufiger Fehler: Schaetzer als exakten Fehler missverstehen; er ist eine obere Schranke bis auf Konstanten, die von der PDE-Regularitaet abhaengen. Schnellcheck: Konvergenzrate adaptiver FEM uebertrifft gleichmaessige Verfeinerung bei nicht-glatten Problemen messbar.",
+            type: "konzeptfrage",
+            estimatedTime: 11
         }
     ], 1500),
     placementQuestions: [
