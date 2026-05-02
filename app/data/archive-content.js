@@ -2032,6 +2032,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Problemzerlegung plus duale Kopplung liefert robuste Iterationen fuer grosse strukturierte Optimierungsaufgaben. Intuition: Jeder Block optimiert lokal, waehrend das Dualupdate den globalen Konsens erzwingt. Schritte: 1) Formuliere augmentierte Lagrangefunktion mit Strafparameter rho. 2) x-Update: min nach x bei fixem z,u. 3) z-Update: min nach z bei fixem x,u. 4) Dualupdate u := u + (Ax+Bz-c). 5) Ueberwache primal/dual Residuen und passe rho ggf. an. Haeufiger Fehler: rho nie anpassen; dann stagniert entweder primal oder duale Konvergenz. Schnellcheck: Beide Residuen sollten gemeinsam sinken und in aehnlicher Groessenordnung liegen.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-025",
+            title: "Banachscher Fixpunktsatz und Picard-Iteration",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis",
+            tags: ["fixpunktsatz", "banach", "kontraktion", "picard", "dgl"],
+            difficulty: "schwer",
+            question: "Was besagt der Banachsche Fixpunktsatz und wie wird er zur Loesung von Anfangswertproblemen eingesetzt?",
+            answer: "Jede Kontraktion T auf einem vollstaendigen metrischen Raum besitzt genau einen Fixpunkt, der durch wiederholte Anwendung von T gefunden wird. Fuer AWPs liefert die Picard-Iteration x_{n+1}=x_0 + integral F(t,x_n) dt eine konvergente Folge gegen die eindeutige Loesung.",
+            explanation: "Kernidee: Ein Operator, der Abstaende um den Faktor q<1 verkleinert (Kontraktion), zieht alle Startpunkte auf einen eindeutigen Fixpunkt zusammen. Intuition: Jede Iteration halbiert (oder verkleinert) den Restfehler; Vollstaendigkeit des Raums stellt sicher, dass der Grenzwert im Raum liegt. Schritte: 1) Zeige Vollstaendigkeit des Funktionenraums (z.B. C([a,b]) mit Supremumsnorm). 2) Definiere den Integraloperator T[x](t) = x_0 + integral_a^t F(s,x(s)) ds. 3) Schraenke das Intervall ein, sodass T eine Kontraktion mit q<1 wird (Lipschitz-Konstante L und Intervallaenge). 4) Wende Banach an: eindeutiger Fixpunkt existiert. 5) A-posteriori-Fehlerabschaetzung: |x_n - x*| <= q^n/(1-q) * |x_1 - x_0|. Haeufiger Fehler: Vollstaendigkeit als selbstverstaendlich annehmen ohne zu pruefen, ob der Raum bzgl. der gewaehlten Norm vollstaendig ist. Schnellcheck: Ist F Lipschitz-stetig in x mit Konstante L, genuegt ein Intervall der Laenge h < 1/L fuer die Kontraktionsbedingung.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-5-025",
+            title: "Smith-Praediktor fuer Systeme mit Totzeit",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["smith-praediktor", "totzeit", "regelung", "totzeitglied"],
+            difficulty: "schwer",
+            question: "Wie verbessert der Smith-Praediktor die Regelguete bei Systemen mit signifikanter Totzeit und welche Einschraenkung hat dieser Ansatz?",
+            answer: "Der Smith-Praediktor verschiebt die Totzeit aus dem Regelkreis heraus, indem ein Modell der Strecke ohne Totzeit parallel im Regler mitgefuehrt wird. Dadurch kann der Regler fuer das verzoegerungsfreie System ausgelegt werden. Die kritische Einschraenkung ist, dass das Streckenmodell hinreichend genau sein muss; Modellfehler bei der Totzeit fuehren direkt zu Stabilitaetsverlust.",
+            explanation: "Kernidee: Die Totzeit e^{-Ts} in der Strecke G(s) macht direkte Reglerentwurfsverfahren konservativ. Der Smith-Praediktor separiert die Totzeitwirkung und behandelt sie explizit. Intuition: Durch das Parallelmodell G_m(s)*(1 - e^{-T_m*s}) entsteht im geschlossenen Kreis eine effektive Uebertragungsfunktion, als haette die Strecke keine Totzeit, plus einem Aussenterm, der Modellfehler korrigiert. Schritte: 1) Identifiziere Streckenmodell G_m(s) und Totzeit T_m. 2) Baue Smith-Praediktor-Struktur: Regler C(s), Modell G_m(s), Totzeitglied e^{-T_m*s}. 3) Entwerfe C(s) fuer G_m(s) ohne Totzeit (z.B. mit Phasenreserven-Methode). 4) Schliesse den inneren Praediktionskreis. 5) Analysiere Robustheit gegenueber Totzeitfehler Delta_T und Modellabweichungen. Haeufiger Fehler: Den Smith-Praediktor als totzeitunempfindlich missverstehen; tatsaechlich reagiert er sehr empfindlich auf Fehler in T_m. Schnellcheck: Ist die Modellguete gut und T bekannt, erlaubt der Smith-Praediktor deutlich aggressivere Regler als konservative Derating-Regeln.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+        {
+            id: "T-6-025",
+            title: "Mehrgittermethoden fuer elliptische PDEs",
+            level: "6",
+            sublevel: "6.1",
+            topic: "Numerik",
+            tags: ["multigrid", "mehrgitter", "vcycle", "glaetter", "elliptisch"],
+            difficulty: "schwer",
+            question: "Wie reduzieren Mehrgittermethoden die Rechenkosten fuer die Loesung elliptischer PDE-Systeme gegenueber einfachen iterativen Loesern?",
+            answer: "Einfache Iterationsverfahren (Jacobi, Gauss-Seidel) glaetten hochfrequente Fehleranteile schnell, aber glatten Fehler (niedrige Frequenzen) nur sehr langsam. Mehrgittermethoden uebertragen diesen Restfehler auf ein grobes Gitter, wo er nur wenige Gitterpunkte benoetigt und damit guenstig loesbar ist; nach Korrekturinterpolation zurueck auf das feine Gitter konvergiert das Verfahren in O(N) Operationen.",
+            explanation: "Kernidee: Fourier-Analyse zeigt, dass iterative Glaetter hochfrequente Fehler schnell, niedrigfrequente Fehler dagegen kaum daempfen. Auf dem groben Gitter erscheinen niedrige Frequenzen als hohe Frequenzen und koennen wieder schnell geglaettet werden. Intuition: V-Zyklus alterniert zwischen feinem und grobem Gitter: Vorglaettung auf feinem Gitter, Residuumrestriktion, Grobgitter-Korrektur (rekursiv), Interpolation der Korrektur, Nachglaettung. Schritte: 1) Waehle Glaetter (z.B. Gauss-Seidel) und Gitterhierarchie h, 2h, 4h, ... 2) Vorglaettung: wenige Iterationen auf feinem Gitter. 3) Residuumrestriktion: R*(b - A*x) auf grobes Gitter. 4) Grobgitterloesung (rekursiv oder direkt). 5) Prolongation der Fehlerkorrektur P*e_grob auf feines Gitter und Addition. 6) Nachglaettung. Haeufiger Fehler: Zu viele Vor-/Nachglaettungsschritte waehlen; der Vorteil des Mehrgitterverfahrens liegt in wenigen Glaettungsiterationen pro Ebene. Schnellcheck: Ein optimaler Mehrgitterloeser erfordert O(N) Operationen; Konvergenzraten kleiner 0,1 pro Zyklus sind typisch fuer elliptische Probleme.",
+            type: "konzeptfrage",
+            estimatedTime: 11
         }
     ], 1500),
     placementQuestions: [
