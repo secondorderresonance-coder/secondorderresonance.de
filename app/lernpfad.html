@@ -4,531 +4,546 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lernpfad | Second-Order Resonance</title>
-    <meta name="description" content="Dein persönlicher Mathematik-Lernpfad – von den Grundlagen bis zur Forschung. Level für Level freischalten.">
+    <meta name="description" content="Dein persönlicher Mathe-Lernpfad – spielerisch von Einmaleins bis Forschung.">
     <meta name="theme-color" content="#1a1a2e">
     <style>
         :root {
-            --primary:    #1a1a2e;
+            --bg:         #1a1a2e;
             --secondary:  #16213e;
             --accent:     #e94560;
-            --text:       #eee;
-            --text-muted: #aaa;
+            --text:       #eef;
+            --muted:      #9aa;
             --gold:       #f5c518;
-            --success:    #4ade80;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+        /* ── TOP BAR ── */
+        .topbar {
+            position:sticky; top:0; z-index:200;
+            background:var(--secondary);
+            border-bottom:2px solid rgba(233,69,96,.25);
+            display:flex; align-items:center; justify-content:space-between;
+            padding:.7rem 1.2rem; gap:.8rem;
+        }
+        .logo { font-weight:800; font-size:1.1rem; color:var(--gold); text-decoration:none; }
+        .logo span { color:var(--accent); }
+        .tb-stats { display:flex; align-items:center; gap:1rem; font-size:.82rem; }
+        .tb-stat { display:flex; align-items:center; gap:.3rem; }
+        .tb-stat-val { font-weight:700; color:var(--gold); }
+        .tb-stat-icon { font-size:1rem; }
+        .tb-login-btn {
+            padding:.38rem .9rem; border-radius:20px;
+            background:var(--accent); color:#fff; border:none;
+            font-size:.82rem; font-weight:700; cursor:pointer; transition:opacity .2s;
+        }
+        .tb-login-btn:hover { opacity:.85; }
+        .tb-avatar {
+            width:30px; height:30px; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:.78rem; color:#fff; cursor:pointer;
+            border:2px solid var(--gold);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--primary);
-            color: var(--text);
-            min-height: 100vh;
+        /* ── MODAL OVERLAY ── */
+        .overlay {
+            position:fixed; inset:0; z-index:500;
+            background:rgba(0,0,0,.72); display:none;
+            align-items:center; justify-content:center; padding:1rem;
         }
-
-        /* ── Header ── */
-        .app-header {
-            background: var(--secondary);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(233,69,96,.2);
-            position: sticky; top: 0; z-index: 100;
+        .overlay.open { display:flex; }
+        .modal {
+            background:var(--secondary); border-radius:20px;
+            padding:2rem 1.8rem; width:100%; max-width:380px;
+            border:1px solid rgba(255,255,255,.1);
+            animation:popIn .22s ease;
         }
-        .app-logo { font-weight: 700; font-size: 1.2rem; color: var(--gold); }
-        .app-logo span { color: var(--accent); }
-
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-
-        .xp-bar-wrap { display: flex; align-items: center; gap: .5rem; }
-        .xp-bar-track { width: 110px; height: 7px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden; }
-        .xp-bar-fill  { height: 100%; background: var(--gold); border-radius: 4px; transition: width .5s; }
-        .xp-label { font-size: .82rem; color: var(--gold); white-space: nowrap; }
-
-        .back-btn {
-            display: inline-flex; align-items: center; gap: .35rem;
-            color: var(--text-muted); text-decoration: none; font-size: .88rem;
-            padding: .4rem .8rem; border-radius: 8px;
-            border: 1px solid rgba(255,255,255,.1); transition: all .2s;
+        @keyframes popIn { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
+        .modal-title { font-size:1.3rem; font-weight:800; text-align:center; margin-bottom:1.4rem; }
+        .modal-tabs { display:flex; gap:.5rem; margin-bottom:1.4rem; }
+        .modal-tab {
+            flex:1; padding:.5rem; border-radius:10px; border:none;
+            font-size:.88rem; font-weight:700; cursor:pointer;
+            background:rgba(255,255,255,.06); color:var(--muted);
+            transition:all .2s;
         }
-        .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
-
-        /* ── Main ── */
-        .path-main {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 2.5rem 1rem 5rem;
+        .modal-tab.active { background:var(--accent); color:#fff; }
+        .modal-field {
+            width:100%; padding:.7rem .9rem; border-radius:10px;
+            background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+            color:var(--text); font-size:.92rem; margin-bottom:.75rem; outline:none;
+            transition:border-color .2s;
         }
-
-        .path-hero {
-            text-align: center;
-            margin-bottom: 2.5rem;
+        .modal-field:focus { border-color:rgba(233,69,96,.55); }
+        .modal-submit {
+            width:100%; padding:.75rem; border-radius:12px;
+            background:var(--accent); color:#fff; border:none;
+            font-size:1rem; font-weight:800; cursor:pointer; margin-top:.3rem;
+            transition:opacity .2s;
         }
-        .path-hero h1 { font-size: 1.9rem; font-weight: 800; margin-bottom: .4rem; }
-        .path-hero h1 span { color: var(--accent); }
-        .path-hero p { color: var(--text-muted); font-size: .95rem; }
+        .modal-submit:hover { opacity:.88; }
+        .modal-err { color:#f87171; font-size:.8rem; text-align:center; margin-top:.5rem; min-height:1.1rem; }
+        .modal-close-row { text-align:right; margin-bottom:.5rem; }
+        .modal-close { background:none; border:none; color:var(--muted); font-size:1.3rem; cursor:pointer; }
 
-        /* ── Vertical path connector ── */
-        .path-spine {
-            position: relative;
+        /* ── GUEST HERO ── */
+        .guest-hero {
+            text-align:center; padding:3rem 1.5rem 1.5rem;
+            max-width:520px; margin:0 auto;
         }
-        .path-spine::before {
-            content: '';
-            position: absolute;
-            left: 30px;
-            top: 0; bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom,
-                #4ade80 0%,
-                #facc15 20%,
-                #f59e0b 38%,
-                #60a5fa 56%,
-                #8b5cf6 76%,
-                #6b7280 100%);
-            border-radius: 2px;
-            opacity: .35;
+        .guest-hero h1 { font-size:1.9rem; font-weight:800; line-height:1.2; margin-bottom:.7rem; }
+        .guest-hero h1 em { color:var(--accent); font-style:normal; }
+        .guest-hero p { color:var(--muted); font-size:.95rem; margin-bottom:1.5rem; }
+        .hero-cta {
+            display:inline-block; padding:.85rem 2.2rem; border-radius:50px;
+            background:var(--accent); color:#fff; font-size:1.05rem; font-weight:800;
+            text-decoration:none; border:none; cursor:pointer;
+            animation:pulseCta 2s ease-in-out infinite;
+        }
+        @keyframes pulseCta {
+            0%,100%{box-shadow:0 0 0 0 rgba(233,69,96,.5)}
+            50%{box-shadow:0 0 0 12px rgba(233,69,96,0)}
         }
 
-        /* ── Level chapter ── */
-        .level-chapter {
-            position: relative;
-            padding-left: 72px;
-            margin-bottom: 2.2rem;
+        /* ── MAP CONTAINER ── */
+        .map-wrap {
+            max-width:480px; margin:0 auto;
+            padding:1.5rem 1rem 5rem;
         }
 
-        .level-dot {
-            position: absolute;
-            left: 12px;
-            top: 18px;
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: .85rem; font-weight: 800; color: #fff;
-            border: 3px solid transparent;
-            z-index: 1;
+        /* ── LEVEL BANNER ── */
+        .lvl-banner {
+            display:flex; align-items:center; gap:.9rem;
+            background:var(--secondary); border-radius:16px;
+            padding:.9rem 1.2rem; margin:2rem 0 .8rem;
+            border:1px solid rgba(255,255,255,.08);
+        }
+        .lvl-badge {
+            width:44px; height:44px; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1rem; font-weight:900; color:#fff; flex-shrink:0;
+            border:3px solid;
+        }
+        .lvl-info { flex:1; }
+        .lvl-name { font-weight:800; font-size:1rem; }
+        .lvl-sub  { font-size:.75rem; color:var(--muted); margin-top:.1rem; }
+        .lvl-xp-track {
+            height:5px; border-radius:3px;
+            background:rgba(255,255,255,.1); margin-top:.45rem; overflow:hidden;
+        }
+        .lvl-xp-fill { height:100%; border-radius:3px; transition:width .5s; }
+        .lvl-xp-txt { font-size:.7rem; color:var(--muted); margin-top:.2rem; }
+        .lvl-lock-badge {
+            font-size:.8rem; color:var(--muted); white-space:nowrap;
+            display:flex; align-items:center; gap:.3rem;
         }
 
-        .level-card {
-            background: var(--secondary);
-            border-radius: 18px;
-            padding: 1.4rem 1.5rem;
-            border: 1px solid rgba(255,255,255,.08);
-            transition: border-color .2s;
+        /* ── SKILL NODES ── */
+        .nd {
+            position:relative; display:flex; flex-direction:column;
+            align-items:center; margin-bottom:1.1rem;
         }
-        .level-card.unlocked { border-color: rgba(255,255,255,.12); }
-        .level-card.locked   { opacity: .55; }
-
-        .level-card-header {
-            display: flex; align-items: center; gap: .8rem;
-            margin-bottom: .9rem;
+        .nd-circle {
+            width:68px; height:68px; border-radius:50%;
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            border:4px solid; cursor:pointer; transition:transform .15s, box-shadow .15s;
+            position:relative; text-decoration:none;
+            flex-shrink:0;
         }
-        .level-badge {
-            padding: .25rem .7rem; border-radius: 20px;
-            font-size: .72rem; font-weight: 700;
-            letter-spacing: .05em; white-space: nowrap;
-        }
-        .level-title { font-size: 1.05rem; font-weight: 700; flex: 1; }
-        .level-lock-note { font-size: .78rem; color: var(--text-muted); }
-
-        /* XP progress bar inside card */
-        .level-xp-row {
-            display: flex; align-items: center; gap: .6rem;
-            margin-bottom: 1rem;
-        }
-        .level-xp-track {
-            flex: 1; height: 5px; background: rgba(255,255,255,.09);
-            border-radius: 3px; overflow: hidden;
-        }
-        .level-xp-fill { height: 100%; border-radius: 3px; transition: width .5s; }
-        .level-xp-label { font-size: .72rem; color: var(--text-muted); white-space: nowrap; }
-
-        /* Topic nodes */
-        .topics-grid {
-            display: flex; flex-wrap: wrap; gap: .55rem;
+        .nd-icon { font-size:1.5rem; line-height:1; }
+        .nd-label-icon { font-size:1.1rem; line-height:1; font-weight:800; color:#fff; }
+        .nd-label-below {
+            margin-top:.35rem; font-size:.72rem; font-weight:700;
+            text-align:center; max-width:80px; color:var(--muted); line-height:1.2;
         }
 
-        .topic-node {
-            display: inline-flex; align-items: center; gap: .45rem;
-            padding: .55rem 1rem;
-            border-radius: 50px;
-            font-size: .88rem; font-weight: 600;
-            border: 2px solid transparent;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all .2s;
-            color: var(--text);
+        /* locked */
+        .nd.nd-locked .nd-circle {
+            background:#1e2a3a; border-color:#2d3d50;
+            cursor:default; pointer-events:none;
         }
-        .topic-node.unlocked {
-            background: rgba(255,255,255,.07);
-            border-color: rgba(255,255,255,.15);
-        }
-        .topic-node.unlocked:hover {
-            background: rgba(255,255,255,.13);
-            border-color: rgba(255,255,255,.3);
-            transform: translateY(-1px);
-        }
-        .topic-node.locked {
-            background: rgba(255,255,255,.03);
-            border-color: rgba(255,255,255,.07);
-            color: var(--text-muted);
-            cursor: default;
-            pointer-events: none;
-        }
-        .topic-icon { font-size: 1rem; }
+        .nd.nd-locked .nd-label-icon { color:#3d5060; }
+        .nd.nd-locked .nd-label-below { color:#3d5060; }
 
-        /* Free-play button per level */
-        .level-cta {
-            margin-top: 1rem;
-            display: inline-flex; align-items: center; gap: .5rem;
-            padding: .6rem 1.4rem;
-            background: var(--accent); color: #fff;
-            border-radius: 50px; font-size: .88rem; font-weight: 700;
-            text-decoration: none; border: none; cursor: pointer;
-            transition: all .25s;
+        /* active */
+        .nd.nd-active .nd-circle {
+            box-shadow:0 0 18px var(--nd-color,#e94560);
+            border-color:var(--nd-color,#e94560);
+            background:var(--nd-bg,rgba(233,69,96,.18));
+            animation:ndBounce 1.6s ease-in-out infinite;
         }
-        .level-cta:hover { background: #ff5a78; transform: translateY(-1px); }
-        .level-cta.disabled {
-            background: rgba(255,255,255,.07);
-            color: var(--text-muted);
-            pointer-events: none;
+        @keyframes ndBounce {
+            0%,100%{transform:translateY(0)}
+            45%{transform:translateY(-6px)}
         }
+        .nd.nd-active .nd-circle:hover { transform:scale(1.06); }
 
-        /* No account note */
-        .guest-note {
-            background: rgba(233,69,96,.08);
-            border: 1px solid rgba(233,69,96,.2);
-            border-radius: 12px;
-            padding: .9rem 1.2rem;
-            font-size: .85rem; color: var(--text-muted);
-            margin-bottom: 2rem; text-align: center;
+        /* done */
+        .nd.nd-done .nd-circle {
+            border-color:var(--nd-color,#4ade80);
+            background:var(--nd-color,#4ade80);
         }
-        .guest-note a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .nd.nd-done .nd-label-icon { color:#fff; filter:drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
+        .nd-done-badge {
+            position:absolute; bottom:-4px; right:-4px;
+            width:20px; height:20px; border-radius:50%;
+            background:#22c55e; border:2px solid var(--bg);
+            display:flex; align-items:center; justify-content:center;
+            font-size:.65rem; color:#fff; font-weight:900; display:none;
+        }
+        .nd.nd-done .nd-done-badge { display:flex; }
 
-        /* Completion badge at top */
-        .progress-overview {
-            background: var(--secondary);
-            border-radius: 16px;
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,.08);
-            display: flex; align-items: center; gap: 1.2rem;
-            flex-wrap: wrap;
+        /* ── BACK LINK ── */
+        .back-link {
+            display:inline-flex; align-items:center; gap:.4rem;
+            color:var(--muted); font-size:.82rem; text-decoration:none;
+            padding:.35rem .7rem; border-radius:8px;
+            border:1px solid rgba(255,255,255,.1); transition:all .2s;
         }
-        .progress-stat { text-align: center; flex: 1; min-width: 80px; }
-        .progress-stat-val { font-size: 1.6rem; font-weight: 800; color: var(--gold); }
-        .progress-stat-label { font-size: .72rem; color: var(--text-muted); margin-top: .15rem; }
-
-        @media (max-width: 520px) {
-            .path-spine::before { left: 16px; }
-            .level-chapter { padding-left: 52px; }
-            .level-dot { left: 0; width: 32px; height: 32px; top: 20px; font-size: .75rem; }
-            .header-right .xp-bar-wrap { display: none; }
-        }
+        .back-link:hover { color:var(--text); border-color:rgba(255,255,255,.25); }
     </style>
 </head>
 <body>
 
-    <header class="app-header">
-        <div class="app-logo">Math<span>Level</span></div>
-        <div class="header-right">
-            <div class="xp-bar-wrap">
-                <div class="xp-bar-track">
-                    <div class="xp-bar-fill" id="xpFill" style="width:0%"></div>
-                </div>
-                <span class="xp-label" id="xpLabel">0 XP</span>
-            </div>
-            <a href="index.html" class="back-btn">&#8592; Zur App</a>
+<!-- TOP BAR -->
+<header class="topbar">
+    <a href="index.html" class="logo">SOR<span>·</span>Mathe</a>
+    <div class="tb-stats" id="tbStats">
+        <button class="tb-login-btn" id="tbLoginBtn" onclick="openModal()">Anmelden</button>
+    </div>
+    <a href="index.html" class="back-link">&#8592; App</a>
+</header>
+
+<!-- ACCOUNT MODAL -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+        <div class="modal-close-row">
+            <button class="modal-close" onclick="closeModal()">&#x2715;</button>
         </div>
-    </header>
-
-    <main class="path-main">
-
-        <div class="path-hero">
-            <h1>Dein <span>Lernpfad</span></h1>
-            <p>Schalte Level für Level frei – von den Grundlagen bis zur Forschung.</p>
+        <div class="modal-title" id="modalTitle">Willkommen</div>
+        <div class="modal-tabs">
+            <button class="modal-tab active" id="tabReg" onclick="switchTab('reg')">Registrieren</button>
+            <button class="modal-tab" id="tabLog" onclick="switchTab('log')">Anmelden</button>
         </div>
+        <input class="modal-field" id="mUser" type="text" placeholder="Benutzername" autocomplete="username" />
+        <input class="modal-field" id="mPass" type="password" placeholder="Passwort" autocomplete="current-password" />
+        <button class="modal-submit" onclick="doSubmit()">Los geht&rsquo;s!</button>
+        <div class="modal-err" id="modalErr"></div>
+    </div>
+</div>
 
-        <div id="guestNote" class="guest-note" style="display:none">
-            Ohne Account wird kein Fortschritt gespeichert.&nbsp;
-            <a href="index.html">Jetzt anmelden &rarr;</a>
-        </div>
+<!-- GUEST HERO (shown when not logged in) -->
+<section class="guest-hero" id="guestHero" style="display:none">
+    <h1>Mathe lernen –<br><em>Level für Level</em></h1>
+    <p>Von Einmaleins bis Forschung. Spielerisch, kostenlos, mit echtem Fortschritt.</p>
+    <button class="hero-cta" onclick="openModal()">Jetzt starten &rarr;</button>
+</section>
 
-        <div class="progress-overview" id="progressOverview">
-            <div class="progress-stat">
-                <div class="progress-stat-val" id="overviewXp">0</div>
-                <div class="progress-stat-label">XP gesamt</div>
+<!-- MAP -->
+<div class="map-wrap" id="mapWrap"></div>
+
+<script>
+const STORE_KEY = 'mathlevel-accounts-v1';
+const LVL_XP = [0, 50, 150, 300, 500, 750, 1100];
+const LVL_COLORS = ['#4ade80','#facc15','#f59e0b','#60a5fa','#8b5cf6','#9ca3af'];
+const LVL_BG = [
+    'rgba(74,222,128,.2)','rgba(250,204,21,.2)','rgba(245,158,11,.2)',
+    'rgba(96,165,250,.2)','rgba(139,92,246,.2)','rgba(156,163,175,.2)'
+];
+const LVL_NAMES = ['Grundlagen','Aufbauwissen','Vertiefung','Uni-Grundlagen','Angewandte Mathe','Forschung'];
+const LVL_SUBS  = ['Grundschule & Unterstufe','Unter- & Mittelstufe','Oberstufe','Studienanfang','Fortgeschrittenes Studium','Wissenschaft & Spezialisierung'];
+
+/* 12 nodes per level — [icon, label, appTopic] */
+const NODES = [
+    /* L1 */ [
+        ['✕','Einmaleins','Einmaleins'],
+        ['＋','Addition','Addition'],
+        ['½','Brüche','Bruchrechnung'],
+        ['÷','Brüche÷','Bruch-Division'],
+        ['0.1','Dezimal','Dezimalzahlen'],
+        ['%','Prozente','Prozente'],
+        ['∝','Dreisatz','Dreisatz'],
+        ['▭','Flächen','Flächenberechnung'],
+        ['⬡','Umfang','Umfang'],
+        ['∠','Winkel','Winkel'],
+        ['⊕','Koordinaten','Koordinatensystem'],
+        ['🎯','Gemischt','Gemischt L1'],
+    ],
+    /* L2 */ [
+        ['=','Lin.Gl.','Lineare Gleichungen'],
+        ['x²','Quad.Gl.','Quadratische Gleichungen'],
+        ['xⁿ','Potenzen','Potenzen'],
+        ['√','Wurzeln','Wurzeln'],
+        ['log','Logarithmus','Logarithmus'],
+        ['f(x)','Lin.Fkt.','Lineare Funktionen'],
+        ['⌒','Parabeln','Parabeln'],
+        ['sin','Sinus','Trigonometrie-sin'],
+        ['tan','Tangens','Trigonometrie-tan'],
+        ['○','Einheitskr.','Einheitskreis'],
+        ['‖','GLS','Gleichungssysteme'],
+        ['🔍','Fkt-Ana.','Funktionsanalyse'],
+    ],
+    /* L3 */ [
+        ["f'","Ableitung","Ableitungen"],
+        ['⛓','Kettenregel','Kettenregel'],
+        ['·','Produktregel','Produktregel'],
+        ['📉','Kurvendisk.','Kurvendiskussion'],
+        ['∫','Stammfkt.','Stammfunktion'],
+        ['∫₀¹','Best.Int.','Bestimmtes Integral'],
+        ['∫uv','Part.Int.','Partielle Integration'],
+        ['P','Wahrsch.','Wahrscheinlichkeit'],
+        ['nCr','Kombi','Kombinatorik'],
+        ['B(n)','Binom.','Binomialverteilung'],
+        ['→','Vektoren','Vektoren'],
+        ['⊥','Geraden','Geraden & Ebenen'],
+    ],
+    /* L4 */ [
+        ['[M]','Matrizen','Lineare Algebra'],
+        ['det','det(A)','Determinante'],
+        ['λ','Eigenwerte','Eigenwerte'],
+        ["y'","DGL 1.O","Differentialgleichungen 1. Ordnung"],
+        ["y''","DGL 2.O","Differentialgleichungen 2. Ordnung"],
+        ['i','Komplex','Komplexe Zahlen'],
+        ['eⁱ','Euler-F.','Eulersche Formel'],
+        ['|z|','Betrag','Komplexe Zahlen'],
+        ['Σxⁿ','Potenzreihe','Reihen'],
+        ['∞','Konvergenz','Konvergenz'],
+        ['eˣ≈','Taylor','Taylorreihe'],
+        ['ℒ','Laplace','Laplace-Transformation'],
+    ],
+    /* L5 */ [
+        ['∿','Fourier-R','Fourierreihe'],
+        ['F(ω)','Fourier-T','Fouriertransformation'],
+        ['DFT','DFT','Diskrete Fouriertransformation'],
+        ['ℒ','Laplace','Laplace-Transformation'],
+        ['G(s)','Übertr.','Übertragungsfunktion'],
+        ['ω₀','Resonanz','Resonanz'],
+        ['~','Schwingung','Schwingungen'],
+        ['⚙','PID','Regelungstechnik'],
+        ['✓','Stabilität','Stabilitätsanalyse'],
+        ['Q','Güte','Gütefaktor'],
+        ['📡','Signal','Signalverarbeitung'],
+        ['⧖','Filter','Filtertechnik'],
+    ],
+    /* L6 */ [
+        ['∂','PDE','Partielle DGL'],
+        ['∿','Welle','Wellengleichung'],
+        ['🌡','Wärme','Wärmeleitungsgleichung'],
+        ['⬡','FEM','Finite-Elemente-Methode'],
+        ['N(x)','Formfkt.','FEM-Formfunktionen'],
+        ['≈','FDiff.','Finite-Differenzen-Methode'],
+        ['→','RK4','Runge-Kutta Verfahren'],
+        ['O(h)','Fehler','Fehlerordnung'],
+        ['W(t)','Wiener','Wiener-Prozess'],
+        ['dX','Itô','Itô-Formel'],
+        ['∇','KKT','KKT-Bedingungen'],
+        ['↗','Konvex','Konvexe Optimierung'],
+    ],
+];
+
+/* winding S-curve offsets for 12 nodes: 8 positions cycling L→R */
+const WIND = [8, 28, 50, 70, 50, 28, 8, 28, 50, 70, 50, 28];
+
+/* ── account helpers ── */
+function loadStore()  { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {accounts:{},current:null}; } catch(e){ return {accounts:{},current:null}; } }
+function saveStore(s) { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+
+function currentAccount() {
+    const s = loadStore();
+    if (!s.current || !s.accounts[s.current]) return null;
+    return s.accounts[s.current];
+}
+function getXp() {
+    const a = currentAccount();
+    return (a && a.progress && a.progress.summary && a.progress.summary.xp) || 0;
+}
+function getStreak() {
+    const a = currentAccount();
+    return (a && a.progress && a.progress.summary && a.progress.summary.streak) || 0;
+}
+function avatarColor(username) {
+    let h = 0;
+    for (let i = 0; i < username.length; i++) h = username.charCodeAt(i) + ((h << 5) - h);
+    return 'hsl(' + (h % 360) + ',55%,50%)';
+}
+function normalizeAccount(u, p) {
+    return {
+        username: u, password: p,
+        avatarColor: avatarColor(u),
+        createdAt: new Date().toISOString(),
+        hearts: 5, heartsLastRefill: Date.now(),
+        streakFreezes: 0, streakFreezeUsed: null,
+        progress: {
+            schemaVersion: 1, summary: { xp:0, streak:0, accuracy:0, correct:0 },
+            dailyActivity: {}, weeklyXp: {}, lastActiveDate: null, updatedAt: null
+        }
+    };
+}
+
+/* ── modal ── */
+let modalMode = 'reg';
+function openModal()  { document.getElementById('overlay').classList.add('open'); document.getElementById('mUser').focus(); }
+function closeModal() { document.getElementById('overlay').classList.remove('open'); document.getElementById('modalErr').textContent=''; }
+function switchTab(t) {
+    modalMode = t;
+    document.getElementById('tabReg').classList.toggle('active', t==='reg');
+    document.getElementById('tabLog').classList.toggle('active', t==='log');
+    document.getElementById('modalTitle').textContent = t==='reg' ? 'Konto erstellen' : 'Willkommen zurück';
+    document.getElementById('modalErr').textContent = '';
+}
+document.getElementById('mPass').addEventListener('keydown', e => { if(e.key==='Enter') doSubmit(); });
+
+function doSubmit() {
+    const u = document.getElementById('mUser').value.trim();
+    const p = document.getElementById('mPass').value;
+    const err = document.getElementById('modalErr');
+    if (!u || !p) { err.textContent='Bitte alle Felder ausfüllen.'; return; }
+    const s = loadStore();
+    if (modalMode === 'reg') {
+        if (s.accounts[u]) { err.textContent='Benutzername bereits vergeben.'; return; }
+        if (p.length < 4)  { err.textContent='Passwort mind. 4 Zeichen.'; return; }
+        s.accounts[u] = normalizeAccount(u, p);
+        s.current = u;
+        saveStore(s);
+    } else {
+        const acc = s.accounts[u];
+        if (!acc || acc.password !== p) { err.textContent='Benutzername oder Passwort falsch.'; return; }
+        s.current = u;
+        saveStore(s);
+    }
+    closeModal();
+    init();
+}
+
+/* ── node state ── */
+function nodeState(lvl, idx) {
+    const xp  = getXp();
+    const ls  = LVL_XP[lvl];
+    const le  = LVL_XP[lvl + 1] || ls + 350;
+    const per = (le - ls) / 12;
+    if (xp < ls) return 'locked';
+    if (xp >= ls + (idx + 1) * per) return 'done';
+    if (xp >= ls + idx * per) return 'active';
+    return 'locked';
+}
+
+/* ── render ── */
+function renderTopBar(acc) {
+    const tb = document.getElementById('tbStats');
+    const xp = getXp();
+    const streak = getStreak();
+    if (!acc) {
+        tb.innerHTML = '<button class="tb-login-btn" onclick="openModal()">Anmelden</button>';
+        return;
+    }
+    tb.innerHTML = `
+        <div class="tb-stat"><span class="tb-stat-icon">⚡</span><span class="tb-stat-val">${xp}</span><span style="color:var(--muted);font-size:.78rem">XP</span></div>
+        <div class="tb-stat"><span class="tb-stat-icon">🔥</span><span class="tb-stat-val">${streak}</span></div>
+        <div class="tb-avatar" style="background:${acc.avatarColor}" onclick="window.location='profil.html'">${acc.username.charAt(0).toUpperCase()}</div>
+    `;
+}
+
+function renderMap(xp) {
+    const wrap = document.getElementById('mapWrap');
+    wrap.innerHTML = '';
+
+    for (let lvl = 0; lvl < 6; lvl++) {
+        const col   = LVL_COLORS[lvl];
+        const bg    = LVL_BG[lvl];
+        const ls    = LVL_XP[lvl];
+        const le    = LVL_XP[lvl + 1] || ls + 350;
+        const isUnl = xp >= ls;
+        const xpIn  = Math.max(0, Math.min(xp - ls, le - ls));
+        const pct   = isUnl ? Math.round(xpIn / (le - ls) * 100) : 0;
+
+        /* level banner */
+        const banner = document.createElement('div');
+        banner.className = 'lvl-banner';
+        banner.innerHTML = `
+            <div class="lvl-badge" style="background:${isUnl?col:'#1e2a3a'};border-color:${isUnl?col:'#2d3d50'}">
+                ${lvl+1}
             </div>
-            <div class="progress-stat">
-                <div class="progress-stat-val" id="overviewLevels">1 / 6</div>
-                <div class="progress-stat-label">Level freigeschaltet</div>
+            <div class="lvl-info">
+                <div class="lvl-name" style="color:${isUnl?col:getComputedStyle(document.documentElement).getPropertyValue('--muted')}">${LVL_NAMES[lvl]}</div>
+                <div class="lvl-sub">${LVL_SUBS[lvl]}</div>
+                ${isUnl
+                    ? `<div class="lvl-xp-track"><div class="lvl-xp-fill" style="width:${pct}%;background:${col}"></div></div>
+                       <div class="lvl-xp-txt">${xpIn} / ${le-ls} XP</div>`
+                    : `<div class="lvl-xp-txt" style="margin-top:.4rem">🔒 ${ls} XP zum Freischalten</div>`
+                }
             </div>
-            <div class="progress-stat">
-                <div class="progress-stat-val" id="overviewStreak">0</div>
-                <div class="progress-stat-label">Tage-Streak</div>
-            </div>
-        </div>
+        `;
+        wrap.appendChild(banner);
 
-        <div class="path-spine" id="pathSpine"></div>
+        /* nodes */
+        NODES[lvl].forEach((nd, i) => {
+            const state = nodeState(lvl, i);
+            const ml    = WIND[i % WIND.length];
 
-    </main>
+            const outer = document.createElement('div');
+            outer.className = `nd nd-${state}`;
+            outer.style.marginLeft = ml + '%';
+            outer.style.setProperty('--nd-color', col);
+            outer.style.setProperty('--nd-bg', bg);
 
-    <script>
-        const ACCOUNT_STORE_KEY = 'mathlevel-accounts-v1';
-        const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
-
-        const LEVELS = [
-            {
-                id: 1, code: 'L1', title: 'Grundlagen',
-                subtitle: 'Grundschule & Unterstufe',
-                color: '#4ade80', bg: 'rgba(74,222,128,0.15)',
-                topics: [
-                    { name: 'Bruchrechnung', icon: '\u00bd' },
-                    { name: 'Prozente',      icon: '%'       },
-                    { name: 'Geometrie',     icon: '\u25b3'  },
-                    { name: 'Dreisatz',      icon: '\u221d'  }
-                ]
-            },
-            {
-                id: 2, code: 'L2', title: 'Aufbauwissen',
-                subtitle: 'Unter- & Mittelstufe',
-                color: '#facc15', bg: 'rgba(250,204,21,0.15)',
-                topics: [
-                    { name: 'Gleichungen',    icon: 'x\ufe0f' },
-                    { name: 'Funktionen',     icon: 'f(x)'    },
-                    { name: 'Trigonometrie',  icon: 'sin'      },
-                    { name: 'Potenzen',       icon: 'x\u00b2' }
-                ]
-            },
-            {
-                id: 3, code: 'L3', title: 'Vertiefung',
-                subtitle: 'Oberstufe / Schulabschluss',
-                color: '#f59e0b', bg: 'rgba(245,158,11,0.15)',
-                topics: [
-                    { name: 'Ableitungen',  icon: "f\u2032" },
-                    { name: 'Integrale',    icon: '\u222b'  },
-                    { name: 'Stochastik',   icon: '\uD83C\uDFB2' },
-                    { name: 'Vektoren',     icon: '\u2192'  }
-                ]
-            },
-            {
-                id: 4, code: 'L4', title: 'Universit\u00e4tsgrundlagen',
-                subtitle: 'Studienanfang',
-                color: '#60a5fa', bg: 'rgba(96,165,250,0.15)',
-                topics: [
-                    { name: 'Lineare Algebra',   icon: '[M]'   },
-                    { name: 'DGL',               icon: "y\u2032" },
-                    { name: 'Komplexe Zahlen',   icon: 'i'     },
-                    { name: 'Reihen',            icon: '\u03a3' }
-                ]
-            },
-            {
-                id: 5, code: 'L5', title: 'Angewandte Mathematik',
-                subtitle: 'Fortgeschrittenes Studium',
-                color: '#8b5cf6', bg: 'rgba(139,92,246,0.15)',
-                topics: [
-                    { name: 'Fourier',           icon: '\u223c'  },
-                    { name: 'Laplace',           icon: '\u2112'  },
-                    { name: 'Resonanz',          icon: '\u03c9'  },
-                    { name: 'Regelungstechnik',  icon: '\u2699\ufe0f' }
-                ]
-            },
-            {
-                id: 6, code: 'L6', title: 'Forschung & Simulation',
-                subtitle: 'Wissenschaft / Spezialisierung',
-                color: '#9ca3af', bg: 'rgba(156,163,175,0.15)',
-                topics: [
-                    { name: 'Partielle DGL',  icon: '\u2202'  },
-                    { name: 'Stochastik',     icon: '\uD83D\uDCC8' },
-                    { name: 'Numerik',        icon: '\u2248'  },
-                    { name: 'FEM',            icon: '\u29c6'  },
-                    { name: 'Optimierung',    icon: '\u2197\ufe0f' }
-                ]
+            const circle = document.createElement(state !== 'locked' ? 'a' : 'div');
+            circle.className = 'nd-circle';
+            circle.style.borderColor = state === 'locked' ? '#2d3d50'
+                                     : state === 'done'   ? col
+                                     : col;
+            circle.style.background  = state === 'locked' ? '#1e2a3a'
+                                     : state === 'done'   ? col
+                                     : bg;
+            if (state !== 'locked') {
+                circle.href = 'index.html?level=' + (lvl+1) + '&topic=' + encodeURIComponent(nd[2]);
             }
-        ];
 
-        function loadState() {
-            try {
-                const raw = localStorage.getItem(ACCOUNT_STORE_KEY);
-                if (!raw) return null;
-                const store = JSON.parse(raw);
-                if (!store || !store.current || !store.accounts) return null;
-                const account = store.accounts[store.current];
-                if (!account) return null;
-                const summary = (account.progress && account.progress.summary) || {};
-                return {
-                    xp:     summary.xp     || 0,
-                    streak: summary.streak || 0,
-                    username: account.username || 'Gast'
-                };
-            } catch (e) { return null; }
-        }
+            const icon = document.createElement('span');
+            icon.className = 'nd-label-icon';
+            icon.textContent = nd[0];
 
-        function isUnlocked(levelIdx, xp) {
-            return xp >= LEVEL_XP_THRESHOLDS[levelIdx];
-        }
+            const badge = document.createElement('div');
+            badge.className = 'nd-done-badge';
+            badge.textContent = '✓';
 
-        function xpInLevel(levelIdx, xp) {
-            const start = LEVEL_XP_THRESHOLDS[levelIdx];
-            const end   = LEVEL_XP_THRESHOLDS[levelIdx + 1] || start + 250;
-            const earned = Math.max(0, xp - start);
-            const range  = end - start;
-            return { earned, range, pct: Math.min(earned / range * 100, 100) };
-        }
+            circle.appendChild(icon);
+            circle.appendChild(badge);
 
-        function buildPath(xp) {
-            const spine = document.getElementById('pathSpine');
-            spine.innerHTML = '';
+            const label = document.createElement('div');
+            label.className = 'nd-label-below';
+            label.textContent = nd[1];
 
-            LEVELS.forEach((level, idx) => {
-                const unlocked = isUnlocked(idx, xp);
-                const { earned, range, pct } = xpInLevel(idx, xp);
+            outer.appendChild(circle);
+            outer.appendChild(label);
+            wrap.appendChild(outer);
+        });
+    }
+}
 
-                const chapter = document.createElement('div');
-                chapter.className = 'level-chapter';
+function init() {
+    const acc = currentAccount();
+    const xp  = getXp();
 
-                // Dot
-                const dot = document.createElement('div');
-                dot.className = 'level-dot';
-                dot.textContent = level.id;
-                dot.style.background = unlocked ? level.color : '#374151';
-                dot.style.borderColor = unlocked ? level.color : '#4b5563';
-                dot.style.boxShadow   = unlocked ? '0 0 12px ' + level.color + '55' : 'none';
-                chapter.appendChild(dot);
+    renderTopBar(acc);
 
-                // Card
-                const card = document.createElement('div');
-                card.className = 'level-card ' + (unlocked ? 'unlocked' : 'locked');
+    const hero = document.getElementById('guestHero');
+    const map  = document.getElementById('mapWrap');
 
-                // Header
-                const header = document.createElement('div');
-                header.className = 'level-card-header';
+    if (!acc) {
+        hero.style.display = 'block';
+        map.style.opacity  = '.35';
+        map.style.pointerEvents = 'none';
+    } else {
+        hero.style.display = 'none';
+        map.style.opacity  = '1';
+        map.style.pointerEvents = 'auto';
+    }
 
-                const badge = document.createElement('span');
-                badge.className = 'level-badge';
-                badge.textContent = level.code;
-                badge.style.background = unlocked ? level.bg    : 'rgba(255,255,255,0.05)';
-                badge.style.color      = unlocked ? level.color : '#6b7280';
-                badge.style.border     = '1px solid ' + (unlocked ? level.color + '44' : 'rgba(255,255,255,0.08)');
+    renderMap(xp);
+}
 
-                const title = document.createElement('div');
-                title.className = 'level-title';
-                title.textContent = level.title;
-
-                header.appendChild(badge);
-                header.appendChild(title);
-
-                if (!unlocked) {
-                    const lockNote = document.createElement('div');
-                    lockNote.className = 'level-lock-note';
-                    lockNote.textContent = '\uD83D\uDD12 ' + LEVEL_XP_THRESHOLDS[idx] + ' XP';
-                    header.appendChild(lockNote);
-                }
-                card.appendChild(header);
-
-                // Subtitle
-                const sub = document.createElement('div');
-                sub.style.cssText = 'font-size:.78rem;color:var(--text-muted);margin-bottom:.9rem;margin-top:-.3rem';
-                sub.textContent = level.subtitle;
-                card.appendChild(sub);
-
-                // XP progress bar
-                const xpRow = document.createElement('div');
-                xpRow.className = 'level-xp-row';
-                if (unlocked) {
-                    const track = document.createElement('div');
-                    track.className = 'level-xp-track';
-                    const fill = document.createElement('div');
-                    fill.className = 'level-xp-fill';
-                    fill.style.width = pct + '%';
-                    fill.style.background = level.color;
-                    track.appendChild(fill);
-                    const label = document.createElement('div');
-                    label.className = 'level-xp-label';
-                    label.textContent = earned + ' / ' + range + ' XP';
-                    xpRow.appendChild(track);
-                    xpRow.appendChild(label);
-                }
-                card.appendChild(xpRow);
-
-                // Topics
-                const grid = document.createElement('div');
-                grid.className = 'topics-grid';
-
-                level.topics.forEach(topic => {
-                    const node = document.createElement('a');
-                    node.className = 'topic-node ' + (unlocked ? 'unlocked' : 'locked');
-                    if (unlocked) {
-                        node.href = 'index.html?level=' + level.id + '&topic=' + encodeURIComponent(topic.name);
-                    }
-
-                    const icon = document.createElement('span');
-                    icon.className = 'topic-icon';
-                    icon.textContent = topic.icon;
-
-                    const name = document.createElement('span');
-                    name.textContent = topic.name;
-
-                    node.appendChild(icon);
-                    node.appendChild(name);
-
-                    if (unlocked) {
-                        node.style.borderColor = level.color + '55';
-                        node.addEventListener('mouseenter', () => {
-                            node.style.background = level.bg;
-                            node.style.borderColor = level.color + 'aa';
-                        });
-                        node.addEventListener('mouseleave', () => {
-                            node.style.background = 'rgba(255,255,255,.07)';
-                            node.style.borderColor = level.color + '55';
-                        });
-                    }
-
-                    grid.appendChild(node);
-                });
-                card.appendChild(grid);
-
-                // CTA button
-                const cta = document.createElement('a');
-                cta.className = 'level-cta' + (unlocked ? '' : ' disabled');
-                cta.textContent = unlocked ? 'Lektion starten \u2192' : '\uD83D\uDD12 Gesperrt';
-                if (unlocked) {
-                    cta.href = 'index.html?level=' + level.id;
-                    cta.style.background = level.color;
-                    cta.style.color = level.id === 2 || level.id === 3 ? '#000' : '#fff';
-                }
-                card.appendChild(cta);
-
-                chapter.appendChild(card);
-                spine.appendChild(chapter);
-            });
-        }
-
-        function init() {
-            const state = loadState();
-            const xp = state ? state.xp : 0;
-
-            // Guest note
-            if (!state) {
-                document.getElementById('guestNote').style.display = 'block';
-            }
-
-            // Header XP
-            document.getElementById('xpFill').style.width = (xp % 500) / 5 + '%';
-            document.getElementById('xpLabel').textContent = xp + ' XP';
-
-            // Overview stats
-            const unlockedCount = LEVEL_XP_THRESHOLDS.filter(t => xp >= t).length;
-            document.getElementById('overviewXp').textContent = xp;
-            document.getElementById('overviewLevels').textContent = unlockedCount + ' / 6';
-            document.getElementById('overviewStreak').textContent = state ? state.streak : 0;
-
-            // Build path
-            buildPath(xp);
-        }
-
-        init();
-    </script>
+init();
+</script>
 
 </body>
 </html>

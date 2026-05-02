@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.9.0`
+- `v2.0.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,25 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v2.0.0)
+Duolingo-style Lernpfad – complete rebuild:
+
+### Changes in this iteration
+- **`app/lernpfad.html`** (complete rewrite): Full Duolingo-style gamified skill map.
+  - 72 skill nodes: 12 individual topics per level × 6 levels.
+  - Level 1 starts at fundamentals (Einmaleins, Addition, Brüche, Dezimalzahlen, …).
+  - Winding S-curve layout using `WIND = [8, 28, 50, 70, 50, 28, 8, 28, 50, 70, 50, 28]` % margin-left pattern.
+  - Node states: `nd-locked` (dark/no pointer), `nd-active` (bouncing glow animation), `nd-done` (filled color + ✓ badge).
+  - XP-based progression: `LVL_XP = [0, 50, 150, 300, 500, 750, 1100]` gates each level.
+  - **Account system on-page**: register/login modal directly on the Lernpfad page; no redirect to app required. Writes to same `mathlevel-accounts-v1` localStorage key as the main app.
+  - Guest hero shown when not logged in (dimmed map + pulsing "Jetzt starten" CTA).
+  - Top bar shows live XP + streak for logged-in user, avatar links to profil.html.
+  - Level banners with color-coded XP progress bars per level.
+
+### Files touched
+- `app/lernpfad.html`
+- `STATUS.md`, `VERSION.md`, `BACKLOG.md`
 
 ## Last completed task (v1.9.0)
 Achievement modal + Daily Challenge (Tagesaufgabe):
