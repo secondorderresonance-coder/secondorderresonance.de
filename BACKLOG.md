@@ -43,7 +43,7 @@
 - [x] Add placement result handoff to recommended archive filter preset
 - [x] Expand L1-L3 school curriculum coverage batch with broader topics (Arithmetik, Geometrie, Funktionen, Stochastik, Trigonometrie)
 - [x] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches) – Batch 1 (T-4/5/6-007) + Batch 2 (T-4-008/009/010, T-5-008/009/010, T-6-008/009/010)
-- [ ] Continue L1-L3 school curriculum expansion in small mapped batches (remaining topic matrix toward full school coverage)
+- [x] Continue L1-L3 school curriculum expansion in small mapped batches (remaining topic matrix toward full school coverage)
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)

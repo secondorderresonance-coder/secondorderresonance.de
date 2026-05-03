@@ -30,6 +30,45 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
+## Last completed task (v1.2.21)
+L1-L3 school curriculum expansion – Batch 2 (18 neue Seed-Tasks):
+
+### Changes in this iteration
+- **T-1-021** (Negative Zahlen subtrahieren): Minus-Minus-Regel, Zahlengerade.
+- **T-1-022** (Flaecheninhalt Dreieck): A = Grundlinie * Hoehe / 2.
+- **T-1-023** (Terme vereinfachen): Gleichartige Terme zusammenfassen.
+- **T-1-024** (Groessten gemeinsamen Teiler): ggT von 24 und 36.
+- **T-1-025** (Laengeneinheiten umrechnen): km → cm Umrechnung.
+- **T-1-026** (Potenzen berechnen): 2^5 und 3^3.
+- **T-2-021** (Lineare Gleichung mit Bruechen): kgV-Methode.
+- **T-2-022** (Terme faktorisieren): gemeinsamen Faktor ausklammern.
+- **T-2-023** (Direkte Proportionalitaet): Dreisatz-Anwendung Alltag.
+- **T-2-024** (Kreisumfang und Kreisflaeche): U = 2πr, A = πr².
+- **T-2-025** (Winkelsumme im Viereck): 360-Grad-Regel.
+- **T-2-026** (Einfache Zinsrechnung): jaehrliche Zinsen, 3 Jahre.
+- **T-3-021** (Polynomdivision einfach): (x³ - x² - 4x + 4) / (x - 1).
+- **T-3-022** (Monotonie und lokales Extremum): Kurvendiskussion f(x)=x³-3x.
+- **T-3-023** (Halbwertszeit berechnen): N(t)=200*0,5^(t/5), Zielwert 25.
+- **T-3-024** (Skalarprodukt und Winkel): orthogonale Vektoren.
+- **T-3-025** (Sigma-Regeln der Normalverteilung): 68-95-99,7-Regel.
+- **T-3-026** (Bestimmtes Integral): Integral von 3x² von 0 bis 2.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- Marker check: T-1-021 through T-1-026, T-2-021 through T-2-026, T-3-021 through T-3-026
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P4: Cloud-Sync fuer SOR-Accounts (Firebase Auth + Firestore).
+- Or add another L1-L3 curriculum batch covering remaining topics (Stochastik L1, Geometrie 3D, Trigonometrie Schulabschluss).
+
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
 

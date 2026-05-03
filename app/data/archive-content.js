@@ -639,6 +639,96 @@ window.SOR_ARCHIVE = {
             type: "kurzantwort",
             estimatedTime: 2
         },
+
+        {
+            id: "T-1-021",
+            title: "Negative Zahlen subtrahieren",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["negative zahlen", "subtraktion", "zahlengerade"],
+            difficulty: "leicht",
+            question: "Berechne -3 - (-7).",
+            answer: "4",
+            explanation: "Minus mal Minus ergibt Plus: -3 - (-7) = -3 + 7 = 4.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-022",
+            title: "Flaecheninhalt Dreieck",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Geometrie",
+            tags: ["flaeche", "dreieck", "grundlinie"],
+            difficulty: "leicht",
+            question: "Ein Dreieck hat Grundlinie 10 cm und Hoehe 6 cm. Berechne den Flaecheninhalt.",
+            answer: "30 cm^2",
+            explanation: "A = (Grundlinie * Hoehe) / 2 = (10 * 6) / 2 = 30 cm^2.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-023",
+            title: "Terme vereinfachen",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["terme", "gleichartige terme"],
+            difficulty: "leicht",
+            question: "Vereinfache: 3a + 5b - a + 2b.",
+            answer: "2a + 7b",
+            explanation: "Gleichartige Terme zusammenfassen: 3a - a = 2a und 5b + 2b = 7b.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-024",
+            title: "Groessten gemeinsamen Teiler",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["ggT", "teiler"],
+            difficulty: "leicht",
+            question: "Bestimme den groessten gemeinsamen Teiler (ggT) von 24 und 36.",
+            answer: "12",
+            explanation: "Teiler von 24: 1,2,3,4,6,8,12,24. Teiler von 36: 1,2,3,4,6,9,12,18,36. Groesster gemeinsamer Teiler ist 12.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-1-025",
+            title: "Laengeneinheiten umrechnen",
+            level: "1",
+            sublevel: "1.2",
+            topic: "Dreisatz",
+            tags: ["einheiten", "laenge", "umrechnen"],
+            difficulty: "leicht",
+            question: "Wie viele Zentimeter sind 3,5 km?",
+            answer: "350 000 cm",
+            explanation: "1 km = 1000 m = 100 000 cm. Also 3,5 km = 3,5 * 100 000 = 350 000 cm.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-1-026",
+            title: "Potenzen berechnen",
+            level: "1",
+            sublevel: "1.1.1",
+            topic: "Grundrechenarten",
+            tags: ["potenz", "basis", "exponent"],
+            difficulty: "leicht",
+            question: "Berechne 2^5 und 3^3.",
+            answer: "2^5 = 32, 3^3 = 27",
+            explanation: "2^5 = 2*2*2*2*2 = 32. 3^3 = 3*3*3 = 27.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
         {
             id: "T-2-001",
             title: "Lineare Gleichung lÃ¶sen",
@@ -935,6 +1025,96 @@ window.SOR_ARCHIVE = {
             type: "kurzantwort",
             estimatedTime: 3
         },
+
+        {
+            id: "T-2-021",
+            title: "Lineare Gleichung mit Bruechen",
+            level: "2",
+            sublevel: "2.1.1.a",
+            topic: "Gleichungen loesen und umstellen",
+            tags: ["gleichung", "brueche", "kgV"],
+            difficulty: "mittel",
+            question: "Loese x/3 + x/6 = 5.",
+            answer: "x = 10",
+            explanation: "kgV von 3 und 6 ist 6. Multipliziere mit 6: 2x + x = 30 -> 3x = 30 -> x = 10.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-2-022",
+            title: "Terme faktorisieren",
+            level: "2",
+            sublevel: "2.1.1.b",
+            topic: "Gleichungen loesen und umstellen",
+            tags: ["faktorisieren", "terme", "klammern"],
+            difficulty: "mittel",
+            question: "Faktorisiere 3x^2 - 6x.",
+            answer: "3x(x - 2)",
+            explanation: "Gemeinsamer Faktor 3x ausklammern: 3x * x - 3x * 2 = 3x(x - 2).",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-023",
+            title: "Direkte Proportionalitaet",
+            level: "2",
+            sublevel: "2.1",
+            topic: "Gleichungen loesen und umstellen",
+            tags: ["proportionalitaet", "dreisatz", "quotient"],
+            difficulty: "mittel",
+            question: "5 Hefte kosten 7,50 Euro. Was kosten 8 Hefte?",
+            answer: "12 Euro",
+            explanation: "Preis pro Heft: 7,50 / 5 = 1,50 Euro. Fuer 8 Hefte: 8 * 1,50 = 12 Euro.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-024",
+            title: "Kreisumfang und Kreisflaeche",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen und Graphen",
+            tags: ["kreis", "flaeche", "umfang"],
+            difficulty: "mittel",
+            question: "Ein Kreis hat Radius r = 5 cm. Berechne Umfang U und Flaeche A (pi als 3,14 verwenden).",
+            answer: "U = 31,4 cm, A = 78,5 cm^2",
+            explanation: "U = 2 * pi * r = 2 * 3,14 * 5 = 31,4 cm. A = pi * r^2 = 3,14 * 25 = 78,5 cm^2.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-2-025",
+            title: "Winkelsumme im Viereck",
+            level: "2",
+            sublevel: "2.2",
+            topic: "Funktionen und Graphen",
+            tags: ["winkel", "viereck", "geometrie"],
+            difficulty: "leicht",
+            question: "In einem Viereck sind drei Winkel 80 Grad, 95 Grad und 110 Grad bekannt. Wie gross ist der vierte Winkel?",
+            answer: "75 Grad",
+            explanation: "Winkelsumme im Viereck = 360 Grad. Vierter Winkel = 360 - 80 - 95 - 110 = 75 Grad.",
+            type: "kurzantwort",
+            estimatedTime: 2
+        },
+
+        {
+            id: "T-2-026",
+            title: "Einfache Zinsrechnung",
+            level: "2",
+            sublevel: "2.1",
+            topic: "Gleichungen loesen und umstellen",
+            tags: ["zinsen", "kapital", "prozent", "alltag"],
+            difficulty: "mittel",
+            question: "Ein Kapital von 2 000 Euro wird 3 Jahre lang mit 4% pro Jahr verzinst. Wie hoch sind die Zinsen insgesamt?",
+            answer: "240 Euro",
+            explanation: "Jaehrliche Zinsen: 2 000 * 0,04 = 80 Euro. Fuer 3 Jahre: 3 * 80 = 240 Euro (einfache Verzinsung).",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
         {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
@@ -1227,6 +1407,96 @@ window.SOR_ARCHIVE = {
             explanation: "f'(x)=2x, also m=f'(3)=6. Punkt: (3,9). Tangente: y-9=6(x-3) -> y=6x-9.",
             type: "kurzantwort",
             estimatedTime: 4
+        },
+
+        {
+            id: "T-3-021",
+            title: "Polynomdivision einfach",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["polynomdivision", "nullstelle", "faktorisierung"],
+            difficulty: "schwer",
+            question: "Dividiere (x^3 - x^2 - 4x + 4) durch (x - 1).",
+            answer: "x^2 - 4",
+            explanation: "(x^3 - x^2 - 4x + 4) / (x - 1) = x^2 - 4, da x=1 eine Nullstelle ist und der Rest 0 ist.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-3-022",
+            title: "Monotonie und lokales Extremum",
+            level: "3",
+            sublevel: "3.1.1.b",
+            topic: "Analysis",
+            tags: ["kurvendiskussion", "extremum", "ableitung"],
+            difficulty: "schwer",
+            question: "f(x) = x^3 - 3x. Bestimme alle lokalen Extrema.",
+            answer: "Lokales Maximum bei x = -1 (f(-1) = 2), lokales Minimum bei x = 1 (f(1) = -2)",
+            explanation: "f'(x) = 3x^2 - 3 = 0 -> x^2 = 1 -> x = +/-1. f''(x) = 6x. f''(-1) = -6 < 0 (Max), f''(1) = 6 > 0 (Min).",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-3-023",
+            title: "Halbwertszeit berechnen",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["halbwertszeit", "exponentialfunktion", "abnahme"],
+            difficulty: "schwer",
+            question: "Ein radioaktiver Stoff hat die Menge N(t) = 200 * 0,5^(t/5) (t in Jahren). Nach wie vielen Jahren ist noch 25 g vorhanden?",
+            answer: "t = 15 Jahre",
+            explanation: "25 = 200 * 0,5^(t/5) -> 0,5^(t/5) = 1/8 = 0,5^3 -> t/5 = 3 -> t = 15.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
+            id: "T-3-024",
+            title: "Skalarprodukt und Winkel",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["skalarprodukt", "winkel", "vektor"],
+            difficulty: "schwer",
+            question: "Berechne den Winkel zwischen a = (3,0) und b = (0,4) (Ergebnis auf ganze Grad runden).",
+            answer: "90 Grad",
+            explanation: "Skalarprodukt a*b = 3*0 + 0*4 = 0. Da das Skalarprodukt 0 ist, stehen die Vektoren senkrecht aufeinander: Winkel = 90 Grad.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-025",
+            title: "Sigma-Regeln der Normalverteilung",
+            level: "3",
+            sublevel: "3.2",
+            topic: "Stochastik und Vektoren",
+            tags: ["normalverteilung", "sigma", "wahrscheinlichkeit"],
+            difficulty: "mittel",
+            question: "Eine Messgroe ist normalverteilt mit Mittelwert 100 und Standardabweichung 10. Wie gross ist ungefaehr die Wahrscheinlichkeit, dass ein Wert zwischen 80 und 120 liegt?",
+            answer: "ca. 95%",
+            explanation: "Das Intervall [80,120] umfasst +/-2 Sigma um den Mittelwert. Gemaess der 68-95-99,7-Regel liegen ca. 95% der Werte in diesem Bereich.",
+            type: "kurzantwort",
+            estimatedTime: 3
+        },
+
+        {
+            id: "T-3-026",
+            title: "Bestimmtes Integral berechnen",
+            level: "3",
+            sublevel: "3.1",
+            topic: "Analysis",
+            tags: ["integral", "flaecheninhalt", "bestimmt"],
+            difficulty: "schwer",
+            question: "Berechne das bestimmte Integral von f(x) = 3x^2 von x = 0 bis x = 2.",
+            answer: "8",
+            explanation: "Stammfunktion von 3x^2 ist x^3. Einsetzen: [x^3] von 0 bis 2 = 2^3 - 0^3 = 8 - 0 = 8.",
+            type: "kurzantwort",
+            estimatedTime: 3
         },
         {
             id: "T-4-001",
