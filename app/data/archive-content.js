@@ -89,6 +89,7 @@ window.SOR_ARCHIVE = {
                 { id: "4.1.1.a", title: "Determinanten in Anwendungen" },
                 { id: "4.1.1.a", title: "Matrixrechnung" },
                 { id: "4.1.1.b", title: "Determinanten und Eigenwerte" },
+                { id: "4.1.1.c", title: "Differentialgleichungen mit Anfangswerten" },
                 { id: "4.2", title: "Analysis I und DGL" }
             ]
         },
@@ -482,6 +483,51 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-4-008",
+            title: "Diagonalisierung einer Matrix",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["eigenwerte", "diagonalisierung", "basis"],
+            difficulty: "schwer",
+            question: "Erklaere das Verfahren zur Diagonalisierung einer diagonalisierbaren quadratischen Matrix A.",
+            answer: "Man berechnet Eigenwerte und Eigenvektoren, bildet die Matrix P aus den Eigenvektoren und erhaelt D = P^{-1} A P als Diagonalmatrix.",
+            explanation: "Kernidee: Eine diagonalisierbare Matrix wirkt in einer geeigneten Eigenvektorbasis wie eine reine Skalierung ohne Rotation. Intuition: In der Eigenbasis zeigt A nur noch, um welchen Faktor jede Richtung gestreckt wird. Schritte: 1) Berechne charakteristisches Polynom det(A - lambda*I) = 0. 2) Finde alle Eigenwerte lambda_i. 3) Loese fuer jeden Eigenwert (A - lambda_i*I)v = 0 und bestimme Eigenvektor v_i. 4) Bilde P = [v_1 | v_2 | ...] und berechne P^{-1}. 5) Pruefe D = P^{-1}*A*P auf Diagonalgestalt. Haeufiger Fehler: P^{-1} falsch berechnen oder Eigenvektoren vertauschen. Schnellcheck: Die Diagonaleintraege von D muessen genau die Eigenwerte sein.",
+            type: "konzeptfrage",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-4-009",
+            title: "Polarform komplexer Zahlen",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Komplexe Zahlen",
+            tags: ["polarform", "betrag", "argument", "euler"],
+            difficulty: "mittel",
+            question: "Schreibe z = -1 + i in Polarform r*e^{i*phi} und bestimme r sowie phi.",
+            answer: "r = sqrt(2), phi = 3*pi/4; also z = sqrt(2)*e^{i*3*pi/4}.",
+            explanation: "Kernidee: Jede komplexe Zahl laesst sich als Abstand vom Ursprung (Betrag) und Winkel (Argument) darstellen. Intuition: Statt kartesisch Real- und Imaginaerteil anzugeben, beschreibt man den Zeiger in der Gauß'schen Zahlenebene durch Laenge und Richtung. Schritte: 1) Berechne r = |z| = sqrt((-1)^2 + 1^2) = sqrt(2). 2) Bestimme den Rohwinkel arctan(Im/Re) = arctan(1/(-1)) = arctan(-1) = -pi/4. 3) Da z im zweiten Quadranten liegt (Re < 0, Im > 0), korrigiere auf phi = pi + (-pi/4) = 3*pi/4. 4) Schreibe z = sqrt(2)*e^{i*3*pi/4}. Haeufiger Fehler: Vorzeichen ignorieren und den Quadranten nicht beachten. Schnellcheck: Re(z) = r*cos(phi) = sqrt(2)*cos(3*pi/4) = sqrt(2)*(-1/sqrt(2)) = -1 passt.",
+            type: "kurzantwort",
+            estimatedTime: 5
+        },
+
+        {
+            id: "T-4-010",
+            title: "Homogene lineare DGL 2. Ordnung mit konstantem Koeffizient",
+            level: "4",
+            sublevel: "4.1.1.c",
+            topic: "Differentialgleichungen 2. Ordnung",
+            tags: ["dgl", "charakteristisches-polynom", "loesungsansatz"],
+            difficulty: "schwer",
+            question: "Loese y'' - 3y' + 2y = 0 mit Anfangswerten y(0)=1, y'(0)=0.",
+            answer: "y(t) = 2*e^t - e^{2t}.",
+            explanation: "Kernidee: Bei linearen DGL mit konstanten Koeffizienten fuehrt der Exponentialansatz y=e^{lambda*t} auf ein algebraisches Polynom fuer lambda. Intuition: Die Loesung besteht aus einer Linearkombination von Exponentialfunktionen, deren Exponenten die Wurzeln des charakteristischen Polynoms sind. Schritte: 1) Stelle charakteristisches Polynom auf: lambda^2 - 3*lambda + 2 = 0. 2) Bestimme Wurzeln: lambda_1 = 1, lambda_2 = 2. 3) Allgemeine Loesung: y = C1*e^t + C2*e^{2t}. 4) Anfangsbedingungen einsetzen: y(0)=C1+C2=1 und y'(0)=C1+2*C2=0. 5) Loese: C2 = -1, C1 = 2. Haeufiger Fehler: Vorzeichen beim Ableiten der Anfangswertgleichung vertauschen. Schnellcheck: y(0) = 2 - 1 = 1 und y'(0) = 2 - 2 = 0 stimmt.",
+            type: "kurzantwort",
+            estimatedTime: 6
+        },
+
+        {
             id: "T-5-001",
             title: "Fourier-Idee",
             level: "5",
@@ -582,6 +628,51 @@ window.SOR_ARCHIVE = {
         },
 
         {
+            id: "T-5-008",
+            title: "Fourierreihe: Koeffizientenberechnung",
+            level: "5",
+            sublevel: "5.1.1.a",
+            topic: "Fourierreihe",
+            tags: ["fourier", "koeffizienten", "periodisch"],
+            difficulty: "schwer",
+            question: "Erklaere, wie man die Koeffizienten a_n und b_n einer Fourierreihe einer T-periodischen Funktion f berechnet.",
+            answer: "a_n = (2/T) * integral_0^T f(t)*cos(2*pi*n*t/T) dt und b_n = (2/T) * integral_0^T f(t)*sin(2*pi*n*t/T) dt.",
+            explanation: "Kernidee: Eine periodische Funktion laesst sich als unendliche Summe von Sinus- und Kosinusschwingungen verschiedener Frequenzen zerlegen. Intuition: Die trigonometrischen Funktionen bilden ein Orthogonalsystem; durch Integration filtert man gezielt die Staerke jeder Frequenzkomponente heraus. Schritte: 1) Bestimme die Grundperiode T. 2) Berechne a_0 = (1/T)*integral als Gleichanteil. 3) Bilde a_n = (2/T)*integral f(t)*cos(n*omega_0*t) dt mit omega_0 = 2*pi/T. 4) Bilde b_n = (2/T)*integral f(t)*sin(n*omega_0*t) dt. 5) Rekonstruiere f(t) = a_0/2 + sum (a_n*cos + b_n*sin). Haeufiger Fehler: Vorfaktor 2/T oder 1/T vergessen bzw. die Integrationsgrenzen nicht an T anpassen. Schnellcheck: Fuer gerade Funktionen verschwinden alle b_n; fuer ungerade alle a_n.",
+            type: "konzeptfrage",
+            estimatedTime: 6
+        },
+
+        {
+            id: "T-5-009",
+            title: "Nyquist-Stabilitaetskriterium (Grundidee)",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["nyquist", "stabilitaet", "frequenzgang"],
+            difficulty: "schwer",
+            question: "Wie verwendet man das Nyquist-Kriterium zur Stabilitaetsbeurteilung eines geschlossenen Regelkreises?",
+            answer: "Man zaehlt, wie oft der Frequenzgang des offenen Kreises G_o(j*omega) den kritischen Punkt -1+0j im Uhrzeigersinn umschlingt, und nutzt die Nyquist-Formel Z = N + P.",
+            explanation: "Kernidee: Stabilitaet eines Regelkreises laesst sich anhand des Frequenzgangs des offenen Kreises beurteilen, ohne die Pole des geschlossenen Systems direkt zu berechnen. Intuition: Der Punkt -1 entspricht dem Verstaerkungs-Phase-Zustand, bei dem der Kreis sich selbst aufschaukelt. Schritte: 1) Bestimme Frequenzgang G_o(j*omega) fuer omega von -inf bis +inf. 2) Zeichne den Nyquist-Pfad in der komplexen Ebene. 3) Zaehle Umwindungen N des Punktes -1 (positiv = Uhrzeigersinn). 4) Ermittle P = Anzahl instabiler Pole des offenen Kreises. 5) Geschlossener Kreis ist stabil genau dann, wenn Z = N + P = 0. Haeufiger Fehler: Umwindungsrichtung verwechseln oder P nicht korrekt bestimmen. Schnellcheck: Fuer stabile offene Kreise (P=0) muss der Nyquist-Plot den Punkt -1 nicht umschlingen.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-5-010",
+            title: "Abtasttheorem (Shannon-Nyquist)",
+            level: "5",
+            sublevel: "5.1.1.b",
+            topic: "Signalverarbeitung",
+            tags: ["abtastung", "nyquist", "aliasing"],
+            difficulty: "mittel",
+            question: "Welche Mindestabtastfrequenz fordert das Shannon-Nyquist-Theorem, um ein bandbegrenztes Signal mit maximaler Frequenz f_max verlustfrei zu rekonstruieren?",
+            answer: "Die Abtastfrequenz muss mindestens f_s >= 2*f_max betragen.",
+            explanation: "Kernidee: Ein kontinuierliches Signal kann aus diskreten Abtastwerten exakt wiederhergestellt werden, wenn es schnell genug abgetastet wird. Intuition: Tastet man zu langsam ab, erscheinen hohe Frequenzen als niedrige (Aliasing), wie ein sich rueckwaerts drehendes Wagenrad im Film. Schritte: 1) Bestimme die hoefte Signalfrequenz f_max. 2) Waehle f_s > 2*f_max (Nyquist-Bedingung). 3) Setze Anti-Aliasing-Filter vor dem ADC ein, der Frequenzen ueber f_s/2 unterdrueckt. 4) Rekonstruiere mit idealem Tiefpass bei f_s/2. Haeufiger Fehler: Genau f_s = 2*f_max waehlen (Grenzfall, praktisch nicht ausreichend). Schnellcheck: Audio-CDs nutzen 44100 Hz fuer ein Hoersignal bis ca. 20000 Hz, also ca. 2.2-fache Uebertastung.",
+            type: "kurzantwort",
+            estimatedTime: 4
+        },
+
+        {
             id: "T-6-001",
             title: "PDE-Klassifikation",
             level: "6",
@@ -679,6 +770,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Konvergenz entsteht aus zwei Bausteinen: das Verfahren muss das richtige Problem approximieren und numerische Fehler duerfen nicht wachsen. Intuition: Konsistenz sagt, dass das lokale Rechenrezept zur DGL passt; Stabilitaet sorgt dafuer, dass Rundungs- und Stoerfehler nicht explodieren. Schritte: 1) Pruefe Konsistenz ueber lokalen Fehler gegen 0 fuer h->0. 2) Pruefe Stabilitaet, z.B. Fehlerschaetzung bleibt beschraenkt. 3) Folgere Konvergenz fuer lineare gut gestellte Probleme. 4) Interpretiere das Ergebnis immer mit Schrittweitenstudie. Haeufiger Fehler: Nur Konsistenz zu testen und daraus direkt Konvergenz zu behaupten. Schnellcheck: Halbierst du h, muss die Loesung systematisch naeher an eine Referenzloesung ruecken.",
             type: "konzeptfrage",
             estimatedTime: 7
+        },
+
+        {
+            id: "T-6-008",
+            title: "Schwache Formulierung in der FEM",
+            level: "6",
+            sublevel: "6.1.1.b",
+            topic: "Finite-Elemente-Methode",
+            tags: ["fem", "schwache-form", "galerkin"],
+            difficulty: "schwer",
+            question: "Erklaere, warum die FEM mit der schwachen Formulierung einer PDE arbeitet statt mit der starken Form.",
+            answer: "Die schwache Form stellt geringere Glattheitsanforderungen an die Loesung und erlaubt stufenweise Approximation durch stueckweise Polynome als Ansatzfunktionen.",
+            explanation: "Kernidee: Die starke Form einer PDE verlangt klassische Ableitungen, die numerische Ansatzfunktionen nicht immer erfuellen. Die schwache Form uebertraegt Ableitungen per Integration-by-parts auf glattere Testfunktionen. Intuition: Statt punktweise Gleichheit zu fordern, verlangen wir, dass die Gleichung im Integral gegen alle Testfunktionen gilt. Das ist schwaecher und erlaubt mehr Loesungen, aber fuer physikalisch sinnvolle Probleme stimmen starke und schwache Loesung ueberein. Schritte: 1) Multipliziere die PDE mit Testfunktion v und integriere ueber das Gebiet. 2) Verschiebe Ableitungen per partieller Integration auf v. 3) Ersetze v und die Unbekannte durch endlich viele Ansatzfunktionen. 4) Erhalte lineares Gleichungssystem K*u = f. Haeufiger Fehler: Randbedingungen beim partiellen Integrieren nicht korrekt einsetzen. Schnellcheck: Das Steifigkeitsmatrixsystem K*u = f muss dimensionsmaessig zur Anzahl der Freiheitsgrade passen.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-009",
+            title: "Explizites vs. implizites Verfahren bei der Waermeleitungsgleichung",
+            level: "6",
+            sublevel: "6.1.1.a",
+            topic: "Numerische Simulation",
+            tags: ["waermeleitung", "explizit", "implizit", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Vergleiche explizites (Forward Euler) und implizites (Backward Euler) FDM-Schema fuer die Waermeleitungsgleichung hinsichtlich Stabilitaet und Aufwand.",
+            answer: "Explizit: bedingt stabil (delta_t <= h^2/(2*alpha)), guenstig pro Schritt. Implizit: unbedingt stabil, aber Gleichungssystem pro Zeitschritt.",
+            explanation: "Kernidee: Bei der Waermeleitungsgleichung koppeln benachbarte Gitterpunkte die Temperatur; die Wahl des Zeitintegrationsschemas bestimmt, ob Fehler wachsen oder gedaempft werden. Intuition: Explizit heisst: naechster Wert haengt nur von bekannten Groessen ab, leicht zu berechnen, aber fuer zu grosse Zeitschritte explodiert die Loesung. Implizit koppelt alle Punkte im naechsten Zeitschritt gleichzeitig, ist aber fuer beliebige Schrittweiten stabil. Schritte: 1) Diskretisiere u_t = alpha*u_xx. 2) Explizit: u^{n+1}_i = u^n_i + alpha*dt/h^2*(u^n_{i+1} - 2u^n_i + u^n_{i-1}). 3) Stabilitaetsbedingung CFL: r = alpha*dt/h^2 <= 0.5. 4) Implizit: Loese tridiagonales System bei jedem Zeitschritt. Haeufiger Fehler: CFL-Bedingung vergessen und mit zu grossem dt rechnen. Schnellcheck: Verdopple h und viertel dt; der Fehler sollte sich halbieren.",
+            type: "konzeptfrage",
+            estimatedTime: 7
+        },
+
+        {
+            id: "T-6-010",
+            title: "Ito-Lemma: Anwendung auf f(W_t) = W_t^2",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Stochastische Analysis",
+            tags: ["ito", "wiener", "stochastisch"],
+            difficulty: "schwer",
+            question: "Wende das Ito-Lemma auf f(W_t) = W_t^2 an und bestimme df.",
+            answer: "df = 2*W_t*dW_t + dt.",
+            explanation: "Kernidee: Das Ito-Lemma ist die stochastische Kettenregel; wegen (dW_t)^2 = dt erscheint ein zusaetzlicher deterministischer Korrekturterm. Intuition: Bei gewoehnlicher Analysis verschwinden Terme zweiter Ordnung. Beim Wiener-Prozess hat dW_t die Groessenordnung sqrt(dt), daher ist (dW_t)^2 der Groessenordnung dt und muss behalten werden. Schritte: 1) Schreibe f(x) = x^2, also f'(x) = 2x, f''(x) = 2. 2) Ito-Lemma: df = f'(W_t)*dW_t + (1/2)*f''(W_t)*(dW_t)^2. 3) Ersetze (dW_t)^2 = dt: df = 2*W_t*dW_t + (1/2)*2*dt = 2*W_t*dW_t + dt. Haeufiger Fehler: Den (1/2)*f''*dt-Term weglassen wie in der klassischen Kettenregel. Schnellcheck: Integration ergibt W_t^2 = integral 2*W_s*dW_s + t, also E[W_t^2] = t, was mit der bekannten Varianz des Wiener-Prozesses uebereinstimmt.",
+            type: "kurzantwort",
+            estimatedTime: 6
         }
     ], 520),
     placementQuestions: [

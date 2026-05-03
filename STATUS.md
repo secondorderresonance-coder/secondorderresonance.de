@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.0.0`
+- `v2.1.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 3.000 archive tasks (500 per level) for this iteration.
@@ -28,6 +28,27 @@ Current implementation status:
 - Placement results can now apply the recommended level/sublevel directly and jump into the archive browser
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
+
+## Last completed task (v2.1.0)
+L4-L6 Archive-Erweiterung – Batch 2 (9 neue Seed-Tasks):
+
+### Changes in this iteration
+- **`app/data/archive-content.js`**: 9 neue Seed-Tasks mit vollständiger Lehrbuch-Didaktik (Kernidee, Intuition, Schritte, Haeufiger Fehler, Schnellcheck).
+  - **T-4-008** (Lineare Algebra): Diagonalisierung einer Matrix – Eigenvektorbasis, P^{-1}*A*P
+  - **T-4-009** (Komplexe Zahlen): Polarform – Betrag, Argument, Quadrantenkorrektur
+  - **T-4-010** (DGL 2. Ordnung): Homogene lineare DGL mit charakteristischem Polynom, Anfangswerte
+  - **T-5-008** (Fourier): Fourierreihe Koeffizientenberechnung – a_n, b_n, Orthogonalitaet
+  - **T-5-009** (Regelungstechnik): Nyquist-Stabilitaetskriterium – Umwindungen, Z = N + P
+  - **T-5-010** (Signalverarbeitung): Shannon-Nyquist Abtasttheorem – f_s >= 2*f_max, Aliasing
+  - **T-6-008** (FEM): Schwache Formulierung – Galerkin, Integration by parts, Steifigkeitsmatrix
+  - **T-6-009** (Numerik): Explizit vs. implizit bei Waermeleitungsgleichung – CFL-Bedingung, Stabilitaet
+  - **T-6-010** (Stochastik): Ito-Lemma auf W_t^2 – stochastische Kettenregel, dt-Korrekturterm
+- **Taxonomie**: Sublevel `4.1.1.c` ("Differentialgleichungen mit Anfangswerten") zur L4-Taxonomie hinzugefuegt.
+- QA bestanden: 3120 Tasks, 520/Level, OK.
+
+### Files touched
+- `app/data/archive-content.js`
+- `STATUS.md`, `VERSION.md`, `BACKLOG.md`
 
 ## Last completed task (v2.0.0)
 Duolingo-style Lernpfad – complete rebuild:
