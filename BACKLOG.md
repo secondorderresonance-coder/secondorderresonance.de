@@ -12,10 +12,10 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 500 Aufgaben pro Level in dieser Iteration
-- 3.000 Aufgaben insgesamt aktuell verfuegbar
-- 520 Aufgaben pro Level in dieser Iteration
-- 3.120 Aufgaben insgesamt aktuell verfuegbar
+- 1.500 Aufgaben pro Level in dieser Iteration
+- 9.000 Aufgaben insgesamt aktuell verfuegbar
+- L1-L3 Schulabdeckung erweitert bis T-1-020 / T-2-020 / T-3-020
+- L4-L6 Ausbau-Batches aktuell erweitert bis T-4-024 / T-5-024 / T-6-024
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
@@ -41,7 +41,9 @@
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
 - [x] Improve mobile layout of archive and placement sections after real-device pass
 - [x] Add placement result handoff to recommended archive filter preset
+- [x] Expand L1-L3 school curriculum coverage batch with broader topics (Arithmetik, Geometrie, Funktionen, Stochastik, Trigonometrie)
 - [x] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches) – Batch 1 (T-4/5/6-007) + Batch 2 (T-4-008/009/010, T-5-008/009/010, T-6-008/009/010)
+- [ ] Continue L1-L3 school curriculum expansion in small mapped batches (remaining topic matrix toward full school coverage)
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)
@@ -61,6 +63,7 @@
 - [x] Create profile page (app/profil.html) with stats, heatmap, weekly XP chart, level progress
 - [x] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 - [x] Add lesson session flow to app (5-question lessons, lesson-complete modal with XP/stats, Nächste Lektion button)
+- [x] Migrate local account registration/login to email-based identity with per-email progress storage
 
 ## P4
 - [x] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity

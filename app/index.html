@@ -767,7 +767,7 @@
                 <div class="account-avatar" id="accountAvatarEl">?</div>
                 <div class="account-logged-in-meta">
                     <div class="account-logged-in-name" id="accountDisplayName">Username</div>
-                    <div class="account-logged-in-hint">Lokal gespeichert &middot; Cloud-Sync geplant</div>
+                    <div class="account-logged-in-hint" id="accountLoggedInHint">Lokal gespeichert &middot; je E-Mail-Adresse</div>
                 </div>
                 <div class="account-actions">
                     <a href="profil.html" class="account-link-btn">&#128202; Profil</a>
@@ -781,12 +781,15 @@
                     <button class="account-tab active" id="tabLogin" onclick="switchTab('login')">Anmelden</button>
                     <button class="account-tab" id="tabRegister" onclick="switchTab('register')">Registrieren</button>
                 </div>
+                <div id="accountRegisterExtra" style="display:none;margin-bottom:0.5rem">
+                    <input id="accountDisplayNameInput" class="account-input" type="text" placeholder="Anzeigename (z.B. Max)" autocomplete="name" style="width:100%">
+                </div>
                 <div class="account-row">
-                    <input id="accountName" class="account-input" type="text" placeholder="Nutzername" autocomplete="username">
+                    <input id="accountName" class="account-input" type="email" placeholder="E-Mail-Adresse" autocomplete="email">
                     <input id="accountPassword" class="account-input" type="password" placeholder="Passwort" autocomplete="current-password">
                     <button id="accountActionBtn" class="account-btn primary" type="button" onclick="accountAction()">Anmelden</button>
                 </div>
-                <div id="accountStatus" class="account-status">Melde dich an oder erstelle ein kostenloses SOR-Konto.</div>
+                <div id="accountStatus" class="account-status">Melde dich mit deiner E-Mail an oder erstelle ein kostenloses SOR-Konto.</div>
             </div>
         </section>
 
@@ -1821,8 +1824,12 @@
         function normalizeAccountRecord(rawAccount, fallbackAccountId) {
             const account = rawAccount && typeof rawAccount === 'object' ? rawAccount : {};
             const colorIdx = (fallbackAccountId || '').charCodeAt(0) % AVATAR_COLORS.length;
+            // Support legacy username-only accounts: use displayName, fall back to username, then accountId
+            const displayName = account.displayName || account.username || (fallbackAccountId || 'User').split('@')[0] || 'User';
+            const email = account.email || fallbackAccountId || '';
             return {
-                username: account.username || fallbackAccountId || 'User',
+                email: email,
+                displayName: displayName,
                 password: account.password || '',
                 avatarColor: account.avatarColor || AVATAR_COLORS[colorIdx],
                 createdAt: account.createdAt || new Date().toISOString(),
@@ -2068,12 +2075,23 @@
             return String(name || '').trim().toLowerCase();
         }
 
+        function normalizeEmail(email) {
+            return String(email || '').trim().toLowerCase();
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizeEmail(email));
+        }
+
         function updateAccountHeader() {
             const badge = document.getElementById('accountBadge');
             if (!badge) return;
-            badge.textContent = (currentAccountId && accountStore.accounts[currentAccountId])
-                ? accountStore.accounts[currentAccountId].username
-                : 'Kein Account';
+            if (currentAccountId && accountStore.accounts[currentAccountId]) {
+                const a = accountStore.accounts[currentAccountId];
+                badge.textContent = a.displayName || a.email || 'Account';
+            } else {
+                badge.textContent = 'Kein Account';
+            }
         }
 
         let currentTab = 'login';
@@ -2084,12 +2102,14 @@
             const regTab = document.getElementById('tabRegister');
             const actionBtn = document.getElementById('accountActionBtn');
             const status = document.getElementById('accountStatus');
+            const extraRow = document.getElementById('accountRegisterExtra');
             if (loginTab) loginTab.classList.toggle('active', tab === 'login');
             if (regTab) regTab.classList.toggle('active', tab === 'register');
             if (actionBtn) actionBtn.textContent = tab === 'login' ? 'Anmelden' : 'Registrieren';
+            if (extraRow) extraRow.style.display = tab === 'register' ? 'block' : 'none';
             if (status) status.textContent = tab === 'login'
-                ? 'Melde dich mit deinem bestehenden Konto an.'
-                : 'Erstelle dein kostenloses SOR-Konto.';
+                ? 'Melde dich mit deiner registrierten E-Mail an.'
+                : 'Erstelle dein kostenloses SOR-Konto mit E-Mail.';
         }
 
         function accountAction() {
@@ -2108,11 +2128,12 @@
                 loggedOut.style.display = 'none';
                 const avatarEl = document.getElementById('accountAvatarEl');
                 const nameEl = document.getElementById('accountDisplayName');
+                const label = account.displayName || account.email || 'User';
                 if (avatarEl) {
-                    avatarEl.textContent = account.username.charAt(0).toUpperCase();
+                    avatarEl.textContent = label.charAt(0).toUpperCase();
                     avatarEl.style.background = account.avatarColor || '#e94560';
                 }
-                if (nameEl) nameEl.textContent = account.username;
+                if (nameEl) nameEl.textContent = label;
             } else {
                 loggedIn.style.display = 'none';
                 loggedOut.style.display = 'block';
@@ -2141,28 +2162,35 @@
         }
 
         function registerAccount() {
-            const nameInput = document.getElementById('accountName');
+            const emailInput = document.getElementById('accountName');
             const passInput = document.getElementById('accountPassword');
-            const name = nameInput ? nameInput.value.trim() : '';
+            const nameInput = document.getElementById('accountDisplayNameInput');
+            const email = emailInput ? normalizeEmail(emailInput.value) : '';
             const pass = passInput ? passInput.value : '';
+            const displayName = nameInput ? nameInput.value.trim() : '';
 
-            if (name.length < 3) {
-                showToast('Nutzername: mindestens 3 Zeichen');
+            if (!isValidEmail(email)) {
+                showToast('Bitte eine gültige E-Mail-Adresse eingeben');
                 return;
             }
-            if (pass.length < 4) {
-                showToast('Passwort: mindestens 4 Zeichen');
+            if (displayName.length < 2) {
+                showToast('Anzeigename: mindestens 2 Zeichen');
+                return;
+            }
+            if (pass.length < 6) {
+                showToast('Passwort: mindestens 6 Zeichen');
                 return;
             }
 
-            const accountId = normalizeAccountId(name);
+            const accountId = normalizeAccountId(email);
             if (accountStore.accounts[accountId]) {
-                showToast('Account existiert bereits');
+                showToast('Diese E-Mail ist bereits registriert');
                 return;
             }
 
             accountStore.accounts[accountId] = {
-                username: name,
+                email: accountId,
+                displayName: displayName,
                 password: pass,
                 avatarColor: AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
                 createdAt: new Date().toISOString(),
@@ -2171,25 +2199,30 @@
                 progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
-            showToast('Account erstellt und angemeldet');
+            showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
+            if (nameInput) nameInput.value = '';
         }
 
         function loginAccount() {
-            const nameInput = document.getElementById('accountName');
+            const emailInput = document.getElementById('accountName');
             const passInput = document.getElementById('accountPassword');
-            const name = nameInput ? nameInput.value.trim() : '';
+            const email = emailInput ? normalizeEmail(emailInput.value) : '';
             const pass = passInput ? passInput.value : '';
-            const accountId = normalizeAccountId(name);
+            const accountId = normalizeAccountId(email);
             const account = accountStore.accounts[accountId];
 
+            if (!isValidEmail(email)) {
+                showToast('Bitte eine gueltige E-Mail-Adresse eingeben');
+                return;
+            }
             if (!account || account.password !== pass) {
-                showToast('Login fehlgeschlagen');
+                showToast('E-Mail oder Passwort falsch');
                 return;
             }
 
             applyAccountProgress(accountId);
-            showToast('Erfolgreich angemeldet');
+            showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
         }
 
@@ -2219,7 +2252,7 @@
         function bindAccountEvents() {
             const logoutBtn = document.getElementById('accountLogoutBtn');
             if (logoutBtn) logoutBtn.addEventListener('click', logoutAccount);
-            ['accountName', 'accountPassword'].forEach(function(id) {
+            ['accountName', 'accountPassword', 'accountDisplayNameInput'].forEach(function(id) {
                 const el = document.getElementById(id);
                 if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') accountAction(); });
             });
