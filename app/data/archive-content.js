@@ -57,11 +57,13 @@ window.SOR_ARCHIVE = {
                 { id: "1.2.1",     title: "Flaechen und Umfang" },
                 { id: "1.2.1.a",   title: "Rechteck, Dreieck, Kreis" },
                 { id: "1.2.1.b",   title: "Zusammengesetzte Figuren" },
+                { id: "1.2.1.c",   title: "Trapez, Parallelogramm, Raute" },
                 { id: "1.2.2",     title: "Koerper und Volumen" },
                 { id: "1.2.2.a",   title: "Wuerfel, Quader, Zylinder" },
                 { id: "1.2.3",     title: "Winkel und Dreiecke" },
                 { id: "1.2.3.a",   title: "Winkelarten und -masse" },
                 { id: "1.2.3.b",   title: "Dreieckstypen und Eigenschaften" },
+                { id: "1.2.3.c",   title: "Symmetrie und Transformationen" },
                 { id: "1.2.4",     title: "Koordinatensystem" },
                 { id: "1.2.4.a",   title: "Punkte, Abstände, Spiegelung" },
                 { id: "1.3",       title: "Proportionalitaet und Einheiten" },
@@ -122,6 +124,8 @@ window.SOR_ARCHIVE = {
                 { id: "2.3.3",     title: "Logarithmen" },
                 { id: "2.3.3.a",   title: "Definition und Rechenregeln" },
                 { id: "2.3.3.b",   title: "Logarithmische Gleichungen" },
+                { id: "2.3.4",     title: "Exponentialfunktionen" },
+                { id: "2.3.4.a",   title: "Wachstum und Zerfall" },
                 { id: "2.4",       title: "Trigonometrie" },
                 { id: "2.4.1",     title: "Trigonometrie am rechtwinkligen Dreieck" },
                 { id: "2.4.1.a",   title: "sin, cos, tan und Anwendungen" },
@@ -146,7 +150,10 @@ window.SOR_ARCHIVE = {
                 { id: "2.6.1.b",   title: "Binomialkoeffizient" },
                 { id: "2.6.2",     title: "Grundlegende Wahrscheinlichkeitsrechnung" },
                 { id: "2.6.2.a",   title: "Laplace-Experiment" },
-                { id: "2.6.2.b",   title: "Baumdiagramm" }
+                { id: "2.6.2.b",   title: "Baumdiagramm" },
+                { id: "2.7",       title: "Statistik (Mittelstufe)" },
+                { id: "2.7.1",     title: "Deskriptive Statistik" },
+                { id: "2.7.1.a",   title: "Lage- und Streuungsmasse" }
             ]
         },
         {
@@ -187,6 +194,9 @@ window.SOR_ARCHIVE = {
                 { id: "3.2.3.a",   title: "Vektoroperationen und Skalarprodukt" },
                 { id: "3.2.3.b",   title: "Geraden und Ebenen im Raum" },
                 { id: "3.2.3.c",   title: "Kreuzprodukt und geometrische Anwendungen" },
+                { id: "3.2.3.d",   title: "Ebenengleichungen und Schnitte" },
+                { id: "3.2.4",     title: "Hypothesentests" },
+                { id: "3.2.4.a",   title: "Signifikanztest und Fehlerarten" },
                 { id: "3.3",       title: "Komplexe Zahlen (Einstieg)" },
                 { id: "3.3.1",     title: "Grundlagen komplexer Zahlen" },
                 { id: "3.3.1.a",   title: "Kartesische Form und Betrag" },
@@ -655,6 +665,11 @@ window.SOR_ARCHIVE = {
         { id: "T-1-033", title: "Abstand zweier Punkte", level: "1", sublevel: "1.2.4.a", topic: "Koordinatensystem", tags: ["abstand","koordinaten"], difficulty: "leicht", question: "Bestimme den Abstand zwischen P(1|2) und Q(4|6).", answer: "5", explanation: "d = sqrt((4-1)^2 + (6-2)^2) = sqrt(9+16) = sqrt(25) = 5.", type: "kurzantwort", estimatedTime: 3 },
         { id: "T-1-034", title: "Antiproportionale Zuordnung", level: "1", sublevel: "1.3.1.b", topic: "Proportionalitaet", tags: ["antiproportional","dreisatz"], difficulty: "mittel", question: "5 Arbeiter benoetigen 12 Tage. Wie lange brauchen 4 Arbeiter?", answer: "15 Tage", explanation: "Antiproportional: 5*12 = 4*x -> x = 60/4 = 15.", type: "kurzantwort", estimatedTime: 3 },
         { id: "T-1-035", title: "Häufigkeit im Balkendiagramm", level: "1", sublevel: "1.4.1.a", topic: "Statistik", tags: ["diagramm","haeufigkeit"], difficulty: "leicht", question: "In einer Umfrage waehlen 10 von 40 Schuelerinnen 'Sport'. Wie viel Prozent sind das?", answer: "25 %", explanation: "10/40 = 0,25 = 25 %.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-1-036", title: "Achsensymmetrie Rechteck", level: "1", sublevel: "1.2.3.c", topic: "Geometrie", tags: ["symmetrie","achse"], difficulty: "leicht", question: "Hat ein Rechteck Symmetrieachsen? Wenn ja, wie viele?", answer: "Ja, 2 Symmetrieachsen (je eine durch die Mittelpunkte der gegenueberliegenden Seiten)", explanation: "Ein Rechteck hat zwei Symmetrieachsen: eine horizontal und eine vertikal durch die Seitenmittelpunkte.", type: "konzeptfrage", estimatedTime: 2 },
+        { id: "T-1-037", title: "Trapezflaeche berechnen", level: "1", sublevel: "1.2.1.c", topic: "Geometrie", tags: ["trapez","flaeche"], difficulty: "mittel", question: "Berechne die Flaeche eines Trapezes mit Grundlinien 6 cm und 10 cm sowie Hoehe 4 cm.", answer: "32 cm^2", explanation: "A = (a + c) / 2 * h = (6 + 10) / 2 * 4 = 8 * 4 = 32 cm^2.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-1-038", title: "Arithmetisches Mittel", level: "1", sublevel: "1.4.1.b", topic: "Statistik", tags: ["mittelwert","durchschnitt"], difficulty: "leicht", question: "Berechne den Mittelwert der Zahlen 3, 7, 5, 9, 6.", answer: "6", explanation: "Summe: 3+7+5+9+6 = 30. Anzahl: 5. Mittelwert: 30/5 = 6.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-1-039", title: "Dreisatz Preisberechnung", level: "1", sublevel: "1.3.1.a", topic: "Proportionalitaet", tags: ["dreisatz","proportional"], difficulty: "leicht", question: "3 Hefte kosten 2,40 €. Was kosten 7 Hefte?", answer: "5,60 €", explanation: "1 Heft: 2,40 / 3 = 0,80 €. 7 Hefte: 7 * 0,80 = 5,60 €.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-1-040", title: "Terme vereinfachen", level: "1", sublevel: "1.1.1.b", topic: "Arithmetik", tags: ["terme","vereinfachen","variable"], difficulty: "leicht", question: "Vereinfache 2x + 3y + 5x - y.", answer: "7x + 2y", explanation: "x-Terme: 2x + 5x = 7x. y-Terme: 3y - y = 2y. Ergebnis: 7x + 2y.", type: "kurzantwort", estimatedTime: 2 },
 
         {
             id: "T-2-001",
@@ -968,6 +983,11 @@ window.SOR_ARCHIVE = {
         { id: "T-2-033", title: "Kreisflaeche und -umfang", level: "2", sublevel: "2.5.2.a", topic: "Geometrie", tags: ["kreis","umfang"], difficulty: "leicht", question: "Berechne den Umfang eines Kreises mit Durchmesser 10 cm.", answer: "10*pi ≈ 31,4 cm", explanation: "U = pi * d = pi * 10 = 10*pi.", type: "kurzantwort", estimatedTime: 2 },
         { id: "T-2-034", title: "Permutationen zaehlen", level: "2", sublevel: "2.6.1.a", topic: "Kombinatorik", tags: ["permutation","fakultaet"], difficulty: "mittel", question: "Auf wie viele Arten koennen 4 Buecher in einer Reihe angeordnet werden?", answer: "24 (= 4!)", explanation: "4! = 4*3*2*1 = 24.", type: "kurzantwort", estimatedTime: 2 },
         { id: "T-2-035", title: "Laplace-Wahrscheinlichkeit", level: "2", sublevel: "2.6.2.a", topic: "Wahrscheinlichkeit", tags: ["laplace","wuerfel"], difficulty: "leicht", question: "Wie gross ist die Wahrscheinlichkeit, mit einem fairen Wuerfel eine gerade Zahl zu werfen?", answer: "1/2 = 50 %", explanation: "Guenstige Ergebnisse: {2,4,6} = 3. Gesamt: 6. P = 3/6 = 1/2.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-2-036", title: "Scheitelpunkt quadratische Funktion", level: "2", sublevel: "2.2.2.a", topic: "Funktionen", tags: ["quadratisch","scheitelpunkt","parabel"], difficulty: "mittel", question: "Bestimme den Scheitelpunkt von f(x) = x^2 - 4x + 3.", answer: "S(2 | -1)", explanation: "Quadratische Ergaenzung: f(x) = (x-2)^2 - 1. Scheitelpunkt S(2|-1).", type: "kurzantwort", estimatedTime: 3 },
+        { id: "T-2-037", title: "Lineare Funktion Nullpunkt", level: "2", sublevel: "2.2.1.a", topic: "Funktionen", tags: ["linear","nullpunkt","achsenabschnitt"], difficulty: "leicht", question: "Bestimme Nullpunkt und y-Achsenabschnitt von f(x) = 3x - 6.", answer: "Nullpunkt: x = 2; y-Achsenabschnitt: -6", explanation: "f(x)=0: 3x=6, x=2. y-Achsenabschnitt: f(0) = -6.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-2-038", title: "Exponentialwachstum Verdopplungszeit", level: "2", sublevel: "2.3.4.a", topic: "Exponentialfunktionen", tags: ["wachstum","verdopplung","exponential"], difficulty: "mittel", question: "Ein Bakterium verdoppelt sich alle 2 Stunden. Wie viele Bakterien gibt es nach 8 Stunden (Start: 1)?", answer: "16", explanation: "8 Stunden / 2 h = 4 Verdopplungen. 2^4 = 16.", type: "kurzantwort", estimatedTime: 3 },
+        { id: "T-2-039", title: "Definitionsmenge bestimmen", level: "2", sublevel: "2.2.1.b", topic: "Funktionen", tags: ["definitionsmenge","nenner","luecke"], difficulty: "mittel", question: "Bestimme die Definitionsmenge von f(x) = 1 / (x - 3).", answer: "D = R \\ {3}", explanation: "Nenner darf nicht null sein: x - 3 ≠ 0, also x ≠ 3. D = R \\ {3}.", type: "kurzantwort", estimatedTime: 2 },
+        { id: "T-2-040", title: "Median und Modus", level: "2", sublevel: "2.7.1.a", topic: "Statistik", tags: ["median","modus","statistik"], difficulty: "mittel", question: "Bestimme Median und Modus der Datenmenge: 3, 5, 7, 5, 9, 5, 8.", answer: "Median: 5; Modus: 5", explanation: "Sortiert: 3,5,5,5,7,8,9. Median = mittlerer Wert = 5. Modus = haeufigster Wert = 5.", type: "kurzantwort", estimatedTime: 3 },
         {
             id: "T-3-001",
             title: "Ableitung Potenzfunktion",
@@ -1277,6 +1297,11 @@ window.SOR_ARCHIVE = {
         { id: "T-3-033", title: "Determinante 2x2 und Invertierbarkeit", level: "3", sublevel: "3.4.1.b", topic: "Matrizen", tags: ["determinante","invertierbar"], difficulty: "mittel", question: "Ist die Matrix [[2,4],[1,2]] invertierbar? Begruende.", answer: "Nein, det = 2*2 - 4*1 = 0", explanation: "Eine Matrix ist genau dann invertierbar, wenn ihre Determinante ungleich null ist. Hier det = 0.", type: "konzeptfrage", estimatedTime: 2 },
         { id: "T-3-034", title: "Geometrische Folge Grenzwert", level: "3", sublevel: "3.1.5.b", topic: "Analysis", tags: ["folge","grenzwert","geometrisch"], difficulty: "mittel", question: "Hat die Folge a_n = (1/2)^n einen Grenzwert? Wenn ja, welchen?", answer: "Ja, lim n→∞ (1/2)^n = 0", explanation: "Da |q| = 1/2 < 1, konvergiert die geometrische Folge gegen 0.", type: "kurzantwort", estimatedTime: 2 },
         { id: "T-3-035", title: "Kegelschnitt Parabel", level: "3", sublevel: "3.5.1.a", topic: "Analytische Geometrie", tags: ["parabel","kegelschnitt"], difficulty: "mittel", question: "Welche geometrische Form hat y^2 = 4x?", answer: "Parabel (nach rechts geoeffnet)", explanation: "y^2 = 4px beschreibt eine horizontale Parabel mit Brennpunkt bei (p,0). Hier p=1.", type: "konzeptfrage", estimatedTime: 2 },
+        { id: "T-3-036", title: "Partielle Integration", level: "3", sublevel: "3.1.3.d", topic: "Analysis", tags: ["partielle-integration","integral"], difficulty: "schwer", question: "Berechne ∫ x * e^x dx.", answer: "(x-1)*e^x + C", explanation: "Partielle Integration mit u=x, v'=e^x: u'=1, v=e^x. Ergebnis: x*e^x - ∫e^x dx = x*e^x - e^x + C = (x-1)*e^x + C.", type: "kurzantwort", estimatedTime: 5 },
+        { id: "T-3-037", title: "Sinusfunktion Amplitude und Periode", level: "3", sublevel: "3.1.2.a", topic: "Trigonometrie", tags: ["sinus","amplitude","periode"], difficulty: "mittel", question: "Bestimme Amplitude und Periode von f(x) = 3 * sin(2x).", answer: "Amplitude: 3; Periode: pi", explanation: "f(x) = A*sin(b*x): Amplitude A = 3, Periode T = 2*pi/b = 2*pi/2 = pi.", type: "kurzantwort", estimatedTime: 3 },
+        { id: "T-3-038", title: "Normalverteilung Sigma-Regel", level: "3", sublevel: "3.2.1.a", topic: "Stochastik", tags: ["normalverteilung","sigma","gaussverteilung"], difficulty: "mittel", question: "X ist normalverteilt mit µ=100 und sigma=10. In welchem Intervall liegt X mit ca. 68 % Wahrscheinlichkeit?", answer: "[90; 110]", explanation: "1-Sigma-Regel: P(µ - sigma ≤ X ≤ µ + sigma) ≈ 68 %. Ergibt 100-10 = 90 bis 100+10 = 110.", type: "kurzantwort", estimatedTime: 3 },
+        { id: "T-3-039", title: "Ebenengleichung Koordinatenform", level: "3", sublevel: "3.2.3.d", topic: "Analytische Geometrie", tags: ["ebene","normalenvektor","koordinatenform"], difficulty: "schwer", question: "Bestimme die Koordinatenform der Ebene durch P(1|2|0) mit Normalenvektor n=(1|0|1).", answer: "x + z = 1", explanation: "Koordinatenform: n*(r - p) = 0. Einsetzen: 1*(x-1) + 0*(y-2) + 1*(z-0) = 0 -> x + z = 1.", type: "kurzantwort", estimatedTime: 4 },
+        { id: "T-3-040", title: "Fehler 1. und 2. Art", level: "3", sublevel: "3.2.4.a", topic: "Stochastik", tags: ["signifikanztest","hypothese","fehlertyp"], difficulty: "schwer", question: "Erklaere den Unterschied zwischen Fehler 1. Art und Fehler 2. Art beim Signifikanztest.", answer: "Fehler 1. Art: H0 wird faelschlich abgelehnt (falsch positiv). Fehler 2. Art: H0 wird faelschlich beibehalten (falsch negativ).", explanation: "Das Signifikanzniveau alpha begrenzt P(Fehler 1. Art). Den Fehler 2. Art bezeichnet man auch als beta-Fehler.", type: "konzeptfrage", estimatedTime: 4 },
 
         {
             id: "T-4-001",

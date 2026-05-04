@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.1.0`
+- `v2.1.1`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,51 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.1.1)
+L1-L3 school curriculum expansion – batch 4 (15 new seed tasks):
+
+### Changes in this iteration
+- **T-1-036** (Achsensymmetrie Rechteck): Symmetrieachsen des Rechtecks – 2 Achsen durch Seitenmittelpunkte.
+- **T-1-037** (Trapezflaeche berechnen): Trapezformel A = (a+c)/2 * h.
+- **T-1-038** (Arithmetisches Mittel): Mittelwert einer 5-elementigen Datenmenge.
+- **T-1-039** (Dreisatz Preisberechnung): Proportionaler Dreisatz – 3 Hefte → 7 Hefte.
+- **T-1-040** (Terme vereinfachen): Zusammenfassen gleichartiger Terme mit zwei Variablen.
+- **T-2-036** (Scheitelpunkt quadratische Funktion): Quadratische Ergaenzung, Scheitelpunkt S(2|-1).
+- **T-2-037** (Lineare Funktion Nullpunkt): Nullpunkt und y-Achsenabschnitt von f(x)=3x-6.
+- **T-2-038** (Exponentialwachstum Verdopplungszeit): Bakterienwachstum – 4 Verdopplungen in 8 h.
+- **T-2-039** (Definitionsmenge bestimmen): Ausschluss von x=3 im Nenner.
+- **T-2-040** (Median und Modus): Geordnete Datenmenge, Median- und Modusbestimmung.
+- **T-3-036** (Partielle Integration): ∫ x*e^x dx = (x-1)*e^x + C.
+- **T-3-037** (Sinusfunktion Amplitude und Periode): A=3, T=pi fuer 3*sin(2x).
+- **T-3-038** (Normalverteilung Sigma-Regel): 1-Sigma-Intervall [90;110] fuer µ=100, sigma=10.
+- **T-3-039** (Ebenengleichung Koordinatenform): Koordinatenform x+z=1 aus Punkt und Normalenvektor.
+- **T-3-040** (Fehler 1. und 2. Art): Begriffe Fehler 1./2. Art beim Signifikanztest.
+
+### Taxonomy additions
+Six new sublevel entries added to support the new tasks:
+- `1.2.1.c` – Trapez, Parallelogramm, Raute
+- `1.2.3.c` – Symmetrie und Transformationen
+- `2.3.4` / `2.3.4.a` – Exponentialfunktionen / Wachstum und Zerfall
+- `2.7` / `2.7.1` / `2.7.1.a` – Statistik (Mittelstufe) / Deskriptive Statistik / Lage- und Streuungsmasse
+- `3.2.3.d` – Ebenengleichungen und Schnitte
+- `3.2.4` / `3.2.4.a` – Hypothesentests / Signifikanztest und Fehlerarten
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: T-1-036..T-1-040, T-2-036..T-2-040, T-3-036..T-3-040 (15/15 found)
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P4: Cloud-Sync fuer SOR-Accounts (Firebase Auth + Firestore) to make local accounts device-portable.
+- Or continue additional L1-L3 curriculum expansion toward broader school topic coverage (Geometrie 3D, Stochastik Mittelstufe, further Funktionen).
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
