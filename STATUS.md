@@ -1,10 +1,10 @@
 # STATUS
 
 ## Current version
-- `v2.1.0`
+- `v2.1.1`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration. The L1-L3 school curriculum seed pool has been broadened to cover previously missing taxonomy nodes (Brüche multiplizieren/dividieren, Zylinder, Zufallsexperiment, Ungleichungen, senkrechte Geraden, Tangensfunktion, Binomialkoeffizient, ähnliche Figuren, LGS mit 3 Unbekannten, Kurvendiskussion, Optimierung, geometrische Reihe, Bayes-Theorem, Normalverteilung, Matrix-Addition).
 The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 9.000 archive tasks (1.500 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
 
 Long-term target remains unchanged and explicitly active:
@@ -29,6 +29,45 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.1.1)
+L1-L3 school curriculum gap-fill batch (18 new seed tasks):
+
+### Changes in this iteration
+- **T-1-036** (1.1.2.c): Brüche multiplizieren – 2/3 * 3/4
+- **T-1-037** (1.1.2.c): Brüche dividieren – 3/4 : 3/8
+- **T-1-038** (1.3.1.a): Proportionale Zuordnung Dreisatz
+- **T-1-039** (1.2.2.a): Volumen Zylinder (bisher fehlend)
+- **T-1-040** (1.4.2.a): Einfaches Zufallsexperiment Würfel (bisher fehlend)
+- **T-1-041** (1.1.1.b): Schriftliche Division
+- **T-2-036** (2.1.4.a): Lineare Ungleichung (bisher fehlend)
+- **T-2-037** (2.2.2.b): Senkrechte Geraden (bisher fehlend)
+- **T-2-038** (2.4.3.b): Tangensfunktion Standardwert (bisher fehlend)
+- **T-2-039** (2.6.1.b): Binomialkoeffizient (bisher fehlend)
+- **T-2-040** (2.5.1.b): Ähnliche Figuren Seitenlänge (bisher fehlend)
+- **T-2-041** (2.1.2.b): LGS mit 3 Unbekannten (bisher fehlend)
+- **T-3-036** (3.1.2.a): Vollständige Kurvendiskussion Polynom
+- **T-3-037** (3.1.2.b): Optimierungsaufgabe Behälter
+- **T-3-038** (3.1.5.a): Geometrische Reihe Summe (bisher fehlend)
+- **T-3-039** (3.2.1.b): Bayes-Theorem (bisher fehlend)
+- **T-3-040** (3.2.2.c): Normalverteilung standardisieren (bisher fehlend)
+- **T-3-041** (3.4.1.a): Matrix Addition und skalare Multiplikation
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: T-1-036 to T-1-041, T-2-036 to T-2-041, T-3-036 to T-3-041 all confirmed present
+
+### Blockers
+None.
+
+### Next logical step
+- Continue P2 with next L1-L3 batch covering remaining school topics not yet seeded (e.g. 2.1.4.b Betragsungleichungen, 2.2.4.a Umkehrabbildungen, 3.2.3.b Ebenengleichungen, further L3 stochastic depth).
+- Or continue P4 open tasks (Cloud-Sync, mobile app planning).
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
