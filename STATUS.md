@@ -30,6 +30,44 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
+## Last completed task (v1.2.21)
+L1-L3 school curriculum expansion batch – T-1-036…041, T-2-036…041, T-3-036…041:
+
+### Changes in this iteration
+- **T-1-036** (Schriftliche Division): Schriftliches Rechnen (1.1.1.b).
+- **T-1-037** (Brüche multiplizieren): Zähler × Zähler / Nenner × Nenner, kürzen (1.1.2.c).
+- **T-1-038** (Brüche dividieren): Multiplizieren mit dem Kehrwert (1.1.2.c).
+- **T-1-039** (Volumen Zylinder): V = pi * r^2 * h (1.2.2.a).
+- **T-1-040** (Proportionale Zuordnung): Proportionaler Dreisatz (1.3.1.a).
+- **T-1-041** (Einfaches Zufallsexperiment): Münzwurf P=1/2 (1.4.2.a).
+- **T-2-036** (Formel umstellen): v=s/t nach t umgestellt (2.1.1.b).
+- **T-2-037** (Quadratische Gleichung): x^2-5x+6=0 via Diskriminante (2.1.3.a).
+- **T-2-038** (Quadratische Faktorisierung): x^2-4=(x-2)(x+2) (2.1.3.b).
+- **T-2-039** (Lineare Ungleichung): 3x-4>5 lösen (2.1.4.a).
+- **T-2-040** (Binomialkoeffizient): C(6,2)=15 (2.6.1.b).
+- **T-2-041** (Baumdiagramm): P(beide rot) bei Ziehen ohne Zurücklegen (2.6.2.b).
+- **T-3-036** (Extremstellen): f(x)=x^3-12x, Vorzeichen von f'' (3.1.1.b).
+- **T-3-037** (Vollständige Kurvendiskussion): f(x)=x^3-3x (3.1.2.a).
+- **T-3-038** (Partielle Integration): ∫x*e^x dx (3.1.3.d).
+- **T-3-039** (Exponentielles Wachstumsmodell): Bakterienkultur N(t)=500*e^(0.1t) (3.1.4.b).
+- **T-3-040** (Bayes-Theorem): Diagnostischer Test mit Prävalenz (3.2.1.b).
+- **T-3-041** (Normalverteilung Standardisierung): P(X<=115) mit Z=1 (3.2.2.c).
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: T-1-036…041, T-2-036…041, T-3-036…041 all present
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L1-L3 curriculum expansion with another mapped school-topic batch (T-1-042…, T-2-042…, T-3-042…) covering remaining gaps in the taxonomy (e.g. L1: Medianberechnung, Streckungsfaktor; L2: Tangensfunktion, Betragsungleichungen; L3: Optimierungsaufgaben, Vektorebenen).
+
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
 
