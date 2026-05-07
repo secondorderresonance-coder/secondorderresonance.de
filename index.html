@@ -799,6 +799,116 @@
             font-size: 0.9rem;
         }
 
+        /* Pricing section */
+        .pricing {
+            padding: 6rem 2rem;
+            background: var(--secondary);
+        }
+
+        .pricing-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card.highlighted {
+            border-color: rgba(245,197,24,0.4);
+            background: rgba(245,197,24,0.04);
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 1.2rem;
+            align-self: flex-start;
+        }
+
+        .pricing-badge.free { background: rgba(74,222,128,0.15); color: #4ade80; }
+        .pricing-badge.premium { background: rgba(233,69,96,0.12); color: var(--accent); }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.4rem;
+            line-height: 1;
+        }
+
+        .pricing-period {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .pricing-desc {
+            color: var(--text-muted);
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.45rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: #4ade80;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+
+        .pricing-features li.upcoming::before {
+            content: '◦';
+            color: var(--text-muted);
+        }
+
+        .pricing-features li.upcoming {
+            color: var(--text-muted);
+        }
+
+        .pricing-cta {
+            margin-top: auto;
+        }
+
+        .pricing-note {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav ul { display: none; }
@@ -809,6 +919,7 @@
             .search-shell,
             .suggestion-shell { padding: 1.4rem; }
             .hero h1 { font-size: 2.2rem; }
+            .pricing-grid { grid-template-columns: 1fr; }
         }
 
         /* Animations */
@@ -1114,6 +1225,50 @@
                     <button style="padding:0.8rem 1.5rem;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:white;cursor:pointer;font-size:1rem">x^2 + 2</button>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Pricing / free-first plan overview -->
+    <section class="pricing" id="preise">
+        <div class="pricing-container">
+            <h2 class="section-title">Kostenlos lernen. <span style="color:var(--accent)">Immer.</span></h2>
+            <p class="section-subtitle">Das Kernprodukt ist und bleibt kostenlos. Eine optionale Premium-Stufe könnte später ergänzt werden — nur wenn die Nachfrage es sinnvoll macht.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card highlighted">
+                    <span class="pricing-badge free">Kostenlos</span>
+                    <div class="pricing-price">0 €</div>
+                    <p class="pricing-period">für immer</p>
+                    <p class="pricing-desc">Alles was du brauchst, um strukturiert Mathe und Physik zu lernen — vom ersten Tag an.</p>
+                    <ul class="pricing-features">
+                        <li>9.000+ kuratierte Aufgaben im Archiv</li>
+                        <li>6 Level: Grundschule bis Forschung</li>
+                        <li>Interaktiver Lernpfad &amp; Skill-Map</li>
+                        <li>30-Fragen-Einstufungstest</li>
+                        <li>Streak- &amp; XP-System</li>
+                        <li>Achievements &amp; Badges</li>
+                        <li>Offline verfügbar (PWA)</li>
+                    </ul>
+                    <div class="pricing-cta">
+                        <a href="app/index.html" class="btn btn-primary" style="display:block;text-align:center">Jetzt kostenlos starten</a>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <span class="pricing-badge premium">Premium — optional</span>
+                    <div class="pricing-price" style="color:var(--text-muted)">tbd.</div>
+                    <p class="pricing-period">nur wenn nachgefragt</p>
+                    <p class="pricing-desc">Mögliche Zusatzfunktionen in einer späteren optionalen Stufe. Kein Kerninhalt wird jemals hinter einer Paywall verschwinden.</p>
+                    <ul class="pricing-features">
+                        <li class="upcoming">Cloud-Sync über alle Geräte</li>
+                        <li class="upcoming">iOS &amp; Android App</li>
+                        <li class="upcoming">Unbegrenzte Herzen</li>
+                        <li class="upcoming">Prioritäts-Support</li>
+                    </ul>
+                    <div class="pricing-cta">
+                        <a href="#newsletter" class="btn btn-secondary" style="display:block;text-align:center">Auf dem Laufenden bleiben</a>
+                    </div>
+                </div>
+            </div>
+            <p class="pricing-note">* Keine versteckten Kosten. Keine Werbung im Lernbereich. Das Kernprodukt bleibt kostenlos.</p>
         </div>
     </section>
 

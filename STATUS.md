@@ -30,6 +30,33 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
+## Last completed task (v2.5.0)
+Free-first monetization path – pricing section added to landing page:
+
+### Changes in this iteration
+- Added a clean `.pricing` section (`id="preise"`) to `index.html` between the app-teaser and the suggestion-lab.
+- Two side-by-side cards: "Kostenlos" (free forever, all current features) and "Premium — optional" (future optional tier, clearly labelled upcoming).
+- CSS: `.pricing`, `.pricing-container`, `.pricing-grid`, `.pricing-card`, `.pricing-badge`, `.pricing-price`, `.pricing-period`, `.pricing-desc`, `.pricing-features`, `.pricing-cta`, `.pricing-note` – all new, all using existing CSS variables.
+- Responsive: `.pricing-grid` collapses to 1 column below 768 px.
+- Cloud-Sync (P4) is blocked: requires Firebase credentials not available in this environment; documented below.
+
+### Files touched
+- `index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- Node structural check: all classes and section id present, responsive rule confirmed.
+- Manual grep: section exists at correct position (between #app and #vorschlagen).
+- No existing sections or styles were modified.
+
+### Blockers
+- `Cloud-Sync für SOR-Accounts` (P4): requires Firebase project credentials (API key, project ID) that are not available in this environment. Skipped; next agent run should pick this up if credentials are provided, or continue with the next open P4 task.
+
+### Next logical step
+- Implement Cloud-Sync if Firebase credentials are available (P4).
+- Otherwise: "Define SOR account and sync architecture for future iOS/Android app login" (planning doc / architecture sketch as a static page or ARCHITECTURE.md).
+
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
 
