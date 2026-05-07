@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.1.0`
+- `v2.4.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
