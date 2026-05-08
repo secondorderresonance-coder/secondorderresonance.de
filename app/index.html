@@ -913,6 +913,12 @@
         </div>
     </main>
 
+    <!-- Firebase Cloud Sync (compat SDK — Auth + Firestore only) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="sync.js"></script>
+
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
@@ -1837,6 +1843,7 @@
                 heartsLastRefill: account.heartsLastRefill || new Date().toISOString(),
                 streakFreezes: typeof account.streakFreezes === 'number' ? account.streakFreezes : 0,
                 streakFreezeUsed: account.streakFreezeUsed || null,
+                firebaseUid: account.firebaseUid || null,
                 progress: normalizeProgressEnvelope(account.progress || {})
             };
         }
@@ -2134,6 +2141,13 @@
                     avatarEl.style.background = account.avatarColor || '#e94560';
                 }
                 if (nameEl) nameEl.textContent = label;
+                const hintEl = document.getElementById('accountLoggedInHint');
+                if (hintEl) {
+                    const synced = SORSync.isReady() && !!account.firebaseUid;
+                    hintEl.textContent = synced
+                        ? '☁️ Cloud-Sync aktiv · geräteübergreifend'
+                        : '💾 Nur lokal · kein Cloud-Sync';
+                }
             } else {
                 loggedIn.style.display = 'none';
                 loggedOut.style.display = 'block';
@@ -2161,7 +2175,28 @@
             renderStreakFreezeBar();
         }
 
-        function registerAccount() {
+        async function syncProgressToCloud(accountId) {
+            if (!SORSync.isReady() || !accountId) return;
+            const account = accountStore.accounts[accountId];
+            if (!account || !account.firebaseUid) return;
+            const progress = ensureAccountProgressEnvelope(accountId);
+            if (progress) {
+                progress.summary = normalizeSummarySnapshot(getStateSnapshot());
+                progress.updatedAt = new Date().toISOString();
+            }
+            await SORSync.saveProgress(account.firebaseUid, {
+                email: account.email,
+                displayName: account.displayName,
+                avatarColor: account.avatarColor,
+                hearts: account.hearts,
+                heartsLastRefill: account.heartsLastRefill,
+                streakFreezes: account.streakFreezes || 0,
+                streakFreezeUsed: account.streakFreezeUsed || null,
+                progress: progress || {}
+            });
+        }
+
+        async function registerAccount() {
             const emailInput = document.getElementById('accountName');
             const passInput = document.getElementById('accountPassword');
             const nameInput = document.getElementById('accountDisplayNameInput');
@@ -2183,11 +2218,44 @@
             }
 
             const accountId = normalizeAccountId(email);
+
+            // Firebase Auth path (when Cloud Sync is configured)
+            if (SORSync.isReady()) {
+                const result = await SORSync.signUp(email, pass, displayName);
+                if (!result.ok) {
+                    if (result.reason === 'auth/email-already-in-use') {
+                        showToast('Diese E-Mail ist bereits vergeben');
+                    } else {
+                        showToast('Registrierung fehlgeschlagen: ' + (result.message || result.reason));
+                    }
+                    return;
+                }
+                const avatarColor = AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length];
+                const createdAt = new Date().toISOString();
+                accountStore.accounts[accountId] = {
+                    email: accountId,
+                    displayName: displayName,
+                    password: '',
+                    avatarColor: avatarColor,
+                    createdAt: createdAt,
+                    hearts: HEARTS_MAX,
+                    heartsLastRefill: createdAt,
+                    firebaseUid: result.uid,
+                    progress: createProgressEnvelope(getStateSnapshot())
+                };
+                applyAccountProgress(accountId);
+                syncProgressToCloud(accountId);
+                showToast('Willkommen, ' + displayName + '! Account erstellt. ☁️ Cloud-Sync aktiv.');
+                if (passInput) passInput.value = '';
+                if (nameInput) nameInput.value = '';
+                return;
+            }
+
+            // Local-only path (no Firebase config)
             if (accountStore.accounts[accountId]) {
                 showToast('Diese E-Mail ist bereits registriert');
                 return;
             }
-
             accountStore.accounts[accountId] = {
                 email: accountId,
                 displayName: displayName,
@@ -2204,23 +2272,71 @@
             if (nameInput) nameInput.value = '';
         }
 
-        function loginAccount() {
+        async function loginAccount() {
             const emailInput = document.getElementById('accountName');
             const passInput = document.getElementById('accountPassword');
             const email = emailInput ? normalizeEmail(emailInput.value) : '';
             const pass = passInput ? passInput.value : '';
             const accountId = normalizeAccountId(email);
-            const account = accountStore.accounts[accountId];
 
             if (!isValidEmail(email)) {
                 showToast('Bitte eine gueltige E-Mail-Adresse eingeben');
                 return;
             }
+
+            // Firebase Auth path (when Cloud Sync is configured)
+            if (SORSync.isReady()) {
+                const result = await SORSync.signIn(email, pass);
+                if (!result.ok) {
+                    const authErrors = ['auth/wrong-password', 'auth/user-not-found', 'auth/invalid-credential', 'auth/invalid-login-credentials'];
+                    if (authErrors.includes(result.reason)) {
+                        showToast('E-Mail oder Passwort falsch');
+                    } else {
+                        showToast('Anmeldung fehlgeschlagen: ' + (result.message || result.reason));
+                    }
+                    return;
+                }
+                // Load cloud progress and merge with local
+                const cloudData = await SORSync.loadProgress(result.uid);
+                if (!accountStore.accounts[accountId]) {
+                    // First login on this device – restore account from cloud
+                    const cd = cloudData || {};
+                    accountStore.accounts[accountId] = {
+                        email: accountId,
+                        displayName: cd.displayName || accountId.split('@')[0],
+                        password: '',
+                        avatarColor: cd.avatarColor || AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
+                        createdAt: cd.createdAt || new Date().toISOString(),
+                        hearts: typeof cd.hearts === 'number' ? Math.min(cd.hearts, HEARTS_MAX) : HEARTS_MAX,
+                        heartsLastRefill: cd.heartsLastRefill || new Date().toISOString(),
+                        firebaseUid: result.uid,
+                        progress: cd.progress ? normalizeProgressEnvelope(cd.progress) : createProgressEnvelope({})
+                    };
+                } else {
+                    // Existing local account – prefer cloud progress if it is newer
+                    const localAcc = accountStore.accounts[accountId];
+                    localAcc.firebaseUid = result.uid;
+                    if (cloudData && cloudData.progress) {
+                        const localTs = localAcc.progress && localAcc.progress.updatedAt ? new Date(localAcc.progress.updatedAt) : new Date(0);
+                        const cloudTs = cloudData.progress.updatedAt ? new Date(cloudData.progress.updatedAt) : new Date(0);
+                        if (cloudTs > localTs) {
+                            localAcc.progress = normalizeProgressEnvelope(cloudData.progress);
+                        }
+                    }
+                }
+                applyAccountProgress(accountId);
+                const name = accountStore.accounts[accountId].displayName || accountId.split('@')[0];
+                showToast('Willkommen zurück, ' + name + '! ☁️ Cloud-Sync aktiv.');
+                if (passInput) passInput.value = '';
+                return;
+            }
+
+            // Local-only path (no Firebase config)
+            const account = accountStore.accounts[accountId];
             if (!account || account.password !== pass) {
                 showToast('E-Mail oder Passwort falsch');
                 return;
             }
-
             applyAccountProgress(accountId);
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
@@ -2233,10 +2349,12 @@
                     progress.summary = normalizeSummarySnapshot(getStateSnapshot());
                     progress.updatedAt = new Date().toISOString();
                 }
+                syncProgressToCloud(currentAccountId); // fire-and-forget
             }
             currentAccountId = null;
             accountStore.current = null;
             saveAccountStore();
+            SORSync.signOut();
 
             state = createInitialState();
             renderAccountUI();
@@ -2615,6 +2733,7 @@
         }
 
         // Initialize
+        SORSync.init();
         loadAccountStore();
         if (accountStore.current && accountStore.accounts[accountStore.current]) {
             currentAccountId = accountStore.current;
