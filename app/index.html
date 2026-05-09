@@ -913,6 +913,8 @@
         </div>
     </main>
 
+    <script src="data/firebase-config.js"></script>
+    <script src="data/cloud-sync.js"></script>
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
@@ -1878,6 +1880,10 @@
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
             } catch (e) {}
+            if (window.SOR_CLOUD_SYNC && currentAccountId) {
+                const acc = accountStore.accounts[currentAccountId];
+                if (acc) SOR_CLOUD_SYNC.syncUp(currentAccountId, acc);
+            }
         }
 
         function renderHearts() {
@@ -2134,6 +2140,12 @@
                     avatarEl.style.background = account.avatarColor || '#e94560';
                 }
                 if (nameEl) nameEl.textContent = label;
+                const hintEl = document.getElementById('accountLoggedInHint');
+                if (hintEl) {
+                    hintEl.textContent = (window.SOR_CLOUD_SYNC && SOR_CLOUD_SYNC.isReady())
+                        ? '☁ Cloud-Sync aktiv · je E-Mail-Adresse'
+                        : 'Lokal gespeichert · je E-Mail-Adresse';
+                }
             } else {
                 loggedIn.style.display = 'none';
                 loggedOut.style.display = 'block';
@@ -2202,6 +2214,9 @@
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
+            if (window.SOR_CLOUD_SYNC && SOR_CLOUD_SYNC.isReady()) {
+                SOR_CLOUD_SYNC.signInWithEmail(accountId, pass);
+            }
         }
 
         function loginAccount() {
@@ -2224,6 +2239,23 @@
             applyAccountProgress(accountId);
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
+            if (window.SOR_CLOUD_SYNC && SOR_CLOUD_SYNC.isReady()) {
+                SOR_CLOUD_SYNC.signInWithEmail(email, pass).then(() => {
+                    SOR_CLOUD_SYNC.syncDown().then(cloudData => {
+                        if (!cloudData || !cloudData.progress) return;
+                        const localProg = accountStore.accounts[accountId] && accountStore.accounts[accountId].progress;
+                        const cloudUpdated = cloudData.updatedAt || '';
+                        const localUpdated = (localProg && localProg.updatedAt) || '';
+                        if (cloudUpdated > localUpdated) {
+                            accountStore.accounts[accountId].progress = normalizeProgressEnvelope(cloudData.progress);
+                            applyStateSnapshot(accountStore.accounts[accountId].progress.summary);
+                            saveAccountStore();
+                            updateStats();
+                            showToast('☁ Fortschritt aus der Cloud wiederhergestellt');
+                        }
+                    });
+                });
+            }
         }
 
         function logoutAccount() {
@@ -2234,6 +2266,7 @@
                     progress.updatedAt = new Date().toISOString();
                 }
             }
+            if (window.SOR_CLOUD_SYNC) SOR_CLOUD_SYNC.signOut();
             currentAccountId = null;
             accountStore.current = null;
             saveAccountStore();
@@ -2615,6 +2648,7 @@
         }
 
         // Initialize
+        if (window.SOR_CLOUD_SYNC) SOR_CLOUD_SYNC.init();
         loadAccountStore();
         if (accountStore.current && accountStore.accounts[accountStore.current]) {
             currentAccountId = accountStore.current;

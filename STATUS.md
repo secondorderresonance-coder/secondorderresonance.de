@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,55 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+Cloud-Sync adapter – Firebase Auth + Firestore integration layer:
+
+### Changes in this iteration
+- **`app/data/cloud-sync.js`** (new): `window.SOR_CLOUD_SYNC` adapter module.
+  - `init()` – detects `window.SOR_FIREBASE_CONFIG` + Firebase SDK; initialises app, auth, Firestore. Silent no-op when config is null (local-only mode).
+  - `signInWithEmail(email, pass)` – signs in or auto-creates the Firebase account on first use.
+  - `syncUp(email, accountData)` – fire-and-forget push of progress/hearts/streakFreezes to `sor_accounts/{uid}` in Firestore.
+  - `syncDown()` – pulls account record; returns data object or null.
+  - `signOut()` – signs out of Firebase.
+  - `status()` / `isReady()` – for UI display.
+- **`app/data/firebase-config.js`** (new): placeholder config file.
+  - Sets `window.SOR_FIREBASE_CONFIG = null` (disabled).
+  - Contains commented-out template + instructions for activating cloud sync (create Firebase project, enable Auth + Firestore, fill in config object).
+- **`app/index.html`** – six targeted changes:
+  1. Loads `data/firebase-config.js` and `data/cloud-sync.js` as `<script src>` tags before the inline script (correct load order guaranteed).
+  2. `init()` call at app startup.
+  3. `saveAccountStore()` calls `syncUp()` after every localStorage write (fire-and-forget, no-op in local mode).
+  4. `loginAccount()` calls `signInWithEmail()` then `syncDown()`; if cloud progress is newer (by `updatedAt` timestamp), merges it locally and shows a toast.
+  5. `registerAccount()` calls `signInWithEmail()` after local account creation.
+  6. `logoutAccount()` calls `signOut()` before clearing local state.
+  7. `renderAccountUI()` updates the hint text: "☁ Cloud-Sync aktiv · je E-Mail-Adresse" when ready, otherwise "Lokal gespeichert · je E-Mail-Adresse".
+
+### Activation instructions
+1. Create a Firebase project (Auth: Email/Password + Firestore).
+2. Fill in `app/data/firebase-config.js` with the project SDK config.
+3. Add Firebase compat SDK `<script>` tags before the `firebase-config.js` tag.
+4. Deploy – cloud sync is live.
+
+### Files touched
+- `app/data/cloud-sync.js` (new)
+- `app/data/firebase-config.js` (new)
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level
+- Simulated no-op mode: `status()` = "lokal", `isReady()` = false, `syncUp/syncDown` are safe no-ops
+- Script load order verified: firebase-config → cloud-sync → main inline script
+- No regressions: all existing localStorage paths unchanged
+
+### Blockers
+Firebase activation requires a real Firebase project and credentials (not available in this environment). The adapter is fully implemented and ready to activate – only `firebase-config.js` needs to be filled in.
+
+### Next logical step
+- Fill in `app/data/firebase-config.js` with a real Firebase project config to activate cross-device sync.
+- Or proceed to next open P4 task: Define free-first monetization path with optional small premium tier.
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
