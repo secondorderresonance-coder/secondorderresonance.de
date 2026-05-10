@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,38 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+Firebase Auth + Firestore cloud-sync foundation:
+
+### Changes in this iteration
+- **`app/firebase-config.js`** (new): Placeholder config for Firebase project credentials. `FIREBASE_ENABLED = false` by default so existing localStorage-only flow is unaffected. Includes inline comments for required Firestore security rules.
+- **`app/cloud-sync.js`** (new): Self-contained IIFE that wraps Firebase compat SDK. Auto-inits on load only when `FIREBASE_ENABLED = true`. Exposes `window.SORCloudSync` with: `cloudRegister`, `cloudSignIn`, `cloudSignOut`, `pushProgress`, `pullProgress`, `schedulePush` (debounced 4 s).
+- **`app/index.html`**: Five Firebase compat CDN `<script>` tags + `firebase-config.js` + `cloud-sync.js` loaded before the main script block. Four integration points wired in:
+  - `saveAccountStore()` → `schedulePush` (debounced; fires after every progress save)
+  - `registerAccount()` → `cloudRegister` then initial `pushProgress`
+  - `loginAccount()` → `cloudSignIn` then `pullProgress`; if remote `updatedAt` > local, remote wins and UI updates with "☁️ Fortschritt aus Cloud geladen" toast
+  - `logoutAccount()` → `cloudSignOut`
+
+### Files touched
+- `app/firebase-config.js` (new)
+- `app/cloud-sync.js` (new)
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level
+- Node `new Function()` syntax check → OK for both new JS files
+- Grep confirms all 8 integration points present in `app/index.html`
+- `FIREBASE_ENABLED = false` means no Firebase SDK calls are made on load; zero behaviour change for existing users
+
+### Blockers
+Firebase client credentials still need to be configured: set `FIREBASE_ENABLED = true` and fill in `FIREBASE_CONFIG` in `app/firebase-config.js`, plus deploy Firestore security rules.
+
+### Next logical step
+- Configure a real Firebase project and verify end-to-end sync in a dev environment.
+- Then wire the same sync module into `app/lernpfad.html` and `app/profil.html` (they share the same `mathlevel-accounts-v1` localStorage key).
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:

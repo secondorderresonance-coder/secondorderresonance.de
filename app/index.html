@@ -913,6 +913,13 @@
         </div>
     </main>
 
+    <!-- Firebase cloud-sync (disabled by default; enable in firebase-config.js) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="cloud-sync.js"></script>
+
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
@@ -1878,6 +1885,9 @@
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
             } catch (e) {}
+            if (currentAccountId && accountStore.accounts[currentAccountId] && typeof SORCloudSync !== 'undefined') {
+                SORCloudSync.schedulePush(currentAccountId, accountStore.accounts[currentAccountId].progress);
+            }
         }
 
         function renderHearts() {
@@ -2199,6 +2209,12 @@
                 progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
+            if (typeof SORCloudSync !== 'undefined') {
+                var acc = accountStore.accounts[accountId];
+                SORCloudSync.cloudRegister(accountId, pass, acc.displayName, acc.avatarColor)
+                    .then(function (uid) { if (uid) return SORCloudSync.pushProgress(accountId, acc.progress); })
+                    .catch(function () {});
+            }
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
@@ -2222,6 +2238,25 @@
             }
 
             applyAccountProgress(accountId);
+            if (typeof SORCloudSync !== 'undefined') {
+                SORCloudSync.cloudSignIn(accountId, pass).then(function (uid) {
+                    if (!uid) return;
+                    return SORCloudSync.pullProgress(accountId).then(function (remote) {
+                        if (!remote) return;
+                        var acc = accountStore.accounts[accountId];
+                        if (!acc) return;
+                        var localTs  = acc.progress && acc.progress.updatedAt ? new Date(acc.progress.updatedAt).getTime() : 0;
+                        var remoteTs = remote.updatedAt ? new Date(remote.updatedAt).getTime() : 0;
+                        if (remoteTs > localTs) {
+                            acc.progress = remote;
+                            saveAccountStore();
+                            applyStateSnapshot(remote.summary);
+                            updateStats();
+                            showToast('☁️ Fortschritt aus Cloud geladen');
+                        }
+                    });
+                }).catch(function () {});
+            }
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
         }
@@ -2234,6 +2269,7 @@
                     progress.updatedAt = new Date().toISOString();
                 }
             }
+            if (typeof SORCloudSync !== 'undefined') SORCloudSync.cloudSignOut();
             currentAccountId = null;
             accountStore.current = null;
             saveAccountStore();
