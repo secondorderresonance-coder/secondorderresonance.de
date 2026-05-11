@@ -2326,6 +2326,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Lokale quadratische Newton-Information bleibt erhalten, waehrend lineare Teilschritte skalierbar geloest werden. Intuition: Statt riesige Jacobians zu speichern, nutzt man nur Matrix-Vektor-Wirkungen in Krylov-Iteration. Schritte: 1) Formuliere F(x)=0. 2) In Iteration k: loese J(x_k) s_k = -F(x_k) mit GMRES/BiCGStab. 3) Berechne J*v ggf. per Finite-Differenz-Matrix-free. 4) Update x_{k+1}=x_k+s_k (ggf. mit Damping). 5) Nutze Preconditioner fuer lineare Subprobleme. Haeufiger Fehler: Unzureichender Preconditioner -> stagnierende Krylov-Subiteration. Schnellcheck: Sinkende nichtlineare und lineare Residuen zeigen konsistente Kopplung.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-032",
+            title: "Gershgorin-Kreise zur Eigenwertabschaetzung",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["gershgorin", "eigenwerte", "matrixanalyse", "abschaetzung"],
+            difficulty: "schwer",
+            question: "Wie helfen Gershgorin-Kreise bei der schnellen Abschaetzung von Eigenwertlagen einer Matrix?",
+            answer: "Jeder Eigenwert liegt in mindestens einem Gershgorin-Kreis D(a_ii, R_i) mit R_i = Summe_{j!=i}|a_ij|. Damit lassen sich Spektralbereiche ohne volle Eigenwertberechnung eingrenzen.",
+            explanation: "Kernidee: Diagonaleintraege und Nebendiagonalsummen liefern sofort spektrale Schranken. Intuition: Starke Diagonaldominanz zieht Eigenwerte in die Naehe der Diagonale. Schritte: 1) Berechne pro Zeile Mittelpunkt a_ii. 2) Bestimme Radius R_i aus Off-Diagonalbetraegen. 3) Zeichne/analysiere Kreisscheiben. 4) Nutze disjunkte Kreisgruppen fuer Eigenwertanzahl pro Gruppe. 5) Verifiziere numerisch bei Bedarf. Haeufiger Fehler: Spalten- und Zeilenversion verwechseln, ohne Konsistenz zu pruefen. Schnellcheck: Bei strikt diagonaldominanten Matrizen liegen Eigenwerte oft eng um Diagonaleintraege.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-032",
+            title: "Nichols-Diagramm und Entwurfsintuition",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["nichols", "frequenzentwurf", "robustheit", "loop-shaping"],
+            difficulty: "schwer",
+            question: "Welchen Vorteil bietet das Nichols-Diagramm beim Loop-Shaping gegenueber getrennten Bode-Plots?",
+            answer: "Es kombiniert Betrag und Phase in einer einzigen Darstellung und erlaubt direkten Bezug zu Stabilitaetsreserven und geschlossener Kreisantwort ueber M-Kurven.",
+            explanation: "Kernidee: Integrierte Sicht auf Phase/Betrag vereinfacht praktische Entwurfsentscheidungen. Intuition: Statt zwei Achsen in getrennten Plots zu koordinieren, sieht man kritische Bereiche in einem Bild. Schritte: 1) Trage L(jw) als Gain-vs-Phase-Kurve ein. 2) Nutze Nichols-Gitter (M/N-Kurven) fuer Zielantworten. 3) Passe Regler fuer gewuenschte Kreuzung/Reserven an. 4) Pruefe robustheitskritische Bereiche um -180°/0 dB. 5) Verifiziere mit Zeitantwort. Haeufiger Fehler: Frequenzrichtung auf der Kurve nicht beachten und falsche Interpretation der Dynamikfolge. Schnellcheck: Entwurfsverschiebungen nach links/unten reduzieren meist geschlossene Verstaerkung in kritischen Bereichen.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-032",
+            title: "Adaptive Schrittweitensteuerung bei ODE-Solvern",
+            level: "6",
+            sublevel: "6.1.1.a",
+            topic: "Numerische Simulation",
+            tags: ["adaptive-schrittweite", "fehlerschaetzung", "ode", "effizienz"],
+            difficulty: "schwer",
+            question: "Warum sind eingebettete Verfahren mit adaptiver Schrittweite fuer ODEs oft effizienter als feste Schrittweiten?",
+            answer: "Sie passen dt lokal an die aktuelle Loesungsdynamik an: kleine Schritte bei schnellen Aenderungen, grosse Schritte bei glatten Bereichen. So wird Zielgenauigkeit mit geringerem Gesamtaufwand erreicht.",
+            explanation: "Kernidee: Effizienz entsteht durch fehlergesteuerte Ressourcenverteilung ueber die Zeitachse. Intuition: Feste dt sind entweder zu klein (teuer) oder zu gross (ungenau/instabil) fuer wechselnde Dynamik. Schritte: 1) Nutze eingebettetes Paar (z.B. RK45) zur lokalen Fehlerschaetzung. 2) Vergleiche Fehler mit Toleranzen (atol/rtol). 3) Akzeptiere/werfe Schritt und passe dt per Skalierungsregel an. 4) Begrenze dt-Aenderungsfaktoren fuer Stabilitaet. 5) Protokolliere akzeptierte/abgelehnte Schritte. Haeufiger Fehler: Nur absolute Toleranz setzen und Groessenordnungen der Zustandsvariablen ignorieren. Schnellcheck: Wenige Rejects bei stabilem Fehlersignal deuten auf gutes Toleranz-Setting.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
