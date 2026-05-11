@@ -2116,6 +2116,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Preconditioning transformiert das lineare System in ein numerisch leichteres, ohne die exakte Loesung zu aendern. Intuition: Wenn Eigenwerte dichter gebuendelt sind, konvergiert CG schneller. Schritte: 1) Waehle M als gut invertierbare Approximation von A. 2) Nutze PCG-Iteration mit z_k aus M z_k = r_k. 3) Berechne Richtungen mit preconditioned Residuen. 4) Ueberwache relative Residuen. 5) Vergleiche Iterationszahl gegen ungepreconditiontes CG. Haeufiger Fehler: Zu teuren Preconditioner waehlen, der Iterationsgewinn aufhebt. Schnellcheck: Gute M senkt Gesamtzeit, nicht nur Iterationsanzahl.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-027",
+            title: "Rang-Nullitaets-Satz in Anwendungen",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["rang", "nullitaet", "kern", "bild"],
+            difficulty: "schwer",
+            question: "Wie nutzt man den Rang-Nullitaets-Satz, um Loesungsraumdimensionen linearer Gleichungssysteme schnell abzuschaetzen?",
+            answer: "Fuer A in R^(m x n) gilt dim(Kern(A)) = n - Rang(A). Bei Ax=b bestimmt Rang(A) zusammen mit Konsistenzbedingungen die Freiheitsgrade der Loesungsmenge.",
+            explanation: "Kernidee: Rang und Nullitaet teilen die Gesamtzahl der Unbekannten auf. Intuition: Jede zusaetzlich unabhaengige Gleichungsinformation reduziert freie Richtungen im Loesungsraum. Schritte: 1) Bestimme Rang(A) (z.B. Zeilenstufenform). 2) Berechne Nullitaet n-r. 3) Pruefe Konsistenz ueber Rang([A|b]). 4) Bei Konsistenz: Loesungsraum als affine Menge mit n-r Freiheitsgraden. 5) Interpretiere Kern als Homogenanteil. Haeufiger Fehler: Rang(A) und Rang([A|b]) nicht unterscheiden. Schnellcheck: Volle Spaltenrangmatrix (r=n) hat nur triviale homogene Loesung.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-027",
+            title: "Integrales Wirken und stationaerer Fehler",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["integralanteil", "stationaer", "regelabweichung", "pi-regler"],
+            difficulty: "schwer",
+            question: "Warum reduziert ein Integrator im Regler stationaere Regelabweichungen bei konstanten Stoerungen?",
+            answer: "Der Integrator summiert verbleibende Fehler ueber die Zeit. Solange e(t) nicht null ist, waechst das Integralsignal und treibt den Stellwert so nach, bis der Fehler im stationaeren Fall verschwindet.",
+            explanation: "Kernidee: I-Anteil fuehrt eine Langzeitkorrektur ein, die konstante Offsets ausgleicht. Intuition: Ein kleiner, dauerhafter Fehler kann nicht 'ignoriert' werden, weil er integriert immer groesser wird. Schritte: 1) Formuliere Regler C(s)=Kp+Ki/s. 2) Betrachte geschlossene Uebertragungsfunktion fuer Stoerung/Sollwert. 3) Nutze Endwertsatz fuer stationaeren Fehler. 4) Zeige: Mit Integrator sinkt Fehler fuer Schrittstoerungen typischerweise auf 0 (bei Stabilitaet). 5) Tune Ki gegen Ueberschwingen/Windup. Haeufiger Fehler: Ki zu hoch waehlen und dadurch Schwingungen provozieren. Schnellcheck: Bei stabilem PI-Kreis geht e(t) fuer Schrittstoerung gegen 0.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-027",
+            title: "Regularisierung in inversen Problemen",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["regularisierung", "inverse-probleme", "tikhonov", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Wozu dient Tikhonov-Regularisierung bei schlecht gestellten inversen Problemen?",
+            answer: "Sie stabilisiert die Schaetzung durch Zusatzterm ||Ax-b||^2 + lambda||x||^2. Dadurch werden verrauschte Daten weniger stark ueberangepasst und die Loesung wird robuster.",
+            explanation: "Kernidee: Regularisierung handelt den Bias-Varianz-Trade-off explizit. Intuition: Ohne Strafe nutzt die Loesung fragile Richtungen kleiner Singulaerwerte und explodiert bei Rauschen. Schritte: 1) Formuliere Zielfunktion mit Regularisierungsparameter lambda. 2) Loese (A^T A + lambda I)x = A^T b. 3) Waehle lambda via L-Kurve, Cross-Validation oder Diskrepanzprinzip. 4) Bewerte Datenfit und Loesungsnorm gemeinsam. 5) Dokumentiere Sensitivitaet gegen lambda. Haeufiger Fehler: lambda willkuerlich setzen ohne Modellwahlkriterium. Schnellcheck: Groesseres lambda glattet Loesung, erhoeht aber Bias.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
