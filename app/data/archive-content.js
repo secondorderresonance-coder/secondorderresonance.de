@@ -2074,6 +2074,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: L-BFGS behaelt Quasi-Newton-Richtungen bei, vermeidet aber die volle Matrixspeicherung. Intuition: Nur die juengste Kruemmungsinformation ist oft ausreichend, um gute Suchrichtungen zu erzeugen. Schritte: 1) Speichere letzte m Paare (s_i,y_i). 2) Nutze Two-Loop-Recursion zur Richtung p_k. 3) Fuehre Line-Search (Wolfe) durch. 4) Update Speicherfenster mit neuem Paar. 5) Waehle m als Trade-off zwischen Speicher und Richtungsqualitaet. Haeufiger Fehler: Zu kleines m bei stark gekruemmten Problemen; dann naehert sich Verhalten gradientenabstiegsartig an. Schnellcheck: Gegen SGD/Adam zeigt L-BFGS auf glatten Deterministikproblemen oft schnellere Funktionswertreduktion pro Iteration.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-026",
+            title: "Orthogonale Projektion in Unterraeume",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["projektion", "orthogonal", "unterraum", "matrix"],
+            difficulty: "schwer",
+            question: "Wie berechnet man die orthogonale Projektion eines Vektors b auf den Spaltenraum einer Matrix A mit vollem Spaltenrang?",
+            answer: "Die Projektion ist p = A(A^T A)^{-1}A^T b. Der Projektor P = A(A^T A)^{-1}A^T ist symmetrisch und idempotent.",
+            explanation: "Kernidee: Der beste Approximationsvektor im Spaltenraum minimiert den euklidischen Abstand zu b. Intuition: Das Residuum r=b-p steht senkrecht auf allen Spalten von A. Schritte: 1) Formuliere p=A*x. 2) Nutze Orthogonalitaetsbedingung A^T(b-Ax)=0. 3) Loese Normalgleichungen A^T A x = A^T b. 4) Setze p = A x. 5) Optional ueber QR stabiler berechnen. Haeufiger Fehler: A^T A direkt invertieren trotz schlechter Kondition. Schnellcheck: A^T(b-p)=0 muss gelten.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-026",
+            title: "Zustandsrueckfuehrung mit Vorfilter",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["zustandsrueckfuehrung", "vorfilter", "tracking", "stationaer"],
+            difficulty: "schwer",
+            question: "Warum ergaenzt man bei u=-Kx fuer Sollwerttracking oft einen Vorfilter N?",
+            answer: "Ohne Vorfilter entsteht bei Referenzspruengen haeufig stationaerer Sollwertfehler. Mit u = -Kx + N*r wird die statische Verstaerkung auf korrektes Tracking normiert.",
+            explanation: "Kernidee: K stabilisiert Dynamik, N skaliert den Sollwertpfad fuer korrekte Endwerte. Intuition: Rueckfuehrung korrigiert Fehler, aber ohne passenden Referenzkanal trifft der Endwert nicht automatisch exakt r. Schritte: 1) Entwirf K (z.B. Pole Placement/LQR). 2) Bestimme N aus stationaerer Gleichung des geschlossenen Kreises. 3) Teste Einheitssprungtracking. 4) Pruefe Robustheit bei Modellabweichungen. 5) Optional Integrator erweitern fuer stoerungsrobustes Tracking. Haeufiger Fehler: N ignorieren und nur K tunen, obwohl Endwertfehler beobachtet wird. Schnellcheck: Bei stabilem Kreis sollte y(t) gegen r konvergieren.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-026",
+            title: "Preconditioning im konjugierten Gradientenverfahren",
+            level: "6",
+            sublevel: "6.1.1.b",
+            topic: "Numerische Simulation",
+            tags: ["preconditioner", "cg", "kondition", "iterativ"],
+            difficulty: "schwer",
+            question: "Welche Wirkung hat ein Preconditioner M im CG-Verfahren fuer Ax=b?",
+            answer: "CG auf M^{-1}Ax=M^{-1}b verbessert typischerweise die Spektraleigenschaften und reduziert Iterationszahlen, wenn M die Kondition von A wirksam senkt.",
+            explanation: "Kernidee: Preconditioning transformiert das lineare System in ein numerisch leichteres, ohne die exakte Loesung zu aendern. Intuition: Wenn Eigenwerte dichter gebuendelt sind, konvergiert CG schneller. Schritte: 1) Waehle M als gut invertierbare Approximation von A. 2) Nutze PCG-Iteration mit z_k aus M z_k = r_k. 3) Berechne Richtungen mit preconditioned Residuen. 4) Ueberwache relative Residuen. 5) Vergleiche Iterationszahl gegen ungepreconditiontes CG. Haeufiger Fehler: Zu teuren Preconditioner waehlen, der Iterationsgewinn aufhebt. Schnellcheck: Gute M senkt Gesamtzeit, nicht nur Iterationsanzahl.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
