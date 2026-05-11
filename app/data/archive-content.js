@@ -2242,6 +2242,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Statt direkt Ax=b zu loesen, optimiert GMRES schrittweise die Restfehlernorm in immer reicheren Unterraeumen. Intuition: Jede Iteration erweitert den Suchraum um neue Information A^k r_0 und verbessert damit die beste moegliche Naeherung. Schritte: 1) Starte mit r_0=b-Ax_0. 2) Erzeuge Krylov-Basis mit Arnoldi. 3) Loese kleines Least-Squares-Problem fuer Koeffizienten. 4) Update x_k und Residuum. 5) Nutze Restart/Preconditioning fuer Speicher und Konvergenz. Haeufiger Fehler: Restart zu klein waehlen, sodass Konvergenz stark verlangsamt. Schnellcheck: Ohne Symmetrie eignet sich GMRES oft besser als CG.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-030",
+            title: "Hessenberg-Form durch Householder-Transformation",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["householder", "hessenberg", "eigenwerte", "numerik"],
+            difficulty: "schwer",
+            question: "Warum reduziert man allgemeine Matrizen oft zuerst auf Hessenberg-Form, bevor Eigenwerte numerisch berechnet werden?",
+            answer: "Die Hessenberg-Reduktion erhaelt Eigenwerte, macht nachfolgende QR-Schritte deutlich effizienter und verbessert die numerische Praktikabilitaet gegenueber direkter Arbeit auf voller Matrixstruktur.",
+            explanation: "Kernidee: Vorverarbeitung in strukturierte Form senkt Rechenaufwand pro Iteration in Eigenwertalgorithmen. Intuition: Viele Eintraege unterhalb der ersten Nebendiagonale werden gezielt auf null gebracht, ohne das Spektrum zu veraendern. Schritte: 1) Wende Householder-Reflektoren sukzessive an. 2) Erhalte H = Q^T A Q mit oberer Hessenberg-Struktur. 3) Fuehre QR-Iteration auf H durch. 4) Nutze Shift-Strategien fuer schnellere Konvergenz. 5) Lies Eigenwerte aus quasi-dreieckiger Schur-Form. Haeufiger Fehler: Aehnlichkeitstransformation und reine Zeilenumformung verwechseln. Schnellcheck: A und H haben identisches charakteristisches Polynom.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-030",
+            title: "Empfindlichkeitsfunktion S und Robustheit",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["empfindlichkeit", "robustheit", "stoerung", "frequenzbereich"],
+            difficulty: "schwer",
+            question: "Welche Rolle spielt die Empfindlichkeitsfunktion S(s)=1/(1+L(s)) fuer Stoerunterdrueckung und Robustheit?",
+            answer: "Kleine Werte von |S(jw)| bedeuten gute Stoerunterdrueckung bei diesen Frequenzen. Gleichzeitig begrenzt die Form von S die erreichbare Robustheit, da Reduktion in einem Band oft Erhoehung in anderen Baendern erfordert.",
+            explanation: "Kernidee: S beschreibt direkt, wie stark Unsicherheiten und Stoerungen auf den Ausgang durchschlagen. Intuition: Der Regelkreis kann Fehler nicht ueberall gleichzeitig klein halten; es gibt unvermeidliche Frequenz-Tradeoffs. Schritte: 1) Bestimme offenen Kreis L(s). 2) Berechne S und T=1-S. 3) Analysiere |S(jw)| fuer tiefe Frequenzen (Stoerunterdrueckung). 4) Pruefe Peaks von |S| als Robustheitsindikator. 5) Tune Regler fuer ausgewogenen Kompromiss. Haeufiger Fehler: Nur Zeitantwort betrachten und hohe |S|-Peaks uebersehen. Schnellcheck: Max|S| nahe 1 ist meist robuster als stark ausgepraegte Peaks.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-030",
+            title: "Zeitintegration steifer ODEs",
+            level: "6",
+            sublevel: "6.1.1.a",
+            topic: "Numerische Simulation",
+            tags: ["steif", "ode", "implizit", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Warum sind bei steifen Differentialgleichungen implizite Zeitintegratoren oft notwendig?",
+            answer: "Explizite Verfahren erzwingen bei Steifigkeit extrem kleine Zeitschritte zur Stabilitaet. Implizite Verfahren erlauben deutlich groessere Schritte bei stabilem Verhalten, obwohl pro Schritt ein nichtlineares/lineares System geloest werden muss.",
+            explanation: "Kernidee: Steifigkeit ist primaer ein Stabilitaets- und nicht nur Genauigkeitsproblem. Intuition: Schnelle, stark gedaempfte Moden dominieren die Schrittweitenrestriktion expliziter Verfahren, obwohl sie physikalisch oft weniger relevant sind. Schritte: 1) Erkenne steifes Verhalten (z.B. stark getrennte Eigenwertskalen). 2) Vergleiche explizite CFL-aehnliche Schranken mit gewuenschter Simulationszeit. 3) Waehle implizites Verfahren (Backward Euler, BDF, Radau). 4) Loese pro Schritt das entstehende Gleichungssystem robust (Newton/Krylov). 5) Nutze adaptive Schrittweitensteuerung. Haeufiger Fehler: Explizit mit winzigen Schritten erzwingen und Rechenzeit explodieren lassen. Schnellcheck: Stabiler Lauf mit groesseren dt bei vergleichbarer Genauigkeit deutet auf passenden steifen Integrator hin.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
