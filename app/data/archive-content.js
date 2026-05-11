@@ -2158,6 +2158,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Regularisierung handelt den Bias-Varianz-Trade-off explizit. Intuition: Ohne Strafe nutzt die Loesung fragile Richtungen kleiner Singulaerwerte und explodiert bei Rauschen. Schritte: 1) Formuliere Zielfunktion mit Regularisierungsparameter lambda. 2) Loese (A^T A + lambda I)x = A^T b. 3) Waehle lambda via L-Kurve, Cross-Validation oder Diskrepanzprinzip. 4) Bewerte Datenfit und Loesungsnorm gemeinsam. 5) Dokumentiere Sensitivitaet gegen lambda. Haeufiger Fehler: lambda willkuerlich setzen ohne Modellwahlkriterium. Schnellcheck: Groesseres lambda glattet Loesung, erhoeht aber Bias.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-028",
+            title: "SVD und pseudoinverse Loesung",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["svd", "pseudoinvers", "least-squares", "rangdefizit"],
+            difficulty: "schwer",
+            question: "Warum ist die Moore-Penrose-Pseudoinverse A^+ ueber SVD besonders nuetzlich bei rangdefizienten Systemen?",
+            answer: "Sie liefert die least-squares Loesung minimaler Norm auch bei nichtinvertierbarem A. Ueber SVD kann A^+ stabil konstruiert und kleine Singulaerwerte kontrolliert behandelt werden.",
+            explanation: "Kernidee: SVD zerlegt A in gut interpretierbare Spektralanteile, wodurch auch singulaere Faelle sauber behandelbar werden. Intuition: Richtungen mit nahezu null Singulaerwerten sind numerisch fragil; A^+ kapselt diese gezielt. Schritte: 1) Zerlege A=U*Sigma*V^T. 2) Invertiere nur nichtverschwindende Singulaerwerte zu Sigma^+. 3) Setze A^+=V*Sigma^+*U^T. 4) Berechne x*=A^+b. 5) Optional Trunkierung kleiner Singulaerwerte zur Regularisierung. Haeufiger Fehler: Normale Inversion von A^T A trotz Rangdefizit erzwingen. Schnellcheck: x* minimiert ||Ax-b||_2 und unter allen Minimierern ||x||_2.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-028",
+            title: "Phasenreserve und Zeitverhalten",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["phasenreserve", "bode", "ueberschwingen", "robustheit"],
+            difficulty: "schwer",
+            question: "Wie haengt die Phasenreserve qualitativ mit Ueberschwingen und Robustheit zusammen?",
+            answer: "Eine groessere Phasenreserve geht typischerweise mit geringerem Ueberschwingen und besserer Robustheit einher, waehrend sehr kleine Phasenreserven schwingungsnahe, empfindliche Kreise anzeigen.",
+            explanation: "Kernidee: Die Phasenreserve ist ein Frequenzmass fuer den Abstand zur Instabilitaet. Intuition: Mehr Phasenabstand am Gain-Crossover bedeutet mehr 'Puffer' gegen Modellfehler und Verzoegerung. Schritte: 1) Bestimme Crossoverfrequenz bei 0 dB. 2) Lies die Phase dort ab und berechne PM=180°+Phase. 3) Vergleiche PM mit Designziel (z.B. 45°-60°). 4) Passe Reglerparameter/Lead-Anteil an. 5) Verifiziere Zeitantwort (Ueberschwingen, Settling). Haeufiger Fehler: Nur Zeitbereich tunen ohne Reservecheck. Schnellcheck: Sehr kleine PM (<~30°) deutet oft auf hohes Ueberschwingen hin.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-028",
+            title: "Line-Search mit Wolfe-Bedingungen",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["line-search", "wolfe", "schrittweite", "konvergenz"],
+            difficulty: "schwer",
+            question: "Warum werden in Quasi-Newton-Verfahren oft Wolfe-Bedingungen fuer die Schrittweite verwendet?",
+            answer: "Sie balancieren ausreichende Funktionsabnahme und sinnvolle Kruemmung. Dadurch bleiben Schritte weder zu klein noch zu gross und die Update-Qualitaet (z.B. bei BFGS) wird stabilisiert.",
+            explanation: "Kernidee: Gute Schrittweiten sind entscheidend fuer robuste und schnelle Konvergenz. Intuition: Armijo allein kann zu konservativ sein, reine Kruemmungskriterien zu aggressiv; Wolfe kombiniert beides. Schritte: 1) Waehle Suchrichtung p_k. 2) Suche alpha mit Armijo-Bedingung. 3) Pruefe zusaetzliche Wolfe-Kruemmungsbedingung. 4) Akzeptiere alpha und update x_{k+1}. 5) Nutze Ergebnis fuer Quasi-Newton-Update. Haeufiger Fehler: Feste Lernrate in stark gekruemmten Problemen verwenden. Schnellcheck: Mit Wolfe bleibt y_k^T s_k typischerweise positiv, was BFGS-Stabilitaet foerdert.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [

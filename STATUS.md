@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v1.2.23`
+- `v1.2.24`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -30,13 +30,13 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
-## Last completed task (v1.2.23)
-Twenty-first focused L4-L6 archive expansion batch:
+## Last completed task (v1.2.24)
+Twenty-second focused L4-L6 archive expansion batch:
 
 ### Changes in this iteration
-- **T-4-027** (Rang-Nullitaets-Satz in Anwendungen): Freiheitsgrade, Konsistenz und Loesungsraumdimension.
-- **T-5-027** (Integrales Wirken und stationaerer Fehler): Wirkung von I-Anteil bei Schrittstoerungen.
-- **T-6-027** (Regularisierung in inversen Problemen): Tikhonov-Ansatz und Stabilitaets-Bias-Tradeoff.
+- **T-4-028** (SVD und pseudoinverse Loesung): Minimalnorm-Least-Squares bei Rangdefizit.
+- **T-5-028** (Phasenreserve und Zeitverhalten): Zusammenhang von PM, Ueberschwingen und Robustheit.
+- **T-6-028** (Line-Search mit Wolfe-Bedingungen): Schrittweitenstabilitaet fuer Quasi-Newton-Verfahren.
 
 ### Files touched
 - `app/data/archive-content.js`
@@ -45,13 +45,13 @@ Twenty-first focused L4-L6 archive expansion batch:
 
 ### Validation
 - `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
-- marker check: `T-4-027`, `T-5-027`, `T-6-027`
+- marker check: `T-4-028`, `T-5-028`, `T-6-028`
 
 ### Blockers
 None.
 
 ### Next logical step
-- Continue P2 with next small L4-L6 batch (`T-4-028`, `T-5-028`, `T-6-028`) while preserving the didactic explanation template.
+- Continue P2 with next small L4-L6 batch (`T-4-029`, `T-5-029`, `T-6-029`) while preserving the didactic explanation template.
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
