@@ -2200,6 +2200,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Gute Schrittweiten sind entscheidend fuer robuste und schnelle Konvergenz. Intuition: Armijo allein kann zu konservativ sein, reine Kruemmungskriterien zu aggressiv; Wolfe kombiniert beides. Schritte: 1) Waehle Suchrichtung p_k. 2) Suche alpha mit Armijo-Bedingung. 3) Pruefe zusaetzliche Wolfe-Kruemmungsbedingung. 4) Akzeptiere alpha und update x_{k+1}. 5) Nutze Ergebnis fuer Quasi-Newton-Update. Haeufiger Fehler: Feste Lernrate in stark gekruemmten Problemen verwenden. Schnellcheck: Mit Wolfe bleibt y_k^T s_k typischerweise positiv, was BFGS-Stabilitaet foerdert.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-029",
+            title: "QR-Loesung linearer Gleichungssysteme",
+            level: "4",
+            sublevel: "4.1.1.a",
+            topic: "Lineare Algebra",
+            tags: ["qr", "lineares-system", "rueckwaertseinsetzen", "stabilitaet"],
+            difficulty: "schwer",
+            question: "Wie loest man Ax=b mit A=QR und warum ist das oft stabiler als direkte Inversion?",
+            answer: "Mit A=QR folgt R*x=Q^T*b. Man berechnet erst y=Q^T*b und loest dann das Dreieckssystem R*x=y per Rueckwaertseinsetzen. Das vermeidet explizite Matrixinversion und ist numerisch stabiler.",
+            explanation: "Kernidee: Orthogonale Transformationen erhalten Normen und verstaerken Rundungsfehler weniger stark. Intuition: Statt A^{-1} zu bilden, reduziert man auf ein gut behandelbares Dreieckssystem. Schritte: 1) Faktorisierung A=QR. 2) Rechte Seite transformieren: y=Q^T b. 3) Loese R x = y von unten nach oben. 4) Residuum r=b-Ax pruefen. 5) Bei Least-Squares analog mit rechteckigem Q,R vorgehen. Haeufiger Fehler: Q und R falsch dimensionieren/verwechseln bei m>n. Schnellcheck: Bei orthogonalem Q gilt ||Qz||_2=||z||_2.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-029",
+            title: "Bandbreite und Stoerunterdrueckung",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["bandbreite", "stoerung", "empfindlichkeit", "tradeoff"],
+            difficulty: "schwer",
+            question: "Welcher Zusammenhang besteht zwischen Reglerbandbreite, Stoerunterdrueckung und Rauschempfindlichkeit?",
+            answer: "Hoehere Bandbreite verbessert typischerweise Stoerunterdrueckung und Tracking im tieffrequenten Bereich, erhoeht aber oft die Empfindlichkeit gegen Messrauschen und Modellunsicherheiten bei hohen Frequenzen.",
+            explanation: "Kernidee: Bandbreite ist ein zentraler Entwurfshebel, aber kein kostenloser Gewinn. Intuition: Ein schneller Kreis reagiert besser auf echte Signale und leider auch staerker auf hochfrequentes Rauschen. Schritte: 1) Definiere Leistungsziele im Zeit- und Frequenzbereich. 2) Passe Durchtrittsfrequenz ueber Reglerparameter an. 3) Pruefe Sensitivitaetsfunktion S und Komplementaersensitivitaet T. 4) Kontrolliere PM/GM fuer Robustheit. 5) Verifiziere mit Rausch- und Stoerszenarien. Haeufiger Fehler: Nur Schnelligkeit maximieren und Robustheitsverlust uebersehen. Schnellcheck: Steigt Hochfrequenzverstaerkung von T deutlich, nimmt Rauscheinfluss zu.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-029",
+            title: "Krylov-Unterraeume und GMRES-Idee",
+            level: "6",
+            sublevel: "6.1.1.b",
+            topic: "Numerische Simulation",
+            tags: ["gmres", "krylov", "iterativ", "residuum"],
+            difficulty: "schwer",
+            question: "Was ist die Grundidee von GMRES fuer nicht-symmetrische lineare Systeme?",
+            answer: "GMRES sucht in einem wachsenden Krylov-Unterraum die Naeherung, die das Residuum minimiert. Die Basis wird typischerweise per Arnoldi-Verfahren aufgebaut.",
+            explanation: "Kernidee: Statt direkt Ax=b zu loesen, optimiert GMRES schrittweise die Restfehlernorm in immer reicheren Unterraeumen. Intuition: Jede Iteration erweitert den Suchraum um neue Information A^k r_0 und verbessert damit die beste moegliche Naeherung. Schritte: 1) Starte mit r_0=b-Ax_0. 2) Erzeuge Krylov-Basis mit Arnoldi. 3) Loese kleines Least-Squares-Problem fuer Koeffizienten. 4) Update x_k und Residuum. 5) Nutze Restart/Preconditioning fuer Speicher und Konvergenz. Haeufiger Fehler: Restart zu klein waehlen, sodass Konvergenz stark verlangsamt. Schnellcheck: Ohne Symmetrie eignet sich GMRES oft besser als CG.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [
