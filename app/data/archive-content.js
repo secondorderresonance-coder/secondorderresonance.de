@@ -2284,6 +2284,48 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Steifigkeit ist primaer ein Stabilitaets- und nicht nur Genauigkeitsproblem. Intuition: Schnelle, stark gedaempfte Moden dominieren die Schrittweitenrestriktion expliziter Verfahren, obwohl sie physikalisch oft weniger relevant sind. Schritte: 1) Erkenne steifes Verhalten (z.B. stark getrennte Eigenwertskalen). 2) Vergleiche explizite CFL-aehnliche Schranken mit gewuenschter Simulationszeit. 3) Waehle implizites Verfahren (Backward Euler, BDF, Radau). 4) Loese pro Schritt das entstehende Gleichungssystem robust (Newton/Krylov). 5) Nutze adaptive Schrittweitensteuerung. Haeufiger Fehler: Explizit mit winzigen Schritten erzwingen und Rechenzeit explodieren lassen. Schnellcheck: Stabiler Lauf mit groesseren dt bei vergleichbarer Genauigkeit deutet auf passenden steifen Integrator hin.",
             type: "konzeptfrage",
             estimatedTime: 10
+        },
+        {
+            id: "T-4-031",
+            title: "Schur-Zerlegung als Eigenwertbasis",
+            level: "4",
+            sublevel: "4.1.1.b",
+            topic: "Lineare Algebra",
+            tags: ["schur", "eigenwerte", "orthogonal", "numerik"],
+            difficulty: "schwer",
+            question: "Warum ist die Schur-Zerlegung in numerischen Eigenwertverfahren oft zentraler als direkte Diagonalisierung?",
+            answer: "Jede quadratische Matrix besitzt eine Schur-Zerlegung A=Q T Q^T (reell: quasi-obere Dreiecksform). Diese ist numerisch stabil und liefert Eigenwerte direkt aus den Diagonal-/2x2-Bloecken von T.",
+            explanation: "Kernidee: Schur-Form existiert immer und ist robust berechenbar, waehrend Diagonalisierung nicht immer moeglich oder numerisch instabil ist. Intuition: Statt auf volle Eigenvektorbasis zu hoffen, nutzt man eine stets erreichbare nahezu dreieckige Normalform. Schritte: 1) Reduziere A auf Hessenbergform. 2) Fuehre QR-Iteration mit Shifts aus. 3) Erhalte orthogonale Q und Schur-Matrix T. 4) Lies Eigenwerte aus T. 5) Bei Bedarf berechne Schur-Vektoren fuer Unterraumanalysen. Haeufiger Fehler: Schur- und Jordan-Form verwechseln. Schnellcheck: Orthogonales Q erhaelt Normen, was Rundungsfehler begrenzt.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-5-031",
+            title: "Komplementaersensitivitaet T(s) und Rauschen",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["komplementaersensitivitaet", "rauschen", "bandbreite", "robustheit"],
+            difficulty: "schwer",
+            question: "Wie wirkt die Komplementaersensitivitaet T(s)=L/(1+L) auf Messrauschen im geschlossenen Kreis?",
+            answer: "Messrauschen wird typischerweise ueber T in den Ausgang uebertragen. Hohe |T(jw)| bei hohen Frequenzen verstaerkt Rauschanteile; deshalb sind Bandbreiten- und Filterwahl kritisch.",
+            explanation: "Kernidee: T beschreibt, wie stark der Kreis Referenz-/Messkanalanteile durchlaesst. Intuition: Ein sehr aggressiver Regler kann nicht nur schneller tracken, sondern auch Rauschen mitverstaerken. Schritte: 1) Bestimme offenen Kreis L. 2) Berechne T=L/(1+L). 3) Pruefe Hochfrequenzverhalten von |T|. 4) Optimiere Lead/Lag und Roll-off fuer Kompromiss. 5) Verifiziere mit realistischem Sensorspektrum. Haeufiger Fehler: Nur Sollfolgebild betrachten und Rauschdurchgriff ignorieren. Schnellcheck: Sinkendes |T| im Hochfrequenzbereich reduziert typischerweise Rauschsensitivitaet.",
+            type: "konzeptfrage",
+            estimatedTime: 9
+        },
+        {
+            id: "T-6-031",
+            title: "Newton-Krylov fuer grosse nichtlineare Systeme",
+            level: "6",
+            sublevel: "6.2",
+            topic: "Optimierung",
+            tags: ["newton-krylov", "jacobianfrei", "gmres", "nichtlinear"],
+            difficulty: "schwer",
+            question: "Was ist der Vorteil von Newton-Krylov-Methoden bei sehr grossen nichtlinearen Gleichungssystemen?",
+            answer: "Sie kombinieren Newton-Schritte mit iterativen Krylov-Loesern fuer linearisierte Teilsysteme und vermeiden oft explizite Jacobian-Matrixaufbauten (matrix-free), was Speicher und Rechenzeit spart.",
+            explanation: "Kernidee: Lokale quadratische Newton-Information bleibt erhalten, waehrend lineare Teilschritte skalierbar geloest werden. Intuition: Statt riesige Jacobians zu speichern, nutzt man nur Matrix-Vektor-Wirkungen in Krylov-Iteration. Schritte: 1) Formuliere F(x)=0. 2) In Iteration k: loese J(x_k) s_k = -F(x_k) mit GMRES/BiCGStab. 3) Berechne J*v ggf. per Finite-Differenz-Matrix-free. 4) Update x_{k+1}=x_k+s_k (ggf. mit Damping). 5) Nutze Preconditioner fuer lineare Subprobleme. Haeufiger Fehler: Unzureichender Preconditioner -> stagnierende Krylov-Subiteration. Schnellcheck: Sinkende nichtlineare und lineare Residuen zeigen konsistente Kopplung.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [

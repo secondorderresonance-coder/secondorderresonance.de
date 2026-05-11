@@ -15,7 +15,7 @@
 - 1.500 Aufgaben pro Level in dieser Iteration
 - 9.000 Aufgaben insgesamt aktuell verfuegbar
 - L1-L3 Schulabdeckung erweitert bis T-1-020 / T-2-020 / T-3-020
-- L4-L6 Ausbau-Batches aktuell erweitert bis T-4-030 / T-5-030 / T-6-030
+- L4-L6 Ausbau-Batches aktuell erweitert bis T-4-031 / T-5-031 / T-6-031
 - Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
 
 ## P1
