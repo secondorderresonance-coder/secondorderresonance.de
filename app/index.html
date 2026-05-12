@@ -913,6 +913,8 @@
         </div>
     </main>
 
+    <!-- firebase-config.js sets window.SOR_FIREBASE_CONFIG; Firebase SDK is loaded dynamically -->
+    <script src="firebase-config.js"></script>
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
@@ -1831,6 +1833,7 @@
                 email: email,
                 displayName: displayName,
                 password: account.password || '',
+                firebaseUid: account.firebaseUid || null,
                 avatarColor: account.avatarColor || AVATAR_COLORS[colorIdx],
                 createdAt: account.createdAt || new Date().toISOString(),
                 hearts: typeof account.hearts === 'number' ? Math.min(account.hearts, HEARTS_MAX) : HEARTS_MAX,
@@ -1874,10 +1877,135 @@
             } catch (e) {}
         }
 
+        // ── Firebase Cloud Sync ───────────────────────────────────────────────────
+        // Firebase SDK is loaded dynamically – only when a real config is detected.
+        // Falls back to localStorage silently when config has placeholder values.
+        let _sorFbAuth = null;
+        let _sorFbDb   = null;
+
+        function _sorFbSetup() {
+            try {
+                const cfg = window.SOR_FIREBASE_CONFIG;
+                if (!firebase.apps.length) firebase.initializeApp(cfg);
+                _sorFbAuth = firebase.auth();
+                _sorFbDb   = firebase.firestore();
+
+                // Restore Firebase session on page load (cross-device sync entry point)
+                _sorFbAuth.onAuthStateChanged(function(user) {
+                    if (!user) return;
+                    const accountId = normalizeAccountId(user.email);
+                    if (currentAccountId) {
+                        // Already logged in locally – just store the uid and refresh hint
+                        if (accountStore.accounts[currentAccountId] &&
+                                currentAccountId === accountId) {
+                            accountStore.accounts[accountId].firebaseUid = user.uid;
+                            saveAccountStore();
+                            updateCloudSyncHint(accountId);
+                        }
+                        return;
+                    }
+                    if (accountStore.accounts[accountId]) {
+                        accountStore.accounts[accountId].firebaseUid = user.uid;
+                        applyAccountProgress(accountId);
+                        updateCloudSyncHint(accountId);
+                    } else {
+                        // No local record – pull from Firestore
+                        sorSyncLoadProgress(user.uid).then(function(cloudData) {
+                            accountStore.accounts[accountId] = {
+                                email: accountId,
+                                displayName: user.displayName || accountId.split('@')[0],
+                                password: '',
+                                firebaseUid: user.uid,
+                                avatarColor: AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
+                                createdAt: (cloudData && cloudData.createdAt) || new Date().toISOString(),
+                                hearts: HEARTS_MAX,
+                                heartsLastRefill: new Date().toISOString(),
+                                streakFreezes: 0,
+                                streakFreezeUsed: null,
+                                progress: normalizeProgressEnvelope((cloudData && cloudData.progress) || {})
+                            };
+                            applyAccountProgress(accountId);
+                            if (cloudData) showToast('☁️ Cloud-Fortschritt geladen');
+                            updateCloudSyncHint(accountId);
+                        });
+                    }
+                });
+            } catch (e) {
+                console.warn('SOR: Firebase setup failed', e);
+            }
+        }
+
+        function sorSyncInit() {
+            const cfg = window.SOR_FIREBASE_CONFIG;
+            if (!cfg || !cfg.apiKey || cfg.apiKey.startsWith('YOUR_')) return;
+            if (typeof firebase !== 'undefined') {
+                _sorFbSetup();
+                return;
+            }
+            // SDK not yet in page – load it dynamically (only when real config present)
+            const BASE = 'https://www.gstatic.com/firebasejs/10.14.1/';
+            const srcs = [
+                BASE + 'firebase-app-compat.js',
+                BASE + 'firebase-auth-compat.js',
+                BASE + 'firebase-firestore-compat.js'
+            ];
+            let idx = 0;
+            function loadNext() {
+                if (idx >= srcs.length) { _sorFbSetup(); return; }
+                const s = document.createElement('script');
+                s.src = srcs[idx++];
+                s.onload = loadNext;
+                s.onerror = function() { console.warn('SOR: Firebase SDK load failed'); };
+                document.head.appendChild(s);
+            }
+            loadNext();
+        }
+
+        function sorSyncIsEnabled() { return !!((_sorFbAuth) && (_sorFbDb)); }
+
+        function sorSyncSaveProgress(accountId) {
+            if (!sorSyncIsEnabled()) return;
+            const account = accountStore.accounts[accountId];
+            if (!account || !account.firebaseUid) return;
+            _sorFbDb.collection('sor_users').doc(account.firebaseUid).set({
+                email: account.email,
+                displayName: account.displayName,
+                avatarColor: account.avatarColor,
+                createdAt: account.createdAt,
+                hearts: account.hearts,
+                heartsLastRefill: account.heartsLastRefill,
+                streakFreezes: account.streakFreezes,
+                streakFreezeUsed: account.streakFreezeUsed || null,
+                progress: account.progress,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true }).catch(function(e) {
+                console.warn('SOR: Firestore save failed', e);
+            });
+        }
+
+        function sorSyncLoadProgress(uid) {
+            if (!sorSyncIsEnabled()) return Promise.resolve(null);
+            return _sorFbDb.collection('sor_users').doc(uid).get()
+                .then(function(doc) { return doc.exists ? doc.data() : null; })
+                .catch(function(e) { console.warn('SOR: Firestore load failed', e); return null; });
+        }
+
+        function updateCloudSyncHint(accountId) {
+            const hintEl = document.getElementById('accountLoggedInHint');
+            if (!hintEl) return;
+            const account = accountStore.accounts[accountId];
+            const isSynced = sorSyncIsEnabled() && account && !!account.firebaseUid;
+            hintEl.textContent = isSynced
+                ? '☁️ Cloud-Sync aktiv · geräteübergreifend'
+                : 'Lokal gespeichert · je E-Mail-Adresse';
+        }
+        // ─────────────────────────────────────────────────────────────────────────
+
         function saveAccountStore() {
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
             } catch (e) {}
+            if (currentAccountId) sorSyncSaveProgress(currentAccountId);
         }
 
         function renderHearts() {
@@ -2153,6 +2281,7 @@
             applyStateSnapshot(progress ? progress.summary : {});
             saveAccountStore();
             renderAccountUI();
+            updateCloudSyncHint(accountId);
             renderLevelButtons();
             renderTopics();
             renderExercise();
@@ -2191,17 +2320,40 @@
             accountStore.accounts[accountId] = {
                 email: accountId,
                 displayName: displayName,
-                password: pass,
+                password: sorSyncIsEnabled() ? '' : pass,
+                firebaseUid: null,
                 avatarColor: AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
                 createdAt: new Date().toISOString(),
                 hearts: HEARTS_MAX,
                 heartsLastRefill: new Date().toISOString(),
+                streakFreezes: 0,
+                streakFreezeUsed: null,
                 progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
+
+            if (sorSyncIsEnabled()) {
+                _sorFbAuth.createUserWithEmailAndPassword(email, pass)
+                    .then(function(cred) {
+                        return cred.user.updateProfile({ displayName: displayName })
+                            .then(function() { return cred.user.uid; });
+                    })
+                    .then(function(uid) {
+                        accountStore.accounts[accountId].firebaseUid = uid;
+                        saveAccountStore();
+                        updateCloudSyncHint(accountId);
+                        showToast('☁️ Cloud-Sync aktiviert');
+                    })
+                    .catch(function(e) {
+                        console.warn('SOR: Firebase register failed', e.code);
+                        if (e.code === 'auth/email-already-in-use') {
+                            showToast('Firebase: E-Mail bereits vergeben – lokal gespeichert');
+                        }
+                    });
+            }
         }
 
         function loginAccount() {
@@ -2210,17 +2362,68 @@
             const email = emailInput ? normalizeEmail(emailInput.value) : '';
             const pass = passInput ? passInput.value : '';
             const accountId = normalizeAccountId(email);
-            const account = accountStore.accounts[accountId];
 
             if (!isValidEmail(email)) {
-                showToast('Bitte eine gueltige E-Mail-Adresse eingeben');
+                showToast('Bitte eine gültige E-Mail-Adresse eingeben');
                 return;
             }
+
+            if (sorSyncIsEnabled()) {
+                // Firebase auth path – authoritative when cloud sync is configured
+                _sorFbAuth.signInWithEmailAndPassword(email, pass)
+                    .then(function(cred) {
+                        const uid = cred.user.uid;
+                        if (accountStore.accounts[accountId]) {
+                            accountStore.accounts[accountId].firebaseUid = uid;
+                            accountStore.accounts[accountId].password = '';
+                            const name = accountStore.accounts[accountId].displayName || accountId.split('@')[0];
+                            applyAccountProgress(accountId);
+                            showToast('Willkommen zurück, ' + name + '!');
+                        } else {
+                            // No local record – restore from Firestore
+                            sorSyncLoadProgress(uid).then(function(cloudData) {
+                                accountStore.accounts[accountId] = {
+                                    email: accountId,
+                                    displayName: (cred.user.displayName) || accountId.split('@')[0],
+                                    password: '',
+                                    firebaseUid: uid,
+                                    avatarColor: AVATAR_COLORS[accountId.charCodeAt(0) % AVATAR_COLORS.length],
+                                    createdAt: (cloudData && cloudData.createdAt) || new Date().toISOString(),
+                                    hearts: (cloudData && typeof cloudData.hearts === 'number') ? cloudData.hearts : HEARTS_MAX,
+                                    heartsLastRefill: (cloudData && cloudData.heartsLastRefill) || new Date().toISOString(),
+                                    streakFreezes: (cloudData && typeof cloudData.streakFreezes === 'number') ? cloudData.streakFreezes : 0,
+                                    streakFreezeUsed: (cloudData && cloudData.streakFreezeUsed) || null,
+                                    progress: normalizeProgressEnvelope((cloudData && cloudData.progress) || {})
+                                };
+                                const name = accountStore.accounts[accountId].displayName;
+                                applyAccountProgress(accountId);
+                                showToast(cloudData
+                                    ? '☁️ Willkommen zurück, ' + name + '! Fortschritt aus Cloud geladen.'
+                                    : 'Willkommen, ' + name + '!');
+                            });
+                        }
+                        if (passInput) passInput.value = '';
+                    })
+                    .catch(function(e) {
+                        // Firebase failed – try local password as fallback for existing accounts
+                        const account = accountStore.accounts[accountId];
+                        if (account && account.password && account.password === pass) {
+                            applyAccountProgress(accountId);
+                            showToast('Willkommen zurück (lokal), ' + (account.displayName || accountId.split('@')[0]) + '!');
+                        } else {
+                            showToast('E-Mail oder Passwort falsch');
+                        }
+                        if (passInput) passInput.value = '';
+                    });
+                return;
+            }
+
+            // Local-only auth (no Firebase configured)
+            const account = accountStore.accounts[accountId];
             if (!account || account.password !== pass) {
                 showToast('E-Mail oder Passwort falsch');
                 return;
             }
-
             applyAccountProgress(accountId);
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
@@ -2233,6 +2436,10 @@
                     progress.summary = normalizeSummarySnapshot(getStateSnapshot());
                     progress.updatedAt = new Date().toISOString();
                 }
+                saveAccountStore();
+            }
+            if (sorSyncIsEnabled()) {
+                _sorFbAuth.signOut().catch(function(e) { console.warn('SOR: Firebase signOut failed', e); });
             }
             currentAccountId = null;
             accountStore.current = null;
@@ -2614,7 +2821,8 @@
             renderLevelButtons();
         }
 
-        // Initialize
+        // Initialize – sorSyncInit() loads Firebase SDK dynamically if real config found
+        sorSyncInit();
         loadAccountStore();
         if (accountStore.current && accountStore.accounts[accountStore.current]) {
             currentAccountId = accountStore.current;
@@ -2625,6 +2833,7 @@
         state.lessonXpStart = state.xp;
         bindAccountEvents();
         renderAccountUI();
+        if (currentAccountId) updateCloudSyncHint(currentAccountId);
         renderLevelButtons();
         renderTopics();
         renderExercise();
