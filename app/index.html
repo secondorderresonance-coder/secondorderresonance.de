@@ -1837,6 +1837,7 @@
                 heartsLastRefill: account.heartsLastRefill || new Date().toISOString(),
                 streakFreezes: typeof account.streakFreezes === 'number' ? account.streakFreezes : 0,
                 streakFreezeUsed: account.streakFreezeUsed || null,
+                firebaseUid: account.firebaseUid || null,
                 progress: normalizeProgressEnvelope(account.progress || {})
             };
         }
@@ -1878,6 +1879,12 @@
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
             } catch (e) {}
+            if (currentAccountId && window.sorFirebaseSync && sorFirebaseSync.isReady()) {
+                const acc = accountStore.accounts[currentAccountId];
+                if (acc && acc.firebaseUid && acc.progress) {
+                    sorFirebaseSync.syncProgress(acc.firebaseUid, acc.progress).catch(function () {});
+                }
+            }
         }
 
         function renderHearts() {
@@ -2117,6 +2124,16 @@
             else registerAccount();
         }
 
+        function updateCloudSyncHint() {
+            const hint = document.getElementById('accountLoggedInHint');
+            if (!hint) return;
+            const acc = currentAccountId && accountStore.accounts[currentAccountId];
+            const synced = acc && acc.firebaseUid && window.sorFirebaseSync && sorFirebaseSync.isReady();
+            hint.textContent = synced
+                ? '☁ Cloud-Sync aktiv · Fortschritt geräteübergreifend gespeichert'
+                : 'Lokal gespeichert · je E-Mail-Adresse';
+        }
+
         function renderAccountUI() {
             const loggedIn = document.getElementById('accountLoggedIn');
             const loggedOut = document.getElementById('accountLoggedOut');
@@ -2141,6 +2158,7 @@
             updateAccountHeader();
             renderHearts();
             updateDailyMission();
+            updateCloudSyncHint();
         }
 
         function applyAccountProgress(accountId) {
@@ -2196,12 +2214,24 @@
                 createdAt: new Date().toISOString(),
                 hearts: HEARTS_MAX,
                 heartsLastRefill: new Date().toISOString(),
+                firebaseUid: null,
                 progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
+
+            // Attempt Firebase registration in the background (non-blocking).
+            if (window.sorFirebaseSync && sorFirebaseSync.isReady()) {
+                sorFirebaseSync.registerUser(accountId, pass, displayName).then(function (uid) {
+                    if (uid && accountStore.accounts[accountId]) {
+                        accountStore.accounts[accountId].firebaseUid = uid;
+                        saveAccountStore();
+                        updateCloudSyncHint();
+                    }
+                });
+            }
         }
 
         function loginAccount() {
@@ -2224,6 +2254,31 @@
             applyAccountProgress(accountId);
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
+
+            // Attempt Firebase sign-in and load cloud progress in the background.
+            if (window.sorFirebaseSync && sorFirebaseSync.isReady()) {
+                sorFirebaseSync.signIn(accountId, pass).then(function (uid) {
+                    if (!uid) return;
+                    if (accountStore.accounts[accountId]) {
+                        accountStore.accounts[accountId].firebaseUid = uid;
+                        saveAccountStore();
+                    }
+                    // Merge Firestore progress if it is newer than local.
+                    return sorFirebaseSync.loadProgress(uid).then(function (cloudProgress) {
+                        if (!cloudProgress) return;
+                        const local = accountStore.accounts[accountId] && accountStore.accounts[accountId].progress;
+                        const localTs = local && local.updatedAt ? new Date(local.updatedAt).getTime() : 0;
+                        const cloudTs = cloudProgress.updatedAt ? new Date(cloudProgress.updatedAt).getTime() : 0;
+                        if (cloudTs > localTs) {
+                            accountStore.accounts[accountId].progress = cloudProgress;
+                            saveAccountStore();
+                            applyAccountProgress(accountId);
+                            showToast('☁ Fortschritt aus der Cloud geladen.');
+                        }
+                        updateCloudSyncHint();
+                    });
+                });
+            }
         }
 
         function logoutAccount() {
@@ -2237,6 +2292,9 @@
             currentAccountId = null;
             accountStore.current = null;
             saveAccountStore();
+            if (window.sorFirebaseSync && sorFirebaseSync.isReady()) {
+                sorFirebaseSync.signOut().catch(function () {});
+            }
 
             state = createInitialState();
             renderAccountUI();
@@ -2636,6 +2694,19 @@
         renderDailyChallenge();
         openFromLocation();
         window.addEventListener('hashchange', openFromLocation);
+    </script>
+
+    <!-- Firebase compat SDK (loads only when browser supports ES5+) -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="firebase-sync.js" defer></script>
+    <script>
+        // Initialise Firebase after deferred scripts have loaded.
+        window.addEventListener('load', function () {
+            if (window.sorFirebaseSync) sorFirebaseSync.init();
+        });
     </script>
 
 </body>

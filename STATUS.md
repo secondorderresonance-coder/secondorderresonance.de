@@ -30,6 +30,41 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
+## Last completed task (v2.5.0)
+Firebase Cloud Sync architecture – P4 first step:
+
+### Changes in this iteration
+- **`app/firebase-config.js`** (new): Firebase project configuration placeholder. Replace the `REPLACE_WITH_...` values with real Firebase credentials to enable Cloud Sync; the app falls back to local storage silently when they are not set.
+- **`app/firebase-sync.js`** (new): Lightweight wrapper around the Firebase Compat SDK. Exposes `sorFirebaseSync.{init, isReady, registerUser, signIn, signOut, getCurrentUser, syncProgress, loadProgress}`. All async paths catch errors internally so callers never need to handle Firebase failures.
+- **`app/index.html`**:
+  - Firebase 10.x compat SDK loaded via CDN `<script defer>` tags; initialised in a `window.load` handler so it does not block the main thread.
+  - `normalizeAccountRecord` extended with `firebaseUid: null` field (migration-safe).
+  - `saveAccountStore` now also calls `sorFirebaseSync.syncProgress` (fire-and-forget) when a `firebaseUid` is present and Firebase is ready.
+  - `registerAccount` attempts `sorFirebaseSync.registerUser` after local account creation; stores the returned UID and updates the sync hint.
+  - `loginAccount` attempts `sorFirebaseSync.signIn`, then `loadProgress`; merges cloud progress if its `updatedAt` timestamp is newer than local.
+  - `logoutAccount` calls `sorFirebaseSync.signOut` (non-blocking).
+  - `updateCloudSyncHint` helper renders "☁ Cloud-Sync aktiv · Fortschritt geräteübergreifend gespeichert" when Firebase is active, otherwise "Lokal gespeichert · je E-Mail-Adresse".
+
+### Files touched
+- `app/firebase-config.js` (new)
+- `app/firebase-sync.js` (new)
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level
+- Grep confirms all key markers present: `sorFirebaseSync`, `firebaseUid`, `updateCloudSyncHint`, SDK script tags
+- Local-only flow unchanged (placeholder config → `isReady()` returns false → all Firebase paths skipped)
+
+### Blockers
+Firebase credentials (API key, project ID, etc.) must be filled into `app/firebase-config.js` before Cloud Sync becomes active. The file is intentionally committed with placeholders — real credentials should be added via environment injection or a separate secret management step.
+
+### Next logical step
+- Fill in real Firebase project credentials and deploy to enable Cloud Sync for registered users.
+- Consider: add Google OAuth sign-in as an alternative to email/password (easier UX, same Firebase Auth backend).
+- Continue with the next open P4 item: define free-first monetization path.
+
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
 
