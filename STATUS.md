@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,44 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore):
+
+### Changes in this iteration
+- **`app/firebase-config.js`** (new): Placeholder Firebase project config with full setup instructions (Authentication → Email/Password, Firestore rules, Web app SDK snippet). When `apiKey` starts with `YOUR_`, the app runs in local-only mode – no behaviour change for existing users.
+- **`app/cloud-sync.js`** (new): Progressive-enhancement sync layer (`window.SORCloudSync`). Provides `init`, `register`, `login`, `saveProgress` (2 s debounce), `logout`, and `mergeProgress` (union of activity history, higher XP wins). All Firebase calls are wrapped in try/catch – local-only fallback is automatic.
+- **`app/index.html`**: Six focused changes:
+  1. Added Firebase compat SDK v10.13.1 CDN scripts (`firebase-app-compat`, `firebase-auth-compat`, `firebase-firestore-compat`) plus `firebase-config.js` and `cloud-sync.js` includes in `<head>`.
+  2. `normalizeAccountRecord`: added `firebaseUid` field (migration-safe, defaults to `null`).
+  3. `saveAccountStore`: calls `SORCloudSync.saveProgress(uid, progress)` (debounced) when Firebase uid is present.
+  4. `registerAccount`: calls `SORCloudSync.register()` after local account creation; stores returned uid.
+  5. `loginAccount`: calls `SORCloudSync.login()` after local auth succeeds; merges remote progress if it has higher XP.
+  6. `logoutAccount`: calls `SORCloudSync.logout()` to sign out from Firebase.
+  7. Startup: calls `SORCloudSync.init()` before `loadAccountStore()`.
+
+### Files touched
+- `app/firebase-config.js` (new)
+- `app/cloud-sync.js` (new)
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level, 30 placement questions
+- `node -e "new Function(src)"` syntax check → OK for both new JS files
+- Local-only path unchanged: no localStorage logic removed; all existing account flows still work
+- Firebase path: gracefully skipped when `apiKey` starts with `YOUR_` (placeholder config)
+
+### Blockers
+To activate cloud sync, the deployer must:
+1. Create a Firebase project and enable Email/Password Authentication.
+2. Enable Firestore and add the security rules from `firebase-config.js` comments.
+3. Replace the placeholder values in `app/firebase-config.js` with the real project config.
+
+### Next logical step
+- Deploy the Firebase config and test end-to-end cloud sync across two devices/browsers.
+- Or proceed to next open P4 task: Define free-first monetization path.
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
