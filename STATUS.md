@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,43 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+Firebase Auth + Firestore cloud sync bridge:
+
+### Changes in this iteration
+- **`app/firebase-config.js`** (new): Placeholder Firebase config. Repo owner fills in project credentials to activate cloud sync. While values remain at placeholders, the app runs in unchanged local-storage-only mode.
+- **`app/cloud-sync.js`** (new): Self-contained IIFE that exposes `window.SORCloud` with `register`, `login`, `logout`, `saveProgress`, `loadProgress`. Gracefully no-ops (stub promises) when Firebase SDK is absent or config is not filled in.
+- **`app/index.html`** (modified):
+  - Firebase SDK compat scripts loaded from CDN (`firebase-app-compat`, `firebase-auth-compat`, `firebase-firestore-compat` v10.12.0).
+  - `firebaseUid: null` added to `normalizeAccountRecord()` (migration-safe).
+  - `saveAccountStore()` now pushes progress to Firestore after each local save when a `firebaseUid` is present.
+  - `registerAccount()` calls `SORCloud.register()` after local creation and stores the returned UID; detects "email already in use" and shows a helpful hint.
+  - `loginAccount()` tries `SORCloud.login()` first when configured (enables cross-device sync); falls back to `doLocalLogin()` on Firebase error.
+  - `doLocalLogin()` extracted as a standalone helper to keep the login path clean.
+  - Cloud sync indicator `#accountSyncHint` (☁ Cloud-Sync aktiv) shown when user is logged in with a valid `firebaseUid`.
+
+### Files touched
+- `app/firebase-config.js` (new)
+- `app/cloud-sync.js` (new)
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level (no data regression)
+- Brace-depth check on inline script → depth=0 (balanced)
+- All `SORCloud` / `firebaseUid` / `doLocalLogin` references confirmed present via grep
+- Local-only mode: `SORCloud.isConfigured()` returns `false` when `firebase-config.js` has placeholder values → no behavioral change for existing users
+
+### Blockers
+- Cloud sync will not activate until the repo owner creates a Firebase project, enables Email/Password Auth and Firestore, and fills in `app/firebase-config.js` with real credentials.
+- Firestore security rules must restrict each document to the owning Firebase UID (template commented in `firebase-config.js`).
+
+### Next logical step
+- Fill in `app/firebase-config.js` with a real Firebase project config to activate sync.
+- Or continue with next open P4 task: "Define free-first monetization path with optional small premium tier."
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:

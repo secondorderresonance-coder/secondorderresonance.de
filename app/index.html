@@ -686,6 +686,12 @@
             .hearts-display { display: none; }
         }
     </style>
+    <!-- Firebase SDK (cloud sync – loaded only; active only when firebase-config.js has real values) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="cloud-sync.js"></script>
 </head>
 <body>
 
@@ -768,6 +774,7 @@
                 <div class="account-logged-in-meta">
                     <div class="account-logged-in-name" id="accountDisplayName">Username</div>
                     <div class="account-logged-in-hint" id="accountLoggedInHint">Lokal gespeichert &middot; je E-Mail-Adresse</div>
+                    <div class="account-logged-in-hint" id="accountSyncHint" style="display:none;color:var(--success);font-size:0.72rem">&#9729; Cloud-Sync aktiv</div>
                 </div>
                 <div class="account-actions">
                     <a href="profil.html" class="account-link-btn">&#128202; Profil</a>
@@ -1837,6 +1844,7 @@
                 heartsLastRefill: account.heartsLastRefill || new Date().toISOString(),
                 streakFreezes: typeof account.streakFreezes === 'number' ? account.streakFreezes : 0,
                 streakFreezeUsed: account.streakFreezeUsed || null,
+                firebaseUid: account.firebaseUid || null,
                 progress: normalizeProgressEnvelope(account.progress || {})
             };
         }
@@ -1877,6 +1885,12 @@
         function saveAccountStore() {
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
+                if (window.SORCloud && window.SORCloud.isConfigured() && currentAccountId) {
+                    var acc = accountStore.accounts[currentAccountId];
+                    if (acc && acc.firebaseUid && acc.progress) {
+                        window.SORCloud.saveProgress(acc.firebaseUid, acc.progress);
+                    }
+                }
             } catch (e) {}
         }
 
@@ -2134,6 +2148,8 @@
                     avatarEl.style.background = account.avatarColor || '#e94560';
                 }
                 if (nameEl) nameEl.textContent = label;
+                const syncHint = document.getElementById('accountSyncHint');
+                if (syncHint) syncHint.style.display = (window.SORCloud && window.SORCloud.isConfigured() && account.firebaseUid) ? 'block' : 'none';
             } else {
                 loggedIn.style.display = 'none';
                 loggedOut.style.display = 'block';
@@ -2196,12 +2212,36 @@
                 createdAt: new Date().toISOString(),
                 hearts: HEARTS_MAX,
                 heartsLastRefill: new Date().toISOString(),
+                firebaseUid: null,
                 progress: createProgressEnvelope(getStateSnapshot())
             };
             applyAccountProgress(accountId);
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
+
+            if (window.SORCloud && window.SORCloud.isConfigured()) {
+                window.SORCloud.register(accountId, pass, displayName).then(function (result) {
+                    if (result && result.uid) {
+                        accountStore.accounts[accountId].firebaseUid = result.uid;
+                        saveAccountStore();
+                    } else if (result && result.error === 'auth/email-already-in-use') {
+                        showToast('☁️ Diese E-Mail hat bereits ein Cloud-Konto – melde dich stattdessen an.');
+                    }
+                });
+            }
+        }
+
+        function doLocalLogin(accountId, pass) {
+            const account = accountStore.accounts[accountId];
+            if (!account || account.password !== pass) {
+                showToast('E-Mail oder Passwort falsch');
+                return;
+            }
+            applyAccountProgress(accountId);
+            showToast('Willkommen zurück, ' + (account.displayName || (account.email || '').split('@')[0]) + '!');
+            const passInput = document.getElementById('accountPassword');
+            if (passInput) passInput.value = '';
         }
 
         function loginAccount() {
@@ -2210,20 +2250,36 @@
             const email = emailInput ? normalizeEmail(emailInput.value) : '';
             const pass = passInput ? passInput.value : '';
             const accountId = normalizeAccountId(email);
-            const account = accountStore.accounts[accountId];
 
             if (!isValidEmail(email)) {
                 showToast('Bitte eine gueltige E-Mail-Adresse eingeben');
                 return;
             }
-            if (!account || account.password !== pass) {
-                showToast('E-Mail oder Passwort falsch');
+
+            if (window.SORCloud && window.SORCloud.isConfigured()) {
+                window.SORCloud.login(email, pass).then(function (result) {
+                    if (result.error) {
+                        doLocalLogin(accountId, pass);
+                        return;
+                    }
+                    const existing = accountStore.accounts[accountId] || {};
+                    existing.firebaseUid = result.uid;
+                    if (result.progressEnvelope) {
+                        const local = existing.progress;
+                        const cloud = result.progressEnvelope;
+                        if (!local || !local.updatedAt || (cloud.updatedAt && cloud.updatedAt > local.updatedAt)) {
+                            existing.progress = cloud;
+                        }
+                    }
+                    accountStore.accounts[accountId] = normalizeAccountRecord(existing, accountId);
+                    applyAccountProgress(accountId);
+                    showToast('☁️ Willkommen zurück, ' + (existing.displayName || email.split('@')[0]) + '!');
+                    if (passInput) passInput.value = '';
+                });
                 return;
             }
 
-            applyAccountProgress(accountId);
-            showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
-            if (passInput) passInput.value = '';
+            doLocalLogin(accountId, pass);
         }
 
         function logoutAccount() {
