@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,42 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+Cloud-Sync architecture for SOR accounts (Firebase Auth + Firestore, local-first):
+
+### Changes in this iteration
+- **`app/sync-config.js`** (new): Firebase configuration placeholder. Set `FIREBASE_CONFIG` to your Firebase project object to activate cloud sync; leave `null` for local-only mode (default, backward-compatible).
+- **`app/sync.js`** (new): `SORSync` service module. Dynamically loads Firebase SDK from CDN only when configured. Provides `isEnabled()`, `register()`, `signIn()`, `signOut()`, `pushProgress()`, `pullProgress()`, `schedulePush()`. All functions are transparent no-ops when `FIREBASE_CONFIG` is null.
+- **`app/index.html`**:
+  - Added `<script src="sync-config.js">` and `<script src="sync.js">` in `<head>`.
+  - `saveAccountStore()`: debounced Firestore push (3 s) after every localStorage save.
+  - `registerAccount()`: after local account creation, asynchronously creates Firebase Auth user and pushes initial progress.
+  - `loginAccount()`: after local login, asynchronously authenticates with Firebase and pulls remote progress if it is newer than local (ISO timestamp comparison).
+  - `logoutAccount()`: calls `SORSync.signOut()` alongside local logout.
+  - Added `renderAccountHint()`: shows "☁ Cloud-Sync aktiv" when Firebase is configured, or "Lokal gespeichert · je E-Mail-Adresse" otherwise.
+  - `renderAccountUI()` now calls `renderAccountHint()` when a user is logged in.
+
+### Files touched
+- `app/sync-config.js` (new)
+- `app/sync.js` (new)
+- `app/index.html`
+- `STATUS.md`
+- `BACKLOG.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level
+- `sync-config.js` eval: `FIREBASE_CONFIG = null` (no-op mode confirmed)
+- `sync.js` eval: `SORSync` object exports all 7 functions; `isEnabled()` returns `false` with null config
+- All `SORSync.*` call sites in `index.html` use fire-and-forget `.then().catch()` patterns — no blocking of the local UI path
+
+### Blockers
+- Cloud sync requires a real Firebase project (credentials in `sync-config.js`). The code is complete and ready; only credentials are missing.
+- Firebase Console setup needed: enable Email/Password Authentication and Firestore Database, add the Firestore security rule from the comment in `sync-config.js`.
+
+### Next logical step
+- Fill in `FIREBASE_CONFIG` in `app/sync-config.js` with real project credentials to activate live sync.
+- Or continue to P4: "Define free-first monetization path with optional small premium tier later".
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:

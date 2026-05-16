@@ -686,6 +686,8 @@
             .hearts-display { display: none; }
         }
     </style>
+    <script src="sync-config.js"></script>
+    <script src="sync.js"></script>
 </head>
 <body>
 
@@ -1878,6 +1880,11 @@
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
             } catch (e) {}
+            // Debounced push to Firestore when cloud-sync is active.
+            if (SORSync.isEnabled() && currentAccountId && accountStore.accounts[currentAccountId]) {
+                var acc = accountStore.accounts[currentAccountId];
+                SORSync.schedulePush(currentAccountId, acc.progress);
+            }
         }
 
         function renderHearts() {
@@ -2117,6 +2124,14 @@
             else registerAccount();
         }
 
+        function renderAccountHint() {
+            const hint = document.getElementById('accountLoggedInHint');
+            if (!hint) return;
+            hint.textContent = SORSync.isEnabled()
+                ? '☁ Cloud-Sync aktiv'
+                : 'Lokal gespeichert · je E-Mail-Adresse';
+        }
+
         function renderAccountUI() {
             const loggedIn = document.getElementById('accountLoggedIn');
             const loggedOut = document.getElementById('accountLoggedOut');
@@ -2134,6 +2149,7 @@
                     avatarEl.style.background = account.avatarColor || '#e94560';
                 }
                 if (nameEl) nameEl.textContent = label;
+                renderAccountHint();
             } else {
                 loggedIn.style.display = 'none';
                 loggedOut.style.display = 'block';
@@ -2202,6 +2218,16 @@
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
+            // Fire-and-forget: create Firebase Auth user when cloud-sync is configured.
+            if (SORSync.isEnabled()) {
+                SORSync.register(accountId, pass).then(function (user) {
+                    if (user) {
+                        var acc = accountStore.accounts[accountId];
+                        if (acc) SORSync.pushProgress(accountId, acc.progress).catch(function(){});
+                        renderAccountHint();
+                    }
+                }).catch(function(){});
+            }
         }
 
         function loginAccount() {
@@ -2224,6 +2250,28 @@
             applyAccountProgress(accountId);
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
+            // Fire-and-forget: authenticate with Firebase and pull newest cloud progress.
+            if (SORSync.isEnabled()) {
+                SORSync.signIn(accountId, pass).then(function (user) {
+                    if (!user) return;
+                    renderAccountHint();
+                    return SORSync.pullProgress().then(function (remote) {
+                        if (!remote || !remote.summary) return;
+                        var local = accountStore.accounts[accountId];
+                        if (!local) return;
+                        var localUpdated = (local.progress && local.progress.updatedAt) || '';
+                        var remoteUpdated = remote.updatedAt || '';
+                        if (remoteUpdated > localUpdated) {
+                            local.progress = normalizeProgressEnvelope(remote);
+                            saveAccountStore();
+                            applyStateSnapshot(local.progress.summary);
+                            updateStats();
+                            renderAccountUI();
+                            showToast('☁ Fortschritt aus der Cloud geladen');
+                        }
+                    });
+                }).catch(function(){});
+            }
         }
 
         function logoutAccount() {
@@ -2237,6 +2285,8 @@
             currentAccountId = null;
             accountStore.current = null;
             saveAccountStore();
+
+            if (SORSync.isEnabled()) SORSync.signOut().catch(function(){});
 
             state = createInitialState();
             renderAccountUI();
