@@ -2478,6 +2478,51 @@ window.SOR_ARCHIVE = {
             explanation: "Kernidee: Das Ito-Lemma ist die stochastische Kettenregel; wegen (dW_t)^2 = dt erscheint ein zusaetzlicher deterministischer Korrekturterm. Intuition: Bei gewoehnlicher Analysis verschwinden Terme zweiter Ordnung. Beim Wiener-Prozess hat dW_t die Groessenordnung sqrt(dt), daher ist (dW_t)^2 der Groessenordnung dt und muss behalten werden. Schritte: 1) f(x) = x^2, f'(x) = 2x, f''(x) = 2. 2) Ito-Lemma: df = f'(W_t)*dW_t + (1/2)*f''(W_t)*(dW_t)^2. 3) Ersetze (dW_t)^2 = dt: df = 2*W_t*dW_t + dt. Haeufiger Fehler: Den (1/2)*f''*dt-Term weglassen. Schnellcheck: E[W_t^2] = t, was mit der bekannten Varianz des Wiener-Prozesses uebereinstimmt.",
             type: "kurzantwort",
             estimatedTime: 6
+        },
+
+        {
+            id: "T-4-028",
+            title: "Fourier-Reihen und Koeffizientenberechnung",
+            level: "4",
+            sublevel: "4.2",
+            topic: "Analysis",
+            tags: ["fourier", "reihe", "koeffizienten", "orthogonalitaet"],
+            difficulty: "mittel",
+            question: "Wie berechnet man die Fourier-Koeffizienten a_n und b_n einer 2pi-periodischen Funktion f?",
+            answer: "a_n = (1/pi) * Integral von -pi bis pi f(x)*cos(nx) dx, b_n = (1/pi) * Integral von -pi bis pi f(x)*sin(nx) dx. Grundlage ist die Orthogonalitaet der Sinus- und Kosinusfunktionen.",
+            explanation: "Kernidee: Jede hinreichend glatte periodische Funktion laesst sich eindeutig als gewichtete Summe orthogonaler Schwingungen darstellen. Die Gewichte (Koeffizienten) ergeben sich durch Projektion auf die jeweilige Basisfrequenz. Intuition: Sin und Cos unterschiedlicher Frequenzen sind orthogonal im L2-Sinne: Ihr Integral ueber eine volle Periode ist null, ausser bei gleicher Frequenz. Das erlaubt, jeden Koeffizienten unabhaengig zu bestimmen. Schritte: 1) Erkenne die Periode T = 2pi und das Intervall. 2) Berechne a_0 = (1/pi)*Integral f(x) dx (Gleichanteil). 3) Berechne a_n per Kosinus-Projektion. 4) Berechne b_n per Sinus-Projektion. 5) Pruefe Symmetrie: gerade f => b_n=0, ungerade f => a_n=0. Haeufiger Fehler: Den Vorfaktor 1/pi vergessen oder falsche Integrationsgrenzen waehlen. Schnellcheck: a_0/2 ist der Mittelwert von f ueber eine Periode.",
+            type: "konzeptfrage",
+            estimatedTime: 8
+        },
+
+        {
+            id: "T-5-028",
+            title: "H-Unendlich-Norm und robuste Regelung",
+            level: "5",
+            sublevel: "5.2",
+            topic: "Regelungstechnik",
+            tags: ["h-unendlich", "robustheit", "norm", "stoergroesse"],
+            difficulty: "schwer",
+            question: "Was beschreibt die H_inf-Norm eines Systems und warum ist sie ein zentrales Mass fuer robuste Regelung?",
+            answer: "Die H_inf-Norm ist der maximale Singular-/Verstaerkungswert des Systems ueber alle Frequenzen. Sie quantifiziert den schlimmsten Einfluss von Stoerungen oder Unsicherheiten und erlaubt garantierte Stabilitaets- und Gueteschranken.",
+            explanation: "Kernidee: Robuste Regler muessen stoerzuverlaessig sein, selbst wenn das Modell ungenau ist. Die H_inf-Norm beschreibt die maximale Energieverstaerkung vom Eingang zum Ausgang. Intuition: Statt nur das nominale Modell zu stabilisieren, begrenzt man die Verstaerkung fuer alle Frequenzen gleichzeitig. Ein kleines ||T||_inf bedeutet: selbst schlimmste Eingangsstoerung erzeugt begrenzten Ausgangsausschlag. Schritte: 1) Bilde Uebertragungsmatrix T(s) des Stoerpfades. 2) Evaluiere groessten Singularwert sigma_max(T(jw)) fuer alle Frequenzen w. 3) ||T||_inf = sup_w sigma_max(T(jw)). 4) H_inf-Entwurf minimiert diese Norm. 5) Bewerte Robustheit via Kleinste-Singular-Wert-Abstand zum kritischen Punkt. Haeufiger Fehler: H_inf-Norm mit H_2-Norm verwechseln; H_2 ist energiebezogen, H_inf worst-case-bezogen. Schnellcheck: Bei SISO-Systemen entspricht die H_inf-Norm dem Spitzenwert im Bode-Amplitudendiagramm.",
+            type: "konzeptfrage",
+            estimatedTime: 10
+        },
+
+        {
+            id: "T-6-028",
+            title: "Mehrgittermethode und Konvergenzbeschleunigung",
+            level: "6",
+            sublevel: "6.1.1.a",
+            topic: "Numerik",
+            tags: ["mehrgitter", "multigrid", "konvergenz", "glaetter"],
+            difficulty: "schwer",
+            question: "Was ist die Kernidee der Mehrgittermethode und warum konvergiert sie schneller als klassische Iterationsverfahren?",
+            answer: "Mehrgitter nutzt hierarchische Gitter, um Fehleranteile unterschiedlicher Wellenlaengen auf dem jeweils guenstigsten Gitter zu eliminieren. Der Wechsel zwischen feinen und groben Gittern liefert nahezu gitterpunktunabhaengige Konvergenz.",
+            explanation: "Kernidee: Klassische Glaettprogramme wie Gauss-Seidel reduzieren hochfrequente Fehler schnell, aber niederfrequente Anteile konvergieren sehr langsam. Auf einem groeberen Gitter erscheinen diese Anteile als hochfrequent und koennen dort effizient eliminiert werden. Intuition: Grobgitter sind billiger und loesen langwellige Fehlerkomponenten effektiv. Feingitter glaetten kurzwellige Anteile. Durch wechselseitigen Einsatz erreicht man in wenigen Zyklen hohe Genauigkeit. Schritte: 1) Vorwaertsglaettprogramm auf feinem Gitter (z.B. 2 Gauss-Seidel-Schritte). 2) Berechne Residuum r = f - A*u. 3) Restringiere r auf groeberes Gitter. 4) Loese Fehlergleichung dort rekursiv (oder direkt). 5) Prolongiere Korrektur zurueck und addiere. 6) Rueckwaertsglaettprogramm. Haeufiger Fehler: Restriktions- und Prolongationsoperatoren nicht aufeinander abstimmen; bei symmetrischen Systemen muss oft Prolongation = Restriktion^T gelten. Schnellcheck: Konvergenzrate sollte < 0.1 pro V-Zyklus sein; bei schlechten Werten Glaetterprogramm pruefen.",
+            type: "konzeptfrage",
+            estimatedTime: 10
         }
     ], 1500),
     placementQuestions: [

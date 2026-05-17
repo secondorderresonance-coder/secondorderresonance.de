@@ -30,6 +30,29 @@ Current implementation status:
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
+## Last completed task (v1.2.21)
+Twenty-first focused L4-L6 archive expansion batch:
+
+### Changes in this iteration
+- **T-4-028** (Fourier-Reihen und Koeffizientenberechnung): Orthogonalitaet, a_n/b_n Projektion, Symmetrie-Schnellcheck.
+- **T-5-028** (H-Unendlich-Norm und robuste Regelung): H_inf als worst-case Energieverstaerkung, Singular-Wert-Maximum, Abgrenzung zu H_2.
+- **T-6-028** (Mehrgittermethode und Konvergenzbeschleunigung): V-Zyklus, Restriktion/Prolongation, gitterpunktunabhaengige Konvergenz.
+
+### Files touched
+- `app/data/archive-content.js`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=9000, 1500 per level
+- marker check: `T-4-028`, `T-5-028`, `T-6-028`
+
+### Blockers
+None.
+
+### Next logical step
+- Continue L4-L6 archive expansion with next small batch (`T-4-029`, `T-5-029`, `T-6-029`) while preserving the didactic explanation template.
+
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
 
