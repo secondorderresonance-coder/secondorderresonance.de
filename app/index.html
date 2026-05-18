@@ -913,6 +913,12 @@
         </div>
     </main>
 
+    <!-- Firebase Cloud Sync (optional – requires firebase-sync.js to be configured) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-sync.js"></script>
+
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
@@ -1877,6 +1883,10 @@
         function saveAccountStore() {
             try {
                 localStorage.setItem(ACCOUNT_STORE_KEY, JSON.stringify(accountStore));
+                if (currentAccountId && accountStore.accounts[currentAccountId] &&
+                    window.SorSync && SorSync.isReady()) {
+                    SorSync.schedulePush(currentAccountId, accountStore.accounts[currentAccountId]);
+                }
             } catch (e) {}
         }
 
@@ -2117,6 +2127,15 @@
             else registerAccount();
         }
 
+        function updateSyncUI(status) {
+            const hint = document.getElementById('accountLoggedInHint');
+            if (!hint) return;
+            if (status === 'synced') hint.textContent = '☁ In der Cloud gespeichert';
+            else if (status === 'syncing') hint.textContent = '↻ Synchronisiere…';
+            else if (status === 'error') hint.textContent = '⚠ Nur lokal gespeichert';
+            else hint.textContent = 'Lokal gespeichert · je E-Mail-Adresse';
+        }
+
         function renderAccountUI() {
             const loggedIn = document.getElementById('accountLoggedIn');
             const loggedOut = document.getElementById('accountLoggedOut');
@@ -2202,6 +2221,14 @@
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
             if (nameInput) nameInput.value = '';
+
+            // Firebase sync: create cloud account and push initial progress (background)
+            if (window.SorSync) {
+                const newAcc = accountStore.accounts[accountId];
+                SorSync.register(email, pass).then(function (res) {
+                    if (res.ok) SorSync.pushProgress(accountId, newAcc);
+                });
+            }
         }
 
         function loginAccount() {
@@ -2224,6 +2251,25 @@
             applyAccountProgress(accountId);
             showToast('Willkommen zurück, ' + (account.displayName || account.email.split('@')[0]) + '!');
             if (passInput) passInput.value = '';
+
+            // Firebase sync: sign in and pull cloud progress (background, non-blocking)
+            if (window.SorSync) {
+                SorSync.signIn(email, pass).then(function (res) {
+                    if (!res.ok) return;
+                    SorSync.pullProgress().then(function (cloudData) {
+                        if (!cloudData || !cloudData.progress) return;
+                        const localAcc = accountStore.accounts[accountId];
+                        if (!localAcc) return;
+                        const localXp = localAcc.progress && localAcc.progress.summary ? (localAcc.progress.summary.xp || 0) : 0;
+                        const cloudXp = cloudData.progress.summary ? (cloudData.progress.summary.xp || 0) : 0;
+                        if (cloudXp > localXp) {
+                            localAcc.progress = cloudData.progress;
+                            applyAccountProgress(accountId);
+                            showToast('☁ Fortschritt aus der Cloud geladen');
+                        }
+                    });
+                });
+            }
         }
 
         function logoutAccount() {
@@ -2233,10 +2279,15 @@
                     progress.summary = normalizeSummarySnapshot(getStateSnapshot());
                     progress.updatedAt = new Date().toISOString();
                 }
+                // Firebase sync: push final progress snapshot before signing out
+                if (window.SorSync && SorSync.isReady()) {
+                    SorSync.pushProgress(currentAccountId, accountStore.accounts[currentAccountId]);
+                }
             }
             currentAccountId = null;
             accountStore.current = null;
             saveAccountStore();
+            if (window.SorSync) SorSync.signOut();
 
             state = createInitialState();
             renderAccountUI();
@@ -2636,6 +2687,12 @@
         renderDailyChallenge();
         openFromLocation();
         window.addEventListener('hashchange', openFromLocation);
+
+        // Firebase Cloud Sync – initialise if configured, wire up status UI
+        if (window.SorSync) {
+            SorSync.init();
+            SorSync.onStatus(updateSyncUI);
+        }
     </script>
 
 </body>

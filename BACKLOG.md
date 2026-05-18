@@ -71,7 +71,8 @@
 - [x] Rebuild Lernpfad as full Duolingo-style gamified skill map: 72 nodes (12/level), winding path, on-page account modal, XP-gated progression, guest hero
 - [x] Expand exercise pool to 12 questions per level (72 total) to prevent in-lesson repetition
 - [x] Add 1-3 star rating to lesson complete modal based on accuracy (5/5=3★, 4/5=2★, ≤3/5=1★)
-- [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
+- [x] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
+- [ ] Configure Firebase project credentials in firebase-sync.js and add Firestore security rules (backend/docs/firestore.rules)
 - [ ] Define free-first monetization path with optional small premium tier later
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
