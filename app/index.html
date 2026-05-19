@@ -626,6 +626,35 @@
         .sf-btn:disabled { opacity: 0.4; cursor: default; }
         .sf-active { font-size: 0.78rem; color: var(--gold); font-weight: 700; }
 
+        /* SOR+ premium teaser */
+        .sor-plus-card {
+            background: linear-gradient(135deg, rgba(245,197,24,0.05), rgba(139,92,246,0.07));
+            border: 1px solid rgba(245,197,24,0.22);
+            border-radius: 14px; padding: 0.85rem 1rem;
+            margin: 0.6rem 0 0.2rem;
+        }
+        .sor-plus-header {
+            display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.5rem;
+        }
+        .sor-plus-badge {
+            background: linear-gradient(135deg, #f5c518, #8b5cf6);
+            color: #111; font-size: 0.68rem; font-weight: 900;
+            border-radius: 10px; padding: 0.15rem 0.6rem;
+            letter-spacing: 0.06em; white-space: nowrap;
+        }
+        .sor-plus-title { font-weight: 700; font-size: 0.88rem; flex: 1; }
+        .sor-plus-soon { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+        .sor-plus-features {
+            display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.45rem;
+        }
+        .sor-plus-feature {
+            font-size: 0.76rem; color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px; padding: 0.22rem 0.55rem;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .sor-plus-note { font-size: 0.73rem; color: var(--text-muted); font-style: italic; }
+
         /* Achievement unlocked modal */
         .ach-modal {
             display: none; position: fixed; inset: 0; z-index: 2100;
@@ -838,6 +867,22 @@
             <div class="sf-icon">&#10052;</div>
             <div class="sf-text" id="sfText">Streak Freeze: schützt deinen Streak für 1 Tag</div>
             <button class="sf-btn" id="sfBtn" onclick="buyStreakFreeze()">100 XP kaufen</button>
+        </div>
+
+        <!-- SOR+ premium teaser -->
+        <div class="sor-plus-card">
+            <div class="sor-plus-header">
+                <div class="sor-plus-badge">SOR+</div>
+                <div class="sor-plus-title">Premium &ndash; bald verf&uuml;gbar</div>
+                <div class="sor-plus-soon">Kern bleibt kostenlos</div>
+            </div>
+            <div class="sor-plus-features">
+                <div class="sor-plus-feature">&#9729;&#65039; Cloud-Sync</div>
+                <div class="sor-plus-feature">&#128241; App-Zugang</div>
+                <div class="sor-plus-feature">&#127769; Offline-Modus</div>
+                <div class="sor-plus-feature">&#127942; Mehr Abzeichen</div>
+            </div>
+            <div class="sor-plus-note">Das SOR-Kernprodukt bleibt dauerhaft f&uuml;r alle kostenlos.</div>
         </div>
 
         <!-- Lock hint -->

@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,33 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+SOR+ premium teaser card – free-first monetization path defined:
+
+### Changes in this iteration
+- Added a compact `sor-plus-card` widget to `app/index.html`, placed between the Streak Freeze shop and the level selector.
+- The card shows the "SOR+" badge, a "bald verfügbar" label, four planned premium features (Cloud-Sync, App-Zugang, Offline-Modus, Mehr Abzeichen), and a clear note that the core product stays free permanently.
+- Added matching CSS (`.sor-plus-card`, `.sor-plus-header`, `.sor-plus-badge`, `.sor-plus-title`, `.sor-plus-soon`, `.sor-plus-features`, `.sor-plus-feature`, `.sor-plus-note`) in the same style block.
+- No backend required; this is purely a UI definition of the free-first strategy.
+
+### Blocker documented
+- `Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore)` — BLOCKED: requires a live Firebase project with credentials not available in this environment. Skipped and documented; left unchecked in BACKLOG.md.
+
+### Files touched
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `grep -n "sor-plus\|SOR+" app/index.html` → CSS block (lines 629–656) + HTML card (lines 872–886) present.
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level.
+
+### Blockers
+- Cloud-Sync task blocked (Firebase credentials unavailable in current environment).
+
+### Next logical step
+- Next open P4 task: "Define SOR account and sync architecture for future iOS/Android app login" (planning artifact or a small UI description of the account model for mobile).
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
