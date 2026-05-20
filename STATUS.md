@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,39 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.5.0)
+Cloud-Sync für SOR-Accounts – Firebase Auth + Firestore integration:
+
+### Changes in this iteration
+- **`app/data/firebase-config.js`** (new): Config template for the Firebase project. Operator fills in credentials; leaving `apiKey` empty keeps the app in local-only mode.
+- **`app/data/firebase-sync.js`** (new): `SorFirebaseSync` IIFE module. Dynamically loads the Firebase compat SDK (10.x) from Google CDN only when `apiKey` is non-empty. Exposes `init`, `register`, `login`, `logout`, `pushProgress`, `pullProgress`, `isAvailable`, `getCurrentUid`. All methods are no-ops in local-only mode.
+- **`app/index.html`**:
+  - Added `<script src="data/firebase-config.js">` and `<script src="data/firebase-sync.js">` before the main inline script.
+  - `saveAccountStore()`: fires-and-forgets `SorFirebaseSync.pushProgress()` on every save when sync is available and the user is signed in.
+  - `registerAccount()`: after local account creation, registers the same email/password in Firebase Auth and does an initial progress push.
+  - `loginAccount()`: after local password check, signs into Firebase Auth, pulls cloud progress, and applies it if the cloud `updatedAt` is newer than the local one. Shows "☁️ Fortschritt aus der Cloud geladen" toast on merge.
+  - `logoutAccount()`: calls `SorFirebaseSync.logout()` to sign out from Firebase Auth.
+  - Initialization block: calls `SorFirebaseSync.init(FIREBASE_CONFIG)` on page load (fire-and-forget).
+
+### Files touched
+- `app/data/firebase-config.js` (new)
+- `app/data/firebase-sync.js` (new)
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=9000, 1500 per level
+- `node -e` syntax check: firebase-sync.js OK, firebase-config.js OK, inline script OK
+- Verified all 8 integration points present in index.html via grep
+
+### Blockers
+None. Cloud sync is functional once a Firebase project is created and credentials are entered in `firebase-config.js`. Until then the app runs in unchanged local-only mode.
+
+### Next logical step
+- Configure a Firebase project and fill in `app/data/firebase-config.js` credentials to activate live sync.
+- Or continue with next open P4 task: "Define free-first monetization path with optional small premium tier later".
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:
