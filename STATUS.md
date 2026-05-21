@@ -31,6 +31,22 @@ Current implementation status:
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 
 ## Last completed task (v2.4.2)
+Defined the SOR account and sync architecture for future iOS/Android app login.
+
+### Changes in this iteration
+- Created `docs/sor-account-sync-architecture.md` with the complete account and sync architecture.
+- Documents the existing local account schema (AccountRecord + ProgressEnvelope, schemaVersion 2) as the authoritative baseline.
+- Defines the CloudAccountRecord extension (adds `uid`, `premiumTier`, `deviceId`, `clientUpdatedAt`, `serverUpdatedAt`).
+- Specifies auth flows for Web (local migration → Firebase Auth) and iOS/Android (Firebase Auth + Google OAuth).
+- Defines Last-Write-Wins sync protocol with per-field merge rules (xp=max, achievements=union, etc.).
+- Lists sync triggers: login, app-start, post-lesson, app-resume.
+- Specifies local-to-cloud migration steps for existing Web accounts.
+- Provides a `SORSyncAdapter` TypeScript interface with a `LocalOnlySyncAdapter` null implementation so no existing code breaks.
+- Documents a 6-step implementation order from Firebase setup to native app.
+- Marked the corresponding P4 backlog task as completed.
+
+### Files touched
+- `docs/sor-account-sync-architecture.md` (new)
 Defined the SOR account and sync architecture for future iOS/Android app login as a focused implementation blueprint.
 
 ### Changes in this iteration
@@ -49,6 +65,15 @@ Defined the SOR account and sync architecture for future iOS/Android app login a
 - `STATUS.md`
 
 ### Validation
+- `grep -n "CloudAccountRecord\|SORSyncAdapter\|LocalOnlySyncAdapter\|Sync-Trigger\|Merge-Regeln" docs/sor-account-sync-architecture.md`
+- `grep -n "\[x\] Define SOR account" BACKLOG.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) is still blocked by missing Firebase project/env/runtime configuration in this repository context.
+
+### Next logical step
+- Resume cloud-sync implementation once Firebase project config is available.
+- Or proceed to: Plan mobile app MVP (iOS/Android).
 - `rg -n "SOR Account and Sync Architecture|Mapping auf vorhandene Backend-Bausteine|Konfliktregeln|Event-first" docs/sor-account-sync-architecture.md`
 - `rg -n "\\[x\\] Define SOR account and sync architecture for future iOS/Android app login" BACKLOG.md`
 
