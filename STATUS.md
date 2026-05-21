@@ -47,6 +47,20 @@ Defined the SOR account and sync architecture for future iOS/Android app login.
 
 ### Files touched
 - `docs/sor-account-sync-architecture.md` (new)
+Defined the SOR account and sync architecture for future iOS/Android app login as a focused implementation blueprint.
+
+### Changes in this iteration
+- Added a dedicated cross-platform account/sync architecture document covering:
+  - canonical account/progress model
+  - mapping to existing backend domain + DB schema
+  - guest vs authenticated sync modes
+  - conflict and merge rules
+  - event-first API boundaries for robust offline replay
+- Marked the corresponding open P4 backlog task as completed.
+- Kept scope intentionally documentation-only (no speculative runtime integration changes).
+
+### Files touched
+- `docs/sor-account-sync-architecture.md`
 - `BACKLOG.md`
 - `STATUS.md`
 
@@ -60,6 +74,14 @@ Defined the SOR account and sync architecture for future iOS/Android app login.
 ### Next logical step
 - Resume cloud-sync implementation once Firebase project config is available.
 - Or proceed to: Plan mobile app MVP (iOS/Android).
+- `rg -n "SOR Account and Sync Architecture|Mapping auf vorhandene Backend-Bausteine|Konfliktregeln|Event-first" docs/sor-account-sync-architecture.md`
+- `rg -n "\\[x\\] Define SOR account and sync architecture for future iOS/Android app login" BACKLOG.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) remains blocked until Firebase project/runtime configuration is available in this repository context.
+
+### Next logical step
+- Execute the next open P4 task: plan the mobile app MVP (iOS/Android) with daily math/physics tasks linked to the SOR account model.
 
 ## Last completed task (v2.4.1)
 Defined the free-first monetization path in a focused, implementation-ready product note.
