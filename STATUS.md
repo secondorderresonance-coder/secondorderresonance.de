@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.1`
+- `v2.4.2`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,34 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.4.2)
+Defined the SOR account and sync architecture for future iOS/Android app login as a focused implementation blueprint.
+
+### Changes in this iteration
+- Added a dedicated cross-platform account/sync architecture document covering:
+  - canonical account/progress model
+  - mapping to existing backend domain + DB schema
+  - guest vs authenticated sync modes
+  - conflict and merge rules
+  - event-first API boundaries for robust offline replay
+- Marked the corresponding open P4 backlog task as completed.
+- Kept scope intentionally documentation-only (no speculative runtime integration changes).
+
+### Files touched
+- `docs/sor-account-sync-architecture.md`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `rg -n "SOR Account and Sync Architecture|Mapping auf vorhandene Backend-Bausteine|Konfliktregeln|Event-first" docs/sor-account-sync-architecture.md`
+- `rg -n "\\[x\\] Define SOR account and sync architecture for future iOS/Android app login" BACKLOG.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) remains blocked until Firebase project/runtime configuration is available in this repository context.
+
+### Next logical step
+- Execute the next open P4 task: plan the mobile app MVP (iOS/Android) with daily math/physics tasks linked to the SOR account model.
 
 ## Last completed task (v2.4.1)
 Defined the free-first monetization path in a focused, implementation-ready product note.
