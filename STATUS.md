@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.0`
+- `v2.4.1`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,30 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.4.1)
+Defined the free-first monetization path in a focused, implementation-ready product note.
+
+### Changes in this iteration
+- Added a dedicated policy and rollout document for monetization scope, guardrails, premium candidates, and activation criteria.
+- Kept free-core access explicit for all 6 levels and core learning flows.
+- Marked the corresponding open P4 backlog task as completed.
+- Attempted the higher-priority open cloud-sync task first; blocked due missing Firebase project/runtime configuration in this repository run context.
+
+### Files touched
+- `docs/free-first-monetization-path.md`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `rg -n "Free-First Monetization Path|SOR Plus|Guardrails|Aktivierungskriterien" docs/free-first-monetization-path.md`
+- `rg -n "\\[x\\] Define free-first monetization path" BACKLOG.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) is still blocked by missing project configuration and deployment wiring (no configured Firebase app/env/runtime endpoints in repo).
+
+### Next logical step
+- Resume the highest-priority remaining open task: implement cloud-sync with Firebase once config/runtime wiring is available.
 
 ## Last completed task (v1.2.20)
 Eighteenth focused L4-L6 archive expansion batch:

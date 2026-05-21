@@ -72,7 +72,7 @@
 - [x] Expand exercise pool to 12 questions per level (72 total) to prevent in-lesson repetition
 - [x] Add 1-3 star rating to lesson complete modal based on accuracy (5/5=3★, 4/5=2★, ≤3/5=1★)
 - [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
-- [ ] Define free-first monetization path with optional small premium tier later
+- [x] Define free-first monetization path with optional small premium tier later
 - [ ] Define SOR account and sync architecture for future iOS/Android app login
 - [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
 - [ ] Add backend/moderation pipeline for external task suggestions after validating demand
