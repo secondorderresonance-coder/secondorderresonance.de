@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.2`
+- `v2.4.3`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,38 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.4.3)
+Planned the mobile app MVP (iOS/Android) with daily math/physics tasks linked to the SOR account model.
+
+### Changes in this iteration
+- Created `docs/mobile-app-mvp-plan.md` with a focused, implementation-ready mobile app MVP plan.
+- Defines MVP scope: daily task card, 5-question lesson flow, archive browser, placement test, profile screen, Firebase Auth login.
+- Recommends React Native / Expo as tech stack (shared TypeScript, reuses existing data models).
+- Documents all 10 MVP screens and their content.
+- Specifies account integration reusing the existing `AccountRecord` (schemaVersion 2) directly.
+- Documents streak, hearts, and daily-challenge mechanics as identical to the web app (no new logic needed).
+- Lists 10-step implementation order from Expo project setup to EAS beta deployment.
+- Lists critical dependencies (Firebase config, App Store accounts, EAS account).
+- Defines beta success criteria.
+- Marked the corresponding P4 backlog task as completed.
+
+### Files touched
+- `docs/mobile-app-mvp-plan.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `grep -n "Tech-Stack\|Tagesaufgabe\|AccountRecord\|Implementierungsreihenfolge\|Erfolgskriterien" docs/mobile-app-mvp-plan.md`
+- Scope intentionally documentation-only (no speculative runtime changes).
+
+### Blockers
+- Firebase project configuration still missing (blocks both Cloud-Sync and mobile auth).
+- App Store accounts (Apple Developer + Google Play) not yet set up.
+
+### Next logical step
+- Set up Firebase project and obtain config files to unblock both Cloud-Sync (Web) and mobile auth (iOS/Android).
+- Or proceed to the last remaining open P4 task: define backend/moderation pipeline for external task suggestions.
 
 ## Last completed task (v2.4.2)
 Defined the SOR account and sync architecture for future iOS/Android app login.

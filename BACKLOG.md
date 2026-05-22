@@ -74,7 +74,7 @@
 - [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
 - [x] Define free-first monetization path with optional small premium tier later
 - [x] Define SOR account and sync architecture for future iOS/Android app login
-- [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+- [x] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
 - [ ] Add backend/moderation pipeline for external task suggestions after validating demand
 - [x] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
 
