@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.2`
+- `v2.4.3`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,36 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.4.3)
+Planned the mobile app MVP (iOS/Android) with daily math/physics tasks linked to the SOR account model.
+
+### Changes in this iteration
+- Created `docs/mobile-app-mvp-plan.md` with the complete mobile MVP plan.
+- Defines MVP scope: daily challenge, 5-question lesson session, SOR account login, XP/streak/hearts, offline mode.
+- Documents the React Native + Expo tech-stack recommendation with justification.
+- Maps the MVP onto the existing `SORSyncAdapter` interface and `ProgressEnvelope` schema (schemaVersion 2) already defined in `sor-account-sync-architecture.md`.
+- Specifies 6 screens for the MVP (Home, Exercise, Lesson Complete, Login/Register, Profile, Settings).
+- Defines a 4-phase implementation order (Fundament → Core-Loop → Account → Launch).
+- Calls out open dependencies (Firebase project, backend deployment, App Store account) and which phases can proceed without them.
+- Marked the corresponding P4 backlog task as completed.
+
+### Files touched
+- `docs/mobile-app-mvp-plan.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `grep -n "Definition of Done\|Phase 1\|SORSyncAdapter\|AsyncStorage\|Daily Challenge" docs/mobile-app-mvp-plan.md`
+- `grep -n "\[x\] Plan mobile app MVP" BACKLOG.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) remains blocked until Firebase project/runtime configuration is available.
+- Phases 1 and 2 of the mobile MVP (Fundament + Core-Loop) are fully offline-executable without Firebase or backend deployment.
+
+### Next logical step
+- Begin Phase 1 of the mobile app (Expo project init, design tokens, account model port) once a separate `sor-app` repo is created.
+- Or proceed to the last open P4 task: plan the backend/moderation pipeline for external task suggestions once demand is validated.
 
 ## Last completed task (v2.4.2)
 Defined the SOR account and sync architecture for future iOS/Android app login.
