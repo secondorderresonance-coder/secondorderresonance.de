@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.4.2`
+- `v2.4.3`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
@@ -29,6 +29,37 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+
+## Last completed task (v2.4.3)
+Planned the SOR mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account.
+
+### Changes in this iteration
+- Created `docs/mobile-app-mvp-plan.md` with the full mobile MVP implementation plan.
+- Documents React Native + Expo as the recommended cross-platform stack.
+- Defines 6 MVP screens: Lernpfad, Lektion, Tagesaufgabe, Archiv, Profil, Einstellungen.
+- Specifies AsyncStorage-based local account schema (identical to Web `mathlevel-accounts-v1`).
+- Defines 6-step implementation order from project setup through Profil/Archiv screens.
+- Specifies local Push-Notification strategy (no backend needed for MVP).
+- Lists what is explicitly out of scope for MVP (Cloud-Sync, in-app purchases, social features).
+- Documents App-Store-readiness prerequisites.
+- Marked the corresponding P4 backlog task as completed.
+
+### Files touched
+- `docs/mobile-app-mvp-plan.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `grep -n "Schritt 1\|Schritt 6\|Implementierungsreihenfolge\|AsyncStorage\|SORSyncAdapter" docs/mobile-app-mvp-plan.md`
+- `grep -n "\[x\] Plan mobile app MVP" BACKLOG.md`
+
+### Blockers
+- Cloud-Sync implementation (`Firebase Auth + Firestore`) remains blocked until Firebase project/runtime configuration is available.
+- Expo project setup and native toolchain require a development machine with Xcode/Android Studio outside this repo context.
+
+### Next logical step
+- Begin Expo project setup (`npx create-expo-app sor-app`) when native toolchain is available.
+- Or proceed to: Add backend/moderation pipeline for external task suggestions after validating demand (last open P4 task).
 
 ## Last completed task (v2.4.2)
 Defined the SOR account and sync architecture for future iOS/Android app login.
