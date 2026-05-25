@@ -36,6 +36,7 @@
 - [x] Expand archive content to 100 tasks per level (600 total) using scalable generation architecture
 - [x] Ensure TikTok link is visible in the social/media area
 - [x] Add a clean video section linking existing YouTube videos
+- [x] Clean up the homepage YouTube section so it shows only the two live videos
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2

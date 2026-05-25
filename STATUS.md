@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.2`
+- `v2.5.3`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -18,7 +18,7 @@ Long-term target remains unchanged and explicitly active:
 Current implementation status:
 - Full target archive volume generated through the scalable archive builder (30.000 tasks total, 5.000 per level)
 - Architecture is designed for further growth without major restructuring
-- Homepage video cards now provide direct topic-based YouTube entry points instead of generic channel-only links
+- Homepage YouTube cards now show only the two currently live videos, with no extra channel overview card.
 - Active level framing now consistently reflects the 6-level target through Level 6 ("Forschung & Simulation")
 - Archive authoring has a documented seed-task template and a runnable QA check for taxonomy/data integrity
 - Taxonomy includes deeper pedagogical paths such as `1.1.2.a`, `2.1.1.a`, `3.1.1.a`, `4.1.1.a`, `5.1.1.a`, and `6.1.1.a`
@@ -34,6 +34,32 @@ Current implementation status:
 - The Lernpfad is now the primary product surface: it builds a 6-stage learning road from archive taxonomy and archive tasks, with sections, lessons, unlock states, and local completion tracking after 80% lesson accuracy.
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
+
+## Last completed task (v2.5.3)
+Cleaned up the homepage YouTube section so it only shows the two currently live videos.
+
+### Changes in this iteration
+- Renamed the section from "Neueste Videos" to "YouTube-Videos" to avoid implying a larger recent-upload feed.
+- Removed the broken duplicate video grid and nested video-card markup.
+- Removed the extra channel overview card and kept exactly two direct video cards.
+- Preserved the existing card style, gradients, spacing, and SOR visual identity.
+
+### Files touched
+- `index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- HTML inline-script syntax check for `index.html`
+- Static markup check for the video section links and card count
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- If more YouTube videos are uploaded later, add them as real direct cards instead of a generic placeholder or channel overview tile.
 
 ## Last completed task (v2.5.2)
 Moved the public homepage focus to the Lernstrasse and added the backend foundation for seeing registered account emails.
