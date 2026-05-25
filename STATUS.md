@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.3`
+- `v2.5.4`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -34,6 +34,36 @@ Current implementation status:
 - The Lernpfad is now the primary product surface: it builds a 6-stage learning road from archive taxonomy and archive tasks, with sections, lessons, unlock states, and local completion tracking after 80% lesson accuracy.
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
+
+## Last completed task (v2.5.4)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `docs/curriculum-coverage-matrix.md` with a full Klasse 1–12 topic table.
+- Each row maps one curriculum topic to the matching SOR archive sublevel ID (e.g. `1.1.1.a`, `2.4.2.a`, `3.2.2.c`).
+- Includes a coverage summary confirming all Klasse 1–12 topics are covered by at least one L1–L3 sublevel.
+- Includes a gap analysis table listing 7 archive sublevels that exist in the taxonomy but currently lack a seed task.
+- Added a P2 backlog item to address those seed-task gaps in the next batch.
+- Marked the P1 task as completed in BACKLOG.md.
+- Bumped version to v2.5.4.
+
+### Files touched
+- `docs/curriculum-coverage-matrix.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Manual review of all 12 Klasse tables against the L1–L3 sublevel list in `app/data/archive-content.js`.
+- Every referenced sublevel ID (e.g. `1.1.1`, `2.4.2.a`, `3.2.2.c`) was cross-checked against the taxonomy defined in `window.SOR_ARCHIVE.taxonomy`.
+- No changes to any JS/HTML files — no risk of regressions in the app or archive logic.
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
+- Or begin filling the 7 identified L1-L3 seed-task gaps from the new P2 item.
 
 ## Last completed task (v2.5.3)
 Cleaned up the homepage YouTube section so it only shows the two currently live videos.
