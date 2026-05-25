@@ -12,6 +12,18 @@ export interface UserProfile {
   updatedAt: string;
 }
 
+export interface RegisteredAccountListItem {
+  userId: string;
+  firebaseUid: string;
+  email: string;
+  displayName: string;
+  createdAt: string;
+  updatedAt: string;
+  lastActivityDate?: string;
+  currentStreak: number;
+  totalXp: number;
+}
+
 export interface UserLevelProgress {
   userId: string;
   levelId: LevelId;

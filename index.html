@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Second-Order Resonance | Mathematik visuell erklärt</title>
-    <meta name="description" content="Mathematik visuell erklärt - vom Grundschüler bis zur Forschung & Simulation. Kostenlose Tutorials, interaktive Übungen und Mathe-Tricks auf YouTube.">
+    <title>Second-Order Resonance | Mathe-Lernstrasse</title>
+    <meta name="description" content="Gefuehrte Mathe-Lernstrasse von L1 bis L6: Archivaufgaben, interaktive Uebungen, XP und Fortschritt.">
     <meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklärt, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
-    <meta property="og:title" content="Second-Order Resonance | Mathematik visuell erklärt">
-    <meta property="og:description" content="Mathematik vom Grundschüler bis zur Forschung & Simulation. Visuelle Erklärungen, die du wirklich verstehst.">
+    <meta property="og:title" content="Second-Order Resonance | Mathe-Lernstrasse">
+    <meta property="og:description" content="Gefuehrte Mathe-Lernstrasse von L1 bis L6 mit Archivaufgaben, XP und Fortschritt.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://second-order-resonance.de">
     <link rel="canonical" href="https://second-order-resonance.de">
@@ -116,6 +116,81 @@
         }
 
         .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .hero-road-card {
+            margin: 2.2rem auto 0;
+            max-width: 680px;
+            padding: 1.1rem;
+            border-radius: 22px;
+            background: rgba(22, 33, 62, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+        }
+
+        .road-preview {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .road-preview-row {
+            display: grid;
+            grid-template-columns: 46px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0.85rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+        }
+
+        .road-preview-row.active {
+            border-color: rgba(74, 222, 128, 0.5);
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .road-dot {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #111;
+            background: var(--gold);
+        }
+
+        .road-preview-title {
+            display: block;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .road-preview-sub {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .road-status {
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .road-register-note {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-top: 0.9rem;
+        }
 
         .btn {
             padding: 1rem 2.5rem;
@@ -835,6 +910,7 @@
     <nav>
         <div class="logo">Second-Order <span>Resonance</span></div>
         <ul>
+            <li><a href="app/lernpfad.html">Lernstrasse</a></li>
             <li><a href="#levels">Level-System</a></li>
             <li><a href="#archive">Archiv</a></li>
             <li><a href="#videos">Videos</a></li>
@@ -852,16 +928,45 @@
 
         <div class="hero-content">
             <h1>
-                Mathematik<br>
-                <span class="highlight">visuell</span> erklärt.<br>
-                <span class="gold">Für alle Level.</span>
+                Deine Mathe-<br>
+                <span class="highlight">Lernstrasse</span><br>
+                <span class="gold">von L1 bis L6.</span>
             </h1>
-            <p>Vom Grundschüler bis zum Forscher. Verstehe Mathe wirklich - mit Animationen, Intuition und echten Anwendungen.</p>
+            <p>Starte direkt mit dem gefuehrten Pfad. Die Aufgaben kommen aus dem Archiv, Fortschritt wird mit einem kostenlosen Konto gespeichert.</p>
             <div class="cta-buttons">
-                <a href="https://www.youtube.com/@Second-OrderResonance?sub_confirmation=1" class="btn btn-primary" target="_blank">
-                    Kanal abonnieren
+                <a href="app/lernpfad.html" class="btn btn-primary">
+                    Lernstrasse starten
                 </a>
-                <a href="#levels" class="btn btn-secondary">Dein Level finden</a>
+                <a href="app/lernpfad.html" class="btn btn-secondary">Kostenlos registrieren</a>
+            </div>
+            <div class="hero-road-card" aria-label="Vorschau der Lernstrasse">
+                <div class="road-preview">
+                    <div class="road-preview-row active">
+                        <span class="road-dot" style="background:#4ade80">L1</span>
+                        <span>
+                            <span class="road-preview-title">Grundlagen</span>
+                            <span class="road-preview-sub">Rechnen, Brueche, Geometrie, Einheiten</span>
+                        </span>
+                        <span class="road-status">Start</span>
+                    </div>
+                    <div class="road-preview-row">
+                        <span class="road-dot" style="background:#facc15">L2</span>
+                        <span>
+                            <span class="road-preview-title">Aufbauwissen</span>
+                            <span class="road-preview-sub">Gleichungen, Funktionen, Trigonometrie</span>
+                        </span>
+                        <span class="road-status">50 XP</span>
+                    </div>
+                    <div class="road-preview-row">
+                        <span class="road-dot" style="background:#60a5fa">L4</span>
+                        <span>
+                            <span class="road-preview-title">Universitaetsgrundlagen</span>
+                            <span class="road-preview-sub">Lineare Algebra, Analysis, DGL, Numerik</span>
+                        </span>
+                        <span class="road-status">300 XP</span>
+                    </div>
+                </div>
+                <p class="road-register-note">Ohne Konto kannst du reinschauen. Mit Registrierung bleiben XP, Lektionen und Streak erhalten.</p>
             </div>
         </div>
     </section>
@@ -1225,6 +1330,7 @@
             </div>
             <div class="footer-col">
                 <h4>Mehr</h4>
+                <a href="app/lernpfad.html">Lernstrasse</a>
                 <a href="app/lernarchiv.html">Archiv &amp; Test</a>
                 <a href="app/index.html">Mathe-App</a>
                 <a href="#archive">Archiv</a>
@@ -1299,6 +1405,7 @@
             function buildSearchEntries() {
                 const entries = [
                     { title: 'Einstufungstest', meta: 'Website', description: '30 Fragen fuer Level- und Sublevel-Einstieg.', href: 'app/lernarchiv.html#placement', keywords: 'test einstufung placement level sublevel' },
+                    { title: 'Lernstrasse', meta: 'Website', description: 'Gefuehrter Pfad mit 6 Stufen, Abschnitten, Lektionen und XP-Fortschritt.', href: 'app/lernpfad.html', keywords: 'lernpfad lernstrasse duolingo stufen lektionen xp registrieren' },
                     { title: 'Mathe-App', meta: 'Website', description: 'Interaktive Uebungen passend zu den Themen.', href: 'app/index.html', keywords: 'app uebungen daily mathe physik' },
                     { title: 'Archiv', meta: 'Website', description: 'Durchsuche Aufgaben, Themen und Loesungswege.', href: 'app/lernarchiv.html#archiveBrowser', keywords: 'archiv aufgaben themen suche' },
                     { title: 'Pythagoras-Modul', meta: 'Interaktives Visual', description: 'Erstes live Geometrie-Modul mit Schiebereglern.', href: 'app/lernarchiv.html#pythagoras-visual', keywords: 'pythagoras geometrie visual dreieck' },
@@ -1462,5 +1569,3 @@
 
 </body>
 </html>
-
-

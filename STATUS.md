@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.1`
+- `v2.5.2`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -32,6 +32,40 @@ Current implementation status:
 - Archive browser result rendering now caps visible task cards for performance while keeping full search/filter counts.
 - External task suggestions now have backend domain models, moderation scoring/status transitions, and relational schema support.
 - The Lernpfad is now the primary product surface: it builds a 6-stage learning road from archive taxonomy and archive tasks, with sections, lessons, unlock states, and local completion tracking after 80% lesson accuracy.
+- The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
+- Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
+
+## Last completed task (v2.5.2)
+Moved the public homepage focus to the Lernstrasse and added the backend foundation for seeing registered account emails.
+
+### Changes in this iteration
+- Changed the homepage hero from a general YouTube-oriented intro to a Lernstrasse-first entry point.
+- Added a first-viewport Lernstrasse preview and primary CTAs to open/register for the Lernstrasse.
+- Added `Lernstrasse` to the main navigation, footer, and global search index.
+- Added backend account-registration list types and helpers.
+- Added SQL view `admin_registered_accounts`, which exposes email, display name, created date, last activity, streak, and total XP once users are stored server-side.
+- Documented the important limitation: current local-only registrations remain visible only in the user's browser until Cloud-Sync/Firebase is connected.
+
+### Files touched
+- `index.html`
+- `backend/src/domain/models.ts`
+- `backend/src/domain/accountRegistrations.ts`
+- `backend/db/schema.sql`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js`
+- `npm.cmd --prefix backend run typecheck`
+- HTML inline-script syntax check for `index.html`
+- `git diff --check`
+
+### Blockers
+- Seeing real remote registrant emails requires Cloud-Sync/Firebase/Auth writes into `app_user`; the static localStorage account system cannot expose other users' emails to the site owner.
+
+### Next logical step
+- Connect Firebase Auth/Firestore or an equivalent backend endpoint so new registrations are persisted server-side and visible through the admin registration view.
 
 ## Last completed task (v2.5.1)
 Converted the Lernpfad into an archive-driven learning road and added 80%-completion feedback for road lessons.

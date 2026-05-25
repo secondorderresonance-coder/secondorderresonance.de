@@ -140,3 +140,27 @@ create table if not exists task_suggestion_moderation_event (
 
 create index if not exists idx_task_suggestion_event_suggestion
   on task_suggestion_moderation_event(suggestion_id, created_at desc);
+
+create or replace view admin_registered_accounts as
+select
+  u.id as user_id,
+  u.firebase_uid,
+  u.email,
+  u.display_name,
+  u.created_at,
+  u.updated_at,
+  s.last_activity_date,
+  coalesce(s.current_streak, 0) as current_streak,
+  coalesce(sum(lp.xp_total), 0) as total_xp
+from app_user u
+left join user_streak s on s.user_id = u.id
+left join user_level_progress lp on lp.user_id = u.id
+group by
+  u.id,
+  u.firebase_uid,
+  u.email,
+  u.display_name,
+  u.created_at,
+  u.updated_at,
+  s.last_activity_date,
+  s.current_streak;

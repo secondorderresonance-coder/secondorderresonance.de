@@ -20,6 +20,7 @@
 
 ## P1
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
+- [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [ ] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
@@ -81,5 +82,6 @@
 - [x] Define SOR account and sync architecture for future iOS/Android app login
 - [x] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
 - [x] Add backend/moderation pipeline for external task suggestions after validating demand
+- [x] Add backend admin registration visibility foundation for registered account emails
 - [x] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
 
