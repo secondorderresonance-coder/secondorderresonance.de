@@ -562,6 +562,33 @@
             letter-spacing: 0.04em;
         }
         .perfect-bonus.show { display: inline-block; animation: popIn 0.35s ease; }
+        .road-pass-note {
+            display: none;
+            background: rgba(74,222,128,0.14);
+            color: #bbf7d0;
+            border: 1px solid rgba(74,222,128,0.38);
+            border-radius: 16px;
+            padding: 0.45rem 0.75rem;
+            margin: 0.25rem auto 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+        .road-pass-note.show { display: inline-block; animation: roadPassRise 0.45s ease; }
+        .lesson-modal.road-pass .lesson-modal-card {
+            border-color: rgba(74,222,128,0.52);
+            box-shadow: 0 0 0 1px rgba(74,222,128,0.28), 0 26px 80px rgba(74,222,128,0.18);
+        }
+        .lesson-modal.road-pass .lesson-modal-icon {
+            animation: roadPassPulse 0.75s ease-in-out 3;
+        }
+        @keyframes roadPassRise {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes roadPassPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.18) rotate(-5deg); }
+        }
 
         /* Level-up modal */
         .levelup-modal {
@@ -724,6 +751,7 @@
                 </div>
             </div>
             <div class="perfect-bonus" id="perfectBonus">&#9733; PERFEKT +20 XP BONUS</div>
+            <div class="road-pass-note" id="roadPassNote">Lernstrasse: Lektion bestanden und Knoten freigeschaltet.</div>
             <div class="lesson-modal-btns">
                 <button class="next-btn show" onclick="nextLesson()" style="margin:0">N&auml;chste Lektion &#8594;</button>
                 <button class="lesson-modal-pause" onclick="pauseLesson()">Pause einlegen</button>
@@ -917,6 +945,7 @@
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
         const LESSON_SIZE = 5;
+        const ROAD_PROGRESS_KEY = 'sor-learning-road-v1';
 
         // Achievement definitions (live + placeholder architecture)
         const ACHIEVEMENT_CATALOG = [
@@ -1728,7 +1757,8 @@
                 consecutiveCorrect: 0,
                 lessonProgress: 0,
                 lessonXpStart: 0,
-                lessonCorrect: 0
+                lessonCorrect: 0,
+                roadLessonId: null
             };
         }
 
@@ -2048,6 +2078,36 @@
                 saveAccountStore();
             } catch(e) {}
         }
+
+        function loadRoadProgressStore() {
+            try {
+                return JSON.parse(localStorage.getItem(ROAD_PROGRESS_KEY) || '{}');
+            } catch(e) {
+                return {};
+            }
+        }
+
+        function saveRoadProgressStore(store) {
+            localStorage.setItem(ROAD_PROGRESS_KEY, JSON.stringify(store));
+        }
+
+        function recordRoadLessonCompletion(accuracy, xpGained) {
+            if (!state.roadLessonId || accuracy < 0.8) return false;
+            const accountKey = currentAccountId || (accountStore && accountStore.current) || 'guest';
+            const store = loadRoadProgressStore();
+            if (!store[accountKey]) store[accountKey] = { completed: {} };
+            if (!store[accountKey].completed) store[accountKey].completed = {};
+            store[accountKey].completed[state.roadLessonId] = {
+                accuracy,
+                xpGained,
+                level: String(state.level + 1),
+                topic: state.topic || '',
+                completedAt: new Date().toISOString()
+            };
+            saveRoadProgressStore(store);
+            return true;
+        }
+
         function isLevelUnlocked(idx) {
             return state.xp >= LEVEL_XP_THRESHOLDS[idx];
         }
@@ -2359,6 +2419,7 @@
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
+            state.roadLessonId = null;
 
             renderLevelButtons();
             renderTopics();
@@ -2387,6 +2448,7 @@
                 renderTopics();
                 renderExercise();
             }
+            state.roadLessonId = params.get('roadLesson') || null;
 
             const target = document.getElementById('exerciseCard');
             if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2407,6 +2469,7 @@
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
+            state.roadLessonId = null;
             renderTopics();
             renderExercise();
         }
@@ -2571,6 +2634,8 @@
                 updateStats();
             }
             const xpGained = state.xp - state.lessonXpStart;
+            const accuracy = state.lessonCorrect / LESSON_SIZE;
+            const roadPassed = recordRoadLessonCompletion(accuracy, xpGained);
             document.getElementById('lcXp').textContent = '+' + xpGained + ' XP';
             document.getElementById('lcCorrect').textContent = state.lessonCorrect + ' / ' + LESSON_SIZE;
             document.getElementById('lcStreak').textContent = state.streak + ' Tage';
@@ -2580,26 +2645,32 @@
             ).join('');
             const perfEl = document.getElementById('perfectBonus');
             if (perfEl) perfEl.className = 'perfect-bonus' + (isPerfect ? ' show' : '');
-            document.getElementById('lessonModal').classList.add('show');
+            const roadNote = document.getElementById('roadPassNote');
+            if (roadNote) roadNote.className = 'road-pass-note' + (roadPassed ? ' show' : '');
+            const lessonModal = document.getElementById('lessonModal');
+            lessonModal.classList.toggle('road-pass', roadPassed);
+            lessonModal.classList.add('show');
             const lpFill = document.getElementById('lessonProgressFill');
             if (lpFill) lpFill.style.width = '100%';
         }
 
         function nextLesson() {
-            document.getElementById('lessonModal').classList.remove('show');
+            document.getElementById('lessonModal').classList.remove('show', 'road-pass');
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
+            state.roadLessonId = null;
             state.questionIdx++;
             renderExercise();
             showLevelUp();
         }
 
         function pauseLesson() {
-            document.getElementById('lessonModal').classList.remove('show');
+            document.getElementById('lessonModal').classList.remove('show', 'road-pass');
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
+            state.roadLessonId = null;
             showLevelUp();
         }
 

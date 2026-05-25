@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.0`
+- `v2.5.1`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -31,6 +31,43 @@ Current implementation status:
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
 - Archive browser result rendering now caps visible task cards for performance while keeping full search/filter counts.
 - External task suggestions now have backend domain models, moderation scoring/status transitions, and relational schema support.
+- The Lernpfad is now the primary product surface: it builds a 6-stage learning road from archive taxonomy and archive tasks, with sections, lessons, unlock states, and local completion tracking after 80% lesson accuracy.
+
+## Last completed task (v2.5.1)
+Converted the Lernpfad into an archive-driven learning road and added 80%-completion feedback for road lessons.
+
+### Changes in this iteration
+- Rebuilt `app/lernpfad.html` around the archive data model:
+  - 6 stages from `SOR_ARCHIVE.taxonomy`
+  - sections from direct sublevels
+  - lessons from archive sublevels/topics and task counts
+  - staged lock/active/done states
+  - links into the exercise app with a stable `roadLesson` id
+- Added local road completion tracking in `app/index.html`.
+- A lesson launched from the Lernpfad now records completion when accuracy is at least 80% (4/5).
+- Added a green success treatment to the lesson-complete modal for passed Lernstrasse lessons.
+- Added new P1 backlog items for curriculum coverage:
+  - Klasse 1-12 topic matrix
+  - engineering mathematics through Master level
+  - L6 research topics including Riemann-Hypothese-style content
+
+### Files touched
+- `app/lernpfad.html`
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js`
+- `npm.cmd --prefix backend run typecheck`
+- HTML inline-script syntax check for `app/lernpfad.html` and `app/index.html`
+
+### Blockers
+- None for this iteration.
+
+### Next logical step
+- Build the curriculum coverage matrix and start filling missing Klasse 1-12 and engineering-math seed coverage in small reviewed batches.
 
 ## Last completed task (v2.5.0)
 Expanded the archive to the 30.000-task target and added the backend-ready moderation pipeline for external task suggestions.

@@ -4,546 +4,851 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lernpfad | Second-Order Resonance</title>
-    <meta name="description" content="Dein persönlicher Mathe-Lernpfad – spielerisch von Einmaleins bis Forschung.">
+    <meta name="description" content="Archivgetriebene Lernstrasse fuer Mathematik und Physik von L1 bis L6.">
     <meta name="theme-color" content="#1a1a2e">
     <style>
         :root {
-            --bg:         #1a1a2e;
-            --secondary:  #16213e;
-            --accent:     #e94560;
-            --text:       #eef;
-            --muted:      #9aa;
-            --gold:       #f5c518;
+            --bg: #1a1a2e;
+            --secondary: #16213e;
+            --panel: #0f172a;
+            --accent: #e94560;
+            --text: #eef;
+            --muted: #9aa;
+            --gold: #f5c518;
+            --line: rgba(255,255,255,0.11);
+            --success: #4ade80;
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(233,69,96,0.14), transparent 28rem),
+                linear-gradient(180deg, #1a1a2e 0%, #10182e 52%, #16213e 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        a { color: inherit; }
 
-        /* ── TOP BAR ── */
         .topbar {
-            position:sticky; top:0; z-index:200;
-            background:var(--secondary);
-            border-bottom:2px solid rgba(233,69,96,.25);
-            display:flex; align-items:center; justify-content:space-between;
-            padding:.7rem 1.2rem; gap:.8rem;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(22,33,62,0.94);
+            border-bottom: 1px solid rgba(233,69,96,0.28);
+            backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.2rem;
+            gap: 0.8rem;
         }
-        .logo { font-weight:800; font-size:1.1rem; color:var(--gold); text-decoration:none; }
-        .logo span { color:var(--accent); }
-        .tb-stats { display:flex; align-items:center; gap:1rem; font-size:.82rem; }
-        .tb-stat { display:flex; align-items:center; gap:.3rem; }
-        .tb-stat-val { font-weight:700; color:var(--gold); }
-        .tb-stat-icon { font-size:1rem; }
-        .tb-login-btn {
-            padding:.38rem .9rem; border-radius:20px;
-            background:var(--accent); color:#fff; border:none;
-            font-size:.82rem; font-weight:700; cursor:pointer; transition:opacity .2s;
+        .logo { font-weight: 900; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; }
+        .logo span { color: var(--accent); }
+        .top-actions { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; justify-content: flex-end; }
+        .nav-link, .login-btn {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.45rem 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
         }
-        .tb-login-btn:hover { opacity:.85; }
-        .tb-avatar {
-            width:30px; height:30px; border-radius:50%;
-            display:flex; align-items:center; justify-content:center;
-            font-weight:800; font-size:.78rem; color:#fff; cursor:pointer;
-            border:2px solid var(--gold);
+        .login-btn { background: var(--accent); border-color: transparent; color: #fff; }
+        .stat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--gold);
+            font-weight: 900;
+            font-size: 0.84rem;
+        }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            border: 2px solid var(--gold);
+            text-decoration: none;
         }
 
-        /* ── MODAL OVERLAY ── */
+        .shell {
+            width: min(1280px, 100%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 220px minmax(0, 1fr) 280px;
+            gap: 1.2rem;
+            padding: 1.2rem;
+        }
+        .side, .panel {
+            position: sticky;
+            top: 5rem;
+            align-self: start;
+        }
+        .side-nav, .panel-box, .stage-card, .section-band {
+            background: rgba(22,33,62,0.82);
+            border: 1px solid rgba(255,255,255,0.09);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+        }
+        .side-nav {
+            border-radius: 18px;
+            padding: 0.7rem;
+        }
+        .side-nav a, .side-nav button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            border: 0;
+            color: var(--text);
+            text-decoration: none;
+            background: transparent;
+            border-radius: 12px;
+            padding: 0.7rem 0.75rem;
+            font-weight: 800;
+            font-size: 0.86rem;
+            cursor: pointer;
+            text-align: left;
+        }
+        .side-nav a.active, .side-nav button.active { background: rgba(233,69,96,0.18); color: #fff; }
+        .side-dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(245,197,24,0.16);
+            color: var(--gold);
+            font-size: 0.78rem;
+        }
+
+        .road-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .road-head h1 {
+            font-size: clamp(1.8rem, 4vw, 3.1rem);
+            line-height: 1.03;
+            letter-spacing: 0;
+        }
+        .road-head p {
+            color: var(--muted);
+            margin-top: 0.45rem;
+            max-width: 680px;
+            line-height: 1.55;
+        }
+        .level-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-bottom: 1rem;
+        }
+        .level-tab {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.55rem 0.8rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .level-tab.active {
+            color: #111;
+            background: var(--level-color, var(--gold));
+            border-color: transparent;
+        }
+        .level-tab.locked { opacity: 0.5; }
+
+        .stage-card {
+            border-radius: 18px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .stage-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, var(--level-soft), transparent 56%);
+            pointer-events: none;
+        }
+        .stage-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; align-items: center; }
+        .stage-kicker { color: var(--gold); font-weight: 900; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.12em; }
+        .stage-title { font-size: 1.55rem; font-weight: 900; margin-top: 0.2rem; }
+        .stage-sub { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+        .stage-meter { min-width: 180px; }
+        .meter-track {
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.12);
+            overflow: hidden;
+            margin-bottom: 0.35rem;
+        }
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--level-color);
+            border-radius: 999px;
+            transition: width 0.45s ease;
+        }
+        .meter-label { color: var(--muted); font-size: 0.78rem; text-align: right; }
+
+        .section-band {
+            border-radius: 18px;
+            padding: 1rem 1rem 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .section-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+        .section-top h2 { font-size: 1.05rem; }
+        .section-meta { color: var(--muted); font-size: 0.78rem; margin-top: 0.2rem; }
+        .section-progress {
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+        .lesson-road {
+            position: relative;
+            display: grid;
+            gap: 0.65rem;
+            padding: 0.4rem 0 0.2rem;
+        }
+        .lesson-road::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, transparent, rgba(255,255,255,0.16), transparent);
+            border-radius: 999px;
+        }
+        .lesson-node {
+            position: relative;
+            width: min(72%, 420px);
+            display: grid;
+            grid-template-columns: 64px minmax(0, 1fr);
+            align-items: center;
+            gap: 0.7rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .lesson-node.left { justify-self: start; }
+        .lesson-node.center { justify-self: center; }
+        .lesson-node.right { justify-self: end; }
+        .lesson-bubble {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            border: 4px solid var(--line);
+            background: #1e2a3a;
+            box-shadow: 0 10px 0 rgba(0,0,0,0.22);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .lesson-cardlet {
+            min-width: 0;
+            background: rgba(15,23,42,0.74);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 0.72rem 0.8rem;
+        }
+        .lesson-title { font-size: 0.86rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .lesson-sub { color: var(--muted); font-size: 0.74rem; margin-top: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .lesson-node.done .lesson-bubble { background: var(--success); border-color: var(--success); color: #08111f; }
+        .lesson-node.active .lesson-bubble {
+            background: var(--level-color);
+            border-color: var(--level-color);
+            color: #111;
+            animation: activePulse 1.6s ease-in-out infinite;
+        }
+        .lesson-node.open .lesson-bubble { border-color: var(--level-color); color: var(--level-color); background: var(--level-soft); }
+        .lesson-node.locked { pointer-events: none; opacity: 0.46; }
+        .lesson-node.locked .lesson-bubble { color: #5d6b80; }
+        .lesson-node:not(.locked):hover .lesson-bubble { transform: translateY(-4px); box-shadow: 0 14px 0 rgba(0,0,0,0.24); }
+        @keyframes activePulse {
+            0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 10px 0 rgba(0,0,0,0.22), 0 0 0 0 var(--level-soft); }
+            50% { transform: translateY(-5px) scale(1.04); box-shadow: 0 14px 0 rgba(0,0,0,0.24), 0 0 0 13px transparent; }
+        }
+
+        .panel { display: grid; gap: 0.9rem; }
+        .panel-box {
+            border-radius: 18px;
+            padding: 1rem;
+        }
+        .panel-box h3 { font-size: 0.95rem; margin-bottom: 0.7rem; }
+        .panel-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 0.65rem;
+            margin-top: 0.65rem;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+        .panel-row strong { color: var(--text); }
+        .focus-list { list-style: none; display: grid; gap: 0.55rem; color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
+        .focus-list strong { color: var(--gold); }
+
         .overlay {
-            position:fixed; inset:0; z-index:500;
-            background:rgba(0,0,0,.72); display:none;
-            align-items:center; justify-content:center; padding:1rem;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.72);
+            padding: 1rem;
         }
-        .overlay.open { display:flex; }
+        .overlay.open { display: flex; }
         .modal {
-            background:var(--secondary); border-radius:20px;
-            padding:2rem 1.8rem; width:100%; max-width:380px;
-            border:1px solid rgba(255,255,255,.1);
-            animation:popIn .22s ease;
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            width: min(390px, 100%);
+            padding: 1.4rem;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.45);
         }
-        @keyframes popIn { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
-        .modal-title { font-size:1.3rem; font-weight:800; text-align:center; margin-bottom:1.4rem; }
-        .modal-tabs { display:flex; gap:.5rem; margin-bottom:1.4rem; }
+        .modal-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.9rem; }
+        .modal-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.9rem; }
         .modal-tab {
-            flex:1; padding:.5rem; border-radius:10px; border:none;
-            font-size:.88rem; font-weight:700; cursor:pointer;
-            background:rgba(255,255,255,.06); color:var(--muted);
-            transition:all .2s;
+            flex: 1;
+            border: 0;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.07);
+            color: var(--muted);
+            padding: 0.55rem;
+            font-weight: 900;
+            cursor: pointer;
         }
-        .modal-tab.active { background:var(--accent); color:#fff; }
+        .modal-tab.active { background: var(--accent); color: #fff; }
         .modal-field {
-            width:100%; padding:.7rem .9rem; border-radius:10px;
-            background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
-            color:var(--text); font-size:.92rem; margin-bottom:.75rem; outline:none;
-            transition:border-color .2s;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.07);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 0.72rem 0.8rem;
+            margin-bottom: 0.65rem;
+            font: inherit;
         }
-        .modal-field:focus { border-color:rgba(233,69,96,.55); }
         .modal-submit {
-            width:100%; padding:.75rem; border-radius:12px;
-            background:var(--accent); color:#fff; border:none;
-            font-size:1rem; font-weight:800; cursor:pointer; margin-top:.3rem;
-            transition:opacity .2s;
+            width: 100%;
+            border: 0;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.75rem;
+            font-weight: 900;
+            cursor: pointer;
         }
-        .modal-submit:hover { opacity:.88; }
-        .modal-err { color:#f87171; font-size:.8rem; text-align:center; margin-top:.5rem; min-height:1.1rem; }
-        .modal-close-row { text-align:right; margin-bottom:.5rem; }
-        .modal-close { background:none; border:none; color:var(--muted); font-size:1.3rem; cursor:pointer; }
+        .modal-close {
+            float: right;
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .modal-err { color: #f87171; min-height: 1.1rem; margin-top: 0.55rem; font-size: 0.82rem; }
 
-        /* ── GUEST HERO ── */
-        .guest-hero {
-            text-align:center; padding:3rem 1.5rem 1.5rem;
-            max-width:520px; margin:0 auto;
+        @media (max-width: 1040px) {
+            .shell { grid-template-columns: 1fr; }
+            .side, .panel { position: static; }
+            .side-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
-        .guest-hero h1 { font-size:1.9rem; font-weight:800; line-height:1.2; margin-bottom:.7rem; }
-        .guest-hero h1 em { color:var(--accent); font-style:normal; }
-        .guest-hero p { color:var(--muted); font-size:.95rem; margin-bottom:1.5rem; }
-        .hero-cta {
-            display:inline-block; padding:.85rem 2.2rem; border-radius:50px;
-            background:var(--accent); color:#fff; font-size:1.05rem; font-weight:800;
-            text-decoration:none; border:none; cursor:pointer;
-            animation:pulseCta 2s ease-in-out infinite;
+        @media (max-width: 720px) {
+            .topbar { align-items: flex-start; flex-direction: column; }
+            .top-actions { justify-content: flex-start; }
+            .shell { padding: 0.85rem; }
+            .road-head { display: block; }
+            .stage-inner { grid-template-columns: 1fr; }
+            .stage-meter { min-width: 0; }
+            .meter-label { text-align: left; }
+            .side-nav, .panel { grid-template-columns: 1fr; }
+            .lesson-road::before { left: 29px; transform: none; }
+            .lesson-node, .lesson-node.left, .lesson-node.center, .lesson-node.right {
+                width: 100%;
+                justify-self: stretch;
+                grid-template-columns: 58px minmax(0, 1fr);
+            }
+            .lesson-bubble { width: 52px; height: 52px; }
         }
-        @keyframes pulseCta {
-            0%,100%{box-shadow:0 0 0 0 rgba(233,69,96,.5)}
-            50%{box-shadow:0 0 0 12px rgba(233,69,96,0)}
-        }
-
-        /* ── MAP CONTAINER ── */
-        .map-wrap {
-            max-width:480px; margin:0 auto;
-            padding:1.5rem 1rem 5rem;
-        }
-
-        /* ── LEVEL BANNER ── */
-        .lvl-banner {
-            display:flex; align-items:center; gap:.9rem;
-            background:var(--secondary); border-radius:16px;
-            padding:.9rem 1.2rem; margin:2rem 0 .8rem;
-            border:1px solid rgba(255,255,255,.08);
-        }
-        .lvl-badge {
-            width:44px; height:44px; border-radius:50%;
-            display:flex; align-items:center; justify-content:center;
-            font-size:1rem; font-weight:900; color:#fff; flex-shrink:0;
-            border:3px solid;
-        }
-        .lvl-info { flex:1; }
-        .lvl-name { font-weight:800; font-size:1rem; }
-        .lvl-sub  { font-size:.75rem; color:var(--muted); margin-top:.1rem; }
-        .lvl-xp-track {
-            height:5px; border-radius:3px;
-            background:rgba(255,255,255,.1); margin-top:.45rem; overflow:hidden;
-        }
-        .lvl-xp-fill { height:100%; border-radius:3px; transition:width .5s; }
-        .lvl-xp-txt { font-size:.7rem; color:var(--muted); margin-top:.2rem; }
-        .lvl-lock-badge {
-            font-size:.8rem; color:var(--muted); white-space:nowrap;
-            display:flex; align-items:center; gap:.3rem;
-        }
-
-        /* ── SKILL NODES ── */
-        .nd {
-            position:relative; display:flex; flex-direction:column;
-            align-items:center; margin-bottom:1.1rem;
-        }
-        .nd-circle {
-            width:68px; height:68px; border-radius:50%;
-            display:flex; flex-direction:column; align-items:center; justify-content:center;
-            border:4px solid; cursor:pointer; transition:transform .15s, box-shadow .15s;
-            position:relative; text-decoration:none;
-            flex-shrink:0;
-        }
-        .nd-icon { font-size:1.5rem; line-height:1; }
-        .nd-label-icon { font-size:1.1rem; line-height:1; font-weight:800; color:#fff; }
-        .nd-label-below {
-            margin-top:.35rem; font-size:.72rem; font-weight:700;
-            text-align:center; max-width:80px; color:var(--muted); line-height:1.2;
-        }
-
-        /* locked */
-        .nd.nd-locked .nd-circle {
-            background:#1e2a3a; border-color:#2d3d50;
-            cursor:default; pointer-events:none;
-        }
-        .nd.nd-locked .nd-label-icon { color:#3d5060; }
-        .nd.nd-locked .nd-label-below { color:#3d5060; }
-
-        /* active */
-        .nd.nd-active .nd-circle {
-            box-shadow:0 0 18px var(--nd-color,#e94560);
-            border-color:var(--nd-color,#e94560);
-            background:var(--nd-bg,rgba(233,69,96,.18));
-            animation:ndBounce 1.6s ease-in-out infinite;
-        }
-        @keyframes ndBounce {
-            0%,100%{transform:translateY(0)}
-            45%{transform:translateY(-6px)}
-        }
-        .nd.nd-active .nd-circle:hover { transform:scale(1.06); }
-
-        /* done */
-        .nd.nd-done .nd-circle {
-            border-color:var(--nd-color,#4ade80);
-            background:var(--nd-color,#4ade80);
-        }
-        .nd.nd-done .nd-label-icon { color:#fff; filter:drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
-        .nd-done-badge {
-            position:absolute; bottom:-4px; right:-4px;
-            width:20px; height:20px; border-radius:50%;
-            background:#22c55e; border:2px solid var(--bg);
-            display:flex; align-items:center; justify-content:center;
-            font-size:.65rem; color:#fff; font-weight:900; display:none;
-        }
-        .nd.nd-done .nd-done-badge { display:flex; }
-
-        /* ── BACK LINK ── */
-        .back-link {
-            display:inline-flex; align-items:center; gap:.4rem;
-            color:var(--muted); font-size:.82rem; text-decoration:none;
-            padding:.35rem .7rem; border-radius:8px;
-            border:1px solid rgba(255,255,255,.1); transition:all .2s;
-        }
-        .back-link:hover { color:var(--text); border-color:rgba(255,255,255,.25); }
     </style>
 </head>
 <body>
-
-<!-- TOP BAR -->
-<header class="topbar">
-    <a href="index.html" class="logo">SOR<span>·</span>Mathe</a>
-    <div class="tb-stats" id="tbStats">
-        <button class="tb-login-btn" id="tbLoginBtn" onclick="openModal()">Anmelden</button>
-    </div>
-    <a href="index.html" class="back-link">&#8592; App</a>
-</header>
-
-<!-- ACCOUNT MODAL -->
-<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-        <div class="modal-close-row">
-            <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <header class="topbar">
+        <a href="../index.html" class="logo">SOR<span>.</span> Lernstrasse</a>
+        <div class="top-actions" id="topActions">
+            <a href="index.html" class="nav-link">Ueben</a>
+            <a href="lernarchiv.html" class="nav-link">Archiv</a>
+            <button class="login-btn" onclick="openModal()">Anmelden</button>
         </div>
-        <div class="modal-title" id="modalTitle">Willkommen</div>
-        <div class="modal-tabs">
-            <button class="modal-tab active" id="tabReg" onclick="switchTab('reg')">Registrieren</button>
-            <button class="modal-tab" id="tabLog" onclick="switchTab('log')">Anmelden</button>
-        </div>
-        <input class="modal-field" id="mUser" type="text" placeholder="Benutzername" autocomplete="username" />
-        <input class="modal-field" id="mPass" type="password" placeholder="Passwort" autocomplete="current-password" />
-        <button class="modal-submit" onclick="doSubmit()">Los geht&rsquo;s!</button>
-        <div class="modal-err" id="modalErr"></div>
+    </header>
+
+    <div class="shell">
+        <aside class="side">
+            <nav class="side-nav" id="sideNav"></nav>
+        </aside>
+
+        <main>
+            <section class="road-head">
+                <div>
+                    <h1>Deine mathematische Lernstrasse</h1>
+                    <p>Sechs Stufen, viele Abschnitte und kurze Lektionen, direkt aus dem Archiv gebaut. Bestehe eine Lektion mit mindestens 80 Prozent, dann wird der naechste Knoten freigeschaltet.</p>
+                </div>
+            </section>
+            <div class="level-tabs" id="levelTabs"></div>
+            <section class="stage-card" id="stageCard"></section>
+            <section id="sectionsWrap"></section>
+        </main>
+
+        <aside class="panel">
+            <section class="panel-box" id="profilePanel"></section>
+            <section class="panel-box">
+                <h3>Naechste Inhaltsausbauten</h3>
+                <ul class="focus-list">
+                    <li><strong>Klasse 1-12:</strong> Lehrplanmatrix mit Lueckenpruefung je Jahrgang.</li>
+                    <li><strong>Ingenieurmathematik:</strong> Analysis, Lineare Algebra, Numerik, Signale, Regelung, Stochastik.</li>
+                    <li><strong>L6 Forschung:</strong> Zahlentheorie, Riemann-Hypothese, Optimierung, Simulation.</li>
+                </ul>
+            </section>
+            <section class="panel-box" id="missionPanel"></section>
+        </aside>
     </div>
-</div>
 
-<!-- GUEST HERO (shown when not logged in) -->
-<section class="guest-hero" id="guestHero" style="display:none">
-    <h1>Mathe lernen –<br><em>Level für Level</em></h1>
-    <p>Von Einmaleins bis Forschung. Spielerisch, kostenlos, mit echtem Fortschritt.</p>
-    <button class="hero-cta" onclick="openModal()">Jetzt starten &rarr;</button>
-</section>
+    <div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-title" id="modalTitle">Konto erstellen</div>
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="tabReg" onclick="switchTab('reg')">Registrieren</button>
+                <button class="modal-tab" id="tabLog" onclick="switchTab('log')">Anmelden</button>
+            </div>
+            <input class="modal-field" id="mUser" type="email" placeholder="E-Mail-Adresse" autocomplete="email">
+            <input class="modal-field" id="mName" type="text" placeholder="Anzeigename" autocomplete="name">
+            <input class="modal-field" id="mPass" type="password" placeholder="Passwort" autocomplete="current-password">
+            <button class="modal-submit" onclick="doSubmit()">Los geht's</button>
+            <div class="modal-err" id="modalErr"></div>
+        </div>
+    </div>
 
-<!-- MAP -->
-<div class="map-wrap" id="mapWrap"></div>
+    <script src="./data/archive-content.js?v=2.5.1"></script>
+    <script>
+        const STORE_KEY = 'mathlevel-accounts-v1';
+        const ROAD_KEY = 'sor-learning-road-v1';
+        const LVL_XP = [0, 50, 150, 300, 500, 750, 1100];
+        const LVL_COLORS = ['#4ade80', '#facc15', '#f59e0b', '#60a5fa', '#8b5cf6', '#9ca3af'];
+        const LVL_SOFT = ['rgba(74,222,128,0.18)', 'rgba(250,204,21,0.18)', 'rgba(245,158,11,0.18)', 'rgba(96,165,250,0.18)', 'rgba(139,92,246,0.18)', 'rgba(156,163,175,0.16)'];
+        const archive = window.SOR_ARCHIVE || { taxonomy: [], tasks: [] };
+        const WIND = ['left', 'center', 'right', 'center', 'left', 'center', 'right', 'center', 'left', 'center'];
+        let selectedLevel = 1;
+        let modalMode = 'reg';
 
-<script>
-const STORE_KEY = 'mathlevel-accounts-v1';
-const LVL_XP = [0, 50, 150, 300, 500, 750, 1100];
-const LVL_COLORS = ['#4ade80','#facc15','#f59e0b','#60a5fa','#8b5cf6','#9ca3af'];
-const LVL_BG = [
-    'rgba(74,222,128,.2)','rgba(250,204,21,.2)','rgba(245,158,11,.2)',
-    'rgba(96,165,250,.2)','rgba(139,92,246,.2)','rgba(156,163,175,.2)'
-];
-const LVL_NAMES = ['Grundlagen','Aufbauwissen','Vertiefung','Uni-Grundlagen','Angewandte Mathe','Forschung'];
-const LVL_SUBS  = ['Grundschule & Unterstufe','Unter- & Mittelstufe','Oberstufe','Studienanfang','Fortgeschrittenes Studium','Wissenschaft & Spezialisierung'];
+        const topicAliases = {
+            1: { Bruchrechnung: 'Bruchrechnung', Prozentrechnung: 'Prozente', Prozent: 'Prozente', Geometrie: 'Geometrie', Dreisatz: 'Dreisatz', Flaechen: 'Geometrie', Einheiten: 'Dreisatz' },
+            2: { Gleichungen: 'Lineare Gleichungen', Funktionen: 'Lineare Funktionen', Exponentielles: 'Potenzen', Trigonometrie: 'Trigonometrie-sin', Geometrie: 'Trigonometrie-sin' },
+            3: { Analysis: 'Ableitungen', Stochastik: 'Stochastik', Vektoren: 'Vektoren', Matrizen: 'Vektoren', Komplexe: 'Vektoren' },
+            4: { 'Lineare Algebra': 'Lineare Algebra', Matrizen: 'Lineare Algebra', Differentialgleichungen: 'Differentialgleichungen 1. Ordnung', Komplexe: 'Komplexe Zahlen', Reihen: 'Reihen' },
+            5: { Fourier: 'Fourierreihe', Laplace: 'Laplace-Transformation', Resonanz: 'Resonanz', Regelungstechnik: 'Regelungstechnik', Signalverarbeitung: 'Fouriertransformation' },
+            6: { Numerische: 'Finite-Differenzen-Methode', Simulation: 'Finite-Differenzen-Methode', FEM: 'Finite-Elemente-Methode', Stochastische: 'Wiener-Prozess', Optimierung: 'Konvexe Optimierung', PDE: 'Partielle DGL' }
+        };
 
-/* 12 nodes per level — [icon, label, appTopic] */
-const NODES = [
-    /* L1 */ [
-        ['✕','Einmaleins','Einmaleins'],
-        ['＋','Addition','Addition'],
-        ['½','Brüche','Bruchrechnung'],
-        ['÷','Brüche÷','Bruch-Division'],
-        ['0.1','Dezimal','Dezimalzahlen'],
-        ['%','Prozente','Prozente'],
-        ['∝','Dreisatz','Dreisatz'],
-        ['▭','Flächen','Flächenberechnung'],
-        ['⬡','Umfang','Umfang'],
-        ['∠','Winkel','Winkel'],
-        ['⊕','Koordinaten','Koordinatensystem'],
-        ['🎯','Gemischt','Gemischt L1'],
-    ],
-    /* L2 */ [
-        ['=','Lin.Gl.','Lineare Gleichungen'],
-        ['x²','Quad.Gl.','Quadratische Gleichungen'],
-        ['xⁿ','Potenzen','Potenzen'],
-        ['√','Wurzeln','Wurzeln'],
-        ['log','Logarithmus','Logarithmus'],
-        ['f(x)','Lin.Fkt.','Lineare Funktionen'],
-        ['⌒','Parabeln','Parabeln'],
-        ['sin','Sinus','Trigonometrie-sin'],
-        ['tan','Tangens','Trigonometrie-tan'],
-        ['○','Einheitskr.','Einheitskreis'],
-        ['‖','GLS','Gleichungssysteme'],
-        ['🔍','Fkt-Ana.','Funktionsanalyse'],
-    ],
-    /* L3 */ [
-        ["f'","Ableitung","Ableitungen"],
-        ['⛓','Kettenregel','Kettenregel'],
-        ['·','Produktregel','Produktregel'],
-        ['📉','Kurvendisk.','Kurvendiskussion'],
-        ['∫','Stammfkt.','Stammfunktion'],
-        ['∫₀¹','Best.Int.','Bestimmtes Integral'],
-        ['∫uv','Part.Int.','Partielle Integration'],
-        ['P','Wahrsch.','Wahrscheinlichkeit'],
-        ['nCr','Kombi','Kombinatorik'],
-        ['B(n)','Binom.','Binomialverteilung'],
-        ['→','Vektoren','Vektoren'],
-        ['⊥','Geraden','Geraden & Ebenen'],
-    ],
-    /* L4 */ [
-        ['[M]','Matrizen','Lineare Algebra'],
-        ['det','det(A)','Determinante'],
-        ['λ','Eigenwerte','Eigenwerte'],
-        ["y'","DGL 1.O","Differentialgleichungen 1. Ordnung"],
-        ["y''","DGL 2.O","Differentialgleichungen 2. Ordnung"],
-        ['i','Komplex','Komplexe Zahlen'],
-        ['eⁱ','Euler-F.','Eulersche Formel'],
-        ['|z|','Betrag','Komplexe Zahlen'],
-        ['Σxⁿ','Potenzreihe','Reihen'],
-        ['∞','Konvergenz','Konvergenz'],
-        ['eˣ≈','Taylor','Taylorreihe'],
-        ['ℒ','Laplace','Laplace-Transformation'],
-    ],
-    /* L5 */ [
-        ['∿','Fourier-R','Fourierreihe'],
-        ['F(ω)','Fourier-T','Fouriertransformation'],
-        ['DFT','DFT','Diskrete Fouriertransformation'],
-        ['ℒ','Laplace','Laplace-Transformation'],
-        ['G(s)','Übertr.','Übertragungsfunktion'],
-        ['ω₀','Resonanz','Resonanz'],
-        ['~','Schwingung','Schwingungen'],
-        ['⚙','PID','Regelungstechnik'],
-        ['✓','Stabilität','Stabilitätsanalyse'],
-        ['Q','Güte','Gütefaktor'],
-        ['📡','Signal','Signalverarbeitung'],
-        ['⧖','Filter','Filtertechnik'],
-    ],
-    /* L6 */ [
-        ['∂','PDE','Partielle DGL'],
-        ['∿','Welle','Wellengleichung'],
-        ['🌡','Wärme','Wärmeleitungsgleichung'],
-        ['⬡','FEM','Finite-Elemente-Methode'],
-        ['N(x)','Formfkt.','FEM-Formfunktionen'],
-        ['≈','FDiff.','Finite-Differenzen-Methode'],
-        ['→','RK4','Runge-Kutta Verfahren'],
-        ['O(h)','Fehler','Fehlerordnung'],
-        ['W(t)','Wiener','Wiener-Prozess'],
-        ['dX','Itô','Itô-Formel'],
-        ['∇','KKT','KKT-Bedingungen'],
-        ['↗','Konvex','Konvexe Optimierung'],
-    ],
-];
-
-/* winding S-curve offsets for 12 nodes: 8 positions cycling L→R */
-const WIND = [8, 28, 50, 70, 50, 28, 8, 28, 50, 70, 50, 28];
-
-/* ── account helpers ── */
-function loadStore()  { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {accounts:{},current:null}; } catch(e){ return {accounts:{},current:null}; } }
-function saveStore(s) { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
-
-function currentAccount() {
-    const s = loadStore();
-    if (!s.current || !s.accounts[s.current]) return null;
-    return s.accounts[s.current];
-}
-function getXp() {
-    const a = currentAccount();
-    return (a && a.progress && a.progress.summary && a.progress.summary.xp) || 0;
-}
-function getStreak() {
-    const a = currentAccount();
-    return (a && a.progress && a.progress.summary && a.progress.summary.streak) || 0;
-}
-function avatarColor(username) {
-    let h = 0;
-    for (let i = 0; i < username.length; i++) h = username.charCodeAt(i) + ((h << 5) - h);
-    return 'hsl(' + (h % 360) + ',55%,50%)';
-}
-function normalizeAccount(u, p) {
-    return {
-        username: u, password: p,
-        avatarColor: avatarColor(u),
-        createdAt: new Date().toISOString(),
-        hearts: 5, heartsLastRefill: Date.now(),
-        streakFreezes: 0, streakFreezeUsed: null,
-        progress: {
-            schemaVersion: 1, summary: { xp:0, streak:0, accuracy:0, correct:0 },
-            dailyActivity: {}, weeklyXp: {}, lastActiveDate: null, updatedAt: null
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[char]));
         }
-    };
-}
 
-/* ── modal ── */
-let modalMode = 'reg';
-function openModal()  { document.getElementById('overlay').classList.add('open'); document.getElementById('mUser').focus(); }
-function closeModal() { document.getElementById('overlay').classList.remove('open'); document.getElementById('modalErr').textContent=''; }
-function switchTab(t) {
-    modalMode = t;
-    document.getElementById('tabReg').classList.toggle('active', t==='reg');
-    document.getElementById('tabLog').classList.toggle('active', t==='log');
-    document.getElementById('modalTitle').textContent = t==='reg' ? 'Konto erstellen' : 'Willkommen zurück';
-    document.getElementById('modalErr').textContent = '';
-}
-document.getElementById('mPass').addEventListener('keydown', e => { if(e.key==='Enter') doSubmit(); });
+        function loadStore() {
+            try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { accounts: {}, current: null }; }
+            catch (error) { return { accounts: {}, current: null }; }
+        }
 
-function doSubmit() {
-    const u = document.getElementById('mUser').value.trim();
-    const p = document.getElementById('mPass').value;
-    const err = document.getElementById('modalErr');
-    if (!u || !p) { err.textContent='Bitte alle Felder ausfüllen.'; return; }
-    const s = loadStore();
-    if (modalMode === 'reg') {
-        if (s.accounts[u]) { err.textContent='Benutzername bereits vergeben.'; return; }
-        if (p.length < 4)  { err.textContent='Passwort mind. 4 Zeichen.'; return; }
-        s.accounts[u] = normalizeAccount(u, p);
-        s.current = u;
-        saveStore(s);
-    } else {
-        const acc = s.accounts[u];
-        if (!acc || acc.password !== p) { err.textContent='Benutzername oder Passwort falsch.'; return; }
-        s.current = u;
-        saveStore(s);
-    }
-    closeModal();
-    init();
-}
+        function saveStore(store) {
+            localStorage.setItem(STORE_KEY, JSON.stringify(store));
+        }
 
-/* ── node state ── */
-function nodeState(lvl, idx) {
-    const xp  = getXp();
-    const ls  = LVL_XP[lvl];
-    const le  = LVL_XP[lvl + 1] || ls + 350;
-    const per = (le - ls) / 12;
-    if (xp < ls) return 'locked';
-    if (xp >= ls + (idx + 1) * per) return 'done';
-    if (xp >= ls + idx * per) return 'active';
-    return 'locked';
-}
+        function normalizeAccountId(email) {
+            return String(email || '').trim().toLowerCase();
+        }
 
-/* ── render ── */
-function renderTopBar(acc) {
-    const tb = document.getElementById('tbStats');
-    const xp = getXp();
-    const streak = getStreak();
-    if (!acc) {
-        tb.innerHTML = '<button class="tb-login-btn" onclick="openModal()">Anmelden</button>';
-        return;
-    }
-    tb.innerHTML = `
-        <div class="tb-stat"><span class="tb-stat-icon">⚡</span><span class="tb-stat-val">${xp}</span><span style="color:var(--muted);font-size:.78rem">XP</span></div>
-        <div class="tb-stat"><span class="tb-stat-icon">🔥</span><span class="tb-stat-val">${streak}</span></div>
-        <div class="tb-avatar" style="background:${acc.avatarColor}" onclick="window.location='profil.html'">${acc.username.charAt(0).toUpperCase()}</div>
-    `;
-}
+        function avatarColor(seed) {
+            let hash = 0;
+            for (let i = 0; i < seed.length; i += 1) hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+            return 'hsl(' + (Math.abs(hash) % 360) + ',55%,48%)';
+        }
 
-function renderMap(xp) {
-    const wrap = document.getElementById('mapWrap');
-    wrap.innerHTML = '';
-
-    for (let lvl = 0; lvl < 6; lvl++) {
-        const col   = LVL_COLORS[lvl];
-        const bg    = LVL_BG[lvl];
-        const ls    = LVL_XP[lvl];
-        const le    = LVL_XP[lvl + 1] || ls + 350;
-        const isUnl = xp >= ls;
-        const xpIn  = Math.max(0, Math.min(xp - ls, le - ls));
-        const pct   = isUnl ? Math.round(xpIn / (le - ls) * 100) : 0;
-
-        /* level banner */
-        const banner = document.createElement('div');
-        banner.className = 'lvl-banner';
-        banner.innerHTML = `
-            <div class="lvl-badge" style="background:${isUnl?col:'#1e2a3a'};border-color:${isUnl?col:'#2d3d50'}">
-                ${lvl+1}
-            </div>
-            <div class="lvl-info">
-                <div class="lvl-name" style="color:${isUnl?col:getComputedStyle(document.documentElement).getPropertyValue('--muted')}">${LVL_NAMES[lvl]}</div>
-                <div class="lvl-sub">${LVL_SUBS[lvl]}</div>
-                ${isUnl
-                    ? `<div class="lvl-xp-track"><div class="lvl-xp-fill" style="width:${pct}%;background:${col}"></div></div>
-                       <div class="lvl-xp-txt">${xpIn} / ${le-ls} XP</div>`
-                    : `<div class="lvl-xp-txt" style="margin-top:.4rem">🔒 ${ls} XP zum Freischalten</div>`
+        function createAccount(email, password, displayName) {
+            const id = normalizeAccountId(email);
+            return {
+                email: id,
+                displayName: displayName || id.split('@')[0] || 'User',
+                password,
+                avatarColor: avatarColor(id),
+                createdAt: new Date().toISOString(),
+                hearts: 5,
+                heartsLastRefill: new Date().toISOString(),
+                streakFreezes: 0,
+                streakFreezeUsed: null,
+                progress: {
+                    schemaVersion: 2,
+                    summary: { xp: 0, streak: 0, accuracy: 0, correct: 0, total: 0 },
+                    dailyActivity: {},
+                    weeklyXp: {},
+                    earnedAchievements: [],
+                    lastActiveDate: null,
+                    updatedAt: new Date().toISOString()
                 }
-            </div>
-        `;
-        wrap.appendChild(banner);
+            };
+        }
 
-        /* nodes */
-        NODES[lvl].forEach((nd, i) => {
-            const state = nodeState(lvl, i);
-            const ml    = WIND[i % WIND.length];
+        function currentAccountId() {
+            const store = loadStore();
+            return store.current && store.accounts && store.accounts[store.current] ? store.current : null;
+        }
 
-            const outer = document.createElement('div');
-            outer.className = `nd nd-${state}`;
-            outer.style.marginLeft = ml + '%';
-            outer.style.setProperty('--nd-color', col);
-            outer.style.setProperty('--nd-bg', bg);
+        function currentAccount() {
+            const store = loadStore();
+            const id = currentAccountId();
+            return id ? store.accounts[id] : null;
+        }
 
-            const circle = document.createElement(state !== 'locked' ? 'a' : 'div');
-            circle.className = 'nd-circle';
-            circle.style.borderColor = state === 'locked' ? '#2d3d50'
-                                     : state === 'done'   ? col
-                                     : col;
-            circle.style.background  = state === 'locked' ? '#1e2a3a'
-                                     : state === 'done'   ? col
-                                     : bg;
-            if (state !== 'locked') {
-                circle.href = 'index.html?level=' + (lvl+1) + '&topic=' + encodeURIComponent(nd[2]);
+        function accountLabel(account, id) {
+            return account ? (account.displayName || account.username || account.email || id || 'User').split('@')[0] : 'Gast';
+        }
+
+        function currentSummary() {
+            const account = currentAccount();
+            return (account && account.progress && account.progress.summary) || { xp: 0, streak: 0, correct: 0, total: 0 };
+        }
+
+        function loadRoadStore() {
+            try { return JSON.parse(localStorage.getItem(ROAD_KEY)) || {}; }
+            catch (error) { return {}; }
+        }
+
+        function roadProgress() {
+            const store = loadRoadStore();
+            const id = currentAccountId() || 'guest';
+            return store[id] || { completed: {} };
+        }
+
+        function openModal() {
+            document.getElementById('overlay').classList.add('open');
+            document.getElementById('mUser').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('overlay').classList.remove('open');
+            document.getElementById('modalErr').textContent = '';
+        }
+
+        function switchTab(mode) {
+            modalMode = mode;
+            document.getElementById('tabReg').classList.toggle('active', mode === 'reg');
+            document.getElementById('tabLog').classList.toggle('active', mode === 'log');
+            document.getElementById('mName').style.display = mode === 'reg' ? 'block' : 'none';
+            document.getElementById('modalTitle').textContent = mode === 'reg' ? 'Konto erstellen' : 'Willkommen zurueck';
+            document.getElementById('modalErr').textContent = '';
+        }
+
+        function doSubmit() {
+            const email = normalizeAccountId(document.getElementById('mUser').value);
+            const name = document.getElementById('mName').value.trim();
+            const password = document.getElementById('mPass').value;
+            const err = document.getElementById('modalErr');
+            const store = loadStore();
+
+            if (!email || !password) { err.textContent = 'Bitte E-Mail und Passwort eintragen.'; return; }
+            if (!email.includes('@')) { err.textContent = 'Bitte eine gueltige E-Mail verwenden.'; return; }
+
+            if (modalMode === 'reg') {
+                if (store.accounts[email]) { err.textContent = 'Dieses Konto existiert bereits.'; return; }
+                if (password.length < 4) { err.textContent = 'Passwort mind. 4 Zeichen.'; return; }
+                store.accounts[email] = createAccount(email, password, name);
+            } else if (!store.accounts[email] || store.accounts[email].password !== password) {
+                err.textContent = 'E-Mail oder Passwort falsch.';
+                return;
             }
 
-            const icon = document.createElement('span');
-            icon.className = 'nd-label-icon';
-            icon.textContent = nd[0];
+            store.current = email;
+            saveStore(store);
+            closeModal();
+            init();
+        }
 
-            const badge = document.createElement('div');
-            badge.className = 'nd-done-badge';
-            badge.textContent = '✓';
+        function directSections(levelEntry) {
+            const direct = levelEntry.sublevels.filter((sub) => sub.id.split('.').length === 2);
+            return direct.length ? direct : levelEntry.sublevels.slice(0, 6);
+        }
 
-            circle.appendChild(icon);
-            circle.appendChild(badge);
+        function sectionTasks(levelId, sectionId) {
+            return archive.tasks.filter((task) => task.level === String(levelId) && task.sublevel.startsWith(sectionId));
+        }
 
-            const label = document.createElement('div');
-            label.className = 'nd-label-below';
-            label.textContent = nd[1];
+        function buildLessons(levelId, section, sublevels) {
+            const tasks = sectionTasks(levelId, section.id);
+            const children = sublevels.filter((sub) => sub.id !== section.id && sub.id.startsWith(section.id + '.'));
+            const seen = new Set();
+            const lessons = [];
 
-            outer.appendChild(circle);
-            outer.appendChild(label);
-            wrap.appendChild(outer);
+            children.forEach((child) => {
+                const match = tasks.find((task) => task.sublevel === child.id || task.sublevel.startsWith(child.id + '.'));
+                if (!match) return;
+                const key = child.id + '|' + match.topic;
+                if (seen.has(key)) return;
+                seen.add(key);
+                lessons.push({
+                    id: `road-L${levelId}-${child.id.replace(/\./g, '-')}`,
+                    level: levelId,
+                    sectionId: section.id,
+                    sublevel: child.id,
+                    title: child.title,
+                    topic: match.topic,
+                    taskCount: tasks.filter((task) => task.sublevel === child.id || task.sublevel.startsWith(child.id + '.')).length
+                });
+            });
+
+            tasks.forEach((task) => {
+                if (lessons.length >= 12) return;
+                const key = task.sublevel + '|' + task.topic;
+                if (seen.has(key)) return;
+                seen.add(key);
+                lessons.push({
+                    id: `road-L${levelId}-${task.sublevel.replace(/\./g, '-')}-${lessons.length + 1}`,
+                    level: levelId,
+                    sectionId: section.id,
+                    sublevel: task.sublevel,
+                    title: task.topic,
+                    topic: task.topic,
+                    taskCount: tasks.filter((item) => item.topic === task.topic).length
+                });
+            });
+
+            return lessons.slice(0, 12);
+        }
+
+        function buildRoad() {
+            return archive.taxonomy.map((levelEntry) => {
+                const levelId = Number(levelEntry.level);
+                const sections = directSections(levelEntry).map((section) => ({
+                    ...section,
+                    lessons: buildLessons(levelId, section, levelEntry.sublevels),
+                    taskCount: sectionTasks(levelId, section.id).length
+                }));
+                return { ...levelEntry, levelId, sections };
+            });
+        }
+
+        function allLessons(road) {
+            return road.flatMap((level) => level.sections.flatMap((section) => section.lessons));
+        }
+
+        function levelUnlocked(levelId, xp) {
+            return xp >= LVL_XP[levelId - 1];
+        }
+
+        function firstActiveLesson(road, progress, xp) {
+            return allLessons(road).find((lesson) => levelUnlocked(lesson.level, xp) && !progress.completed[lesson.id]);
+        }
+
+        function lessonState(lesson, activeLesson, progress, xp) {
+            if (progress.completed[lesson.id]) return 'done';
+            if (!levelUnlocked(lesson.level, xp)) return 'locked';
+            if (activeLesson && lesson.id === activeLesson.id) return 'active';
+            return activeLesson ? 'locked' : 'open';
+        }
+
+        function appTopic(levelId, topic) {
+            const aliases = topicAliases[levelId] || {};
+            if (aliases[topic]) return aliases[topic];
+            const key = Object.keys(aliases).find((candidate) => topic.includes(candidate));
+            return key ? aliases[key] : '';
+        }
+
+        function lessonHref(lesson) {
+            const params = new URLSearchParams();
+            params.set('level', String(lesson.level));
+            params.set('roadLesson', lesson.id);
+            const mappedTopic = appTopic(lesson.level, lesson.topic);
+            if (mappedTopic) params.set('topic', mappedTopic);
+            return `index.html?${params.toString()}#level-${lesson.level}`;
+        }
+
+        function renderTop(account, summary) {
+            const top = document.getElementById('topActions');
+            if (!account) {
+                top.innerHTML = `
+                    <a href="index.html" class="nav-link">Ueben</a>
+                    <a href="lernarchiv.html" class="nav-link">Archiv</a>
+                    <button class="login-btn" onclick="openModal()">Anmelden</button>
+                `;
+                return;
+            }
+            const id = currentAccountId();
+            const label = accountLabel(account, id);
+            top.innerHTML = `
+                <span class="stat-pill">${summary.xp || 0} XP</span>
+                <span class="stat-pill">${summary.streak || 0} Tage</span>
+                <a href="index.html" class="nav-link">Ueben</a>
+                <a href="lernarchiv.html" class="nav-link">Archiv</a>
+                <a href="profil.html" class="avatar" style="background:${account.avatarColor || '#e94560'}">${escapeHtml(label.charAt(0).toUpperCase())}</a>
+            `;
+        }
+
+        function renderSide(road) {
+            document.getElementById('sideNav').innerHTML = road.map((level) => `
+                <button class="${level.levelId === selectedLevel ? 'active' : ''}" onclick="selectLevel(${level.levelId})">
+                    <span class="side-dot">L${level.levelId}</span>
+                    <span>${escapeHtml(level.title)}</span>
+                </button>
+            `).join('') + `
+                <a href="lernarchiv.html"><span class="side-dot">A</span><span>Archiv</span></a>
+                <a href="profil.html"><span class="side-dot">P</span><span>Profil</span></a>
+            `;
+        }
+
+        function renderLevelTabs(road, xp) {
+            document.getElementById('levelTabs').innerHTML = road.map((level) => {
+                const color = LVL_COLORS[level.levelId - 1];
+                const locked = !levelUnlocked(level.levelId, xp);
+                return `<button class="level-tab ${selectedLevel === level.levelId ? 'active' : ''} ${locked ? 'locked' : ''}" style="--level-color:${color}" onclick="selectLevel(${level.levelId})">L${level.levelId} ${escapeHtml(level.title)}</button>`;
+            }).join('');
+        }
+
+        function renderStage(level, progress, xp) {
+            const color = LVL_COLORS[level.levelId - 1];
+            const soft = LVL_SOFT[level.levelId - 1];
+            const lessons = level.sections.flatMap((section) => section.lessons);
+            const done = lessons.filter((lesson) => progress.completed[lesson.id]).length;
+            const pct = lessons.length ? Math.round(done / lessons.length * 100) : 0;
+            const unlocked = levelUnlocked(level.levelId, xp);
+            const required = LVL_XP[level.levelId - 1];
+
+            document.getElementById('stageCard').style.setProperty('--level-color', color);
+            document.getElementById('stageCard').style.setProperty('--level-soft', soft);
+            document.getElementById('stageCard').innerHTML = `
+                <div class="stage-inner">
+                    <div>
+                        <div class="stage-kicker">Stufe ${level.levelId}${unlocked ? '' : ' - gesperrt'}</div>
+                        <div class="stage-title">${escapeHtml(level.title)}</div>
+                        <div class="stage-sub">${escapeHtml(level.description)} - ${level.sections.length} Abschnitte - ${lessons.length} Lektionen${unlocked ? '' : ` - ab ${required} XP`}</div>
+                    </div>
+                    <div class="stage-meter">
+                        <div class="meter-track"><div class="meter-fill" style="width:${pct}%"></div></div>
+                        <div class="meter-label">${done}/${lessons.length} Lektionen abgeschlossen</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSections(level, activeLesson, progress, xp) {
+            const color = LVL_COLORS[level.levelId - 1];
+            const soft = LVL_SOFT[level.levelId - 1];
+            document.getElementById('sectionsWrap').innerHTML = level.sections.map((section) => {
+                const done = section.lessons.filter((lesson) => progress.completed[lesson.id]).length;
+                const lessonsHtml = section.lessons.map((lesson, index) => {
+                    const state = lessonState(lesson, activeLesson, progress, xp);
+                    const align = WIND[index % WIND.length];
+                    const label = state === 'done' ? 'OK' : state === 'active' ? 'Start' : state === 'open' ? 'Go' : 'Lock';
+                    const href = state === 'locked' ? '#' : lessonHref(lesson);
+                    return `
+                        <a class="lesson-node ${align} ${state}" href="${href}" style="--level-color:${color};--level-soft:${soft}">
+                            <span class="lesson-bubble">${label}</span>
+                            <span class="lesson-cardlet">
+                                <span class="lesson-title">${escapeHtml(lesson.title)}</span>
+                                <span class="lesson-sub">${escapeHtml(lesson.topic)} - ${lesson.taskCount.toLocaleString('de-DE')} Archivaufgaben</span>
+                            </span>
+                        </a>
+                    `;
+                }).join('');
+
+                return `
+                    <article class="section-band">
+                        <div class="section-top">
+                            <div>
+                                <h2>Abschnitt ${escapeHtml(section.id)} - ${escapeHtml(section.title)}</h2>
+                                <div class="section-meta">${section.taskCount.toLocaleString('de-DE')} Archivaufgaben in diesem Abschnitt</div>
+                            </div>
+                            <div class="section-progress">${done}/${section.lessons.length}</div>
+                        </div>
+                        <div class="lesson-road">${lessonsHtml}</div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderPanels(account, summary, road, progress) {
+            const id = currentAccountId();
+            const completedCount = Object.keys(progress.completed || {}).length;
+            const totalLessons = allLessons(road).length;
+            document.getElementById('profilePanel').innerHTML = `
+                <h3>${account ? escapeHtml(accountLabel(account, id)) : 'Gastmodus'}</h3>
+                <div class="panel-row"><span>XP</span><strong>${summary.xp || 0}</strong></div>
+                <div class="panel-row"><span>Streak</span><strong>${summary.streak || 0} Tage</strong></div>
+                <div class="panel-row"><span>Lernstrasse</span><strong>${completedCount}/${totalLessons}</strong></div>
+            `;
+            document.getElementById('missionPanel').innerHTML = `
+                <h3>Bestehensregel</h3>
+                <div class="panel-row"><span>Schwelle</span><strong>80%</strong></div>
+                <div class="panel-row"><span>Lesson Size</span><strong>5 Aufgaben</strong></div>
+                <div class="panel-row"><span>Quelle</span><strong>Archiv + App</strong></div>
+            `;
+        }
+
+        function selectLevel(levelId) {
+            selectedLevel = levelId;
+            init();
+        }
+
+        function init() {
+            const road = buildRoad();
+            const account = currentAccount();
+            const summary = currentSummary();
+            const progress = roadProgress();
+            const xp = Number(summary.xp || 0);
+            const activeLesson = firstActiveLesson(road, progress, xp);
+            if (!road.some((level) => level.levelId === selectedLevel)) selectedLevel = 1;
+            const currentLevel = road.find((level) => level.levelId === selectedLevel) || road[0];
+
+            renderTop(account, summary);
+            renderSide(road);
+            renderLevelTabs(road, xp);
+            renderStage(currentLevel, progress, xp);
+            renderSections(currentLevel, activeLesson, progress, xp);
+            renderPanels(account, summary, road, progress);
+        }
+
+        document.getElementById('mPass').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') doSubmit();
         });
-    }
-}
 
-function init() {
-    const acc = currentAccount();
-    const xp  = getXp();
-
-    renderTopBar(acc);
-
-    const hero = document.getElementById('guestHero');
-    const map  = document.getElementById('mapWrap');
-
-    if (!acc) {
-        hero.style.display = 'block';
-        map.style.opacity  = '.35';
-        map.style.pointerEvents = 'none';
-    } else {
-        hero.style.display = 'none';
-        map.style.opacity  = '1';
-        map.style.pointerEvents = 'auto';
-    }
-
-    renderMap(xp);
-}
-
-init();
-</script>
-
+        const initialLevel = Number(new URLSearchParams(window.location.search).get('level'));
+        if (Number.isInteger(initialLevel) && initialLevel >= 1 && initialLevel <= 6) selectedLevel = initialLevel;
+        init();
+    </script>
 </body>
 </html>
