@@ -276,6 +276,15 @@
         .lesson-title { font-size: 0.86rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .lesson-sub { color: var(--muted); font-size: 0.74rem; margin-top: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .lesson-node.done .lesson-bubble { background: var(--success); border-color: var(--success); color: #08111f; }
+        .lesson-node.test .lesson-bubble {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #111827;
+        }
+        .lesson-node.test .lesson-cardlet {
+            border-color: rgba(245,197,24,0.32);
+            background: rgba(245,197,24,0.08);
+        }
         .lesson-node.active .lesson-bubble {
             background: var(--level-color);
             border-color: var(--level-color);
@@ -455,7 +464,7 @@
         </div>
     </div>
 
-    <script src="./data/archive-content.js?v=2.5.1"></script>
+    <script src="./data/archive-content.js?v=2.5.4"></script>
     <script>
         const STORE_KEY = 'mathlevel-accounts-v1';
         const ROAD_KEY = 'sor-learning-road-v1';
@@ -609,9 +618,17 @@
             return archive.tasks.filter((task) => task.level === String(levelId) && task.sublevel.startsWith(sectionId));
         }
 
+        function hasChildSublevel(sublevels, sublevelId) {
+            return sublevels.some((sub) => sub.id.startsWith(sublevelId + '.'));
+        }
+
         function buildLessons(levelId, section, sublevels) {
             const tasks = sectionTasks(levelId, section.id);
-            const children = sublevels.filter((sub) => sub.id !== section.id && sub.id.startsWith(section.id + '.'));
+            const children = sublevels.filter((sub) =>
+                sub.id !== section.id &&
+                sub.id.startsWith(section.id + '.') &&
+                !hasChildSublevel(sublevels, sub.id)
+            );
             const seen = new Set();
             const lessons = [];
 
@@ -632,8 +649,7 @@
                 });
             });
 
-            tasks.forEach((task) => {
-                if (lessons.length >= 12) return;
+            if (lessons.length === 0) tasks.forEach((task) => {
                 const key = task.sublevel + '|' + task.topic;
                 if (seen.has(key)) return;
                 seen.add(key);
@@ -648,7 +664,21 @@
                 });
             });
 
-            return lessons.slice(0, 12);
+            const visibleLessons = lessons.slice(0, 12);
+            if (visibleLessons.length > 0) {
+                visibleLessons.push({
+                    id: `road-L${levelId}-${section.id.replace(/\./g, '-')}-test`,
+                    level: levelId,
+                    sectionId: section.id,
+                    sublevel: section.id,
+                    title: 'Abschnittstest',
+                    topic: section.title,
+                    taskCount: tasks.length,
+                    mode: 'sectionTest'
+                });
+            }
+
+            return visibleLessons;
         }
 
         function buildRoad() {
@@ -693,8 +723,12 @@
             const params = new URLSearchParams();
             params.set('level', String(lesson.level));
             params.set('roadLesson', lesson.id);
+            params.set('roadSection', lesson.sectionId);
+            params.set('roadSublevel', lesson.sublevel);
+            params.set('roadTopic', lesson.topic);
+            params.set('roadMode', lesson.mode || 'lesson');
             const mappedTopic = appTopic(lesson.level, lesson.topic);
-            if (mappedTopic) params.set('topic', mappedTopic);
+            if (mappedTopic && lesson.mode !== 'sectionTest') params.set('topic', mappedTopic);
             return `index.html?${params.toString()}#level-${lesson.level}`;
         }
 
@@ -773,10 +807,12 @@
                 const lessonsHtml = section.lessons.map((lesson, index) => {
                     const state = lessonState(lesson, activeLesson, progress, xp);
                     const align = WIND[index % WIND.length];
-                    const label = state === 'done' ? 'OK' : state === 'active' ? 'Start' : state === 'open' ? 'Go' : 'Lock';
+                    const label = lesson.mode === 'sectionTest'
+                        ? (state === 'done' ? 'OK' : state === 'locked' ? 'Lock' : 'Test')
+                        : state === 'done' ? 'OK' : state === 'active' ? 'Start' : state === 'open' ? 'Go' : 'Lock';
                     const href = state === 'locked' ? '#' : lessonHref(lesson);
                     return `
-                        <a class="lesson-node ${align} ${state}" href="${href}" style="--level-color:${color};--level-soft:${soft}">
+                        <a class="lesson-node ${align} ${state} ${lesson.mode === 'sectionTest' ? 'test' : ''}" href="${href}" style="--level-color:${color};--level-soft:${soft}">
                             <span class="lesson-bubble">${label}</span>
                             <span class="lesson-cardlet">
                                 <span class="lesson-title">${escapeHtml(lesson.title)}</span>

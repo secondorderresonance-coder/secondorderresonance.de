@@ -753,7 +753,7 @@
             <div class="perfect-bonus" id="perfectBonus">&#9733; PERFEKT +20 XP BONUS</div>
             <div class="road-pass-note" id="roadPassNote">Lernstrasse: Lektion bestanden und Knoten freigeschaltet.</div>
             <div class="lesson-modal-btns">
-                <button class="next-btn show" onclick="nextLesson()" style="margin:0">N&auml;chste Lektion &#8594;</button>
+                <button class="next-btn show" id="lessonNextBtn" onclick="nextLesson()" style="margin:0">N&auml;chste Lektion &#8594;</button>
                 <button class="lesson-modal-pause" onclick="pauseLesson()">Pause einlegen</button>
             </div>
         </div>
@@ -941,6 +941,7 @@
         </div>
     </main>
 
+    <script src="./data/archive-content.js?v=2.5.4"></script>
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
         const LEVEL_XP_THRESHOLDS = [0, 50, 150, 300, 500, 750];
@@ -1741,6 +1742,118 @@
             }
         };
 
+        const archive = window.SOR_ARCHIVE || { tasks: [] };
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, function(char) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+            });
+        }
+
+        function cleanArchiveAnswer(answer) {
+            return String(answer || '')
+                .replace(/\s*Zusatzfokus:.*$/i, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function normalizeArchiveDifficulty(difficulty) {
+            const value = String(difficulty || '').toLowerCase();
+            if (value.includes('leicht')) return 'easy';
+            if (value.includes('mittel')) return 'medium';
+            if (value.includes('schwer')) return 'hard';
+            return 'medium';
+        }
+
+        function hashString(value) {
+            return String(value || '').split('').reduce(function(hash, char) {
+                return ((hash << 5) - hash) + char.charCodeAt(0);
+            }, 0);
+        }
+
+        function sameOrChildSublevel(taskSublevel, targetSublevel) {
+            return !!taskSublevel && !!targetSublevel && (taskSublevel === targetSublevel || taskSublevel.startsWith(targetSublevel + '.'));
+        }
+
+        function roadTaskMatches(task, meta) {
+            if (!task || !meta || task.level !== String(meta.level)) return false;
+            if (meta.mode === 'sectionTest') return sameOrChildSublevel(task.sublevel, meta.section);
+            if (meta.sublevel) return sameOrChildSublevel(task.sublevel, meta.sublevel);
+            return meta.topic ? task.topic === meta.topic : false;
+        }
+
+        function buildRoadOptions(task, scopedTasks, allLevelTasks) {
+            const correct = cleanArchiveAnswer(task.answer);
+            const pool = scopedTasks.concat(allLevelTasks)
+                .map(function(item) { return cleanArchiveAnswer(item.answer); })
+                .filter(function(answer) { return answer && answer !== correct && answer.length <= 90; });
+            const unique = [];
+            pool.forEach(function(answer) {
+                if (!unique.includes(answer)) unique.push(answer);
+            });
+
+            if (unique.length < 3) {
+                ['Nicht bestimmbar', '0', '1', '10', 'Keine der Antworten'].forEach(function(answer) {
+                    if (answer !== correct && !unique.includes(answer)) unique.push(answer);
+                });
+            }
+
+            const picked = unique.slice(0, 3);
+            const insertAt = Math.min(Math.abs(hashString(task.id || task.question)) % 4, picked.length);
+            picked.splice(insertAt, 0, correct || 'Siehe Loesung');
+            return {
+                options: picked.slice(0, 4),
+                correct: insertAt
+            };
+        }
+
+        function archiveTaskToExercise(task, scopedTasks, allLevelTasks) {
+            const choices = buildRoadOptions(task, scopedTasks, allLevelTasks);
+            return {
+                topic: task.topic || 'Lernstrasse',
+                question: task.title || 'Archivaufgabe',
+                math: task.question || '',
+                options: choices.options,
+                correct: choices.correct,
+                difficulty: normalizeArchiveDifficulty(task.difficulty),
+                explanation: task.explanation || cleanArchiveAnswer(task.answer) || 'Loese die Aufgabe Schritt fuer Schritt.'
+            };
+        }
+
+        function buildRoadQuestionPool(meta) {
+            if (!meta || !archive.tasks || !archive.tasks.length) return [];
+            const allLevelTasks = archive.tasks.filter(function(task) {
+                return task.level === String(meta.level);
+            });
+            let scopedTasks = allLevelTasks.filter(function(task) {
+                return roadTaskMatches(task, meta);
+            });
+            if (!scopedTasks.length && meta.section) {
+                scopedTasks = allLevelTasks.filter(function(task) {
+                    return sameOrChildSublevel(task.sublevel, meta.section);
+                });
+            }
+            return scopedTasks.slice(0, 24).map(function(task) {
+                return archiveTaskToExercise(task, scopedTasks, allLevelTasks);
+            });
+        }
+
+        function isRoadMode() {
+            return !!state.roadLessonId;
+        }
+
+        function clearRoadMode() {
+            state.roadLessonId = null;
+            state.roadLessonMeta = null;
+            state.roadQuestionPool = [];
+            state.roadLessonPassed = false;
+        }
+
+        function roadReturnHref() {
+            const level = state.roadLessonMeta && state.roadLessonMeta.level ? state.roadLessonMeta.level : String(state.level + 1);
+            return 'lernpfad.html?level=' + encodeURIComponent(level);
+        }
+
         // App State
         function createInitialState() {
             return {
@@ -1758,7 +1871,10 @@
                 lessonProgress: 0,
                 lessonXpStart: 0,
                 lessonCorrect: 0,
-                roadLessonId: null
+                roadLessonId: null,
+                roadLessonMeta: null,
+                roadQuestionPool: [],
+                roadLessonPassed: false
             };
         }
 
@@ -2101,7 +2217,10 @@
                 accuracy,
                 xpGained,
                 level: String(state.level + 1),
-                topic: state.topic || '',
+                section: state.roadLessonMeta ? state.roadLessonMeta.section : '',
+                sublevel: state.roadLessonMeta ? state.roadLessonMeta.sublevel : '',
+                topic: state.roadLessonMeta ? state.roadLessonMeta.topic : (state.topic || ''),
+                mode: state.roadLessonMeta ? state.roadLessonMeta.mode : 'lesson',
                 completedAt: new Date().toISOString()
             };
             saveRoadProgressStore(store);
@@ -2115,12 +2234,13 @@
         function renderLevelButtons() {
             const levelNames = ['Grundlagen', 'Aufbauwissen', 'Vertiefung', 'Universitätsgrundlagen', 'Angewandte Mathematik', 'Forschung & Simulation'];
             document.querySelectorAll('.level-btn').forEach((btn, i) => {
-                const unlocked = isLevelUnlocked(i);
+                const roadLocked = isRoadMode() && i !== state.level;
+                const unlocked = isLevelUnlocked(i) && !roadLocked;
                 btn.classList.toggle('locked', !unlocked);
                 btn.disabled = !unlocked;
                 btn.classList.toggle('active', i === state.level);
                 const nameEl = btn.querySelector('.level-name');
-                if (nameEl) nameEl.textContent = unlocked ? levelNames[i] : 'LOCK ' + (LEVEL_XP_THRESHOLDS[i]) + ' XP';
+                if (nameEl) nameEl.textContent = roadLocked ? 'Lernstrasse aktiv' : unlocked ? levelNames[i] : 'LOCK ' + (LEVEL_XP_THRESHOLDS[i]) + ' XP';
             });
         }
 
@@ -2381,6 +2501,7 @@
 
         function startDailyChallenge() {
             const { lvl, q } = getDailyChallenge();
+            clearRoadMode();
             state.level = lvl;
             state.topic = q.topic;
             state.dailyChallengeActive = true;
@@ -2412,6 +2533,7 @@
                 return false;
             }
             document.getElementById('lockMsg').textContent = '';
+            clearRoadMode();
             state.level = level;
             state.topic = null;
             state.questionIdx = 0;
@@ -2419,7 +2541,6 @@
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
-            state.roadLessonId = null;
 
             renderLevelButtons();
             renderTopics();
@@ -2440,15 +2561,41 @@
             const opened = selectLevel(levelIdx);
             if (!opened) return;
 
-            const requestedTopic = params.get('topic');
-            if (requestedTopic && exercises[levelIdx].topics.includes(requestedTopic)) {
-                state.topic = requestedTopic;
+            const roadLessonId = params.get('roadLesson');
+            if (roadLessonId) {
+                state.roadLessonId = roadLessonId;
+                state.roadLessonMeta = {
+                    id: roadLessonId,
+                    level: String(levelIdx + 1),
+                    section: params.get('roadSection') || '',
+                    sublevel: params.get('roadSublevel') || '',
+                    topic: params.get('roadTopic') || params.get('topic') || '',
+                    mode: params.get('roadMode') || 'lesson'
+                };
+                state.topic = state.roadLessonMeta.topic;
                 state.questionIdx = 0;
                 state.answered = false;
+                state.lessonProgress = 0;
+                state.lessonXpStart = state.xp;
+                state.lessonCorrect = 0;
+                state.roadLessonPassed = false;
+                state.roadQuestionPool = buildRoadQuestionPool(state.roadLessonMeta);
+                if (!state.roadQuestionPool.length) {
+                    showToast('Keine passenden Archivaufgaben fuer diese Lernstrassen-Lektion gefunden.');
+                }
+                renderLevelButtons();
                 renderTopics();
                 renderExercise();
+            } else {
+                const requestedTopic = params.get('topic');
+                if (requestedTopic && exercises[levelIdx].topics.includes(requestedTopic)) {
+                    state.topic = requestedTopic;
+                    state.questionIdx = 0;
+                    state.answered = false;
+                    renderTopics();
+                    renderExercise();
+                }
             }
-            state.roadLessonId = params.get('roadLesson') || null;
 
             const target = document.getElementById('exerciseCard');
             if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2456,6 +2603,14 @@
 
         function renderTopics() {
             const container = document.getElementById('topicsContainer');
+            if (isRoadMode()) {
+                const meta = state.roadLessonMeta || {};
+                const label = meta.mode === 'sectionTest'
+                    ? 'Abschnittstest: ' + (meta.topic || meta.section || 'Lernstrasse')
+                    : 'Lernstrasse: ' + (meta.topic || meta.sublevel || 'Lektion');
+                container.innerHTML = `<button class="topic-btn active" type="button">${escapeHtml(label)}</button>`;
+                return;
+            }
             const topics = exercises[state.level].topics;
             container.innerHTML = topics.map(t =>
                 `<button class="topic-btn ${state.topic === t ? 'active' : ''}" onclick="selectTopic('${t}')">${t}</button>`
@@ -2463,18 +2618,24 @@
         }
 
         function selectTopic(topic) {
+            clearRoadMode();
             state.topic = state.topic === topic ? null : topic;
             state.questionIdx = 0;
             state.answered = false;
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
-            state.roadLessonId = null;
             renderTopics();
             renderExercise();
         }
 
         function getFilteredQuestions() {
+            if (isRoadMode()) {
+                if (!state.roadQuestionPool || !state.roadQuestionPool.length) {
+                    state.roadQuestionPool = buildRoadQuestionPool(state.roadLessonMeta);
+                }
+                return state.roadQuestionPool || [];
+            }
             let qs = exercises[state.level].questions;
             if (state.topic) {
                 qs = qs.filter(q => q.topic === state.topic);
@@ -2490,7 +2651,12 @@
                 state.dailyChallengeActive = false;
             } else {
                 const qs = getFilteredQuestions();
-                if (qs.length === 0) return;
+                if (qs.length === 0) {
+                    document.getElementById('questionText').textContent = 'Keine passenden Aufgaben gefunden.';
+                    document.getElementById('mathExpr').textContent = 'Zurueck zur Lernstrasse und naechsten Knoten pruefen.';
+                    document.getElementById('optionsContainer').innerHTML = '';
+                    return;
+                }
                 q = qs[state.questionIdx % qs.length];
             }
             state._currentDC = isDC;
@@ -2514,7 +2680,7 @@
             // Options
             const container = document.getElementById('optionsContainer');
             container.innerHTML = q.options.map((opt, i) =>
-                `<button class="option-btn" onclick="checkAnswer(${i}, ${q.correct})" id="opt${i}">${opt}</button>`
+                `<button class="option-btn" onclick="checkAnswer(${i}, ${q.correct})" id="opt${i}">${escapeHtml(opt)}</button>`
             ).join('');
 
             // Hide feedback
@@ -2636,6 +2802,7 @@
             const xpGained = state.xp - state.lessonXpStart;
             const accuracy = state.lessonCorrect / LESSON_SIZE;
             const roadPassed = recordRoadLessonCompletion(accuracy, xpGained);
+            state.roadLessonPassed = roadPassed;
             document.getElementById('lcXp').textContent = '+' + xpGained + ' XP';
             document.getElementById('lcCorrect').textContent = state.lessonCorrect + ' / ' + LESSON_SIZE;
             document.getElementById('lcStreak').textContent = state.streak + ' Tage';
@@ -2647,6 +2814,12 @@
             if (perfEl) perfEl.className = 'perfect-bonus' + (isPerfect ? ' show' : '');
             const roadNote = document.getElementById('roadPassNote');
             if (roadNote) roadNote.className = 'road-pass-note' + (roadPassed ? ' show' : '');
+            const nextBtn = document.getElementById('lessonNextBtn');
+            if (nextBtn) {
+                nextBtn.textContent = isRoadMode()
+                    ? (roadPassed ? 'Zur Lernstrasse \u2192' : 'Lektion wiederholen \u2192')
+                    : 'Naechste Lektion \u2192';
+            }
             const lessonModal = document.getElementById('lessonModal');
             lessonModal.classList.toggle('road-pass', roadPassed);
             lessonModal.classList.add('show');
@@ -2656,10 +2829,26 @@
 
         function nextLesson() {
             document.getElementById('lessonModal').classList.remove('show', 'road-pass');
+            if (isRoadMode()) {
+                if (state.roadLessonPassed) {
+                    const href = roadReturnHref();
+                    clearRoadMode();
+                    window.location.href = href;
+                    return;
+                }
+                state.lessonProgress = 0;
+                state.lessonXpStart = state.xp;
+                state.lessonCorrect = 0;
+                state.questionIdx = 0;
+                state.answered = false;
+                state.roadLessonPassed = false;
+                renderExercise();
+                return;
+            }
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
-            state.roadLessonId = null;
+            clearRoadMode();
             state.questionIdx++;
             renderExercise();
             showLevelUp();
@@ -2667,10 +2856,14 @@
 
         function pauseLesson() {
             document.getElementById('lessonModal').classList.remove('show', 'road-pass');
+            if (isRoadMode()) {
+                window.location.href = roadReturnHref();
+                return;
+            }
             state.lessonProgress = 0;
             state.lessonXpStart = state.xp;
             state.lessonCorrect = 0;
-            state.roadLessonId = null;
+            clearRoadMode();
             showLevelUp();
         }
 

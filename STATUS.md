@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.3`
+- `v2.5.4`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -34,6 +34,37 @@ Current implementation status:
 - The Lernpfad is now the primary product surface: it builds a 6-stage learning road from archive taxonomy and archive tasks, with sections, lessons, unlock states, and local completion tracking after 80% lesson accuracy.
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
+- Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.4)
+Constrained Lernstrasse lessons to the exact archive scope and added section tests.
+
+### Changes in this iteration
+- Changed Lernstrasse lesson generation to prefer leaf sublevels, so L1 starts with `Kopfrechnen und Rechenstrategien` before `Schriftliches Rechnen` instead of a broad parent topic.
+- Added an `Abschnittstest` node at the end of each section.
+- Extended Lernstrasse links with exact `roadSection`, `roadSublevel`, `roadTopic`, and `roadMode` parameters.
+- Loaded the archive data in the exercise app and added a Road mode that builds lesson questions from matching archive tasks only.
+- Locked other app level buttons while a Lernstrasse lesson is active, preventing accidental jumps into Level 2/general practice.
+- Changed road lesson completion flow so passed lessons return to the Lernstrasse and failed lessons can be repeated instead of continuing in generic app mode.
+
+### Files touched
+- `app/lernpfad.html`
+- `app/index.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js`
+- HTML inline-script syntax check for `app/lernpfad.html` and `app/index.html`
+- Static route/filter check confirming first L1 lessons are `1.1.1.a`, then `1.1.1.b`, followed by scoped archive pools and a section test
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Add a small visual label in the app header showing the exact Lernstrasse section and whether the current node is a lesson or section test.
 
 ## Last completed task (v2.5.3)
 Cleaned up the homepage YouTube section so it only shows the two currently live videos.
