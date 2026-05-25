@@ -691,11 +691,12 @@
         </section>
     </main>
 
-    <script src="./data/archive-content.js?v=1.2.8"></script>
+    <script src="./data/archive-content.js?v=2.5.0"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
         const placementQuestions = data.placementQuestions.slice();
+        const TASK_RENDER_LIMIT = 120;
         const ARCHIVE_STATE_KEY = "sor-archive-filters";
         const pythagorasState = { a: 6, b: 8 };
         const argandState = { a: 3, b: 4 };
@@ -1090,8 +1091,16 @@
 
         function renderTaskList() {
             const list = filteredTasks();
+            let visibleList = list.slice(0, TASK_RENDER_LIMIT);
+            const activeTask = state.activeTaskId ? list.find(t => t.id === state.activeTaskId) : null;
+            if (activeTask && !visibleList.some(t => t.id === activeTask.id)) {
+                visibleList = [activeTask, ...visibleList.slice(0, TASK_RENDER_LIMIT - 1)];
+            }
             const wrap = document.getElementById("taskList");
-            document.getElementById("resultCount").textContent = `${list.length} passende Aufgaben`;
+            const countLabel = list.length > visibleList.length
+                ? `${list.length} passende Aufgaben · ${visibleList.length} sichtbar`
+                : `${list.length} passende Aufgaben`;
+            document.getElementById("resultCount").textContent = countLabel;
 
             if (list.length === 0) {
                 wrap.innerHTML = `<div class="task-item"><strong>Keine Treffer</strong><div class="task-meta">Passe Filter oder Suche an.</div></div>`;
@@ -1104,11 +1113,11 @@
                 return;
             }
 
-            if (!state.activeTaskId || !list.some(t => t.id === state.activeTaskId)) {
-                state.activeTaskId = list[0].id;
+            if (!state.activeTaskId || !visibleList.some(t => t.id === state.activeTaskId)) {
+                state.activeTaskId = visibleList[0].id;
             }
 
-            wrap.innerHTML = list.map(task => `
+            wrap.innerHTML = visibleList.map(task => `
                 <div class="task-item ${state.activeTaskId === task.id ? "active" : ""}" data-id="${task.id}">
                     <strong>${task.title}</strong>
                     <div class="task-meta">${levelLabel(task.level)} | ${task.sublevel} | ${task.topic}</div>

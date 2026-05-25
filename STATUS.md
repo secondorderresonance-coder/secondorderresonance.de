@@ -1,11 +1,11 @@
 # STATUS
 
 ## Current version
-- `v2.4.2`
+- `v2.5.0`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 9.000 archive tasks (1.500 per level) for this iteration.
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 9.000 archive tasks (1.500 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, and email-based local account registration/login with per-email progress storage.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, email-based local account registration/login with per-email progress storage, and a backend-ready moderation pipeline for external task suggestions.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -16,7 +16,7 @@ Long-term target remains unchanged and explicitly active:
 - Free-first product direction with optional small premium tier later if demand supports it
 
 Current implementation status:
-- Expanded scalable foundation (not final archive volume)
+- Full target archive volume generated through the scalable archive builder (30.000 tasks total, 5.000 per level)
 - Architecture is designed for further growth without major restructuring
 - Homepage video cards now provide direct topic-based YouTube entry points instead of generic channel-only links
 - Active level framing now consistently reflects the 6-level target through Level 6 ("Forschung & Simulation")
@@ -29,6 +29,68 @@ Current implementation status:
 - The first interactive visual now exists for the Pythagorean theorem, with a homepage teaser and a live archive module that reacts to kathete sliders and can jump directly into geometry archive filters
 - The landing page now includes a global search over website/archive topics and a backend-free suggestion form for external task ideas with level categorization, screenshot preview, and mail/share fallback
 - Local account registration/login now uses email identity (`type="email"` + validation) with individual local progress per email account
+- Archive browser result rendering now caps visible task cards for performance while keeping full search/filter counts.
+- External task suggestions now have backend domain models, moderation scoring/status transitions, and relational schema support.
+
+## Last completed task (v2.5.0)
+Expanded the archive to the 30.000-task target and added the backend-ready moderation pipeline for external task suggestions.
+
+### Changes in this iteration
+- Pulled the latest `origin/main` state into this worktree before continuing.
+- Increased scalable archive generation from 1.500 to 5.000 tasks per level, reaching 30.000 total tasks.
+- Extended generated task variants with explicit focus modes (`Rechenweg`, `Begruendung`, `Fehleranalyse`, `Transfer`, `Schnellcheck`) so each generated archive item keeps a detailed answer/explanation path.
+- Limited visible archive list rendering to 120 cards per filter result to keep the 30.000-task archive usable in the browser.
+- Added backend task suggestion domain types, validation, moderation scoring, status transition helpers, and SQL tables/events for moderation.
+- Marked the full archive-volume and backend/moderation backlog items as completed.
+
+### Files touched
+- `app/data/archive-content.js`
+- `app/lernarchiv.html`
+- `backend/src/domain/models.ts`
+- `backend/src/domain/taskSuggestions.ts`
+- `backend/db/schema.sql`
+- `docs/mobile-app-mvp-plan.md`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js`
+- `npm --prefix backend run typecheck`
+- `rg -n "5000\\)|TASK_RENDER_LIMIT|task_suggestion|createTaskSuggestion|30.000" app/data/archive-content.js app/lernarchiv.html backend BACKLOG.md STATUS.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) still requires real Firebase project/runtime configuration and secrets; it remains open in `BACKLOG.md`.
+
+### Next logical step
+- Provide Firebase config/runtime wiring, then implement the cloud-sync vertical slice for SOR accounts.
+
+## Last completed task (v2.4.3)
+Planned the mobile app MVP (iOS/Android) as one focused, implementation-ready blueprint linked to the existing SOR account/sync model.
+
+### Changes in this iteration
+- Added a dedicated MVP plan document for the mobile app covering:
+  - scoped v1 feature set (daily lesson flow, auth, XP/streak/hearts, basic profile)
+  - explicit non-goals to keep the first release small
+  - user flow, technical stack, API minimum, and event-first sync integration
+  - rollout milestones, release criteria, and concrete dependency blockers
+- Marked the corresponding open P4 backlog task as completed.
+- Confirmed the higher-priority open cloud-sync implementation task is still blocked by missing Firebase project/runtime configuration in this repository context.
+
+### Files touched
+- `docs/mobile-app-mvp-plan.md`
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `rg -n "SOR Mobile App MVP Plan|Produkt-Scope v1|MVP Meilensteine|Erfolgskriterien" docs/mobile-app-mvp-plan.md`
+- `rg -n "\\[x\\] Plan mobile app MVP \\(iOS/Android\\)" BACKLOG.md`
+
+### Blockers
+- Cloud-sync implementation (`Firebase Auth + Firestore`) remains blocked until Firebase project/runtime configuration and secrets are available.
+
+### Next logical step
+- Resume the highest-priority remaining open task: implement cloud-sync once Firebase configuration is available; then start mobile foundation delivery (Auth + Home + first lesson vertical slice).
 
 ## Last completed task (v2.4.2)
 Defined the SOR account and sync architecture for future iOS/Android app login.

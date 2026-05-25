@@ -62,6 +62,40 @@ export interface WeeklyLeaderboardEntry {
   rankPosition?: number;
 }
 
+export type TaskSuggestionStatus =
+  | 'submitted'
+  | 'triage'
+  | 'needs_revision'
+  | 'accepted'
+  | 'rejected'
+  | 'archived';
+
+export interface TaskSuggestion {
+  id: string;
+  title: string;
+  levelId: LevelId;
+  topic: string;
+  description: string;
+  contactEmail?: string;
+  screenshotUrl?: string;
+  status: TaskSuggestionStatus;
+  source: 'website' | 'app' | 'import';
+  moderationScore: number;
+  moderationNotes: string[];
+  submittedAt: string;
+  updatedAt: string;
+}
+
+export interface TaskSuggestionModerationEvent {
+  id: string;
+  suggestionId: string;
+  fromStatus: TaskSuggestionStatus;
+  toStatus: TaskSuggestionStatus;
+  moderatorUserId?: string;
+  note?: string;
+  createdAt: string;
+}
+
 export const LEVEL_UNLOCK_THRESHOLD = 0.8;
 
 export function isNextLevelUnlocked(currentLevelCompletionRatio: number): boolean {

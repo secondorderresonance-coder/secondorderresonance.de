@@ -12,11 +12,11 @@
 - Strategischer Hinweis: Die aktuelle Umsetzung ist ein fruehes, skalierbares Fundament und nicht das finale Archiv.
 
 ## Aktueller Meilenstein
-- 1.500 Aufgaben pro Level in dieser Iteration
-- 9.000 Aufgaben insgesamt aktuell verfuegbar
-- L1-L3 Schulabdeckung erweitert bis T-1-020 / T-2-020 / T-3-020
-- L4-L6 Ausbau-Batches aktuell erweitert bis T-4-024 / T-5-024 / T-6-024
-- Zielstruktur bleibt unveraendert: 30.000 Aufgaben insgesamt
+- 5.000 Aufgaben pro Level in dieser Iteration
+- 30.000 Aufgaben insgesamt aktuell verfuegbar
+- L1-L3 Schulabdeckung erweitert bis T-1-042 / T-2-052 / T-3-046
+- L4-L6 Ausbau-Batches aktuell erweitert bis T-4-027 / T-5-027 / T-6-027
+- Zielstruktur 30.000 Aufgaben insgesamt ist in der skalierbaren Archivgenerierung erreicht
 
 ## P1
 - [x] Add an Archiv section to the website
@@ -36,6 +36,7 @@
 ## P2
 - [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
+- [x] Expand scalable archive generation to 5.000 tasks per level (30.000 total) with detailed answer variants
 - [x] Deep sublevel workstream: expand hierarchical taxonomy (e.g. 1.1.1 -> 1.1.1.a tracks) where pedagogically meaningful
 - [x] Connect archive content more clearly with app exercises
 - [x] Add level/sublevel deep links and saved filter state in the archive UI
@@ -74,7 +75,7 @@
 - [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
 - [x] Define free-first monetization path with optional small premium tier later
 - [x] Define SOR account and sync architecture for future iOS/Android app login
-- [ ] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
-- [ ] Add backend/moderation pipeline for external task suggestions after validating demand
+- [x] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account
+- [x] Add backend/moderation pipeline for external task suggestions after validating demand
 - [x] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
 

@@ -99,3 +99,44 @@ create table if not exists user_weekly_xp (
 
 create index if not exists idx_user_weekly_xp_week_rank
   on user_weekly_xp(iso_year, iso_week, xp_total desc);
+
+create table if not exists task_suggestion (
+  id uuid primary key,
+  title text not null,
+  level_id smallint not null,
+  topic text not null,
+  description text not null,
+  contact_email text,
+  screenshot_url text,
+  status text not null default 'submitted',
+  source text not null default 'website',
+  moderation_score smallint not null default 0,
+  moderation_notes text[] not null default '{}',
+  submitted_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (level_id between 1 and 6),
+  check (status in ('submitted', 'triage', 'needs_revision', 'accepted', 'rejected', 'archived')),
+  check (source in ('website', 'app', 'import')),
+  check (moderation_score between 0 and 100)
+);
+
+create index if not exists idx_task_suggestion_status_submitted
+  on task_suggestion(status, submitted_at desc);
+
+create index if not exists idx_task_suggestion_level_topic
+  on task_suggestion(level_id, topic);
+
+create table if not exists task_suggestion_moderation_event (
+  id uuid primary key,
+  suggestion_id uuid not null references task_suggestion(id) on delete cascade,
+  from_status text not null,
+  to_status text not null,
+  moderator_user_id uuid references app_user(id) on delete set null,
+  note text,
+  created_at timestamptz not null default now(),
+  check (from_status in ('submitted', 'triage', 'needs_revision', 'accepted', 'rejected', 'archived')),
+  check (to_status in ('submitted', 'triage', 'needs_revision', 'accepted', 'rejected', 'archived'))
+);
+
+create index if not exists idx_task_suggestion_event_suggestion
+  on task_suggestion_moderation_event(suggestion_id, created_at desc);

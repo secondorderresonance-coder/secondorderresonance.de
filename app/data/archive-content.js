@@ -1,4 +1,37 @@
 ﻿function buildTaskArchive(baseTasks, targetPerLevel) {
+    const variantModes = [
+        {
+            label: "Rechenweg",
+            prompt: "Notiere die wichtigsten Rechenschritte oder Begruendungsschritte.",
+            answerNote: "Der vollstaendige Loesungsweg gehoert zur Antwort.",
+            explanationNote: "Achte darauf, Definition, eingesetzte Formel und Ergebnis klar voneinander zu trennen."
+        },
+        {
+            label: "Begruendung",
+            prompt: "Begruende kurz, warum genau diese Methode passt.",
+            answerNote: "Die Begruendung ist Teil der erwarteten Antwort.",
+            explanationNote: "Die Methode soll nicht nur angewendet, sondern fachlich eingeordnet werden."
+        },
+        {
+            label: "Fehleranalyse",
+            prompt: "Nenne ausserdem einen typischen Fehler, den man hier vermeiden muss.",
+            answerNote: "Ergaenze einen kurzen Hinweis zum haeufigsten Fehler.",
+            explanationNote: "Pruefe besonders Vorzeichen, Einheiten, Definitionsbereiche und Voraussetzungen."
+        },
+        {
+            label: "Transfer",
+            prompt: "Formuliere am Ende, woran man eine aehnliche Aufgabe erkennt.",
+            answerNote: "Ergaenze ein Erkennungsmerkmal fuer verwandte Aufgaben.",
+            explanationNote: "Der Transferhinweis macht sichtbar, welches Muster hinter der Aufgabe steht."
+        },
+        {
+            label: "Schnellcheck",
+            prompt: "Fuehre einen kurzen Plausibilitaetscheck des Ergebnisses durch.",
+            answerNote: "Ein kurzer Plausibilitaetscheck gehoert zur Antwort.",
+            explanationNote: "Der Schnellcheck soll zeigen, ob Groessenordnung, Vorzeichen oder Grenzfall sinnvoll sind."
+        }
+    ];
+
     const byLevel = {};
     baseTasks.forEach(task => {
         if (!byLevel[task.level]) byLevel[task.level] = [];
@@ -13,14 +46,17 @@
         for (let idx = 0; idx < targetPerLevel; idx += 1) {
             const seed = levelBase[idx % levelBase.length];
             const variant = Math.floor(idx / levelBase.length) + 1;
+            const focus = variantModes[(variant - 1) % variantModes.length];
+            const cycle = Math.floor((variant - 1) / variantModes.length) + 1;
             const serial = String(idx + 1).padStart(3, "0");
 
             expanded.push({
                 ...seed,
                 id: `T-${level}-${serial}`,
-                title: `${seed.title} (Variante ${variant})`,
-                question: `${seed.question} [Serie ${variant}]`,
-                explanation: `${seed.explanation} Diese Aufgabe ist Teil der skalierbaren Serie ${variant} fÃ¼r Level ${level}.`
+                title: `${seed.title} (Variante ${variant}: ${focus.label})`,
+                question: `${seed.question} [Serie ${variant}: ${focus.prompt}]`,
+                answer: `${seed.answer} Zusatzfokus: ${focus.answerNote}`,
+                explanation: `${seed.explanation} Variantenfokus (${focus.label}, Durchlauf ${cycle}): ${focus.explanationNote} Diese Aufgabe ist Teil der skalierbaren Archivserie ${variant} fuer Level ${level} und behaelt den vollstaendigen Loesungsweg der kuratierten Seed-Aufgabe bei.`
             });
         }
     });
@@ -2479,7 +2515,7 @@ window.SOR_ARCHIVE = {
             type: "kurzantwort",
             estimatedTime: 6
         }
-    ], 1500),
+    ], 5000),
     placementQuestions: [
         { id: "P01", level: "1", sublevel: "1.1.1", topic: "Grundrechenarten", prompt: "Wie viel ist 9 + 7?", options: ["14", "16", "17", "19"], correctIndex: 1 },
         { id: "P02", level: "1", sublevel: "1.1.2.a", topic: "Bruchrechnung", prompt: "Welcher Bruch ist gleich 0,5?", options: ["1/4", "1/2", "2/3", "3/4"], correctIndex: 1 },
