@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,47 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/lehrplan.html`: a new interactive curriculum coverage matrix page.
+  - 78 mapped curriculum entries across Klasse 1–12.
+  - Grouped by school phase (Grundschule K1–4, Orientierungsstufe K5–6, Mittelstufe K7–10, Oberstufe K11–12).
+  - Each entry shows: Schulthema, L1/L2/L3 level badge, SOR archive sublevel name + ID, direct "Archiv →" link.
+  - Phase filter buttons to narrow to one school phase.
+  - Summary stats bar (total topics, per-level counts).
+  - Collapsible grade cards for compact browsing.
+  - Responsive layout; section column hides on narrow screens.
+  - All archive links deep-link into `lernarchiv.html?level=X&sublevel=Y#archiveBrowser`.
+  - Visual identity and color scheme preserved (same dark theme, accent colors, level dots as existing pages).
+- Added "Lehrplan" navigation link to:
+  - `index.html` main nav and footer "Mehr" column.
+  - `app/lernarchiv.html` top-links bar.
+  - `app/lernpfad.html` top-links bar.
+- Added `lehrplan.html` entry to the global search index in `index.html`.
+
+### Files touched
+- `app/lehrplan.html` (new)
+- `index.html`
+- `app/lernarchiv.html`
+- `app/lernpfad.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e "..."` → Script syntax OK, 78 curriculum entries confirmed.
+- `node tools/archive-qa.js` → OK (30.000 tasks, 5.000/level unchanged).
+- `git diff --check` → OK.
+- All sublevel IDs in curriculum data verified against L1–L3 taxonomy in `archive-content.js`.
+
+### Blockers
+- None.
+
+### Next logical step
+- Build an engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
