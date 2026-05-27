@@ -493,6 +493,67 @@
             }
         }
 
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .curriculum-entry {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .curriculum-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .curriculum-level-badge {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .curriculum-topics {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .curriculum-topics li::before {
+            content: "· ";
+            color: var(--accent);
+        }
+
+        .curriculum-entry-footer {
+            margin-top: auto;
+            padding-top: 0.6rem;
+        }
+
+        .curriculum-filter-btn {
+            width: 100%;
+            font-size: 0.85rem;
+            padding: 0.45rem 0.7rem;
+        }
+
         @media (max-width: 540px) {
             .headline {
                 font-size: 1.7rem;
@@ -682,6 +743,12 @@
                 </div>
                 <div class="result" id="testResult"></div>
             </div>
+        </section>
+
+        <section class="card" id="curriculum-matrix">
+            <h2>Lehrplan-Abdeckung: Klasse 1–12</h2>
+            <p class="muted">Überblick, welche Schuljahre welchen Archiv-Level abdecken. Klicke einen Eintrag, um direkt zum passenden Archiv-Level zu springen.</p>
+            <div id="curriculumMatrixGrid"></div>
         </section>
 
         <section class="card">
@@ -1575,6 +1642,56 @@
             });
         }
 
+        function jumpToArchiveByKlasse(entry) {
+            state.selectedLevel = entry.archiveLevel;
+            state.selectedSublevel = (entry.primarySublevels && entry.primarySublevels.length > 0)
+                ? entry.primarySublevels[0]
+                : "all";
+            state.selectedTopic = "all";
+            state.search = "";
+            state.activeTaskId = null;
+            refreshArchiveView();
+            const archiveSection = document.getElementById("archiveBrowser");
+            if (archiveSection) archiveSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function renderCurriculumMatrix() {
+            const matrix = data.curriculumMatrix;
+            const container = document.getElementById("curriculumMatrixGrid");
+            if (!matrix || !matrix.length || !container) return;
+
+            const levelColors = { "1": "#22c55e", "2": "#eab308", "3": "#f97316" };
+            const levelNames = { "1": "L1 – Grundlagen", "2": "L2 – Aufbauwissen", "3": "L3 – Vertiefung" };
+
+            container.innerHTML = "<div class=\"curriculum-grid\">" + matrix.map(function(entry) {
+                var color = levelColors[entry.archiveLevel] || "#888";
+                var levelText = levelNames[entry.archiveLevel] || ("L" + entry.archiveLevel);
+                var topicsHtml = entry.topics.slice(0, 6).map(function(t) { return "<li>" + t + "</li>"; }).join("");
+                return [
+                    "<div class=\"curriculum-entry\">",
+                    "  <div class=\"curriculum-entry-header\">",
+                    "    <div>",
+                    "      <strong>" + entry.label + "</strong>",
+                    "      <div class=\"muted\" style=\"font-size:0.82rem\">" + entry.subtitle + "</div>",
+                    "    </div>",
+                    "    <span class=\"curriculum-level-badge\" style=\"background:" + color + "20;color:" + color + ";border:1px solid " + color + "40\">" + levelText + "</span>",
+                    "  </div>",
+                    "  <ul class=\"curriculum-topics\">" + topicsHtml + "</ul>",
+                    "  <div class=\"curriculum-entry-footer\">",
+                    "    <button type=\"button\" class=\"curriculum-filter-btn ghost-btn\" data-klasse=\"" + entry.id + "\">Im Archiv öffnen</button>",
+                    "  </div>",
+                    "</div>"
+                ].join("\n");
+            }).join("") + "</div>";
+
+            container.querySelectorAll(".curriculum-filter-btn").forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    var entry = matrix.find(function(e) { return e.id === btn.getAttribute("data-klasse"); });
+                    if (entry) jumpToArchiveByKlasse(entry);
+                });
+            });
+        }
+
         applyFilterState(readSavedFilterState() || {});
         applyFilterState(readFilterStateFromUrl());
 
@@ -1583,6 +1700,7 @@
         renderFilters();
         renderTaskList();
         renderTaxonomy();
+        renderCurriculumMatrix();
         renderPythagorasVisual();
         renderArgandVisual();
         bindEvents();

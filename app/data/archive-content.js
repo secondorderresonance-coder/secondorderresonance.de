@@ -2552,6 +2552,124 @@ window.SOR_ARCHIVE = {
         { id: "P28", level: "6", sublevel: "6.1", topic: "Numerik", prompt: "RK4 hat globale Ordnung ...", options: ["1", "2", "3", "4"], correctIndex: 3 },
         { id: "P29", level: "6", sublevel: "6.1.1.b", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter LÃ¶sung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
         { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "OptimalitÃ¤tsbedingungen mit Nebenbedingungen", "Integrationsregeln", "FehlerschÃ¤tzer"], correctIndex: 1 }
+    ],
+    curriculumMatrix: [
+        {
+            id: "K1-2",
+            label: "Klasse 1–2",
+            subtitle: "Grundschule – Anfang",
+            archiveLevel: "1",
+            primarySublevels: ["1.1.1.a", "1.1.1.b"],
+            topics: [
+                "Addition und Subtraktion bis 100",
+                "Einmaleins und Grundrechenarten",
+                "Einfache Geometrie (Formen erkennen)",
+                "Muster, Mengen und erste Größen"
+            ]
+        },
+        {
+            id: "K3-4",
+            label: "Klasse 3–4",
+            subtitle: "Grundschule – Abschluss",
+            archiveLevel: "1",
+            primarySublevels: ["1.1.1.b", "1.1.2.a", "1.2.1.a", "1.3.1.a", "1.4.1.a"],
+            topics: [
+                "Schriftliches Rechnen (bis 1 000 000)",
+                "Bruchbegriff und einfache Brüche",
+                "Fläche und Umfang",
+                "Dreisatz und Proportionalität",
+                "Daten ablesen und Diagramme"
+            ]
+        },
+        {
+            id: "K5-6",
+            label: "Klasse 5–6",
+            subtitle: "Orientierungsstufe",
+            archiveLevel: "1",
+            primarySublevels: ["1.1.2.a", "1.1.2.b", "1.1.3.a", "1.1.4.a", "1.1.5.a", "1.2.3.a", "1.3.2.a"],
+            topics: [
+                "Bruchrechnung (alle vier Grundrechenarten)",
+                "Dezimalzahlen und Kommarechnung",
+                "Negative Zahlen",
+                "Primzahlen und Teilbarkeit",
+                "Winkel messen und berechnen",
+                "Einheiten umrechnen"
+            ]
+        },
+        {
+            id: "K7-8",
+            label: "Klasse 7–8",
+            subtitle: "Mittelstufe",
+            archiveLevel: "2",
+            primarySublevels: ["2.1.1.a", "2.1.1.b", "2.2.2.a", "2.3.1.a", "2.5.1.a", "2.6.1.a"],
+            topics: [
+                "Terme und lineare Gleichungen",
+                "Formeln umstellen",
+                "Lineare Funktionen und Geraden",
+                "Potenzgesetze und Potenzen",
+                "Ähnlichkeit und Strahlensatz",
+                "Kombinatorik und Wahrscheinlichkeit"
+            ]
+        },
+        {
+            id: "K9",
+            label: "Klasse 9",
+            subtitle: "Haupt- / Realschulabschluss",
+            archiveLevel: "2",
+            primarySublevels: ["2.1.2.a", "2.1.3.a", "2.4.1.a", "2.5.2.a", "2.5.3.a", "2.6.2.a"],
+            topics: [
+                "Lineare Gleichungssysteme",
+                "Quadratische Gleichungen",
+                "Trigonometrie am rechtwinkligen Dreieck",
+                "Kreisgeometrie",
+                "Satz des Pythagoras",
+                "Baumdiagramme und Wahrscheinlichkeit"
+            ]
+        },
+        {
+            id: "K10",
+            label: "Klasse 10",
+            subtitle: "Mittlere Reife",
+            archiveLevel: "2",
+            primarySublevels: ["2.2.1.a", "2.2.3.a", "2.3.3.a", "2.4.2.a", "2.4.3.a"],
+            topics: [
+                "Exponentialfunktionen und Wachstum",
+                "Quadratische Funktionen (Parabel)",
+                "Logarithmen",
+                "Sinus- / Kosinussatz",
+                "Einheitskreis und Periodizität"
+            ]
+        },
+        {
+            id: "K11",
+            label: "Klasse 11",
+            subtitle: "Oberstufe – Einführungsphase",
+            archiveLevel: "3",
+            primarySublevels: ["3.1.1.a", "3.1.1.b", "3.1.2.a", "3.2.1.a", "3.2.3.a", "3.3.1.a"],
+            topics: [
+                "Ableitungsregeln (Ketten-, Produkt-, Quotientenregel)",
+                "Monotonie und Extremstellen",
+                "Kurvendiskussion",
+                "Bedingte Wahrscheinlichkeit",
+                "Vektoren und Skalarprodukt",
+                "Einstieg Komplexe Zahlen"
+            ]
+        },
+        {
+            id: "K12",
+            label: "Klasse 12–13 / Abitur",
+            subtitle: "Oberstufe – Qualifikationsphase",
+            archiveLevel: "3",
+            primarySublevels: ["3.1.3.a", "3.1.3.b", "3.1.4.a", "3.1.5.a", "3.2.2.a", "3.2.2.b", "3.2.2.c"],
+            topics: [
+                "Integralrechnung (Stammfunktionen, Flächen)",
+                "Substitution und partielle Integration",
+                "Wachstums- und Zerfallsmodelle",
+                "Folgen und Reihen",
+                "Binomialverteilung und Normalverteilung",
+                "Analytische Geometrie (Kegelschnitte)"
+            ]
+        }
     ]
 };
 

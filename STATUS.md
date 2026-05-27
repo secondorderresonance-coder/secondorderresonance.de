@@ -1,11 +1,11 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
-The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, email-based local account registration/login with per-email progress storage, and a backend-ready moderation pipeline for external task suggestions.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), and a structured curriculum coverage matrix mapping Klasse 1–12 to L1–L3 archive sections.
+The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, email-based local account registration/login with per-email progress storage, a backend-ready moderation pipeline for external task suggestions, and a data-driven curriculum coverage matrix for Klasse 1–12 with jump-to-archive links per school year group.
 
 Long-term target remains unchanged and explicitly active:
 - 5.000 learning items per level
@@ -35,6 +35,37 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the Klasse 1–12 curriculum coverage matrix and mapped every topic group to L1–L3 archive sections.
+
+### Changes in this iteration
+- Added `curriculumMatrix` array to `window.SOR_ARCHIVE` in `app/data/archive-content.js` with 8 school-year group entries (K1-2, K3-4, K5-6, K7-8, K9, K10, K11, K12-13/Abitur).
+- Each entry maps to an archive level (L1/L2/L3), a set of primary sublevels, and a human-readable topic list.
+- Added `renderCurriculumMatrix()` and `jumpToArchiveByKlasse()` functions to `app/lernarchiv.html`.
+- Added a new "Lehrplan-Abdeckung: Klasse 1–12" section in the Lernarchiv page that renders the matrix as a responsive grid.
+- Each card shows the level badge, subtitle, topic bullets, and an "Im Archiv öffnen" button that pre-fills the archive level/sublevel filter and scrolls to the archive browser.
+- Added matching CSS for `curriculum-grid`, `curriculum-entry`, `curriculum-level-badge`, and `curriculum-topics`.
+
+### Files touched
+- `app/data/archive-content.js`
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level
+- `node -e "vm check"` → `curriculumMatrix entries: 8` with correct levels and topic counts
+- Key identifier grep in lernarchiv.html: all 8 identifiers found
+- JavaScript syntax check via `new Function()`: Syntax OK
+- `git diff --check`: no whitespace issues
+
+### Blockers
+- None.
+
+### Next logical step
+- Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
