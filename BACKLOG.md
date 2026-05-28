@@ -22,7 +22,7 @@
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
-- [ ] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
+- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
 - [x] Add an Archiv section to the website
@@ -41,6 +41,10 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Add seed tasks for sublevel 2.5.2.b (Sehnen und Tangenten) – taxonomy exists, no seed tasks yet (gap found in curriculum matrix)
+- [ ] Add L2 sublevel 2.6.3 (Streumaße) with 2.6.3.a (Varianz/Standardabweichung) and 2.6.3.b (Boxplot/Quartile) for Klasse 9-10 curriculum coverage
+- [ ] Add L3 sublevel 3.2.4 (Schulstochastik: Hypothesentest) with 3.2.4.a (Entscheidungsregel/krit. Bereich) and 3.2.4.b (Konfidenzintervall Schulmathematik) for Abitur coverage
+- [ ] Add L1 sublevel 1.1.6 (Zinsrechnung) with 1.1.6.a (Einfache Verzinsung) and 1.1.6.b (Zinseszins) for Klasse 6-7 coverage
 - [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
 - [x] Expand scalable archive generation to 5.000 tasks per level (30.000 total) with detailed answer variants

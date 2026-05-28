@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.6.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,34 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.6.0)
+Built the curriculum coverage matrix for Klasse 1–12, mapping every school topic to L1–L3 archive sections and identifying gaps.
+
+### Changes in this iteration
+- Created `docs/curriculum-coverage-matrix.md` with a full mapping of the German Gymnasium/Gesamtschule curriculum (Klasse 1–12) to L1–L3 archive sublevel IDs.
+- Structured as grade-cluster tables (Klasse 1–2, 3–4, 5–6, 7–8, 9–10, 11–12) with status indicators (✅/⚠️/❌) per topic.
+- Identified 8 coverage gaps: Sachrechnen, Maßstab, Zinsrechnung, Sehnen/Tangenten (2.5.2.b has taxonomy but no seeds), Streumaße/Boxplot (new sublevel needed in L2), Hypothesentest Schulmathematik (new sublevel needed in L3), Konfidenzintervall Schulniveau, relative Häufigkeit.
+- Added 4 new P2 backlog items for the high- and medium-priority gaps found.
+- Marked P1 curriculum-matrix task as completed.
+
+### Files touched
+- `docs/curriculum-coverage-matrix.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Reviewed all L1–L3 taxonomy sublevels against covered seed tasks from archive-content.js.
+- Cross-checked curriculum topics against typical German Gymnasium Lehrpläne (Bayern/NRW/BaWü structure).
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Add seed tasks for `2.5.2.b` (Sehnen und Tangenten) – highest-impact gap with existing taxonomy entry but no seed tasks.
+- Or proceed to: Build the engineering mathematics coverage matrix (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
