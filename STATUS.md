@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,31 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A Klasse 1–12 curriculum coverage matrix is now documented in `docs/curriculum-coverage-matrix-l1-l3.md`, mapping every German school grade to the corresponding L1–L3 archive sublevels.
+
+## Last completed task (v2.5.5)
+Built curriculum coverage matrix for Klasse 1–12 → L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `docs/curriculum-coverage-matrix-l1-l3.md` with a full grade-by-grade mapping (Klasse 1–12) to L1–L3 archive sublevel IDs.
+- Document includes a grade-band overview table, per-class topic tables with archive sublevel references, a coverage summary table, and an archive expansion gap analysis section.
+- Marked the corresponding P1 backlog task as completed.
+
+### Files touched
+- `docs/curriculum-coverage-matrix-l1-l3.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, 30000 tasks, 5000 per level
+- Static check: all referenced sublevel IDs (1.x.x.x, 2.x.x.x, 3.x.x.x) verified against the taxonomy in `app/data/archive-content.js`
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (`docs/curriculum-coverage-matrix-l4-l5.md`).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
