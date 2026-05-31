@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,35 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-matrix.js` with a data-driven `window.SOR_CURRICULUM` object: 12 grade entries, 63 topics total, each with `sorLevel`, `sublevel`, `topic`, and a `group` (Grundschule / Mittelstufe / Oberstufe).
+- Created `app/lehrplan.html`: a new page that renders the matrix as a filterable grade-card grid with deep links into `lernarchiv.html?level=&sublevel=&topic=` for every topic.
+- Added "Lehrplan 1–12" navigation link to `app/lernarchiv.html` and `app/lernpfad.html` topbars.
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `app/lehrplan.html` (new)
+- `app/lernarchiv.html`
+- `app/lernpfad.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e "..."` on curriculum-matrix.js: 12 grades, 63 topics, groups and sorLevels OK
+- HTML structure check: script tags balanced, DOCTYPE present, SOR_CURRICULUM reference present
+- `node tools/archive-qa.js` → OK, 5000 tasks per level, 30000 total
+- `git diff --check` → no whitespace errors
+
+### Blockers
+- None.
+
+### Next logical step
+- Build an engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
