@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplan-Abdeckung Klasse 1–12 | Second-Order Resonance</title>
+    <meta name="description" content="Übersichtsmatrix: Welche Klasse lernt welches Thema – und wo findet man es im SOR-Archiv (L1–L3).">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent); }
+
+        .top-links {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .top-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.85rem;
+        }
+
+        .top-links a:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .page-hero {
+            margin-bottom: 2.5rem;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-hero p {
+            color: var(--text-muted);
+            max-width: 680px;
+        }
+
+        /* Stage sections */
+        .stage {
+            margin-bottom: 2.5rem;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            margin-bottom: 1.1rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stage-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+        }
+
+        .stage-badge.l1 { background: rgba(34,197,94,0.18); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .stage-badge.l1l2 { background: rgba(234,179,8,0.18); color: #facc15; border: 1px solid rgba(250,204,21,0.3); }
+        .stage-badge.l2 { background: rgba(234,179,8,0.18); color: #facc15; border: 1px solid rgba(250,204,21,0.3); }
+        .stage-badge.l2l3 { background: rgba(249,115,22,0.18); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+
+        .stage-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .stage-sub {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        /* Topic grid */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .topic-card {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .topic-card:hover {
+            border-color: rgba(233,69,96,0.35);
+        }
+
+        .topic-name {
+            font-size: 0.92rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .topic-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .klasse-tag {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.07);
+            border-radius: 4px;
+            padding: 0.15rem 0.45rem;
+        }
+
+        .level-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+        }
+
+        .level-tag.L1 { background: rgba(34,197,94,0.2); color: #4ade80; }
+        .level-tag.L2 { background: rgba(234,179,8,0.2); color: #facc15; }
+        .level-tag.L3 { background: rgba(249,115,22,0.2); color: #fb923c; }
+
+        .archive-link {
+            font-size: 0.78rem;
+            color: rgba(233,69,96,0.85);
+            text-decoration: none;
+            margin-top: 0.15rem;
+        }
+
+        .archive-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .legend {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1.1rem 1.3rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .legend-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-right: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.l1 { background: #4ade80; }
+        .legend-dot.l2 { background: #facc15; }
+        .legend-dot.l3 { background: #fb923c; }
+
+        @media (max-width: 600px) {
+            .stage-sub { display: none; }
+            .topic-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="../index.html">Second-Order <span>Resonance</span></a>
+            <nav class="top-links">
+                <a href="./lernarchiv.html">Archiv</a>
+                <a href="./lernpfad.html">Lernpfad</a>
+                <a href="./index.html">Mathe-App</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-hero">
+            <h1>Lehrplan-Abdeckung Klasse 1–12</h1>
+            <p>Welche Schulstufe lernt welches Thema – und wo findest du es im SOR-Archiv? Jede Karte verlinkt direkt in den passenden Archivfilter.</p>
+        </div>
+
+        <div class="legend">
+            <span class="legend-label">Legende</span>
+            <span class="legend-item"><span class="legend-dot l1"></span>L1 – Grundlagen</span>
+            <span class="legend-item"><span class="legend-dot l2"></span>L2 – Aufbauwissen</span>
+            <span class="legend-item"><span class="legend-dot l3"></span>L3 – Vertiefung</span>
+        </div>
+
+        <!-- Grundschule K1-4 -->
+        <section class="stage">
+            <div class="stage-header">
+                <span class="stage-badge l1">L1</span>
+                <span class="stage-title">Grundschule</span>
+                <span class="stage-sub">Klasse 1–4</span>
+            </div>
+            <div class="topic-grid" id="grid-gs"></div>
+        </section>
+
+        <!-- Unterstufe K5-7 -->
+        <section class="stage">
+            <div class="stage-header">
+                <span class="stage-badge l1l2">L1 → L2</span>
+                <span class="stage-title">Unterstufe</span>
+                <span class="stage-sub">Klasse 5–7</span>
+            </div>
+            <div class="topic-grid" id="grid-us"></div>
+        </section>
+
+        <!-- Mittelstufe K8-10 -->
+        <section class="stage">
+            <div class="stage-header">
+                <span class="stage-badge l2">L2</span>
+                <span class="stage-title">Mittelstufe</span>
+                <span class="stage-sub">Klasse 8–10</span>
+            </div>
+            <div class="topic-grid" id="grid-ms"></div>
+        </section>
+
+        <!-- Oberstufe K11-12/13 -->
+        <section class="stage">
+            <div class="stage-header">
+                <span class="stage-badge l2l3">L2 → L3</span>
+                <span class="stage-title">Oberstufe</span>
+                <span class="stage-sub">Klasse 11–13</span>
+            </div>
+            <div class="topic-grid" id="grid-os"></div>
+        </section>
+    </main>
+
+    <script>
+        // Curriculum coverage mapping: each entry maps a school topic to an archive sublevel
+        const CURRICULUM = {
+            gs: [
+                { name: "Kopfrechnen und Grundrechenarten",      klasse: "1–2", level: "L1", sublevel: "1.1.1.a" },
+                { name: "Schriftliche Rechenverfahren",          klasse: "3–4", level: "L1", sublevel: "1.1.1.b" },
+                { name: "Einführung Brüche",                     klasse: "3–4", level: "L1", sublevel: "1.1.2.a" },
+                { name: "Dezimalzahlen und Kommarechnung",        klasse: "4",   level: "L1", sublevel: "1.1.3.a" },
+                { name: "Runden und Schätzen",                   klasse: "3–4", level: "L1", sublevel: "1.1.3.b" },
+                { name: "Flächen und Umfang (Rechteck, Dreieck, Kreis)", klasse: "2–4", level: "L1", sublevel: "1.2.1.a" },
+                { name: "Zusammengesetzte Figuren",              klasse: "4",   level: "L1", sublevel: "1.2.1.b" },
+                { name: "Länge, Masse, Zeit, Volumen",           klasse: "2–4", level: "L1", sublevel: "1.3.2.a" },
+                { name: "Einheiten umrechnen",                   klasse: "3–4", level: "L1", sublevel: "1.3.2.b" },
+                { name: "Proportionale Zuordnungen (Dreisatz)",  klasse: "4",   level: "L1", sublevel: "1.3.1.a" },
+                { name: "Balken- und Kreisdiagramme",            klasse: "3–4", level: "L1", sublevel: "1.4.1.a" },
+                { name: "Mittelwert und Häufigkeit",             klasse: "4",   level: "L1", sublevel: "1.4.1.b" }
+            ],
+            us: [
+                { name: "Primfaktorzerlegung",                   klasse: "5",   level: "L1", sublevel: "1.1.5.a" },
+                { name: "ggT und kgV",                           klasse: "5",   level: "L1", sublevel: "1.1.5.b" },
+                { name: "Brüche addieren und kürzen",            klasse: "5",   level: "L1", sublevel: "1.1.2.a" },
+                { name: "Brüche multiplizieren und dividieren",  klasse: "5–6", level: "L1", sublevel: "1.1.2.c" },
+                { name: "Prozentwerte im Alltag",                klasse: "6",   level: "L1", sublevel: "1.1.2.b" },
+                { name: "Negative Zahlen",                       klasse: "6",   level: "L1", sublevel: "1.1.4.a" },
+                { name: "Würfel, Quader, Zylinder (Volumen)",    klasse: "5",   level: "L1", sublevel: "1.2.2.a" },
+                { name: "Punkte, Abstände, Koordinatensystem",   klasse: "5–6", level: "L1", sublevel: "1.2.4.a" },
+                { name: "Antiproportionale Zuordnungen",         klasse: "6",   level: "L1", sublevel: "1.3.1.b" },
+                { name: "Terme und lineare Gleichungen",         klasse: "7",   level: "L2", sublevel: "2.1.1.a" },
+                { name: "Formeln umstellen",                     klasse: "7",   level: "L2", sublevel: "2.1.1.b" },
+                { name: "Lineare Funktionen und Geradengleichung", klasse: "7", level: "L2", sublevel: "2.2.2.a" },
+                { name: "Winkelarten und Dreieckstypen",         klasse: "5–6", level: "L1", sublevel: "1.2.3.a" }
+            ],
+            ms: [
+                { name: "Lineare Gleichungssysteme",             klasse: "8",   level: "L2", sublevel: "2.1.2.a" },
+                { name: "Gleichungssysteme mit 3 Unbekannten",   klasse: "9–10",level: "L2", sublevel: "2.1.2.b" },
+                { name: "Quadratische Gleichungen",              klasse: "8–9", level: "L2", sublevel: "2.1.3.a" },
+                { name: "Faktorisierung quadratischer Terme",    klasse: "8–9", level: "L2", sublevel: "2.1.3.b" },
+                { name: "Potenzgesetze",                         klasse: "8",   level: "L2", sublevel: "2.3.1.a" },
+                { name: "Negative und gebrochene Exponenten",    klasse: "9",   level: "L2", sublevel: "2.3.1.b" },
+                { name: "Quadrat- und Kubikwurzeln",             klasse: "8–9", level: "L2", sublevel: "2.3.2.a" },
+                { name: "Parabelscheitel und Nullstellen",       klasse: "9",   level: "L2", sublevel: "2.2.3.a" },
+                { name: "Exponentielles Wachstum und Zerfall",   klasse: "9",   level: "L2", sublevel: "2.2.1.a" },
+                { name: "Halbwertszeit",                         klasse: "10",  level: "L2", sublevel: "2.2.1.c" },
+                { name: "Logarithmen und Rechenregeln",          klasse: "10",  level: "L2", sublevel: "2.3.3.a" },
+                { name: "sin, cos, tan – rechtwinkliges Dreieck", klasse: "9",  level: "L2", sublevel: "2.4.1.a" },
+                { name: "Sinus- und Kosinussatz",                klasse: "10",  level: "L2", sublevel: "2.4.2.a" },
+                { name: "Sinusfunktion und Kosinusfunktion",     klasse: "10",  level: "L2", sublevel: "2.4.3.a" },
+                { name: "Strahlensätze und Ähnlichkeit",         klasse: "8",   level: "L2", sublevel: "2.5.1.a" },
+                { name: "Kreisgeometrie",                        klasse: "9",   level: "L2", sublevel: "2.5.2.a" },
+                { name: "Satz des Pythagoras (Anwendungen)",     klasse: "8–9", level: "L2", sublevel: "2.5.3.a" },
+                { name: "Permutationen und Kombinationen",       klasse: "10",  level: "L2", sublevel: "2.6.1.a" },
+                { name: "Laplace-Experimente",                   klasse: "9",   level: "L2", sublevel: "2.6.2.a" },
+                { name: "Baumdiagramme",                         klasse: "9–10",level: "L2", sublevel: "2.6.2.b" }
+            ],
+            os: [
+                { name: "Ableitungsregeln (Ketten-, Produkt-, Quotientenregel)", klasse: "11", level: "L3", sublevel: "3.1.1.a" },
+                { name: "Monotonie und Extremstellen",           klasse: "11",  level: "L3", sublevel: "3.1.1.b" },
+                { name: "Krümmung und Wendepunkte",              klasse: "11",  level: "L3", sublevel: "3.1.1.c" },
+                { name: "Vollständige Kurvendiskussion",         klasse: "11",  level: "L3", sublevel: "3.1.2.a" },
+                { name: "Optimierungsaufgaben",                  klasse: "11–12",level: "L3", sublevel: "3.1.2.b" },
+                { name: "Stammfunktionen und Grundregeln",       klasse: "12",  level: "L3", sublevel: "3.1.3.a" },
+                { name: "Bestimmtes Integral und Flächeninhalt", klasse: "12",  level: "L3", sublevel: "3.1.3.b" },
+                { name: "Substitutions- und Partielle Integration", klasse: "12–13", level: "L3", sublevel: "3.1.3.c" },
+                { name: "Ableitung und Integration von e^x / ln(x)", klasse: "11–12", level: "L3", sublevel: "3.1.4.a" },
+                { name: "Wachstums- und Zerfallsmodelle (Analysis)", klasse: "12", level: "L3", sublevel: "3.1.4.b" },
+                { name: "Folgen und Reihen",                     klasse: "11",  level: "L3", sublevel: "3.1.5.a" },
+                { name: "Bedingte Wahrscheinlichkeit",           klasse: "12",  level: "L3", sublevel: "3.2.1.a" },
+                { name: "Bayes-Theorem",                         klasse: "12–13",level: "L3", sublevel: "3.2.1.b" },
+                { name: "Binomialverteilung",                    klasse: "12",  level: "L3", sublevel: "3.2.2.a" },
+                { name: "Erwartungswert und Varianz",            klasse: "12",  level: "L3", sublevel: "3.2.2.b" },
+                { name: "Normalverteilung",                      klasse: "12–13",level: "L3", sublevel: "3.2.2.c" },
+                { name: "Vektoroperationen und Skalarprodukt",   klasse: "11",  level: "L3", sublevel: "3.2.3.a" },
+                { name: "Geraden und Ebenen im Raum",            klasse: "12",  level: "L3", sublevel: "3.2.3.b" },
+                { name: "Kreuzprodukt und geometrische Anwendungen", klasse: "12", level: "L3", sublevel: "3.2.3.c" },
+                { name: "Analytische Geometrie (Kegelschnitte)", klasse: "12–13",level: "L3", sublevel: "3.5.1.a" },
+                { name: "Komplexe Zahlen – kartesische Form",    klasse: "12–13",level: "L3", sublevel: "3.3.1.a" },
+                { name: "Komplexe Zahlen – Polarform und Euler", klasse: "12–13",level: "L3", sublevel: "3.3.1.b" },
+                { name: "Matrizen: Addition und Multiplikation", klasse: "12–13",level: "L3", sublevel: "3.4.1.a" },
+                { name: "Determinante (2×2)",                    klasse: "12–13",level: "L3", sublevel: "3.4.1.b" },
+                { name: "Logarithmische Gleichungen",            klasse: "11",  level: "L2", sublevel: "2.3.3.b" },
+                { name: "Ungleichungen und Betragsungleichungen",klasse: "11",  level: "L2", sublevel: "2.1.4.a" }
+            ]
+        };
+
+        function archiveUrl(sublevel) {
+            return `./lernarchiv.html?sublevel=${encodeURIComponent(sublevel)}`;
+        }
+
+        function renderGrid(containerId, topics) {
+            const container = document.getElementById(containerId);
+            topics.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.innerHTML = `
+                    <div class="topic-name">${t.name}</div>
+                    <div class="topic-meta">
+                        <span class="klasse-tag">Kl. ${t.klasse}</span>
+                        <span class="level-tag ${t.level}">${t.level}</span>
+                    </div>
+                    <a class="archive-link" href="${archiveUrl(t.sublevel)}">→ Archiv: ${t.sublevel}</a>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        renderGrid('grid-gs', CURRICULUM.gs);
+        renderGrid('grid-us', CURRICULUM.us);
+        renderGrid('grid-ms', CURRICULUM.ms);
+        renderGrid('grid-os', CURRICULUM.os);
+    </script>
+</body>
+</html>
