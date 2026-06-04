@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplan-Matrix | Second-Order Resonance</title>
+    <meta name="description" content="Lehrplan-Abdeckungsmatrix: Welche Schulstufe (Klasse 1–12) ist welchem L1-L3-Archivabschnitt zugeordnet?">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+            --l1: #22c55e;
+            --l2: #eab308;
+            --l3: #f97316;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand {
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .brand span { color: var(--accent); }
+
+        .top-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.9rem;
+        }
+
+        .top-links a:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .hero {
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 640px;
+        }
+
+        /* Level legend */
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Grade-level section */
+        .phase {
+            margin-bottom: 2.5rem;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .phase-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.7rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .phase-label.l1 { background: rgba(34,197,94,0.18); color: var(--l1); border: 1px solid rgba(34,197,94,0.35); }
+        .phase-label.l1l2 { background: rgba(234,179,8,0.12); color: #86efac; border: 1px solid rgba(134,239,172,0.3); }
+        .phase-label.l2 { background: rgba(234,179,8,0.18); color: var(--l2); border: 1px solid rgba(234,179,8,0.35); }
+        .phase-label.l3 { background: rgba(249,115,22,0.18); color: var(--l3); border: 1px solid rgba(249,115,22,0.35); }
+
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Cards grid */
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .grade-card {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 14px;
+            padding: 1.1rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .grade-card:hover {
+            border-color: rgba(233, 69, 96, 0.3);
+        }
+
+        .grade-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+        }
+
+        .grade-num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .grade-subtitle {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .topics-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .topics-list li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .topics-list li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .archive-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            margin-top: auto;
+        }
+
+        .archive-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.15s;
+        }
+
+        .archive-link:hover {
+            color: var(--text);
+            background: rgba(233,69,96,0.12);
+            border-color: rgba(233,69,96,0.4);
+        }
+
+        .archive-link .level-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .lv1 { background: rgba(34,197,94,0.22); color: #86efac; }
+        .lv2 { background: rgba(234,179,8,0.22); color: #fde68a; }
+        .lv3 { background: rgba(249,115,22,0.22); color: #fed7aa; }
+
+        /* Coverage summary table */
+        .summary-section {
+            margin-top: 3rem;
+        }
+
+        .summary-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .matrix-table th {
+            background: rgba(255,255,255,0.05);
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+        }
+
+        .matrix-table td:first-child {
+            color: var(--gold);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .matrix-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .check { color: var(--success); }
+        .partial { color: var(--gold); }
+
+        @media (max-width: 640px) {
+            .grade-grid { grid-template-columns: 1fr; }
+            .top-links { gap: 0.5rem; }
+            .top-links a { padding: 0.3rem 0.55rem; font-size: 0.82rem; }
+            .matrix-table { font-size: 0.78rem; }
+            .matrix-table th, .matrix-table td { padding: 0.45rem 0.55rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" href="../index.html">SOR<span>.</span></a>
+        <div class="top-links">
+            <a href="lernpfad.html">🗺 Lernpfad</a>
+            <a href="lernarchiv.html">📚 Archiv</a>
+            <a href="index.html">🎮 Üben</a>
+            <a href="profil.html">👤 Profil</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="hero">
+        <h1>📋 Lehrplan-Abdeckungsmatrix</h1>
+        <p>Welche Klasse 1–12-Themen sind in welchem L1-L3-Archivabschnitt verankert? Diese Matrix zeigt die Verbindung zwischen Schullehrplan und SOR-Archiv.</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l1)"></div> 🟢 L1 – Grundschule &amp; Unterstufe (Klasse 1–6)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l2)"></div> 🟡 L2 – Unter- &amp; Mittelstufe (Klasse 5–10)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l3)"></div> 🟠 L3 – Oberstufe / Schulabschluss (Klasse 10–12)</div>
+    </div>
+
+    <!-- Phase 1: Grundschule -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-label l1">🟢 L1</span>
+            <span class="phase-title">Grundschule – Klasse 1 bis 4</span>
+        </div>
+        <div class="grade-grid" id="grid-grundschule"></div>
+    </div>
+
+    <!-- Phase 2: Unterstufe -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-label l1l2">🟢→🟡 L1/L2</span>
+            <span class="phase-title">Unterstufe – Klasse 5 bis 7</span>
+        </div>
+        <div class="grade-grid" id="grid-unterstufe"></div>
+    </div>
+
+    <!-- Phase 3: Mittelstufe -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-label l2">🟡 L2</span>
+            <span class="phase-title">Mittelstufe – Klasse 8 bis 10</span>
+        </div>
+        <div class="grade-grid" id="grid-mittelstufe"></div>
+    </div>
+
+    <!-- Phase 4: Oberstufe -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-label l3">🟠 L3</span>
+            <span class="phase-title">Oberstufe / Abitur – Klasse 11 bis 12</span>
+        </div>
+        <div class="grade-grid" id="grid-oberstufe"></div>
+    </div>
+
+    <!-- Coverage summary -->
+    <div class="summary-section">
+        <h2>Abdeckungsübersicht</h2>
+        <table class="matrix-table" id="summary-table">
+            <thead>
+                <tr>
+                    <th>Klasse</th>
+                    <th>Kernthemen</th>
+                    <th>Archiv-Level</th>
+                    <th>Hauptabschnitte im SOR-Archiv</th>
+                </tr>
+            </thead>
+            <tbody id="summary-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// Curriculum matrix data: each grade maps to school topics and archive sections
+const CURRICULUM = [
+    {
+        grade: 1,
+        title: "Klasse 1",
+        subtitle: "Grundschule",
+        phase: "grundschule",
+        topics: ["Zahlen bis 20 lesen und schreiben", "Addition und Subtraktion bis 20", "Mengen vergleichen", "Einfache Formen erkennen"],
+        archiveLinks: [
+            { level: 1, sublevel: "1.1.1", label: "Grundrechenarten", filter: "level=1&sublevel=1.1.1" },
+            { level: 1, sublevel: "1.1.1.a", label: "Kopfrechnen und Rechenstrategien", filter: "level=1&sublevel=1.1.1.a" }
+        ]
+    },
+    {
+        grade: 2,
+        title: "Klasse 2",
+        subtitle: "Grundschule",
+        phase: "grundschule",
+        topics: ["Zahlen bis 100", "Kleines Einmaleins", "Grundrechenarten bis 100", "Längen und Gewichte"],
+        archiveLinks: [
+            { level: 1, sublevel: "1.1.1.a", label: "Kopfrechnen und Rechenstrategien", filter: "level=1&sublevel=1.1.1.a" },
+            { level: 1, sublevel: "1.3.2", label: "Einheiten und Größen", filter: "level=1&sublevel=1.3.2" }
+        ]
+    },
+    {
+        grade: 3,
+        title: "Klasse 3",
+        subtitle: "Grundschule",
+        phase: "grundschule",
+        topics: ["Zahlen bis 1.000", "Schriftliches Rechnen", "Großes Einmaleins", "Grundlegende Geometrie"],
+        archiveLinks: [
+            { level: 1, sublevel: "1.1.1.b", label: "Schriftliches Rechnen", filter: "level=1&sublevel=1.1.1.b" },
+            { level: 1, sublevel: "1.2.1", label: "Flächen und Umfang", filter: "level=1&sublevel=1.2.1" }
+        ]
+    },
+    {
+        grade: 4,
+        title: "Klasse 4",
+        subtitle: "Grundschule",
+        phase: "grundschule",
+        topics: ["Zahlen bis 1.000.000", "Division mit Rest", "Erste Bruchzahlen", "Flächen und Umfang"],
+        archiveLinks: [
+            { level: 1, sublevel: "1.1.2", label: "Bruch- und Prozentrechnung", filter: "level=1&sublevel=1.1.2" },
+            { level: 1, sublevel: "1.2.1.a", label: "Rechteck, Dreieck, Kreis", filter: "level=1&sublevel=1.2.1.a" },
+            { level: 1, sublevel: "1.2.2", label: "Körper und Volumen", filter: "level=1&sublevel=1.2.2" }
+        ]
+    },
+    {
+        grade: 5,
+        title: "Klasse 5",
+        subtitle: "Unterstufe",
+        phase: "unterstufe",
+        topics: ["Brüche und Dezimalzahlen", "Negative Zahlen", "Proportionalität / Dreisatz", "Koordinatensystem"],
+        archiveLinks: [
+            { level: 1, sublevel: "1.1.2", label: "Bruch- und Prozentrechnung", filter: "level=1&sublevel=1.1.2" },
+            { level: 1, sublevel: "1.1.3", label: "Dezimalzahlen", filter: "level=1&sublevel=1.1.3" },
+            { level: 1, sublevel: "1.1.4", label: "Negative Zahlen", filter: "level=1&sublevel=1.1.4" },
+            { level: 1, sublevel: "1.3.1", label: "Dreisatz", filter: "level=1&sublevel=1.3.1" }
+        ]
+    },
+    {
+        grade: 6,
+        title: "Klasse 6",
+        subtitle: "Unterstufe",
+        phase: "unterstufe",
+        topics: ["Prozentrechnung", "Verhältnisse", "Statistische Grundbegriffe", "Winkel und Dreiecke"],
+        archiveLinks: [
+            { level: 1, sublevel: "1.1.2.b", label: "Prozentwerte im Alltag", filter: "level=1&sublevel=1.1.2.b" },
+            { level: 1, sublevel: "1.3.1.a", label: "Proportionale Zuordnungen", filter: "level=1&sublevel=1.3.1.a" },
+            { level: 1, sublevel: "1.4.1", label: "Diagramme und Daten", filter: "level=1&sublevel=1.4.1" },
+            { level: 1, sublevel: "1.2.3", label: "Winkel und Dreiecke", filter: "level=1&sublevel=1.2.3" }
+        ]
+    },
+    {
+        grade: 7,
+        title: "Klasse 7",
+        subtitle: "Unterstufe",
+        phase: "unterstufe",
+        topics: ["Terme und Variablen", "Lineare Gleichungen", "Lineare Funktionen", "Grundlegende Wahrscheinlichkeit"],
+        archiveLinks: [
+            { level: 2, sublevel: "2.1.1", label: "Gleichungen lösen und umstellen", filter: "level=2&sublevel=2.1.1" },
+            { level: 2, sublevel: "2.2.2", label: "Lineare Funktionen", filter: "level=2&sublevel=2.2.2" },
+            { level: 1, sublevel: "1.4.2", label: "Grundlagen Wahrscheinlichkeit", filter: "level=1&sublevel=1.4.2" }
+        ]
+    },
+    {
+        grade: 8,
+        title: "Klasse 8",
+        subtitle: "Mittelstufe",
+        phase: "mittelstufe",
+        topics: ["Lineare Gleichungssysteme", "Potenzgesetze", "Satz des Pythagoras", "Körper und Oberflächen"],
+        archiveLinks: [
+            { level: 2, sublevel: "2.1.2", label: "Lineare Gleichungssysteme", filter: "level=2&sublevel=2.1.2" },
+            { level: 2, sublevel: "2.3.1", label: "Potenzgesetze", filter: "level=2&sublevel=2.3.1" },
+            { level: 2, sublevel: "2.5.3", label: "Pythagoras und Satz des Thales", filter: "level=2&sublevel=2.5.3" }
+        ]
+    },
+    {
+        grade: 9,
+        title: "Klasse 9",
+        subtitle: "Mittelstufe",
+        phase: "mittelstufe",
+        topics: ["Quadratische Gleichungen und Funktionen", "Ähnlichkeit / Strahlensatz", "Trigonometrie (sin, cos, tan)", "Baumdiagramme"],
+        archiveLinks: [
+            { level: 2, sublevel: "2.1.3", label: "Quadratische Gleichungen", filter: "level=2&sublevel=2.1.3" },
+            { level: 2, sublevel: "2.2.3", label: "Quadratische Funktionen", filter: "level=2&sublevel=2.2.3" },
+            { level: 2, sublevel: "2.4.1", label: "Trigonometrie am rechtwinkligen Dreieck", filter: "level=2&sublevel=2.4.1" },
+            { level: 2, sublevel: "2.5.1", label: "Ähnlichkeit und Strahlensätze", filter: "level=2&sublevel=2.5.1" }
+        ]
+    },
+    {
+        grade: 10,
+        title: "Klasse 10",
+        subtitle: "Mittelstufe / Vorstufe",
+        phase: "mittelstufe",
+        topics: ["Logarithmen", "Exponentialfunktionen", "Kombinatorik und Wahrscheinlichkeit", "Kreisgeometrie"],
+        archiveLinks: [
+            { level: 2, sublevel: "2.3.3", label: "Logarithmen", filter: "level=2&sublevel=2.3.3" },
+            { level: 2, sublevel: "2.2.1", label: "Exponentielles Verhalten", filter: "level=2&sublevel=2.2.1" },
+            { level: 2, sublevel: "2.6.1", label: "Grundlegende Kombinatorik", filter: "level=2&sublevel=2.6.1" },
+            { level: 2, sublevel: "2.5.2", label: "Kreisgeometrie", filter: "level=2&sublevel=2.5.2" }
+        ]
+    },
+    {
+        grade: 11,
+        title: "Klasse 11",
+        subtitle: "Oberstufe",
+        phase: "oberstufe",
+        topics: ["Ableitungen und Differentialrechnung", "Kurvendiskussion", "Bedingte Wahrscheinlichkeit", "Vektoren im Raum"],
+        archiveLinks: [
+            { level: 3, sublevel: "3.1.1", label: "Ableitungen", filter: "level=3&sublevel=3.1.1" },
+            { level: 3, sublevel: "3.1.2", label: "Kurvendiskussion", filter: "level=3&sublevel=3.1.2" },
+            { level: 3, sublevel: "3.2.1", label: "Wahrscheinlichkeitsrechnung", filter: "level=3&sublevel=3.2.1" },
+            { level: 3, sublevel: "3.2.3", label: "Vektoren und Geometrie im Raum", filter: "level=3&sublevel=3.2.3" }
+        ]
+    },
+    {
+        grade: 12,
+        title: "Klasse 12 / Abitur",
+        subtitle: "Oberstufe / Abschluss",
+        phase: "oberstufe",
+        topics: ["Integralrechnung und Flächenberechnung", "Binomialverteilung / Normalverteilung", "Analytische Geometrie (Ebenen)", "Folgen und Reihen"],
+        archiveLinks: [
+            { level: 3, sublevel: "3.1.3", label: "Integralrechnung", filter: "level=3&sublevel=3.1.3" },
+            { level: 3, sublevel: "3.2.2", label: "Zufallsvariablen und Verteilungen", filter: "level=3&sublevel=3.2.2" },
+            { level: 3, sublevel: "3.2.3.b", label: "Geraden und Ebenen im Raum", filter: "level=3&sublevel=3.2.3.b" },
+            { level: 3, sublevel: "3.1.5", label: "Folgen und Reihen", filter: "level=3&sublevel=3.1.5" }
+        ]
+    }
+];
+
+// Level badge color helper
+function levelClass(l) {
+    return l === 1 ? "lv1" : l === 2 ? "lv2" : "lv3";
+}
+
+function levelLabel(l) {
+    return l === 1 ? "L1" : l === 2 ? "L2" : "L3";
+}
+
+// Build a grade card
+function buildCard(entry) {
+    const topicsHTML = entry.topics.map(t => `<li>${t}</li>`).join("");
+    const linksHTML = entry.archiveLinks.map(link => `
+        <a class="archive-link" href="lernarchiv.html?${link.filter}" target="_self">
+            <span class="level-badge ${levelClass(link.level)}">${levelLabel(link.level)}</span>
+            ${link.label}
+        </a>
+    `).join("");
+
+    return `
+        <div class="grade-card">
+            <div class="grade-header">
+                <span class="grade-num">${entry.grade}</span>
+                <span class="grade-subtitle">${entry.subtitle}</span>
+            </div>
+            <ul class="topics-list">${topicsHTML}</ul>
+            <div class="archive-links">${linksHTML}</div>
+        </div>
+    `;
+}
+
+// Populate grade grids
+const phaseMap = {
+    grundschule: document.getElementById("grid-grundschule"),
+    unterstufe:  document.getElementById("grid-unterstufe"),
+    mittelstufe: document.getElementById("grid-mittelstufe"),
+    oberstufe:   document.getElementById("grid-oberstufe")
+};
+
+CURRICULUM.forEach(entry => {
+    const container = phaseMap[entry.phase];
+    if (container) container.insertAdjacentHTML("beforeend", buildCard(entry));
+});
+
+// Build summary table
+const tbody = document.getElementById("summary-body");
+CURRICULUM.forEach(entry => {
+    const levels = [...new Set(entry.archiveLinks.map(l => levelLabel(l.level)))].join(", ");
+    const sections = entry.archiveLinks.map(l => l.label).join("; ");
+    const topics = entry.topics.join(", ");
+    tbody.insertAdjacentHTML("beforeend", `
+        <tr>
+            <td>${entry.title}</td>
+            <td>${topics}</td>
+            <td>${levels}</td>
+            <td>${sections}</td>
+        </tr>
+    `);
+});
+</script>
+
+</body>
+</html>
