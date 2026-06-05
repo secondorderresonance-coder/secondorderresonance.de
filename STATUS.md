@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,35 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix for Klasse 1–12 mapped to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `docs/curriculum-coverage-matrix-l1-l3.md` with a full topic-by-topic mapping of the German Gymnasium curriculum (Klasse 1–2, 3–4, 5–6, 7–8, 9–10, 10–11, 12–13) to the corresponding L1–L3 archive sublevels.
+- Matrix covers 106 curriculum topics across all grade ranges; 104 are fully covered (✅), 2 have partial coverage (⚠️: Satz des Thales, Betragsungleichungen).
+- Added a Gap Analysis section with three low/medium priority recommended seed-task additions.
+- Added a Lernstrasse Mapping table that specifies which archive sublevels should appear in each of the 17 Lernstrasse road sections for L1–L3.
+- Added notes on federal state curriculum variations (Bayern, NRW, Baden-Württemberg).
+- Marked the P1 backlog task as completed.
+
+### Files touched
+- `docs/curriculum-coverage-matrix-l1-l3.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Cross-checked all sublevel IDs in the matrix against the taxonomy in `app/data/archive-content.js` (lines 69–238).
+- Verified 104 of 106 curriculum topics map to existing archive sublevels; 2 have ⚠️ partial-coverage markers with a documented remedy.
+- No changes to HTML, JS, or CSS — no runtime regression risk.
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix for L4–L5 (the next open P1 task).
+- Optionally add the 2 missing seed tasks identified in the gap analysis (Satz des Thales, Betragsungleichungen LK).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
