@@ -827,7 +827,7 @@
                         <div class="section-top">
                             <div>
                                 <h2>Abschnitt ${escapeHtml(section.id)} - ${escapeHtml(section.title)}</h2>
-                                <div class="section-meta">${section.taskCount.toLocaleString('de-DE')} Archivaufgaben in diesem Abschnitt</div>
+                                <div class="section-meta">${section.taskCount.toLocaleString('de-DE')} Archivaufgaben${section.gradeRange ? ' · ' + escapeHtml(section.gradeRange) : ''}</div>
                             </div>
                             <div class="section-progress">${done}/${section.lessons.length}</div>
                         </div>
