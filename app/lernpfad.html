@@ -413,6 +413,7 @@
         <div class="top-actions" id="topActions">
             <a href="index.html" class="nav-link">Ueben</a>
             <a href="lernarchiv.html" class="nav-link">Archiv</a>
+            <a href="lehrplan.html" class="nav-link">Lehrplan</a>
             <button class="login-btn" onclick="openModal()">Anmelden</button>
         </div>
     </header>
@@ -738,6 +739,7 @@
                 top.innerHTML = `
                     <a href="index.html" class="nav-link">Ueben</a>
                     <a href="lernarchiv.html" class="nav-link">Archiv</a>
+                    <a href="lehrplan.html" class="nav-link">Lehrplan</a>
                     <button class="login-btn" onclick="openModal()">Anmelden</button>
                 `;
                 return;
@@ -749,6 +751,7 @@
                 <span class="stat-pill">${summary.streak || 0} Tage</span>
                 <a href="index.html" class="nav-link">Ueben</a>
                 <a href="lernarchiv.html" class="nav-link">Archiv</a>
+                <a href="lehrplan.html" class="nav-link">Lehrplan</a>
                 <a href="profil.html" class="avatar" style="background:${account.avatarColor || '#e94560'}">${escapeHtml(label.charAt(0).toUpperCase())}</a>
             `;
         }
