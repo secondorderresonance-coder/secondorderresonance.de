@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,38 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built curriculum coverage matrix for Klasse 1–12 mapped to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `docs/curriculum-coverage-matrix.md` with a full topic-to-archive-section mapping for every German school grade (Klasse 1–12).
+- Mapped Klasse 1–4 topics to L1 sublevels (1.1.1.a – 1.3.2.b).
+- Mapped Klasse 5–6 topics to L1 (vertiefend) sublevels (1.1.2 – 1.4.2).
+- Mapped Klasse 7–8 topics to L1→L2 transition sublevels (2.1.1 – 2.5.3).
+- Mapped Klasse 9–10 topics to L2 sublevels (2.2.3 – 2.4.3).
+- Mapped Klasse 11 topics to L2→L3 transition sublevels (3.1.1 – 3.2.2).
+- Mapped Klasse 12 topics to L3 sublevels (3.1.1 – 3.5.1).
+- Added a gap analysis listing 7 sublevels with missing or thin seed-task coverage.
+- Bumped version to v2.5.5.
+
+### Files touched
+- `docs/curriculum-coverage-matrix.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Verified all referenced sublevel IDs exist in `window.SOR_ARCHIVE.taxonomy` in `app/data/archive-content.js`.
+- Cross-checked level boundaries against the 6-level taxonomy in AGENTS.md.
+- No changes to HTML, JS, or CSS files; no regression risk.
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix for L4–L5 (next open P1 task).
+- Or start a focused seed-task batch targeting the 7 identified gap sublevels from the matrix.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
