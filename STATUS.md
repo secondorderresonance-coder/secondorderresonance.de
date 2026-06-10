@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,36 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-coverage.js` exposing `window.SOR_CURRICULUM`.
+- Maps all 12 school grades to SOR archive sublevels, aligned with KMK Bildungsstandards (allgemeines Gymnasium).
+- 71 curriculum topics across Klasse 1–12, each with: name, archive sublevel IDs, tags.
+- Grade-to-SOR-level mapping: Klasse 1–6 → L1, Klasse 7–10 → L2, Klasse 11–12 → L3.
+- Helper methods: `getGradesBySorLevel(level)`, `getSublevelsByGrade(grade)`, `getTopicsBySublevel(sublevelId)`.
+- All referenced sublevel IDs validated against the archive taxonomy (374 IDs checked, 0 mismatches).
+- Data is available globally for future Lernpfad and archive UI integrations without changes to existing pages.
+
+### Files touched
+- `app/data/curriculum-coverage.js` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e "..."` confirming 12 grades, 71 topics, L1/L2/L3 grade groups, helper method correctness
+- Cross-check: all sublevel IDs in curriculum matrix exist in the archive taxonomy
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
+- Or surface the curriculum matrix in the Lernpfad UI with a grade selector that prefilters archive tasks.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
