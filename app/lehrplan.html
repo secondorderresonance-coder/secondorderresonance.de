@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplan Klasse 1–12 | Second-Order Resonance</title>
+    <meta name="description" content="Curriculum-Coverage-Matrix: Klasse 1–12 mapped auf die L1–L3 Archiv-Abschnitte von Second-Order Resonance.">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+            --l1: #22c55e;
+            --l2: #eab308;
+            --l3: #f97316;
+            --l4: #3b82f6;
+            --l5: #a855f7;
+            --l6: #6b7280;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand {
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .brand span { color: var(--accent); }
+
+        .top-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .top-links a:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+            display: grid;
+            gap: 1.4rem;
+        }
+
+        .card {
+            background: var(--secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 1.4rem;
+        }
+
+        .headline {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 0.4rem;
+        }
+
+        .muted { color: var(--text-muted); }
+
+        /* Level filter tabs */
+        .level-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+        }
+
+        .level-tab {
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-family: inherit;
+        }
+
+        .level-tab:hover { border-color: rgba(255,255,255,0.35); color: var(--text); }
+
+        .level-tab.active {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        /* School-year blocks */
+        .year-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .year-block {
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            transition: border-color 0.15s;
+        }
+
+        .year-block:hover { border-color: rgba(255,255,255,0.22); }
+
+        .year-header {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            user-select: none;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .year-header:hover { background: rgba(255,255,255,0.06); }
+
+        .year-badge {
+            font-weight: 700;
+            font-size: 0.88rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .badge-l1 { background: rgba(34,197,94,0.18); color: var(--l1); border: 1px solid rgba(34,197,94,0.35); }
+        .badge-l2 { background: rgba(234,179,8,0.18); color: var(--l2); border: 1px solid rgba(234,179,8,0.35); }
+        .badge-l3 { background: rgba(249,115,22,0.18); color: var(--l3); border: 1px solid rgba(249,115,22,0.35); }
+
+        .year-title {
+            flex: 1;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .year-chevron {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .year-block.open .year-chevron { transform: rotate(180deg); }
+
+        .topic-table {
+            display: none;
+            padding: 0.8rem 1rem 1rem;
+            background: rgba(255,255,255,0.02);
+            overflow-x: auto;
+        }
+
+        .year-block.open .topic-table { display: block; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        th {
+            text-align: left;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.6rem 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.45rem 0.6rem;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .archive-link {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            background: rgba(233,69,96,0.1);
+            border: 1px solid rgba(233,69,96,0.25);
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-family: "Courier New", monospace;
+            white-space: nowrap;
+        }
+
+        .archive-link:hover {
+            background: rgba(233,69,96,0.2);
+            border-color: rgba(233,69,96,0.5);
+        }
+
+        .sublevel-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Summary legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-l1 { background: var(--l1); }
+        .dot-l2 { background: var(--l2); }
+        .dot-l3 { background: var(--l3); }
+
+        @media (max-width: 680px) {
+            .top-links a { font-size: 0.82rem; padding: 0.3rem 0.6rem; }
+            .year-title { font-size: 0.92rem; }
+            td, th { padding: 0.35rem 0.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="../index.html">Second-Order <span>Resonance</span></a>
+            <nav class="top-links">
+                <a href="./lernarchiv.html">Archiv</a>
+                <a href="./lernpfad.html">Lernpfad</a>
+                <a href="./index.html">Mathe-App</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h1 class="headline">Lehrplan Klasse 1–12</h1>
+            <p class="muted">Vollständige Übersicht, welche Schulmathematik-Themen in welchem Schuljahr behandelt werden — und in welchem Archiv-Abschnitt du sie bei SOR findest.</p>
+            <div class="legend">
+                <div class="legend-item"><div class="dot dot-l1"></div> <span>🟢 L1 – Grundlagen (Klasse 1–6)</span></div>
+                <div class="legend-item"><div class="dot dot-l2"></div> <span>🟡 L2 – Aufbauwissen (Klasse 7–10)</span></div>
+                <div class="legend-item"><div class="dot dot-l3"></div> <span>🟠 L3 – Vertiefung (Klasse 11–12)</span></div>
+            </div>
+            <div class="level-tabs" id="levelTabs">
+                <button class="level-tab active" data-level="all">Alle Klassen</button>
+                <button class="level-tab" data-level="L1">🟢 L1 (Kl. 1–6)</button>
+                <button class="level-tab" data-level="L2">🟡 L2 (Kl. 7–10)</button>
+                <button class="level-tab" data-level="L3">🟠 L3 (Kl. 11–12)</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="year-grid" id="yearGrid"></div>
+        </section>
+    </main>
+
+    <script>
+    const CURRICULUM = [
+        {
+            id: "k1-2",
+            label: "Klasse 1–2",
+            level: "L1",
+            subtitle: "Zahlen & erste Rechenoperationen",
+            topics: [
+                { topic: "Zahlen bis 10 / bis 100", sublevel: "1.1.1", sublevelLabel: "Grundrechenarten" },
+                { topic: "Addition & Subtraktion (Kopfrechnen)", sublevel: "1.1.1.a", sublevelLabel: "Kopfrechnen und Rechenstrategien" },
+                { topic: "Einfaches Messen (Länge, Masse)", sublevel: "1.3.2", sublevelLabel: "Einheiten und Größen" },
+                { topic: "Figuren erkennen & benennen", sublevel: "1.2.3", sublevelLabel: "Winkel und Dreiecke" },
+            ]
+        },
+        {
+            id: "k3-4",
+            label: "Klasse 3–4",
+            level: "L1",
+            subtitle: "Schriftliches Rechnen & erste Brüche",
+            topics: [
+                { topic: "Schriftliche Addition & Subtraktion bis 1 000 000", sublevel: "1.1.1.b", sublevelLabel: "Schriftliches Rechnen" },
+                { topic: "Schriftliche Multiplikation & Division", sublevel: "1.1.1.b", sublevelLabel: "Schriftliches Rechnen" },
+                { topic: "Einführung in Brüche", sublevel: "1.1.2.a", sublevelLabel: "Brüche addieren und kürzen" },
+                { topic: "Länge, Masse, Zeit, Volumen", sublevel: "1.3.2.a", sublevelLabel: "Länge, Masse, Zeit, Volumen" },
+                { topic: "Einheiten umrechnen", sublevel: "1.3.2.b", sublevelLabel: "Einheiten umrechnen" },
+                { topic: "Fläche & Umfang (Rechteck)", sublevel: "1.2.1.a", sublevelLabel: "Rechteck, Dreieck, Kreis" },
+                { topic: "Einfache Sachdiagramme", sublevel: "1.4.1.a", sublevelLabel: "Balken- und Kreisdiagramme" },
+            ]
+        },
+        {
+            id: "k5",
+            label: "Klasse 5",
+            level: "L1",
+            subtitle: "Brüche, Dezimalzahlen & Geometrie",
+            topics: [
+                { topic: "Brüche addieren, kürzen, erweitern", sublevel: "1.1.2.a", sublevelLabel: "Brüche addieren und kürzen" },
+                { topic: "Brüche multiplizieren & dividieren", sublevel: "1.1.2.c", sublevelLabel: "Brüche multiplizieren und dividieren" },
+                { topic: "Dezimalzahlen & Kommarechnung", sublevel: "1.1.3.a", sublevelLabel: "Dezimalzahlen und Kommarechnung" },
+                { topic: "Runden und Schätzen", sublevel: "1.1.3.b", sublevelLabel: "Runden und Schätzen" },
+                { topic: "Negative Zahlen", sublevel: "1.1.4.a", sublevelLabel: "Rechnen mit negativen Zahlen" },
+                { topic: "Teilbarkeit & Primzahlen", sublevel: "1.1.5.a", sublevelLabel: "Primfaktorzerlegung" },
+                { topic: "ggT und kgV", sublevel: "1.1.5.b", sublevelLabel: "ggT und kgV" },
+                { topic: "Fläche & Umfang (Dreieck, Kreis)", sublevel: "1.2.1.a", sublevelLabel: "Rechteck, Dreieck, Kreis" },
+                { topic: "Koordinatensystem", sublevel: "1.2.4.a", sublevelLabel: "Punkte, Abstände, Spiegelung" },
+            ]
+        },
+        {
+            id: "k6",
+            label: "Klasse 6",
+            level: "L1",
+            subtitle: "Proportionen, Prozente & Zufall",
+            topics: [
+                { topic: "Prozente im Alltag", sublevel: "1.1.2.b", sublevelLabel: "Prozentwerte im Alltag" },
+                { topic: "Dreisatz (proportional)", sublevel: "1.3.1.a", sublevelLabel: "Proportionale Zuordnungen" },
+                { topic: "Antiproportionaler Dreisatz", sublevel: "1.3.1.b", sublevelLabel: "Antiproportionale Zuordnungen" },
+                { topic: "Mittelwert & Häufigkeit", sublevel: "1.4.1.b", sublevelLabel: "Mittelwert und Häufigkeit" },
+                { topic: "Einfache Zufallsexperimente", sublevel: "1.4.2.a", sublevelLabel: "Einfache Zufallsexperimente" },
+                { topic: "Körper & Volumen (Würfel, Quader)", sublevel: "1.2.2.a", sublevelLabel: "Würfel, Quader, Zylinder" },
+            ]
+        },
+        {
+            id: "k7",
+            label: "Klasse 7",
+            level: "L2",
+            subtitle: "Gleichungen & lineare Funktionen",
+            topics: [
+                { topic: "Lineare Gleichungen lösen", sublevel: "2.1.1.a", sublevelLabel: "Lineare Gleichungen" },
+                { topic: "Formeln umstellen", sublevel: "2.1.1.b", sublevelLabel: "Formeln umstellen" },
+                { topic: "Lineare Funktionen & Geraden", sublevel: "2.2.2.a", sublevelLabel: "Geradengleichung und Steigung" },
+                { topic: "Parallele & senkrechte Geraden", sublevel: "2.2.2.b", sublevelLabel: "Parallele und senkrechte Geraden" },
+                { topic: "Ähnlichkeit & Strahlensätze", sublevel: "2.5.1.a", sublevelLabel: "Strahlensatz-Aufgaben" },
+                { topic: "Dreiecke & Winkel", sublevel: "1.2.3.b", sublevelLabel: "Dreieckstypen und Eigenschaften" },
+                { topic: "Flächenberechnung (zusammengesetzte Figuren)", sublevel: "1.2.1.b", sublevelLabel: "Zusammengesetzte Figuren" },
+            ]
+        },
+        {
+            id: "k8",
+            label: "Klasse 8",
+            level: "L2",
+            subtitle: "Potenzen, Gleichungssysteme & Quadratische Ausdrücke",
+            topics: [
+                { topic: "Potenzgesetze", sublevel: "2.3.1.a", sublevelLabel: "Rechenregeln für Potenzen" },
+                { topic: "Negative & gebrochene Exponenten", sublevel: "2.3.1.b", sublevelLabel: "Negative und gebrochene Exponenten" },
+                { topic: "Quadrat- & Kubikwurzeln", sublevel: "2.3.2.a", sublevelLabel: "Quadrat- und Kubikwurzeln" },
+                { topic: "Lineare Gleichungssysteme (2 Unbekannte)", sublevel: "2.1.2.a", sublevelLabel: "Substitutions- und Additionsverfahren" },
+                { topic: "Gleichungen mit Brüchen", sublevel: "2.1.1.c", sublevelLabel: "Gleichungen mit Brüchen" },
+                { topic: "Pythagoras", sublevel: "2.5.3.a", sublevelLabel: "Anwendungen des Satzes des Pythagoras" },
+                { topic: "Kreisgeometrie", sublevel: "2.5.2.a", sublevelLabel: "Umfang, Fläche, Kreisabschnitte" },
+                { topic: "Volumina (Zylinder, Pyramide, Kegel)", sublevel: "1.2.2.a", sublevelLabel: "Würfel, Quader, Zylinder" },
+            ]
+        },
+        {
+            id: "k9",
+            label: "Klasse 9",
+            level: "L2",
+            subtitle: "Quadratische Gleichungen & Stochastik",
+            topics: [
+                { topic: "Quadratische Gleichungen (p-q-Formel)", sublevel: "2.1.3.a", sublevelLabel: "Lösungsformel und Diskriminante" },
+                { topic: "Faktorisierung von Quadraten", sublevel: "2.1.3.b", sublevelLabel: "Faktorisierung" },
+                { topic: "Quadratische Funktionen (Parabel)", sublevel: "2.2.3.a", sublevelLabel: "Parabelscheitel und Nullstellen" },
+                { topic: "Verschiebung & Streckung von Parabeln", sublevel: "2.2.3.b", sublevelLabel: "Verschiebung und Streckung" },
+                { topic: "Lineare Ungleichungen", sublevel: "2.1.4.a", sublevelLabel: "Lineare Ungleichungen" },
+                { topic: "Ähnliche Figuren", sublevel: "2.5.1.b", sublevelLabel: "Ähnliche Figuren" },
+                { topic: "Laplace-Wahrscheinlichkeit", sublevel: "2.6.2.a", sublevelLabel: "Laplace-Experiment" },
+                { topic: "Baumdiagramm & mehrstufige Experimente", sublevel: "2.6.2.b", sublevelLabel: "Baumdiagramm" },
+                { topic: "Kombinatorik (Permutationen)", sublevel: "2.6.1.a", sublevelLabel: "Permutationen und Kombinationen" },
+            ]
+        },
+        {
+            id: "k10",
+            label: "Klasse 10",
+            level: "L2",
+            subtitle: "Trigonometrie & Logarithmen",
+            topics: [
+                { topic: "Trigonometrie am rechtwinkligen Dreieck", sublevel: "2.4.1.a", sublevelLabel: "sin, cos, tan und Anwendungen" },
+                { topic: "Bogenmass & Winkelumrechnung", sublevel: "2.4.1.b", sublevelLabel: "Bogenmass und Winkelumrechnung" },
+                { topic: "Sinus- & Kosinussatz", sublevel: "2.4.2.a", sublevelLabel: "Allgemeines Dreieck" },
+                { topic: "Sinusfunktion & Kosinusfunktion", sublevel: "2.4.3.a", sublevelLabel: "Sinusfunktion und Kosinusfunktion" },
+                { topic: "Tangensfunktion", sublevel: "2.4.3.b", sublevelLabel: "Tangensfunktion" },
+                { topic: "Logarithmen (Definition & Rechenregeln)", sublevel: "2.3.3.a", sublevelLabel: "Definition und Rechenregeln" },
+                { topic: "Logarithmische Gleichungen", sublevel: "2.3.3.b", sublevelLabel: "Logarithmische Gleichungen" },
+                { topic: "Vereinfachen von Wurzeltermen", sublevel: "2.3.2.b", sublevelLabel: "Vereinfachen von Wurzeltermen" },
+                { topic: "Exponentielles Wachstum & Zerfall", sublevel: "2.2.1.a", sublevelLabel: "Exponentielles Wachstum" },
+                { topic: "Halbwertszeit", sublevel: "2.2.1.c", sublevelLabel: "Halbwertszeit" },
+            ]
+        },
+        {
+            id: "k11",
+            label: "Klasse 11",
+            level: "L3",
+            subtitle: "Analysis I: Ableitungen & Kurvendiskussion",
+            topics: [
+                { topic: "Ableitungsregeln (Ketten-, Produkt-, Quotientenregel)", sublevel: "3.1.1.a", sublevelLabel: "Ableitungsregeln" },
+                { topic: "Monotonie & Extremstellen", sublevel: "3.1.1.b", sublevelLabel: "Monotonie und Extremstellen" },
+                { topic: "Krümmung & Wendepunkte", sublevel: "3.1.1.c", sublevelLabel: "Krümmung und Wendepunkte" },
+                { topic: "Vollständige Kurvendiskussion", sublevel: "3.1.2.a", sublevelLabel: "Vollständige Kurvendiskussion" },
+                { topic: "Optimierungsaufgaben", sublevel: "3.1.2.b", sublevelLabel: "Anwendungsaufgaben Optimierung" },
+                { topic: "Ableitung von e^x & ln(x)", sublevel: "3.1.4.a", sublevelLabel: "Ableitung und Integration von e^x und ln(x)" },
+                { topic: "Wachstums- & Zerfallsmodelle (Analysis)", sublevel: "3.1.4.b", sublevelLabel: "Wachstums- und Zerfallsmodelle" },
+                { topic: "Bedingte Wahrscheinlichkeit", sublevel: "3.2.1.a", sublevelLabel: "Bedingte Wahrscheinlichkeit" },
+                { topic: "Bayes-Theorem", sublevel: "3.2.1.b", sublevelLabel: "Bayes-Theorem" },
+                { topic: "Binomialverteilung", sublevel: "3.2.2.a", sublevelLabel: "Binomialverteilung" },
+                { topic: "Erwartungswert & Varianz", sublevel: "3.2.2.b", sublevelLabel: "Erwartungswert und Varianz" },
+                { topic: "Normalverteilung & Hypothesentests (Einstieg)", sublevel: "3.2.2.c", sublevelLabel: "Normalverteilung" },
+            ]
+        },
+        {
+            id: "k12",
+            label: "Klasse 12",
+            level: "L3",
+            subtitle: "Analysis II, Vektoren & Analytische Geometrie",
+            topics: [
+                { topic: "Stammfunktionen & Grundregeln der Integration", sublevel: "3.1.3.a", sublevelLabel: "Stammfunktionen und Grundregeln" },
+                { topic: "Bestimmtes Integral & Flächeninhalte", sublevel: "3.1.3.b", sublevelLabel: "Bestimmtes Integral und Flächeninhalt" },
+                { topic: "Substitutionsregel", sublevel: "3.1.3.c", sublevelLabel: "Substitutionsregel" },
+                { topic: "Partielle Integration", sublevel: "3.1.3.d", sublevelLabel: "Partielle Integration" },
+                { topic: "Folgen & Reihen (arithmetisch, geometrisch)", sublevel: "3.1.5.a", sublevelLabel: "Arithmetische und geometrische Folgen" },
+                { topic: "Grenzwerte von Folgen", sublevel: "3.1.5.b", sublevelLabel: "Grenzwerte von Folgen" },
+                { topic: "Vektoroperationen & Skalarprodukt", sublevel: "3.2.3.a", sublevelLabel: "Vektoroperationen und Skalarprodukt" },
+                { topic: "Geraden & Ebenen im Raum", sublevel: "3.2.3.b", sublevelLabel: "Geraden und Ebenen im Raum" },
+                { topic: "Kreuzprodukt & geometrische Anwendungen", sublevel: "3.2.3.c", sublevelLabel: "Kreuzprodukt und geometrische Anwendungen" },
+                { topic: "Komplexe Zahlen (kartesische Form)", sublevel: "3.3.1.a", sublevelLabel: "Kartesische Form und Betrag" },
+                { topic: "Polarform & Eulersche Formel", sublevel: "3.3.1.b", sublevelLabel: "Polarform und Eulersche Formel" },
+                { topic: "Kegelschnitte (Parabel, Ellipse, Hyperbel)", sublevel: "3.5.1.a", sublevelLabel: "Parabel, Ellipse, Hyperbel" },
+                { topic: "Matrizenrechnung (Einstieg)", sublevel: "3.4.1.a", sublevelLabel: "Addition und Multiplikation" },
+                { topic: "Determinante (2×2)", sublevel: "3.4.1.b", sublevelLabel: "Determinante (2×2)" },
+                { topic: "Linearisierung & Näherungen", sublevel: "3.1.1.d", sublevelLabel: "Linearisierung und Näherungen" },
+            ]
+        }
+    ];
+
+    const levelColor = { L1: "badge-l1", L2: "badge-l2", L3: "badge-l3" };
+    const levelEmoji = { L1: "🟢", L2: "🟡", L3: "🟠" };
+
+    function archiveUrl(sublevel) {
+        const level = sublevel.split(".")[0];
+        return `./lernarchiv.html?level=${level}&sublevel=${encodeURIComponent(sublevel)}`;
+    }
+
+    function renderGrid(filter) {
+        const grid = document.getElementById("yearGrid");
+        const visible = filter === "all" ? CURRICULUM : CURRICULUM.filter(y => y.level === filter);
+        grid.innerHTML = visible.map(year => `
+            <div class="year-block" id="block-${year.id}">
+                <div class="year-header" onclick="toggleBlock('${year.id}')">
+                    <span class="year-badge ${levelColor[year.level]}">${levelEmoji[year.level]} ${year.level}</span>
+                    <span class="year-title">${year.label} &mdash; ${year.subtitle}</span>
+                    <span class="year-chevron">▾</span>
+                </div>
+                <div class="topic-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:44%">Thema</th>
+                                <th style="width:28%">Archiv-Abschnitt</th>
+                                <th style="width:28%">Im Archiv öffnen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${year.topics.map(t => `
+                                <tr>
+                                    <td>${t.topic}</td>
+                                    <td class="sublevel-label">${t.sublevel} · ${t.sublevelLabel}</td>
+                                    <td><a class="archive-link" href="${archiveUrl(t.sublevel)}" target="_blank">${t.sublevel} →</a></td>
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function toggleBlock(id) {
+        const block = document.getElementById("block-" + id);
+        block.classList.toggle("open");
+    }
+
+    document.getElementById("levelTabs").addEventListener("click", e => {
+        const btn = e.target.closest(".level-tab");
+        if (!btn) return;
+        document.querySelectorAll(".level-tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderGrid(btn.dataset.level);
+    });
+
+    // Expand first block by default on load
+    renderGrid("all");
+    const firstBlock = document.querySelector(".year-block");
+    if (firstBlock) firstBlock.classList.add("open");
+
+    // Handle deep-link: ?level=L2 auto-filter
+    const params = new URLSearchParams(location.search);
+    const deepLevel = params.get("level");
+    if (deepLevel && ["L1","L2","L3"].includes(deepLevel)) {
+        const tab = document.querySelector(`.level-tab[data-level="${deepLevel}"]`);
+        if (tab) { tab.click(); }
+    }
+    </script>
+</body>
+</html>
