@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplanmatrix | Second-Order Resonance</title>
+    <meta name="description" content="Übersicht, welche Schulthemen (Klasse 1–12) durch welche Archivabschnitte (L1–L3) abgedeckt werden.">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .brand span { color: var(--accent); }
+
+        .top-links {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .top-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .top-links a:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.1rem);
+            margin-bottom: 0.4rem;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 680px;
+        }
+
+        /* Phase blocks (Grundschule / Sekundarstufe / Oberstufe) */
+        .phase-block {
+            margin-bottom: 2.4rem;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .phase-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--accent2);
+            border: 1px solid rgba(233, 69, 96, 0.4);
+            border-radius: 999px;
+            padding: 0.25rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .phase-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .phase-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Curriculum rows */
+        .matrix-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .matrix-row {
+            background: var(--secondary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1rem 1.1rem;
+            display: grid;
+            grid-template-columns: 90px 1fr auto;
+            gap: 1rem;
+            align-items: start;
+            transition: border-color 0.2s;
+        }
+
+        .matrix-row:hover {
+            border-color: rgba(233, 69, 96, 0.35);
+        }
+
+        .klasse-label {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--gold);
+            padding-top: 0.05rem;
+            white-space: nowrap;
+        }
+
+        .klasse-content { }
+
+        .klasse-topics {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .topic-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 0.15rem 0.6rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .archive-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+
+        .archive-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            text-decoration: none;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid;
+            white-space: nowrap;
+            transition: opacity 0.15s;
+        }
+
+        .archive-link:hover { opacity: 0.8; }
+
+        .lv1 { color: #4ade80; border-color: #4ade8060; background: rgba(74, 222, 128, 0.08); }
+        .lv2 { color: #facc15; border-color: #facc1560; background: rgba(250, 204, 21, 0.08); }
+        .lv3 { color: #fb923c; border-color: #fb923c60; background: rgba(251, 146, 60, 0.08); }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.6rem;
+            padding: 0.9rem 1rem;
+            background: var(--secondary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 580px) {
+            .matrix-row {
+                grid-template-columns: 1fr;
+            }
+
+            .archive-links {
+                align-items: flex-start;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .klasse-label {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Hauptnavigation">
+    <div class="topbar-inner">
+        <a class="brand" href="../index.html">Second-Order <span>Resonance</span></a>
+        <div class="top-links">
+            <a href="lernpfad.html">🗺 Lernpfad</a>
+            <a href="lernarchiv.html">📚 Archiv</a>
+            <a href="lernarchiv.html#placement">📋 Einstufungstest</a>
+            <a href="index.html">🎯 Übungen</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="page-header">
+        <h1>Lehrplanmatrix – Klasse 1 bis 12</h1>
+        <p>Jede Schulklasse ist einem Archivabschnitt zugeordnet. Klicke auf einen Level-Link, um direkt in den passenden Archivbereich zu springen.</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#4ade80;"></div><strong style="color:#4ade80;">L1</strong> – Grundlagen (Grundschule &amp; Unterstufe)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#facc15;"></div><strong style="color:#facc15;">L2</strong> – Aufbauwissen (Unter- &amp; Mittelstufe)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fb923c;"></div><strong style="color:#fb923c;">L3</strong> – Vertiefung (Oberstufe / Schulabschluss)</div>
+    </div>
+
+    <!-- Grundschule -->
+    <div class="phase-block">
+        <div class="phase-header">
+            <div class="phase-badge">🟢 L1</div>
+            <div>
+                <div class="phase-title">Grundschule – Klasse 1 bis 4</div>
+                <div class="phase-desc">Grundrechenarten, erste Geometrie, Größen und Einheiten</div>
+            </div>
+        </div>
+        <div class="matrix-grid">
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 1</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Zahlen bis 100 · Addition &amp; Subtraktion im Kopf</div>
+                    <div class="topic-chips">
+                        <span class="chip">Zahlenraum bis 100</span>
+                        <span class="chip">Kopfrechnen</span>
+                        <span class="chip">Zahldarstellung</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.1.a">L1 · Kopfrechnen →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 2</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Einmaleins · Multiplikation &amp; Division · Geometrische Formen</div>
+                    <div class="topic-chips">
+                        <span class="chip">Einmaleins</span>
+                        <span class="chip">Multiplikation</span>
+                        <span class="chip">Formen erkennen</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.1.a">L1 · Kopfrechnen →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.2.3.b">L1 · Dreiecke →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 3</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Schriftliche Rechenverfahren · Länge, Gewicht, Zeit · Größen umrechnen</div>
+                    <div class="topic-chips">
+                        <span class="chip">Schriftliches Rechnen</span>
+                        <span class="chip">Länge · Masse · Zeit</span>
+                        <span class="chip">Einheiten</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.1.b">L1 · Schriftl. Rechnen →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.3.2.a">L1 · Einheiten →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 4</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Einführung Brüche · Flächen &amp; Umfang · Zusammengesetzte Figuren</div>
+                    <div class="topic-chips">
+                        <span class="chip">Erste Brüche</span>
+                        <span class="chip">Flächeninhalt</span>
+                        <span class="chip">Umfang</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.2.a">L1 · Brüche →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.2.1.a">L1 · Flächen →</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sekundarstufe I (Klasse 5-6) -->
+    <div class="phase-block">
+        <div class="phase-header">
+            <div class="phase-badge">🟢 L1 / 🟡 L2</div>
+            <div>
+                <div class="phase-title">Unterstufe – Klasse 5 bis 6</div>
+                <div class="phase-desc">Bruch- und Dezimalrechnung, negative Zahlen, Proportionalität</div>
+            </div>
+        </div>
+        <div class="matrix-grid">
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 5</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Bruchrechnung · Dezimalzahlen · Diagramme lesen · Primzahlen</div>
+                    <div class="topic-chips">
+                        <span class="chip">Brüche addieren/subtrahieren</span>
+                        <span class="chip">Dezimalzahlen</span>
+                        <span class="chip">Balkendiagramme</span>
+                        <span class="chip">Primfaktorzerlegung</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.2">L1 · Bruchrechnung →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.3">L1 · Dezimalzahlen →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.5">L1 · Primzahlen →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 6</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Negative Zahlen · Dreisatz · Proportionale Zuordnungen · ggT / kgV</div>
+                    <div class="topic-chips">
+                        <span class="chip">Negative Zahlen</span>
+                        <span class="chip">Dreisatz</span>
+                        <span class="chip">Proportionalität</span>
+                        <span class="chip">ggT · kgV</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.4">L1 · Negative Zahlen →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.3.1">L1 · Dreisatz →</a>
+                    <a class="archive-link lv1" href="lernarchiv.html?level=1&sublevel=1.1.5.b">L1 · ggT / kgV →</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sekundarstufe I (Klasse 7-10) -->
+    <div class="phase-block">
+        <div class="phase-header">
+            <div class="phase-badge">🟡 L2</div>
+            <div>
+                <div class="phase-title">Mittelstufe – Klasse 7 bis 10</div>
+                <div class="phase-desc">Terme und Gleichungen, Funktionen, Trigonometrie, Statistik</div>
+            </div>
+        </div>
+        <div class="matrix-grid">
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 7</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Terme &amp; lineare Gleichungen · Lineare Funktionen · Statistische Maßzahlen</div>
+                    <div class="topic-chips">
+                        <span class="chip">Lineare Gleichungen</span>
+                        <span class="chip">Geradengleichung</span>
+                        <span class="chip">Mittelwert · Median</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.1.1.a">L2 · Lineare Gleichungen →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.2.2.a">L2 · Lineare Funktionen →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 8</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Lineare Gleichungssysteme · Satz des Pythagoras · Körper &amp; Volumen · Ähnlichkeit</div>
+                    <div class="topic-chips">
+                        <span class="chip">Gleichungssysteme</span>
+                        <span class="chip">Pythagoras</span>
+                        <span class="chip">Volumen</span>
+                        <span class="chip">Strahlensatz</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.1.2.a">L2 · Gleichungssysteme →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.5.3.a">L2 · Pythagoras →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.5.1.a">L2 · Strahlensatz →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 9</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Quadratische Gleichungen · Potenzen &amp; Wurzeln · Trigonometrie am Dreieck · Exponentialfunktion</div>
+                    <div class="topic-chips">
+                        <span class="chip">pq-Formel</span>
+                        <span class="chip">Potenzen</span>
+                        <span class="chip">sin / cos / tan</span>
+                        <span class="chip">Exponentiell. Wachstum</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.1.3.a">L2 · Quadrat. Gleichungen →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.3.1">L2 · Potenzen →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.4.1.a">L2 · Trigonometrie →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.2.1">L2 · Exponential →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 10</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Logarithmen · Kombinatorik &amp; Wahrscheinlichkeit · Kreisgeometrie · Parabeln</div>
+                    <div class="topic-chips">
+                        <span class="chip">Logarithmen</span>
+                        <span class="chip">Baumdiagramm</span>
+                        <span class="chip">Binomialkoeffizient</span>
+                        <span class="chip">Quadratische Funktionen</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.3.3">L2 · Logarithmen →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.6.2">L2 · Wahrscheinlichkeit →</a>
+                    <a class="archive-link lv2" href="lernarchiv.html?level=2&sublevel=2.2.3">L2 · Quadrat. Funktion →</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Gymnasiale Oberstufe (Klasse 11-12) -->
+    <div class="phase-block">
+        <div class="phase-header">
+            <div class="phase-badge">🟠 L3</div>
+            <div>
+                <div class="phase-title">Gymnasiale Oberstufe – Klasse 11 bis 12</div>
+                <div class="phase-desc">Analysis, Vektoren, Stochastik, Matrizen – Abiturniveau</div>
+            </div>
+        </div>
+        <div class="matrix-grid">
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 11</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Differentialrechnung · Kurvendiskussion · Vektoren im Raum · Komplexe Zahlen (Einstieg)</div>
+                    <div class="topic-chips">
+                        <span class="chip">Ableitungsregeln</span>
+                        <span class="chip">Extremstellen</span>
+                        <span class="chip">Vektoroperationen</span>
+                        <span class="chip">Geraden im Raum</span>
+                        <span class="chip">Komplexe Zahlen</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.1.1">L3 · Ableitungen →</a>
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.1.2">L3 · Kurvendiskussion →</a>
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.2.3">L3 · Vektoren →</a>
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.3.1">L3 · Komplexe Zahlen →</a>
+                </div>
+            </div>
+
+            <div class="matrix-row">
+                <div class="klasse-label">Klasse 12</div>
+                <div class="klasse-content">
+                    <div class="klasse-topics">Integralrechnung · Stochastik (Normalverteilung, Binomialtest) · Analytische Geometrie · Matrizen</div>
+                    <div class="topic-chips">
+                        <span class="chip">Bestimmtes Integral</span>
+                        <span class="chip">Stammfunktionen</span>
+                        <span class="chip">Normalverteilung</span>
+                        <span class="chip">Bayes-Theorem</span>
+                        <span class="chip">Ebenengleichung</span>
+                    </div>
+                </div>
+                <div class="archive-links">
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.1.3">L3 · Integralrechnung →</a>
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.2.2">L3 · Verteilungen →</a>
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.2.1">L3 · Stochastik →</a>
+                    <a class="archive-link lv3" href="lernarchiv.html?level=3&sublevel=3.5.1">L3 · Kegelschnitte →</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="margin-top:2rem; padding:1rem; background:var(--secondary); border-radius:12px; border:1px solid rgba(255,255,255,0.08); font-size:0.85rem; color:var(--text-muted);">
+        <strong style="color:var(--text);">Hinweis:</strong> Diese Matrix zeigt den typischen deutschen Lehrplanverlauf (allgemeinbildende Schulen). Regionale Abweichungen (z.B. zwischen Bundesländern) sind möglich. Nutze den <a href="lernarchiv.html#placement" style="color:var(--accent);">Einstufungstest</a>, wenn du unsicher bist, welches Level zu dir passt.
+    </div>
+</main>
+
+</body>
+</html>

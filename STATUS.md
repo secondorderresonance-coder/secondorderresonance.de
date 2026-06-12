@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,37 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/lehrplan.html` — a new curriculum matrix page showing German school grades (Klasse 1–12) mapped to specific L1–L3 archive sublevels.
+- Each grade row lists the main school topics and provides direct deep-link buttons into the matching archive filter (e.g. `lernarchiv.html?level=1&sublevel=1.1.2`).
+- Grouped into four phase blocks: Grundschule (1–4), Unterstufe (5–6, L1/L2 bridge), Mittelstufe (7–10, L2), Gymnasiale Oberstufe (11–12, L3).
+- Added a legend showing the three level color codings (L1 green, L2 yellow, L3 orange).
+- Added a footer note pointing users to the Einstufungstest if unsure of their level.
+- Added `📋 Lehrplanmatrix` nav link in `app/lernarchiv.html` top navigation.
+- Added `Lehrplan` nav link in `app/lernpfad.html` top navigation.
+
+### Files touched
+- `app/lehrplan.html` (new)
+- `app/lernarchiv.html`
+- `app/lernpfad.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, 30 000 tasks, 5 000 per level
+- Structural HTML check: all required elements and archive deep-links present
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
