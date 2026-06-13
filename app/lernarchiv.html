@@ -493,6 +493,108 @@
             }
         }
 
+        /* --- Curriculum coverage section --- */
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .grade-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            cursor: pointer;
+            transition: border-color 0.18s;
+        }
+
+        .grade-card:hover,
+        .grade-card.open {
+            border-color: rgba(233,69,96,0.5);
+        }
+
+        .grade-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+        }
+
+        .grade-badge {
+            font-weight: 900;
+            font-size: 1rem;
+            color: var(--gold);
+            min-width: 3rem;
+        }
+
+        .grade-title {
+            flex: 1;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .grade-level-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.18rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(233,69,96,0.18);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .grade-topics {
+            display: none;
+            margin-top: 0.7rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 0.7rem;
+        }
+
+        .grade-card.open .grade-topics { display: block; }
+
+        .topic-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            padding: 0.22rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .topic-row:last-child { border-bottom: none; }
+
+        .topic-name { color: var(--text); flex: 1; }
+
+        .topic-section-link {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: var(--gold);
+            opacity: 0.8;
+            white-space: nowrap;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .topic-section-link:hover { opacity: 1; text-decoration: underline; }
+
+        .curriculum-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.9rem;
+        }
+
+        .curr-pill {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text-muted);
+        }
+
         @media (max-width: 540px) {
             .headline {
                 font-size: 1.7rem;
@@ -689,9 +791,17 @@
             <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
             <div class="taxonomy" id="taxonomyView"></div>
         </section>
+
+        <section class="card" id="curriculumCoverage">
+            <h2>Lehrplan-Abdeckung Klasse 1–12</h2>
+            <p class="muted">Zuordnung der deutschen Schulmathematik (Klasse 1–12) zu den L1–L3 Archiv-Sektionen. Klicke auf eine Klasse, um die Themen zu sehen, und auf eine Sektions-ID, um direkt ins Archiv zu springen.</p>
+            <div class="curriculum-legend" id="curriculumLegend"></div>
+            <div class="curriculum-grid" id="curriculumGrid"></div>
+        </section>
     </main>
 
     <script src="./data/archive-content.js?v=2.5.0"></script>
+    <script src="./data/curriculum-coverage.js?v=2.5.5"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1194,6 +1304,70 @@
             `;
         }
 
+        function renderCurriculumCoverage() {
+            const curr = window.SOR_CURRICULUM_K1_12;
+            if (!curr) return;
+
+            const LEVEL_COLORS = { L1: "#4ade80", L2: "#f5c518", L3: "#e94560" };
+
+            // Legend
+            const legendEl = document.getElementById("curriculumLegend");
+            if (legendEl) {
+                legendEl.innerHTML = curr.levels.map(l =>
+                    `<span class="curr-pill" style="border-color:${LEVEL_COLORS[l.level]}40;color:${LEVEL_COLORS[l.level]}">
+                        ${l.level} · ${l.phase} (Kl. ${l.klassen[0]}–${l.klassen[l.klassen.length-1]})
+                    </span>`
+                ).join("");
+            }
+
+            // Grade cards
+            const gridEl = document.getElementById("curriculumGrid");
+            if (!gridEl) return;
+
+            gridEl.innerHTML = curr.grades.map(g => {
+                const col = LEVEL_COLORS[g.level] || "#aaa";
+                const topicsHtml = g.topics.map(t =>
+                    `<div class="topic-row">
+                        <span class="topic-name">${t.name.replace(/\n/g," ")}</span>
+                        <a class="topic-section-link"
+                           href="#archiveBrowser"
+                           onclick="jumpToSection('${t.section}');return false;"
+                           title="Im Archiv öffnen: ${t.section}">${t.section}</a>
+                    </div>`
+                ).join("");
+                return `
+                    <div class="grade-card" onclick="this.classList.toggle('open')">
+                        <div class="grade-card-header">
+                            <span class="grade-badge" style="color:${col}">Kl.&nbsp;${g.klasse}</span>
+                            <span class="grade-title">${g.phase}</span>
+                            <span class="grade-level-tag" style="background:${col}22;color:${col}">${g.level}</span>
+                        </div>
+                        <div class="grade-topics">${topicsHtml}</div>
+                    </div>`;
+            }).join("");
+        }
+
+        function jumpToSection(sectionId) {
+            // Parse section id to determine level and sublevel for archive filter
+            const parts = sectionId.split(".");
+            const level = parts[0] || "all";
+            const sublevel = parts.length >= 2 ? parts.slice(0, 2).join(".") : "all";
+            const fullSub = sectionId;
+            state.selectedLevel = level;
+            // Try exact sublevel match first, fall back to parent
+            const sublevels = (data.taxonomy.find(t => t.level === level) || {}).sublevels || [];
+            const exactMatch = sublevels.find(s => s.id === fullSub);
+            state.selectedSublevel = exactMatch ? fullSub : (sublevels.find(s => s.id === sublevel) ? sublevel : "all");
+            state.selectedTopic = "all";
+            state.search = "";
+            hydrateFilterState();
+            renderFilters();
+            renderTaskList();
+            saveFilterState();
+            syncUrlFromState();
+            document.getElementById("archiveBrowser").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
         function renderTaxonomy() {
             const html = data.taxonomy.map(level => `
                 <div class="tax-item">
@@ -1585,6 +1759,7 @@
         renderTaxonomy();
         renderPythagorasVisual();
         renderArgandVisual();
+        renderCurriculumCoverage();
         bindEvents();
         saveFilterState();
         syncUrlFromState();

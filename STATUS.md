@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,36 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the Klasse 1–12 curriculum coverage matrix and wired it into the Lernarchiv page.
+
+### Changes in this iteration
+- Created `app/data/curriculum-coverage.js` with `window.SOR_CURRICULUM_K1_12`: a structured data file mapping all 12 school grades to their phase (Grundschule / Unterstufe / Mittelstufe / Oberstufe), SOR level (L1–L3), and a list of topic names each mapped to an exact archive section ID.
+- Added CSS styles and a new `<section id="curriculumCoverage">` to `app/lernarchiv.html` with a grade-card grid (Klasse 1–12, collapsible per grade).
+- Added `renderCurriculumCoverage()` JS function that reads `SOR_CURRICULUM_K1_12` and renders the grid; each topic row includes a clickable section ID that jumps the archive filter to the matching sublevel.
+- Added `jumpToSection(sectionId)` helper that sets the archive state filters and scrolls to the archive browser.
+- Loaded `curriculum-coverage.js` as a separate script tag (versioned `v2.5.5`).
+- Bumped version to `v2.5.5`.
+
+### Files touched
+- `app/data/curriculum-coverage.js` (new)
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level
+- `node -e "new Function(require('fs').readFileSync('app/data/curriculum-coverage.js','utf8'))"` → syntax OK
+- Inline script syntax check on `app/lernarchiv.html` → OK
+- Grep confirmed `renderCurriculumCoverage`, `jumpToSection`, `curriculumGrid`, and script tag are all wired correctly
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
