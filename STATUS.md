@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,36 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-matrix.js`: a data model with 12 grade entries (Klasse 1–12), grouped by school stage (Grundschule / Unterstufe / Mittelstufe / Oberstufe). Each grade has 5 representative topics mapped to a specific archive sublevel (60 topics total, 57 marked as fully covered by an archive sublevel).
+- Created `app/lehrplan.html`: a standalone visual matrix page showing grade cards grouped by school stage. Each card expands to reveal topics with coverage status indicators (green = full, gold = partial) and direct deep-link buttons into the archive browser (`lernarchiv.html?level=X&sublevel=...`).
+- Added a "Lehrplan" nav link to `app/lernpfad.html` (static topbar and both dynamic `renderTop` states: guest and logged-in).
+- Added "Lehrplan K1–12" nav link to `app/lernarchiv.html` topbar.
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `app/lehrplan.html` (new)
+- `app/lernpfad.html`
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level
+- VM-sandbox load check on `curriculum-matrix.js` → 12 grades, 60 topics, 57 full coverage
+- Structural check on `lehrplan.html` → correct script srcs, grade-card markup, archive URL builder
+- `git diff --check` → no whitespace errors
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
