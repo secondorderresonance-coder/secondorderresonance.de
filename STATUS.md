@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,37 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Added `app/data/curriculum-matrix.js`: structured data file with 84 school-curriculum topics across 6 grade groups (Klasse 1–2, 3–4, 5–6, 7–8, 9–10, 11–12), each mapped to the exact L1/L2/L3 archive sublevel and sublevel title.
+- Added `app/curriculum-matrix.html`: visual matrix page with phase headers (showing L1/L2/L3 badge and grade range), topic table with archive sublevel codes, sublevel titles, and direct deep-link buttons into the archive browser per topic.
+- Page includes summary statistics (total topics, per-level counts) and level filter buttons for L1/L2/L3.
+- Added "Lehrplan" nav link to `app/lernpfad.html` topbar.
+- Added "Lehrplan-Matrix" nav link to `app/lernarchiv.html` topbar.
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `app/curriculum-matrix.html` (new)
+- `app/lernpfad.html`
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Node eval: 6 phases, 84 topics total, L1: 33, L2: 28, L3: 23 — data structure valid
+- HTML check: all required elements present (data script, archive links, filter buttons, container, deep-link function)
+- `node tools/archive-qa.js` → OK, 30.000 tasks, 5.000 per level
+- `git diff --check` → clean
+
+### Blockers
+- None.
+
+### Next logical step
+- Build an engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
