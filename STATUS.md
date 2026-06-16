@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,33 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix mapping Klasse 1-12 school topics to the existing L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`: a stage-by-stage table (Grundschule, Sek I Unterstufe/Mittelstufe, Sek II Oberstufe) mapping generalized German curriculum topics to concrete `app/data/archive-content.js` sublevel IDs for L1-L3.
+- Marked each mapped topic as "vorhanden" or "teilweise"/"Luecke" where the current taxonomy only partially or not at all covers a typical school topic.
+- Documented an explicit "Identifizierte Luecken" section listing 4 concrete coverage gaps (Finanzmathematik/Zinseszins, Markov-Ketten/Uebergangsmatrizen at school level, a dedicated "Terme" sublevel before 2.1.1, and explicit Symmetrie/Spiegelung in Grundschule).
+- Added the two most actionable gaps as new small P2 backlog items so they can be closed in focused, reviewable batches later instead of guessed inline.
+- No code, taxonomy, or task data was changed in this run — this is a planning/foundation deliverable consistent with the prior architecture/monetization/MVP docs.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level, 30 placement questions (confirms the archive itself is untouched)
+- Manual cross-check of every sublevel ID referenced in the new doc against `app/data/archive-content.js` taxonomy entries (L1: 1.1-1.4, L2: 2.1-2.6, L3: 3.1-3.5)
+- `git diff --check`
+
+### Blockers
+- None. The matrix is a generalized mapping (German Bundeslaender differ in detail), explicitly documented as a foundation rather than an official curriculum.
+
+### Next logical step
+- Close the two newly added P2 gap items (Finanzmathematik sublevel, school-level Markov-Ketten sublevel) in small reviewable batches, or proceed to the next open P1 task: build the engineering mathematics coverage matrix through Master level mapped to L4-L5 sections.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
