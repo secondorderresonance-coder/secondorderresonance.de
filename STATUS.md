@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,32 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the Klasse 1–12 curriculum coverage matrix and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-map.js`: machine-readable `window.SOR_CURRICULUM_MAP` with 12 grade entries, each mapping school curriculum topics to archive section IDs (e.g. `1.1.1.a`, `2.4.1.a`, `3.1.3.c`). Includes three lookup helpers: `getLevelForGrade`, `getTopicsForGrade`, `getGradesForSection`.
+- Created `docs/curriculum-coverage-matrix.md`: human-readable reference with per-grade tables, an L1/L2/L3 coverage overview, and a list of identified gaps (missing archive sections not yet covered by any grade).
+- Validated all section IDs in the curriculum map against the live archive taxonomy — 0 mismatches across 264 taxonomy sections.
+
+### Files touched
+- `app/data/curriculum-map.js` (new)
+- `docs/curriculum-coverage-matrix.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e "validate section IDs"` → OK: all curriculum-map section IDs exist in archive taxonomy (264 sections checked)
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Integrate `SOR_CURRICULUM_MAP` into the archive browser as an optional Klassen-Filter (e.g. dropdown "Klasse 9" that pre-selects L2 sections covering Kl. 9 topics).
+- Or proceed to next open P1 task: Build an engineering mathematics coverage matrix through Master level and map it to L4–L5 sections.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
