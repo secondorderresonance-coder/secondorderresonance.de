@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplan-Matrix | Second-Order Resonance</title>
+    <meta name="description" content="Klasse 1–12 Curriculum-Abdeckungsmatrix: Welche Schulthemen sind in welchem Archiv-Level abgedeckt?">
+    <meta name="theme-color" content="#1a1a2e">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --panel: #0f172a;
+            --accent: #e94560;
+            --text: #eef;
+            --muted: #9aa;
+            --gold: #f5c518;
+            --success: #4ade80;
+            --line: rgba(255,255,255,0.11);
+            --l1: #22c55e;
+            --l2: #eab308;
+            --l3: #f97316;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(233,69,96,0.12), transparent 28rem),
+                linear-gradient(180deg, #1a1a2e 0%, #10182e 52%, #16213e 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        /* --- Topbar --- */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(22,33,62,0.94);
+            border-bottom: 1px solid rgba(233,69,96,0.28);
+            backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.2rem;
+            gap: 0.8rem;
+        }
+        .logo { font-weight: 900; color: var(--gold); font-size: 1rem; }
+        .logo span { color: var(--accent); }
+        .top-links {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .top-links a {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .top-links a:hover { border-color: rgba(233,69,96,0.6); }
+        .top-links a.active { background: var(--accent); border-color: transparent; color: #fff; }
+
+        /* --- Shell --- */
+        .shell {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+        }
+        .hero p { color: var(--muted); max-width: 620px; line-height: 1.6; }
+
+        /* --- Filter bar --- */
+        .filter-bar {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .filter-bar span {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-right: 0.3rem;
+        }
+        .filter-btn {
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.38rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); }
+        .filter-btn.on { color: #fff; border-color: transparent; }
+        .filter-btn.l1.on { background: var(--l1); }
+        .filter-btn.l2.on { background: var(--l2); color: #111; }
+        .filter-btn.l3.on { background: var(--l3); }
+        .filter-btn.all.on { background: var(--accent); }
+
+        /* --- Grade grid --- */
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1.1rem;
+        }
+
+        /* --- Grade card --- */
+        .grade-card {
+            background: rgba(22,33,62,0.7);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            transition: border-color 0.15s, transform 0.1s;
+        }
+        .grade-card:hover { border-color: rgba(233,69,96,0.4); transform: translateY(-2px); }
+        .grade-card.hidden { display: none; }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.8rem;
+        }
+        .grade-label {
+            font-size: 1.25rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .grade-age {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+        .level-badge {
+            flex-shrink: 0;
+            padding: 0.28rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+        }
+        .badge-l1 { background: rgba(34,197,94,0.18); color: var(--l1); border: 1px solid rgba(34,197,94,0.35); }
+        .badge-l2 { background: rgba(234,179,8,0.18); color: var(--l2); border: 1px solid rgba(234,179,8,0.35); }
+        .badge-l3 { background: rgba(249,115,22,0.18); color: var(--l3); border: 1px solid rgba(249,115,22,0.35); }
+
+        .topic-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+        .topic-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.45;
+        }
+        .topic-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 0.38em;
+        }
+        .dot-l1 { background: var(--l1); }
+        .dot-l2 { background: var(--l2); }
+        .dot-l3 { background: var(--l3); }
+
+        .topic-sublevel {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-left: 1.2rem;
+            font-family: monospace;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--line);
+        }
+        .archive-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.42rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(233,69,96,0.5);
+            background: rgba(233,69,96,0.1);
+            color: var(--accent);
+            transition: background 0.15s;
+        }
+        .archive-btn:hover { background: rgba(233,69,96,0.22); }
+
+        /* --- Legend --- */
+        .legend {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+            padding: 0.9rem 1.1rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.83rem;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* --- Summary bar --- */
+        .summary-bar {
+            display: flex;
+            gap: 1.4rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
+        .summary-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.4rem 1rem;
+            font-size: 0.83rem;
+            font-weight: 700;
+        }
+        .summary-pill .num { color: var(--gold); font-size: 1rem; }
+
+        /* --- Mobile --- */
+        @media (max-width: 600px) {
+            .topbar { padding: 0.65rem 0.9rem; }
+            .grade-grid { grid-template-columns: 1fr; }
+            .legend { gap: 0.7rem; }
+            .summary-bar { gap: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="topbar">
+    <a class="logo" href="../index.html">Second-Order <span>Resonance</span></a>
+    <nav class="top-links">
+        <a href="../index.html">Home</a>
+        <a href="./lernpfad.html">Lernpfad</a>
+        <a href="./lernarchiv.html">Archiv</a>
+        <a href="./lehrplan.html" class="active">Lehrplan-Matrix</a>
+        <a href="./index.html">Mathe-App</a>
+    </nav>
+</header>
+
+<main class="shell">
+
+    <div class="hero">
+        <h1>Lehrplan-Matrix <span style="color:var(--accent)">Klasse 1–12</span></h1>
+        <p>Alle Schuljahre auf einen Blick: Welche Mathe-Themen gehören zu welchem Archiv-Level — und wo kannst du direkt üben?</p>
+    </div>
+
+    <div class="summary-bar">
+        <div class="summary-pill"><span class="num">12</span> Klassenstufen</div>
+        <div class="summary-pill"><span class="num" id="topicCount">0</span> Themen zugeordnet</div>
+        <div class="summary-pill"><span class="num">3</span> Archiv-Level (L1–L3)</div>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l1)"></div><strong>L1 Grundlagen</strong>&nbsp;– Grundschule &amp; Unterstufe (Klasse 1–6)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l2)"></div><strong>L2 Aufbauwissen</strong>&nbsp;– Mittel&shy;stufe (Klasse 7–10)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l3)"></div><strong>L3 Vertiefung</strong>&nbsp;– Oberstufe (Klasse 11–12)</div>
+    </div>
+
+    <div class="filter-bar">
+        <span>Filtern:</span>
+        <button class="filter-btn all on" data-filter="all">Alle Klassen</button>
+        <button class="filter-btn l1" data-filter="1">🟢 L1 – Klasse 1–6</button>
+        <button class="filter-btn l2" data-filter="2">🟡 L2 – Klasse 7–10</button>
+        <button class="filter-btn l3" data-filter="3">🟠 L3 – Klasse 11–12</button>
+    </div>
+
+    <div class="grade-grid" id="gradeGrid">
+        <!-- Cards rendered by JS -->
+    </div>
+
+</main>
+
+<script src="./data/curriculum-matrix.js"></script>
+<script>
+(function () {
+    const grid = document.getElementById('gradeGrid');
+    const topicCountEl = document.getElementById('topicCount');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    let activeFilter = 'all';
+
+    function badgeClass(levelCode) {
+        return 'badge-' + levelCode.toLowerCase();
+    }
+    function dotClass(levelCode) {
+        return 'dot-' + levelCode.toLowerCase();
+    }
+
+    function buildCards() {
+        const grades = window.SOR_CURRICULUM && window.SOR_CURRICULUM.grades;
+        if (!grades) return;
+
+        let totalTopics = 0;
+        grades.forEach(function (g) { totalTopics += g.topics.length; });
+        topicCountEl.textContent = totalTopics;
+
+        grades.forEach(function (g) {
+            const card = document.createElement('div');
+            card.className = 'grade-card';
+            card.dataset.level = g.archiveLevel;
+
+            const topicsHtml = g.topics.map(function (t) {
+                return '<li>' +
+                    '<span class="topic-dot ' + dotClass(g.levelCode) + '"></span>' +
+                    '<span>' + t.title + '</span>' +
+                    '</li>' +
+                    '<li style="margin-top:-0.3rem"><span class="topic-sublevel">' + t.sublevel + ' · ' + t.topic + '</span></li>';
+            }).join('');
+
+            const archiveHref = './lernarchiv.html?level=' + g.archiveLevel;
+
+            card.innerHTML =
+                '<div class="card-header">' +
+                    '<div>' +
+                        '<div class="grade-label">' + g.label + '</div>' +
+                        '<div class="grade-age">' + g.ageHint + '</div>' +
+                    '</div>' +
+                    '<span class="level-badge ' + badgeClass(g.levelCode) + '">' + g.levelCode + '</span>' +
+                '</div>' +
+                '<ul class="topic-list">' + topicsHtml + '</ul>' +
+                '<div class="card-footer">' +
+                    '<a class="archive-btn" href="' + archiveHref + '">→ Im Archiv üben</a>' +
+                '</div>';
+
+            grid.appendChild(card);
+        });
+    }
+
+    function applyFilter(filter) {
+        activeFilter = filter;
+        filterBtns.forEach(function (btn) {
+            const isActive = btn.dataset.filter === filter;
+            btn.classList.toggle('on', isActive);
+        });
+        document.querySelectorAll('.grade-card').forEach(function (card) {
+            const match = filter === 'all' || card.dataset.level === filter;
+            card.classList.toggle('hidden', !match);
+        });
+    }
+
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () { applyFilter(btn.dataset.filter); });
+    });
+
+    buildCards();
+})();
+</script>
+
+</body>
+</html>
