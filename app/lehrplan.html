@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplan-Matrix Klasse 1–12 | Second-Order Resonance</title>
+    <meta name="description" content="Lehrplan-Coverage-Matrix: Klasse 1-12 Themen und ihre Zuordnung zu L1-L3 im SOR-Archiv.">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --text: #eee;
+            --text-muted: #aaa;
+            --gold: #f5c518;
+            --success: #4ade80;
+            --l1: #4ade80;
+            --l2: #facc15;
+            --l3: #fb923c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.55;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .brand span { color: var(--accent); }
+
+        .top-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.9rem;
+        }
+
+        .top-links a:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 0.4rem;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 0.97rem;
+            max-width: 640px;
+        }
+
+        /* Level legend */
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Grade selector */
+        .grade-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
+
+        .grade-btn {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border-radius: 999px;
+            padding: 0.4rem 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .grade-btn:hover {
+            border-color: rgba(233, 69, 96, 0.5);
+            color: var(--text);
+        }
+
+        .grade-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .grade-btn.all-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #1a1a2e;
+        }
+
+        /* Summary row */
+        .summary-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        #visibleCount { color: var(--gold); font-weight: 700; }
+
+        /* Topic grid */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .topic-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+            transition: border-color 0.15s;
+        }
+
+        .topic-card:hover {
+            border-color: rgba(233, 69, 96, 0.38);
+        }
+
+        .topic-card.hidden {
+            display: none;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-name {
+            font-size: 0.97rem;
+            font-weight: 700;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .level-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.18rem 0.55rem;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        .badge-l1 { background: rgba(74, 222, 128, 0.18); color: var(--l1); border: 1px solid rgba(74, 222, 128, 0.3); }
+        .badge-l2 { background: rgba(250, 204, 21, 0.18); color: var(--l2); border: 1px solid rgba(250, 204, 21, 0.3); }
+        .badge-l3 { background: rgba(251, 146, 60, 0.18); color: var(--l3); border: 1px solid rgba(251, 146, 60, 0.3); }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.7rem;
+        }
+
+        .card-meta .klasse-tag {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.12);
+            border: 1px solid rgba(233, 69, 96, 0.25);
+            border-radius: 5px;
+            padding: 0.1rem 0.45rem;
+            margin-right: 0.4rem;
+            font-size: 0.76rem;
+            color: #e94560;
+            font-weight: 600;
+        }
+
+        .sublevel-code {
+            font-family: "Courier New", monospace;
+            font-size: 0.79rem;
+            color: rgba(245, 197, 24, 0.7);
+        }
+
+        .archive-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.83rem;
+            color: var(--gold);
+            text-decoration: none;
+            border: 1px solid rgba(245, 197, 24, 0.25);
+            border-radius: 6px;
+            padding: 0.25rem 0.65rem;
+            transition: all 0.15s;
+        }
+
+        .archive-link:hover {
+            background: rgba(245, 197, 24, 0.12);
+            border-color: rgba(245, 197, 24, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+            .page-header h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" href="../index.html">Second-Order <span>Resonance</span></a>
+        <nav class="top-links">
+            <a href="./lernarchiv.html">Archiv</a>
+            <a href="./lernpfad.html">Lernpfad</a>
+            <a href="./index.html">Mathe-App</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="page-header">
+        <h1>Lehrplan-Matrix Klasse 1–12</h1>
+        <p>Jedes Thema aus dem deutschen Schulmathematik-Lehrplan (Klasse 1–12) ist hier dem passenden L1–L3 Archivbereich zugeordnet. Wähle eine Klasse, um direkt zum richtigen Archivbereich zu springen.</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l1)"></div> L1 – Grundlagen (Grundschule &amp; Unterstufe)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l2)"></div> L2 – Aufbauwissen (Unter- &amp; Mittelstufe)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--l3)"></div> L3 – Vertiefung (Oberstufe / Abiturniveau)</div>
+    </div>
+
+    <div class="grade-selector" id="gradeSelector"></div>
+
+    <div class="summary-row">
+        <span><span id="visibleCount">—</span> Themen angezeigt</span>
+    </div>
+
+    <div class="topic-grid" id="topicGrid"></div>
+</main>
+
+<script>
+const CURRICULUM = [
+    // Klasse 1
+    { klasse: 1, topic: "Zählen und Zahlen (1–20)", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.a" },
+    { klasse: 1, topic: "Addition und Subtraktion bis 20", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.a" },
+    { klasse: 1, topic: "Grundlegende Formen und Mengen", level: 1, sublevel: "1.2.3", sublevelLeaf: "1.2.3.a" },
+
+    // Klasse 2
+    { klasse: 2, topic: "Zahlen bis 100", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.a" },
+    { klasse: 2, topic: "Kleines Einmaleins (1×1)", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.a" },
+    { klasse: 2, topic: "Messen: Längen und Gewichte", level: 1, sublevel: "1.3.2", sublevelLeaf: "1.3.2.a" },
+
+    // Klasse 3
+    { klasse: 3, topic: "Zahlen bis 1.000", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.a" },
+    { klasse: 3, topic: "Schriftliche Addition und Subtraktion", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.b" },
+    { klasse: 3, topic: "Division einführen", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.b" },
+    { klasse: 3, topic: "Zeiteinheiten und Uhrzeiten", level: 1, sublevel: "1.3.2", sublevelLeaf: "1.3.2.a" },
+
+    // Klasse 4
+    { klasse: 4, topic: "Zahlen bis 1.000.000", level: 1, sublevel: "1.1.1", sublevelLeaf: "1.1.1.b" },
+    { klasse: 4, topic: "Brüche: Grundbegriffe", level: 1, sublevel: "1.1.2", sublevelLeaf: "1.1.2.a" },
+    { klasse: 4, topic: "Flächen und Umfang", level: 1, sublevel: "1.2.1", sublevelLeaf: "1.2.1.a" },
+    { klasse: 4, topic: "Symmetrie und geometrische Formen", level: 1, sublevel: "1.2.3", sublevelLeaf: "1.2.3.b" },
+
+    // Klasse 5
+    { klasse: 5, topic: "Bruchrechnung (addieren, subtrahieren)", level: 1, sublevel: "1.1.2", sublevelLeaf: "1.1.2.a" },
+    { klasse: 5, topic: "Dezimalzahlen", level: 1, sublevel: "1.1.3", sublevelLeaf: "1.1.3.a" },
+    { klasse: 5, topic: "Negative Zahlen: Einstieg", level: 1, sublevel: "1.1.4", sublevelLeaf: "1.1.4.a" },
+    { klasse: 5, topic: "Koordinatensystem (2D)", level: 1, sublevel: "1.2.4", sublevelLeaf: "1.2.4.a" },
+    { klasse: 5, topic: "Flächeninhalt und Umfang (Rechteck, Dreieck)", level: 1, sublevel: "1.2.1", sublevelLeaf: "1.2.1.a" },
+
+    // Klasse 6
+    { klasse: 6, topic: "Brüche multiplizieren und dividieren", level: 1, sublevel: "1.1.2", sublevelLeaf: "1.1.2.c" },
+    { klasse: 6, topic: "Prozentrechnung: Grundlagen", level: 1, sublevel: "1.1.2", sublevelLeaf: "1.1.2.b" },
+    { klasse: 6, topic: "Proportionalität und Dreisatz", level: 1, sublevel: "1.3.1", sublevelLeaf: "1.3.1.a" },
+    { klasse: 6, topic: "Teilbarkeit und Primzahlen", level: 1, sublevel: "1.1.5", sublevelLeaf: "1.1.5.a" },
+    { klasse: 6, topic: "Diagramme und Daten", level: 1, sublevel: "1.4.1", sublevelLeaf: "1.4.1.a" },
+    { klasse: 6, topic: "Wahrscheinlichkeit: Grundbegriffe", level: 1, sublevel: "1.4.2", sublevelLeaf: "1.4.2.a" },
+
+    // Klasse 7
+    { klasse: 7, topic: "Terme und lineare Gleichungen", level: 2, sublevel: "2.1.1", sublevelLeaf: "2.1.1.a" },
+    { klasse: 7, topic: "Rationale Zahlen und Rechenregeln", level: 2, sublevel: "2.1.4", sublevelLeaf: "2.1.4.a" },
+    { klasse: 7, topic: "Antiproportionaler Dreisatz", level: 1, sublevel: "1.3.1", sublevelLeaf: "1.3.1.b" },
+    { klasse: 7, topic: "Körper: Volumen und Oberfläche", level: 1, sublevel: "1.2.2", sublevelLeaf: "1.2.2.a" },
+    { klasse: 7, topic: "Prozentrechnung: Zinsen und Vergleiche", level: 1, sublevel: "1.1.2", sublevelLeaf: "1.1.2.b" },
+
+    // Klasse 8
+    { klasse: 8, topic: "Lineare Gleichungssysteme", level: 2, sublevel: "2.1.2", sublevelLeaf: "2.1.2.a" },
+    { klasse: 8, topic: "Lineare Funktionen und Geraden", level: 2, sublevel: "2.2.2", sublevelLeaf: "2.2.2.a" },
+    { klasse: 8, topic: "Satz des Pythagoras", level: 2, sublevel: "2.5.3", sublevelLeaf: "2.5.3.a" },
+    { klasse: 8, topic: "Potenzen und Potenzgesetze", level: 2, sublevel: "2.3.1", sublevelLeaf: "2.3.1.a" },
+    { klasse: 8, topic: "Ähnlichkeit und Strahlensätze", level: 2, sublevel: "2.5.1", sublevelLeaf: "2.5.1.a" },
+
+    // Klasse 9
+    { klasse: 9, topic: "Quadratische Gleichungen", level: 2, sublevel: "2.1.3", sublevelLeaf: "2.1.3.a" },
+    { klasse: 9, topic: "Quadratische Funktionen (Parabeln)", level: 2, sublevel: "2.2.3", sublevelLeaf: "2.2.3.a" },
+    { klasse: 9, topic: "Kreisgeometrie", level: 2, sublevel: "2.5.2", sublevelLeaf: "2.5.2.a" },
+    { klasse: 9, topic: "Trigonometrie am rechtwinkligen Dreieck", level: 2, sublevel: "2.4.1", sublevelLeaf: "2.4.1.a" },
+    { klasse: 9, topic: "Kombinatorik: Grundlagen", level: 2, sublevel: "2.6.1", sublevelLeaf: "2.6.1.a" },
+
+    // Klasse 10
+    { klasse: 10, topic: "Trigonometrie: Sinus- und Kosinussatz", level: 2, sublevel: "2.4.2", sublevelLeaf: "2.4.2.a" },
+    { klasse: 10, topic: "Exponentialfunktionen und Wachstum", level: 2, sublevel: "2.2.1", sublevelLeaf: "2.2.1.a" },
+    { klasse: 10, topic: "Logarithmen: Definition und Rechenregeln", level: 2, sublevel: "2.3.3", sublevelLeaf: "2.3.3.a" },
+    { klasse: 10, topic: "Wurzeln und Wurzelgesetze", level: 2, sublevel: "2.3.2", sublevelLeaf: "2.3.2.a" },
+    { klasse: 10, topic: "Wahrscheinlichkeit: Baumdiagramme", level: 2, sublevel: "2.6.2", sublevelLeaf: "2.6.2.b" },
+
+    // Klasse 11
+    { klasse: 11, topic: "Ableitungen: Ketten-, Produkt- und Quotientenregel", level: 3, sublevel: "3.1.1", sublevelLeaf: "3.1.1.a" },
+    { klasse: 11, topic: "Kurvendiskussion und Extremstellen", level: 3, sublevel: "3.1.2", sublevelLeaf: "3.1.2.a" },
+    { klasse: 11, topic: "Exponential- und Logarithmusfunktionen (Analysis)", level: 3, sublevel: "3.1.4", sublevelLeaf: "3.1.4.a" },
+    { klasse: 11, topic: "Einheitskreis, Periodizität, Tangens", level: 2, sublevel: "2.4.3", sublevelLeaf: "2.4.3.a" },
+    { klasse: 11, topic: "Vektoren: Grundlagen und Skalarprodukt", level: 3, sublevel: "3.2.3", sublevelLeaf: "3.2.3.a" },
+
+    // Klasse 12
+    { klasse: 12, topic: "Integralrechnung: Stammfunktionen und Flächeninhalt", level: 3, sublevel: "3.1.3", sublevelLeaf: "3.1.3.a" },
+    { klasse: 12, topic: "Folgen und Reihen", level: 3, sublevel: "3.1.5", sublevelLeaf: "3.1.5.a" },
+    { klasse: 12, topic: "Bedingte Wahrscheinlichkeit und Bayes", level: 3, sublevel: "3.2.1", sublevelLeaf: "3.2.1.a" },
+    { klasse: 12, topic: "Binomialverteilung und Normalverteilung", level: 3, sublevel: "3.2.2", sublevelLeaf: "3.2.2.a" },
+    { klasse: 12, topic: "Geraden und Ebenen im Raum", level: 3, sublevel: "3.2.3", sublevelLeaf: "3.2.3.b" },
+    { klasse: 12, topic: "Matrizen: Grundoperationen", level: 3, sublevel: "3.4.1", sublevelLeaf: "3.4.1.a" },
+    { klasse: 12, topic: "Komplexe Zahlen: Einstieg", level: 3, sublevel: "3.3.1", sublevelLeaf: "3.3.1.a" },
+];
+
+const LEVEL_LABELS = { 1: "L1", 2: "L2", 3: "L3" };
+const ARCHIVE_URL = "./lernarchiv.html";
+
+function archiveLink(item) {
+    return `${ARCHIVE_URL}?level=${item.level}&sublevel=${encodeURIComponent(item.sublevelLeaf)}`;
+}
+
+function renderGradeSelector() {
+    const sel = document.getElementById("gradeSelector");
+    const allBtn = document.createElement("button");
+    allBtn.className = "grade-btn all-btn active";
+    allBtn.textContent = "Alle Klassen";
+    allBtn.dataset.grade = "all";
+    allBtn.addEventListener("click", () => setGrade("all", allBtn));
+    sel.appendChild(allBtn);
+
+    for (let k = 1; k <= 12; k++) {
+        const btn = document.createElement("button");
+        btn.className = "grade-btn";
+        btn.textContent = `Klasse ${k}`;
+        btn.dataset.grade = String(k);
+        btn.addEventListener("click", () => setGrade(k, btn));
+        sel.appendChild(btn);
+    }
+}
+
+let activeGrade = "all";
+
+function setGrade(grade, clickedBtn) {
+    activeGrade = grade;
+    document.querySelectorAll(".grade-btn").forEach(b => b.classList.remove("active"));
+    clickedBtn.classList.add("active");
+    filterCards();
+}
+
+function filterCards() {
+    const cards = document.querySelectorAll(".topic-card");
+    let visible = 0;
+    cards.forEach(card => {
+        const match = activeGrade === "all" || card.dataset.klasse === String(activeGrade);
+        card.classList.toggle("hidden", !match);
+        if (match) visible++;
+    });
+    document.getElementById("visibleCount").textContent = visible;
+}
+
+function renderGrid() {
+    const grid = document.getElementById("topicGrid");
+    CURRICULUM.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "topic-card";
+        card.dataset.klasse = item.klasse;
+
+        const badgeClass = `badge-l${item.level}`;
+        const href = archiveLink(item);
+
+        card.innerHTML = `
+            <div class="card-top">
+                <div class="topic-name">${item.topic}</div>
+                <div class="level-badge ${badgeClass}">${LEVEL_LABELS[item.level]}</div>
+            </div>
+            <div class="card-meta">
+                <span class="klasse-tag">Klasse ${item.klasse}</span>
+                <span class="sublevel-code">${item.sublevel}</span>
+            </div>
+            <a class="archive-link" href="${href}">→ Im Archiv öffnen</a>
+        `;
+        grid.appendChild(card);
+    });
+    document.getElementById("visibleCount").textContent = CURRICULUM.length;
+}
+
+renderGradeSelector();
+renderGrid();
+
+// Check for grade param in URL
+const urlGrade = new URLSearchParams(location.search).get("klasse");
+if (urlGrade) {
+    const targetBtn = document.querySelector(`.grade-btn[data-grade="${urlGrade}"]`);
+    if (targetBtn) setGrade(Number(urlGrade), targetBtn);
+}
+</script>
+
+</body>
+</html>

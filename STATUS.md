@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,38 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Curriculum coverage matrix for Klasse 1–12 mapped to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/lehrplan.html`: a new standalone page with 57 topic entries spanning Klasse 1–12, each tagged with the corresponding archive level (L1/L2/L3) and sublevel code.
+- Grade-selector pill buttons (Alle / Klasse 1–12) filter the topic cards client-side.
+- Each topic card shows the Klasse tag, the sublevel code, and a direct "→ Im Archiv öffnen" deep-link into `lernarchiv.html` with pre-set `level` and `sublevel` URL params.
+- URL param `?klasse=N` activates a specific grade on page load, enabling external deep-links per grade.
+- Added "Lehrplan K1–12" nav link to `app/lernarchiv.html`.
+- Added "Lehrplan" nav link to `app/lernpfad.html`.
+- Visual identity preserved (same color palette, topbar, card style as all other app pages).
+
+### Files touched
+- `app/lehrplan.html` (new)
+- `app/lernarchiv.html`
+- `app/lernpfad.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Node structural check: all 57 entries present, L1/L2/L3 coverage correct, URL param support confirmed.
+- `node tools/archive-qa.js` → OK (30.000 tasks, 5.000 per level unchanged).
+- Nav link presence confirmed in both lernarchiv.html and lernpfad.html.
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix (L4–L5) — the next open P1 task.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
