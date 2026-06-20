@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,42 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-matrix.js` with `window.SOR_CURRICULUM_MATRIX`:
+  - 12 entries (Klasse 1–12), each with `primarySections`, optional `reviewSections`, and a `topics` array (103 topics total).
+  - Topics carry `type` flags: `neu`, `vertiefung`, `wiederholung`, or `optional`.
+  - Each topic points to the exact leaf-level sublevel ID from the L1–L3 taxonomy (e.g. `"2.4.1.a"`).
+  - Three helper methods: `byKlasse(k)`, `sectionsForKlasse(k)`, `klassenForSection(sectionId)`, `archiveLevelForKlasse(k)`.
+  - Uses the existing `window.SOR_*` namespace convention; no existing files modified.
+- Created `docs/curriculum-coverage-l1-l3.md`:
+  - Human-readable Markdown table for each Klasse (1–12) mapping topics to sublevel IDs.
+  - Overview table: L1 → Klasse 1–6, L2 → Klasse 7–10, L3 → Klasse 11–12.
+  - Notes on bundesland-dependent optional topics and L3→L4 bridge sections.
+  - API usage examples for the JS helpers.
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `docs/curriculum-coverage-l1-l3.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e "..."` → 12 entries, 103 topics mapped, all entries have primarySections and topics arrays
+- `node tools/archive-qa.js` → OK (30 000 tasks, 5 000/level unchanged)
+- `grep -c "^| " docs/curriculum-coverage-l1-l3.md` → 116 table rows
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Wire the matrix into the Lernarchiv UI: add a "Klasse wählen" quick-filter that sets the level/sublevel preset from `sectionsForKlasse(k)`.
+- Or proceed to the next open P1 task: Build the engineering mathematics coverage matrix (L4–L5) through Master level.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
