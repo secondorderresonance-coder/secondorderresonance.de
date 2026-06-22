@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,35 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1–12, mapped to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `docs/curriculum-coverage-matrix.md` with a full Klasse 1–12 → L1–L3 mapping table.
+- Each school grade band (Kl. 1–4, 5–6, 7–8, 9, 10, 11, 12) is mapped to the exact archive sublevel id.
+- Coverage status per sublevel marked as ✅ (seed tasks exist), ⚠️ (thin), or ❌ (no coverage).
+- Added a summary section listing all critical (❌) and thin (⚠️) coverage gaps to guide next archive batches.
+- Added usage notes connecting this matrix to the placement test, Lernstrasse lesson sequencing, and archive expansion priority.
+
+### Files touched
+- `docs/curriculum-coverage-matrix.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `grep -c "Archive-Sublevel" docs/curriculum-coverage-matrix.md` → confirms table header present in all three level sections
+- `grep -c "❌\|⚠️\|✅" docs/curriculum-coverage-matrix.md` → confirms coverage markers present throughout
+
+### Blockers
+- None.
+
+### Next logical step
+- Fill the two critical ❌ gaps in focused seed-task batches:
+  1. `2.5.2.b` – Sehnen und Tangenten am Kreis (Kl. 10)
+  2. `2.4.3.b` – Tangensfunktion (Kl. 11)
+- Or proceed to the next open P1 task: Build an engineering mathematics coverage matrix through Master level and map it to L4–L5 sections.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
