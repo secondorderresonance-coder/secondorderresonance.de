@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,36 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Added curriculum coverage matrix for Klasse 1-12 mapped to L1-L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-matrix.js` with structured data mapping each German school grade (Klasse 1-12) to its primary L1-L3 archive sublevels, including topic labels and school phase (Grundschule, Unterstufe, Mittelstufe, Oberstufe).
+- Added a `renderCurriculumMatrix()` function in `app/lernarchiv.html` that renders 12 grade cards in a responsive grid with level color badges, topic lists, and clickable sublevel chips.
+- Each sublevel chip sets the archive filter directly and scrolls to the archive browser, creating a seamless handoff from the curriculum map to live tasks.
+- Added a "Lehrplan K1–12" link in the archive page nav bar.
+- All 53 sublevel references cross-validated against the archive taxonomy (zero mismatches).
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e ...` data structure check: 3 levels, 12 grades, 53 sublevel refs, 45 unique.
+- Cross-validation of all 53 sublevel IDs against `SOR_ARCHIVE.taxonomy`: all valid.
+- `node tools/archive-qa.js`: Result OK, 30000 tasks, 5000 per level.
+- `git diff --check`: no trailing whitespace.
+- Marker check confirmed all 9 key identifiers present in `lernarchiv.html`.
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.

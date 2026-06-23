@@ -521,6 +521,107 @@
                 width: 100%;
             }
         }
+
+        /* Curriculum matrix */
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .curriculum-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .curriculum-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .curriculum-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            white-space: nowrap;
+            color: #111;
+        }
+
+        .curriculum-klasse {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .curriculum-phase {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .curriculum-topics {
+            list-style: disc;
+            padding-left: 1.1rem;
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .curriculum-sublevels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.25rem;
+        }
+
+        .sublevel-chip {
+            font-size: 0.72rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color 0.15s, color 0.15s;
+        }
+
+        .sublevel-chip:hover {
+            color: var(--text);
+            border-color: rgba(233, 69, 96, 0.6);
+        }
+
+        .curriculum-legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .curriculum-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 540px) {
+            .curriculum-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -531,6 +632,7 @@
                 <a href="../index.html#archive">Landing Archiv</a>
                 <a href="./index.html">Mathe-App</a>
                 <a href="#placement">Einstufungstest</a>
+                <a href="#curriculum">Lehrplan K1–12</a>
             </nav>
         </div>
     </header>
@@ -689,9 +791,17 @@
             <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
             <div class="taxonomy" id="taxonomyView"></div>
         </section>
+
+        <section class="card" id="curriculum">
+            <h2>Schulklassen-Abdeckung: Lehrplan Klasse 1–12</h2>
+            <p class="muted">Jede Klasse ist den passenden L1–L3 Archiv-Subleveln zugeordnet. Klicke auf eine Sublevel-ID, um direkt in den Archivbrowser zu springen.</p>
+            <div class="curriculum-legend" id="curriculumLegend"></div>
+            <div class="curriculum-grid" id="curriculumGrid"></div>
+        </section>
     </main>
 
     <script src="./data/archive-content.js?v=2.5.0"></script>
+    <script src="./data/curriculum-matrix.js?v=2.5.5"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1207,6 +1317,60 @@
             document.getElementById("taxonomyView").innerHTML = html;
         }
 
+        function renderCurriculumMatrix() {
+            const cm = window.SOR_CURRICULUM;
+            if (!cm) return;
+
+            const colorMap = { L1: "#4ade80", L2: "#facc15", L3: "#fb923c" };
+
+            const legendEl = document.getElementById("curriculumLegend");
+            if (legendEl) {
+                legendEl.innerHTML = cm.levels.map(l =>
+                    `<span class="curriculum-legend-item"><span class="legend-dot" style="background:${l.color}"></span>${l.label}</span>`
+                ).join("");
+            }
+
+            const gridEl = document.getElementById("curriculumGrid");
+            if (!gridEl) return;
+
+            gridEl.innerHTML = cm.grades.map(g => {
+                const badgeColor = colorMap[g.levelCode] || "#aaa";
+                const topicsHtml = g.topics.map(t => `<li>${t}</li>`).join("");
+                const chipsHtml = g.archiveSublevels.map(sl => {
+                    const encoded = encodeURIComponent(sl);
+                    return `<a class="sublevel-chip" href="#archiveBrowser" data-sublevel="${sl}" title="Archiv filtern: ${sl}">${sl}</a>`;
+                }).join("");
+                return `
+                    <div class="curriculum-card">
+                        <div class="curriculum-card-header">
+                            <span class="curriculum-badge" style="background:${badgeColor}">${g.levelCode}</span>
+                            <span class="curriculum-klasse">${g.label}</span>
+                        </div>
+                        <div class="curriculum-phase">${g.phase}</div>
+                        <ul class="curriculum-topics">${topicsHtml}</ul>
+                        <div class="curriculum-sublevels">${chipsHtml}</div>
+                    </div>
+                `;
+            }).join("");
+
+            gridEl.querySelectorAll(".sublevel-chip[data-sublevel]").forEach(chip => {
+                chip.addEventListener("click", e => {
+                    e.preventDefault();
+                    const sl = chip.dataset.sublevel;
+                    const levelNum = sl.split(".")[0];
+                    state.selectedLevel = levelNum;
+                    state.selectedSublevel = sl;
+                    state.selectedTopic = "all";
+                    state.search = "";
+                    renderFilters();
+                    renderTaskList();
+                    saveFilterState();
+                    syncUrlFromState();
+                    document.getElementById("archiveBrowser")?.scrollIntoView({ behavior: "smooth" });
+                });
+            });
+        }
+
         function renderPythagorasVisual() {
             const svg = document.getElementById("pythagorasSvg");
             if (!svg) return;
@@ -1583,6 +1747,7 @@
         renderFilters();
         renderTaskList();
         renderTaxonomy();
+        renderCurriculumMatrix();
         renderPythagorasVisual();
         renderArgandVisual();
         bindEvents();
