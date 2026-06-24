@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,35 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A curriculum coverage matrix (`app/data/curriculum-coverage.js`) now maps every school year Klasse 1–12 to the matching L1–L3 archive sublevels, providing the authoritative Klasse→archive bridge for future UI integration.
+
+## Last completed task (v2.5.5)
+Curriculum coverage matrix for Klasse 1–12 mapped to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-coverage.js` exposing `window.SOR_CURRICULUM_COVERAGE`.
+- Maps all 12 school years (Klasse 1–4 → L1, Klasse 5–6 → L1, Klasse 7–10 → L2, Klasse 11–12 → L3).
+- Each Klasse entry lists its core curriculum topics (Themenbereich) with exact archive sublevel IDs.
+- All 75 sublevel references were validated against the existing taxonomy in `archive-content.js` — no orphaned IDs.
+- Archive QA still passes: 30,000 tasks, 5,000 per level, 30 placement questions.
+
+### Files touched
+- `app/data/curriculum-coverage.js` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK (30,000 tasks, 5,000/level)
+- Node eval of `curriculum-coverage.js` confirms 12 Klassen, correct archivLevel assignments (L1/L2/L3), and all sublevel IDs resolve to known taxonomy entries.
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix for L4–L5 sections (next open P1 task).
+- Optionally surface the curriculum matrix in the Lernpfad as a small "Lehrplan-Abdeckung" reference panel so learners can find their school year quickly.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
