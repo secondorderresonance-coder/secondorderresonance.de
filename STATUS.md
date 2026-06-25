@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.6.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,36 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.6.0)
+Built K1-12 curriculum coverage matrix and wired it into the Lernarchiv as a grade-picker UI.
+
+### Changes in this iteration
+- Created `app/data/curriculum-matrix.js` with `window.SOR_CURRICULUM_MATRIX`: 12 grade entries (Klasse 1-12), 80 topic mappings each pointing to a specific L1-L3 archive sublevel ID and topic name.
+- Level-band mapping: K1-4 → L1, K5-6 → L1 (vertieft), K7-8 → L2, K9-10 → L2 (vertieft), K11-12 → L3.
+- Added helper methods `getGrade(n)`, `getGradesByLevel(l)`, `getFilterLink(topic)` for programmatic use.
+- Added a "Nach Schulklasse navigieren" card to `app/lernarchiv.html` with grade buttons Kl. 1–12; clicking a grade shows topic chips that apply the matching level/sublevel filter to the archive browser.
+- Added CSS classes `.grade-btn`, `.topic-chip`, `.grade-level-badge` to the existing style block.
+- Added `<script src="./data/curriculum-matrix.js?v=2.6.0">` and `renderCurriculumNav()` call.
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node -e "..."` → 12 grades, 80 topic mappings, all sublevel IDs valid, helpers work correctly
+- `node tools/archive-qa.js` → OK (30000 tasks, 5000 per level unchanged)
+- HTML marker checks: `curriculumNav`, `gradeButtons`, `grade-btn`, `topic-chip`, `curriculum-matrix.js`, `renderCurriculumNav`
+- `git diff --check` → no whitespace issues
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 archive sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
