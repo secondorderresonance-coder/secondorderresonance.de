@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.6.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,38 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.6.0)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Created `app/data/curriculum-matrix.js` — machine-readable data file exposing `window.SOR_CURRICULUM` with 12 grade entries, each mapping Lehrplan topics to SOR archive sublevels (3–14 sublevel entries per grade).
+- Created `docs/curriculum-coverage-matrix.md` — human-readable reference matrix with per-grade tables, coverage status (voll/teilweise), and a gap analysis.
+- Added `Schulklasse` filter dropdown (Klasse 1–12) to `app/lernarchiv.html` archive filter row. Selecting a class automatically pre-sets the Level and primary Sublevel filter to the grade's archive entry point.
+- Loaded `curriculum-matrix.js` in `lernarchiv.html` via new `<script>` tag.
+- Extended the filter grid from 4 to 5 columns (desktop) and 2-to-3 on tablet to accommodate the new filter.
+- Selecting Level or Sublevel directly resets the Schulklasse dropdown to "Alle Klassen" so state stays consistent.
+
+### Files touched
+- `app/data/curriculum-matrix.js` (new)
+- `docs/curriculum-coverage-matrix.md` (new)
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level
+- `node -e "syntax check curriculum-matrix.js"` → OK
+- `node -e "syntax check lernarchiv.html inline script"` → OK
+- Curriculum matrix data check: 12 grades, Klasse 1→Level 1, Klasse 7→Level 2, Klasse 11→Level 3
+- `git diff --check` → no whitespace errors
+
+### Blockers
+None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix for L4–L5 (Sekundarstufe II / Studium) aligned with standard engineering curricula (Analysis, Lineare Algebra, Regelungstechnik, Numerik).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.

@@ -146,7 +146,7 @@
 
         .filters {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 0.7rem;
             margin-bottom: 0.9rem;
         }
@@ -426,7 +426,7 @@
 
         @media (max-width: 980px) {
             .archive-layout { grid-template-columns: 1fr; }
-            .filters { grid-template-columns: 1fr 1fr; }
+            .filters { grid-template-columns: 1fr 1fr 1fr; }
             .level-row { grid-template-columns: 1fr; }
             .detail { min-height: 0; }
             .task-list { max-height: 360px; }
@@ -571,6 +571,24 @@
                 <div>
                     <div class="filters">
                         <div>
+                            <label for="klasseFilter">Schulklasse</label>
+                            <select id="klasseFilter">
+                                <option value="">Alle Klassen</option>
+                                <option value="1">Klasse 1</option>
+                                <option value="2">Klasse 2</option>
+                                <option value="3">Klasse 3</option>
+                                <option value="4">Klasse 4</option>
+                                <option value="5">Klasse 5</option>
+                                <option value="6">Klasse 6</option>
+                                <option value="7">Klasse 7</option>
+                                <option value="8">Klasse 8</option>
+                                <option value="9">Klasse 9</option>
+                                <option value="10">Klasse 10</option>
+                                <option value="11">Klasse 11</option>
+                                <option value="12">Klasse 12</option>
+                            </select>
+                        </div>
+                        <div>
                             <label for="levelFilter">Level</label>
                             <select id="levelFilter"></select>
                         </div>
@@ -692,6 +710,7 @@
     </main>
 
     <script src="./data/archive-content.js?v=2.5.0"></script>
+    <script src="./data/curriculum-matrix.js"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1516,13 +1535,33 @@
             const pythagorasB = document.getElementById("pythagorasB");
             const pythagorasArchiveBtn = document.getElementById("pythagorasArchiveBtn");
 
+            const klasseFilter = document.getElementById("klasseFilter");
+            if (klasseFilter) {
+                klasseFilter.addEventListener("change", (e) => {
+                    const klasse = parseInt(e.target.value, 10);
+                    if (!klasse || !window.SOR_CURRICULUM) {
+                        state.selectedLevel = "all";
+                        state.selectedSublevel = "all";
+                        refreshArchiveView();
+                        return;
+                    }
+                    const grade = window.SOR_CURRICULUM.grades.find(g => g.klasse === klasse);
+                    if (!grade) return;
+                    state.selectedLevel = grade.primaryLevel;
+                    state.selectedSublevel = grade.primarySublevel;
+                    refreshArchiveView();
+                });
+            }
+
             levelFilter.addEventListener("change", (e) => {
                 state.selectedLevel = e.target.value;
+                if (klasseFilter) klasseFilter.value = "";
                 refreshArchiveView();
             });
 
             sublevelFilter.addEventListener("change", (e) => {
                 state.selectedSublevel = e.target.value;
+                if (klasseFilter) klasseFilter.value = "";
                 refreshArchiveView();
             });
 
