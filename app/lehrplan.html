@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrplan-Matrix Klasse 1-12 | Second-Order Resonance</title>
+    <meta name="description" content="Curriculum-Abdeckungsmatrix: Alle Themen der Klasse 1-12 den L1-L3-Archivabschnitten zugeordnet.">
+    <meta name="theme-color" content="#1a1a2e">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --secondary: #16213e;
+            --panel: #0f172a;
+            --accent: #e94560;
+            --text: #eef;
+            --muted: #9aa;
+            --gold: #f5c518;
+            --line: rgba(255,255,255,0.11);
+            --success: #4ade80;
+            --l1: #4ade80;
+            --l2: #facc15;
+            --l3: #fb923c;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(233,69,96,0.12), transparent 28rem),
+                linear-gradient(180deg, #1a1a2e 0%, #10182e 52%, #16213e 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(22,33,62,0.94);
+            border-bottom: 1px solid rgba(233,69,96,0.28);
+            backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.2rem;
+            gap: 0.8rem;
+        }
+        .logo { font-weight: 900; color: var(--gold); letter-spacing: 0.02em; }
+        .logo span { color: var(--accent); }
+        .top-actions { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; justify-content: flex-end; }
+        .nav-link {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .hero {
+            max-width: 1000px;
+            margin: 2.5rem auto 0;
+            padding: 0 1.2rem;
+        }
+        .hero h1 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 0.6rem;
+        }
+        .hero h1 em { color: var(--gold); font-style: normal; }
+        .hero p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 680px;
+            line-height: 1.6;
+        }
+
+        .legend {
+            max-width: 1000px;
+            margin: 1.5rem auto 0;
+            padding: 0 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .dot-l1 { background: var(--l1); }
+        .dot-l2 { background: var(--l2); }
+        .dot-l3 { background: var(--l3); }
+
+        .matrix {
+            max-width: 1000px;
+            margin: 2rem auto 4rem;
+            padding: 0 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .grade-block {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .grade-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+        }
+        .grade-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            white-space: nowrap;
+            letter-spacing: 0.03em;
+        }
+        .badge-l1 { background: rgba(74,222,128,0.18); color: var(--l1); border: 1px solid rgba(74,222,128,0.3); }
+        .badge-l2 { background: rgba(250,204,21,0.15); color: var(--l2); border: 1px solid rgba(250,204,21,0.3); }
+        .badge-l3 { background: rgba(251,146,60,0.15); color: var(--l3); border: 1px solid rgba(251,146,60,0.3); }
+        .badge-mixed {
+            background: rgba(233,69,96,0.15);
+            color: var(--accent);
+            border: 1px solid rgba(233,69,96,0.3);
+        }
+
+        .grade-title { font-weight: 700; font-size: 1.05rem; }
+        .grade-desc { color: var(--muted); font-size: 0.88rem; margin-left: auto; white-space: nowrap; }
+
+        .topic-grid {
+            padding: 1rem 1.2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.65rem;
+        }
+
+        .topic-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: var(--text);
+            transition: background 0.15s, border-color 0.15s;
+            cursor: pointer;
+        }
+        .topic-chip:hover {
+            background: rgba(233,69,96,0.12);
+            border-color: rgba(233,69,96,0.4);
+            color: #fff;
+        }
+        .topic-chip .chip-level {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+        .chip-l1 { background: rgba(74,222,128,0.2); color: var(--l1); }
+        .chip-l2 { background: rgba(250,204,21,0.18); color: var(--l2); }
+        .chip-l3 { background: rgba(251,146,60,0.18); color: var(--l3); }
+
+        .topic-name { flex: 1; line-height: 1.3; }
+        .topic-arrow { color: var(--muted); font-size: 0.8rem; flex-shrink: 0; }
+
+        @media (max-width: 600px) {
+            .grade-desc { display: none; }
+            .topic-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="topbar">
+    <a class="logo" href="../index.html">SOR<span>.</span></a>
+    <div class="top-actions">
+        <a class="nav-link" href="lernpfad.html">🗺 Lernpfad</a>
+        <a class="nav-link" href="lernarchiv.html">📚 Archiv</a>
+        <a class="nav-link" href="index.html">⚡ Üben</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <h1>Lehrplan-Matrix <em>Klasse 1–12</em></h1>
+    <p>Jedes Thema des deutschen Mathematik-Lehrplans ist einem Archivabschnitt zugeordnet. Klick auf ein Thema öffnet direkt die passenden Aufgaben im Lernarchiv.</p>
+</div>
+
+<div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-l1"></div>L1 – Grundlagen (Grundschule &amp; Unterstufe)</div>
+    <div class="legend-item"><div class="legend-dot dot-l2"></div>L2 – Aufbauwissen (Unter- &amp; Mittelstufe)</div>
+    <div class="legend-item"><div class="legend-dot dot-l3"></div>L3 – Vertiefung (Oberstufe / Schulabschluss)</div>
+</div>
+
+<div class="matrix" id="matrix"></div>
+
+<script>
+// Curriculum coverage matrix: Klasse 1-12 → L1-L3 archive sections
+const CURRICULUM = [
+    {
+        grades: "Klasse 1–2",
+        desc: "Grundschule",
+        badge: "l1",
+        topics: [
+            { name: "Zahlen bis 100 und Grundrechenarten", level: "1", sublevel: "1.1.1.a" },
+            { name: "Schriftliches Addieren und Subtrahieren", level: "1", sublevel: "1.1.1.b" },
+            { name: "Geometrische Formen: Rechteck, Dreieck, Kreis", level: "1", sublevel: "1.2.1.a" },
+            { name: "Muster und Längen", level: "1", sublevel: "1.3.2.a" },
+            { name: "Daten und einfache Diagramme", level: "1", sublevel: "1.4.1.a" },
+            { name: "Einfache Zufallsexperimente", level: "1", sublevel: "1.4.2.a" },
+        ]
+    },
+    {
+        grades: "Klasse 3–4",
+        desc: "Grundschule",
+        badge: "l1",
+        topics: [
+            { name: "Zahlen bis 1.000.000, schriftliches Multiplizieren/Dividieren", level: "1", sublevel: "1.1.1.b" },
+            { name: "Kopfrechenstrategien und Schätzen", level: "1", sublevel: "1.1.1.a" },
+            { name: "Einführung Brüche", level: "1", sublevel: "1.1.2.a" },
+            { name: "Dezimalzahlen und Kommarechnung", level: "1", sublevel: "1.1.3.a" },
+            { name: "Runden", level: "1", sublevel: "1.1.3.b" },
+            { name: "Längen, Gewichte, Zeiteinheiten", level: "1", sublevel: "1.3.2.a" },
+            { name: "Einheiten umrechnen", level: "1", sublevel: "1.3.2.b" },
+            { name: "Fläche und Umfang zusammengesetzter Figuren", level: "1", sublevel: "1.2.1.b" },
+            { name: "Winkelarten und -maße", level: "1", sublevel: "1.2.3.a" },
+            { name: "Balken- und Kreisdiagramme auswerten", level: "1", sublevel: "1.4.1.a" },
+            { name: "Mittelwert und Häufigkeit", level: "1", sublevel: "1.4.1.b" },
+        ]
+    },
+    {
+        grades: "Klasse 5–6",
+        desc: "Orientierungsstufe",
+        badge: "mixed",
+        topics: [
+            { name: "Teilbarkeit und Primzahlen", level: "1", sublevel: "1.1.5.a" },
+            { name: "ggT und kgV", level: "1", sublevel: "1.1.5.b" },
+            { name: "Negative Zahlen", level: "1", sublevel: "1.1.4.a" },
+            { name: "Brüche addieren, kürzen und erweitern", level: "1", sublevel: "1.1.2.a" },
+            { name: "Brüche multiplizieren und dividieren", level: "1", sublevel: "1.1.2.c" },
+            { name: "Prozentwerte im Alltag", level: "1", sublevel: "1.1.2.b" },
+            { name: "Proportionale und antiproportionale Zuordnungen", level: "1", sublevel: "1.3.1.a" },
+            { name: "Dreisatz", level: "1", sublevel: "1.3.1.b" },
+            { name: "Koordinatensystem, Punkte und Abstände", level: "1", sublevel: "1.2.4.a" },
+            { name: "Würfel, Quader, Zylinder", level: "1", sublevel: "1.2.2.a" },
+            { name: "Dreieckstypen und Eigenschaften", level: "1", sublevel: "1.2.3.b" },
+            { name: "Terme und erste lineare Gleichungen", level: "2", sublevel: "2.1.1.a" },
+            { name: "Kombinatorik – erste Schritte", level: "2", sublevel: "2.6.1.a" },
+            { name: "Laplace-Experiment und Baumdiagramm", level: "2", sublevel: "2.6.2.b" },
+        ]
+    },
+    {
+        grades: "Klasse 7–8",
+        desc: "Mittelstufe",
+        badge: "l2",
+        topics: [
+            { name: "Lineare Gleichungen lösen", level: "2", sublevel: "2.1.1.a" },
+            { name: "Formeln umstellen", level: "2", sublevel: "2.1.1.b" },
+            { name: "Gleichungen mit Brüchen", level: "2", sublevel: "2.1.1.c" },
+            { name: "Lineare Gleichungssysteme (Substitution/Addition)", level: "2", sublevel: "2.1.2.a" },
+            { name: "Geradengleichung und Steigung", level: "2", sublevel: "2.2.2.a" },
+            { name: "Parallele und senkrechte Geraden", level: "2", sublevel: "2.2.2.b" },
+            { name: "Rechenregeln für Potenzen", level: "2", sublevel: "2.3.1.a" },
+            { name: "Negative und gebrochene Exponenten", level: "2", sublevel: "2.3.1.b" },
+            { name: "Ähnlichkeit und Strahlensatz", level: "2", sublevel: "2.5.1.a" },
+            { name: "Ähnliche Figuren", level: "2", sublevel: "2.5.1.b" },
+            { name: "Satz des Pythagoras – Anwendungen", level: "2", sublevel: "2.5.3.a" },
+            { name: "Kreisumfang und Kreisfläche", level: "2", sublevel: "2.5.2.a" },
+            { name: "Permutationen und Kombinationen", level: "2", sublevel: "2.6.1.a" },
+            { name: "Wahrscheinlichkeit: Baumdiagramm", level: "2", sublevel: "2.6.2.b" },
+            { name: "Binomialkoeffizient", level: "2", sublevel: "2.6.1.b" },
+        ]
+    },
+    {
+        grades: "Klasse 9–10",
+        desc: "Mittelstufe / Hauptschulabschluss / MSA",
+        badge: "mixed",
+        topics: [
+            { name: "Quadratische Gleichungen: Lösungsformel, Diskriminante", level: "2", sublevel: "2.1.3.a" },
+            { name: "Faktorisierung von quadratischen Termen", level: "2", sublevel: "2.1.3.b" },
+            { name: "Lineare Ungleichungen", level: "2", sublevel: "2.1.4.a" },
+            { name: "Parabelscheitel und Nullstellen (quadratische Funktionen)", level: "2", sublevel: "2.2.3.a" },
+            { name: "Verschiebung und Streckung von Parabeln", level: "2", sublevel: "2.2.3.b" },
+            { name: "Exponentielles Wachstum", level: "2", sublevel: "2.2.1.a" },
+            { name: "Exponentieller Zerfall und Halbwertszeit", level: "2", sublevel: "2.2.1.c" },
+            { name: "Quadrat- und Kubikwurzeln", level: "2", sublevel: "2.3.2.a" },
+            { name: "Vereinfachen von Wurzeltermen", level: "2", sublevel: "2.3.2.b" },
+            { name: "Trigonometrie am rechtwinkligen Dreieck", level: "2", sublevel: "2.4.1.a" },
+            { name: "Bogenmass und Winkelumrechnung", level: "2", sublevel: "2.4.1.b" },
+            { name: "Sinus- und Kosinussatz (allgemeines Dreieck)", level: "2", sublevel: "2.4.2.a" },
+            { name: "Sehnen und Tangenten am Kreis", level: "2", sublevel: "2.5.2.b" },
+            { name: "Gleichungssystem mit 3 Unbekannten", level: "2", sublevel: "2.1.2.b" },
+            { name: "Vektoren: erste Schritte und Skalarprodukt", level: "3", sublevel: "3.2.3.a" },
+            { name: "Bedingte Wahrscheinlichkeit", level: "3", sublevel: "3.2.1.a" },
+        ]
+    },
+    {
+        grades: "Klasse 11–12",
+        desc: "Oberstufe / Abitur",
+        badge: "l3",
+        topics: [
+            { name: "Ableitungsregeln: Ketten-, Produkt-, Quotientenregel", level: "3", sublevel: "3.1.1.a" },
+            { name: "Monotonie und Extremstellen", level: "3", sublevel: "3.1.1.b" },
+            { name: "Krümmung und Wendepunkte", level: "3", sublevel: "3.1.1.c" },
+            { name: "Vollständige Kurvendiskussion", level: "3", sublevel: "3.1.2.a" },
+            { name: "Optimierungsaufgaben mit Analysis", level: "3", sublevel: "3.1.2.b" },
+            { name: "Stammfunktionen und Grundintegrale", level: "3", sublevel: "3.1.3.a" },
+            { name: "Bestimmtes Integral und Flächeninhalt", level: "3", sublevel: "3.1.3.b" },
+            { name: "Substitutionsregel", level: "3", sublevel: "3.1.3.c" },
+            { name: "Partielle Integration", level: "3", sublevel: "3.1.3.d" },
+            { name: "Ableitung und Integration von e^x und ln(x)", level: "3", sublevel: "3.1.4.a" },
+            { name: "Wachstums- und Zerfallsmodelle", level: "3", sublevel: "3.1.4.b" },
+            { name: "Arithmetische und geometrische Folgen", level: "3", sublevel: "3.1.5.a" },
+            { name: "Grenzwerte von Folgen", level: "3", sublevel: "3.1.5.b" },
+            { name: "Logarithmen: Definition und Rechenregeln", level: "2", sublevel: "2.3.3.a" },
+            { name: "Logarithmische Gleichungen", level: "2", sublevel: "2.3.3.b" },
+            { name: "Sinusfunktion, Kosinusfunktion und Periodizität", level: "2", sublevel: "2.4.3.a" },
+            { name: "Tangensfunktion", level: "2", sublevel: "2.4.3.b" },
+            { name: "Bayes-Theorem", level: "3", sublevel: "3.2.1.b" },
+            { name: "Binomialverteilung", level: "3", sublevel: "3.2.2.a" },
+            { name: "Erwartungswert und Varianz", level: "3", sublevel: "3.2.2.b" },
+            { name: "Normalverteilung", level: "3", sublevel: "3.2.2.c" },
+            { name: "Vektoroperationen und Skalarprodukt (vertieft)", level: "3", sublevel: "3.2.3.a" },
+            { name: "Geraden und Ebenen im Raum", level: "3", sublevel: "3.2.3.b" },
+            { name: "Kreuzprodukt und geometrische Anwendungen", level: "3", sublevel: "3.2.3.c" },
+            { name: "Komplexe Zahlen: kartesische Form und Betrag", level: "3", sublevel: "3.3.1.a" },
+            { name: "Polarform und Eulersche Formel", level: "3", sublevel: "3.3.1.b" },
+            { name: "Matrixoperationen: Addition und Multiplikation", level: "3", sublevel: "3.4.1.a" },
+            { name: "Determinante (2×2)", level: "3", sublevel: "3.4.1.b" },
+            { name: "Kegelschnitte: Parabel, Ellipse, Hyperbel", level: "3", sublevel: "3.5.1.a" },
+            { name: "Umkehrfunktionen", level: "2", sublevel: "2.2.4.a" },
+        ]
+    }
+];
+
+const LEVEL_LABEL = { "1": "L1", "2": "L2", "3": "L3" };
+
+function archiveHref(level, sublevel) {
+    return `lernarchiv.html?level=${encodeURIComponent(level)}&sublevel=${encodeURIComponent(sublevel)}`;
+}
+
+function renderMatrix() {
+    const container = document.getElementById("matrix");
+    CURRICULUM.forEach(block => {
+        const div = document.createElement("div");
+        div.className = "grade-block";
+        const badgeClass = block.badge === "l1" ? "badge-l1"
+            : block.badge === "l2" ? "badge-l2"
+            : block.badge === "l3" ? "badge-l3"
+            : "badge-mixed";
+        const badgeText = block.badge === "l1" ? "L1"
+            : block.badge === "l2" ? "L2"
+            : block.badge === "l3" ? "L3"
+            : "L1–L3";
+        div.innerHTML = `
+            <div class="grade-header">
+                <span class="grade-badge ${badgeClass}">${badgeText}</span>
+                <span class="grade-title">${block.grades}</span>
+                <span class="grade-desc">${block.desc}</span>
+            </div>
+            <div class="topic-grid" id="grid-${block.grades.replace(/\s/g,'_')}"></div>
+        `;
+        container.appendChild(div);
+        const grid = div.querySelector(".topic-grid");
+        block.topics.forEach(topic => {
+            const a = document.createElement("a");
+            a.className = "topic-chip";
+            a.href = archiveHref(topic.level, topic.sublevel);
+            const chipClass = `chip-l${topic.level}`;
+            a.innerHTML = `
+                <span class="chip-level ${chipClass}">${LEVEL_LABEL[topic.level]}</span>
+                <span class="topic-name">${topic.name}</span>
+                <span class="topic-arrow">→</span>
+            `;
+            grid.appendChild(a);
+        });
+    });
+}
+
+renderMatrix();
+</script>
+</body>
+</html>
