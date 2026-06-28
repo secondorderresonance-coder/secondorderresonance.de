@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,36 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1–12 and mapped every topic to L1–L3 archive sections.
+
+### Changes in this iteration
+- Added `window.SOR_CURRICULUM` data object to `app/data/archive-content.js` with 5 grade groups (K1–4, K5–6, K7–8, K9–10, K11–12), covering 58 curriculum topics mapped to specific archive sublevel IDs.
+- Added a `<section id="curriculum-matrix">` card to `app/lernarchiv.html` positioned between the KPI/progress overview and the archive browser.
+- Added `renderCurriculum()` JS function: renders grade-group tabs and topic cards. Clicking a topic card sets the archive level+sublevel filter and scrolls to the archive browser.
+- Added CSS for `.curriculum-tabs`, `.curriculum-tab`, `.curriculum-grid`, `.curr-topic`, `.curr-topic-meta`, `.curr-grade`, `.curr-level-badge` with mobile-responsive grid breakpoints.
+- Visual design follows existing SOR identity: same card style, color tokens, and hover patterns.
+
+### Files touched
+- `app/data/archive-content.js`
+- `app/lernarchiv.html`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level
+- Node VM check: SOR_CURRICULUM has 5 groups with 11–12 topics each (58 total)
+- All referenced sublevel IDs confirmed present in the archive task dataset
+- `node -e "new Function(scriptContent)"` → Script syntax OK
+- `git diff --check` → no whitespace issues
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4–L5 sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.

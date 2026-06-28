@@ -2555,8 +2555,104 @@ window.SOR_ARCHIVE = {
     ]
 };
 
-
-
-
+window.SOR_CURRICULUM = {
+    title: "Lehrplanmatrix Klasse 1–12",
+    description: "Schulstufenuebergreifende Zuordnung von Lehrplanthemen zu Archiv-Subleveln (L1–L3)",
+    groups: [
+        {
+            key: "K1-4",
+            label: "Klasse 1–4",
+            subtitle: "Grundschule",
+            topics: [
+                { grade: 1, title: "Addition und Subtraktion bis 20",        level: "1", sublevel: "1.1.1.a" },
+                { grade: 1, title: "Zaehlen und Zahlen bis 100",             level: "1", sublevel: "1.1.1.a" },
+                { grade: 2, title: "Einmaleins und Division",                level: "1", sublevel: "1.1.1.a" },
+                { grade: 2, title: "Zahlen bis 1000",                        level: "1", sublevel: "1.1.1.a" },
+                { grade: 3, title: "Schriftliches Rechnen",                  level: "1", sublevel: "1.1.1.b" },
+                { grade: 3, title: "Einheiten: Laenge, Masse, Zeit",         level: "1", sublevel: "1.3.2.a" },
+                { grade: 3, title: "Flaeche und Umfang (einfach)",           level: "1", sublevel: "1.2.1.a" },
+                { grade: 4, title: "Brueche kennenlernen",                   level: "1", sublevel: "1.1.2.a" },
+                { grade: 4, title: "Dezimalzahlen",                          level: "1", sublevel: "1.1.3.a" },
+                { grade: 4, title: "Runden und Schaetzen",                   level: "1", sublevel: "1.1.3.b" },
+                { grade: 4, title: "Einfacher Dreisatz",                     level: "1", sublevel: "1.3.1.a" }
+            ]
+        },
+        {
+            key: "K5-6",
+            label: "Klasse 5–6",
+            subtitle: "Uebergang Grundschule / Unterstufe",
+            topics: [
+                { grade: 5, title: "Primzahlen und Primfaktorzerlegung",    level: "1", sublevel: "1.1.5.a" },
+                { grade: 5, title: "ggT und kgV",                           level: "1", sublevel: "1.1.5.b" },
+                { grade: 5, title: "Brueche addieren und kuerzen",          level: "1", sublevel: "1.1.2.a" },
+                { grade: 5, title: "Negative Zahlen",                       level: "1", sublevel: "1.1.4.a" },
+                { grade: 5, title: "Koordinatensystem",                     level: "1", sublevel: "1.2.4.a" },
+                { grade: 5, title: "Winkel und Dreiecke",                   level: "1", sublevel: "1.2.3.a" },
+                { grade: 6, title: "Brueche multiplizieren und dividieren", level: "1", sublevel: "1.1.2.c" },
+                { grade: 6, title: "Prozentrechnung",                       level: "1", sublevel: "1.1.2.b" },
+                { grade: 6, title: "Proportionale Zuordnungen",             level: "1", sublevel: "1.3.1.a" },
+                { grade: 6, title: "Antiproportionale Zuordnungen",         level: "1", sublevel: "1.3.1.b" },
+                { grade: 6, title: "Diagramme und Statistik",               level: "1", sublevel: "1.4.1.a" },
+                { grade: 6, title: "Einfache Wahrscheinlichkeit",           level: "1", sublevel: "1.4.2.a" }
+            ]
+        },
+        {
+            key: "K7-8",
+            label: "Klasse 7–8",
+            subtitle: "Mittelstufe I",
+            topics: [
+                { grade: 7, title: "Lineare Gleichungen",                   level: "2", sublevel: "2.1.1.a" },
+                { grade: 7, title: "Formeln umstellen",                     level: "2", sublevel: "2.1.1.b" },
+                { grade: 7, title: "Lineare Funktionen",                    level: "2", sublevel: "2.2.2.a" },
+                { grade: 7, title: "Potenzgesetze",                         level: "2", sublevel: "2.3.1.a" },
+                { grade: 7, title: "Koerper und Volumen",                   level: "1", sublevel: "1.2.2.a" },
+                { grade: 7, title: "Aehnlichkeit und Strahlensatz",         level: "2", sublevel: "2.5.1.a" },
+                { grade: 8, title: "Lineare Gleichungssysteme",             level: "2", sublevel: "2.1.2.a" },
+                { grade: 8, title: "Quadratische Gleichungen",              level: "2", sublevel: "2.1.3.a" },
+                { grade: 8, title: "Quadratische Funktionen",               level: "2", sublevel: "2.2.3.a" },
+                { grade: 8, title: "Satz des Pythagoras",                   level: "2", sublevel: "2.5.3.a" },
+                { grade: 8, title: "Negative Exponenten",                   level: "2", sublevel: "2.3.1.b" }
+            ]
+        },
+        {
+            key: "K9-10",
+            label: "Klasse 9–10",
+            subtitle: "Mittelstufe II",
+            topics: [
+                { grade: 9, title: "Trigonometrie (sin, cos, tan)",         level: "2", sublevel: "2.4.1.a" },
+                { grade: 9, title: "Logarithmen",                           level: "2", sublevel: "2.3.3.a" },
+                { grade: 9, title: "Exponentialfunktionen",                 level: "2", sublevel: "2.2.1.a" },
+                { grade: 9, title: "Kreisgeometrie",                        level: "2", sublevel: "2.5.2.a" },
+                { grade: 9, title: "Aehnliche Figuren",                     level: "2", sublevel: "2.5.1.b" },
+                { grade: 9, title: "Kombinatorik",                          level: "2", sublevel: "2.6.1.a" },
+                { grade: 10, title: "Sinus- und Kosinussatz",               level: "2", sublevel: "2.4.2.a" },
+                { grade: 10, title: "Trigonometrische Funktionen",          level: "2", sublevel: "2.4.3.a" },
+                { grade: 10, title: "Stochastik Grundlagen",                level: "2", sublevel: "2.6.2.a" },
+                { grade: 10, title: "Binomialverteilung",                   level: "3", sublevel: "3.2.2.a" },
+                { grade: 10, title: "Vektoren (Einfuehrung)",               level: "3", sublevel: "3.2.3.a" },
+                { grade: 10, title: "Folgen und Reihen",                    level: "3", sublevel: "3.1.5.a" }
+            ]
+        },
+        {
+            key: "K11-12",
+            label: "Klasse 11–12",
+            subtitle: "Gymnasiale Oberstufe / Abitur",
+            topics: [
+                { grade: 11, title: "Ableitungsregeln",                     level: "3", sublevel: "3.1.1.a" },
+                { grade: 11, title: "Monotonie und Extremstellen",          level: "3", sublevel: "3.1.1.b" },
+                { grade: 11, title: "Kurvendiskussion",                     level: "3", sublevel: "3.1.2.a" },
+                { grade: 11, title: "Integralrechnung",                     level: "3", sublevel: "3.1.3.a" },
+                { grade: 11, title: "Bedingte Wahrscheinlichkeit",          level: "3", sublevel: "3.2.1.a" },
+                { grade: 12, title: "Optimierungsaufgaben",                 level: "3", sublevel: "3.1.2.b" },
+                { grade: 12, title: "Flaechenberechnung durch Integration", level: "3", sublevel: "3.1.3.b" },
+                { grade: 12, title: "e^x und ln(x) in Analysis",           level: "3", sublevel: "3.1.4.a" },
+                { grade: 12, title: "Normalverteilung",                     level: "3", sublevel: "3.2.2.c" },
+                { grade: 12, title: "Bayes-Theorem",                        level: "3", sublevel: "3.2.1.b" },
+                { grade: 12, title: "Vektoren und Ebenen im Raum",          level: "3", sublevel: "3.2.3.b" },
+                { grade: 12, title: "Analytische Geometrie",                level: "3", sublevel: "3.5.1.a" }
+            ]
+        }
+    ]
+};
 
 

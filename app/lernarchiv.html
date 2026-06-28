@@ -521,6 +521,92 @@
                 width: 100%;
             }
         }
+
+        .curriculum-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0 1.2rem;
+        }
+
+        .curriculum-tab {
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.88rem;
+            text-align: center;
+            line-height: 1.3;
+            transition: all 0.15s;
+        }
+
+        .curriculum-tab:hover {
+            border-color: rgba(233, 69, 96, 0.5);
+            color: var(--text);
+        }
+
+        .curriculum-tab.active {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.65rem;
+        }
+
+        .curr-topic {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 0.7rem 0.9rem;
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            transition: all 0.15s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .curr-topic:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(233, 69, 96, 0.4);
+        }
+
+        .curr-topic-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .curr-grade {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .curr-level-badge {
+            font-size: 0.73rem;
+            font-weight: 700;
+            padding: 0.1rem 0.45rem;
+            border-radius: 999px;
+        }
+
+        .curr-level-badge.l1 { background: rgba(74, 222, 128, 0.18); color: #4ade80; }
+        .curr-level-badge.l2 { background: rgba(245, 197, 24, 0.18); color: var(--gold); }
+        .curr-level-badge.l3 { background: rgba(251, 146, 60, 0.18); color: #fb923c; }
+
+        @media (max-width: 720px) {
+            .curriculum-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
@@ -562,6 +648,13 @@
                 </div>
             </div>
             <div class="level-progress" id="levelProgress"></div>
+        </section>
+
+        <section class="card" id="curriculum-matrix">
+            <h2>Lehrplanmatrix Klasse 1–12</h2>
+            <p class="muted">Alle Schulstufen auf einen Blick – klicke auf ein Thema, um direkt die passenden Archivaufgaben zu sehen.</p>
+            <div class="curriculum-tabs" id="curriculumTabs"></div>
+            <div class="curriculum-grid" id="curriculumGrid"></div>
         </section>
 
         <section class="card" id="archiveBrowser">
@@ -1575,6 +1668,55 @@
             });
         }
 
+        function renderCurriculum() {
+            const tabs = document.getElementById("curriculumTabs");
+            const grid = document.getElementById("curriculumGrid");
+            if (!tabs || !grid || !window.SOR_CURRICULUM) return;
+
+            const groups = window.SOR_CURRICULUM.groups;
+
+            function showGroup(activeIdx) {
+                tabs.querySelectorAll(".curriculum-tab").forEach((btn, i) => {
+                    btn.classList.toggle("active", i === activeIdx);
+                });
+                const group = groups[activeIdx];
+                grid.innerHTML = group.topics.map(t => `
+                    <button class="curr-topic" data-level="${t.level}" data-sublevel="${t.sublevel}">
+                        <div class="curr-topic-meta">
+                            <span class="curr-level-badge l${t.level}">L${t.level}</span>
+                            <span class="curr-grade">Klasse ${t.grade}</span>
+                        </div>
+                        ${t.title}
+                    </button>
+                `).join("");
+                grid.querySelectorAll(".curr-topic").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        state.selectedLevel = btn.dataset.level;
+                        state.selectedSublevel = btn.dataset.sublevel;
+                        state.selectedTopic = "all";
+                        state.search = "";
+                        state.activeTaskId = null;
+                        renderFilters();
+                        renderTaskList();
+                        saveFilterState();
+                        syncUrlFromState();
+                        document.getElementById("archiveBrowser").scrollIntoView({ behavior: "smooth" });
+                    });
+                });
+            }
+
+            tabs.innerHTML = groups.map((g, i) => `
+                <button class="curriculum-tab" data-idx="${i}">
+                    ${g.label}
+                    <small style="display:block;opacity:0.65;font-size:0.76em;margin-top:0.1rem">${g.subtitle}</small>
+                </button>
+            `).join("");
+            tabs.querySelectorAll(".curriculum-tab").forEach((btn, i) => {
+                btn.addEventListener("click", () => showGroup(i));
+            });
+            showGroup(0);
+        }
+
         applyFilterState(readSavedFilterState() || {});
         applyFilterState(readFilterStateFromUrl());
 
@@ -1583,6 +1725,7 @@
         renderFilters();
         renderTaskList();
         renderTaxonomy();
+        renderCurriculum();
         renderPythagorasVisual();
         renderArgandVisual();
         bindEvents();
