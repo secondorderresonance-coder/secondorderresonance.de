@@ -2552,6 +2552,133 @@ window.SOR_ARCHIVE = {
         { id: "P28", level: "6", sublevel: "6.1", topic: "Numerik", prompt: "RK4 hat globale Ordnung ...", options: ["1", "2", "3", "4"], correctIndex: 3 },
         { id: "P29", level: "6", sublevel: "6.1.1.b", topic: "FEM", prompt: "FEM basiert oft auf ...", options: ["Energie-Minimierung", "exakter LÃ¶sung", "Diskretisierung ohne Gitter", "nur Zufall"], correctIndex: 0 },
         { id: "P30", level: "6", sublevel: "6.2", topic: "Optimierung", prompt: "KKT-Bedingungen sind ...", options: ["Ableitungsregeln", "OptimalitÃ¤tsbedingungen mit Nebenbedingungen", "Integrationsregeln", "FehlerschÃ¤tzer"], correctIndex: 1 }
+    ],
+    curriculumMatrix: [
+        {
+            klasse: 1, label: "Klasse 1", stage: "Grundschule",
+            topics: [
+                { title: "Zahlen bis 100", sublevel: "1.1.1", archiveId: "1.1.1.a" },
+                { title: "Addition und Subtraktion", sublevel: "1.1.1", archiveId: "1.1.1.a" },
+                { title: "Einmaleins Einstieg", sublevel: "1.1.1", archiveId: "1.1.1.a" },
+                { title: "Formen und Figuren", sublevel: "1.2.1", archiveId: "1.2.1.a" }
+            ]
+        },
+        {
+            klasse: 2, label: "Klasse 2", stage: "Grundschule",
+            topics: [
+                { title: "Zahlen bis 1000", sublevel: "1.1.1", archiveId: "1.1.1.a" },
+                { title: "Schriftliches Addieren und Subtrahieren", sublevel: "1.1.1", archiveId: "1.1.1.b" },
+                { title: "Kleines Einmaleins", sublevel: "1.1.1", archiveId: "1.1.1.a" },
+                { title: "Längen und Messen", sublevel: "1.3.2", archiveId: "1.3.2.a" }
+            ]
+        },
+        {
+            klasse: 3, label: "Klasse 3", stage: "Grundschule",
+            topics: [
+                { title: "Große Zahlen", sublevel: "1.1.1", archiveId: "1.1.1.b" },
+                { title: "Schriftliches Multiplizieren", sublevel: "1.1.1", archiveId: "1.1.1.b" },
+                { title: "Schriftliches Dividieren", sublevel: "1.1.1", archiveId: "1.1.1.b" },
+                { title: "Brüche kennenlernen", sublevel: "1.1.2", archiveId: "1.1.2.a" }
+            ]
+        },
+        {
+            klasse: 4, label: "Klasse 4", stage: "Grundschule",
+            topics: [
+                { title: "Brüche und Anteile", sublevel: "1.1.2", archiveId: "1.1.2.a" },
+                { title: "Dezimalzahlen", sublevel: "1.1.3", archiveId: "1.1.3.a" },
+                { title: "Runden und Schätzen", sublevel: "1.1.3", archiveId: "1.1.3.b" },
+                { title: "Flächen und Umfang", sublevel: "1.2.1", archiveId: "1.2.1.a" },
+                { title: "Einheiten umrechnen", sublevel: "1.3.2", archiveId: "1.3.2.b" }
+            ]
+        },
+        {
+            klasse: 5, label: "Klasse 5", stage: "Unterstufe",
+            topics: [
+                { title: "Brüche vertiefen", sublevel: "1.1.2", archiveId: "1.1.2.c" },
+                { title: "Prozentrechnung Grundlagen", sublevel: "1.1.2", archiveId: "1.1.2.b" },
+                { title: "Negative Zahlen", sublevel: "1.1.4", archiveId: "1.1.4.a" },
+                { title: "Koordinatensystem", sublevel: "1.2.4", archiveId: "1.2.4.a" },
+                { title: "Dreisatz", sublevel: "1.3.1", archiveId: "1.3.1.a" },
+                { title: "Primzahlen und Teilbarkeit", sublevel: "1.1.5", archiveId: "1.1.5.a" }
+            ]
+        },
+        {
+            klasse: 6, label: "Klasse 6", stage: "Unterstufe",
+            topics: [
+                { title: "Brüche multiplizieren und dividieren", sublevel: "1.1.2", archiveId: "1.1.2.c" },
+                { title: "Proportionale Zuordnungen", sublevel: "1.3.1", archiveId: "1.3.1.a" },
+                { title: "Antiproportionale Zuordnungen", sublevel: "1.3.1", archiveId: "1.3.1.b" },
+                { title: "Winkel und Dreiecke", sublevel: "1.2.3", archiveId: "1.2.3.a" },
+                { title: "Grundlagen Wahrscheinlichkeit", sublevel: "1.4.2", archiveId: "1.4.2.a" },
+                { title: "Diagramme und Statistik", sublevel: "1.4.1", archiveId: "1.4.1.a" }
+            ]
+        },
+        {
+            klasse: 7, label: "Klasse 7", stage: "Mittelstufe",
+            topics: [
+                { title: "Terme und lineare Gleichungen", sublevel: "2.1.1", archiveId: "2.1.1.a" },
+                { title: "Formeln umstellen", sublevel: "2.1.1", archiveId: "2.1.1.b" },
+                { title: "Lineare Funktionen und Geraden", sublevel: "2.2.2", archiveId: "2.2.2.a" },
+                { title: "Körper und Volumen", sublevel: "1.2.2", archiveId: "1.2.2.a" },
+                { title: "Ähnliche Figuren und Strahlensatz", sublevel: "2.5.1", archiveId: "2.5.1.a" },
+                { title: "Wahrscheinlichkeit und Baumdiagramme", sublevel: "2.6.2", archiveId: "2.6.2.b" }
+            ]
+        },
+        {
+            klasse: 8, label: "Klasse 8", stage: "Mittelstufe",
+            topics: [
+                { title: "Lineare Gleichungssysteme", sublevel: "2.1.2", archiveId: "2.1.2.a" },
+                { title: "Quadratische Funktionen und Parabeln", sublevel: "2.2.3", archiveId: "2.2.3.a" },
+                { title: "Satz des Pythagoras", sublevel: "2.5.3", archiveId: "2.5.3.a" },
+                { title: "Kreisgeometrie", sublevel: "2.5.2", archiveId: "2.5.2.a" },
+                { title: "Mittelwert und Häufigkeit", sublevel: "1.4.1", archiveId: "1.4.1.b" },
+                { title: "Laplace-Wahrscheinlichkeit", sublevel: "2.6.2", archiveId: "2.6.2.a" }
+            ]
+        },
+        {
+            klasse: 9, label: "Klasse 9", stage: "Mittelstufe",
+            topics: [
+                { title: "Quadratische Gleichungen", sublevel: "2.1.3", archiveId: "2.1.3.a" },
+                { title: "Faktorisierung", sublevel: "2.1.3", archiveId: "2.1.3.b" },
+                { title: "Trigonometrie am rechtwinkligen Dreieck", sublevel: "2.4.1", archiveId: "2.4.1.a" },
+                { title: "Kombinatorik", sublevel: "2.6.1", archiveId: "2.6.1.a" },
+                { title: "Bedingte Wahrscheinlichkeit", sublevel: "3.2.1", archiveId: "3.2.1.a" },
+                { title: "Lineare Ungleichungen", sublevel: "2.1.4", archiveId: "2.1.4.a" }
+            ]
+        },
+        {
+            klasse: 10, label: "Klasse 10", stage: "Mittelstufe",
+            topics: [
+                { title: "Potenzgesetze", sublevel: "2.3.1", archiveId: "2.3.1.a" },
+                { title: "Wurzeln und Radikale", sublevel: "2.3.2", archiveId: "2.3.2.a" },
+                { title: "Logarithmen", sublevel: "2.3.3", archiveId: "2.3.3.a" },
+                { title: "Sinus- und Kosinussatz", sublevel: "2.4.2", archiveId: "2.4.2.a" },
+                { title: "Exponentielles Wachstum und Zerfall", sublevel: "2.2.1", archiveId: "2.2.1.a" },
+                { title: "Binomialkoeffizient", sublevel: "2.6.1", archiveId: "2.6.1.b" }
+            ]
+        },
+        {
+            klasse: 11, label: "Klasse 11", stage: "Oberstufe",
+            topics: [
+                { title: "Ableitungsregeln (Ketten-, Produkt-, Quotientenregel)", sublevel: "3.1.1", archiveId: "3.1.1.a" },
+                { title: "Monotonie und Extremstellen", sublevel: "3.1.1", archiveId: "3.1.1.b" },
+                { title: "Krümmung und Wendepunkte", sublevel: "3.1.1", archiveId: "3.1.1.c" },
+                { title: "Vektoren und Skalarprodukt", sublevel: "3.2.3", archiveId: "3.2.3.a" },
+                { title: "Bedingte Wahrscheinlichkeit und Bayes", sublevel: "3.2.1", archiveId: "3.2.1.b" },
+                { title: "Binomialverteilung", sublevel: "3.2.2", archiveId: "3.2.2.a" }
+            ]
+        },
+        {
+            klasse: 12, label: "Klasse 12", stage: "Oberstufe",
+            topics: [
+                { title: "Stammfunktionen und Grundregeln", sublevel: "3.1.3", archiveId: "3.1.3.a" },
+                { title: "Bestimmtes Integral und Flächeninhalt", sublevel: "3.1.3", archiveId: "3.1.3.b" },
+                { title: "Vollständige Kurvendiskussion", sublevel: "3.1.2", archiveId: "3.1.2.a" },
+                { title: "Geraden und Ebenen im Raum", sublevel: "3.2.3", archiveId: "3.2.3.b" },
+                { title: "Normalverteilung", sublevel: "3.2.2", archiveId: "3.2.2.c" },
+                { title: "Komplexe Zahlen (Einstieg)", sublevel: "3.3.1", archiveId: "3.3.1.a" }
+            ]
+        }
     ]
 };
 
