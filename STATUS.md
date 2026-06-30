@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,35 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Curriculum coverage matrix for Klasse 1–12 mapped to L1-L3 archive sections.
+
+### Changes in this iteration
+- Created `app/lehrplan.html`: a standalone page with a 4-band tab navigation (Grundschule K1-4, Unterstufe K5-7, Mittelstufe K8-10, Oberstufe K11-12).
+- Each band shows per-grade topic cards with: topic name, level badge (L1/L2/L3), archive sublevel pill, and a direct "Üben →" link to the archive filtered by level and sublevel.
+- 66 curriculum topics mapped across Klasse 1–12: 29 L1 topics, 21 L2 topics, 16 L3 topics.
+- All archive links use `lernarchiv.html?level=N&sublevel=X.Y.Z` deep-link format.
+- Added "Lehrplan-Matrix" link to the `app/lernarchiv.html` topbar navigation.
+
+### Files touched
+- `app/lehrplan.html` (new)
+- `app/lernarchiv.html` (topbar link added)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, 30.000 tasks, 5.000 per level
+- Structural check: 4 bands, 66 sublevel entries, all archive links use leaf sublevels (x.y.z.a format)
+- HTML structure check: topbar, band-tabs, legend, grade-cards all present
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix for L4-L5 (Klasse Bachelor / Master level).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
