@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,33 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v2.5.5)
+Built the Klasse 1-12 curriculum coverage matrix and mapped it to the L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, a generalized German school-math progression (Klasse 1-12, KMK-Bildungsstandards-oriented) mapped table-by-grade to the existing L1-L3 archive sublevel IDs.
+- Marked each mapped topic as Vollstaendig (direct sublevel match), Teilweise (related sublevel exists but is broader), or Luecke (no matching sublevel yet).
+- Identified three concrete taxonomy gaps (Achsen-/Punktsymmetrie, Dreieckskongruenz, Zinsrechnung) and added them as small, focused P2 follow-up tasks in `BACKLOG.md` instead of expanding scope in this run.
+- Verified every sublevel ID referenced in the new document actually exists in `app/data/archive-content.js`.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level
+- Node script cross-checking all 63 sublevel IDs referenced in the new matrix against the live taxonomy in `app/data/archive-content.js` -> all resolved
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (next open P1 task), or close one of the three newly identified taxonomy gaps in a small batch.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
