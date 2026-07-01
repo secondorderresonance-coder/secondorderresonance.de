@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,34 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A documented curriculum coverage matrix now maps German Klasse 1-12/13 to the L1-L3 archive taxonomy, including an explicit gap list for future content batches.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1-12 and mapped every school-grade topic block to existing L1-L3 archive sections.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`: a planning/reference document (no archive content changes) that maps Klasse 1-2, 3-4, 5-6, 7-8, 9-10, 11, and 12-13 to concrete `sublevels` IDs from `window.SOR_ARCHIVE.taxonomy` in `app/data/archive-content.js`.
+- Documented the mapping methodology (KMK-Bildungsstandards-orientierte Stufung, Bundesland-Varianz-Hinweis) and a coverage-status legend (Abgedeckt / Teilweise / Luecke).
+- Identified and recorded the main structural gap: the L1 taxonomy has no dedicated fine-grained branch for very early Grundschule (Klasse 1-2, e.g. Zahlraum bis 100, Additions-/Subtraktionsstrategien ohne Uebertrag).
+- Added the corresponding follow-up task to `BACKLOG.md` (P2) instead of implementing new taxonomy/content in this run, to keep the change small and reviewable.
+- Marked the P1 backlog item as completed.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Node script cross-checked every sublevel ID referenced in the new doc against the live `window.SOR_ARCHIVE.taxonomy` built from `app/data/archive-content.js`: all 85 referenced existing IDs resolved correctly; the only two unresolved IDs (`1.1.1.c`, `1.0.x`) are explicitly proposed *future* IDs in the "Identifizierte Luecken" section, not claims of existing coverage.
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level (confirms this documentation-only change did not affect archive data integrity).
+- `git status` confirms only the new doc plus `BACKLOG.md`/`STATUS.md`/`VERSION.md` changed.
+
+### Blockers
+- None.
+
+### Next logical step
+- Either add the small Klasse-1-2 fine-grained sublevel branch and a first seed-task batch (see new P2 backlog item), or continue with the next open P1 task: build the engineering-mathematics coverage matrix through Master level for L4-L5.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
