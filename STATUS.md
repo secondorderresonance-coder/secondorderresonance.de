@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,32 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix mapping German Klasse 1-12 topics to the existing L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, mapping grade bands (Klasse 1-2 through 12-13/Abitur) to concrete `app/data/archive-content.js` sublevel IDs, oriented on KMK Bildungsstandards.
+- Documented three concrete gaps: Klasse 1-2 Anfangsunterricht has no matching sublevel (out of product scope for now), Prozentrechnung (Klasse 7) has no explicit leaf sublevel, and Klasse 12-13 complex-number/matrix coverage varies by Bundesland (Leistungskurs-only in several states).
+- Added a new small P1 follow-up backlog item for an explicit `1.3.1.c` "Prozent- und Zinsrechnung" sublevel and content batch, since that gap needs a dedicated content change rather than being folded into this mapping task.
+- Cross-checked every sublevel ID referenced in the new matrix against the live taxonomy in `app/data/archive-content.js` with a script; only the proposed-but-not-yet-created `1.3.1.c` was flagged as missing, confirming the rest of the mapping only references real IDs.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- One-off Python script cross-referencing all `[level].[sublevel]...` IDs in the new doc against `id: "..."` entries parsed from `app/data/archive-content.js`: 86/87 referenced IDs exist; the one non-match (`1.3.1.c`) is the intentionally proposed new sublevel, not an error.
+- `git diff --check` on the new file (no whitespace errors).
+- No code paths, UI, or archive data were changed, so no functional regression risk; this is a documentation-only addition.
+
+### Blockers
+- None.
+
+### Next logical step
+- Either close the Prozentrechnung gap by adding `1.3.1.c` with a small seed-task batch, or move on to the next open P1 item: the engineering-mathematics coverage matrix through Master level for L4-L5.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
