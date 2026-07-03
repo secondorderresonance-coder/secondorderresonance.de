@@ -22,7 +22,7 @@
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
-- [ ] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
+- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
 - [x] Add an Archiv section to the website
@@ -52,6 +52,7 @@
 - [x] Expand L1-L3 school curriculum coverage batch with broader topics (Arithmetik, Geometrie, Funktionen, Stochastik, Trigonometrie)
 - [x] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches) – Batch 1 (T-4/5/6-007) + Batch 2 (T-4-008/009/010, T-5-008/009/010, T-6-008/009/010)
 - [x] Continue L1-L3 school curriculum expansion in small mapped batches – alle Sublevel-Luecken L1/L2/L3 geschlossen (v2.3.0 + v2.4.0)
+- [ ] Add an optional "Meine Klassenstufe" filter/preset in the archive UI, driven by `docs/curriculum-coverage-klasse-1-12.md`
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)

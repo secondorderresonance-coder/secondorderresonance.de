@@ -1,10 +1,10 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), and a documented curriculum coverage matrix mapping Klasse 1-12 to the L1-L3 archive taxonomy for this iteration.
 The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, email-based local account registration/login with per-email progress storage, and a backend-ready moderation pipeline for external task suggestions.
 
 Long-term target remains unchanged and explicitly active:
@@ -35,6 +35,33 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A documented curriculum coverage matrix (`docs/curriculum-coverage-klasse-1-12.md`) now maps every German school Klasse (1-12/13) to concrete L1-L3 archive sublevels, with full leaf-node coverage verified.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix mapping Klasse 1-12 to the L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, a reference document that maps every German school grade (Klasse 1 through the Qualifikationsphase/Abitur, Klasse 12/13) to concrete archive sublevel IDs from `SOR_ARCHIVE.taxonomy` (L1-L3).
+- Documented the KMK-Bildungsstandards / G9-Gymnasium baseline used for the mapping, with an explicit note that individual Bundeslaender/school types can shift topics by a grade or two.
+- Verified programmatically that all 87 L1-L3 leaf sublevels (deepest taxonomy nodes, e.g. `1.1.1.a`, `2.1.1.c`, `3.5.1.a`) are referenced by at least one Klasse in the matrix — no taxonomy gaps.
+- Added a small justified follow-up backlog item for a future optional "Meine Klassenstufe" archive filter driven by this matrix (not implemented in this iteration, doc-only scope).
+- No UI, data model, or archive content changes — this is a planning/reference document, consistent with prior doc-only iterations (e.g. `docs/sor-account-sync-architecture.md`).
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Node script cross-referencing every L1-L3 leaf sublevel `id` in `app/data/archive-content.js` against the new doc: `total leaves: 87`, `missing from doc: []`
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level (unaffected, confirms no archive data regression)
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level for L4-L5 (next open P1 item), following the same documented-matrix approach.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
