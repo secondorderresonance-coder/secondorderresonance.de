@@ -22,7 +22,7 @@
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
-- [ ] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
+- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
 - [x] Add an Archiv section to the website
@@ -86,4 +86,5 @@
 - [x] Add backend/moderation pipeline for external task suggestions after validating demand
 - [x] Add backend admin registration visibility foundation for registered account emails
 - [x] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
+- [ ] Remove the stray tracked file `and clean archive update` at repo root (looks like an accidental terminal/diff capture with a garbled filename, unrelated to any feature)
 
