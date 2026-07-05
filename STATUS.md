@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,32 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix mapping the typical German school curriculum (Klasse 1-12) to existing L1-L3 archive sections.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, a new documentation file mapping Klasse 1-12 to L1-L3 archive sublevel IDs (`app/data/archive-content.js` -> `SOR_ARCHIVE.taxonomy`).
+- Documented the important limitation that German math curricula vary by Bundesland and school type, so the matrix is a generalized approximation rather than an official curriculum.
+- Listed observed coverage gaps for future iterations (Grundschule Zahlenraum granularity, Klasse 7/8 overlap on linear equations, Oberstufe Wahlthemen framing).
+- Added a follow-up P2 backlog item for finer Grundschule sublevel granularity, discovered while writing the matrix.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` (confirms archive data untouched and still OK: 30.000 tasks, 5.000/level)
+- Verified every sublevel ID referenced in the new matrix exists in `app/data/archive-content.js` via a shell grep loop (all found, no typos)
+- Manual review of the markdown table for internal consistency (Klasse ranges are non-overlapping and cover 1-12)
+
+### Blockers
+- None. The matrix is intentionally a generalized approximation, not tied to one Bundesland; refining it per state is future work if prioritized.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level (L4-L5), the next open P1 curriculum-mapping task.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
