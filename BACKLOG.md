@@ -22,7 +22,7 @@
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
-- [ ] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
+- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
 - [x] Add an Archiv section to the website
@@ -86,4 +86,8 @@
 - [x] Add backend/moderation pipeline for external task suggestions after validating demand
 - [x] Add backend admin registration visibility foundation for registered account emails
 - [x] Weekly leaderboard (ISO week XP ranking, local-first display, ready for backend sync)
+- [ ] Add dedicated L2 sublevel "Terme vereinfachen / Termumformung" (Klasse 7 entry point into 2.1, gap found in curriculum coverage matrix)
+- [ ] Add dedicated L2 sublevel "Zinsrechnung" (Klasse 7, extends 1.1.2.b, gap found in curriculum coverage matrix)
+- [ ] Add dedicated construction-based geometry sublevel for Dreieckskonstruktion (Klasse 6-7, gap found in curriculum coverage matrix)
+- [ ] Add dedicated L2 "Zuordnungen vertieft" sublevel instead of reusing the L1 Dreisatz sublevel (gap found in curriculum coverage matrix)
 

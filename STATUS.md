@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,33 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A curriculum coverage matrix now maps German school grades (Klasse 1-12) to L1-L3 archive sublevels, with explicit gaps documented for future content batches.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix mapping German school grades (Klasse 1-12) to the existing L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`: a new reference document mapping typical Gymnasium curriculum topics per grade band (Klasse 1-2, 3-4, 5, 6, 7, 8, 9, 10, 11, 12/13) to concrete sublevel IDs in `app/data/archive-content.js` (`window.SOR_ARCHIVE.taxonomy`).
+- Documented explicit coverage gaps instead of forcing inaccurate mappings: missing "Terme vereinfachen/Termumformung" sublevel, missing "Zinsrechnung" sublevel, missing construction-based Dreieckskonstruktion sublevel, and the reused-not-dedicated "Zuordnungen vertieft" sublevel.
+- Appended the four discovered gaps as new low-priority P4 backlog items so they can be picked up as future small, reviewable archive-taxonomy batches.
+- This is a planning/reference document only; no runtime code, task content, or taxonomy structure was changed.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Cross-checked every sublevel ID referenced in the new document against the actual taxonomy in `app/data/archive-content.js` via a scripted diff (`comm -23` between doc IDs and taxonomy IDs) — result: no invalid references (85/85 IDs match).
+- `node tools/archive-qa.js` — result: OK, 30000 tasks, 5000 per level, 30 placement questions (confirms the archive data itself is unaffected).
+- Manual read-through of the new document for internal consistency (grade bands in order, no duplicate/contradictory mappings).
+
+### Blockers
+- None. Exact topic sequencing varies by Bundesland; the matrix explicitly notes it follows a general cross-state ordering rather than one specific Lehrplan.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 archive sections (next open P1 backlog item).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
