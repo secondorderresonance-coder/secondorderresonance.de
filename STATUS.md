@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,32 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A curriculum coverage matrix now documents how the regular German Klasse 1-12 math curriculum maps onto the existing L1-L3 archive sublevels, giving a reference base for the still-open L4-L5 engineering-mathematics matrix and the L6 research-topic expansion.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix mapping Klasse 1-12 to the existing L1-L3 archive sections.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-matrix-l1-l3.md`: a new planning/reference document (following the style of the existing `docs/*.md` planning docs) that maps every grade band from Klasse 1-2 through Klasse 12/13 to concrete existing sublevel IDs in `app/data/archive-content.js` (`window.SOR_ARCHIVE.taxonomy`, levels 1-3).
+- Documented methodology and Bundesland-variance caveats, plus a "Deckungslücken" (coverage-gap) section confirming no new sublevel IDs are required for the standard curriculum — Komplexe Zahlen, Matrizen, and Kegelschnitte in L3 are flagged as Bundesland-dependent wahlthema topics.
+- No changes to `app/data/archive-content.js`, site markup, or styling — this is a documentation-only deliverable, consistent with keeping the visual identity untouched.
+- Added a small, clearly-scoped P2 follow-up task to BACKLOG.md: adding a machine-readable Klassenstufe tag per sublevel so this matrix can later drive a grade-level filter in the archive UI.
+
+### Files touched
+- `docs/curriculum-coverage-matrix-l1-l3.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Node script cross-checked every sublevel ID referenced in the new matrix's mapping table against `window.SOR_ARCHIVE.taxonomy` for levels 1-3: 84 unique IDs referenced, 0 missing/invalid.
+- `node tools/archive-qa.js` → `Result: OK` (30.000 tasks, 5.000 per level) — confirms the unrelated archive data file was not touched/broken.
+
+### Blockers
+- None.
+
+### Next logical step
+- Start the next open P1 task: build the engineering-mathematics coverage matrix through Master level and map it to the L4-L5 archive sections (mirrors the approach used for this L1-L3 matrix).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
