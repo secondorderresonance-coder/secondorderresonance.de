@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,33 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A curriculum coverage matrix now maps Klasse 1-12 school topics to every L1-L3 archive sublevel, giving content authoring a grade-level reference for future school-coverage batches.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix mapping Klasse 1-12 to L1-L3 archive sections (highest-priority open P1 task).
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`: a planning document that maps standard German school curriculum topics for Klasse 1-12 (Grundschule through gymnasiale Oberstufe, G8/G9-neutral) to the existing L1-L3 sublevel taxonomy in `app/data/archive-content.js`.
+- Grouped by Klassenstufe (1-2, 3-4, 5, 6, 7, 8, 9, 10, 11, 12, 13), each table row maps a curriculum topic to the matching SOR sublevel ID and title.
+- Added a known-gaps section noting that Klasse 1-2 sits below the current taxonomy's granularity (informally covered by `1.1.1`), and confirming every other L1-L3 leaf sublevel is mapped to at least one Klassenstufe.
+- No runtime code, taxonomy, or archive data changed — this is a planning/reference document only, following the same pattern as the existing `docs/*.md` architecture files.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Programmatic check (Node): loaded `window.SOR_ARCHIVE.taxonomy` from `app/data/archive-content.js` and confirmed every one of the 145 L1-L3 sublevel IDs is referenced in the new doc (all leaf-level entries matched exactly by ID token; only category/parent nodes like `1.1`, `2.3`, `3.1.1` are not separately mentioned, since tasks are always tagged with leaf sublevels, not parent nodes).
+- `node tools/archive-qa.js` re-run to confirm the existing archive data/taxonomy is unaffected (no changes made to it).
+- Manual read-through of the new doc for internal consistency with `AGENTS.md`'s 6-level naming and existing taxonomy titles.
+
+### Blockers
+- None.
+
+### Next logical step
+- Use this matrix to start the next open P1 task: build the engineering-mathematics coverage matrix (through Master level) mapping to L4-L5 sections, following the same doc pattern.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
