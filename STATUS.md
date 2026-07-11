@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,34 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A curriculum coverage matrix now maps typical German Klasse 1-12 topics to concrete L1-L3 archive sublevel IDs, as a planning reference for future school-coverage content batches.
+
+## Last completed task (v2.5.5)
+Built a curriculum coverage matrix for Klasse 1-12 and mapped every topic to concrete L1-L3 archive sections.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, mapping generalized German school topics (Klasse 1-4 Grundschule through Klasse 12/13 Qualifikationsphase/Abitur) to concrete L1-L3 archive sublevel IDs from `SOR_ARCHIVE.taxonomy` in `app/data/archive-content.js`.
+- Documented the scope/limitation that curricula vary by Bundesland/G8-G9 and that the mapping is grade-stage-level, not week-by-week.
+- Identified and documented three concrete coverage gaps for future batches: thin Klasse 1-4 (Grundschule) sublevel granularity, thin Wahrscheinlichkeit/Kombinatorik depth, and the need to flag Bundesland-optional Oberstufe topics (komplexe Zahlen, Matrizen, Kegelschnitte) as optional once the Lernpfad UI supports it.
+- Added two small, appropriately-scoped P2 follow-up tasks to `BACKLOG.md` based on the identified gaps. Did not implement them in this run to keep the change focused on the coverage matrix itself.
+- This is a planning/documentation deliverable only (consistent with prior docs like `docs/mobile-app-mvp-plan.md`); no runtime files, archive data, or UI were changed.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Node script loaded `app/data/archive-content.js` and verified all 84 sublevel IDs referenced in the new doc exist in `SOR_ARCHIVE.taxonomy` (0 missing).
+- `node tools/archive-qa.js` (confirms the archive data itself is still intact; this run did not modify archive data).
+- Manual review of the matrix for internal consistency (no level/sublevel mismatches, no legacy 5-level wording).
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the companion engineering-mathematics coverage matrix (Bachelor/Master level) mapped to L4-L5 sections — the next open P1 task in `BACKLOG.md`.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
