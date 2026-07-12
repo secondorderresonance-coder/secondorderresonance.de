@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.5`
+- `v2.5.6`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,44 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.6)
+Fixed the broken footer email address on the homepage.
+
+### Changes in this iteration
+- User-reported bug: the Impressum footer in `index.html` showed the literal text
+  "[email protected]" instead of a readable address.
+- Root cause: the footer link used Cloudflare's automatic email-obfuscation markup
+  (`/cdn-cgi/l/email-protection#...` href + `<span class="__cf_email__" data-cfemail="...">`).
+  That markup is only decoded by a script Cloudflare injects at the edge when a site is
+  proxied live through Cloudflare with "Email Address Obfuscation" enabled. Since the raw,
+  already-obfuscated HTML was committed into the repository, the decode script never runs
+  and visitors only ever see the placeholder text — a page load through Cloudflare is not
+  guaranteed in every hosting/preview context.
+- Decoded the `data-cfemail` hex payload locally (byte-wise XOR with the first byte as
+  key) to recover the real address: `secondorderresonance@gmail.com`.
+- Replaced the obfuscated markup with a plain `<a href="mailto:secondorderresonance@gmail.com">`
+  link showing the address as visible text, preserving the existing footer styling
+  (`color:#98a2bd`) and surrounding "Impressum · Andreas Johannes Zwingler ·" copy.
+- Confirmed no other page in the repo uses the same Cloudflare obfuscation pattern.
+
+### Files touched
+- `index.html`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `grep -n "cdn-cgi/l/email-protection\|__cf_email__\|email.protected" index.html` → no matches (clean)
+- `grep -n "secondorderresonance@gmail.com" index.html` → confirms the real address is now present
+- Parsed `index.html` with Python's `html.parser` → no parse errors, file length unchanged in structure
+
+### Blockers
+- None.
+
+### Next logical step
+- Continue with the next open P1 item: close the identified Grundschule Klasse 1-4
+  gap (Formerkennung/Symmetrie) with a small new L1 sublevel and seed tasks, or proceed
+  to the L4-L5 engineering-mathematics coverage matrix.
 
 ## Last completed task (v2.5.5)
 Built the Klasse 1-12 curriculum coverage matrix and mapped every school topic to L1-L3 archive sublevels.
