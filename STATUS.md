@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.6`
+- `v2.5.7`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,42 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.7)
+User request with three directions: a "cool 3D look" for the homepage, continued archive expansion toward full Klasse 1-13 coverage in L1-L3, and continuous Lernstrasse intuitiveness. Implemented the two most concrete, immediately reviewable pieces; logged the rest as tracked backlog items.
+
+### Changes in this iteration
+- **3D motion layer on the homepage (`index.html`)**: Added a reusable `.tilt3d` CSS/JS layer — cards tilt in 3D toward the cursor (`perspective()/rotateX()/rotateY()` computed from mouse position relative to the card, max 7deg, smooth 0.6s spring-back on mouse-leave) plus a cursor-following radial-gradient glow (`::after` overlay driven by `--mx`/`--my` custom properties) and a `.badge3d` embossed inset-shadow treatment for icon badges (nav/footer logo, level badges, YouTube play buttons). Applied to the hero "Deine Lernstrasse" preview panel, the six level cards, the two archive info cards, the two interactive-visual teasers, the two video cards, the app-teaser panel, and the two "Warum Second-Order-Resonance" cards — 11 `tilt3d` elements, 8 `badge3d` badges in total.
+  - Fully gated behind `@media (hover:hover) and (pointer:fine)` and `!prefers-reduced-motion` in both CSS and JS, so touch devices and reduced-motion users see the existing static card look unchanged (progressive enhancement, no regression for mobile).
+  - No new dependencies; pure CSS + ~20 lines of vanilla JS reusing the existing `reduce` flag and NodeList-forEach patterns already used elsewhere in the file.
+  - Preserves the current color palette, spacing, and layout — only adds motion/depth on top of the existing dark navy + gold/teal/red identity.
+- **Closed the Grundschule Klasse 1-4 curriculum gap identified in `docs/curriculum-coverage-klasse-1-12.md`** (`app/data/archive-content.js`):
+  - Added a new L1 sublevel `1.2.1.c` "Formen erkennen und Symmetrieachsen (Grundschule)" under `1.2.1 Flaechen und Umfang`.
+  - Added three seed tasks: `T-1-043` (Grundformen im Alltag), `T-1-044` (Symmetrieachsen im Quadrat), `T-1-045` (Achsensymmetrie am Buchstaben A).
+  - Updated `docs/curriculum-coverage-klasse-1-12.md` to mark the gap as closed; all 85 sublevel IDs referenced in the matrix now resolve against the live taxonomy (0 remaining gaps for Klasse 1-13).
+- Logged two new backlog directions for continued iteration rather than combining them into this diff: extending the 3D tilt/glow layer to the app pages, and a standing item to keep reviewing the Lernstrasse for intuitive-UX friction.
+
+### Files touched
+- `index.html`
+- `app/data/archive-content.js`
+- `docs/curriculum-coverage-klasse-1-12.md`
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level (new sublevel + 3 seed tasks resolve correctly against taxonomy; QA script explicitly asserts every task's `sublevel` exists in `sublevelsByLevel`)
+- Python `html.parser` full-document parse of `index.html` → no errors
+- `node -e "new Function(...)"` syntax check of the inline `<script>` block in `index.html` → parses OK
+- Playwright (local Chromium) end-to-end check: loaded `index.html` on a local static server, moved the mouse to opposite corners of a level card and read `getComputedStyle(...).transform` — confirmed mirrored `matrix3d(...)` rotation for opposite corners and a clean reset to `none` after `mouseleave`; screenshots confirmed no layout regressions on the hero and level-grid sections
+- Node script cross-checking every backticked sublevel ID in `docs/curriculum-coverage-klasse-1-12.md` against `SOR_ARCHIVE.taxonomy`: 85/85 valid, 0 gaps remaining
+
+### Blockers
+- None.
+
+### Next logical step
+- Extend the `.tilt3d`/`.badge3d` motion layer to `app/lernpfad.html`, `app/lernarchiv.html`, and `app/index.html` for a consistent feel across the whole product, in a separate small batch per page.
+- Continue the L4-L5 engineering-mathematics coverage matrix (still open P1), and start a first pass reviewing `app/lernpfad.html` for concrete intuitive-UX improvements (e.g. clearer lesson-vs-test node labeling, empty/locked-state messaging).
 
 ## Last completed task (v2.5.6)
 Fixed the broken footer email address on the homepage.

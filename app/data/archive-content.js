@@ -93,6 +93,7 @@ window.SOR_ARCHIVE = {
                 { id: "1.2.1",     title: "Flaechen und Umfang" },
                 { id: "1.2.1.a",   title: "Rechteck, Dreieck, Kreis" },
                 { id: "1.2.1.b",   title: "Zusammengesetzte Figuren" },
+                { id: "1.2.1.c",   title: "Formen erkennen und Symmetrieachsen (Grundschule)" },
                 { id: "1.2.2",     title: "Koerper und Volumen" },
                 { id: "1.2.2.a",   title: "Wuerfel, Quader, Zylinder" },
                 { id: "1.2.3",     title: "Winkel und Dreiecke" },
@@ -698,6 +699,9 @@ window.SOR_ARCHIVE = {
         { id: "T-1-040", title: "Einheiten Masse", level: "1", sublevel: "1.3.2.b", topic: "Einheiten", tags: ["masse","kilogramm","gramm"], difficulty: "leicht", question: "Rechne 3,2 kg in Gramm um.", answer: "3200 g", explanation: "1 kg = 1000 g. 3,2 * 1000 = 3200 g.", type: "kurzantwort", estimatedTime: 1 },
         { id: "T-1-041", title: "Mittelwert berechnen", level: "1", sublevel: "1.4.1.b", topic: "Statistik", tags: ["mittelwert","haeufigkeit"], difficulty: "leicht", question: "Berechne den Mittelwert der Noten: 2, 3, 1, 4, 2.", answer: "2,4", explanation: "Summe: 2+3+1+4+2=12. Anzahl: 5. Mittelwert: 12/5 = 2,4.", type: "kurzantwort", estimatedTime: 2 },
         { id: "T-1-042", title: "Einfaches Zufallsexperiment", level: "1", sublevel: "1.4.2.a", topic: "Wahrscheinlichkeit", tags: ["zufall","wuerfel"], difficulty: "leicht", question: "Wie viele moegliche Ergebnisse gibt es beim einmaligen Wuerfelwurf?", answer: "6 (die Augenzahlen 1 bis 6)", explanation: "Ein fairer Wuerfel hat 6 gleichwahrscheinliche Ergebnisse: {1,2,3,4,5,6}.", type: "konzeptfrage", estimatedTime: 1 },
+        { id: "T-1-043", title: "Grundformen im Alltag", level: "1", sublevel: "1.2.1.c", topic: "Geometrie", tags: ["formen","grundschule"], difficulty: "leicht", question: "Welche geometrische Grundform hat ein Fenster in der Regel?", answer: "Rechteck (manchmal Quadrat).", explanation: "Fenster haben meist vier rechte Winkel und zwei Paar gleich lange, parallele Seiten - das ist genau die Definition eines Rechtecks.", type: "konzeptfrage", estimatedTime: 1 },
+        { id: "T-1-044", title: "Symmetrieachsen im Quadrat", level: "1", sublevel: "1.2.1.c", topic: "Geometrie", tags: ["symmetrie","quadrat"], difficulty: "leicht", question: "Wie viele Symmetrieachsen hat ein Quadrat?", answer: "4", explanation: "Ein Quadrat hat vier Symmetrieachsen: die zwei Diagonalen und die zwei Mittellinien (waagerecht und senkrecht durch den Mittelpunkt).", type: "kurzantwort", estimatedTime: 1 },
+        { id: "T-1-045", title: "Achsensymmetrie erkennen", level: "1", sublevel: "1.2.1.c", topic: "Geometrie", tags: ["symmetrie","spiegelachse"], difficulty: "leicht", question: "Ist der Grossbuchstabe A achsensymmetrisch? Wenn ja, wie verlaeuft die Symmetrieachse?", answer: "Ja, senkrecht durch die Mitte des Buchstabens.", explanation: "Spiegelt man die linke Haelfte des A an einer senkrechten Linie durch die Mitte, entsteht die rechte Haelfte - genau das ist die Definition von Achsensymmetrie.", type: "konzeptfrage", estimatedTime: 1 },
 
         {
             id: "T-2-001",

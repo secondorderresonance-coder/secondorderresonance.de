@@ -14,7 +14,7 @@
 ## Aktueller Meilenstein
 - 5.000 Aufgaben pro Level in dieser Iteration
 - 30.000 Aufgaben insgesamt aktuell verfuegbar
-- L1-L3 Schulabdeckung erweitert bis T-1-042 / T-2-052 / T-3-046
+- L1-L3 Schulabdeckung erweitert bis T-1-045 / T-2-052 / T-3-046
 - L4-L6 Ausbau-Batches aktuell erweitert bis T-4-027 / T-5-027 / T-6-027
 - Zielstruktur 30.000 Aufgaben insgesamt ist in der skalierbaren Archivgenerierung erreicht
 
@@ -23,7 +23,10 @@
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
 - [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
-- [ ] Close the identified Grundschule Klasse 1-4 gap (Formerkennung/Symmetrie) with a small new L1 sublevel and seed tasks
+- [x] Close the identified Grundschule Klasse 1-4 gap (Formerkennung/Symmetrie) with a small new L1 sublevel and seed tasks
+- [x] Add a tasteful 3D-motion layer to the homepage (mouse-tilt cards, cursor-glow, embossed badges) while preserving the current visual identity
+- [ ] Extend the homepage's 3D tilt/glow motion layer to the app pages (Lernstrasse, Archiv, Uebungs-App) for a consistent feel
+- [ ] Continuously review the Lernstrasse (app/lernpfad.html) for intuitive-UX gaps (unclear states, missing feedback, onboarding friction) and fix them in small batches
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
 - [x] Add an Archiv section to the website

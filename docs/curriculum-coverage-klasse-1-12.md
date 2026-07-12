@@ -31,7 +31,7 @@ Themen weiter zu vertiefen. Es aendert keinen Code und keine Laufzeit-Daten.
 | 3 | Kleines Einmaleins, schriftliche Addition/Subtraktion | `1.1.1.a`, `1.1.1.b` Schriftliches Rechnen | abgedeckt |
 | 4 | Schriftliche Multiplikation/Division, erste Bruchvorstellung, Flaechen/Umfang einfacher Figuren | `1.1.1.b`, `1.1.2.a` Brueche addieren und kuerzen, `1.2.1.a` Rechteck, Dreieck, Kreis | abgedeckt |
 | 1-4 | Einfache Diagramme, Zaehlen und Haeufigkeiten | `1.4.1.a` Balken- und Kreisdiagramme | abgedeckt |
-| 1-4 | Geometrische Grundformen erkennen, Symmetrie, Spiegeln an Grundschulniveau | — | **Luecke**: kein dediziertes Sublevel fuer Formerkennung/Symmetrie auf Grundschulniveau (nur `1.2.4.a` Punkte/Abstaende/Spiegelung, das eher Koordinatensystem-Niveau Klasse 5/6 ist) |
+| 1-4 | Geometrische Grundformen erkennen, Symmetrie, Spiegeln an Grundschulniveau | `1.2.1.c` Formen erkennen und Symmetrieachsen (Grundschule) | abgedeckt (seit v2.5.7) |
 
 ## Klasse 5-6 (Orientierungsstufe) → L1
 
@@ -108,13 +108,11 @@ Themen weiter zu vertiefen. Es aendert keinen Code und keine Laufzeit-Daten.
 
 ## Zusammenfassung offener Luecken
 
-1. **Grundschule Klasse 1-4, Formerkennung/Symmetrie**: kein eigenes Sublevel fuer reine
-   Formerkennung und einfache Symmetrieaufgaben auf Grundschulniveau. `1.2.4.a` deckt
-   Spiegelung nur im Koordinatensystem-Kontext ab (eher Klasse 5/6). Vorschlag fuer einen
-   spaeteren, kleinen Batch: neues Sublevel z. B. `1.2.1.c` "Formen erkennen und
-   Symmetrieachsen (Grundschule)" unterhalb von `1.2.1 Flaechen und Umfang` oder ein neues
-   Sublevel `1.2.3.c` unterhalb von `1.2.3 Winkel und Dreiecke`.
-2. Alle uebrigen Klassenstufen 1-13 sind mit mindestens einem passenden Sublevel abgedeckt;
+1. ~~**Grundschule Klasse 1-4, Formerkennung/Symmetrie**~~ — geschlossen in v2.5.7: neues
+   Sublevel `1.2.1.c` "Formen erkennen und Symmetrieachsen (Grundschule)" unterhalb von
+   `1.2.1 Flaechen und Umfang`, mit drei Seed-Tasks (`T-1-043` bis `T-1-045`) zu
+   Grundformen im Alltag, Symmetrieachsen im Quadrat und Achsensymmetrie am Buchstaben A.
+2. Alle Klassenstufen 1-13 sind damit mit mindestens einem passenden Sublevel abgedeckt;
    die tatsaechliche Aufgabentiefe je Sublevel (Anzahl kuratierter Seed-Tasks vs. generierte
    Varianten) ist ein separates Thema und wird in `docs/archive-content-qa-workflow.md`
    sowie den P2-Batches in `BACKLOG.md` behandelt.
