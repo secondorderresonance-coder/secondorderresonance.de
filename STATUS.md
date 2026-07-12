@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,32 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the Klasse 1-12 curriculum coverage matrix and mapped every school topic to L1-L3 archive sublevels.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, a documentation-only planning artifact mapping typical German school topics (Klasse 1 through 12/13, Grundschule through Abitur) to concrete `SOR_ARCHIVE.taxonomy` sublevel IDs for L1-L3.
+- Verified programmatically that every existing sublevel ID referenced in the matrix (84 of 86 referenced IDs) actually exists in `app/data/archive-content.js`.
+- Identified one concrete coverage gap: Grundschule Klasse 1-4 has no dedicated sublevel for basic shape recognition / symmetry, and proposed two candidate new sublevel IDs (`1.2.1.c` or `1.2.3.c`) for a future small batch. These proposed IDs do not exist yet and were intentionally excluded from the "existing taxonomy" validation.
+- Added a new P1 backlog item to close that gap in a small follow-up batch.
+- Did not touch any runtime code, archive data, or UI — this is a planning/reference document only, consistent with the existing `docs/*.md` pattern.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` → OK, tasks=30000, 5000 per level (unaffected, confirms no runtime data drift)
+- Node script cross-checking every backticked sublevel ID in the new doc against `SOR_ARCHIVE.taxonomy`: 84/86 referenced IDs exist; the remaining 2 are the intentionally proposed new IDs for the identified gap.
+
+### Blockers
+- None.
+
+### Next logical step
+- Either close the identified Grundschule Klasse 1-4 gap with a small new L1 sublevel + a few seed tasks, or continue with the next open P1 item: build the engineering-mathematics coverage matrix through Master level mapped to L4-L5 sections.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
