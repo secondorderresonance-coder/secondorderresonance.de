@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,32 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1-12 and mapped it to the existing L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, mapping the common-denominator German school curriculum (Klasse 1-12/13) to concrete `app/data/archive-content.js` L1-L3 sublevel IDs, with an Abgedeckt/Teilweise/Luecke status per row.
+- Grundschule (Klasse 1-4), Sekundarstufe I (Klasse 5-10), and Sekundarstufe II/Oberstufe (Klasse 11-12/13) are each covered in a dedicated table.
+- Documented scope limitations (Bundesland/school-type variance), the one open refinement (shared `1.1.2.a` sublevel for Grundschule vs. Klasse-5 fraction tasks), and next steps for future small batches.
+- No L1-L3 archive data or taxonomy was changed in this run; this is a mapping/planning document only, matching the pattern already used for the account-sync and mobile-MVP architecture docs.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level (confirms the referenced sublevel IDs still exist in the unchanged taxonomy)
+- Manual cross-check of every sublevel ID cited in the new matrix against `app/data/archive-content.js` taxonomy (L1: `1.1.*`-`1.4.*`, L2: `2.1.*`-`2.6.*`, L3: `3.1.*`-`3.5.*`)
+- `git diff --check`
+
+### Blockers
+- None. The matrix is a common-denominator approximation across Bundeslaender/school types, not a certified per-state Lehrplan mapping; deeper per-Bundesland refinement can follow as a small follow-up if needed.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 archive sections (next open P1 task).
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
