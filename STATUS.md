@@ -1,10 +1,10 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
-The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
+The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level) for this iteration, and a documented Klasse 1-12 curriculum coverage matrix mapping school topics to the existing L1-L3 archive sections.
 The repository includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, 30.000 archive tasks (5.000 per level), cleaner homepage video entry links, completed active 5-level wording migration, a first authoring/QA foundation for safer archive growth, a deeper hierarchical sublevel taxonomy in the archive data, a direct bridge from archive tasks into matching app exercises, stable deep links plus saved archive filter state in the archive UI, a cleaner mobile layout for the archive and placement sections, a direct handoff from placement results into the recommended archive preset, a first interactive Pythagoras module connected across website and archive, global search plus a low-friction external suggestion flow on the landing page, email-based local account registration/login with per-email progress storage, and a backend-ready moderation pipeline for external task suggestions.
 
 Long-term target remains unchanged and explicitly active:
@@ -35,6 +35,34 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A new curriculum coverage matrix (`docs/curriculum-coverage-klasse-1-12.md`) maps Klasse 1-12 core math topics to existing L1-L3 archive sublevels and lists the small set of remaining content gaps (Zinsrechnung, Dreieckskonstruktionen, Kugel/Prisma-Volumen, and a separate future Physik-Taxonomie).
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1-12 and mapped every core topic to existing L1-L3 archive sections.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`: a grade-by-grade (Klasse 1 through 12/13) mapping of typical German core-curriculum math topics to the existing archive taxonomy sublevel IDs (`1.1.1.a` ... `3.5.1.a`).
+- Documented methodology and scope assumptions (KMK-Bildungsstandards-based, Bundesland/Schulform differences intentionally generalized, Physik out of scope for this matrix).
+- Verified all 72 referenced sublevel IDs exist in `SOR_ARCHIVE.taxonomy` and confirmed every leaf sublevel already has archive tasks.
+- Identified and documented four concrete content gaps for future small batches: Zinsrechnung, Dreieckskonstruktionen/Kongruenzsaetze, Kugel-/Prisma-Volumen, and a separate future Physik-Taxonomie.
+- Added a follow-up P1 backlog item to close the identified sublevel gaps in small reviewable batches.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level
+- Node script cross-check confirming all 72 sublevel IDs referenced in the matrix exist in `SOR_ARCHIVE.taxonomy`
+- Markdown table row well-formedness check (every `|`-prefixed line ends with `|`)
+
+### Blockers
+- None.
+
+### Next logical step
+- Start the next open P1 task: build the engineering mathematics coverage matrix through Master level and map it to L4-L5 archive sections.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.
