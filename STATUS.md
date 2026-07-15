@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.5.4`
+- `v2.5.5`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -35,6 +35,35 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A reference curriculum coverage matrix now maps Klasse 1-12/13 school topics onto every L1-L3 archive sublevel that is either a taxonomy leaf or directly tagged on a real task.
+
+## Last completed task (v2.5.5)
+Built the curriculum coverage matrix for Klasse 1-12, mapped to the existing L1-L3 archive sections (highest-priority open P1 backlog item).
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-matrix.md`: a reference document mapping the typical German school mathematics curriculum (Klasse 1-12/13, representative Gymnasium/G9 sequencing) onto the `L1-L3` sublevels already defined in `SOR_ARCHIVE.taxonomy`.
+  - Three tables (L1 Grundlagen, L2 Aufbauwissen, L3 Vertiefung), each row giving Sublevel, Thema, the real `topic` tag used on archive tasks, a typical Klassenstufe span, and notes (incl. flagging Leistungskurs/Wahlpflicht-only topics like komplexe Zahlen, Matrizen, Kegelschnitte in L3).
+  - Explicit disclaimer that German curricula differ by Bundesland/school type, so this is a reference orientation (same approach `docs/archive-content-qa-workflow.md` already uses for the L4-L6 Karpfinger source policy), not a legal equivalence claim.
+  - A "Coverage check" section documenting the exact method used to verify every taxonomy leaf sublevel and every sublevel id actually used by a real task (92 ids total) is mapped to a Klassenstufe.
+  - A "Known gaps" section noting thin Klasse 7 Zuordnungen-beyond-Dreisatz coverage and the L3 LK/Wahlthema-heavy sections, plus a pointer for the next backlog item (L4-L5 engineering-math matrix) to reuse this document's table format.
+- This is a documentation-only change; no archive data, UI, or taxonomy was modified.
+
+### Files touched
+- `docs/curriculum-coverage-matrix.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- Wrote and ran a Node script that loads `app/data/archive-content.js` and computes the set of "must-map" sublevel ids (taxonomy leaves + ids directly used by real tasks) for levels 1-3: 92 ids total.
+- Parsed the new document's tables/notes and confirmed all 92 ids are covered, with 0 missing (iterated twice: first pass found 4 unmapped ids from inconsistent `a-d` range notation and missing bare parent-tag rows, both fixed, second pass confirmed 0 missing).
+- `node tools/archive-qa.js` — still `OK`, 30.000 tasks, 5.000 per level (confirms no regression, as expected since no archive data was touched).
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering-mathematics coverage matrix through Master level (L4-L5), reusing this document's table format, per the next open P1 backlog item.
 
 ## Last completed task (v2.5.4)
 Constrained Lernstrasse lessons to the exact archive scope and added section tests.

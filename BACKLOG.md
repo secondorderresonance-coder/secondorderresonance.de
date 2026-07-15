@@ -22,7 +22,7 @@
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
-- [ ] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
+- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
 - [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
 - [x] Add an Archiv section to the website
@@ -41,6 +41,7 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Fix mojibake in `app/data/archive-content.js`: several L2 seed tasks use the topic string `"Gleichungen lÃ¶sen und umstellen"` (broken UTF-8 encoding) instead of the correct `"Gleichungen loesen und umstellen"` used elsewhere for the same sublevel (2.1.1.a/b), fragmenting topic filters/search for that sublevel. Discovered while cross-checking task topics for the curriculum coverage matrix.
 - [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
 - [x] Expand scalable archive generation to 5.000 tasks per level (30.000 total) with detailed answer variants
