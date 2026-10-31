@@ -42,6 +42,9 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Add an "Achsen-/Punktsymmetrie" sublevel under L1 (Klasse 6 gap identified in curriculum coverage matrix)
+- [ ] Add a dedicated "Dreieckskongruenz" sublevel under L1/L2 (Klasse 7 gap identified in curriculum coverage matrix)
+- [ ] Add a dedicated "Zinsrechnung" sublevel under L1 (Klasse 7 gap identified in curriculum coverage matrix)
 - [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
 - [x] Expand scalable archive generation to 5.000 tasks per level (30.000 total) with detailed answer variants
