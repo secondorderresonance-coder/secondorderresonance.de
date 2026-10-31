@@ -1750,6 +1750,16 @@
             });
         }
 
+        // Entfernt die Serien-/Variantenzusätze der generierten Archivaufgaben für die Anzeige
+        function cleanArchiveText(text) {
+            return String(text || '')
+                .replace(/\s*\[Serie \d+:[^\]]*\]/g, '')
+                .replace(/\s*\(Variante \d+:[^)]*\)/g, '')
+                .replace(/\s*Variantenfokus \(.*$/i, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
         function cleanArchiveAnswer(answer) {
             return String(answer || '')
                 .replace(/\s*Zusatzfokus:.*$/i, '')
@@ -1778,8 +1788,36 @@
         function roadTaskMatches(task, meta) {
             if (!task || !meta || task.level !== String(meta.level)) return false;
             if (meta.mode === 'sectionTest') return sameOrChildSublevel(task.sublevel, meta.section);
+            if (meta.sublevels && meta.sublevels.length) return meta.sublevels.some(function(id) { return sameOrChildSublevel(task.sublevel, id); });
             if (meta.sublevel) return sameOrChildSublevel(task.sublevel, meta.sublevel);
             return meta.topic ? task.topic === meta.topic : false;
+        }
+
+        function numericUnit(answer) {
+            const m = /^(-?\d+(?:[.,]\d+)?)\s*([^\d]{0,14})$/.exec(String(answer || '').trim());
+            return m ? m[2].trim() : null;
+        }
+
+        function numericDistractors(answer) {
+            const m = /^(-?\d+(?:[.,]\d+)?)\s*([^\d]{0,14})$/.exec(String(answer || '').trim());
+            if (!m) return [];
+            const comma = m[1].includes(',');
+            const value = parseFloat(m[1].replace(',', '.'));
+            if (!isFinite(value)) return [];
+            const decimals = (m[1].split(/[.,]/)[1] || '').length;
+            const step = decimals ? Math.pow(10, -decimals) * Math.max(1, Math.round(Math.abs(value) * 0.2 * Math.pow(10, decimals))) : Math.max(1, Math.round(Math.abs(value) * 0.2));
+            const fmt = function(v) {
+                let t = decimals ? v.toFixed(decimals) : String(Math.round(v));
+                if (comma) t = t.replace('.', ',');
+                return t + (m[2] ? ' ' + m[2].trim() : '');
+            };
+            const raw = [value + step, value - step, value * 2, value + 2 * step];
+            const out = [];
+            raw.forEach(function(v) {
+                const f = fmt(v);
+                if (f !== fmt(value) && !out.includes(f)) out.push(f);
+            });
+            return out.slice(0, 3);
         }
 
         function buildRoadOptions(task, scopedTasks, allLevelTasks) {
@@ -1788,9 +1826,16 @@
                 .map(function(item) { return cleanArchiveAnswer(item.answer); })
                 .filter(function(answer) { return answer && answer !== correct && answer.length <= 90; });
             const unique = [];
-            pool.forEach(function(answer) {
-                if (!unique.includes(answer)) unique.push(answer);
+            // Bei Zahlenantworten zuerst plausible Nachbarwerte mit gleicher Einheit anbieten
+            numericDistractors(correct).forEach(function(answer) {
+                if (answer !== correct && !unique.includes(answer)) unique.push(answer);
             });
+            const unit = numericUnit(correct);
+            pool.filter(function(answer) { return unit !== null && numericUnit(answer) === unit; })
+                .concat(pool)
+                .forEach(function(answer) {
+                    if (!unique.includes(answer)) unique.push(answer);
+                });
 
             if (unique.length < 3) {
                 ['Nicht bestimmbar', '0', '1', '10', 'Keine der Antworten'].forEach(function(answer) {
@@ -1811,12 +1856,12 @@
             const choices = buildRoadOptions(task, scopedTasks, allLevelTasks);
             return {
                 topic: task.topic || 'Lernstraße',
-                question: task.title || 'Archivaufgabe',
-                math: task.question || '',
+                question: cleanArchiveText(task.title) || 'Archivaufgabe',
+                math: cleanArchiveText(task.question),
                 options: choices.options,
                 correct: choices.correct,
                 difficulty: normalizeArchiveDifficulty(task.difficulty),
-                explanation: task.explanation || cleanArchiveAnswer(task.answer) || 'Löse die Aufgabe Schritt für Schritt.'
+                explanation: cleanArchiveText(task.explanation) || cleanArchiveAnswer(task.answer) || 'Löse die Aufgabe Schritt für Schritt.'
             };
         }
 
@@ -1833,6 +1878,15 @@
                     return sameOrChildSublevel(task.sublevel, meta.section);
                 });
             }
+            // Varianten derselben Grundaufgabe nur einmal verwenden, damit eine Lektion abwechslungsreich bleibt
+            const seen = {};
+            const distinct = scopedTasks.filter(function(task) {
+                const key = cleanArchiveText(task.question);
+                if (seen[key]) return false;
+                seen[key] = true;
+                return true;
+            });
+            if (distinct.length >= 3) scopedTasks = distinct;
             return scopedTasks.slice(0, 24).map(function(task) {
                 return archiveTaskToExercise(task, scopedTasks, allLevelTasks);
             });
@@ -1850,6 +1904,7 @@
         }
 
         function roadReturnHref() {
+            if (state.roadLessonMeta && state.roadLessonMeta.returnTo) return state.roadLessonMeta.returnTo;
             const level = state.roadLessonMeta && state.roadLessonMeta.level ? state.roadLessonMeta.level : String(state.level + 1);
             return 'lernpfad.html?level=' + encodeURIComponent(level);
         }
@@ -2570,7 +2625,10 @@
                     section: params.get('roadSection') || '',
                     sublevel: params.get('roadSublevel') || '',
                     topic: params.get('roadTopic') || params.get('topic') || '',
-                    mode: params.get('roadMode') || 'lesson'
+                    mode: params.get('roadMode') || 'lesson',
+                    sublevels: (params.get('roadSublevels') || '').split(',').map(function(id) { return id.trim(); }).filter(Boolean),
+                    // nur relative Seiten im App-Ordner als Rücksprungziel zulassen
+                    returnTo: /^[a-z0-9_-]+\.html(\?[^#\s]*)?(#[\w-]*)?$/i.test(params.get('roadReturn') || '') ? params.get('roadReturn') : ''
                 };
                 state.topic = state.roadLessonMeta.topic;
                 state.questionIdx = 0;
@@ -2816,8 +2874,9 @@
             if (roadNote) roadNote.className = 'road-pass-note' + (roadPassed ? ' show' : '');
             const nextBtn = document.getElementById('lessonNextBtn');
             if (nextBtn) {
+                const backLabel = state.roadLessonMeta && state.roadLessonMeta.returnTo ? 'Zurück zur Übersicht \u2192' : 'Zur Lernstraße \u2192';
                 nextBtn.textContent = isRoadMode()
-                    ? (roadPassed ? 'Zur Lernstraße \u2192' : 'Lektion wiederholen \u2192')
+                    ? (roadPassed ? backLabel : 'Lektion wiederholen \u2192')
                     : 'Nächste Lektion \u2192';
             }
             const lessonModal = document.getElementById('lessonModal');

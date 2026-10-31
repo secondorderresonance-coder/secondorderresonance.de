@@ -13,57 +13,60 @@ Statuslogik:
 
 ## Schule: Klasse 1–12 → L1–L3
 
-Abgedeckt 42 · teilweise 4 · ohne Aufgaben 1 (von 47)
+Abgedeckt 45 · teilweise 4 · ohne Aufgaben 1 (von 50)
 
 | ID | Phase | Bereich | Thema | Archiv-Sektionen | Aufgaben | Status | Hinweis |
 |---|---|---|---|---|---:|---|---|
-| CM-S-01 | Klasse 1–2 | Zahlen und Operationen | Zahlenraum bis 100, Addition und Subtraktion | 1.1.1.a Kopfrechnen und Rechenstrategien | 119 | abgedeckt |  |
-| CM-S-02 | Klasse 1–2 | Größen und Messen | Geld, Uhrzeit und Längen | 1.3.2.a Länge, Masse, Zeit, Volumen | 119 | abgedeckt |  |
+| CM-S-01 | Klasse 1 | Zahlen und Operationen | Plus und Minus bis 20 | 1.1.1.a Kopfrechnen und Rechenstrategien | 119 | abgedeckt |  |
 | CM-S-03 | Klasse 1–2 | Raum und Form | Ebene Grundformen erkennen | 1.2.1.a Rechteck, Dreieck, Kreis | 119 | abgedeckt |  |
-| CM-S-04 | Klasse 1–2 | Muster und Strukturen | Zahlenfolgen und Muster fortsetzen | 1.1.1.a Kopfrechnen und Rechenstrategien | 119 | teilweise | Eigene Sektion für Muster und Zahlenfolgen fehlt. |
-| CM-S-05 | Klasse 3–4 | Zahlen und Operationen | Einmaleins und schriftliche Rechenverfahren | 1.1.1.a Kopfrechnen und Rechenstrategien<br>1.1.1.b Schriftliches Rechnen | 238 | abgedeckt |  |
-| CM-S-06 | Klasse 3–4 | Raum und Form | Umfang, Fläche und Achsensymmetrie | 1.2.1.a Rechteck, Dreieck, Kreis<br>1.2.4.a Punkte, Abstände, Spiegelung | 238 | abgedeckt |  |
-| CM-S-07 | Klasse 3–4 | Raum und Form | Würfel und Quader | 1.2.2.a Würfel, Quader, Zylinder | 119 | abgedeckt |  |
+| CM-S-04 | Klasse 1–2 | Muster und Strukturen | Muster und Zahlenfolgen | 1.1.1.a Kopfrechnen und Rechenstrategien | 119 | teilweise | Eigene Sektion für Muster und Zahlenfolgen fehlt. |
+| CM-S-02 | Klasse 1–2 | Größen und Messen | Geld, Uhrzeit und Längen | 1.3.2.a Länge, Masse, Zeit, Volumen | 119 | abgedeckt |  |
+| CM-S-48 | Klasse 2 | Zahlen und Operationen | Zahlen bis 100 und Zehnerübergang | 1.1.1.a Kopfrechnen und Rechenstrategien | 119 | abgedeckt |  |
+| CM-S-49 | Klasse 2 | Zahlen und Operationen | Kleines Einmaleins | 1.1.1.a Kopfrechnen und Rechenstrategien | 119 | abgedeckt |  |
+| CM-S-05 | Klasse 3 | Zahlen und Operationen | Schriftlich addieren und subtrahieren | 1.1.1.b Schriftliches Rechnen | 119 | abgedeckt |  |
+| CM-S-06 | Klasse 3–4 | Raum und Form | Umfang, Fläche und Symmetrie | 1.2.1.a Rechteck, Dreieck, Kreis<br>1.2.4.a Punkte, Abstände, Spiegelung | 238 | abgedeckt |  |
 | CM-S-08 | Klasse 3–4 | Größen und Messen | Größen umrechnen | 1.3.2.b Einheiten umrechnen | 119 | abgedeckt |  |
-| CM-S-09 | Klasse 3–4 | Daten und Zufall | Daten erfassen und in Diagrammen darstellen | 1.4.1.a Balken- und Kreisdiagramme | 119 | abgedeckt |  |
 | CM-S-10 | Klasse 3–4 | Daten und Zufall | Sicher, möglich, unmöglich | 1.4.2.a Einfache Zufallsexperimente | 119 | abgedeckt |  |
-| CM-S-11 | Klasse 5–6 | Zahl | Teilbarkeit, Primzahlen, ggT und kgV | 1.1.5.a Primfaktorzerlegung<br>1.1.5.b ggT und kgV | 357 | abgedeckt |  |
+| CM-S-50 | Klasse 4 | Zahlen und Operationen | Schriftlich multiplizieren und dividieren | 1.1.1.b Schriftliches Rechnen | 119 | abgedeckt |  |
+| CM-S-07 | Klasse 4 | Raum und Form | Würfel und Quader | 1.2.2.a Würfel, Quader, Zylinder | 119 | abgedeckt |  |
+| CM-S-09 | Klasse 4 | Daten und Zufall | Daten in Diagrammen | 1.4.1.a Balken- und Kreisdiagramme | 119 | abgedeckt |  |
+| CM-S-11 | Klasse 5 | Zahl | Teiler, Primzahlen, ggT und kgV | 1.1.5.a Primfaktorzerlegung<br>1.1.5.b ggT und kgV | 357 | abgedeckt |  |
+| CM-S-14 | Klasse 5 | Zahl | Runden und Überschlagen | 1.1.3.b Runden und Schätzen | 119 | abgedeckt |  |
+| CM-S-16 | Klasse 5 | Messen | Zusammengesetzte Flächen | 1.2.1.b Zusammengesetzte Figuren<br>1.2.2.a Würfel, Quader, Zylinder | 238 | abgedeckt |  |
 | CM-S-12 | Klasse 5–6 | Zahl | Negative Zahlen | 1.1.4.a Rechnen mit negativen Zahlen | 238 | abgedeckt |  |
-| CM-S-13 | Klasse 5–6 | Zahl | Brüche und Dezimalzahlen | 1.1.2.a Brüche addieren und kürzen<br>1.1.2.c Brüche multiplizieren und dividieren<br>1.1.3.a Dezimalzahlen und Kommarechnung | 596 | abgedeckt |  |
-| CM-S-14 | Klasse 5–6 | Zahl | Runden und Überschlagen | 1.1.3.b Runden und Schätzen | 119 | abgedeckt |  |
-| CM-S-15 | Klasse 5–6 | Raum und Form | Winkel, Dreiecke und Koordinatensystem | 1.2.3.a Winkelarten und -maße<br>1.2.3.b Dreieckstypen und Eigenschaften<br>1.2.4.a Punkte, Abstände, Spiegelung | 357 | abgedeckt |  |
-| CM-S-16 | Klasse 5–6 | Messen | Zusammengesetzte Flächen und Quadervolumen | 1.2.1.b Zusammengesetzte Figuren<br>1.2.2.a Würfel, Quader, Zylinder | 238 | abgedeckt |  |
-| CM-S-17 | Klasse 5–6 | Daten und Zufall | Mittelwert und relative Häufigkeit | 1.4.1.b Mittelwert und Häufigkeit | 119 | abgedeckt |  |
-| CM-S-18 | Klasse 7–8 | Funktionaler Zusammenhang | Proportionale und antiproportionale Zuordnungen | 1.3.1.a Proportionale Zuordnungen<br>1.3.1.b Antiproportionale Zuordnungen | 238 | abgedeckt |  |
-| CM-S-19 | Klasse 7–8 | Zahl | Prozent- und Zinsrechnung | 1.1.2.b Prozentwerte im Alltag | 358 | teilweise | Zinsrechnung und Zinseszins haben noch keine eigene Sektion. |
+| CM-S-15 | Klasse 5–6 | Raum und Form | Winkel, Dreiecke und Koordinaten | 1.2.3.a Winkelarten und -maße<br>1.2.3.b Dreieckstypen und Eigenschaften<br>1.2.4.a Punkte, Abstände, Spiegelung | 357 | abgedeckt |  |
+| CM-S-13 | Klasse 6 | Zahl | Brüche und Dezimalzahlen | 1.1.2.a Brüche addieren und kürzen<br>1.1.2.c Brüche multiplizieren und dividieren<br>1.1.3.a Dezimalzahlen und Kommarechnung | 596 | abgedeckt |  |
+| CM-S-17 | Klasse 6 | Daten und Zufall | Mittelwert und relative Häufigkeit | 1.4.1.b Mittelwert und Häufigkeit | 119 | abgedeckt |  |
+| CM-S-18 | Klasse 7 | Funktionaler Zusammenhang | Zuordnungen und Dreisatz | 1.3.1.a Proportionale Zuordnungen<br>1.3.1.b Antiproportionale Zuordnungen | 238 | abgedeckt |  |
+| CM-S-19 | Klasse 7 | Zahl | Prozent- und Zinsrechnung | 1.1.2.b Prozentwerte im Alltag | 358 | teilweise | Zinsrechnung und Zinseszins haben noch keine eigene Sektion. |
 | CM-S-20 | Klasse 7–8 | Zahl | Terme und lineare Gleichungen | 2.1.1.a Lineare Gleichungen<br>2.1.1.b Formeln umstellen<br>2.1.1.c Gleichungen mit Brüchen | 868 | abgedeckt |  |
-| CM-S-21 | Klasse 7–8 | Funktionaler Zusammenhang | Lineare Funktionen | 2.2.2.a Geradengleichung und Steigung<br>2.2.2.b Parallele und senkrechte Geraden | 192 | abgedeckt |  |
-| CM-S-22 | Klasse 7–8 | Funktionaler Zusammenhang | Lineare Gleichungssysteme | 2.1.2.a Substitutions- und Additionsverfahren | 96 | abgedeckt |  |
-| CM-S-23 | Klasse 7–8 | Zahl | Lineare Ungleichungen | 2.1.4.a Lineare Ungleichungen | 96 | abgedeckt |  |
-| CM-S-24 | Klasse 7–8 | Messen | Kreisumfang und Kreisfläche | 2.5.2.a Umfang, Fläche, Kreisabschnitte | 96 | abgedeckt |  |
 | CM-S-25 | Klasse 7–8 | Daten und Zufall | Laplace-Wahrscheinlichkeit und Baumdiagramme | 2.6.2.a Laplace-Experiment<br>2.6.2.b Baumdiagramm | 192 | abgedeckt |  |
-| CM-S-26 | Klasse 9–10 | Funktionaler Zusammenhang | Quadratische Funktionen und Gleichungen | 2.2.3.a Parabelscheitel und Nullstellen<br>2.2.3.b Verschiebung und Streckung<br>2.1.3.a Lösungsformel und Diskriminante<br>2.1.3.b Faktorisierung | 384 | abgedeckt |  |
-| CM-S-27 | Klasse 9–10 | Zahl | Potenzen und Wurzeln | 2.3.1.a Rechenregeln für Potenzen<br>2.3.1.b Negative und gebrochene Exponenten<br>2.3.2.a Quadrat- und Kubikwurzeln<br>2.3.2.b Vereinfachen von Wurzeltermen | 384 | abgedeckt |  |
-| CM-S-28 | Klasse 9–10 | Raum und Form | Satz des Pythagoras und Satz des Thales | 2.5.3.a Anwendungen des Satzes des Pythagoras | 96 | abgedeckt |  |
-| CM-S-29 | Klasse 9–10 | Raum und Form | Ähnlichkeit und Strahlensätze | 2.5.1.a Strahlensatz-Aufgaben<br>2.5.1.b Ähnliche Figuren | 192 | abgedeckt |  |
+| CM-S-21 | Klasse 8 | Funktionaler Zusammenhang | Lineare Funktionen | 2.2.2.a Geradengleichung und Steigung<br>2.2.2.b Parallele und senkrechte Geraden | 192 | abgedeckt |  |
+| CM-S-22 | Klasse 8 | Funktionaler Zusammenhang | Lineare Gleichungssysteme | 2.1.2.a Substitutions- und Additionsverfahren | 96 | abgedeckt |  |
+| CM-S-23 | Klasse 8 | Zahl | Lineare Ungleichungen | 2.1.4.a Lineare Ungleichungen | 96 | abgedeckt |  |
+| CM-S-24 | Klasse 8 | Messen | Kreisumfang und Kreisfläche | 2.5.2.a Umfang, Fläche, Kreisabschnitte | 96 | abgedeckt |  |
+| CM-S-26 | Klasse 9 | Funktionaler Zusammenhang | Quadratische Funktionen und Gleichungen | 2.2.3.a Parabelscheitel und Nullstellen<br>2.2.3.b Verschiebung und Streckung<br>2.1.3.a Lösungsformel und Diskriminante<br>2.1.3.b Faktorisierung | 384 | abgedeckt |  |
+| CM-S-27 | Klasse 9 | Zahl | Potenzen und Wurzeln | 2.3.1.a Rechenregeln für Potenzen<br>2.3.1.b Negative und gebrochene Exponenten<br>2.3.2.a Quadrat- und Kubikwurzeln<br>2.3.2.b Vereinfachen von Wurzeltermen | 384 | abgedeckt |  |
+| CM-S-28 | Klasse 9 | Raum und Form | Satz des Pythagoras und Satz des Thales | 2.5.3.a Anwendungen des Satzes des Pythagoras | 96 | abgedeckt |  |
+| CM-S-29 | Klasse 9 | Raum und Form | Ähnlichkeit und Strahlensätze | 2.5.1.a Strahlensatz-Aufgaben<br>2.5.1.b Ähnliche Figuren | 192 | abgedeckt |  |
 | CM-S-30 | Klasse 9–10 | Messen | Trigonometrie im Dreieck | 2.4.1.a sin, cos, tan und Anwendungen<br>2.4.2.a Allgemeines Dreieck | 192 | abgedeckt |  |
-| CM-S-31 | Klasse 9–10 | Funktionaler Zusammenhang | Trigonometrische Funktionen und Bogenmaß | 2.4.1.b Bogenmaß und Winkelumrechnung<br>2.4.3.a Sinusfunktion und Kosinusfunktion<br>2.4.3.b Tangensfunktion | 288 | abgedeckt |  |
-| CM-S-32 | Klasse 9–10 | Funktionaler Zusammenhang | Exponentialfunktionen und Logarithmus | 2.2.1.a Exponentielles Wachstum<br>2.2.1.b Exponentieller Zerfall<br>2.2.1.c Halbwertszeit<br>2.3.3.a Definition und Rechenregeln<br>2.3.3.b Logarithmische Gleichungen | 866 | abgedeckt |  |
-| CM-S-33 | Klasse 9–10 | Messen | Prisma, Pyramide, Kegel und Kugel | 1.2.2.a Würfel, Quader, Zylinder | 119 | teilweise | Pyramide, Kegel und Kugel fehlen, bisher nur Würfel, Quader und Zylinder. |
-| CM-S-34 | Klasse 9–10 | Raum und Form | Sehnen und Tangenten am Kreis | 2.5.2.b Sehnen und Tangenten | 0 | ohne Aufgaben |  |
-| CM-S-35 | Klasse 9–10 | Daten und Zufall | Kombinatorik und mehrstufige Zufallsexperimente | 2.6.1.a Permutationen und Kombinationen<br>2.6.1.b Binomialkoeffizient<br>2.6.2.b Baumdiagramm | 288 | abgedeckt |  |
-| CM-S-36 | Klasse 11–12 | Analysis | Ableitungsregeln, Monotonie und Krümmung | 3.1.1.a Ableitungsregeln (Ketten-, Produkt-, Quotientenregel)<br>3.1.1.b Monotonie und Extremstellen<br>3.1.1.c Krümmung und Wendepunkte | 545 | abgedeckt |  |
-| CM-S-37 | Klasse 11–12 | Analysis | Kurvendiskussion und Optimierung | 3.1.2.a Vollständige Kurvendiskussion<br>3.1.2.b Anwendungsaufgaben Optimierung | 216 | abgedeckt |  |
-| CM-S-38 | Klasse 11–12 | Analysis | Integralrechnung | 3.1.3.a Stammfunktionen und Grundregeln<br>3.1.3.b Bestimmtes Integral und Flächeninhalt<br>3.1.3.c Substitutionsregel<br>3.1.3.d Partielle Integration | 435 | abgedeckt |  |
+| CM-S-35 | Klasse 9–10 | Daten und Zufall | Kombinatorik | 2.6.1.a Permutationen und Kombinationen<br>2.6.1.b Binomialkoeffizient<br>2.6.2.b Baumdiagramm | 288 | abgedeckt |  |
+| CM-S-31 | Klasse 10 | Funktionaler Zusammenhang | Sinusfunktion und Bogenmaß | 2.4.1.b Bogenmaß und Winkelumrechnung<br>2.4.3.a Sinusfunktion und Kosinusfunktion<br>2.4.3.b Tangensfunktion | 288 | abgedeckt |  |
+| CM-S-32 | Klasse 10 | Funktionaler Zusammenhang | Exponentialfunktionen und Logarithmus | 2.2.1.a Exponentielles Wachstum<br>2.2.1.b Exponentieller Zerfall<br>2.2.1.c Halbwertszeit<br>2.3.3.a Definition und Rechenregeln<br>2.3.3.b Logarithmische Gleichungen | 866 | abgedeckt |  |
+| CM-S-33 | Klasse 10 | Messen | Pyramide, Kegel und Kugel | 1.2.2.a Würfel, Quader, Zylinder | 119 | teilweise | Pyramide, Kegel und Kugel fehlen, bisher nur Würfel, Quader und Zylinder. |
+| CM-S-34 | Klasse 10 | Raum und Form | Sehnen und Tangenten am Kreis | 2.5.2.b Sehnen und Tangenten | 0 | ohne Aufgaben |  |
+| CM-S-36 | Klasse 11 | Analysis | Ableitungen | 3.1.1.a Ableitungsregeln (Ketten-, Produkt-, Quotientenregel)<br>3.1.1.b Monotonie und Extremstellen<br>3.1.1.c Krümmung und Wendepunkte | 545 | abgedeckt |  |
+| CM-S-37 | Klasse 11 | Analysis | Kurvendiskussion und Optimierung | 3.1.2.a Vollständige Kurvendiskussion<br>3.1.2.b Anwendungsaufgaben Optimierung | 216 | abgedeckt |  |
+| CM-S-41 | Klasse 11 | Stochastik | Bedingte Wahrscheinlichkeit | 3.2.1.a Bedingte Wahrscheinlichkeit<br>3.2.1.b Bayes-Theorem | 216 | abgedeckt |  |
+| CM-S-40 | Klasse 11 (optional) | Analysis | Folgen und Grenzwerte | 3.1.5.a Arithmetische und geometrische Folgen<br>3.1.5.b Grenzwerte von Folgen | 216 | abgedeckt |  |
 | CM-S-39 | Klasse 11–12 | Analysis | e-Funktion und natürlicher Logarithmus | 3.1.4.a Ableitung und Integration von e^x und ln(x)<br>3.1.4.b Wachstums- und Zerfallsmodelle | 217 | abgedeckt |  |
-| CM-S-40 | Klasse 11–12 (optional) | Analysis | Folgen und Grenzwerte | 3.1.5.a Arithmetische und geometrische Folgen<br>3.1.5.b Grenzwerte von Folgen | 216 | abgedeckt |  |
-| CM-S-41 | Klasse 11–12 | Stochastik | Bedingte Wahrscheinlichkeit und Vierfeldertafel | 3.2.1.a Bedingte Wahrscheinlichkeit<br>3.2.1.b Bayes-Theorem | 216 | abgedeckt |  |
-| CM-S-42 | Klasse 11–12 | Stochastik | Binomial- und Normalverteilung | 3.2.2.a Binomialverteilung<br>3.2.2.b Erwartungswert und Varianz<br>3.2.2.c Normalverteilung | 326 | abgedeckt |  |
-| CM-S-43 | Klasse 11–12 | Stochastik | Hypothesentests | 3.2.2.a Binomialverteilung | 109 | teilweise | Signifikanztests haben auf L3 keine eigene Sektion (bisher nur L5 5.4.3.b). |
-| CM-S-44 | Klasse 11–12 | Analytische Geometrie | Vektoren, Geraden, Ebenen und Abstände | 3.2.3.a Vektoroperationen und Skalarprodukt<br>3.2.3.b Geraden und Ebenen im Raum<br>3.2.3.c Kreuzprodukt und geometrische Anwendungen | 326 | abgedeckt |  |
-| CM-S-45 | Klasse 11–12 (optional) | Lineare Algebra | Matrizen und Übergangsprozesse | 3.4.1.a Addition und Multiplikation<br>3.4.1.b Determinante (2x2) | 216 | abgedeckt |  |
+| CM-S-44 | Klasse 11–12 | Analytische Geometrie | Vektoren, Geraden und Ebenen | 3.2.3.a Vektoroperationen und Skalarprodukt<br>3.2.3.b Geraden und Ebenen im Raum<br>3.2.3.c Kreuzprodukt und geometrische Anwendungen | 326 | abgedeckt |  |
 | CM-S-46 | Klasse 11–12 (optional) | Vertiefung | Komplexe Zahlen | 3.3.1.a Kartesische Form und Betrag<br>3.3.1.b Polarform und Eulersche Formel | 218 | abgedeckt |  |
-| CM-S-47 | Klasse 11–12 (optional) | Vertiefung | Kegelschnitte | 3.5.1.a Parabel, Ellipse, Hyperbel | 108 | abgedeckt |  |
+| CM-S-38 | Klasse 12 | Analysis | Integralrechnung | 3.1.3.a Stammfunktionen und Grundregeln<br>3.1.3.b Bestimmtes Integral und Flächeninhalt<br>3.1.3.c Substitutionsregel<br>3.1.3.d Partielle Integration | 435 | abgedeckt |  |
+| CM-S-42 | Klasse 12 | Stochastik | Binomial- und Normalverteilung | 3.2.2.a Binomialverteilung<br>3.2.2.b Erwartungswert und Varianz<br>3.2.2.c Normalverteilung | 326 | abgedeckt |  |
+| CM-S-43 | Klasse 12 | Stochastik | Hypothesentests | 3.2.2.a Binomialverteilung | 109 | teilweise | Signifikanztests haben auf L3 keine eigene Sektion (bisher nur L5 5.4.3.b). |
+| CM-S-45 | Klasse 12 (optional) | Lineare Algebra | Matrizen und Übergangsprozesse | 3.4.1.a Addition und Multiplikation<br>3.4.1.b Determinante (2x2) | 216 | abgedeckt |  |
+| CM-S-47 | Klasse 12 (optional) | Vertiefung | Kegelschnitte | 3.5.1.a Parabel, Ellipse, Hyperbel | 108 | abgedeckt |  |
 
 ## Ingenieurmathematik: Bachelor bis Master → L4–L5
 

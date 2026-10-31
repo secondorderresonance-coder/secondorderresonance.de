@@ -7,6 +7,7 @@
  *  - Schulthemen liegen auf L1 bis L3, Studienthemen auf L4 bis L5
  *    (Ausnahmen müssen über "gap" begründet sein)
  *  - Klasse 1 bis 12 sind lückenlos durch Themen abgedeckt
+ *  - jedes Schulthema hat Text, Formel und eine gültige Grafik (app/modules/topic-visuals.js)
  *
  * Berechnet pro Thema den Status:
  *  abgedeckt       alle Sektionen existieren und haben Aufgaben, kein gap
@@ -72,6 +73,18 @@ const ids = new Set();
     if (ids.has(e.id)) errors.push(`Doppelte ID ${e.id}.`);
     ids.add(e.id);
     if (!e.topic) errors.push(`${e.id}: topic fehlt.`);
+});
+
+// Inhalte der Jahrgangsseiten: jedes Schulthema braucht Text, Formel und eine existierende Grafik
+const visuals = require(path.join(root, "app/modules/topic-visuals.js"));
+coverage.school.forEach(e => {
+    if (!e.text) errors.push(`${e.id}: text fehlt.`);
+    if (!e.formula || (Array.isArray(e.formula) && !e.formula.length)) errors.push(`${e.id}: formula fehlt.`);
+    if (!e.visual || visuals.keys.indexOf(e.visual) === -1) errors.push(`${e.id}: visual "${e.visual}" existiert nicht in topic-visuals.js.`);
+    else {
+        const svg = visuals.render(e.visual);
+        if (!svg.startsWith("<svg") || /NaN|undefined/.test(svg)) errors.push(`${e.id}: visual "${e.visual}" erzeugt ungültiges SVG.`);
+    }
 });
 
 const school = coverage.school.map(e => evaluate(e, [1, 2, 3]));
