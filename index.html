@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Second-Order Resonance | Mathe-Lernstrasse</title>
+<title>Second-Order Resonance | Mathe-Lernstraße</title>
 <meta name="description" content="Geführte Mathe-Lernstraße von L1 bis L6: Archivaufgaben, interaktive Übungen, XP und Fortschritt.">
 <meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklärt, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
-<meta property="og:title" content="Second-Order Resonance | Mathe-Lernstrasse">
+<meta property="og:title" content="Second-Order Resonance | Mathe-Lernstraße">
 <meta property="og:description" content="Geführte Mathe-Lernstraße von L1 bis L6 mit Archivaufgaben, XP und Fortschritt.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://second-order-resonance.de">
-<link rel="canonical" href="https://second-order-resonance.de">
+<meta property="og:url" content="https://secondorderresonance.de/">
+<link rel="canonical" href="https://secondorderresonance.de/">
+<meta name="theme-color" content="#0a0e1c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -47,12 +48,107 @@
   .reveal.in{opacity:1;transform:none;}
   @keyframes sorDrift{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(2deg)}}
   @keyframes sorGlow{0%,100%{opacity:.5}50%{opacity:.9}}
+
+  /* ---- v2.6: editorial accents ---- */
+  .serif-em{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:0;}
+  .kicker-num{color:#6b7490;margin-right:0.55rem;}
+  .scroll-progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#35e0c4,var(--accent),#e94560);z-index:60;pointer-events:none;}
+  .nav-link.is-current{color:#eef1f7;}
+  .nav-link.is-current::after{content:"";display:block;height:2px;margin-top:3px;border-radius:2px;background:var(--accent);}
+  .menu-btn{display:none;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:#eef1f7;cursor:pointer;align-items:center;justify-content:center;}
+  .mobile-menu{display:none;}
+  .mobile-menu.open{display:grid;gap:0.2rem;padding:0.6rem 1.5rem 1.2rem;border-top:1px solid rgba(255,255,255,0.07);}
+  .mobile-menu a{padding:0.75rem 0.2rem;text-decoration:none;color:#cdd4e6;border-bottom:1px solid rgba(255,255,255,0.05);}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
+
+  /* ---- v2.6: Labor (Rotationskörper) ---- */
+  .lab{position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:radial-gradient(900px 520px at 50% 58%,rgba(53,224,196,0.06),transparent 65%),#06080f;box-shadow:0 40px 100px rgba(0,0,0,0.5);}
+  .lab-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);}
+  .lab-stage{position:relative;min-height:620px;border-right:1px solid rgba(255,255,255,0.06);}
+  .lab-head{position:absolute;top:0;left:0;right:0;padding:1.4rem 1.6rem 0;text-align:center;pointer-events:none;z-index:2;}
+  .lab-meta{display:flex;align-items:center;gap:0.9rem;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.24em;text-transform:uppercase;color:#6b7490;margin-bottom:1rem;}
+  .lab-meta .num{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:1.25rem;letter-spacing:0;color:#98a2bd;text-transform:none;}
+  .lab-meta .rule{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0.18),rgba(255,255,255,0.04));}
+  .lab-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.4rem,2.6vw,2rem);letter-spacing:-0.02em;color:#f3efe6;}
+  .lab-title em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:0;}
+  .lab-sub{font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:#8f97ad;font-size:1.08rem;margin-top:0.35rem;}
+  .lab-formula{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-size:clamp(1.4rem,2.6vw,2rem);color:#f3efe6;margin-top:0.9rem;display:inline-flex;align-items:center;gap:0.25rem;}
+  .fx-v{font-style:italic;}
+  .fx-int{display:inline-flex;align-items:center;font-size:1.5em;line-height:1;margin:0 0.1em;position:relative;}
+  .fx-int sub,.fx-int sup{position:absolute;font-size:0.36em;line-height:1;}
+  .fx-int sup{top:-0.05em;left:0.78em;} .fx-int sub{bottom:0.02em;left:0.32em;}
+  .fx-int + *{margin-left:0.55em;}
+  .fx-frac{display:inline-flex;flex-direction:column;align-items:center;font-style:italic;font-size:0.82em;line-height:1.15;}
+  .fx-frac span:first-child{border-bottom:1px solid currentColor;padding:0 0.2em;}
+  .lab-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:pan-y;}
+  .lab-canvas:active{cursor:grabbing;}
+  .lab-readout{position:absolute;left:1.6rem;bottom:1.3rem;z-index:2;pointer-events:none;}
+  .lab-readout .k{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:clamp(1.05rem,2vw,1.45rem);color:#8f97ad;text-transform:uppercase;letter-spacing:0.01em;line-height:1.2;}
+  .lab-readout .k b{color:#eef1f7;font-weight:700;text-transform:none;}
+  .lab-readout .s{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;color:#6b7490;margin-top:0.5rem;}
+  .lab-hint{position:absolute;right:1.4rem;bottom:1.3rem;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:#6b7490;pointer-events:none;}
+  .lab-panel{padding:1.6rem;display:flex;flex-direction:column;gap:1.25rem;background:rgba(255,255,255,0.015);}
+  .lab-tabs{display:grid;gap:0.5rem;}
+  .lab-tab{display:grid;grid-template-columns:2.2rem 1fr;align-items:center;text-align:left;gap:0.6rem;padding:0.75rem 0.9rem;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#cdd4e6;font:inherit;font-size:0.95rem;cursor:pointer;transition:border-color .25s,background .25s,color .25s;}
+  .lab-tab .n{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:1.2rem;color:#6b7490;}
+  .lab-tab:hover{border-color:rgba(255,255,255,0.2);}
+  .lab-tab.is-active{border-color:rgba(245,197,24,0.55);background:rgba(245,197,24,0.07);color:#eef1f7;}
+  .lab-tab.is-active .n{color:var(--accent);}
+  .lab-ctrl label{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:#98a2bd;margin-bottom:0.45rem;}
+  .lab-ctrl label span:last-child{color:var(--accent);letter-spacing:0.04em;text-transform:none;}
+  .lab-ctrl input[type=range]{width:100%;accent-color:#f5c518;}
+  .lab-note{font-size:0.9rem;color:#aab2cc;border-left:2px solid rgba(53,224,196,0.5);padding-left:0.85rem;}
+  .lab-actions{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:auto;}
+  .lab-actions a,.lab-actions button{font:inherit;font-size:0.9rem;font-weight:600;padding:0.7rem 1.15rem;border-radius:999px;cursor:pointer;text-decoration:none;}
+
+  /* ---- v2.6: Lehrplan-Kompass ---- */
+  .compass{border-radius:26px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);padding:1.8rem;}
+  .cp-railwrap{display:flex;align-items:center;gap:0.45rem;overflow-x:auto;padding-bottom:0.4rem;scrollbar-width:thin;}
+  .cp-rail{display:flex;align-items:center;gap:0.45rem;}
+  .cp-stop{min-width:44px;height:44px;padding:0 0.6rem;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#98a2bd;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.98rem;cursor:pointer;transition:all .2s;}
+  .cp-stop:hover{color:#eef1f7;border-color:rgba(255,255,255,0.25);}
+  .cp-stop.is-active{color:#0a0e1c;background:var(--accent);border-color:var(--accent);box-shadow:0 8px 24px rgba(245,197,24,0.25);}
+  .cp-stop-uni{font-family:'IBM Plex Mono',monospace;font-size:0.8rem;}
+  .cp-sep{width:1px;height:28px;background:rgba(255,255,255,0.15);margin:0 0.4rem;flex-shrink:0;}
+  .cp-range{width:100%;margin:0.9rem 0 0.2rem;accent-color:#f5c518;}
+  .cp-body{display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,2fr);gap:1.6rem;margin-top:1.4rem;}
+  .cp-body > [data-compass-head]{position:sticky;top:96px;align-self:start;}
+  .cp-kicker{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#35e0c4;}
+  .cp-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;letter-spacing:-0.02em;margin:0.4rem 0 0.9rem;}
+  .cp-levels{display:grid;gap:0.45rem;}
+  .cp-level{display:flex;align-items:center;gap:0.55rem;font-size:0.92rem;color:#cdd4e6;}
+  .cp-level b{display:inline-flex;align-items:center;justify-content:center;width:36px;height:28px;border-radius:9px;background:var(--lv);color:#0a0e1c;font-family:'Space Grotesk',sans-serif;font-size:0.82rem;}
+  .cp-count{color:#6b7490;font-size:0.86rem;margin-top:1rem;}
+  .cp-out{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.8rem;align-content:start;}
+  .cp-card{display:flex;flex-direction:column;gap:0.55rem;text-decoration:none;color:inherit;padding:1rem 1.05rem;border-radius:16px;border:1px solid rgba(255,255,255,0.08);background:rgba(10,14,28,0.55);transition:transform .25s,border-color .25s;}
+  .cp-card:hover{transform:translateY(-3px);border-color:rgba(245,197,24,0.45);}
+  .cp-card-top{display:flex;justify-content:space-between;gap:0.5rem;align-items:center;}
+  .cp-area{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;letter-spacing:0.14em;text-transform:uppercase;color:#98a2bd;}
+  .cp-status{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.18rem 0.5rem;border-radius:999px;border:1px solid;white-space:nowrap;}
+  .cp-topic{font-weight:600;line-height:1.35;}
+  .cp-chips{display:flex;flex-wrap:wrap;gap:0.35rem;}
+  .cp-chip{font-size:0.74rem;color:#aab2cc;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);padding:0.15rem 0.5rem;border-radius:999px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cp-gap{font-size:0.8rem;color:#c9a94a;}
+  .cp-foot{display:flex;justify-content:space-between;font-size:0.78rem;color:#6b7490;margin-top:auto;}
+  .cp-go{color:var(--accent);}
   @media (max-width:860px){
     .nav-links{display:none!important;}
     .hero-grid{grid-template-columns:1fr!important;}
     .metrics{grid-template-columns:repeat(2,1fr)!important;}
     .archive-top{grid-template-columns:1fr!important;}
     .app-grid{grid-template-columns:1fr!important;}
+    .menu-btn{display:inline-flex;}
+    .nav-cta{display:none!important;}
+    .lab-grid{grid-template-columns:1fr;}
+    .lab-stage{min-height:620px;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .lab-hint{display:none;}
+    .lab-head{padding:1.1rem 1rem 0;}
+    .lab-formula{font-size:1.35rem;}
+    .lab-readout{left:1rem;bottom:1rem;}
+    .compass{padding:1.2rem;}
+    .cp-body{grid-template-columns:1fr;}
+    .cp-body > [data-compass-head]{position:static;}
+    footer .foot-grid{grid-template-columns:1fr!important;}
   }
   @media (prefers-reduced-motion: reduce){
     .reveal{opacity:1;transform:none;}
@@ -60,6 +156,7 @@
 </style>
 </head>
 <body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <div class="wrap">
 
   <!-- NAV -->
@@ -73,13 +170,18 @@
       </a>
       <ul class="nav-links" style="display:flex;gap:1.9rem;align-items:center;font-size:0.92rem;">
         <li><a href="#levels" class="nav-link">Level</a></li>
+        <li><a href="#labor" class="nav-link">Labor</a></li>
+        <li><a href="#kompass" class="nav-link">Kompass</a></li>
         <li><a href="#archive" class="nav-link">Archiv</a></li>
         <li><a href="#videos" class="nav-link">Videos</a></li>
         <li><a href="#app" class="nav-link">Mathe-App</a></li>
-        <li><a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="nav-link">YouTube</a></li>
       </ul>
-      <a href="app/lernpfad.html" class="btn btn-primary" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);">Lernstrasse starten</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <a href="app/lernpfad.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);">Lernstraße starten</a>
     </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#levels">Level</a><a href="#labor">Labor</a><a href="#kompass">Lehrplan-Kompass</a><a href="#archive">Archiv</a><a href="#videos">Videos</a><a href="#app">Mathe-App</a><a href="app/lernpfad.html" style="color:var(--accent);font-weight:600;">Lernstraße starten →</a>
+    </div>
   </header>
 
   <!-- HERO -->
@@ -96,13 +198,13 @@
           Mathe &amp; Physik · L1 – L6
         </div>
         <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.04;letter-spacing:-0.025em;margin-bottom:1.3rem;">
-          Mathematik,<br><span style="color:var(--accent);">in Resonanz</span><br>gelernt.
+          Mathematik,<br><span class="serif-em" style="color:var(--accent);font-size:1.12em;">in Resonanz</span><br>gelernt.
         </h1>
         <p style="font-size:1.18rem;color:#aab2cc;max-width:30rem;margin-bottom:2.2rem;">
-          Die geführte Lernstrasse von den Grundlagen bis zur Forschung. Aufgaben aus einem Archiv mit 30.000 Einträgen, mit XP, Streak und freiem Konto.
+          Die geführte Lernstraße von den Grundlagen bis zur Forschung. Aufgaben aus einem Archiv mit 30.000 Einträgen, mit XP, Streak und freiem Konto.
         </p>
         <div style="display:flex;gap:0.9rem;flex-wrap:wrap;">
-          <a href="app/lernpfad.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1.02rem;padding:0.95rem 1.9rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 14px 38px rgba(245,197,24,0.26);">Lernstrasse starten →</a>
+          <a href="app/lernpfad.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1.02rem;padding:0.95rem 1.9rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 14px 38px rgba(245,197,24,0.26);">Lernstraße starten →</a>
           <a href="app/lernpfad.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:1.02rem;padding:0.95rem 1.7rem;border-radius:999px;color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);">Kostenlos registrieren</a>
         </div>
       </div>
@@ -111,7 +213,7 @@
         <div style="position:absolute;inset:-1px;border-radius:26px;background:linear-gradient(140deg,rgba(245,197,24,0.4),rgba(233,69,96,0.25),rgba(53,224,196,0.25));opacity:0.55;"></div>
         <div style="position:relative;border-radius:25px;background:linear-gradient(180deg,rgba(19,26,48,0.94),rgba(12,17,34,0.94));border:1px solid rgba(255,255,255,0.08);padding:1.4rem;box-shadow:0 30px 80px rgba(0,0,0,0.45);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;">
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#98a2bd;">Deine Lernstrasse</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#98a2bd;">Deine Lernstraße</span>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent);">350 XP</span>
           </div>
           <div style="display:grid;gap:0.7rem;">
@@ -140,7 +242,7 @@
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="30000" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">30.000</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Archiv-Aufgaben</div></div>
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="6" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">6</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Level · L1–L6</div></div>
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="72" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">72</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Lektionen</div></div>
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="2" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">2</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Interaktive Module</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="4" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">4</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Interaktive Module</div></div>
     </div>
   </section>
 
@@ -153,6 +255,84 @@
         <p style="color:#aab2cc;font-size:1.08rem;max-width:34rem;margin:0 auto;">Von den Grundlagen bis zur Forschung &amp; Simulation — steig ein, wo du stehst.</p>
       </div>
       <div id="levelGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.3rem;"></div>
+    </div>
+  </section>
+
+  <!-- LABOR: interaktive Rotationskörper (app/modules/solids-lab.js) -->
+  <section id="labor" style="position:relative;padding:6rem 1.5rem;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Das Labor</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Mathe zum <span class="serif-em" style="color:var(--accent);font-size:1.1em;">Anfassen</span></h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:36rem;margin:0 auto;">Dreh eine Kurve um die x-Achse und sieh zu, wie aus Scheiben ein Körper wird. Alle Zahlen werden live berechnet.</p>
+      </div>
+
+      <div class="lab reveal" data-lab data-lab-start="vase">
+        <div class="lab-grid">
+          <div class="lab-stage">
+            <div class="lab-head">
+              <div class="lab-meta"><span class="num" data-lab-field="numeral">III.</span><span class="rule"></span><span data-lab-field="label">Volumen</span></div>
+              <div class="lab-title" data-lab-field="title">Dreh es zu einem <em>Körper</em></div>
+              <div class="lab-sub" data-lab-field="subtitle">jede Scheibe ist eine Kreisscheibe</div>
+              <div class="lab-formula" data-lab-field="formula" aria-live="polite"></div>
+            </div>
+            <canvas class="lab-canvas" data-lab-canvas tabindex="0" role="img" aria-label="3D-Ansicht eines Rotationskörpers. Ziehen oder Pfeiltasten drehen die Ansicht."></canvas>
+            <div class="lab-readout" aria-live="polite">
+              <div class="k">Rotiert <b data-lab-field="sweep">360°</b></div>
+              <div class="k"><span data-lab-field="bigLabel">Volumen</span> <b data-lab-field="big">≈ 5,280</b></div>
+              <div class="k" style="font-size:0.95rem;"><span data-lab-field="subLabel">Mantelfläche</span> <b data-lab-field="sub2"></b></div>
+              <div class="s" data-lab-field="disc"></div>
+            </div>
+            <div class="lab-hint">Ziehen zum Drehen</div>
+          </div>
+          <div class="lab-panel">
+            <div class="lab-tabs" role="tablist" aria-label="Kapitel">
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="cone"><span class="n">I.</span>Kegel aus einer Geraden</button>
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="paraboloid"><span class="n">II.</span>Paraboloid und Scheibenmethode</button>
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="vase"><span class="n">III.</span>Volumen einer Vase</button>
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="horn"><span class="n">IV.</span>Gabriels Horn</button>
+            </div>
+            <div class="lab-ctrl">
+              <label for="labSweep"><span>Drehwinkel</span><span data-lab-field="sweepCtl"></span></label>
+              <input id="labSweep" type="range" min="0" max="360" step="1" value="360" data-lab-input="sweep">
+            </div>
+            <div class="lab-ctrl">
+              <label for="labSlice"><span>Scheibe bei x</span><span></span></label>
+              <input id="labSlice" type="range" min="0" max="100" step="1" value="55" data-lab-input="slice">
+            </div>
+            <div class="lab-ctrl" data-lab-upper-wrap hidden>
+              <label for="labUpper"><span>Obere Grenze</span><span data-lab-field="upperValue">b = 12</span></label>
+              <input id="labUpper" type="range" min="2" max="200" step="1" value="12" data-lab-input="upper">
+            </div>
+            <p class="lab-note" data-lab-field="partial"></p>
+            <p style="color:#98a2bd;font-size:0.9rem;" data-lab-field="note"></p>
+            <div class="lab-actions">
+              <button type="button" data-lab-replay class="btn btn-ghost" style="color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);">↻ Neu drehen</button>
+              <a data-lab-field="archive" href="app/lernarchiv.html?level=3&amp;sublevel=3.1.3.b" class="btn btn-primary" style="color:#0a0e1c;background:var(--accent);">Im Archiv üben →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEHRPLAN-KOMPASS (app/modules/curriculum-compass.js + app/data/coverage-matrix.js) -->
+  <section id="kompass" style="position:relative;padding:5rem 1.5rem 6rem;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="text-align:center;margin-bottom:2.6rem;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Lehrplan-Kompass</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Was steht <span class="serif-em" style="color:var(--accent);font-size:1.1em;">bei dir</span> an?</h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:38rem;margin:0 auto;">Wähle deine Klasse oder dein Studienjahr. Der Kompass zeigt die passenden Themen und springt direkt in die richtige Archiv-Sektion.</p>
+      </div>
+      <div class="compass reveal" data-compass data-archive-src="app/data/archive-content.js">
+        <div class="cp-railwrap"><div class="cp-rail" data-compass-rail role="group" aria-label="Klassenstufe oder Studienphase"></div></div>
+        <input class="cp-range" type="range" min="0" max="15" step="1" value="8" data-compass-range aria-label="Klasse oder Studienphase wählen">
+        <div class="cp-body">
+          <div data-compass-head></div>
+          <div class="cp-out" data-compass-out aria-live="polite"></div>
+        </div>
+        <p style="color:#6b7490;font-size:0.8rem;margin-top:1.4rem;">Orientiert an den KMK-Bildungsstandards und typischen Modulen der Ingenieurmathematik. Die Inhalte einzelner Bundesländer und Hochschulen können abweichen.</p>
+      </div>
     </div>
   </section>
 
@@ -241,7 +421,7 @@
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Interaktive Übungen zu jedem Thema</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Level-System mit Fortschrittsanzeige</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Schritt-für-Schritt Lösungswege</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Offline verfügbar (PWA)</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Läuft im Browser, auch auf dem Handy</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>100% kostenlos</div>
         </div>
         <a href="app/index.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1rem;padding:0.9rem 1.8rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-block;box-shadow:0 14px 38px rgba(245,197,24,0.24);">App starten</a>
@@ -299,19 +479,19 @@
 
   <!-- FOOTER -->
   <footer style="border-top:1px solid rgba(255,255,255,0.08);padding:4rem 1.5rem 2.5rem;">
-    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;">
+    <div class="foot-grid" style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;">
       <div>
         <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;">
           <span style="display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:9px;border:1px solid rgba(245,197,24,0.45);background:rgba(245,197,24,0.08);"><svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path d="M2 20 C8 20 8 7 14 7 C20 7 20 33 26 33 C32 33 32 20 38 20" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round"/></svg></span>
           <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;">Second-Order Resonance</span>
         </div>
         <p style="color:#98a2bd;font-size:0.92rem;max-width:22rem;">Mathematik visuell erklärt — vom Grundschüler bis zum Forscher.</p>
-        <p style="color:#6b7490;font-size:0.84rem;margin-top:1.2rem;">Impressum · Andreas Johannes Zwingler · <a href="/cdn-cgi/l/email-protection#b6c5d3d5d9d8d2d9c4d2d3c4c4d3c5d9d8d7d8d5d3f6d1dbd7dfda98d5d9db" style="color:#98a2bd;"><span class="__cf_email__" data-cfemail="c0b3a5a3afaea4afb2a4a5b2b2a5b3afaea1aea3a580a7ada1a9aceea3afad">[email&#160;protected]</span></a></p>
+        <p style="color:#6b7490;font-size:0.84rem;margin-top:1.2rem;">Impressum · Andreas Johannes Zwingler · <a id="contactMail" data-user="secondorderresonance" data-domain="gmail.com" href="#kontakt" style="color:#98a2bd;">E-Mail</a></p>
       </div>
       <div>
         <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;">Lernen</h4>
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
-          <a href="app/lernpfad.html" class="footer-link">Lernstrasse</a>
+          <a href="app/lernpfad.html" class="footer-link">Lernstraße</a>
           <a href="app/lernarchiv.html" class="footer-link">Archiv</a>
           <a href="app/index.html" class="footer-link">Mathe-App</a>
           <a href="app/profil.html" class="footer-link">Profil</a>
@@ -330,7 +510,7 @@
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -413,13 +593,16 @@
 
   // ---- Global search ----
   var idx = [
-    {title:'Lernstrasse starten', meta:'Geführter Pfad · L1–L6', href:'app/lernpfad.html'},
+    {title:'Lernstraße starten', meta:'Geführter Pfad · L1–L6', href:'app/lernpfad.html'},
     {title:'Lernarchiv', meta:'30.000 Aufgaben · nach Level', href:'app/lernarchiv.html'},
     {title:'Einstufungstest', meta:'30 Fragen · Level finden', href:'app/lernarchiv.html'},
     {title:'Mathe-App', meta:'Interaktive Übungen', href:'app/index.html'},
     {title:'Profil & Fortschritt', meta:'Stats · Streak · XP', href:'app/profil.html'},
     {title:'Satz des Pythagoras', meta:'Interaktives Modul · L1 Geometrie', href:'app/lernarchiv.html#pythagoras-visual'},
     {title:'Argand-Ebene', meta:'Komplexe Zahlen live · L4', href:'app/lernarchiv.html#argand-visual'},
+    {title:'Rotationskörper', meta:'Labor · Volumen per Scheibenmethode · L3', href:'#labor'},
+    {title:'Gabriels Horn', meta:'Labor · Uneigentliche Integrale · L4', href:'#labor'},
+    {title:'Lehrplan-Kompass', meta:'Klasse 1–12 · Studium · Themen finden', href:'#kompass'},
     {title:'Level 1 — Grundlagen', meta:'Bruchrechnung · Geometrie · Prozente', href:'#levels'},
     {title:'Level 2 — Aufbauwissen', meta:'Gleichungen · Funktionen · Trigonometrie', href:'#levels'},
     {title:'Level 3 — Vertiefung', meta:'Ableitungen · Integrale · Stochastik', href:'#levels'},
@@ -457,10 +640,47 @@
     });
   }
 
+  // ---- Scroll-Fortschritt + aktive Navigation ----
+  var bar = document.getElementById('scrollProgress');
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  var onScroll = function(){
+    var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+    if(bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, h.scrollTop / max) : 0) + ')';
+  };
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  if('IntersectionObserver' in window && navLinks.length){
+    var secObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        navLinks.forEach(function(a){ a.classList.toggle('is-current', a.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    navLinks.forEach(function(a){ var t = document.querySelector(a.getAttribute('href')); if(t) secObs.observe(t); });
+    var heroSec = document.getElementById('top'); if(heroSec) secObs.observe(heroSec);
+  }
+
+  // ---- Mobiles Menü ----
+  var menuBtn = document.getElementById('menuBtn'), menu = document.getElementById('mobileMenu');
+  if(menuBtn && menu){
+    menuBtn.addEventListener('click', function(){
+      var open = menu.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    });
+    menu.addEventListener('click', function(e){ if(e.target.tagName === 'A'){ menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); } });
+  }
+
+  // ---- Kontaktadresse (ohne Klartext im Markup) ----
+  var mail = document.getElementById('contactMail');
+  if(mail){ var addr = mail.getAttribute('data-user') + '@' + mail.getAttribute('data-domain'); mail.href = 'mailto:' + addr; mail.textContent = addr; }
+
   // ---- Newsletter ----
   var nf = document.getElementById('newsletterForm');
   if(nf){ nf.addEventListener('submit', function(e){ e.preventDefault(); var b=nf.querySelector('button'); if(b){ b.textContent='Danke! ✓'; b.style.background='#35e0c4'; } }); }
 })();
 </script>
+<script src="app/data/coverage-matrix.js"></script>
+<script src="app/modules/curriculum-compass.js" defer></script>
+<script src="app/modules/solids-lab.js" defer></script>
 </body>
 </html>
