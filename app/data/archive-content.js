@@ -96,7 +96,7 @@ window.SOR_ARCHIVE = {
                 { id: "1.2.2",     title: "Körper und Volumen" },
                 { id: "1.2.2.a",   title: "Würfel, Quader, Zylinder" },
                 { id: "1.2.3",     title: "Winkel und Dreiecke" },
-                { id: "1.2.3.a",   title: "Winkelarten und -masse" },
+                { id: "1.2.3.a",   title: "Winkelarten und -maße" },
                 { id: "1.2.3.b",   title: "Dreieckstypen und Eigenschaften" },
                 { id: "1.2.4",     title: "Koordinatensystem" },
                 { id: "1.2.4.a",   title: "Punkte, Abstände, Spiegelung" },
