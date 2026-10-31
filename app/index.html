@@ -1886,7 +1886,28 @@
                 seen[key] = true;
                 return true;
             });
-            if (distinct.length >= 3) scopedTasks = distinct;
+            // Viele Sektionen haben nur eine Grundaufgabe: dann mit verwandten Aufgaben aus der
+            // übergeordneten Sektion auffüllen, damit eine Lektion nicht fünfmal dieselbe Frage stellt.
+            if (distinct.length < LESSON_SIZE) {
+                const targets = (meta.sublevels && meta.sublevels.length ? meta.sublevels : [meta.sublevel]).filter(Boolean);
+                const widen = [];
+                targets.forEach(function(id) {
+                    const parts = id.split('.');
+                    if (parts.length > 2) widen.push(parts.slice(0, parts.length - 1).join('.'));
+                });
+                if (meta.section) widen.push(meta.section);
+                widen.forEach(function(prefix) {
+                    if (distinct.length >= LESSON_SIZE) return;
+                    allLevelTasks.forEach(function(task) {
+                        if (distinct.length >= LESSON_SIZE || !sameOrChildSublevel(task.sublevel, prefix)) return;
+                        const key = cleanArchiveText(task.question);
+                        if (seen[key]) return;
+                        seen[key] = true;
+                        distinct.push(task);
+                    });
+                });
+            }
+            if (distinct.length) scopedTasks = distinct;
             return scopedTasks.slice(0, 24).map(function(task) {
                 return archiveTaskToExercise(task, scopedTasks, allLevelTasks);
             });
@@ -2579,8 +2600,10 @@
             }).join('');
         }
 
-        function selectLevel(level) {
-            if (!isLevelUnlocked(level)) {
+        // force: Themen-Lektionen aus Lernstraße/Jahrgangsseite dürfen ohne XP-Schwelle starten,
+        // freies Üben bleibt an die XP-Freischaltung gebunden.
+        function selectLevel(level, force) {
+            if (!force && !isLevelUnlocked(level)) {
                 const needed = LEVEL_XP_THRESHOLDS[level] - state.xp;
                 const msg = document.getElementById('lockMsg');
                 msg.textContent = '🔒 Noch ' + needed + ' XP für Level ' + (level + 1);
@@ -2613,7 +2636,7 @@
             const levelIdx = Number(levelValue) - 1;
             if (!Number.isInteger(levelIdx) || levelIdx < 0 || levelIdx > 5) return;
 
-            const opened = selectLevel(levelIdx);
+            const opened = selectLevel(levelIdx, !!params.get('roadLesson'));
             if (!opened) return;
 
             const roadLessonId = params.get('roadLesson');
