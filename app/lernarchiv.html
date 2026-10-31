@@ -493,6 +493,14 @@
             }
         }
 
+        .grade-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.5rem; }
+        .grade-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--text); border-radius: 8px; padding: 0.35rem 0.7rem; font-size: 0.85rem; cursor: pointer; transition: background 0.15s; }
+        .grade-btn:hover, .grade-btn.active { background: var(--accent2); border-color: var(--accent); color: var(--text); }
+        .grade-topics { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; min-height: 2rem; align-items: center; }
+        .topic-chip { background: rgba(15,52,96,0.7); border: 1px solid rgba(233,69,96,0.25); color: var(--text); border-radius: 20px; padding: 0.3rem 0.75rem; font-size: 0.82rem; cursor: pointer; text-decoration: none; transition: border-color 0.15s, background 0.15s; }
+        .topic-chip:hover { background: rgba(233,69,96,0.15); border-color: var(--accent); }
+        .grade-level-badge { display: inline-block; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; margin-right: 0.25rem; background: rgba(245,197,24,0.15); color: var(--gold); }
+
         @media (max-width: 540px) {
             .headline {
                 font-size: 1.7rem;
@@ -562,6 +570,15 @@
                 </div>
             </div>
             <div class="level-progress" id="levelProgress"></div>
+        </section>
+
+        <section class="card" id="curriculumNav">
+            <h2>Nach Schulklasse navigieren</h2>
+            <p class="muted">Wähle deine Schulklasse, um passende Archiv-Themen direkt zu filtern.</p>
+            <div class="grade-nav" id="gradeButtons"></div>
+            <div class="grade-topics" id="gradeTopics">
+                <span class="muted" style="font-size:0.85rem;">Klasse auswählen, um Themen anzuzeigen.</span>
+            </div>
         </section>
 
         <section class="card" id="archiveBrowser">
@@ -692,6 +709,7 @@
     </main>
 
     <script src="./data/archive-content.js?v=2.5.0"></script>
+    <script src="./data/curriculum-matrix.js?v=2.6.0"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1575,6 +1593,48 @@
             });
         }
 
+        function renderCurriculumNav() {
+            const matrix = window.SOR_CURRICULUM_MATRIX;
+            if (!matrix) return;
+            const btns = document.getElementById("gradeButtons");
+            const topicsEl = document.getElementById("gradeTopics");
+            if (!btns || !topicsEl) return;
+            matrix.grades.forEach(function(g) {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "grade-btn";
+                btn.textContent = "Kl. " + g.grade;
+                btn.addEventListener("click", function() {
+                    btns.querySelectorAll(".grade-btn").forEach(function(b) { b.classList.remove("active"); });
+                    btn.classList.add("active");
+                    topicsEl.innerHTML = "";
+                    const badge = document.createElement("span");
+                    badge.className = "grade-level-badge";
+                    badge.textContent = { "1": "L1", "2": "L2", "3": "L3" }[g.archiveLevel] || ("L" + g.archiveLevel);
+                    topicsEl.appendChild(badge);
+                    g.topics.forEach(function(t) {
+                        const a = document.createElement("a");
+                        a.className = "topic-chip";
+                        a.href = "#archiveBrowser";
+                        a.textContent = t.name;
+                        a.title = "Sublevel: " + t.sublevel;
+                        a.addEventListener("click", function(ev) {
+                            ev.preventDefault();
+                            applyFilterState({ selectedLevel: g.archiveLevel, selectedSublevel: t.sublevel, selectedTopic: "all", search: "" });
+                            hydrateFilterState();
+                            renderFilters();
+                            renderTaskList();
+                            saveFilterState();
+                            syncUrlFromState();
+                            document.getElementById("archiveBrowser").scrollIntoView({ behavior: "smooth" });
+                        });
+                        topicsEl.appendChild(a);
+                    });
+                });
+                btns.appendChild(btn);
+            });
+        }
+
         applyFilterState(readSavedFilterState() || {});
         applyFilterState(readFilterStateFromUrl());
 
@@ -1585,6 +1645,7 @@
         renderTaxonomy();
         renderPythagorasVisual();
         renderArgandVisual();
+        renderCurriculumNav();
         bindEvents();
         saveFilterState();
         syncUrlFromState();
