@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klasse wählen | Second-Order Resonance</title>
+<meta name="description" content="Alle Mathe-Themen deines Jahrgangs auf einen Blick: Kernidee, Formel, Animation und direkt üben.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--bg:#0a0e1c;--card:rgba(255,255,255,0.035);--line:rgba(255,255,255,0.08);--text:#eef1f7;--muted:#98a2bd;--soft:#aab2cc;--accent:#f5c518;--teal:#35e0c4;--red:#e94560;}
+  html{scroll-behavior:smooth;}
+  body{background:radial-gradient(1100px 600px at 80% -10%,rgba(233,69,96,0.09),transparent 60%),radial-gradient(900px 560px at 5% 0%,rgba(53,224,196,0.06),transparent 55%),var(--bg);color:var(--text);font-family:'IBM Plex Sans',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;}
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
+  .serif{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;}
+
+  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(10,14,28,0.78);border-bottom:1px solid rgba(255,255,255,0.07);}
+  .bar{max-width:1180px;margin:0 auto;padding:0.85rem 1.4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+  .brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;}
+  .brand-mark{display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:10px;border:1px solid rgba(245,197,24,0.45);background:rgba(245,197,24,0.08);}
+  .brand b{color:var(--red);font-weight:700;}
+  .links{display:flex;gap:1.4rem;font-size:0.9rem;}
+  .links a{text-decoration:none;color:var(--muted);}
+  .links a:hover{color:var(--text);}
+
+  main{max-width:1180px;margin:0 auto;padding:2.6rem 1.4rem 5rem;}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--teal);}
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) auto;min-width:0;gap:1.5rem;align-items:end;margin-bottom:1.6rem;}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.4rem,5vw,3.6rem);letter-spacing:-0.025em;line-height:1.05;margin:0.5rem 0 0.6rem;}
+  h1 .serif{color:var(--accent);font-size:1.15em;}
+  .lead{color:var(--soft);font-size:1.08rem;max-width:36rem;}
+  .levels{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.9rem;}
+  .lv{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.85rem;color:#cdd4e6;border:1px solid var(--line);border-radius:999px;padding:0.2rem 0.7rem 0.2rem 0.25rem;}
+  .lv b{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:22px;border-radius:999px;color:#0a0e1c;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;}
+  .cta{display:inline-flex;align-items:center;gap:0.45rem;text-decoration:none;font-weight:700;padding:0.85rem 1.5rem;border-radius:999px;color:#0a0e1c;background:var(--accent);box-shadow:0 14px 34px rgba(245,197,24,0.22);transition:transform .2s,box-shadow .2s;white-space:nowrap;}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(245,197,24,0.32);}
+
+  .grades{display:flex;gap:0.45rem;overflow-x:auto;padding:0.3rem 0 0.8rem;margin-bottom:1.6rem;border-bottom:1px solid var(--line);scrollbar-width:thin;}
+  .grade{flex:0 0 auto;min-width:46px;height:46px;padding:0 0.7rem;border-radius:13px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;}
+  .grade:hover{color:var(--text);border-color:rgba(255,255,255,0.25);}
+  .grade[aria-current="page"]{color:#0a0e1c;background:var(--accent);border-color:var(--accent);box-shadow:0 8px 22px rgba(245,197,24,0.25);}
+  .grade small{font-size:0.62rem;margin-right:0.2rem;opacity:0.75;font-family:'IBM Plex Mono',monospace;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.2rem;}
+  .topic{position:relative;display:flex;flex-direction:column;border-radius:22px;background:var(--card);border:1px solid var(--line);overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s;scroll-margin-top:90px;}
+  .topic:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.16);box-shadow:0 24px 54px rgba(0,0,0,0.35);}
+  .topic:target{border-color:rgba(245,197,24,0.6);}
+  .topic-vis{background:radial-gradient(320px 160px at 50% 60%,rgba(53,224,196,0.07),transparent 70%),#070a14;padding:0.9rem 1.1rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);}
+  .topic-body{padding:1.2rem 1.3rem 1.3rem;display:flex;flex-direction:column;gap:0.7rem;flex:1;}
+  .topic-meta{display:flex;justify-content:space-between;gap:0.6rem;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+  .done{color:var(--teal);letter-spacing:0.06em;}
+  .topic h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.22rem;letter-spacing:-0.01em;line-height:1.3;}
+  .topic p{color:var(--soft);font-size:0.95rem;}
+  .formula{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-size:1.2rem;color:#f3efe6;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-left:2px solid var(--accent);border-radius:10px;padding:0.55rem 0.85rem;display:grid;gap:0.15rem;}
+  .formula sup,.formula sub{font-size:0.65em;}
+  .actions{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;margin-top:auto;padding-top:0.4rem;}
+  .practice{display:inline-flex;align-items:center;gap:0.4rem;text-decoration:none;font-weight:700;font-size:0.92rem;padding:0.65rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);transition:transform .2s;}
+  .practice:hover{transform:translateY(-1px);}
+  .practice[aria-disabled="true"]{background:rgba(255,255,255,0.08);color:var(--muted);pointer-events:none;}
+  .more{font-size:0.85rem;color:var(--muted);text-decoration:none;}
+  .more:hover{color:var(--text);}
+  .count{font-size:0.78rem;color:#6b7490;}
+
+  .optional{margin-top:2.8rem;}
+  .optional h3{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;margin-bottom:0.3rem;}
+  .optional p.hint{color:var(--muted);font-size:0.92rem;margin-bottom:1.1rem;}
+  .foot{margin-top:3.2rem;padding-top:1.6rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;color:#6b7490;font-size:0.85rem;}
+  .foot a{color:var(--muted);}
+
+  @media (max-width:760px){
+    .links{display:none;}
+    .hero{grid-template-columns:minmax(0,1fr);}
+    .cta{white-space:normal;justify-content:center;text-align:center;}
+    .grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="brand" href="../index.html"><span class="brand-mark"><svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path d="M2 20 C8 20 8 7 14 7 C20 7 20 33 26 33 C32 33 32 20 38 20" stroke="#f5c518" stroke-width="2.6" stroke-linecap="round"/></svg></span><span>Second-Order <b>Resonance</b></span></a>
+    <nav class="links" aria-label="Hauptnavigation">
+      <a href="lernpfad.html">Lernstraße</a>
+      <a href="lernarchiv.html">Archiv</a>
+      <a href="index.html">Mathe-App</a>
+      <a href="../index.html#kompass">Startseite</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="grades" id="grades" aria-label="Klasse wählen"></nav>
+
+  <section class="hero">
+    <div>
+      <div class="kicker">Jahrgangsübersicht</div>
+      <h1 id="title">Klasse <span class="serif">7</span></h1>
+      <p class="lead" id="lead"></p>
+      <div class="levels" id="levels"></div>
+    </div>
+    <a class="cta" id="startFirst" href="#">Erstes Thema üben →</a>
+  </section>
+
+  <section class="grid" id="topics" aria-live="polite"></section>
+
+  <section class="optional" id="optionalWrap" hidden>
+    <h3>Je nach Bundesland oder Kurs auch dran</h3>
+    <p class="hint">Diese Themen kommen nicht überall vor.</p>
+    <div class="grid" id="optionalTopics"></div>
+  </section>
+
+  <div class="foot">
+    <span>Die Themen orientieren sich an den KMK-Bildungsstandards. Reihenfolge und Jahrgang können je nach Bundesland abweichen.</span>
+    <a href="lernarchiv.html">Alle Aufgaben im Archiv →</a>
+  </div>
+</main>
+
+<script src="./data/archive-content.js?v=2.7.0"></script>
+<script src="./data/coverage-matrix.js?v=2.7.0"></script>
+<script src="./modules/topic-visuals.js?v=2.7.0"></script>
+<script>
+(function () {
+    "use strict";
+    var data = window.SOR_COVERAGE, archive = window.SOR_ARCHIVE, visuals = window.SOR_VISUALS;
+    if (!data) return;
+
+    var LEVELS = {
+        1: { code: "L1", name: "Grundlagen", color: "#4ade80" },
+        2: { code: "L2", name: "Aufbauwissen", color: "#facc15" },
+        3: { code: "L3", name: "Vertiefung", color: "#f59e0b" }
+    };
+    var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+    var levelOf = function (id) { return Number(String(id).split(".")[0]); };
+
+    var taskCount = {};
+    if (archive) archive.tasks.forEach(function (t) { taskCount[t.sublevel] = (taskCount[t.sublevel] || 0) + 1; });
+
+    function completedIds() {
+        var done = {};
+        try {
+            var store = JSON.parse(localStorage.getItem("sor-learning-road-v1") || "{}");
+            Object.keys(store).forEach(function (acc) {
+                var c = store[acc] && store[acc].completed;
+                if (c) Object.keys(c).forEach(function (id) { done[id] = true; });
+            });
+        } catch (e) { /* Speicher nicht verfügbar */ }
+        return done;
+    }
+
+    function practiceHref(entry, grade) {
+        return data.practiceHref(entry, archive ? taskCount : null, "klasse.html?k=" + grade + "#" + entry.id);
+    }
+
+    function formulaHtml(f) {
+        return (Array.isArray(f) ? f : [f]).map(function (line) { return "<span>" + line + "</span>"; }).join("");
+    }
+
+    function card(entry, grade, done) {
+        var href = practiceHref(entry, grade);
+        var tasks = entry.sections.reduce(function (s, id) { return s + (taskCount[id] || 0); }, 0);
+        var lv = levelOf(entry.sections[0]);
+        var archiveHref = "lernarchiv.html?level=" + lv + "&sublevel=" + encodeURIComponent(entry.sections[0]);
+        return '<article class="topic" id="' + entry.id + '">' +
+            '<div class="topic-vis" data-visual="' + esc(entry.visual || "") + '"></div>' +
+            '<div class="topic-body">' +
+                '<div class="topic-meta"><span>' + esc(entry.area) + "</span>" + (done[("thema-" + entry.id)] ? '<span class="done">✓ geschafft</span>' : "") + "</div>" +
+                "<h2>" + esc(entry.topic) + "</h2>" +
+                "<p>" + entry.text + "</p>" +
+                (entry.formula ? '<div class="formula">' + formulaHtml(entry.formula) + "</div>" : "") +
+                '<div class="actions">' +
+                    (href
+                        ? '<a class="practice" href="' + esc(href) + '">Üben starten →</a>'
+                        : '<span class="practice" aria-disabled="true">Aufgaben folgen bald</span>') +
+                    (tasks ? '<a class="more" href="' + esc(archiveHref) + '">' + tasks.toLocaleString("de-DE") + " Aufgaben im Archiv</a>" : "") +
+                "</div>" +
+            "</div>" +
+        "</article>";
+    }
+
+    var params = new URLSearchParams(location.search);
+    var grade = Math.min(12, Math.max(1, parseInt(params.get("k"), 10) || 0));
+    if (!grade) {
+        try { grade = parseInt(localStorage.getItem("sor-last-grade"), 10) || 5; } catch (e) { grade = 5; }
+    }
+    try { localStorage.setItem("sor-last-grade", String(grade)); } catch (e) { /* ignorieren */ }
+
+    // Klassenleiste
+    var nav = document.getElementById("grades");
+    var html = "";
+    for (var g = 1; g <= 12; g += 1) {
+        html += '<a class="grade" href="klasse.html?k=' + g + '"' + (g === grade ? ' aria-current="page"' : "") + "><small>Kl.</small>" + g + "</a>";
+    }
+    nav.innerHTML = html;
+    var current = nav.querySelector('[aria-current="page"]');
+    if (current && current.scrollIntoView) current.scrollIntoView({ block: "nearest", inline: "center" });
+
+    var list = data.school.filter(function (e) { return e.grades[0] <= grade && grade <= e.grades[1]; });
+    var core = list.filter(function (e) { return !e.optional; });
+    var extra = list.filter(function (e) { return e.optional; });
+    var done = completedIds();
+
+    document.title = "Klasse " + grade + " · Mathe-Themen | Second-Order Resonance";
+    document.getElementById("title").innerHTML = 'Klasse <span class="serif">' + grade + "</span>";
+    document.getElementById("lead").textContent = core.length + " Themen in diesem Jahrgang. Jedes Thema hat eine Kernidee, eine Formel und eine Übung mit 5 Aufgaben.";
+
+    var lvls = {};
+    list.forEach(function (e) { lvls[levelOf(e.sections[0])] = true; });
+    document.getElementById("levels").innerHTML = Object.keys(lvls).sort().map(function (k) {
+        var L = LEVELS[k];
+        return L ? '<span class="lv"><b style="background:' + L.color + '">' + L.code + "</b>" + L.name + "</span>" : "";
+    }).join("");
+
+    var firstOpen = core.filter(function (e) { return !done["thema-" + e.id] && practiceHref(e, grade); })[0] || core[0];
+    var startBtn = document.getElementById("startFirst");
+    var firstHref = firstOpen ? practiceHref(firstOpen, grade) : null;
+    if (firstHref) {
+        startBtn.href = firstHref;
+        var anyDone = core.some(function (e) { return done["thema-" + e.id]; });
+        startBtn.textContent = (anyDone ? "Weiter mit „" : "Starten mit „") + firstOpen.topic + "“ →";
+    } else {
+        startBtn.hidden = true;
+    }
+
+    document.getElementById("topics").innerHTML = core.map(function (e) { return card(e, grade, done); }).join("");
+    if (extra.length) {
+        document.getElementById("optionalWrap").hidden = false;
+        document.getElementById("optionalTopics").innerHTML = extra.map(function (e) { return card(e, grade, done); }).join("");
+    }
+
+    if (visuals) {
+        Array.prototype.forEach.call(document.querySelectorAll("[data-visual]"), function (el) {
+            visuals.mount(el, el.getAttribute("data-visual"));
+            var art = el.closest(".topic");
+            if (art) art.addEventListener("mouseenter", function () { visuals.replay(el); });
+        });
+    }
+
+    if (location.hash) {
+        var target = document.getElementById(location.hash.slice(1));
+        if (target) setTimeout(function () { target.scrollIntoView({ block: "center" }); }, 60);
+    }
+})();
+</script>
+</body>
+</html>

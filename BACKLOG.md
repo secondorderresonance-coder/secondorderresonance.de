@@ -42,6 +42,8 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Raise distinct base tasks to at least 5 per L1–L3 sublevel (several sublevels such as 3.1.3.b have only one base task repeated as variants), so class-page lessons are varied
+- [ ] Improve multiple-choice distractors for non-numeric archive answers (same answer type as the correct option)
 - [ ] Add an "Achsen-/Punktsymmetrie" sublevel under L1 (Klasse 6 gap identified in curriculum coverage matrix)
 - [ ] Add a dedicated "Dreieckskongruenz" sublevel under L1/L2 (Klasse 7 gap identified in curriculum coverage matrix)
 - [ ] Add a dedicated "Zinsrechnung" sublevel under L1 (Klasse 7 gap identified in curriculum coverage matrix)
@@ -83,6 +85,8 @@
 - [x] Add homepage Labor: interactive 3D solids of revolution (Kegel, Paraboloid, Vase, Gabriels Horn) with live volume/surface values (v2.6.0)
 - [x] Add homepage Lehrplan-Kompass (Klasse 1-12 and study phases -> topics -> archive deep links) driven by the coverage matrix (v2.6.0)
 - [x] Add mobile navigation menu, scroll progress, active-section nav state, and fix footer contact link (v2.6.0)
+- [x] Add class pages (`app/klasse.html`) with topic overview, animated illustration, core formula and direct 5-question practice per topic (v2.7.0)
+- [x] Declutter the archive: hide generated variants by default, clean variant noise from task texts, fold taxonomy and level progress (v2.7.0)
 - [ ] Embed the solids-of-revolution module in `app/lernarchiv.html` next to Pythagoras and Argand (reuse `app/modules/solids-lab.js`)
 - [ ] Bring the v2.6 navigation (mobile menu, focus styles) and editorial accents to the app pages for a consistent look
 - [ ] Confirm the canonical domain: `CNAME` says secondorderresonance.de, older meta tags used second-order-resonance.de

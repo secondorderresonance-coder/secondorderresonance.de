@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.6.0`
+- `v2.7.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -62,6 +62,43 @@ Built the Klasse 1-12 curriculum coverage matrix and mapped it to the L1-L3 arch
 
 ### Next logical step
 - Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (next open P1 task), or close one of the three newly identified taxonomy gaps in a small batch.
+
+## Last completed task (v2.7.0)
+User feedback on v2.6.0: clicking a school class in the archive did nothing visible (topic chips appeared far below twelve full-width buttons), there was no topic overview per year and no direct start into exercises, and the archive felt overloaded with near-identical tasks. Requested: every topic with some text, a formula, a picture and if possible an animation, without overloading the page.
+
+### Changes in this iteration
+- New page `app/klasse.html?k=1..12`: compact class bar, short intro, one card per topic with animated illustration, core idea (1–2 sentences), core formula and an "Üben starten" button that opens a 5-question lesson in the app. Optional topics (depending on the federal state) sit in a separate, smaller block. Completed topics show "✓ geschafft". The last chosen class is remembered.
+- `app/modules/topic-visuals.js` (new): 50 small animated SVG illustrations (number line, fractions, balance, parabola, Pythagoras, unit circle, tangent sliding along a curve, Riemann sums, bell curve, matrix transform, …). Pure string generators, draw/pop-in once when visible, calm loops for rotations, static under `prefers-reduced-motion`.
+- `app/data/coverage-matrix.js` is now the single source for school topics: refined to individual school years, 50 topics with `text`, `formula` (string or list) and `visual`; helper functions `practiceHref()` and `topicForSublevel()`. The duplicate `app/data/curriculum-matrix.js` and `docs/curriculum-coverage-klasse-1-12.md` from the parallel v2.6.0 branch were removed and their UI replaced.
+- App road mode (`app/index.html`): accepts `roadSublevels` (several sections per lesson) and a safe relative `roadReturn` target, removes generator noise ("[Serie n: …]", "(Variante n: …)", "Variantenfokus …") from question, title and explanation, uses each base task only once per lesson, and offers numeric distractors with the same unit (e.g. 12/18/30 Tage instead of "15 Euro" or "5/6"). If a topic has fewer than 5 distinct base tasks, the lesson is filled with distinct tasks from the parent section. Topic lessons (`roadLesson` links from the class pages and the Lernstraße) now open even if the level is still XP-locked; free practice keeps the XP gate.
+- Archive (`app/lernarchiv.html`): class row is now 12 compact links to the class pages; task list shows each base task once by default with a "Varianten zeigen" toggle and an honest count (e.g. "1 Grundaufgabe · 109 mit Varianten"); task detail shows cleaned text, hides solution and explanation behind a toggle and adds a "Thema auf einen Blick" box (animation, idea, formula, "5 Aufgaben üben", link to the class page); level progress and the full taxonomy are folded.
+- Homepage Lehrplan-Kompass: school cards are slimmer (topic only, no section IDs or internal status) and open the class page; new "Klasse N öffnen und üben" button; search index and footer link to the class pages.
+- `tools/coverage-qa.js` now also checks that every school topic has text, formula and a valid visual.
+
+### Files touched
+- `app/klasse.html` (new)
+- `app/modules/topic-visuals.js` (new)
+- `app/data/coverage-matrix.js`
+- `app/index.html`
+- `app/lernarchiv.html`
+- `app/modules/curriculum-compass.js`
+- `index.html`
+- `tools/coverage-qa.js`, `docs/coverage-matrix.md` (regenerated)
+- `app/data/curriculum-matrix.js`, `docs/curriculum-coverage-klasse-1-12.md` (removed, merged into coverage matrix)
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` (Result: OK)
+- `node tools/coverage-qa.js --write` (Result: OK, 50 school topics, all with text, formula and valid visual)
+- `node --check` for all modules and the inline scripts of `index.html`, `app/index.html`, `app/lernarchiv.html`, `app/klasse.html`
+- Gallery render of all 50 visuals in headless Chromium, layout overlaps fixed
+- Playwright: class page for Klasse 3, 7, 12 on desktop and mobile without errors; "Üben starten" opens a lesson with cleaned questions (e.g. "5 Arbeiter benötigen 12 Tage …"); archive variant toggle and counts; archive class links and homepage compass cards open the matching class page
+
+### Blockers
+- None. Content note: 77 of 91 L1–L3 sublevels have exactly one base task; several archive sublevels contain only one base task repeated as up to 109 variants (e.g. 3.1.3.b). The archive now shows this honestly instead of hiding it.
+
+### Next logical step
+- Add more distinct base tasks per sublevel (at least 5) so lessons from the class pages are varied, starting with the L1–L3 sublevels that currently have only one base task.
 
 ## Last completed task (v2.6.0)
 Requested multi-part iteration: two open P1 backlog tasks, a site-wide spelling fix, and a homepage upgrade with new interactive elements.

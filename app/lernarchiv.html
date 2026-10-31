@@ -493,13 +493,21 @@
             }
         }
 
-        .grade-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.5rem; }
-        .grade-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--text); border-radius: 8px; padding: 0.35rem 0.7rem; font-size: 0.85rem; cursor: pointer; transition: background 0.15s; }
-        .grade-btn:hover, .grade-btn.active { background: var(--accent2); border-color: var(--accent); color: var(--text); }
-        .grade-topics { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; min-height: 2rem; align-items: center; }
-        .topic-chip { background: rgba(15,52,96,0.7); border: 1px solid rgba(233,69,96,0.25); color: var(--text); border-radius: 20px; padding: 0.3rem 0.75rem; font-size: 0.82rem; cursor: pointer; text-decoration: none; transition: border-color 0.15s, background 0.15s; }
-        .topic-chip:hover { background: rgba(233,69,96,0.15); border-color: var(--accent); }
-        .grade-level-badge { display: inline-block; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; margin-right: 0.25rem; background: rgba(245,197,24,0.15); color: var(--gold); }
+        .grade-nav { display: flex; gap: 0.45rem; overflow-x: auto; padding: 0.2rem 0 0.4rem; margin-top: 0.9rem; }
+        .grade-link { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; min-width: 46px; height: 42px; padding: 0 0.7rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.05); color: var(--text); text-decoration: none; font-weight: 600; transition: background 0.15s, border-color 0.15s, transform 0.15s; }
+        .grade-link:hover { background: rgba(245,197,24,0.14); border-color: var(--gold); transform: translateY(-2px); }
+        .variant-toggle { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; margin: 0; }
+        .variant-toggle input { width: auto; }
+        .topic-box { margin-top: 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; overflow: hidden; background: rgba(0,0,0,0.18); }
+        .topic-box .tb-vis { background: #070a14; padding: 0.6rem 0.9rem 0.2rem; max-height: 190px; }
+        .topic-box .tb-vis svg { max-height: 170px; }
+        .topic-box .tb-body { padding: 0.8rem 0.95rem 0.95rem; }
+        .topic-box .tb-formula { font-family: 'Times New Roman', Georgia, serif; font-size: 1.12rem; border-left: 2px solid var(--gold); padding: 0.3rem 0.7rem; margin: 0.5rem 0 0.7rem; display: grid; gap: 0.1rem; background: rgba(255,255,255,0.03); border-radius: 8px; }
+        .topic-box .tb-formula sup, .topic-box .tb-formula sub { font-size: 0.65em; }
+        .tb-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .tb-actions a { text-decoration: none; font-weight: 600; font-size: 0.88rem; padding: 0.5rem 0.9rem; border-radius: 999px; background: var(--gold); color: #0a0e1c; }
+        .tb-actions a.ghost { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.2); }
+        details.fold > summary { cursor: pointer; color: var(--text-muted); font-size: 0.9rem; margin-top: 0.8rem; }
 
         @media (max-width: 540px) {
             .headline {
@@ -569,16 +577,16 @@
                     <span>Aktive Lernserie (Account)</span>
                 </div>
             </div>
-            <div class="level-progress" id="levelProgress"></div>
+            <details class="fold">
+                <summary>Ausbaustand pro Level anzeigen</summary>
+                <div class="level-progress" id="levelProgress"></div>
+            </details>
         </section>
 
         <section class="card" id="curriculumNav">
-            <h2>Nach Schulklasse navigieren</h2>
-            <p class="muted">Wähle deine Schulklasse, um passende Archiv-Themen direkt zu filtern.</p>
-            <div class="grade-nav" id="gradeButtons"></div>
-            <div class="grade-topics" id="gradeTopics">
-                <span class="muted" style="font-size:0.85rem;">Klasse auswählen, um Themen anzuzeigen.</span>
-            </div>
+            <h2>Nach Schulklasse lernen</h2>
+            <p class="muted">Wähle deine Klasse: Du bekommst alle Themen des Jahrgangs mit Erklärung, Formel und Animation und kannst sofort üben.</p>
+            <nav class="grade-nav" id="gradeButtons" aria-label="Klasse wählen"></nav>
         </section>
 
         <section class="card" id="archiveBrowser">
@@ -606,6 +614,7 @@
                     </div>
                     <div class="filter-tools">
                         <p class="muted" id="resultCount"></p>
+                        <label class="variant-toggle"><input type="checkbox" id="showVariants"> Varianten zeigen</label>
                         <button type="button" class="ghost-btn" id="copyFilterLinkBtn">Filter-Link kopieren</button>
                     </div>
                     <div class="task-list" id="taskList"></div>
@@ -703,13 +712,17 @@
 
         <section class="card">
             <h2>Level- und Sublevel-Taxonomie</h2>
-            <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
-            <div class="taxonomy" id="taxonomyView"></div>
+            <details class="fold">
+                <summary>Gesamte Struktur aufklappen</summary>
+                <p class="muted">Diese Struktur ist für den langfristigen Ausbau auf 5.000 Aufgaben pro Level ausgelegt.</p>
+                <div class="taxonomy" id="taxonomyView"></div>
+            </details>
         </section>
     </main>
 
     <script src="./data/archive-content.js?v=2.5.0"></script>
-    <script src="./data/curriculum-matrix.js?v=2.6.0"></script>
+    <script src="./data/coverage-matrix.js?v=2.7.0"></script>
+    <script src="./modules/topic-visuals.js?v=2.7.0"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1107,17 +1120,41 @@
             });
         }
 
+        // Generierte Varianten tragen Serien-Zusätze; für die Anzeige auf den Kern reduzieren
+        function cleanTaskText(text) {
+            return String(text || "")
+                .replace(/\s*\[Serie \d+:[^\]]*\]/g, "")
+                .replace(/\s*\(Variante \d+:[^)]*\)/g, "")
+                .replace(/\s*Zusatzfokus:.*$/i, "")
+                .replace(/\s*Variantenfokus \(.*$/i, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        let showVariants = false;
+        function withoutVariants(list) {
+            if (showVariants) return list;
+            const seen = new Set();
+            return list.filter(task => {
+                const key = task.sublevel + "|" + cleanTaskText(task.question);
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        }
+
         function renderTaskList() {
-            const list = filteredTasks();
+            const allMatches = filteredTasks();
+            const list = withoutVariants(allMatches);
             let visibleList = list.slice(0, TASK_RENDER_LIMIT);
             const activeTask = state.activeTaskId ? list.find(t => t.id === state.activeTaskId) : null;
             if (activeTask && !visibleList.some(t => t.id === activeTask.id)) {
                 visibleList = [activeTask, ...visibleList.slice(0, TASK_RENDER_LIMIT - 1)];
             }
             const wrap = document.getElementById("taskList");
-            const countLabel = list.length > visibleList.length
-                ? `${list.length} passende Aufgaben · ${visibleList.length} sichtbar`
-                : `${list.length} passende Aufgaben`;
+            const countLabel = showVariants
+                ? `${list.length} Aufgaben inklusive Varianten`
+                : `${list.length} ${list.length === 1 ? "Grundaufgabe" : "Grundaufgaben"}` + (allMatches.length > list.length ? ` · ${allMatches.length} mit Varianten` : "");
             document.getElementById("resultCount").textContent = countLabel;
 
             if (list.length === 0) {
@@ -1137,7 +1174,7 @@
 
             wrap.innerHTML = visibleList.map(task => `
                 <div class="task-item ${state.activeTaskId === task.id ? "active" : ""}" data-id="${task.id}">
-                    <strong>${task.title}</strong>
+                    <strong>${showVariants ? task.title : cleanTaskText(task.title)}</strong>
                     <div class="task-meta">${levelLabel(task.level)} | ${task.sublevel} | ${task.topic}</div>
                 </div>
             `).join("");
@@ -1173,43 +1210,69 @@
             return `./index.html?${params.toString()}#level-${task.level}`;
         }
 
+        const sublevelTaskCount = {};
+        tasks.forEach(t => { sublevelTaskCount[t.sublevel] = (sublevelTaskCount[t.sublevel] || 0) + 1; });
+
+        function topicBoxHtml(task) {
+            const cov = window.SOR_COVERAGE;
+            const entry = cov && cov.topicForSublevel ? cov.topicForSublevel(task.sublevel) : null;
+            if (!entry || !entry.text) return "";
+            const formulas = (Array.isArray(entry.formula) ? entry.formula : [entry.formula]).filter(Boolean).map(f => `<span>${f}</span>`).join("");
+            const practice = cov.practiceHref(entry, sublevelTaskCount, "lernarchiv.html?level=" + task.level + "&sublevel=" + task.sublevel + "&task=" + task.id);
+            const grade = entry.grades ? entry.grades[0] : null;
+            return `
+                <div class="topic-box">
+                    <div class="tb-vis" data-visual="${entry.visual || ""}"></div>
+                    <div class="tb-body">
+                        <strong style="color:var(--gold);">Thema auf einen Blick: ${entry.topic}</strong>
+                        <p style="margin-top:0.35rem;">${entry.text}</p>
+                        ${formulas ? `<div class="tb-formula">${formulas}</div>` : ""}
+                        <div class="tb-actions">
+                            ${practice ? `<a href="./${practice}">5 Aufgaben üben →</a>` : ""}
+                            ${grade ? `<a class="ghost" href="./klasse.html?k=${grade}#${entry.id}">Klasse ${grade} ansehen</a>` : ""}
+                        </div>
+                    </div>
+                </div>`;
+        }
+
         function renderTaskDetail() {
             const task = tasks.find(t => t.id === state.activeTaskId);
             if (!task) return;
-            const appHref = `./index.html?level=${encodeURIComponent(task.level)}&topic=${encodeURIComponent(task.topic)}#level-${task.level}`;
+            const variantInfo = /\(Variante \d+:/.test(task.title) ? task.title.replace(/^.*\((Variante [^)]*)\).*$/, "$1") : "";
 
             document.getElementById("taskDetail").innerHTML = `
-                <h3>${task.title}</h3>
+                <h3>${cleanTaskText(task.title)}</h3>
                 <p class="muted">${levelLabel(task.level)} | Sublevel ${task.sublevel} | ${task.topic}</p>
                 <div class="pill-row">
-                    <span class="pill">Typ: ${task.type}</span>
                     <span class="pill">Schwierigkeit: ${task.difficulty}</span>
-                    <span class="pill">Zeit: ca. ${task.estimatedTime} min</span>
-                    <span class="pill">ID: ${task.id}</span>
+                    <span class="pill">ca. ${task.estimatedTime} min</span>
+                    ${showVariants && variantInfo ? `<span class="pill">${variantInfo}</span>` : ""}
                 </div>
                 <div class="detail-block">
                     <strong>Aufgabe</strong>
-                    <p>${task.question}</p>
+                    <p>${cleanTaskText(task.question)}</p>
                 </div>
+                <details class="fold">
+                    <summary>Lösung und Erklärung anzeigen</summary>
+                    <div class="detail-block">
+                        <strong>Lösung</strong>
+                        <p>${cleanTaskText(task.answer)}</p>
+                    </div>
+                    <div class="detail-block">
+                        <strong>Erklärung</strong>
+                        <p>${cleanTaskText(task.explanation)}</p>
+                    </div>
+                </details>
+                ${topicBoxHtml(task)}
                 <div class="detail-block">
-                    <strong>Lösung</strong>
-                    <p>${task.answer}</p>
-                </div>
-                <div class="detail-block">
-                    <strong>Erklärung</strong>
-                    <p>${task.explanation}</p>
-                </div>
-                <div class="detail-block">
-                    <strong>Tags</strong>
-                    <div class="pill-row">${task.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
-                </div>
-                <div class="detail-block">
-                    <strong>Weiterlernen</strong>
                     <div class="pill-row">
                         <a class="detail-link" href="${buildAppExerciseHref(task)}">Passende App-Übung</a>
+                        <span class="pill" title="Aufgaben-ID">${task.id}</span>
                     </div>
                 </div>
             `;
+            const vis = document.querySelector("#taskDetail [data-visual]");
+            if (vis && window.SOR_VISUALS) window.SOR_VISUALS.mount(vis, vis.getAttribute("data-visual"));
         }
 
         function renderTaxonomy() {
@@ -1524,6 +1587,11 @@
         }
 
         function bindEvents() {
+            const variantBox = document.getElementById("showVariants");
+            if (variantBox) variantBox.addEventListener("change", () => {
+                showVariants = variantBox.checked;
+                renderTaskList();
+            });
             const levelFilter = document.getElementById("levelFilter");
             const sublevelFilter = document.getElementById("sublevelFilter");
             const topicFilter = document.getElementById("topicFilter");
@@ -1594,45 +1662,11 @@
         }
 
         function renderCurriculumNav() {
-            const matrix = window.SOR_CURRICULUM_MATRIX;
-            if (!matrix) return;
-            const btns = document.getElementById("gradeButtons");
-            const topicsEl = document.getElementById("gradeTopics");
-            if (!btns || !topicsEl) return;
-            matrix.grades.forEach(function(g) {
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "grade-btn";
-                btn.textContent = "Kl. " + g.grade;
-                btn.addEventListener("click", function() {
-                    btns.querySelectorAll(".grade-btn").forEach(function(b) { b.classList.remove("active"); });
-                    btn.classList.add("active");
-                    topicsEl.innerHTML = "";
-                    const badge = document.createElement("span");
-                    badge.className = "grade-level-badge";
-                    badge.textContent = { "1": "L1", "2": "L2", "3": "L3" }[g.archiveLevel] || ("L" + g.archiveLevel);
-                    topicsEl.appendChild(badge);
-                    g.topics.forEach(function(t) {
-                        const a = document.createElement("a");
-                        a.className = "topic-chip";
-                        a.href = "#archiveBrowser";
-                        a.textContent = t.name;
-                        a.title = "Sublevel: " + t.sublevel;
-                        a.addEventListener("click", function(ev) {
-                            ev.preventDefault();
-                            applyFilterState({ selectedLevel: g.archiveLevel, selectedSublevel: t.sublevel, selectedTopic: "all", search: "" });
-                            hydrateFilterState();
-                            renderFilters();
-                            renderTaskList();
-                            saveFilterState();
-                            syncUrlFromState();
-                            document.getElementById("archiveBrowser").scrollIntoView({ behavior: "smooth" });
-                        });
-                        topicsEl.appendChild(a);
-                    });
-                });
-                btns.appendChild(btn);
-            });
+            const nav = document.getElementById("gradeButtons");
+            if (!nav) return;
+            let html = "";
+            for (let g = 1; g <= 12; g += 1) html += `<a class="grade-link" href="./klasse.html?k=${g}" aria-label="Klasse ${g}">${g}</a>`;
+            nav.innerHTML = html;
         }
 
         applyFilterState(readSavedFilterState() || {});

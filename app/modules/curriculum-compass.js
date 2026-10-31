@@ -87,23 +87,33 @@
                 var L = LEVELS[k];
                 return '<span class="cp-level" style="--lv:' + L.color + '"><b>' + L.code + "</b> " + esc(L.name) + "</span>";
             }).join("") + "</div>" +
-            '<p class="cp-count">' + list.length + " Themen" + (archive ? "" : " · Archivdaten werden geladen …") + "</p>";
+            '<p class="cp-count">' + list.length + " Themen" + (archive ? "" : " · Archivdaten werden geladen …") + "</p>" +
+            (stage.grade ? '<a class="cp-open" href="app/klasse.html?k=' + stage.grade + '">Klasse ' + stage.grade + " öffnen und üben →</a>" : "");
 
         out.innerHTML = list.map(function (e) {
             var st = statusOf(e);
             var first = e.sections[0], lv = levelOf(first);
-            var href = "app/lernarchiv.html?level=" + lv + "&sublevel=" + encodeURIComponent(first);
+            var href = stage.grade
+                ? "app/klasse.html?k=" + stage.grade + "#" + e.id
+                : "app/lernarchiv.html?level=" + lv + "&sublevel=" + encodeURIComponent(first);
             var chips = e.sections.map(function (id) {
                 var info = sectionInfo[id];
                 return '<span class="cp-chip" title="' + esc(info ? info.title : id) + '">' + esc(id) + (info ? " · " + esc(info.title) : "") + "</span>";
             }).join("");
             var tasks = archive ? e.sections.reduce(function (s, id) { return s + ((sectionInfo[id] && sectionInfo[id].tasks) || 0); }, 0) : null;
+            // Schule: bewusst schlank (Thema + Bereich), Details stehen auf der Jahrgangsseite
+            if (stage.grade) {
+                return '<a class="cp-card" href="' + href + '">' +
+                    '<div class="cp-card-top"><span class="cp-area">' + esc(e.area) + (e.optional ? " · optional" : "") + "</span></div>" +
+                    '<strong class="cp-topic">' + esc(e.topic) + "</strong>" +
+                    '<div class="cp-foot"><span></span><span class="cp-go">Thema öffnen →</span></div>' +
+                    "</a>";
+            }
             return '<a class="cp-card" href="' + href + '">' +
                 '<div class="cp-card-top"><span class="cp-area">' + esc(e.area) + (e.optional ? " · optional" : "") + "</span>" +
                 (st ? '<span class="cp-status" style="' + STATUS_STYLE[st] + '">' + st + "</span>" : "") + "</div>" +
                 '<strong class="cp-topic">' + esc(e.topic) + "</strong>" +
                 '<div class="cp-chips">' + chips + "</div>" +
-                (e.gap ? '<p class="cp-gap">' + esc(e.gap) + "</p>" : "") +
                 '<div class="cp-foot"><span>' + (tasks === null ? "" : tasks.toLocaleString("de-DE") + " Aufgaben") + '</span><span class="cp-go">Im Archiv öffnen →</span></div>' +
                 "</a>";
         }).join("");

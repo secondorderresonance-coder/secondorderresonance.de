@@ -119,6 +119,7 @@
   .cp-level{display:flex;align-items:center;gap:0.55rem;font-size:0.92rem;color:#cdd4e6;}
   .cp-level b{display:inline-flex;align-items:center;justify-content:center;width:36px;height:28px;border-radius:9px;background:var(--lv);color:#0a0e1c;font-family:'Space Grotesk',sans-serif;font-size:0.82rem;}
   .cp-count{color:#6b7490;font-size:0.86rem;margin-top:1rem;}
+  .cp-open{display:inline-flex;margin-top:1rem;text-decoration:none;font-weight:700;font-size:0.92rem;padding:0.7rem 1.2rem;border-radius:999px;color:#0a0e1c;background:var(--accent);box-shadow:0 10px 26px rgba(245,197,24,0.22);}
   .cp-out{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.8rem;align-content:start;}
   .cp-card{display:flex;flex-direction:column;gap:0.55rem;text-decoration:none;color:inherit;padding:1rem 1.05rem;border-radius:16px;border:1px solid rgba(255,255,255,0.08);background:rgba(10,14,28,0.55);transition:transform .25s,border-color .25s;}
   .cp-card:hover{transform:translateY(-3px);border-color:rgba(245,197,24,0.45);}
@@ -322,7 +323,7 @@
       <div class="reveal" style="text-align:center;margin-bottom:2.6rem;">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Lehrplan-Kompass</span>
         <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Was steht <span class="serif-em" style="color:var(--accent);font-size:1.1em;">bei dir</span> an?</h2>
-        <p style="color:#aab2cc;font-size:1.08rem;max-width:38rem;margin:0 auto;">Wähle deine Klasse oder dein Studienjahr. Der Kompass zeigt die passenden Themen und springt direkt in die richtige Archiv-Sektion.</p>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:38rem;margin:0 auto;">Wähle deine Klasse oder dein Studienjahr. Der Kompass zeigt die passenden Themen, ein Klick öffnet die Jahrgangsseite mit Erklärung und Übung.</p>
       </div>
       <div class="compass reveal" data-compass data-archive-src="app/data/archive-content.js">
         <div class="cp-railwrap"><div class="cp-rail" data-compass-rail role="group" aria-label="Klassenstufe oder Studienphase"></div></div>
@@ -492,6 +493,7 @@
         <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;">Lernen</h4>
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
           <a href="app/lernpfad.html" class="footer-link">Lernstraße</a>
+          <a href="app/klasse.html" class="footer-link">Nach Klasse lernen</a>
           <a href="app/lernarchiv.html" class="footer-link">Archiv</a>
           <a href="app/index.html" class="footer-link">Mathe-App</a>
           <a href="app/profil.html" class="footer-link">Profil</a>
@@ -603,6 +605,7 @@
     {title:'Rotationskörper', meta:'Labor · Volumen per Scheibenmethode · L3', href:'#labor'},
     {title:'Gabriels Horn', meta:'Labor · Uneigentliche Integrale · L4', href:'#labor'},
     {title:'Lehrplan-Kompass', meta:'Klasse 1–12 · Studium · Themen finden', href:'#kompass'},
+    {title:'Nach Klasse lernen', meta:'Klasse 1–12 · Themen, Formeln, sofort üben', href:'app/klasse.html'},
     {title:'Level 1 — Grundlagen', meta:'Bruchrechnung · Geometrie · Prozente', href:'#levels'},
     {title:'Level 2 — Aufbauwissen', meta:'Gleichungen · Funktionen · Trigonometrie', href:'#levels'},
     {title:'Level 3 — Vertiefung', meta:'Ableitungen · Integrale · Stochastik', href:'#levels'},
