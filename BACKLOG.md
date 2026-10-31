@@ -22,9 +22,10 @@
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
-- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections
-- [ ] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections
+- [x] Build a curriculum coverage matrix for Klasse 1-12 and map every topic to L1-L3 archive sections (v2.6.0: `app/data/coverage-matrix.js`, `tools/coverage-qa.js`, `docs/coverage-matrix.md`)
+- [x] Build an engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (v2.6.0, gleiche Dateien)
 - [ ] Expand L6 research topics with number theory, Riemann-Hypothese, modern simulation, optimization, and open-problem context
+- [ ] Fill L4-L5 sections that exist in the taxonomy but have no directly assigned tasks (23 of 34 engineering topics are "ohne Aufgaben" in `docs/coverage-matrix.md`; L4/L5 tasks currently sit on only a few sublevels such as 4.1.1.a, 4.1.1.b, 5.1.1.a, 5.1.1.b)
 - [x] Add an Archiv section to the website
 - [x] Add first archive entries for:
   - Exponentielles Verhalten
@@ -41,6 +42,9 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Add an "Achsen-/Punktsymmetrie" sublevel under L1 (Klasse 6 gap identified in curriculum coverage matrix)
+- [ ] Add a dedicated "Dreieckskongruenz" sublevel under L1/L2 (Klasse 7 gap identified in curriculum coverage matrix)
+- [ ] Add a dedicated "Zinsrechnung" sublevel under L1 (Klasse 7 gap identified in curriculum coverage matrix)
 - [x] Curriculum expansion workstream: raise content depth from 600 to 3.000+ curated tasks while preserving pedagogical quality
 - [x] Task generation workstream: add authoring templates + QA pipeline for safe growth toward 5.000 tasks per level
 - [x] Expand scalable archive generation to 5.000 tasks per level (30.000 total) with detailed answer variants
@@ -52,6 +56,9 @@
 - [x] Expand L1-L3 school curriculum coverage batch with broader topics (Arithmetik, Geometrie, Funktionen, Stochastik, Trigonometrie)
 - [x] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches) – Batch 1 (T-4/5/6-007) + Batch 2 (T-4-008/009/010, T-5-008/009/010, T-6-008/009/010)
 - [x] Continue L1-L3 school curriculum expansion in small mapped batches – alle Sublevel-Luecken L1/L2/L3 geschlossen (v2.3.0 + v2.4.0)
+
+- [ ] Close content gaps flagged in `docs/coverage-matrix.md`: Muster/Zahlenfolgen (L1), Zinsrechnung (L1/L2), Pyramide/Kegel/Kugel (L2), Hypothesentests (L3), Rechnen in C (L4), Integralsätze Gauß/Stokes (L4), Beobachter/LQR, SVD/Krylov, Optimierung und Variationsrechnung (L5)
+- [ ] Add seed tasks for 2.5.2.b Sehnen und Tangenten (section exists, 0 tasks)
 
 ## P3
 - [x] Add local account creation/login with per-account local progress storage (local-first foundation)
@@ -72,6 +79,13 @@
 - [x] Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context
 - [x] Add lesson session flow to app (5-question lessons, lesson-complete modal with XP/stats, Nächste Lektion button)
 - [x] Migrate local account registration/login to email-based identity with per-email progress storage
+- [x] Replace ae/oe/ue/ss transliterations and double-encoded UTF-8 with correct German spelling across site and archive (v2.6.0)
+- [x] Add homepage Labor: interactive 3D solids of revolution (Kegel, Paraboloid, Vase, Gabriels Horn) with live volume/surface values (v2.6.0)
+- [x] Add homepage Lehrplan-Kompass (Klasse 1-12 and study phases -> topics -> archive deep links) driven by the coverage matrix (v2.6.0)
+- [x] Add mobile navigation menu, scroll progress, active-section nav state, and fix footer contact link (v2.6.0)
+- [ ] Embed the solids-of-revolution module in `app/lernarchiv.html` next to Pythagoras and Argand (reuse `app/modules/solids-lab.js`)
+- [ ] Bring the v2.6 navigation (mobile menu, focus styles) and editorial accents to the app pages for a consistent look
+- [ ] Confirm the canonical domain: `CNAME` says secondorderresonance.de, older meta tags used second-order-resonance.de
 
 ## P4
 - [x] Define Duolingo-ähnliche guided learning journey and mission-map UX for web/app while preserving SOR identity

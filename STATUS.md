@@ -35,6 +35,71 @@ Current implementation status:
 - The public homepage now starts with the Lernstrasse as the primary first-viewport entry.
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
+- A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v2.5.5)
+Built the Klasse 1-12 curriculum coverage matrix and mapped it to the L1-L3 archive taxonomy.
+
+### Changes in this iteration
+- Added `docs/curriculum-coverage-klasse-1-12.md`, a generalized German school-math progression (Klasse 1-12, KMK-Bildungsstandards-oriented) mapped table-by-grade to the existing L1-L3 archive sublevel IDs.
+- Marked each mapped topic as Vollstaendig (direct sublevel match), Teilweise (related sublevel exists but is broader), or Luecke (no matching sublevel yet).
+- Identified three concrete taxonomy gaps (Achsen-/Punktsymmetrie, Dreieckskongruenz, Zinsrechnung) and added them as small, focused P2 follow-up tasks in `BACKLOG.md` instead of expanding scope in this run.
+- Verified every sublevel ID referenced in the new document actually exists in `app/data/archive-content.js`.
+
+### Files touched
+- `docs/curriculum-coverage-klasse-1-12.md` (new)
+- `BACKLOG.md`
+- `STATUS.md`
+- `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` -> OK, tasks=30000, 5000 per level
+- Node script cross-checking all 63 sublevel IDs referenced in the new matrix against the live taxonomy in `app/data/archive-content.js` -> all resolved
+- `git diff --check`
+
+### Blockers
+- None.
+
+### Next logical step
+- Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (next open P1 task), or close one of the three newly identified taxonomy gaps in a small batch.
+
+## Last completed task (v2.6.0)
+Requested multi-part iteration: two open P1 backlog tasks, a site-wide spelling fix, and a homepage upgrade with new interactive elements.
+
+### Changes in this iteration
+- Spelling: replaced ae/oe/ue/ss transliterations with ä/ö/ü/ß in all visible text of `index.html`, the four app pages and the archive data (about 1.000 words, tags included). Real words such as "aktuell", "neue", "Koeffizient", "Frequenz", "Quelle" and code identifiers were protected. Math notation like `y = Ae^(kt)` is unchanged.
+- Encoding: repaired double-encoded UTF-8 (for example "mÃ¼ssen", "âˆ«", "Î©") in `app/index.html` and `app/data/archive-content.js`.
+- P1 curriculum matrix: `app/data/coverage-matrix.js` maps 47 school topics (Klasse 1–12, KMK Leitideen as orientation) to L1–L3 sections.
+- P1 engineering matrix: the same file maps 34 topics from Bachelor semester 1 to Master to L4–L5 sections; gaps are documented per topic.
+- `tools/coverage-qa.js` validates every mapping against the taxonomy, checks that Klasse 1–12 are all covered, computes a status per topic and writes `docs/coverage-matrix.md`.
+- Homepage Labor (`#labor`, `app/modules/solids-lab.js`): dependency-free canvas 3D renderer for solids of revolution with four chapters (Kegel, Paraboloid, Vase, Gabriels Horn), drag/keyboard rotation, sweep and slice sliders, upper limit b for the horn, live volume and surface values (Simpson) and archive deep links.
+- Homepage Lehrplan-Kompass (`#kompass`, `app/modules/curriculum-compass.js`): pick Klasse 1–12 or a study phase, see levels, topics, status and task counts; the archive data is lazy-loaded only when the section approaches the viewport.
+- Homepage polish: Instrument Serif italic accents, mobile menu (nav links were hidden below 860px without replacement), scroll progress bar, active nav state, focus-visible styles, metric "Interaktive Module" 2 → 4, search index entries for the new modules.
+- Fixes: removed the baked-in Cloudflare email-protection link/script from the footer (broken outside Cloudflare), canonical/og:url now use the CNAME domain, removed the "Offline verfügbar (PWA)" claim because the repo has no service worker.
+
+### Files touched
+- `index.html`
+- `app/index.html`, `app/lernarchiv.html`, `app/lernpfad.html`, `app/data/archive-content.js` (spelling/encoding only)
+- `app/data/coverage-matrix.js` (new)
+- `app/modules/solids-lab.js` (new)
+- `app/modules/curriculum-compass.js` (new)
+- `tools/coverage-qa.js` (new)
+- `docs/coverage-matrix.md` (generated)
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/archive-qa.js` (Result: OK, 5.000 tasks per level)
+- `node tools/coverage-qa.js --write` (Result: OK; school 42 covered / 4 partial / 1 without tasks; engineering 1 covered / 10 partial / 23 without tasks)
+- `node --check` for the archive data, both new modules and the inline scripts of all five HTML pages
+- Numeric check of the lab against closed forms: cone 16π/3, paraboloid 8π, vase 0,535·π², horn π(1 − 1/b) (all match to 1e-6)
+- Headless Chromium (Playwright) on desktop 1366px and mobile 390px: no page errors on all five pages, screenshots of hero, Labor (all four chapters), Kompass and mobile menu; no leftover transliterations or mojibake in rendered text
+- `git diff --check`
+
+### Blockers
+- None. Note: most L4–L5 taxonomy sections have no directly assigned tasks yet, see new P1 backlog item.
+
+### Next logical step
+- Fill the L4–L5 sections without tasks, starting with 4.2.4.a Uneigentliche Integrale. The Gabriels-Horn chapter links to 3.1.3.b for now and should be switched to 4.2.4.a once that section has tasks.
 
 ## Last completed task (v2.6.0)
 Built K1-12 curriculum coverage matrix and wired it into the Lernarchiv as a grade-picker UI.

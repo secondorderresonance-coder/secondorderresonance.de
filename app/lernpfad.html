@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lernpfad | Second-Order Resonance</title>
-    <meta name="description" content="Archivgetriebene Lernstrasse fuer Mathematik und Physik von L1 bis L6.">
+    <meta name="description" content="Archivgetriebene Lernstraße für Mathematik und Physik von L1 bis L6.">
     <meta name="theme-color" content="#1a1a2e">
     <style>
         :root {
@@ -409,9 +409,9 @@
 </head>
 <body>
     <header class="topbar">
-        <a href="../index.html" class="logo">SOR<span>.</span> Lernstrasse</a>
+        <a href="../index.html" class="logo">SOR<span>.</span> Lernstraße</a>
         <div class="top-actions" id="topActions">
-            <a href="index.html" class="nav-link">Ueben</a>
+            <a href="index.html" class="nav-link">Üben</a>
             <a href="lernarchiv.html" class="nav-link">Archiv</a>
             <button class="login-btn" onclick="openModal()">Anmelden</button>
         </div>
@@ -425,8 +425,8 @@
         <main>
             <section class="road-head">
                 <div>
-                    <h1>Deine mathematische Lernstrasse</h1>
-                    <p>Sechs Stufen, viele Abschnitte und kurze Lektionen, direkt aus dem Archiv gebaut. Bestehe eine Lektion mit mindestens 80 Prozent, dann wird der naechste Knoten freigeschaltet.</p>
+                    <h1>Deine mathematische Lernstraße</h1>
+                    <p>Sechs Stufen, viele Abschnitte und kurze Lektionen, direkt aus dem Archiv gebaut. Bestehe eine Lektion mit mindestens 80 Prozent, dann wird der nächste Knoten freigeschaltet.</p>
                 </div>
             </section>
             <div class="level-tabs" id="levelTabs"></div>
@@ -437,9 +437,9 @@
         <aside class="panel">
             <section class="panel-box" id="profilePanel"></section>
             <section class="panel-box">
-                <h3>Naechste Inhaltsausbauten</h3>
+                <h3>Nächste Inhaltsausbauten</h3>
                 <ul class="focus-list">
-                    <li><strong>Klasse 1-12:</strong> Lehrplanmatrix mit Lueckenpruefung je Jahrgang.</li>
+                    <li><strong>Klasse 1-12:</strong> Lehrplanmatrix mit Lückenprüfung je Jahrgang.</li>
                     <li><strong>Ingenieurmathematik:</strong> Analysis, Lineare Algebra, Numerik, Signale, Regelung, Stochastik.</li>
                     <li><strong>L6 Forschung:</strong> Zahlentheorie, Riemann-Hypothese, Optimierung, Simulation.</li>
                 </ul>
@@ -477,7 +477,7 @@
         let modalMode = 'reg';
 
         const topicAliases = {
-            1: { Bruchrechnung: 'Bruchrechnung', Prozentrechnung: 'Prozente', Prozent: 'Prozente', Geometrie: 'Geometrie', Dreisatz: 'Dreisatz', Flaechen: 'Geometrie', Einheiten: 'Dreisatz' },
+            1: { Bruchrechnung: 'Bruchrechnung', Prozentrechnung: 'Prozente', Prozent: 'Prozente', Geometrie: 'Geometrie', Dreisatz: 'Dreisatz', Flächen: 'Geometrie', Einheiten: 'Dreisatz' },
             2: { Gleichungen: 'Lineare Gleichungen', Funktionen: 'Lineare Funktionen', Exponentielles: 'Potenzen', Trigonometrie: 'Trigonometrie-sin', Geometrie: 'Trigonometrie-sin' },
             3: { Analysis: 'Ableitungen', Stochastik: 'Stochastik', Vektoren: 'Vektoren', Matrizen: 'Vektoren', Komplexe: 'Vektoren' },
             4: { 'Lineare Algebra': 'Lineare Algebra', Matrizen: 'Lineare Algebra', Differentialgleichungen: 'Differentialgleichungen 1. Ordnung', Komplexe: 'Komplexe Zahlen', Reihen: 'Reihen' },
@@ -580,7 +580,7 @@
             document.getElementById('tabReg').classList.toggle('active', mode === 'reg');
             document.getElementById('tabLog').classList.toggle('active', mode === 'log');
             document.getElementById('mName').style.display = mode === 'reg' ? 'block' : 'none';
-            document.getElementById('modalTitle').textContent = mode === 'reg' ? 'Konto erstellen' : 'Willkommen zurueck';
+            document.getElementById('modalTitle').textContent = mode === 'reg' ? 'Konto erstellen' : 'Willkommen zurück';
             document.getElementById('modalErr').textContent = '';
         }
 
@@ -592,7 +592,7 @@
             const store = loadStore();
 
             if (!email || !password) { err.textContent = 'Bitte E-Mail und Passwort eintragen.'; return; }
-            if (!email.includes('@')) { err.textContent = 'Bitte eine gueltige E-Mail verwenden.'; return; }
+            if (!email.includes('@')) { err.textContent = 'Bitte eine gültige E-Mail verwenden.'; return; }
 
             if (modalMode === 'reg') {
                 if (store.accounts[email]) { err.textContent = 'Dieses Konto existiert bereits.'; return; }
@@ -736,7 +736,7 @@
             const top = document.getElementById('topActions');
             if (!account) {
                 top.innerHTML = `
-                    <a href="index.html" class="nav-link">Ueben</a>
+                    <a href="index.html" class="nav-link">Üben</a>
                     <a href="lernarchiv.html" class="nav-link">Archiv</a>
                     <button class="login-btn" onclick="openModal()">Anmelden</button>
                 `;
@@ -747,7 +747,7 @@
             top.innerHTML = `
                 <span class="stat-pill">${summary.xp || 0} XP</span>
                 <span class="stat-pill">${summary.streak || 0} Tage</span>
-                <a href="index.html" class="nav-link">Ueben</a>
+                <a href="index.html" class="nav-link">Üben</a>
                 <a href="lernarchiv.html" class="nav-link">Archiv</a>
                 <a href="profil.html" class="avatar" style="background:${account.avatarColor || '#e94560'}">${escapeHtml(label.charAt(0).toUpperCase())}</a>
             `;
@@ -845,7 +845,7 @@
                 <h3>${account ? escapeHtml(accountLabel(account, id)) : 'Gastmodus'}</h3>
                 <div class="panel-row"><span>XP</span><strong>${summary.xp || 0}</strong></div>
                 <div class="panel-row"><span>Streak</span><strong>${summary.streak || 0} Tage</strong></div>
-                <div class="panel-row"><span>Lernstrasse</span><strong>${completedCount}/${totalLessons}</strong></div>
+                <div class="panel-row"><span>Lernstraße</span><strong>${completedCount}/${totalLessons}</strong></div>
             `;
             document.getElementById('missionPanel').innerHTML = `
                 <h3>Bestehensregel</h3>
