@@ -7,6 +7,7 @@
     <meta name="description" content="Archivgetriebene Lernstraße für Mathematik und Physik von L1 bis L6.">
     <meta name="theme-color" content="#1a1a2e">
     <style>
+        html, body { overflow-x: hidden; }
         :root {
             --bg: #1a1a2e;
             --secondary: #16213e;
@@ -274,7 +275,7 @@
             padding: 0.72rem 0.8rem;
         }
         .lesson-title { font-size: 0.86rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .lesson-sub { color: var(--muted); font-size: 0.74rem; margin-top: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .lesson-sub { color: var(--muted); font-size: 0.74rem; margin-top: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: min(240px, 60vw); }
         .lesson-node.done .lesson-bubble { background: var(--success); border-color: var(--success); color: #08111f; }
         .lesson-node.test .lesson-bubble {
             background: var(--gold);

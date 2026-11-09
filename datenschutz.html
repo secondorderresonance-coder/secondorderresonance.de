@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutz-Hinweise | Second-Order Resonance</title>
+<meta name="description" content="Welche Daten Second-Order Resonance verarbeitet: keine Tracker, keine Lerndaten auf Servern, Speicherung nur im eigenen Browser.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="stylesheet" href="app/vendor/fonts/fonts.css?v=3.0.0">
+<link rel="stylesheet" href="app/modules/sor-ui.css?v=3.0.0">
+<style>
+  article h1{font-size:clamp(2rem,4vw,2.8rem);margin:0.5rem 0 0.4rem}
+  article h2{font-size:1.25rem;margin:2rem 0 0.5rem}
+  article p,article li{color:var(--soft)}
+  article ul{margin:0.4rem 0 0 1.2rem;display:grid;gap:0.35rem}
+  article code{font-family:'IBM Plex Mono',monospace;font-size:0.86em;background:rgba(255,255,255,0.06);padding:0.1rem 0.35rem;border-radius:6px}
+  article a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="datenschutz" data-base="app/"></div>
+<main class="wrap narrow">
+<article>
+  <div class="kicker">Stand: November 2026</div>
+  <h1>Datenschutz-Hinweise</h1>
+  <p>Diese Seite beschreibt, welche Daten beim Besuch von Second-Order Resonance verarbeitet werden. Kurz gesagt: Es gibt keinen Server, der Lerndaten speichert.</p>
+
+  <h2>Verantwortlich</h2>
+  <p>Andreas Johannes Zwingler · <a id="mail" data-user="secondorderresonance" data-domain="gmail.com" href="#">E-Mail</a></p>
+
+  <h2>Aufruf der Seite</h2>
+  <p>Die Seite besteht aus statischen Dateien und wird über GitHub Pages ausgeliefert. Beim Abruf verarbeitet der Hosting-Anbieter technisch notwendige Verbindungsdaten wie die IP-Adresse, um die Dateien zuzustellen. Wir selbst führen keine Zugriffsstatistik.</p>
+
+  <h2>Keine Tracker, keine fremden Inhalte</h2>
+  <ul>
+    <li>Es werden keine Analyse- oder Werbedienste eingebunden.</li>
+    <li>Schriften und die 3D-Bibliothek liegen auf dieser Seite und werden nicht von Drittanbietern geladen.</li>
+    <li>YouTube und TikTok sind nur als Links eingebunden. Erst wenn Sie einen solchen Link anklicken, gelten die Bedingungen des jeweiligen Anbieters.</li>
+  </ul>
+
+  <h2>Speicherung im eigenen Browser</h2>
+  <p>Konten, Lernstände und Klassen werden ausschließlich im Speicher Ihres Browsers (Local Storage) abgelegt und nicht an uns übertragen:</p>
+  <ul>
+    <li><code>mathlevel-accounts-v1</code>: Anzeigename, E-Mail-Adresse als Kontokennung, Rolle, Passwort als gesalzener Hash, Lernfortschritt</li>
+    <li><code>sor-rewards-v1</code>: Punkte, Lernserie, Abzeichen und Lernstand je Thema</li>
+    <li><code>sor-school-v1</code>: Klassen, Mitglieder und Aufträge einer Lehrkraft</li>
+    <li>einige weitere Einträge für Einstellungen, zum Beispiel die zuletzt gewählte Klasse</li>
+  </ul>
+  <p>Diese Daten bleiben auf dem Gerät, bis sie im Konto oder über die Browser-Einstellungen gelöscht werden. Ein Konto dient hier nur dazu, mehrere Personen an einem Gerät zu unterscheiden.</p>
+
+  <h2>Lernstand an eine Lehrkraft senden</h2>
+  <p>Wer seinen Lernstand weitergeben möchte, erzeugt im Konto einen Link. Dieser Link enthält den Anzeigenamen, den Klassencode und die Lernzahlen, aber keine E-Mail-Adresse und kein Passwort. Er wird nur dann übertragen, wenn Sie ihn selbst verschicken.</p>
+
+  <h2>Auskunft und Löschung</h2>
+  <p>Im <a href="app/konto.html">Konto</a> können Sie alle gespeicherten Daten als Datei herunterladen und das Konto vollständig löschen. Da wir keine Daten erhalten, können wir sie auch nicht für Sie löschen oder wiederherstellen.</p>
+
+  <h2>Kontakt per E-Mail</h2>
+  <p>Wenn Sie uns schreiben, verarbeiten wir Ihre Nachricht und Ihre Adresse, um zu antworten.</p>
+</article>
+</main>
+<script src="app/modules/sor-core.js?v=3.0.0"></script>
+<script src="app/modules/rewards.js?v=3.0.0"></script>
+<script src="app/modules/sor-nav.js?v=3.0.0"></script>
+<script>(function () { var m = document.getElementById("mail"), a = m.getAttribute("data-user") + "@" + m.getAttribute("data-domain"); m.href = "mailto:" + a; m.textContent = a; })();</script>
+</body>
+</html>

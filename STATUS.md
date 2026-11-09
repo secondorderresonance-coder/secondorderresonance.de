@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v2.7.0`
+- `v3.0.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -62,6 +62,48 @@ Built the Klasse 1-12 curriculum coverage matrix and mapped it to the L1-L3 arch
 
 ### Next logical step
 - Build the engineering mathematics coverage matrix through Master level and map it to L4-L5 sections (next open P1 task), or close one of the three newly identified taxonomy gaps in a small batch.
+
+## Last completed task (v3.0.0)
+User request: lift the site to a level that schools could pay for, with 3D animations, account structures, a reward system and the best exercises for pupils and students. This was an explicitly requested large iteration, not a single backlog item.
+
+### Changes in this iteration
+- **Exercise engine** (`app/modules/exercise-engine.js`, `app/modules/exercises/*.js`): 93 parametrised task generators covering all 84 topics of the coverage matrix (50 school, 34 university). Every task is generated from a seed with fresh numbers, three difficulty levels, a hint, a worked solution and typical mistakes as distractors. Each generator carries an independent self-check that `tools/exercise-qa.js` enforces.
+- **Practice player** (`app/ueben.html`): hub with daily goal, level, streak, stars, "continue" suggestions and topic list for Klasse 1–12 and study phases; sessions with numeric, fraction, multi-field and choice answers, adaptive difficulty, hint, solution, result screen.
+- **Accounts** (`app/modules/sor-core.js`, `app/konto.html`): storage adapter (local now, server later), roles `schueler` and `lehrkraft`, salted and iterated SHA-256 password hashes with migration of old plain-text passwords, data export and account deletion. The classic app and Lernstraße use the same accounts.
+- **Rewards** (`app/modules/rewards.js`): XP levels with titles, daily goal, streak, 20 badges, mastery per topic with 0–3 stars (3 stars only via hard tasks). Mirrors XP into the existing account summary.
+- **Teachers** (`app/lehrer.html`): classes with join code, assignments with due date, mastery matrix per pupil and topic, "needs support" list, hardest topics, CSV export, clearly labelled demo class.
+- **Sharing without a server**: pupils on their own device create a link in the account page (`SOR.share.pack`), the teacher opens it and the progress is imported into the matching class (`#lernstand=`). The link contains display name, class code and learning numbers, no e-mail and no password.
+- **3D lab** (`app/labor3d.html`): WebGL scenes for solids (volume, surface, circumscribed solid), solids of revolution, function surfaces with gradient and tangent plane, and the Euler helix with sine and cosine shadows. Each scene links to matching practice.
+- **School readiness**: fonts and three.js are served from `app/vendor/` (no request to Google Fonts or any CDN), new `schulen.html` and `datenschutz.html`, homepage rewritten around practice, 3D lab, accounts and schools.
+- Homepage honesty fixes: the newsletter form only pretended to subscribe and was replaced by channel links; the "30.000 Archiv-Aufgaben" metric was replaced by real numbers (84 topics, 93 task types, 20 badges).
+- Mobile overflow fixed on `app/lernarchiv.html` and `app/lernpfad.html`.
+
+### Decision note: three.js
+AGENTS.md asks for minimal dependencies. three.js r160 (MIT) was added on purpose for the requested 3D quality and is vendored locally (about 700 kB, loaded only on `labor3d.html`). The canvas-based rotation lab on the homepage still works without WebGL.
+
+### Files touched
+- New: `app/ueben.html`, `app/konto.html`, `app/lehrer.html`, `app/labor3d.html`, `schulen.html`, `datenschutz.html`
+- New: `app/modules/exercise-engine.js`, `app/modules/exercises/{school-1,school-2,school-3,uni-1,uni-2}.js`, `app/modules/sor-core.js`, `app/modules/rewards.js`, `app/modules/sor-nav.js`, `app/modules/sor-ui.css`
+- New: `app/vendor/three/*`, `app/vendor/fonts/*`
+- New: `tools/exercise-qa.js`, `tools/core-qa.js`, `tools/site-qa.js`
+- Changed: `index.html`, `app/index.html`, `app/klasse.html`, `app/lernpfad.html`, `app/lernarchiv.html`
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/exercise-qa.js` (93 generators × 3 difficulties × 150 variants: self-check, sample solution accepted, falsified answer rejected, no NaN/undefined in text)
+- `node tools/core-qa.js` (7 groups: SHA-256 against Node crypto, registration/login, legacy migration, classes, rewards, export/delete, sharing)
+- `node tools/site-qa.js` (12 pages, all local links resolve, no third-party resources)
+- `node tools/archive-qa.js`, `node tools/coverage-qa.js`
+- Playwright, desktop 1366 px and mobile 390 px: all 13 page variants load without errors, without horizontal overflow and without any external network request; full practice session; teacher and pupil flow on one device; sharing flow between two isolated browser contexts; all four 3D scenes rendered
+
+### Blockers
+- None technical. Open points that need the owner:
+  - Impressum lacks a postal address (required in Germany for a commercial offer).
+  - `datenschutz.html` describes the technical facts and names GitHub Pages as host; it needs a legal review and a correction if another host or proxy is in front of the site.
+  - Real multi-device accounts need a backend (Firebase, Supabase or the schema in `backend/`), credentials and a data processing agreement.
+
+### Next logical step
+- Connect the storage adapter to a real backend for class sync, then pilot with one class.
 
 ## Last completed task (v2.7.0)
 User feedback on v2.6.0: clicking a school class in the archive did nothing visible (topic chips appeared far below twelve full-width buttons), there was no topic overview per year and no direct start into exercises, and the archive felt overloaded with near-identical tasks. Requested: every topic with some text, a formula, a picture and if possible an animation, without overloading the page.
