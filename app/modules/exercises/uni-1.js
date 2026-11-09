@@ -1,0 +1,194 @@
+/* SOR Aufgaben: Studium, Höhere Mathematik und Numerik (CM-E-01 … CM-E-17). Format siehe exercise-engine.js */
+(function (root) {
+    "use strict";
+    var E = root.SOR_EX || require("../exercise-engine.js");
+    var A = E.A, H = E.H, M = E.M, n = H.n, m = H.m;
+    function Q(q, a, hint, steps, ok) { return { q: q, a: a, hint: hint, steps: steps, ok: ok }; }
+    var P = function (x) { return x < 0 ? "(" + n(x) + ")" : n(x); };
+    var nd = function (f, x) { var h = 1e-5; return (f(x + h) - f(x - h)) / (2 * h); };
+    var det2 = function (X) { return X[0][0] * X[1][1] - X[0][1] * X[1][0]; };
+    var det3 = function (X) { return X[0][0] * (X[1][1] * X[2][2] - X[1][2] * X[2][1]) - X[0][1] * (X[1][0] * X[2][2] - X[1][2] * X[2][0]) + X[0][2] * (X[1][0] * X[2][1] - X[1][1] * X[2][0]); };
+    var sarrus = function (X) { return X[0][0] * X[1][1] * X[2][2] + X[0][1] * X[1][2] * X[2][0] + X[0][2] * X[1][0] * X[2][1] - X[0][2] * X[1][1] * X[2][0] - X[0][0] * X[1][2] * X[2][1] - X[0][1] * X[1][0] * X[2][2]; };
+    function rank(X) {
+        var Mx = X.map(function (row) { return row.slice(); }), rk = 0, rows = Mx.length, cols = Mx[0].length, c, i, j, k;
+        for (c = 0; c < cols && rk < rows; c += 1) {
+            var piv = -1;
+            for (i = rk; i < rows; i += 1) if (Math.abs(Mx[i][c]) > 1e-9) { piv = i; break; }
+            if (piv < 0) continue;
+            var t = Mx[piv]; Mx[piv] = Mx[rk]; Mx[rk] = t;
+            for (i = rk + 1; i < rows; i += 1) { var f = Mx[i][c] / Mx[rk][c]; for (j = c; j < cols; j += 1) Mx[i][j] -= f * Mx[rk][j]; }
+            rk += 1;
+        }
+        return rk;
+    }
+    var rmat = function (r, rows, cols, lim) { return Array.from({ length: rows }, function () { return Array.from({ length: cols }, function () { return r.int(-lim, lim); }); }); };
+    // ganzzahlige 2x2-Matrix mit vorgegebenen Eigenwerten: A = P · diag(l1, l2) · P⁻¹, det P = 1
+    function eigMat(r, l1, l2) { var k = r.int(-2, 2), mm = r.int(-2, 2), p = [[1, k], [mm, 1 + k * mm]], pi = [[1 + k * mm, -k], [-mm, 1]]; return { A: [[p[0][0] * l1 * pi[0][0] + p[0][1] * l2 * pi[1][0], p[0][0] * l1 * pi[0][1] + p[0][1] * l2 * pi[1][1]], [p[1][0] * l1 * pi[0][0] + p[1][1] * l2 * pi[1][0], p[1][0] * l1 * pi[0][1] + p[1][1] * l2 * pi[1][1]]], v1: [1, mm], P: p, Pi: pi }; }
+    root.SOR_EX_UTIL = { det2: det2, det3: det3, rank: rank, eigMat: eigMat, rmat: rmat };
+
+    E.add({ id: "e01-determinante-lgs", topic: "CM-E-01", title: "Determinanten und Gleichungssysteme", gen: function (r, d) {
+        var X;
+        if (d === 1) { X = rmat(r, 2, 2, 7); return Q("Berechne die Determinante von " + m("A = " + H.mat(X)) + ".", A.num(det2(X)), "det A = a₁₁ · a₂₂ − a₁₂ · a₂₁.", [P(X[0][0]) + " · " + P(X[1][1]) + " − " + P(X[0][1]) + " · " + P(X[1][0]), "= " + n(det2(X))], det2([[X[0][0], X[1][0]], [X[0][1], X[1][1]]]) === det2(X)); }
+        X = rmat(r, 3, 3, 3);
+        if (d === 2) return Q("Berechne die Determinante von " + m("A = " + H.mat(X)) + ".", A.num(det3(X)), "Regel von Sarrus oder Entwicklung nach der ersten Zeile.", ["Entwicklung nach Zeile 1:", P(X[0][0]) + " · " + P(X[1][1] * X[2][2] - X[1][2] * X[2][1]) + " − " + P(X[0][1]) + " · " + P(X[1][0] * X[2][2] - X[1][2] * X[2][0]) + " + " + P(X[0][2]) + " · " + P(X[1][0] * X[2][1] - X[1][1] * X[2][0]), "= " + n(det3(X))], sarrus(X) === det3(X));
+        while (det3(X) === 0) X = rmat(r, 3, 3, 3);
+        var x = [r.int(-3, 3), r.int(-3, 3), r.int(-3, 3)], b = X.map(function (row) { return row[0] * x[0] + row[1] * x[1] + row[2] * x[2]; }), V = ["x", "y", "z"];
+        var cr = [0, 1, 2].map(function (j) { return det3(X.map(function (row, i) { return row.map(function (v, c) { return c === j ? b[i] : v; }); })) / det3(X); });
+        return Q("Löse das lineare Gleichungssystem:<br>" + X.map(function (row, i) { return m(H.lin(row.map(function (v, j) { return [v, V[j]]; })) + " = " + n(b[i])); }).join("<br>"), A.multi([{ l: "x", a: A.num(x[0]) }, { l: "y", a: A.num(x[1]) }, { l: "z", a: A.num(x[2]) }]), "Gauß-Verfahren: Bringe das System auf Dreiecksform und löse rückwärts.", ["det A = " + n(det3(X)) + " ≠ 0: eindeutige Lösung", "Rückwärtseinsetzen ergibt z = " + n(x[2]) + ", y = " + n(x[1]) + ", x = " + n(x[0]), "Probe in allen drei Gleichungen stimmt."], cr.every(function (v, i) { return M.near(v, x[i]); }));
+    } });
+
+    E.add({ id: "e02-rang-kern", topic: "CM-E-02", title: "Rang, Kern und Bild", gen: function (r, d) {
+        var rk = r.int(1, 3), cols = d === 3 ? 4 : 3, a, b, X;
+        do {
+            a = Array.from({ length: cols }, function () { return r.int(-3, 3); }); b = Array.from({ length: cols }, function () { return r.int(-3, 3); });
+            var s = r.nz(-2, 2), t = r.nz(-2, 2), c = rk === 1 ? null : (rk === 2 ? a.map(function (v, i) { return s * v + t * b[i]; }) : Array.from({ length: cols }, function () { return r.int(-3, 3); }));
+            X = rk === 1 ? [a, a.map(function (v) { return v * s; }), a.map(function (v) { return v * (t + s); })] : [a, b, c];
+        } while (rank(X) !== rk);
+        var steps = ["Zeilenumformungen (Gauß) führen auf " + rk + " Zeile" + (rk > 1 ? "n" : "") + " ungleich null.", "Rang = " + rk];
+        if (d === 1) return Q("Bestimme den Rang der Matrix " + m("A = " + H.mat(X)) + ".", A.num(rk), "Bringe die Matrix auf Zeilenstufenform und zähle die Zeilen, die nicht null sind.", steps, rank(X) === rk && (cols !== 3 || (rk === 3) === (det3(X) !== 0)));
+        return Q("Welche Dimension hat der Kern der Matrix " + m("A = " + H.mat(X)) + "?", A.num(cols - rk), "Dimensionssatz: dim Kern = Anzahl der Spalten − Rang.", steps.concat(["dim Kern = " + cols + " − " + rk + " = " + (cols - rk)]), rank(X) === rk);
+    } });
+
+    E.add({ id: "e03-eigenwerte", topic: "CM-E-03", title: "Eigenwerte und Eigenvektoren", gen: function (r, d) {
+        var l1 = r.int(-4, 5), l2, Em, X;
+        do { l2 = r.int(-4, 5); } while (l2 === l1);
+        do { Em = eigMat(r, l1, l2); X = Em.A; } while ((X[0][1] === 0 && X[1][0] === 0) || (d === 3 && X[0][1] === 0));
+        var tr = X[0][0] + X[1][1], dt = det2(X), okEig = [l1, l2].every(function (l) { return (X[0][0] - l) * (X[1][1] - l) - X[0][1] * X[1][0] === 0; });
+        if (d === 1) return Q("Bestimme die Eigenwerte von " + m("A = " + H.mat(X)) + ".", A.multi([{ l: "λ₁", a: A.num(l1) }, { l: "λ₂", a: A.num(l2) }], { unordered: true }), "Löse det(A − λE) = 0, also λ² − Spur · λ + det = 0.", ["Spur = " + n(tr) + ", det = " + n(dt), "λ² " + H.sg(-tr) + "λ " + H.sg(dt) + " = 0", "λ₁ = " + n(Math.min(l1, l2)) + ", λ₂ = " + n(Math.max(l1, l2))], okEig);
+        if (d === 2) return Q("Die Matrix " + m("A = " + H.mat(X)) + " hat zwei reelle Eigenwerte. Gib ihre Summe und ihr Produkt an.", A.multi([{ l: "Summe", a: A.num(tr) }, { l: "Produkt", a: A.num(dt) }]), "Summe der Eigenwerte = Spur, Produkt der Eigenwerte = Determinante.", ["Spur: " + n(X[0][0]) + " " + H.sg(X[1][1]) + " = " + n(tr), "det: " + n(dt)], okEig && l1 + l2 === tr && l1 * l2 === dt);
+        var v = Em.v1;
+        return Q("Die Matrix " + m("A = " + H.mat(X)) + " hat den Eigenwert λ = " + n(l1) + ". Ein zugehöriger Eigenvektor hat die Form " + m("v = " + H.vec([1, "t"])) + ". Bestimme t.", A.num(v[1]), "Löse (A − λE) · v = 0 mit v = (1, t).", ["A − λE = " + H.mat([[X[0][0] - l1, X[0][1]], [X[1][0], X[1][1] - l1]]), "Erste Zeile: " + n(X[0][0] - l1) + " " + H.sg(X[0][1]) + " · t = 0", "t = " + n(v[1])], X[0][0] + X[0][1] * v[1] === l1 && X[1][0] + X[1][1] * v[1] === l1 * v[1] && X[0][1] !== 0);
+    } });
+
+    E.add({ id: "e04-orthogonal", topic: "CM-E-04", title: "Orthogonalität und Projektion", gen: function (r, d) {
+        if (d === 1) { var k = r.int(-5, 5), v3 = r.nz(-3, 3), u1 = r.int(-4, 4), v1 = r.int(-4, 4), u2 = -k * v3 - u1 * v1; return Q("Für welchen Wert von k stehen " + m("u = " + H.vec([u1, u2, "k"])) + " und " + m("v = " + H.vec([v1, 1, v3])) + " senkrecht aufeinander?", A.num(k), "Zwei Vektoren sind orthogonal, wenn ihr Skalarprodukt null ist.", [P(u1) + " · " + P(v1) + " + " + P(u2) + " · 1 + k · " + P(v3) + " = 0", n(u1 * v1 + u2) + " " + H.sg(v3) + "k = 0", "k = " + n(k)], u1 * v1 + u2 + k * v3 === 0); }
+        var a, b, dim = d === 2 ? 2 : 3, i;
+        do { a = Array.from({ length: dim }, function () { return r.int(-3, 4); }); b = Array.from({ length: dim }, function () { return r.int(-4, 5); }); } while (!a.some(Boolean) || (dim === 2 ? a[0] * b[1] === a[1] * b[0] : false));
+        var ab = 0, aa = 0; for (i = 0; i < dim; i += 1) { ab += a[i] * b[i]; aa += a[i] * a[i]; }
+        var res = b.map(function (x, j) { return x - ab / aa * a[j]; }), okO = Math.abs(res.reduce(function (s, x, j) { return s + x * a[j]; }, 0)) < 1e-9;
+        if (d === 2) return Q("Berechne die orthogonale Projektion von " + m("b = " + H.vec(b)) + " auf " + m("a = " + H.vec(a)) + ". Gib die Komponenten als Bruch oder Dezimalzahl an.", A.multi(a.map(function (x, j) { return { l: (j + 1) + ". Komponente", a: A.frac(ab * x, aa) }; })), "proj = (a · b) / (a · a) · a.", ["a · b = " + n(ab) + ", a · a = " + n(aa), "Faktor: " + H.q(ab, aa), "Projektion: (" + a.map(function (x) { return H.q(ab * x, aa); }).join(" | ") + ")"], okO);
+        return Q("Gram-Schmidt: Gegeben sind " + m("a₁ = " + H.vec(a)) + " und " + m("a₂ = " + H.vec(b)) + ". Berechne " + m("u₂ = a₂ − proj<sub>a₁</sub>(a₂)") + ", also den Anteil von a₂ senkrecht zu a₁.", A.multi(b.map(function (x, j) { return { l: (j + 1) + ". Komponente", a: A.frac(x * aa - ab * a[j], aa) }; })), "Ziehe von a₂ die Projektion auf a₁ ab: u₂ = a₂ − (a₁ · a₂)/(a₁ · a₁) · a₁.", ["a₁ · a₂ = " + n(ab) + ", a₁ · a₁ = " + n(aa), "u₂ = (" + b.map(function (x, j) { return H.q(x * aa - ab * a[j], aa); }).join(" | ") + ")", "Probe: u₂ · a₁ = 0"], okO);
+    } });
+
+    E.add({ id: "e05-komplex-polar", topic: "CM-E-05", title: "Komplexe Zahlen in Polarform", gen: function (r, d) {
+        if (d === 1) { var k = r.int(1, 6), L = r.pick([[k, k, 45], [-k, k, 135], [-k, -k, -135], [k, -k, -45], [0, k, 90], [-k, 0, 180], [0, -k, -90]]); return Q("Bestimme das Argument von " + m("z = " + H.lin([[L[0], ""], [L[1], "i"]])) + " in Grad, im Bereich von −180° (ausgeschlossen) bis 180°.", A.num(L[2], { unit: "°" }), "Zeichne z in die komplexe Ebene: Realteil nach rechts, Imaginärteil nach oben.", ["Realteil " + n(L[0]) + ", Imaginärteil " + n(L[1]), "arg z = " + n(L[2]) + "°"], Math.abs(M.deg(Math.atan2(L[1], L[0])) - L[2]) < 1e-9); }
+        if (d === 2) { var a = r.pick([1, -1, 2]), b = r.pick([1, -1, 2, -2]), e = r.int(3, 6), re = 1, im = 0, i, t; for (i = 0; i < e; i += 1) { t = re * a - im * b; im = re * b + im * a; re = t; }
+            var mod = Math.pow(Math.hypot(a, b), e), ph = e * Math.atan2(b, a);
+            return Q("Berechne " + m("(" + H.lin([[a, ""], [b, "i"]]) + ")<sup>" + e + "</sup>") + ".", A.multi([{ l: "Realteil", a: A.num(re) }, { l: "Imaginärteil", a: A.num(im) }]), "Satz von de Moivre: Betrag hoch n, Argument mal n.", ["|z| = √" + (a * a + b * b) + ", arg z = " + n(M.deg(Math.atan2(b, a)), 2) + "°", "|zⁿ| = " + n(mod, 4) + ", arg(zⁿ) = " + n(M.deg(Math.atan2(b, a)) * e, 2) + "°", "zⁿ = " + H.lin([[re, ""], [im, "i"]])], Math.abs(mod * Math.cos(ph) - re) < 1e-6 && Math.abs(mod * Math.sin(ph) - im) < 1e-6); }
+        var rr = r.int(1, 6), phi = r.pick([30, 60, 120, 150, 210, 240, 300, 330, 45, 135]), x = rr * Math.cos(M.rad(phi)), y = rr * Math.sin(M.rad(phi));
+        return Q("Schreibe " + m("z = " + rr + " · e<sup>i · " + phi + "°</sup>") + " in der Form a + bi. Runde auf drei Nachkommastellen.", A.multi([{ l: "a", a: A.num(x, { dec: 3 }) }, { l: "b", a: A.num(y, { dec: 3 }) }]), "Eulersche Formel: r · e^(iφ) = r · cos φ + i · r · sin φ.", ["a = " + rr + " · cos(" + phi + "°) ≈ " + n(x, 3), "b = " + rr + " · sin(" + phi + "°) ≈ " + n(y, 3)], M.near(Math.hypot(x, y), rr));
+    } });
+
+    E.add({ id: "e06-grenzwerte", topic: "CM-E-06", title: "Grenzwerte", gen: function (r, d) {
+        var a = r.nz(-6, 6), b = r.nz(1, 6);
+        if (d === 1) { var c1 = r.int(-9, 9), c2 = r.int(-9, 9), big = 1e7; return Q("Bestimme " + m("lim<sub>n→∞</sub> " + H.fr(H.poly([a, c1, c2], "n"), H.poly([b, c2, c1 + 1], "n"))) + ".", A.frac(a, b), "Bei gleichem Grad in Zähler und Nenner entscheidet der Quotient der Leitkoeffizienten.", ["Kürze mit n²: Alle Terme mit 1/n und 1/n² gehen gegen 0.", "Grenzwert: " + H.q(a, b)], Math.abs((a * big * big + c1 * big + c2) / (b * big * big + c2 * big + c1 + 1) - a / b) < 1e-5); }
+        if (d === 2) { var sinv = r.bool(), f = function (x) { return (sinv ? Math.sin(a * x) : Math.exp(a * x) - 1) / (b * x); }; return Q("Bestimme " + m("lim<sub>x→0</sub> " + H.fr(sinv ? "sin(" + n(a) + "x)" : "e<sup>" + n(a) + "x</sup> − 1", n(b) + "x")) + ".", A.frac(a, b), "Typ 0/0: Regel von l’Hospital oder die Näherung " + (sinv ? "sin u ≈ u" : "e^u − 1 ≈ u") + " für kleine u.", ["Zähler ableiten: " + (sinv ? n(a) + " · cos(" + n(a) + "x)" : n(a) + " · e<sup>" + n(a) + "x</sup>") + " → " + n(a), "Nenner ableiten: " + n(b), "Grenzwert: " + H.q(a, b)], Math.abs(f(1e-6) - a / b) < 1e-4); }
+        var p = r.int(2, 5), q = r.int(2, 4), N = 1e7;
+        while (q === p) q = r.int(2, 6);
+        return Q("Bestimme " + m("lim<sub>n→∞</sub> (1 + " + H.fr(p, "n") + ")<sup>" + q + "n</sup>") + ".", A.choice(r, m("e<sup>" + p * q + "</sup>"), [m("e<sup>" + p + "</sup>"), m("e<sup>" + q + "</sup>"), m(p * q + " · e"), m("e<sup>" + (p + q) + "</sup>")].filter(function (x, i2) { return !(i2 === 3 && p + q === p * q); })), "Es gilt (1 + a/n)ⁿ → eᵃ.", ["(1 + " + p + "/n)ⁿ → e<sup>" + p + "</sup>", "Hoch " + q + ": e<sup>" + p * q + "</sup>"], Math.abs(Math.pow(1 + p / N, q * N) / Math.exp(p * q) - 1) < 1e-4);
+    } });
+
+    E.add({ id: "e07-reihen-taylor", topic: "CM-E-07", title: "Reihen und Taylor-Entwicklung", gen: function (r, d) {
+        var i, s = 0;
+        if (d === 1) { var p = r.int(1, 5) * r.sign(), q = Math.abs(p) + r.int(1, 5); for (i = 0; i < 600; i += 1) s += Math.pow(p / q, i); return Q("Berechne den Wert der Reihe " + m("Σ<sub>k=0</sub><sup>∞</sup> (" + H.q(p, q) + ")<sup>k</sup>") + " als Bruch.", A.frac(q, q - p), "Geometrische Reihe: Summe = 1 / (1 − q) für |q| < 1.", ["1 − q = " + H.q(q - p, q), "Summe = " + H.q(q, q - p)], Math.abs(s - q / (q - p)) < 1e-6); }
+        if (d === 2) { var a = r.int(2, 9), inv = r.bool(); return Q("Bestimme den Konvergenzradius der Potenzreihe " + m("Σ<sub>n=0</sub><sup>∞</sup> " + (inv ? H.fr("x<sup>n</sup>", a + "<sup>n</sup>") : a + "<sup>n</sup> · x<sup>n</sup>")) + ".", inv ? A.num(a) : A.frac(1, a), "Quotienten- oder Wurzelkriterium: R = 1 / lim |aₙ|^(1/n).", ["Die Reihe ist geometrisch mit Quotient " + (inv ? "x / " + a : a + " · x") + ".", "Konvergenz für |x| < " + (inv ? a : H.q(1, a)), "R = " + (inv ? a : H.q(1, a))], (function () { var R = inv ? a : 1 / a, x = 0.95 * R, t = 0; for (i = 0; i < 2000; i += 1) t += Math.pow(x / R, i); return isFinite(t) && Math.abs(t - 1 / (1 - 0.95)) < 1e-3; })()); }
+        var k = r.int(2, 4), c = r.int(2, 4), x0 = 0.05, approx = 0;
+        for (i = 0; i <= 12; i += 1) approx += Math.pow(c * x0, i) / M.fact(i);
+        return Q("Welchen Koeffizienten hat " + m("x<sup>" + k + "</sup>") + " in der Taylorreihe von " + m("f(x) = e<sup>" + c + "x</sup>") + " um x₀ = 0? Gib einen Bruch oder eine ganze Zahl an.", A.frac(Math.pow(c, k), M.fact(k)), "Koeffizient = f⁽ᵏ⁾(0) / k!.", ["f⁽ᵏ⁾(x) = " + c + "<sup>" + k + "</sup> · e<sup>" + c + "x</sup>, also f⁽ᵏ⁾(0) = " + Math.pow(c, k), "Koeffizient: " + Math.pow(c, k) + " / " + k + "! = " + H.q(Math.pow(c, k), M.fact(k))], Math.abs(approx - Math.exp(c * x0)) < 1e-10);
+    } });
+
+    E.add({ id: "e08-partiell", topic: "CM-E-08", title: "Partielle Ableitungen und Gradient", gen: function (r, d) {
+        var a = r.nz(-4, 4), b = r.nz(-4, 4), c = r.nz(-5, 5), x0 = r.int(-2, 3), y0 = r.int(-2, 3), f = function (x, y) { return a * x * x * y + b * x * y * y + c * y; };
+        var fx = 2 * a * x0 * y0 + b * y0 * y0, fy = a * x0 * x0 + 2 * b * x0 * y0 + c, expr = m("f(x, y) = " + H.lin([[a, "x²y"], [b, "xy²"], [c, "y"]]));
+        var okG = Math.abs(nd(function (x) { return f(x, y0); }, x0) - fx) < 1e-4 && Math.abs(nd(function (y) { return f(x0, y); }, y0) - fy) < 1e-4;
+        if (d === 1) return Q("Gegeben ist " + expr + ". Berechne " + m("∂f/∂x") + " an der Stelle (" + n(x0) + " | " + n(y0) + ").", A.num(fx), "Leite nach x ab und behandle y wie eine Konstante.", ["∂f/∂x = " + H.lin([[2 * a, "xy"], [b, "y²"]]), "Einsetzen: " + n(fx)], okG);
+        if (d === 2) return Q("Gegeben ist " + expr + ". Berechne den Gradienten an der Stelle (" + n(x0) + " | " + n(y0) + ").", A.multi([{ l: "∂f/∂x", a: A.num(fx) }, { l: "∂f/∂y", a: A.num(fy) }]), "Der Gradient enthält beide partiellen Ableitungen.", ["∂f/∂x = " + H.lin([[2 * a, "xy"], [b, "y²"]]) + " = " + n(fx), "∂f/∂y = " + H.lin([[a, "x²"], [2 * b, "xy"], [c, ""]]) + " = " + n(fy)], okG);
+        var p, q, s; do { p = r.nz(-4, 4); q = r.nz(-4, 4); s = r.int(-5, 5); } while (4 * p * q - s * s === 0);
+        var D = 4 * p * q - s * s, type = D < 0 ? "Sattelpunkt" : (p > 0 ? "lokales Minimum" : "lokales Maximum"), g = function (x, y) { return p * x * x + q * y * y + s * x * y; };
+        var probe = [[0.01, 0], [0, 0.01], [0.01, 0.01], [0.01, -0.01], [0.007, 0.003], [-0.003, 0.008]].map(function (v) { return g(v[0], v[1]); }), numType = probe.every(function (v) { return v > 0; }) ? "lokales Minimum" : probe.every(function (v) { return v < 0; }) ? "lokales Maximum" : "Sattelpunkt";
+        return Q("Die Funktion " + m("f(x, y) = " + H.lin([[p, "x²"], [q, "y²"], [s, "xy"]])) + " hat im Ursprung einen kritischen Punkt. Welcher Typ liegt vor?", A.choice(r, type, ["lokales Minimum", "lokales Maximum", "Sattelpunkt"]), "Hesse-Matrix aufstellen: det H > 0 und f_xx > 0 Minimum, det H > 0 und f_xx < 0 Maximum, det H < 0 Sattel.", ["H = " + H.mat([[2 * p, s], [s, 2 * q]]), "det H = " + n(D), "f_xx = " + n(2 * p), "Typ: " + type], D < 0 ? type === "Sattelpunkt" : numType === type);
+    } });
+
+    E.add({ id: "e09-uneigentlich", topic: "CM-E-09", title: "Uneigentliche Integrale", gen: function (r, d) {
+        var a = r.int(1, 9), p = r.int(2, 5), k = r.int(2, 6);
+        if (d === 1) return Q("Berechne " + m("∫<sub>1</sub><sup>∞</sup> " + H.fr(a, "x<sup>" + p + "</sup>") + " dx") + " als Bruch oder ganze Zahl.", A.frac(a, p - 1), "Integriere bis zu einer Grenze b und lasse dann b → ∞ gehen.", ["Stammfunktion: " + H.q(-a, p - 1) + " · x<sup>" + n(1 - p) + "</sup>", "Für b → ∞ verschwindet der Term, an der unteren Grenze bleibt " + H.q(a, p - 1)], Math.abs(M.simpson(function (t) { return a * Math.pow(t, p - 2); }, 0, 1) - a / (p - 1)) < 1e-6);
+        if (d === 2) return Q("Berechne " + m("∫<sub>0</sub><sup>∞</sup> " + a + " · e<sup>−" + k + "x</sup> dx") + " als Bruch oder ganze Zahl.", A.frac(a, k), "Stammfunktion von e^(−kx) ist −e^(−kx) / k.", ["[−" + H.q(a, k) + " · e<sup>−" + k + "x</sup>] von 0 bis ∞", "= 0 − (−" + H.q(a, k) + ") = " + H.q(a, k)], Math.abs(M.simpson(function (x) { return a * Math.exp(-k * x); }, 0, 40 / k, 4000) - a / k) < 1e-6);
+        var good = r.pick([["x<sup>2</sup>", 2], ["x<sup>3</sup>", 3], ["x<sup>3/2</sup>", 1.5], ["x<sup>4</sup>", 4]]), bad = r.shuffle([["x", 1], ["√x", 0.5], ["x<sup>1/3</sup>", 1 / 3], ["x<sup>2/3</sup>", 2 / 3], ["x<sup>0,9</sup>", 0.9]]).slice(0, 3);
+        var mk = function (t) { return m("∫<sub>1</sub><sup>∞</sup> " + H.fr(1, t[0]) + " dx"); };
+        return Q("Welches dieser uneigentlichen Integrale konvergiert?", A.choice(r, mk(good), bad.map(mk)), "∫₁^∞ 1/xᵖ dx konvergiert genau dann, wenn p > 1.", ["Exponent im konvergenten Integral: p = " + n(good[1]) + " > 1", "Wert: 1 / (p − 1) = " + n(1 / (good[1] - 1), 3), "Bei den anderen ist p ≤ 1: Die Fläche wächst unbegrenzt."], good[1] > 1 && bad.every(function (t) { return t[1] <= 1; }));
+    } });
+
+    function dblSimpson(f, ax, bx, ay, by) { return M.simpson(function (x) { return M.simpson(function (y) { return f(x, y); }, ay, by, 40); }, ax, bx, 40); }
+    E.add({ id: "e10-mehrfachintegral", topic: "CM-E-10", title: "Mehrfachintegrale", gen: function (r, d) {
+        var a = r.int(1, 4), b = r.int(1, 4), c = r.nz(-4, 4), e = r.nz(-4, 4);
+        if (d === 1) return Q("Berechne " + m("∫<sub>0</sub><sup>" + a + "</sup> ∫<sub>0</sub><sup>" + b + "</sup> (" + H.lin([[c, "x"], [e, "y"]]) + ") dy dx") + ".", A.frac(c * a * a * b + e * a * b * b, 2), "Integriere erst innen nach y (x ist dabei konstant), dann außen nach x.", ["Inneres Integral: " + H.lin([[c * b, "x"], [e * b * b / 2, ""]]), "Äußeres Integral: " + H.q(c * a * a * b + e * a * b * b, 2)], Math.abs(dblSimpson(function (x, y) { return c * x + e * y; }, 0, a, 0, b) - (c * a * a * b + e * a * b * b) / 2) < 1e-8);
+        if (d === 2) return Q("Berechne " + m("∫<sub>0</sub><sup>" + a + "</sup> ∫<sub>0</sub><sup>" + b + "</sup> " + (c === 1 ? "" : n(c) + " · ") + "x · y<sup>2</sup> dy dx") + " als Bruch oder ganze Zahl.", A.frac(c * a * a * b * b * b, 6), "Der Integrand ist ein Produkt: Das Doppelintegral zerfällt in zwei einfache Integrale.", ["∫ x dx von 0 bis " + a + " = " + H.q(a * a, 2), "∫ y² dy von 0 bis " + b + " = " + H.q(b * b * b, 3), "Produkt mal " + n(c) + ": " + H.q(c * a * a * b * b * b, 6)], Math.abs(dblSimpson(function (x, y) { return c * x * y * y; }, 0, a, 0, b) - c * a * a * b * b * b / 6) < 1e-8);
+        var R = r.int(1, 4), kk = r.pick([0, 2]), num = kk === 0 ? 2 * R * R : R * R * R * R, polar = M.simpson(function (rho) { return 2 * Math.PI * rho * Math.pow(rho, kk); }, 0, R);
+        return Q("Berechne " + m("∬<sub>K</sub> " + (kk ? "(x<sup>2</sup> + y<sup>2</sup>)" : "1") + " dA") + " über die Kreisscheibe K mit Radius " + R + " um den Ursprung. Das Ergebnis hat die Form k · π. Gib k an.", A.frac(num, 2), "Polarkoordinaten: dA = r dr dφ.", ["∫<sub>0</sub><sup>2π</sup> ∫<sub>0</sub><sup>" + R + "</sup> r<sup>" + (kk + 1) + "</sup> dr dφ", "= 2π · " + H.q(Math.pow(R, kk + 2), kk + 2), "k = " + H.q(num, 2)], Math.abs(polar - num / 2 * Math.PI) < 1e-8);
+    } });
+
+    function rk4(f, t0, y0, t1) { var N = 2000, h = (t1 - t0) / N, t = t0, y = y0, i, k1, k2, k3, k4; for (i = 0; i < N; i += 1) { k1 = f(t, y); k2 = f(t + h / 2, y + h / 2 * k1); k3 = f(t + h / 2, y + h / 2 * k2); k4 = f(t + h, y + h * k3); y += h / 6 * (k1 + 2 * k2 + 2 * k3 + k4); t += h; } return y; }
+    root.SOR_EX_UTIL.rk4 = rk4;
+    E.add({ id: "e11-dgl-erster-ordnung", topic: "CM-E-11", title: "Differentialgleichungen 1. Ordnung", gen: function (r, d) {
+        var k = r.pick([-2, -1, -0.5, 0.5, 1, 2]), y0 = r.int(1, 6), t = r.pick([0.5, 1, 2]), v;
+        if (d === 1) { v = y0 * Math.exp(k * t); return Q("Löse das Anfangswertproblem " + m("y′ = " + n(k) + " · y,&nbsp; y(0) = " + y0) + " und berechne y(" + n(t) + "). Runde auf drei Nachkommastellen.", A.num(v, { dec: 3 }), "Die Lösung von y′ = k·y ist y(t) = y₀ · e^(kt).", ["y(t) = " + y0 + " · e<sup>" + n(k) + "t</sup>", "y(" + n(t) + ") = " + y0 + " · e<sup>" + n(k * t) + "</sup> ≈ " + n(v, 3)], M.near(rk4(function (tt, y) { return k * y; }, 0, y0, t), v, 1e-6)); }
+        if (d === 2) { var a = r.int(1, 5), b = r.int(1, 9), ys = b / a, end = rk4(function (tt, y) { return b - a * y; }, 0, y0, 60 / a); return Q("Gegeben ist " + m("y′ + " + a + " · y = " + b) + ". Gegen welchen Wert strebt jede Lösung für t → ∞? Gib einen Bruch oder eine ganze Zahl an.", A.frac(b, a), "Im stationären Zustand ändert sich y nicht mehr: y′ = 0.", [a + " · y = " + b, "y = " + H.q(b, a), "Allgemeine Lösung: y(t) = " + H.q(b, a) + " + C · e<sup>−" + a + "t</sup>"], Math.abs(end - ys) < 1e-6); }
+        var aa = r.pick([-2, -1, 1, 2]), x1 = r.pick([1, 2]); v = y0 * Math.exp(aa * x1 * x1 / 2);
+        return Q("Löse durch Trennung der Variablen: " + m("y′ = " + (aa === 1 ? "" : aa === -1 ? "−" : n(aa)) + "x · y,&nbsp; y(0) = " + y0) + ". Berechne y(" + x1 + "). Runde auf drei Nachkommastellen.", A.num(v, { dec: 3 }), "dy / y = " + n(aa) + " · x dx, dann beide Seiten integrieren.", ["ln |y| = " + H.q(aa, 2) + " · x² + C", "y(x) = " + y0 + " · e<sup>" + H.q(aa, 2) + "x²</sup>", "y(" + x1 + ") ≈ " + n(v, 3)], M.near(rk4(function (x, y) { return aa * x * y; }, 0, y0, x1), v, 1e-6));
+    } });
+
+    E.add({ id: "e12-dgl-zweiter-ordnung", topic: "CM-E-12", title: "Lineare DGL 2. Ordnung und Schwingungen", gen: function (r, d) {
+        if (d === 1) { var l1 = r.int(-5, 3), l2; do { l2 = r.int(-5, 3); } while (l2 === l1); var p = -(l1 + l2), q = l1 * l2; return Q("Bestimme die Nullstellen des charakteristischen Polynoms von " + m(H.lin([[1, "y″"], [p, "y′"], [q, "y"]]) + " = 0") + ".", A.multi([{ l: "λ₁", a: A.num(l1) }, { l: "λ₂", a: A.num(l2) }], { unordered: true }), "Ansatz y = e^(λt) führt auf λ² + p·λ + q = 0.", ["λ² " + H.sg(p) + "λ " + H.sg(q) + " = 0", "λ₁ = " + n(Math.min(l1, l2)) + ", λ₂ = " + n(Math.max(l1, l2)), "Lösung: y(t) = C₁ · e<sup>" + n(l1) + "t</sup> + C₂ · e<sup>" + n(l2) + "t</sup>"], [l1, l2].every(function (l) { return l * l + p * l + q === 0; })); }
+        if (d === 2) { var dl = r.int(1, 4), w = r.int(1, 6), pp = 2 * dl, qq = dl * dl + w * w; return Q("Die Gleichung " + m("y″ + " + pp + " · y′ + " + qq + " · y = 0") + " beschreibt eine gedämpfte Schwingung y(t) = e<sup>−δt</sup> · (C₁ cos ωt + C₂ sin ωt). Bestimme δ und ω.", A.multi([{ l: "δ", a: A.num(dl) }, { l: "ω", a: A.num(w) }]), "Die charakteristische Gleichung hat komplexe Lösungen λ = −δ ± iω.", ["λ = −" + dl + " ± √(" + dl * dl + " − " + qq + ")", "= −" + dl + " ± " + w + "i", "δ = " + dl + ", ω = " + w], Math.abs(dl * dl - w * w - pp * dl + qq) < 1e-9 && -2 * dl * w + pp * w === 0); }
+        var mk = r.pick([[1, 4], [1, 9], [2, 8], [1, 16], [4, 9], [2, 18], [1, 25]]), dd = r.int(1, 12), s = Math.sqrt(mk[0] * mk[1]);
+        return Q("Ein Feder-Masse-Dämpfer-System hat m = " + mk[0] + " kg, die Dämpfungskonstante d = " + dd + " Ns/m und die Federsteifigkeit k = " + mk[1] + " N/m. Berechne den Dämpfungsgrad D als Bruch oder Dezimalzahl.", A.frac(dd, 2 * s), "D = d / (2 · √(m · k)). D < 1 schwingt, D = 1 ist der aperiodische Grenzfall, D > 1 kriecht.", ["√(m · k) = √" + mk[0] * mk[1] + " = " + s, "D = " + dd + " / (2 · " + s + ") = " + H.q(dd, 2 * s), dd < 2 * s ? "D < 1: schwach gedämpfte Schwingung" : dd === 2 * s ? "D = 1: aperiodischer Grenzfall" : "D > 1: Kriechfall"], (dd * dd - 4 * mk[0] * mk[1] < 0) === (dd / (2 * s) < 1));
+    } });
+
+    E.add({ id: "e13-dgl-systeme", topic: "CM-E-13", title: "DGL-Systeme", gen: function (r, d) {
+        var U = root.SOR_EX_UTIL;
+        if (d === 1) { var l1 = r.nz(-4, 4), l2 = r.nz(-4, 4); if (l1 === l2) l2 = -l2 || 2; var X = U.eigMat(r, l1, l2).A, type = l1 < 0 && l2 < 0 ? "asymptotisch stabil" : (l1 > 0 && l2 > 0 ? "instabil (alle Lösungen laufen weg)" : "instabil (Sattelpunkt)");
+            return Q("Gegeben ist das System " + m("x′ = " + H.mat(X) + " · x") + ". Wie verhält sich die Ruhelage x = 0?", A.choice(r, type, ["asymptotisch stabil", "instabil (alle Lösungen laufen weg)", "instabil (Sattelpunkt)"]), "Bestimme die Eigenwerte: Sind alle Realteile negativ, ist die Ruhelage asymptotisch stabil.", ["Spur = " + n(X[0][0] + X[1][1]) + ", det = " + n(det2(X)), "Eigenwerte: " + n(l1) + " und " + n(l2), type], det2(X) === l1 * l2 && X[0][0] + X[1][1] === l1 + l2); }
+        if (d === 2) { var a = r.pick([-2, -1, -0.5, 1]), b = r.pick([-3, -1, 0.5]), x0 = r.int(1, 5), y0 = r.int(1, 5), t = r.pick([0.5, 1]); return Q("Löse " + m("x′ = " + H.mat([[a, 0], [0, b]]) + " · x") + " mit " + m("x(0) = " + H.vec([x0, y0])) + " und berechne x(" + n(t) + "). Runde auf drei Nachkommastellen.", A.multi([{ l: "x₁", a: A.num(x0 * Math.exp(a * t), { dec: 3 }) }, { l: "x₂", a: A.num(y0 * Math.exp(b * t), { dec: 3 }) }]), "Die Gleichungen sind entkoppelt: Jede Komponente löst x′ = λ · x.", ["x₁(t) = " + x0 + " · e<sup>" + n(a) + "t</sup> ≈ " + n(x0 * Math.exp(a * t), 3), "x₂(t) = " + y0 + " · e<sup>" + n(b) + "t</sup> ≈ " + n(y0 * Math.exp(b * t), 3)], M.near(U.rk4(function (tt, y) { return a * y; }, 0, x0, t), x0 * Math.exp(a * t), 1e-6)); }
+        var p = r.nz(-6, 6), q = r.nz(-9, 9);
+        return Q("Schreibe " + m(H.lin([[1, "y″"], [p, "y′"], [q, "y"]]) + " = 0") + " mit x₁ = y und x₂ = y′ als System " + m("x′ = " + H.mat([[0, 1], ["a", "b"]]) + " · x") + ". Bestimme a und b.", A.multi([{ l: "a", a: A.num(-q) }, { l: "b", a: A.num(-p) }]), "x₁′ = x₂. Löse die DGL nach y″ auf, um x₂′ zu erhalten.", ["y″ = " + H.lin([[-q, "y"], [-p, "y′"]]), "x₂′ = " + H.lin([[-q, "x₁"], [-p, "x₂"]]), "a = " + n(-q) + ", b = " + n(-p)], (function () { var lam = 0.37; return M.near(lam * lam - (-p) * lam - (-q), lam * lam + p * lam + q); })());
+    } });
+
+    E.add({ id: "e14-funktionentheorie", topic: "CM-E-14", title: "Holomorphe Funktionen und Residuen", gen: function (r, d) {
+        var a = r.nz(-4, 4), b = r.nz(-6, 6);
+        if (d === 1) { var u = function (x, y) { return a * (x * x - y * y) + b * x; }, v = function (x, y) { return 2 * a * x * y + b * y; }, x0 = 0.4, y0 = -0.7;
+            var cr = Math.abs(nd(function (x) { return u(x, y0); }, x0) - nd(function (y) { return v(x0, y); }, y0)) < 1e-4 && Math.abs(nd(function (y) { return u(x0, y); }, y0) + nd(function (x) { return v(x, y0); }, x0)) < 1e-4;
+            return Q("Gegeben ist der Realteil " + m("u(x, y) = " + H.lin([[a, "(x² − y²)"], [b, "x"]])) + ". Für welchen Imaginärteil v ist f = u + iv holomorph?", A.choice(r, m("v = " + H.lin([[2 * a, "xy"], [b, "y"]])), [m("v = " + H.lin([[2 * a, "xy"], [-b, "y"]])), m("v = " + H.lin([[a, "(x² + y²)"], [b, "y"]])), m("v = " + H.lin([[-2 * a, "xy"], [b, "y"]]))]), "Cauchy-Riemann: u_x = v_y und u_y = −v_x.", ["u_x = " + H.lin([[2 * a, "x"], [b, ""]]) + " muss gleich v_y sein", "u_y = " + H.lin([[-2 * a, "y"]]) + " muss gleich −v_x sein", "v = " + H.lin([[2 * a, "xy"], [b, "y"]]) + ", also f(z) = " + H.lin([[a, "z²"], [b, "z"]])], cr); }
+        var p = r.int(-3, 3), q; do { q = r.int(-5, 5); } while (q === p || Math.abs(q) <= Math.abs(p));
+        var f = function (z) { return (a * z + b) / ((z - p) * (z - q)); }, res = (a * p + b) / (p - q), fz = m("f(z) = " + H.fr(H.lin([[a, "z"], [b, ""]]), "(z " + H.sg(-p) + ")(z " + H.sg(-q) + ")").replace(/\(z \+ 0\)/, "z"));
+        var okR = Math.abs(1e-7 * f(p + 1e-7) - res) < 1e-4;
+        if (d === 2) return Q("Berechne das Residuum von " + fz + " an der Stelle z = " + n(p) + ". Gib einen Bruch oder eine ganze Zahl an.", A.frac(a * p + b, p - q), "Einfacher Pol: Res = lim (z − z₀) · f(z).", ["(z " + H.sg(-p) + ") kürzt sich: " + H.fr(H.lin([[a, "z"], [b, ""]]), "z " + H.sg(-q)), "z = " + n(p) + " einsetzen: " + H.fr(n(a * p + b), n(p - q)) + " = " + H.q(a * p + b, p - q)], okR);
+        var Rr = (Math.abs(p) + Math.abs(q)) / 2;
+        return Q("Berechne " + m("∮ f(z) dz") + " über den positiv orientierten Kreis |z| = " + n(Rr) + " für " + fz + ". Das Ergebnis hat die Form 2πi · k. Gib k an.", A.frac(a * p + b, p - q), "Residuensatz: Nur Pole innerhalb des Kreises zählen.", ["Pole: z = " + n(p) + " (innen) und z = " + n(q) + " (außen)", "Res bei z = " + n(p) + ": " + H.q(a * p + b, p - q), "Integral = 2πi · " + H.q(a * p + b, p - q)], okR && Math.abs(p) < Rr && Math.abs(q) > Rr);
+    } });
+
+    E.add({ id: "e15-kondition-fehler", topic: "CM-E-15", title: "Fehlerrechnung und Kondition", gen: function (r, d) {
+        if (d === 1) { var a = r.int(1, 5), b = r.int(1, 5), div = r.bool(); return Q("Zwei Messgrößen haben die relativen Fehler " + a + " % und " + b + " %. Wie groß ist näherungsweise der maximale relative Fehler ihres " + (div ? "Quotienten" : "Produkts") + " in Prozent?", A.num(a + b, { unit: "%" }), "Bei Produkten und Quotienten addieren sich die relativen Fehler (in erster Näherung).", [a + " % + " + b + " % = " + (a + b) + " %"], Math.abs(((1 + a / 100) * (div ? 1 / (1 - b / 100) : 1 + b / 100) - 1) * 100 - (a + b)) < 0.6); }
+        if (d === 2) { var k = r.int(2, 4), x0 = r.int(2, 6), dx = r.pick([0.01, 0.02, 0.05]), df = k * Math.pow(x0, k - 1) * dx; return Q("Die Größe x = " + x0 + " ist mit dem absoluten Fehler Δx = " + n(dx) + " gemessen. Schätze den absoluten Fehler von " + m("f(x) = x<sup>" + k + "</sup>") + " mit der linearen Fehlerfortpflanzung.", A.num(df, { tol: 1e-6 }), "Δf ≈ |f′(x)| · Δx.", ["f′(x) = " + k + " · x<sup>" + (k - 1) + "</sup>, also f′(" + x0 + ") = " + k * Math.pow(x0, k - 1), "Δf ≈ " + k * Math.pow(x0, k - 1) + " · " + n(dx) + " = " + n(df)], Math.abs(Math.pow(x0 + dx, k) - Math.pow(x0, k) - df) < 0.15 * df + 1e-9); }
+        var kk = r.nz(-3, 3), mm = r.nz(-3, 3), X = [[1, kk], [mm, 1 + kk * mm]], Xi = [[1 + kk * mm, -kk], [-mm, 1]], nrm = function (Y) { return Math.max(Math.abs(Y[0][0]) + Math.abs(Y[0][1]), Math.abs(Y[1][0]) + Math.abs(Y[1][1])); };
+        return Q("Berechne die Konditionszahl von " + m("A = " + H.mat(X)) + " bezüglich der Zeilensummennorm. Hinweis: det A = 1.", A.num(nrm(X) * nrm(Xi)), "cond(A) = ‖A‖ · ‖A⁻¹‖. Die Zeilensummennorm ist die größte Betragssumme einer Zeile.", ["A⁻¹ = " + H.mat(Xi), "‖A‖ = " + nrm(X) + ", ‖A⁻¹‖ = " + nrm(Xi), "cond(A) = " + nrm(X) * nrm(Xi)], X[0][0] * Xi[0][0] + X[0][1] * Xi[1][0] === 1 && X[1][0] * Xi[0][1] + X[1][1] * Xi[1][1] === 1 && X[0][0] * Xi[0][1] + X[0][1] * Xi[1][1] === 0);
+    } });
+
+    E.add({ id: "e16-newton", topic: "CM-E-16", title: "Newton-Verfahren", gen: function (r, d) {
+        var a = r.pick([2, 3, 5, 6, 7, 10, 11, 13]), x0 = Math.max(1, Math.round(Math.sqrt(a))) + (d === 3 ? 0 : r.int(0, 1)), f, df, x1, x2;
+        if (d < 3) { f = function (x) { return x * x - a; }; df = function (x) { return 2 * x; }; x1 = x0 - f(x0) / df(x0); x2 = x1 - f(x1) / df(x1);
+            if (d === 1) return Q("Führe einen Schritt des Newton-Verfahrens für " + m("f(x) = x<sup>2</sup> − " + a) + " mit dem Startwert x₀ = " + x0 + " aus. Gib x₁ auf vier Nachkommastellen an.", A.num(x1, { dec: 4 }), "x₁ = x₀ − f(x₀) / f′(x₀).", ["f(" + x0 + ") = " + n(f(x0)) + ", f′(" + x0 + ") = " + n(df(x0)), "x₁ = " + x0 + " − " + P(f(x0)) + " / " + n(df(x0)) + " ≈ " + n(x1, 4), "Zum Vergleich: √" + a + " ≈ " + n(Math.sqrt(a), 4)], Math.abs(x1 - Math.sqrt(a)) <= Math.abs(x0 - Math.sqrt(a)) + 1e-12 && M.near(x1, (x0 + a / x0) / 2));
+            return Q("Führe zwei Schritte des Newton-Verfahrens für " + m("f(x) = x<sup>2</sup> − " + a) + " mit x₀ = " + x0 + " aus. Gib x₂ auf vier Nachkommastellen an.", A.num(x2, { dec: 4 }), "Wende x_{k+1} = x_k − f(x_k) / f′(x_k) zweimal an.", ["x₁ = " + n(x1, 6), "x₂ = " + n(x1, 6) + " − " + P(M.round(f(x1), 6)) + " / " + n(df(x1), 6) + " ≈ " + n(x2, 4), "Zum Vergleich: √" + a + " ≈ " + n(Math.sqrt(a), 4)], Math.abs(x2 - Math.sqrt(a)) < Math.abs(x1 - Math.sqrt(a)) + 1e-12); }
+        var c = r.int(1, 4), e = r.int(1, 9); x0 = r.int(2, 3); f = function (x) { return x * x * x - c * x - e; }; df = function (x) { return 3 * x * x - c; }; x1 = x0 - f(x0) / df(x0);
+        return Q("Führe einen Newton-Schritt für " + m("f(x) = x<sup>3</sup> − " + (c === 1 ? "" : c) + "x − " + e) + " mit x₀ = " + x0 + " aus. Gib x₁ als Bruch oder auf vier Nachkommastellen an.", A.num(x1, { dec: 4 }), "x₁ = x₀ − f(x₀) / f′(x₀) mit f′(x) = 3x² − " + c + ".", ["f(" + x0 + ") = " + n(f(x0)) + ", f′(" + x0 + ") = " + n(df(x0)), "x₁ = " + x0 + " − " + H.q(f(x0), df(x0)) + " ≈ " + n(x1, 4)], Math.abs(nd(f, x0) - df(x0)) < 1e-4 && M.near(f(x0) + df(x0) * (x1 - x0), 0, 1e-9));
+    } });
+
+    E.add({ id: "e17-quadratur", topic: "CM-E-17", title: "Numerische Integration", gen: function (r, d) {
+        var F = r.pick([["1 / (1 + x)", function (x) { return 1 / (1 + x); }, 0, r.pick([1, 2])], ["e<sup>x</sup>", Math.exp, 0, 1], ["x<sup>3</sup>", function (x) { return x * x * x; }, 0, 2], ["√x", Math.sqrt, 1, 4], ["1 / x", function (x) { return 1 / x; }, 1, 3], ["x<sup>2</sup>", function (x) { return x * x; }, r.int(0, 1), 3]]);
+        var f = F[1], lo = F[2], hi = F[3], N = d === 1 ? 2 : 4, h = (hi - lo) / N, xs = Array.from({ length: N + 1 }, function (_, i) { return lo + i * h; }), T = 0, S = 0, i, exact = M.simpson(f, lo, hi, 2000);
+        for (i = 0; i < N; i += 1) T += h * (f(xs[i]) + f(xs[i + 1])) / 2;
+        for (i = 0; i <= N; i += 1) S += f(xs[i]) * (i === 0 || i === N ? 1 : (i % 2 ? 4 : 2)); S *= h / 3;
+        var tab = "Stützstellen: " + xs.map(function (x) { return n(x, 3); }).join("; ");
+        if (d < 3) return Q("Berechne " + m("∫<sub>" + lo + "</sub><sup>" + hi + "</sup> " + F[0] + " dx") + " näherungsweise mit der zusammengesetzten Trapezregel mit " + N + " Teilintervallen. Runde auf vier Nachkommastellen.", A.num(T, { dec: 4 }), "T = h · (f(x₀)/2 + f(x₁) + … + f(xₙ)/2) mit h = " + n(h) + ".", [tab, "Funktionswerte: " + xs.map(function (x) { return n(f(x), 4); }).join("; "), "T ≈ " + n(T, 4), "Zum Vergleich der genaue Wert: " + n(exact, 4)], Math.abs(T - exact) < 0.25 * Math.abs(exact) && M.near(T, h * (xs.reduce(function (s2, x) { return s2 + f(x); }, 0) - (f(lo) + f(hi)) / 2)));
+        return Q("Berechne " + m("∫<sub>" + lo + "</sub><sup>" + hi + "</sup> " + F[0] + " dx") + " näherungsweise mit der zusammengesetzten Simpsonregel mit 4 Teilintervallen. Runde auf vier Nachkommastellen.", A.num(S, { dec: 4 }), "S = h/3 · (f₀ + 4f₁ + 2f₂ + 4f₃ + f₄) mit h = " + n(h) + ".", [tab, "Funktionswerte: " + xs.map(function (x) { return n(f(x), 4); }).join("; "), "S ≈ " + n(S, 4), "Zum Vergleich der genaue Wert: " + n(exact, 4)], Math.abs(S - exact) < 0.02 * Math.abs(exact) + 1e-9);
+    } });
+})(typeof window !== "undefined" ? window : globalThis);
