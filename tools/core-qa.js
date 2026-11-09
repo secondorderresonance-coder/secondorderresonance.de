@@ -53,4 +53,20 @@ t("export/delete", () => {
     assert.ok(SOR.accounts.remove("alt@test.de")); assert.strictEqual(SOR.accounts.get("alt@test.de"), null);
     assert.strictEqual(SOR.school.classes()[0].members.length, 0); assert.ok(!JSON.parse(mem["sor-rewards-v1"]).profiles["alt@test.de"]);
 });
+t("share progress without server", () => {
+    R.record({ topicId: "CM-S-20", correct: true, difficulty: 2 }, "gast-geraet");
+    R.record({ topicId: "CM-S-20", correct: false, difficulty: 2 }, "gast-geraet");
+    const cls = SOR.school.classes()[0];
+    const code = SOR.share.pack({ key: "gast-geraet", name: "Mia <b>G.</b>", classCode: cls.code.toLowerCase() });
+    assert.ok(/^[A-Za-z0-9_-]+$/.test(code), "Code muss URL-sicher sein");
+    assert.ok(!/@|pwHash|geheim/.test(Buffer.from(code.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8")), "keine E-Mail, kein Passwort im Code");
+    const o = SOR.share.unpack("https://example.org/app/lehrer.html#lernstand=" + code);
+    assert.ok(o && o.c === cls.code && o.t[1] === 2);
+    assert.strictEqual(SOR.share.unpack("kaputt!"), null);
+    assert.strictEqual(SOR.share.importInto(cls.id, Object.assign({}, o, { c: "ZZZZZZ" })).ok, false);
+    const r1 = SOR.share.importInto(cls.id, o), r2 = SOR.share.importInto(cls.id, o);
+    assert.ok(r1.ok && !r1.updated && r2.updated && !/[<>]/.test(r1.name));
+    assert.strictEqual(SOR.school.get(cls.id).members.filter(m => m === r1.id).length, 1);
+    const p = R.profile(r1.id); assert.ok(p.ext && p.mastery["CM-S-20"].total === 2 && p.stats.correct === 1);
+});
 console.log(`core-qa: ${n} Testgruppen\nResult: OK`);

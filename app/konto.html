@@ -6,9 +6,7 @@
 <title>Konto und Abzeichen | Second-Order Resonance</title>
 <meta name="description" content="Dein Lernkonto: Stufe, Lernserie, Abzeichen, Klassen und deine Daten.">
 <meta name="theme-color" content="#0a0e1c">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
 <link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
 <style>
   .auth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.9fr);gap:2.4rem;align-items:center;margin-top:1rem}
@@ -174,8 +172,18 @@
         // Klassen
         var mine = SOR.school.classesOf(acc.id), teach = SOR.school.classes(acc.id), html = '<h2 class="sec">Klassen</h2>';
         if (acc.role === "lehrkraft") html += (teach.length ? teach.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong> <span class="dim">· ' + c.members.length + " Mitglieder</span></span><span class=\"chip\">Code " + esc(c.code) + "</span></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Noch keine Klasse angelegt.</p>') + '<a class="btn btn-ghost btn-sm" href="lehrer.html" style="margin-top:0.9rem">Klassen verwalten →</a>';
-        else html += (mine.length ? mine.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong></span><button class="btn btn-ghost btn-sm" type="button" data-leave="' + esc(c.id) + '">Verlassen</button></div>'; }).join("") : "") + '<form id="joinForm" style="display:flex;gap:0.5rem;margin-top:0.9rem"><input class="input" id="joinCode" placeholder="Klassencode" maxlength="6" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode"><button class="btn btn-primary btn-sm" type="submit">Beitreten</button></form><div class="err" id="joinErr" role="alert"></div>';
+        else html += (mine.length ? mine.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong></span><button class="btn btn-ghost btn-sm" type="button" data-leave="' + esc(c.id) + '">Verlassen</button></div>'; }).join("") : "") + '<form id="joinForm" style="display:flex;gap:0.5rem;margin-top:0.9rem"><input class="input" id="joinCode" placeholder="Klassencode" maxlength="6" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode"><button class="btn btn-primary btn-sm" type="submit">Beitreten</button></form><div class="err" id="joinErr" role="alert"></div>' +
+            '<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)"><strong style="font-size:0.95rem">Lernstand an Lehrkraft senden</strong><p class="muted" style="font-size:0.86rem;margin:0.25rem 0 0.6rem">Übst du auf deinem eigenen Gerät? Erzeuge einen Link und schicke ihn deiner Lehrkraft. Er enthält nur deinen Anzeigenamen und deine Lernzahlen.</p>' +
+            '<form id="shareForm" style="display:flex;gap:0.5rem"><input class="input" id="shareCode" placeholder="Klassencode" maxlength="6" value="' + esc(mine.length ? mine[0].code : "") + '" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode der Lehrkraft" required><button class="btn btn-ghost btn-sm" type="submit">Link erzeugen</button></form>' +
+            '<div id="shareOut" hidden style="margin-top:0.6rem;display:flex;gap:0.5rem"><input class="input" id="shareLink" readonly aria-label="Link mit Lernstand"><button class="btn btn-primary btn-sm" type="button" id="shareCopy">Kopieren</button></div></div>';
         $("classCard").innerHTML = html;
+        var sf = $("shareForm"); if (sf) sf.addEventListener("submit", function (ev) {
+            ev.preventDefault();
+            var code = SOR.share.pack({ key: acc.id, name: acc.displayName, classCode: $("shareCode").value });
+            if (!code) { NAV.toast("<span>Noch kein Lernstand vorhanden. Löse zuerst ein paar Aufgaben.</span>"); return; }
+            $("shareLink").value = new URL("lehrer.html#lernstand=" + code, location.href).href; $("shareOut").hidden = false; $("shareOut").style.display = "flex"; $("shareLink").select();
+        });
+        var cp = $("shareCopy"); if (cp) cp.addEventListener("click", function () { $("shareLink").select(); if (navigator.clipboard) navigator.clipboard.writeText($("shareLink").value).then(function () { NAV.toast("📋 <span>Link kopiert. Schicke ihn deiner Lehrkraft.</span>"); }, function () {}); });
         var jf = $("joinForm"); if (jf) jf.addEventListener("submit", function (ev) { ev.preventDefault(); var r = SOR.school.join($("joinCode").value, acc.id); if (!r.ok) { $("joinErr").textContent = r.error; return; } NAV.toast("🏫 <span>Du bist jetzt in <strong>" + esc(r.cls.name) + "</strong>.</span>"); render(); });
     }
     $("goals").addEventListener("click", function (ev) { var b = ev.target.closest("[data-goal]"); if (!b) return; REW.setGoal(Number(b.getAttribute("data-goal"))); render(); });

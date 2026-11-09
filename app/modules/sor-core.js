@@ -176,6 +176,45 @@
         assignmentsFor: function (accountId) { var out = []; school.classesOf(accountId).forEach(function (c) { c.assignments.forEach(function (a) { out.push({ classId: c.id, className: c.name, id: a.id, topicId: a.topicId, title: a.title, due: a.due }); }); }); return out; }
     };
 
-    root.SOR = { version: "3.0.0", storage: { get: function (k) { return adapter.get(k); }, set: function (k, v) { adapter.set(k, v); }, remove: function (k) { adapter.remove(k); } }, useAdapter: function (a) { adapter = a || localAdapter; }, accounts: accounts, school: school, sha256: sha256, randomId: randomId, today: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); } };
+    // ---------- Lernstand teilen (ohne Server) ----------
+    // Ein Lernstand wird als kompakter Code in einen Link gepackt. Die Lehrkraft öffnet den Link auf
+    // ihrem Gerät und übernimmt den Stand in ihre Klasse. Es werden nur Anzeigename, Klassencode und
+    // Lernzahlen übertragen, keine E-Mail-Adresse und kein Passwort.
+    function b64e(str) { var b = typeof btoa === "function" ? btoa(unescape(encodeURIComponent(str))) : Buffer.from(str, "utf8").toString("base64"); return b.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+    function b64d(code) { var b = String(code).replace(/-/g, "+").replace(/_/g, "/"); while (b.length % 4) b += "="; return typeof atob === "function" ? decodeURIComponent(escape(atob(b))) : Buffer.from(b, "base64").toString("utf8"); }
+    var share = {
+        pack: function (o) {
+            var rw = adapter.get("sor-rewards-v1"), p = rw && rw.profiles ? rw.profiles[o.key] : null;
+            if (!p) return null;
+            var m = {}, d = {}, days = Object.keys(p.daily || {}).sort().slice(-14);
+            Object.keys(p.mastery || {}).forEach(function (k) { var x = p.mastery[k]; m[k] = [x.score, x.correct, x.total, x.last]; });
+            days.forEach(function (k) { var x = p.daily[k]; d[k] = [x.xp, x.correct, x.total]; });
+            return b64e(JSON.stringify({ v: 1, n: String(o.name || "").trim().slice(0, 40), c: String(o.classCode || "").trim().toUpperCase(), x: p.xp || 0, s: [p.streak.count || 0, p.streak.best || 0, p.streak.last || null], t: [p.stats.correct || 0, p.stats.total || 0, p.stats.sessions || 0], m: m, d: d, at: new Date().toISOString() }));
+        },
+        unpack: function (code) {
+            try {
+                var raw = String(code || "").trim(), i = raw.indexOf("lernstand="); if (i !== -1) raw = raw.slice(i + 10);
+                var o = JSON.parse(b64d(raw));
+                if (!o || o.v !== 1 || typeof o.n !== "string" || o.n.length < 1 || typeof o.m !== "object" || !Array.isArray(o.s) || !Array.isArray(o.t)) return null;
+                return o;
+            } catch (e) { return null; }
+        },
+        // Übernimmt einen entpackten Lernstand als Mitglied "ext:<Klasse>:<Name>" (ersetzt einen älteren Stand desselben Namens)
+        importInto: function (classId, o) {
+            var sc = loadSchool(), c = sc.classes[classId]; if (!c || !o) return { ok: false, error: "Klasse nicht gefunden." };
+            if (o.c && o.c !== c.code) return { ok: false, error: "Dieser Lernstand gehört zu einem anderen Klassencode (" + o.c + ")." };
+            var num = function (v) { return typeof v === "number" && isFinite(v) ? Math.max(0, Math.round(v)) : 0; }, day = function (v) { return typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null; };
+            var name = o.n.replace(/[<>]/g, "").slice(0, 40), id = "ext:" + classId + ":" + name.toLowerCase().replace(/[^a-z0-9äöüß]+/g, "-");
+            var p = { name: name, ext: true, importedAt: new Date().toISOString(), xp: num(o.x), goal: 50, daily: {}, streak: { count: num(o.s[0]), best: num(o.s[1]), last: day(o.s[2]) }, badges: {}, mastery: {}, stats: { correct: num(o.t[0]), total: num(o.t[1]), sessions: num(o.t[2]), perfect: 0, combo: 0, bestCombo: 0, goalDays: 0, hints: 0 } };
+            Object.keys(o.m).slice(0, 200).forEach(function (k) { var x = o.m[k]; if (/^CM-[SE]-\d+$/.test(k) && Array.isArray(x)) p.mastery[k] = { score: Math.min(100, num(x[0])), correct: num(x[1]), total: num(x[2]), last: day(x[3]) }; });
+            Object.keys(o.d || {}).slice(0, 31).forEach(function (k) { var x = o.d[k]; if (day(k) && Array.isArray(x)) p.daily[k] = { xp: num(x[0]), correct: num(x[1]), total: num(x[2]) }; });
+            var rw = adapter.get("sor-rewards-v1") || {}; if (!rw.profiles) rw.profiles = {};
+            var updated = !!rw.profiles[id]; rw.profiles[id] = p; adapter.set("sor-rewards-v1", rw);
+            if (c.members.indexOf(id) === -1) { c.members.push(id); saveSchool(sc); }
+            return { ok: true, id: id, name: name, updated: updated };
+        }
+    };
+
+    root.SOR = { version: "3.0.0", storage: { get: function (k) { return adapter.get(k); }, set: function (k, v) { adapter.set(k, v); }, remove: function (k) { adapter.remove(k); } }, useAdapter: function (a) { adapter = a || localAdapter; }, accounts: accounts, school: school, share: share, sha256: sha256, randomId: randomId, today: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); } };
     if (typeof module !== "undefined" && module.exports) module.exports = root.SOR;
 })(typeof window !== "undefined" ? window : globalThis);

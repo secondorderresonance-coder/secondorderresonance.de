@@ -6,9 +6,7 @@
 <title>Klassen-Dashboard für Lehrkräfte | Second-Order Resonance</title>
 <meta name="description" content="Klassen anlegen, Aufträge vergeben und den Lernstand je Thema sehen: das Dashboard für Lehrkräfte.">
 <meta name="theme-color" content="#0a0e1c">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
 <link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
 <style>
   .intro{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2.2rem;align-items:center;margin-top:1rem}
@@ -191,7 +189,9 @@
             '<div class="card"><h2 class="sec">Braucht Unterstützung</h2>' + (attention.length ? attention.slice(0, 8).map(function (a) { return '<div class="att"><span>' + esc(a[0]) + "</span><small>" + esc(a[1]) + "</small></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Aktuell fällt niemand auf.</p>') + "</div>" +
             '<div class="card"><h2 class="sec">Schwierigste Themen</h2>' + (hard.length ? hard.map(function (h) { return '<div class="att"><span>' + esc(TOPIC[h.t].topic) + '</span><small style="color:var(--muted)">Ø ' + Math.round(h.avg) + " von 100</small></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Noch zu wenig Daten.</p>') + "</div>" +
             "</div></div>" +
-            '<p class="dim" style="font-size:0.85rem;margin-top:1.4rem">Hinweis: Klassen und Lernstände werden derzeit nur in diesem Browser gespeichert. Ein Beitritt ist deshalb nur auf demselben Gerät möglich. Für den Einsatz mit einer ganzen Klasse auf verschiedenen Geräten ist die Cloud-Anbindung nötig, die technisch vorbereitet, aber noch nicht aktiv ist.</p>';
+            (c.demo ? "" : '<div class="card" style="margin-top:1.2rem"><h2 class="sec">Lernstände von anderen Geräten übernehmen</h2><p class="muted" style="font-size:0.92rem;margin-bottom:0.8rem">Schülerinnen und Schüler üben auf ihrem eigenen Gerät und erzeugen im Konto unter „Lernstand an Lehrkraft senden“ einen Link mit dem Klassencode <strong>' + esc(c.code) + '</strong>. Öffnen Sie den Link hier im Browser oder fügen Sie ihn ein. Ein neuer Link desselben Kindes ersetzt den alten Stand.</p><form class="inline" id="impForm" style="grid-template-columns:minmax(0,1fr) auto"><input class="input" id="impCode" placeholder="Link oder Code einfügen" aria-label="Link oder Code mit Lernstand" required><button class="btn btn-primary btn-sm" type="submit">Übernehmen</button></form><div id="impMsg" class="muted" style="font-size:0.88rem" role="status"></div></div>') +
+            '<p class="dim" style="font-size:0.85rem;margin-top:1.4rem">Hinweis: Es gibt keinen Server. Klassen und Lernstände liegen nur in diesem Browser. Der Beitrittscode funktioniert direkt auf diesem Gerät, von anderen Geräten kommen Lernstände per Link. Eine automatische Synchronisierung ist technisch vorbereitet, aber noch nicht aktiv.</p>';
+        var imp = $("impForm"); if (imp) imp.addEventListener("submit", function (ev) { ev.preventDefault(); importShare($("impCode").value, c.id); });
 
         $("copyCode").addEventListener("click", function () { if (navigator.clipboard) navigator.clipboard.writeText(c.code).then(function () { NAV.toast("📋 <span>Code " + esc(c.code) + " kopiert.</span>"); }, function () {}); });
         $("csvBtn").addEventListener("click", function () {
@@ -202,6 +202,21 @@
         });
         var del = $("delCls"); if (del) del.addEventListener("click", function () { if (window.confirm("Klasse „" + c.name + "“ wirklich löschen? Die Lernstände der Mitglieder bleiben erhalten.")) { SOR.school.remove(c.id); active = null; render(); } });
         $("asgForm").addEventListener("submit", function (ev) { ev.preventDefault(); var t = $("asgTopic").value; if (!t) return; SOR.school.assign(c.id, { topicId: t, title: TOPIC[t].topic, due: $("asgDue").value || null }); render(); });
+    }
+
+    // Lernstand aus Link (#lernstand=...) oder Formular übernehmen
+    function importShare(code, classId) {
+        var o = SOR.share.unpack(code), acc = SOR.accounts.current(), msg = $("impMsg");
+        var say = function (text) { if (msg) msg.textContent = text; NAV.toast("<span>" + esc(text) + "</span>", 5000); };
+        if (!o) { say("Dieser Link oder Code ist nicht lesbar."); return false; }
+        if (!acc || acc.role !== "lehrkraft") { say("Bitte melden Sie sich mit Ihrem Lehrkräfte-Konto an und öffnen Sie den Link danach erneut."); return false; }
+        var target = classId ? SOR.school.get(classId) : SOR.school.classes(acc.id).filter(function (k) { return k.code === o.c; })[0];
+        if (!target) { say("Zu Klassencode " + (o.c || "(leer)") + " gibt es in diesem Browser keine Ihrer Klassen."); return false; }
+        var r = SOR.share.importInto(target.id, o);
+        if (!r.ok) { say(r.error); return false; }
+        active = target.id; render();
+        NAV.toast("✅ <span>Lernstand von <strong>" + esc(r.name) + "</strong> " + (r.updated ? "aktualisiert" : "übernommen") + ".</span>", 4500);
+        return true;
     }
 
     document.addEventListener("click", function (ev) {
@@ -220,6 +235,8 @@
         NAV.toast("🏫 <span>Klasse angelegt. Beitrittscode: <strong>" + esc(cl.code) + "</strong></span>", 5000);
     });
     render();
+    function fromHash() { if (location.hash.indexOf("#lernstand=") === 0) { importShare(location.hash.slice(11)); history.replaceState(null, "", "lehrer.html"); } }
+    window.addEventListener("hashchange", fromHash); fromHash();
 })();
 </script>
 </body>
