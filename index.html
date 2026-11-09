@@ -3,18 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Second-Order Resonance | Mathe-Lernstraße</title>
-<meta name="description" content="Geführte Mathe-Lernstraße von L1 bis L6: Archivaufgaben, interaktive Übungen, XP und Fortschritt.">
+<title>Second-Order Resonance | Mathe üben von Klasse 1 bis Studium</title>
+<meta name="description" content="Mathe üben von Klasse 1 bis ins Studium: adaptive Aufgaben mit Lösungsweg, 3D-Labor, Sterne und Abzeichen, Dashboard für Lehrkräfte.">
 <meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklärt, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
-<meta property="og:title" content="Second-Order Resonance | Mathe-Lernstraße">
-<meta property="og:description" content="Geführte Mathe-Lernstraße von L1 bis L6 mit Archivaufgaben, XP und Fortschritt.">
+<meta property="og:title" content="Second-Order Resonance | Mathe üben von Klasse 1 bis Studium">
+<meta property="og:description" content="Adaptive Mathe-Aufgaben mit Lösungsweg, 3D-Labor, Belohnungen und Klassen-Dashboard.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://secondorderresonance.de/">
 <link rel="canonical" href="https://secondorderresonance.de/">
 <meta name="theme-color" content="#0a0e1c">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app/vendor/fonts/fonts.css?v=3.0.0">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -174,14 +172,15 @@
         <li><a href="#labor" class="nav-link">Labor</a></li>
         <li><a href="#kompass" class="nav-link">Kompass</a></li>
         <li><a href="#archive" class="nav-link">Archiv</a></li>
-        <li><a href="#videos" class="nav-link">Videos</a></li>
-        <li><a href="#app" class="nav-link">Mathe-App</a></li>
+        <li><a href="app/labor3d.html" class="nav-link">3D-Labor</a></li>
+        <li><a href="schulen.html" class="nav-link">Für Schulen</a></li>
+        <li><a href="app/konto.html" class="nav-link">Konto</a></li>
       </ul>
       <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <a href="app/lernpfad.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);">Lernstraße starten</a>
+      <a href="app/ueben.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);">Jetzt üben</a>
     </nav>
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#levels">Level</a><a href="#labor">Labor</a><a href="#kompass">Lehrplan-Kompass</a><a href="#archive">Archiv</a><a href="#videos">Videos</a><a href="#app">Mathe-App</a><a href="app/lernpfad.html" style="color:var(--accent);font-weight:600;">Lernstraße starten →</a>
+      <a href="#levels">Level</a><a href="#labor">Labor</a><a href="#kompass">Lehrplan-Kompass</a><a href="#archive">Archiv</a><a href="app/labor3d.html">3D-Labor</a><a href="schulen.html">Für Schulen</a><a href="app/konto.html">Konto</a><a href="app/ueben.html" style="color:var(--accent);font-weight:600;">Jetzt üben →</a>
     </div>
   </header>
 
@@ -202,11 +201,11 @@
           Mathematik,<br><span class="serif-em" style="color:var(--accent);font-size:1.12em;">in Resonanz</span><br>gelernt.
         </h1>
         <p style="font-size:1.18rem;color:#aab2cc;max-width:30rem;margin-bottom:2.2rem;">
-          Die geführte Lernstraße von den Grundlagen bis zur Forschung. Aufgaben aus einem Archiv mit 30.000 Einträgen, mit XP, Streak und freiem Konto.
+          Üben von Klasse 1 bis ins Studium. Aufgaben mit immer neuen Zahlen, Tipp und Lösungsweg, dazu ein 3D-Labor und Sterne für jedes gemeisterte Thema.
         </p>
         <div style="display:flex;gap:0.9rem;flex-wrap:wrap;">
-          <a href="app/lernpfad.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1.02rem;padding:0.95rem 1.9rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 14px 38px rgba(245,197,24,0.26);">Lernstraße starten →</a>
-          <a href="app/lernpfad.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:1.02rem;padding:0.95rem 1.7rem;border-radius:999px;color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);">Kostenlos registrieren</a>
+          <a href="app/ueben.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1.02rem;padding:0.95rem 1.9rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 14px 38px rgba(245,197,24,0.26);">Jetzt üben →</a>
+          <a href="app/klasse.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:1.02rem;padding:0.95rem 1.7rem;border-radius:999px;color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);">Meine Klasse wählen</a>
         </div>
       </div>
 
@@ -214,7 +213,7 @@
         <div style="position:absolute;inset:-1px;border-radius:26px;background:linear-gradient(140deg,rgba(245,197,24,0.4),rgba(233,69,96,0.25),rgba(53,224,196,0.25));opacity:0.55;"></div>
         <div style="position:relative;border-radius:25px;background:linear-gradient(180deg,rgba(19,26,48,0.94),rgba(12,17,34,0.94));border:1px solid rgba(255,255,255,0.08);padding:1.4rem;box-shadow:0 30px 80px rgba(0,0,0,0.45);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;">
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#98a2bd;">Deine Lernstraße</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#98a2bd;">Dein Lernweg</span>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent);">350 XP</span>
           </div>
           <div style="display:grid;gap:0.7rem;">
@@ -234,16 +233,16 @@
               <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent);white-space:nowrap;">350 XP</span>
             </div>
           </div>
-          <p style="color:#98a2bd;font-size:0.86rem;margin-top:1rem;">Ohne Konto reinschauen — mit Registrierung bleiben XP, Lektionen und Streak erhalten.</p>
+          <p style="color:#98a2bd;font-size:0.86rem;margin-top:1rem;">Beispielansicht. Ohne Konto sofort starten, mit Konto mehrere Personen an einem Gerät unterscheiden.</p>
         </div>
       </div>
     </div>
 
     <div class="reveal metrics" style="position:relative;z-index:1;max-width:1180px;margin:3.4rem auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="30000" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">30.000</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Archiv-Aufgaben</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="84" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">84</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Themen bis zum Master</div></div>
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="6" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">6</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Level · L1–L6</div></div>
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="72" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">72</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Lektionen</div></div>
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="4" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">4</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Interaktive Module</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="93" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">93</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Aufgabentypen, immer neue Zahlen</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="20" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">20</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Abzeichen zum Sammeln</div></div>
     </div>
   </section>
 
@@ -266,6 +265,7 @@
         <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Das Labor</span>
         <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Mathe zum <span class="serif-em" style="color:var(--accent);font-size:1.1em;">Anfassen</span></h2>
         <p style="color:#aab2cc;font-size:1.08rem;max-width:36rem;margin:0 auto;">Dreh eine Kurve um die x-Achse und sieh zu, wie aus Scheiben ein Körper wird. Alle Zahlen werden live berechnet.</p>
+        <a href="app/labor3d.html" class="btn btn-ghost" style="display:inline-block;margin-top:1.2rem;text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.7rem 1.4rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">Mehr im 3D-Labor: Körper, Funktionsgebirge, Euler-Spirale →</a>
       </div>
 
       <div class="lab reveal" data-lab data-lab-start="vase">
@@ -415,17 +415,17 @@
   <section id="app" style="padding:6rem 1.5rem;background:linear-gradient(180deg,transparent,rgba(11,16,34,0.6),transparent);">
     <div class="app-grid" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;">
       <div class="reveal">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Die Mathe-App</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Üben</span>
         <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.2vw,2.6rem);letter-spacing:-0.02em;margin:0.8rem 0 1rem;">Interaktiv üben,<br>Level für Level</h2>
-        <p style="color:#aab2cc;margin-bottom:1.5rem;max-width:26rem;">Übungen, die zu jedem Video passen. Mit Fortschrittsanzeige, Streak und schrittweisen Lösungswegen.</p>
+        <p style="color:#aab2cc;margin-bottom:1.5rem;max-width:26rem;">Aufgaben mit immer neuen Zahlen. Die Schwierigkeit passt sich an, und jedes Thema lässt sich bis zu drei Sternen meistern.</p>
         <div style="display:grid;gap:0.7rem;margin-bottom:1.8rem;">
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Interaktive Übungen zu jedem Thema</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Level-System mit Fortschrittsanzeige</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Schritt-für-Schritt Lösungswege</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>93 Aufgabentypen zu 84 Themen</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tagesziel, Lernserie und 20 Abzeichen</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tipp und Lösungsweg zu jeder Aufgabe</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Läuft im Browser, auch auf dem Handy</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>100% kostenlos</div>
         </div>
-        <a href="app/index.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1rem;padding:0.9rem 1.8rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-block;box-shadow:0 14px 38px rgba(245,197,24,0.24);">App starten</a>
+        <a href="app/ueben.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1rem;padding:0.9rem 1.8rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-block;box-shadow:0 14px 38px rgba(245,197,24,0.24);">Jetzt üben</a>
       </div>
       <div class="reveal" style="border-radius:24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.4);">
         <p style="color:#98a2bd;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;">Übung des Tages</p>
@@ -436,6 +436,26 @@
           <button class="answer" data-correct="1" style="padding:0.75rem 1.3rem;border-radius:13px;border:1px solid rgba(255,255,255,0.18);background:transparent;color:#eef1f7;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:0.95rem;transition:all .25s;">3x² + 2</button>
           <button class="answer" data-correct="0" style="padding:0.75rem 1.3rem;border-radius:13px;border:1px solid rgba(255,255,255,0.18);background:transparent;color:#eef1f7;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:0.95rem;transition:all .25s;">x² + 2</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHULEN -->
+  <section id="schulen" style="padding:5rem 1.5rem;">
+    <div class="reveal app-grid" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;border-radius:26px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);padding:2.4rem;">
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Für Lehrkräfte und Schulen</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.7rem,3vw,2.3rem);letter-spacing:-0.02em;margin:0.7rem 0 0.8rem;">Sehen, wo die Klasse <span class="serif-em" style="color:var(--accent);font-size:1.1em;">wirklich</span> steht</h2>
+        <p style="color:#aab2cc;margin-bottom:1.4rem;">Klassen anlegen, Themen als Auftrag vergeben und den Lernstand pro Kind und Thema sehen. Ohne Tracking, Lerndaten bleiben im Browser.</p>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+          <a href="schulen.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#0a0e1c;background:var(--accent);">Mehr für Schulen</a>
+          <a href="app/lehrer.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">Demo-Klasse ansehen</a>
+        </div>
+      </div>
+      <div style="display:grid;gap:0.7rem;">
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Lernstand je Thema</strong><span style="color:#98a2bd;font-size:0.92rem;">Sterne pro Kind und Thema, Trefferquote und Aktivität auf einen Blick.</span></div>
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Aufträge mit Fälligkeit</strong><span style="color:#98a2bd;font-size:0.92rem;">Themen als Hausaufgabe oder Wochenplan vergeben.</span></div>
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Ohne Server</strong><span style="color:#98a2bd;font-size:0.92rem;">Keine Tracker, keine fremden Schriften, Daten exportierbar und löschbar.</span></div>
       </div>
     </div>
   </section>
@@ -466,15 +486,15 @@
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
+  <!-- VIDEOS FOLGEN -->
   <section id="newsletter" style="padding:6rem 1.5rem;">
     <div class="reveal" style="max-width:680px;margin:0 auto;text-align:center;border-radius:26px;background:radial-gradient(700px 300px at 50% 0%,rgba(245,197,24,0.1),transparent 70%),rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:3rem 2rem;">
       <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-0.02em;margin-bottom:0.8rem;">Verpasse kein Video</h2>
-      <p style="color:#aab2cc;margin-bottom:2rem;max-width:30rem;margin-left:auto;margin-right:auto;">Wöchentlich ein Mathe-Rätsel und eine Benachrichtigung bei neuen Videos — direkt in dein Postfach.</p>
-      <form id="newsletterForm" style="display:flex;gap:0.6rem;max-width:460px;margin:0 auto;flex-wrap:wrap;justify-content:center;">
-        <input type="email" required placeholder="deine@email.de" style="flex:1;min-width:230px;padding:0.95rem 1.4rem;border-radius:999px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#eef1f7;font-size:1rem;font-family:inherit;">
-        <button type="submit" class="btn" style="padding:0.95rem 1.8rem;border-radius:999px;border:none;font-weight:700;font-size:1rem;color:#0a0e1c;background:var(--accent);cursor:pointer;">Anmelden</button>
-      </form>
+      <p style="color:#aab2cc;margin-bottom:2rem;max-width:30rem;margin-left:auto;margin-right:auto;">Neue Erklärvideos erscheinen auf YouTube und als kurze Clips auf TikTok.</p>
+      <div style="display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap;">
+        <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="btn btn-primary" style="text-decoration:none;padding:0.95rem 1.8rem;border-radius:999px;font-weight:700;font-size:1rem;color:#0a0e1c;background:var(--accent);">YouTube-Kanal öffnen</a>
+        <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" rel="noopener" class="btn btn-ghost" style="text-decoration:none;padding:0.95rem 1.8rem;border-radius:999px;font-weight:600;font-size:1rem;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">TikTok</a>
+      </div>
     </div>
   </section>
 
@@ -492,11 +512,12 @@
       <div>
         <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;">Lernen</h4>
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
-          <a href="app/lernpfad.html" class="footer-link">Lernstraße</a>
+          <a href="app/ueben.html" class="footer-link">Üben</a>
           <a href="app/klasse.html" class="footer-link">Nach Klasse lernen</a>
+          <a href="app/labor3d.html" class="footer-link">3D-Labor</a>
+          <a href="app/konto.html" class="footer-link">Konto und Abzeichen</a>
+          <a href="app/lernpfad.html" class="footer-link">Lernstraße</a>
           <a href="app/lernarchiv.html" class="footer-link">Archiv</a>
-          <a href="app/index.html" class="footer-link">Mathe-App</a>
-          <a href="app/profil.html" class="footer-link">Profil</a>
         </div>
       </div>
       <div>
@@ -504,6 +525,9 @@
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
           <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="footer-link">YouTube</a>
           <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" rel="noopener" class="footer-link">TikTok</a>
+          <a href="schulen.html" class="footer-link">Für Schulen</a>
+          <a href="app/lehrer.html" class="footer-link">Für Lehrkräfte</a>
+          <a href="datenschutz.html" class="footer-link">Datenschutz</a>
         </div>
       </div>
     </div>
@@ -595,10 +619,15 @@
 
   // ---- Global search ----
   var idx = [
-    {title:'Lernstraße starten', meta:'Geführter Pfad · L1–L6', href:'app/lernpfad.html'},
-    {title:'Lernarchiv', meta:'30.000 Aufgaben · nach Level', href:'app/lernarchiv.html'},
+    {title:'Üben', meta:'Adaptive Aufgaben · Klasse 1 bis Studium', href:'app/ueben.html'},
+    {title:'3D-Labor', meta:'Körper · Funktionsgebirge · Euler-Spirale', href:'app/labor3d.html'},
+    {title:'Konto und Abzeichen', meta:'Stufe · Lernserie · Sterne', href:'app/konto.html'},
+    {title:'Für Lehrkräfte', meta:'Klassen · Aufträge · Lernstand', href:'app/lehrer.html'},
+    {title:'Für Schulen', meta:'Einsatz im Unterricht · Datenschutz', href:'schulen.html'},
+    {title:'Lernstraße', meta:'Geführter Pfad · L1–L6', href:'app/lernpfad.html'},
+    {title:'Lernarchiv', meta:'Aufgabensammlung · nach Level', href:'app/lernarchiv.html'},
     {title:'Einstufungstest', meta:'30 Fragen · Level finden', href:'app/lernarchiv.html'},
-    {title:'Mathe-App', meta:'Interaktive Übungen', href:'app/index.html'},
+    {title:'Mathe-App (klassisch)', meta:'Lektionen mit Herzen', href:'app/index.html'},
     {title:'Profil & Fortschritt', meta:'Stats · Streak · XP', href:'app/profil.html'},
     {title:'Satz des Pythagoras', meta:'Interaktives Modul · L1 Geometrie', href:'app/lernarchiv.html#pythagoras-visual'},
     {title:'Argand-Ebene', meta:'Komplexe Zahlen live · L4', href:'app/lernarchiv.html#argand-visual'},
@@ -677,9 +706,6 @@
   var mail = document.getElementById('contactMail');
   if(mail){ var addr = mail.getAttribute('data-user') + '@' + mail.getAttribute('data-domain'); mail.href = 'mailto:' + addr; mail.textContent = addr; }
 
-  // ---- Newsletter ----
-  var nf = document.getElementById('newsletterForm');
-  if(nf){ nf.addEventListener('submit', function(e){ e.preventDefault(); var b=nf.querySelector('button'); if(b){ b.textContent='Danke! ✓'; b.style.background='#35e0c4'; } }); }
 })();
 </script>
 <script src="app/data/coverage-matrix.js"></script>

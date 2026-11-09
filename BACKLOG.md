@@ -19,6 +19,9 @@
 - Zielstruktur 30.000 Aufgaben insgesamt ist in der skalierbaren Archivgenerierung erreicht
 
 ## P1
+- [x] v3.0.0: exercise engine with 93 verified generators for all 84 topics, practice player, accounts with roles, rewards, teacher dashboard, 3D lab, self-hosted assets, school and privacy pages
+- [ ] Owner: add postal address to the Impressum and have `datenschutz.html` legally reviewed before offering the site to schools
+- [ ] Connect `SOR.useAdapter()` to a real backend (auth + class sync) so join codes work across devices; until then progress travels by share link
 - [x] Make the Lernpfad archive-driven with 6 stages, sections, lessons, and 80%-completion unlock feedback
 - [x] Make the public homepage open with the Lernstrasse as the primary first-viewport entry
 - [x] Constrain Lernstrasse lessons to exact archive level/sublevel/topic tasks and add section tests
@@ -42,6 +45,10 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Add 2–3 further generators per school topic (word problems, graph reading) and interactive answer types (drag on number line, plot a point)
+- [ ] Printable worksheets with solutions from a seed (`ueben.html` already generates deterministic tasks per seed)
+- [ ] Bring the shared header (`sor-nav.js`) and `sor-ui.css` to `app/index.html`, `app/lernpfad.html`, `app/lernarchiv.html`, `app/profil.html`
+- [ ] Physics topics for the engine (the brand promises Mathe und Physik, the engine covers mathematics only)
 - [ ] Raise distinct base tasks to at least 5 per L1–L3 sublevel (several sublevels such as 3.1.3.b have only one base task repeated as variants), so class-page lessons are varied
 - [ ] Improve multiple-choice distractors for non-numeric archive answers (same answer type as the correct option)
 - [ ] Add an "Achsen-/Punktsymmetrie" sublevel under L1 (Klasse 6 gap identified in curriculum coverage matrix)
@@ -97,7 +104,7 @@
 - [x] Rebuild Lernpfad as full Duolingo-style gamified skill map: 72 nodes (12/level), winding path, on-page account modal, XP-gated progression, guest hero
 - [x] Expand exercise pool to 12 questions per level (72 total) to prevent in-lesson repetition
 - [x] Add 1-3 star rating to lesson complete modal based on accuracy (5/5=3★, 4/5=2★, ≤3/5=1★)
-- [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists)
+- [ ] Cloud-Sync für SOR-Accounts (Firebase Auth + Firestore, backend-ready architecture exists; storage adapter in `app/modules/sor-core.js` is the integration point)
 - [x] Define free-first monetization path with optional small premium tier later
 - [x] Define SOR account and sync architecture for future iOS/Android app login
 - [x] Plan mobile app MVP (iOS/Android) with daily Mathe- und Physikaufgaben linked to SOR account

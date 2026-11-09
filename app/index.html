@@ -941,6 +941,7 @@
         </div>
     </main>
 
+    <script src="./modules/sor-core.js?v=3.0.0"></script>
     <script src="./data/archive-content.js?v=2.5.4"></script>
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
@@ -2049,7 +2050,7 @@
             // Support legacy username-only accounts: use displayName, fall back to username, then accountId
             const displayName = account.displayName || account.username || (fallbackAccountId || 'User').split('@')[0] || 'User';
             const email = account.email || fallbackAccountId || '';
-            return {
+            return Object.assign({}, account, {
                 email: email,
                 displayName: displayName,
                 password: account.password || '',
@@ -2060,7 +2061,7 @@
                 streakFreezes: typeof account.streakFreezes === 'number' ? account.streakFreezes : 0,
                 streakFreezeUsed: account.streakFreezeUsed || null,
                 progress: normalizeProgressEnvelope(account.progress || {})
-            };
+            });
         }
 
         function getIsoWeekKey(date) {
@@ -2454,6 +2455,8 @@
                 heartsLastRefill: new Date().toISOString(),
                 progress: createProgressEnvelope(getStateSnapshot())
             };
+            // Passwort nicht im Klartext ablegen (siehe modules/sor-core.js)
+            if (window.SOR) window.SOR.accounts.setPassword(accountStore.accounts[accountId], pass);
             applyAccountProgress(accountId);
             showToast('Willkommen, ' + displayName + '! Account erstellt.');
             if (passInput) passInput.value = '';
@@ -2472,7 +2475,8 @@
                 showToast('Bitte eine gültige E-Mail-Adresse eingeben');
                 return;
             }
-            if (!account || account.password !== pass) {
+            const passwordOk = account && (window.SOR ? window.SOR.accounts.verifyPassword(account, pass) : account.password === pass);
+            if (!account || !passwordOk) {
                 showToast('E-Mail oder Passwort falsch');
                 return;
             }
