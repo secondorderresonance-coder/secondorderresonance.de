@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konto und Abzeichen | Second-Order Resonance</title>
+<meta name="description" content="Dein Lernkonto: Stufe, Lernserie, Abzeichen, Klassen und deine Daten.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
+<style>
+  .auth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.9fr);gap:2.4rem;align-items:center;margin-top:1rem}
+  .auth h1{font-size:clamp(2rem,4.2vw,3rem);margin:0.5rem 0 0.8rem}
+  .auth h1 .serif{color:var(--accent);font-size:1.12em}
+  .perks{display:grid;gap:0.8rem;margin-top:1.4rem}
+  .perk{display:flex;gap:0.9rem;align-items:flex-start}
+  .perk i{flex:0 0 auto;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:1.2rem;background:rgba(255,255,255,0.05);border:1px solid var(--line)}
+  .perk span{color:var(--soft);font-size:0.95rem}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem;background:rgba(0,0,0,0.25);border-radius:14px;padding:0.3rem;margin-bottom:1.1rem}
+  .tabs button{padding:0.6rem;border-radius:11px;border:none;background:transparent;cursor:pointer;font-weight:600;color:var(--muted)}
+  .tabs button[aria-selected="true"]{background:var(--accent);color:#0a0e1c}
+  form.stack{display:grid;gap:0.85rem}
+  .roles{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+  .roles label{display:flex;flex-direction:column;gap:0.15rem;padding:0.75rem 0.9rem;border-radius:13px;border:1px solid var(--line2);cursor:pointer}
+  .roles input{position:absolute;opacity:0}
+  .roles label:has(input:checked){border-color:var(--accent);background:rgba(245,197,24,0.08)}
+  .roles small{color:var(--muted);font-size:0.78rem}
+  .err{color:#ff8fa3;font-size:0.9rem;min-height:1.2rem}
+  .phead{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;margin-bottom:1.4rem}
+  .pavatar{width:76px;height:76px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;color:#0a0e1c}
+  .phead h1{font-size:1.9rem}
+  .cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1.2rem;align-items:start}
+  .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.7rem;margin-bottom:1.2rem}
+  .kpi{padding:0.9rem 1rem;border-radius:16px;border:1px solid var(--line);background:var(--card)}
+  .kpi b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.4rem}
+  .kpi small{color:var(--muted);font-size:0.78rem}
+  .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.7rem}
+  .bdg{padding:0.9rem 0.8rem;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,0.02);text-align:center}
+  .bdg i{display:block;font-style:normal;font-size:1.9rem;line-height:1.2}
+  .bdg strong{display:block;font-size:0.92rem;margin-top:0.25rem}
+  .bdg small{color:var(--muted);font-size:0.74rem;display:block;line-height:1.35;margin-top:0.15rem}
+  .bdg.off{opacity:0.42;filter:grayscale(1)}
+  .bdg.on{border-color:rgba(245,197,24,0.4);background:rgba(245,197,24,0.06)}
+  h2.sec{font-size:1.15rem;margin:0 0 0.9rem}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:0.4rem;align-items:end;height:110px}
+  .week div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:0.3rem;height:100%}
+  .week i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--accent),rgba(245,197,24,0.35));min-height:3px}
+  .week small{color:var(--dim);font-size:0.68rem}
+  .mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.8rem;padding:0.55rem 0;border-bottom:1px solid var(--line);font-size:0.94rem}
+  .rowbtns{display:flex;gap:0.5rem;flex-wrap:wrap}
+  .cls{display:flex;justify-content:space-between;gap:0.8rem;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--line)}
+  @media (max-width:900px){.auth,.cols{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="konto"></div>
+<main class="wrap">
+  <!-- Abgemeldet -->
+  <section id="guest" hidden>
+    <div class="auth">
+      <div>
+        <div class="kicker">Lernkonto</div>
+        <h1>Dein Fortschritt, <span class="serif">an einem Ort</span></h1>
+        <p class="muted" style="font-size:1.05rem;max-width:32rem">Mit einem Konto sammelst du XP, Sterne und Abzeichen unter deinem Namen und kannst einer Klasse beitreten.</p>
+        <div class="perks">
+          <div class="perk"><i>⭐</i><span><strong>Meisterschaft pro Thema.</strong> Bis zu drei Sterne zeigen, wie sicher du ein Thema beherrschst.</span></div>
+          <div class="perk"><i>🔥</i><span><strong>Lernserie und Tagesziel.</strong> Kleine tägliche Ziele statt langer Lernabende.</span></div>
+          <div class="perk"><i>🏫</i><span><strong>Klassen.</strong> Lehrkräfte vergeben Aufträge, Schülerinnen und Schüler treten mit einem Code bei.</span></div>
+        </div>
+        <p class="notice" style="margin-top:1.4rem">Konten werden derzeit nur in diesem Browser gespeichert und nicht an einen Server übertragen. Auf einem anderen Gerät ist dein Konto deshalb noch nicht verfügbar.</p>
+      </div>
+      <div class="card">
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" id="tabLogin" aria-selected="true">Anmelden</button>
+          <button type="button" role="tab" id="tabReg" aria-selected="false">Registrieren</button>
+        </div>
+        <form class="stack" id="loginForm">
+          <div class="field"><label for="lEmail">E-Mail</label><input class="input" id="lEmail" type="email" autocomplete="username" required></div>
+          <div class="field"><label for="lPass">Passwort</label><input class="input" id="lPass" type="password" autocomplete="current-password" required></div>
+          <div class="err" id="lErr" role="alert"></div>
+          <button class="btn btn-primary" type="submit">Anmelden</button>
+        </form>
+        <form class="stack" id="regForm" hidden>
+          <div class="roles" role="radiogroup" aria-label="Rolle">
+            <label><input type="radio" name="role" value="schueler" checked><strong>Ich lerne</strong><small>Schule oder Studium</small></label>
+            <label><input type="radio" name="role" value="lehrkraft"><strong>Ich unterrichte</strong><small>Klassen und Aufträge</small></label>
+          </div>
+          <div class="field"><label for="rName">Anzeigename</label><input class="input" id="rName" autocomplete="nickname" maxlength="30" required></div>
+          <div class="field"><label for="rEmail">E-Mail</label><input class="input" id="rEmail" type="email" autocomplete="username" required></div>
+          <div class="field"><label for="rPass">Passwort (mindestens 6 Zeichen)</label><input class="input" id="rPass" type="password" autocomplete="new-password" minlength="6" required></div>
+          <div class="err" id="rErr" role="alert"></div>
+          <button class="btn btn-primary" type="submit">Konto erstellen</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Angemeldet -->
+  <section id="member" hidden>
+    <div class="phead" id="phead"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="cols">
+      <div class="grid">
+        <div class="card"><h2 class="sec">Abzeichen</h2><div class="bgrid" id="badges"></div></div>
+        <div class="card"><h2 class="sec">Meisterschaft</h2><div id="mastery"></div></div>
+      </div>
+      <div class="grid">
+        <div class="card"><h2 class="sec">Diese Woche</h2><div class="week" id="week"></div></div>
+        <div class="card">
+          <h2 class="sec">Tagesziel</h2>
+          <div class="rowbtns" id="goals"></div>
+        </div>
+        <div class="card" id="classCard"></div>
+        <div class="card">
+          <h2 class="sec">Meine Daten</h2>
+          <p class="muted" style="font-size:0.9rem;margin-bottom:0.9rem">Alles liegt in diesem Browser. Du kannst deine Daten jederzeit herunterladen oder vollständig löschen.</p>
+          <div class="rowbtns">
+            <button class="btn btn-ghost btn-sm" id="exportBtn" type="button">Daten herunterladen</button>
+            <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button">Abmelden</button>
+            <button class="btn btn-ghost btn-sm" id="deleteBtn" type="button" style="color:#ff8fa3;border-color:rgba(233,69,96,0.4)">Konto löschen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="./data/coverage-matrix.js?v=3.0.0"></script>
+<script src="./modules/sor-core.js?v=3.0.0"></script>
+<script src="./modules/rewards.js?v=3.0.0"></script>
+<script src="./modules/sor-nav.js?v=3.0.0"></script>
+<script>
+(function () {
+    "use strict";
+    var REW = window.SOR_REWARDS, NAV = window.SOR_NAV, esc = NAV.esc, COV = window.SOR_COVERAGE, $ = function (id) { return document.getElementById(id); };
+    var TOPIC = {}; COV.school.concat(COV.engineering).forEach(function (e) { TOPIC[e.id] = e; });
+
+    function setTab(reg) { $("tabLogin").setAttribute("aria-selected", String(!reg)); $("tabReg").setAttribute("aria-selected", String(reg)); $("loginForm").hidden = reg; $("regForm").hidden = !reg; }
+    $("tabLogin").addEventListener("click", function () { setTab(false); });
+    $("tabReg").addEventListener("click", function () { setTab(true); });
+    $("loginForm").addEventListener("submit", function (ev) { ev.preventDefault(); var r = SOR.accounts.login($("lEmail").value, $("lPass").value); if (!r.ok) { $("lErr").textContent = r.error; return; } afterAuth(r.account, false); });
+    $("regForm").addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var role = document.querySelector('input[name="role"]:checked').value, r = SOR.accounts.register({ email: $("rEmail").value, displayName: $("rName").value, password: $("rPass").value, role: role });
+        if (!r.ok) { $("rErr").textContent = r.error; return; }
+        afterAuth(r.account, true);
+    });
+    function afterAuth(acc, isNew) {
+        if (isNew && REW.adoptGuest(acc.id)) NAV.toast("✅ <span>Dein bisheriger Fortschritt wurde in das Konto übernommen.</span>");
+        var next = new URLSearchParams(location.search).get("weiter");
+        if (next && /^[a-z0-9_-]+\.html(\?[^#\s]*)?$/i.test(next)) { location.href = next; return; }
+        if (isNew && acc.role === "lehrkraft") { location.href = "lehrer.html"; return; }
+        render();
+    }
+
+    function render() {
+        NAV.refresh();
+        var acc = SOR.accounts.current();
+        $("guest").hidden = !!acc; $("member").hidden = !acc;
+        if (!acc) { if (location.hash === "#registrieren") setTab(true); return; }
+        var p = REW.profile(), lv = REW.level(p.xp), acc100 = p.stats.total ? Math.round(p.stats.correct / p.stats.total * 100) : 0;
+        $("phead").innerHTML = '<div class="pavatar" style="background:' + esc(acc.avatarColor) + '">' + esc(acc.displayName.slice(0, 1).toUpperCase()) + '</div><div style="flex:1;min-width:240px"><div class="kicker">' + (acc.role === "lehrkraft" ? "Lehrkraft" : "Lernkonto") + "</div><h1>" + esc(acc.displayName) + '</h1><div style="max-width:420px;margin-top:0.6rem"><div style="display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.3rem"><span>Stufe ' + lv.level + " · " + lv.title + "</span><span>" + lv.into + " / " + lv.need + ' XP</span></div><div class="bar"><span style="width:' + Math.round(lv.progress * 100) + '%"></span></div></div></div><a class="btn btn-primary" href="' + (acc.role === "lehrkraft" ? "lehrer.html" : "ueben.html") + '">' + (acc.role === "lehrkraft" ? "Zum Klassen-Dashboard →" : "Jetzt üben →") + "</a>";
+        $("kpis").innerHTML = [[p.xp.toLocaleString("de-DE"), "XP gesamt"], ["🔥 " + p.streak.count, "Tage Lernserie"], [REW.totalStars(p) + " ⭐", "Sterne"], [acc100 + " %", "Trefferquote"]].map(function (k) { return '<div class="kpi"><b>' + k[0] + "</b><small>" + k[1] + "</small></div>"; }).join("");
+        $("badges").innerHTML = REW.BADGES.map(function (b) { var on = !!p.badges[b.id]; return '<div class="bdg ' + (on ? "on" : "off") + '"><i>' + b.icon + "</i><strong>" + esc(b.title) + "</strong><small>" + esc(b.text) + "</small></div>"; }).join("");
+        var ids = Object.keys(p.mastery).sort(function (a, b) { return p.mastery[b].score - p.mastery[a].score; });
+        $("mastery").innerHTML = ids.length ? ids.slice(0, 12).map(function (id) { return '<div class="mrow"><a href="ueben.html?thema=' + encodeURIComponent(id) + '" style="text-decoration:none">' + esc(TOPIC[id] ? TOPIC[id].topic : id) + "</a>" + NAV.stars(REW.stars(p.mastery[id].score)) + "</div>"; }).join("") : '<p class="muted">Noch keine Themen geübt. <a href="ueben.html">Leg los</a> und sammle deine ersten Sterne.</p>';
+        // Woche
+        var days = [], d = new Date(), i, max = 1, names = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+        for (i = 6; i >= 0; i -= 1) { var x = new Date(d); x.setDate(d.getDate() - i); var k = x.getFullYear() + "-" + ("0" + (x.getMonth() + 1)).slice(-2) + "-" + ("0" + x.getDate()).slice(-2), v = p.daily[k] ? p.daily[k].xp : 0; days.push([names[x.getDay()], v]); max = Math.max(max, v); }
+        $("week").innerHTML = days.map(function (dd) { return '<div title="' + dd[1] + ' XP"><i style="height:' + Math.round(dd[1] / max * 100) + '%"></i><small>' + dd[0] + "</small></div>"; }).join("");
+        $("goals").innerHTML = [[30, "Locker"], [50, "Normal"], [100, "Ehrgeizig"], [150, "Intensiv"]].map(function (gl) { return '<button type="button" class="btn btn-sm ' + (p.goal === gl[0] ? "btn-primary" : "btn-ghost") + '" data-goal="' + gl[0] + '">' + gl[1] + " · " + gl[0] + " XP</button>"; }).join("");
+        // Klassen
+        var mine = SOR.school.classesOf(acc.id), teach = SOR.school.classes(acc.id), html = '<h2 class="sec">Klassen</h2>';
+        if (acc.role === "lehrkraft") html += (teach.length ? teach.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong> <span class="dim">· ' + c.members.length + " Mitglieder</span></span><span class=\"chip\">Code " + esc(c.code) + "</span></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Noch keine Klasse angelegt.</p>') + '<a class="btn btn-ghost btn-sm" href="lehrer.html" style="margin-top:0.9rem">Klassen verwalten →</a>';
+        else html += (mine.length ? mine.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong></span><button class="btn btn-ghost btn-sm" type="button" data-leave="' + esc(c.id) + '">Verlassen</button></div>'; }).join("") : "") + '<form id="joinForm" style="display:flex;gap:0.5rem;margin-top:0.9rem"><input class="input" id="joinCode" placeholder="Klassencode" maxlength="6" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode"><button class="btn btn-primary btn-sm" type="submit">Beitreten</button></form><div class="err" id="joinErr" role="alert"></div>';
+        $("classCard").innerHTML = html;
+        var jf = $("joinForm"); if (jf) jf.addEventListener("submit", function (ev) { ev.preventDefault(); var r = SOR.school.join($("joinCode").value, acc.id); if (!r.ok) { $("joinErr").textContent = r.error; return; } NAV.toast("🏫 <span>Du bist jetzt in <strong>" + esc(r.cls.name) + "</strong>.</span>"); render(); });
+    }
+    $("goals").addEventListener("click", function (ev) { var b = ev.target.closest("[data-goal]"); if (!b) return; REW.setGoal(Number(b.getAttribute("data-goal"))); render(); });
+    $("classCard").addEventListener("click", function (ev) { var b = ev.target.closest("[data-leave]"); if (!b) return; SOR.school.leave(b.getAttribute("data-leave"), SOR.accounts.current().id); render(); });
+    $("logoutBtn").addEventListener("click", function () { SOR.accounts.logout(); render(); });
+    $("exportBtn").addEventListener("click", function () {
+        var acc = SOR.accounts.current(), data = SOR.accounts.exportData(acc.id), a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = "sor-daten-" + SOR.today() + ".json"; document.body.appendChild(a); a.click(); a.remove();
+    });
+    $("deleteBtn").addEventListener("click", function () {
+        var acc = SOR.accounts.current();
+        if (!window.confirm("Konto „" + acc.displayName + "“ mit allen XP, Sternen und Abzeichen endgültig löschen?")) return;
+        SOR.accounts.remove(acc.id); render(); NAV.toast("<span>Konto und Lerndaten wurden gelöscht.</span>");
+    });
+    render();
+})();
+</script>
+</body>
+</html>

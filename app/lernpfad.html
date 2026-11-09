@@ -464,6 +464,7 @@
         </div>
     </div>
 
+    <script src="./modules/sor-core.js?v=3.0.0"></script>
     <script src="./data/archive-content.js?v=2.5.4"></script>
     <script>
         const STORE_KEY = 'mathlevel-accounts-v1';
@@ -598,7 +599,9 @@
                 if (store.accounts[email]) { err.textContent = 'Dieses Konto existiert bereits.'; return; }
                 if (password.length < 4) { err.textContent = 'Passwort mind. 4 Zeichen.'; return; }
                 store.accounts[email] = createAccount(email, password, name);
-            } else if (!store.accounts[email] || store.accounts[email].password !== password) {
+                // Passwort nicht im Klartext ablegen (siehe modules/sor-core.js)
+                if (window.SOR) window.SOR.accounts.setPassword(store.accounts[email], password);
+            } else if (!store.accounts[email] || !(window.SOR ? window.SOR.accounts.verifyPassword(store.accounts[email], password) : store.accounts[email].password === password)) {
                 err.textContent = 'E-Mail oder Passwort falsch.';
                 return;
             }

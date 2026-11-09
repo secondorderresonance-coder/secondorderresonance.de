@@ -52,7 +52,7 @@
   .topic-vis{background:radial-gradient(320px 160px at 50% 60%,rgba(53,224,196,0.07),transparent 70%),#070a14;padding:0.9rem 1.1rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);}
   .topic-body{padding:1.2rem 1.3rem 1.3rem;display:flex;flex-direction:column;gap:0.7rem;flex:1;}
   .topic-meta{display:flex;justify-content:space-between;gap:0.6rem;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
-  .done{color:var(--teal);letter-spacing:0.06em;}
+  .done{color:var(--accent);letter-spacing:0.06em;font-size:0.9rem;}
   .topic h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.22rem;letter-spacing:-0.01em;line-height:1.3;}
   .topic p{color:var(--soft);font-size:0.95rem;}
   .formula{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-size:1.2rem;color:#f3efe6;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-left:2px solid var(--accent);border-radius:10px;padding:0.55rem 0.85rem;display:grid;gap:0.15rem;}
@@ -84,10 +84,10 @@
   <div class="bar">
     <a class="brand" href="../index.html"><span class="brand-mark"><svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path d="M2 20 C8 20 8 7 14 7 C20 7 20 33 26 33 C32 33 32 20 38 20" stroke="#f5c518" stroke-width="2.6" stroke-linecap="round"/></svg></span><span>Second-Order <b>Resonance</b></span></a>
     <nav class="links" aria-label="Hauptnavigation">
-      <a href="lernpfad.html">Lernstraße</a>
+      <a href="ueben.html">Üben</a>
+      <a href="labor3d.html">3D-Labor</a>
       <a href="lernarchiv.html">Archiv</a>
-      <a href="index.html">Mathe-App</a>
-      <a href="../index.html#kompass">Startseite</a>
+      <a href="konto.html">Konto</a>
     </nav>
   </div>
 </header>
@@ -120,6 +120,12 @@
 </main>
 
 <script src="./data/archive-content.js?v=2.7.0"></script>
+<script src="./modules/exercise-engine.js?v=3.0.0"></script>
+<script src="./modules/exercises/school-1.js?v=3.0.0"></script>
+<script src="./modules/exercises/school-2.js?v=3.0.0"></script>
+<script src="./modules/exercises/school-3.js?v=3.0.0"></script>
+<script src="./modules/sor-core.js?v=3.0.0"></script>
+<script src="./modules/rewards.js?v=3.0.0"></script>
 <script src="./data/coverage-matrix.js?v=2.7.0"></script>
 <script src="./modules/topic-visuals.js?v=2.7.0"></script>
 <script>
@@ -151,7 +157,11 @@
         return done;
     }
 
+    var HAS = window.SOR_EX ? window.SOR_EX.topics() : {};
+    var REW = window.SOR_REWARDS, PROFILE = REW ? REW.profile() : null;
+    function starsOf(id) { return PROFILE && PROFILE.mastery[id] ? REW.stars(PROFILE.mastery[id].score) : 0; }
     function practiceHref(entry, grade) {
+        if (HAS[entry.id]) return "ueben.html?thema=" + encodeURIComponent(entry.id) + "&zurueck=" + encodeURIComponent("klasse.html?k=" + grade + "#" + entry.id);
         return data.practiceHref(entry, archive ? taskCount : null, "klasse.html?k=" + grade + "#" + entry.id);
     }
 
@@ -167,7 +177,7 @@
         return '<article class="topic" id="' + entry.id + '">' +
             '<div class="topic-vis" data-visual="' + esc(entry.visual || "") + '"></div>' +
             '<div class="topic-body">' +
-                '<div class="topic-meta"><span>' + esc(entry.area) + "</span>" + (done[("thema-" + entry.id)] ? '<span class="done">✓ geschafft</span>' : "") + "</div>" +
+                '<div class="topic-meta"><span>' + esc(entry.area) + "</span>" + (starsOf(entry.id) ? '<span class="done">' + "★".repeat(starsOf(entry.id)) + '<span style="opacity:0.25">' + "★".repeat(3 - starsOf(entry.id)) + "</span></span>" : (done["thema-" + entry.id] ? '<span class="done">✓ geübt</span>' : "")) + "</div>" +
                 "<h2>" + esc(entry.topic) + "</h2>" +
                 "<p>" + entry.text + "</p>" +
                 (entry.formula ? '<div class="formula">' + formulaHtml(entry.formula) + "</div>" : "") +
@@ -205,7 +215,7 @@
 
     document.title = "Klasse " + grade + " · Mathe-Themen | Second-Order Resonance";
     document.getElementById("title").innerHTML = 'Klasse <span class="serif">' + grade + "</span>";
-    document.getElementById("lead").textContent = core.length + " Themen in diesem Jahrgang. Jedes Thema hat eine Kernidee, eine Formel und eine Übung mit 5 Aufgaben.";
+    document.getElementById("lead").textContent = core.length + " Themen in diesem Jahrgang. Jedes Thema hat eine Kernidee, eine Formel und Übungen, die sich deinem Stand anpassen.";
 
     var lvls = {};
     list.forEach(function (e) { lvls[levelOf(e.sections[0])] = true; });
@@ -214,12 +224,12 @@
         return L ? '<span class="lv"><b style="background:' + L.color + '">' + L.code + "</b>" + L.name + "</span>" : "";
     }).join("");
 
-    var firstOpen = core.filter(function (e) { return !done["thema-" + e.id] && practiceHref(e, grade); })[0] || core[0];
+    var firstOpen = core.filter(function (e) { return starsOf(e.id) < 2 && practiceHref(e, grade); })[0] || core[0];
     var startBtn = document.getElementById("startFirst");
     var firstHref = firstOpen ? practiceHref(firstOpen, grade) : null;
     if (firstHref) {
         startBtn.href = firstHref;
-        var anyDone = core.some(function (e) { return done["thema-" + e.id]; });
+        var anyDone = core.some(function (e) { return starsOf(e.id) > 0; });
         startBtn.textContent = (anyDone ? "Weiter mit „" : "Starten mit „") + firstOpen.topic + "“ →";
     } else {
         startBtn.hidden = true;
