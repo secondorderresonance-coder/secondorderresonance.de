@@ -117,7 +117,7 @@
             return Q(t("Das symmetrische Dreiecksfachwerk trägt an der Spitze F = " + F + " kN. Die schrägen Stäbe 1 und 2 sind um α = " + al + "° geneigt. Bestimme die Stabkräfte S<sub>1</sub> (schräg) und S<sub>3</sub> (unten), " + sgn + ".", "The symmetric triangular truss carries F = " + F + " kN at the apex. The inclined members 1 and 2 are at α = " + al + "°. Find the member forces S<sub>1</sub> (inclined) and S<sub>3</sub> (bottom), " + sgn + ".") + trussFig(al),
                 A.multi([{ l: "S<sub>1</sub>", a: num(S1, 2, "kN", 0.011) }, { l: "S<sub>3</sub>", a: num(S3, 2, "kN", 0.011) }]),
                 t("Knoten an der Spitze: die vertikalen Komponenten beider Schrägstäbe tragen F je zur Hälfte. Danach Knoten am Auflager.", "Apex joint: the vertical components of the two inclined members each carry half of F. Then the support joint."),
-                ["Spitze: 2 · S<sub>1</sub> · sin α + F = 0 → S<sub>1</sub> = " + n(S1, 2) + " kN (" + t("Druck", "compression") + ")", t("Lagerknoten", "Support joint") + ": S<sub>3</sub> + S<sub>1</sub> · cos α = 0 → S<sub>3</sub> = " + n(S3, 2) + " kN (" + t("Zug", "tension") + ")"],
+                [t("Spitze", "Apex") + ": 2 · S<sub>1</sub> · sin α + F = 0 → S<sub>1</sub> = " + n(S1, 2) + " kN (" + t("Druck", "compression") + ")", t("Lagerknoten", "Support joint") + ": S<sub>3</sub> + S<sub>1</sub> · cos α = 0 → S<sub>3</sub> = " + n(S3, 2) + " kN (" + t("Zug", "tension") + ")"],
                 M.near(S1 * sin(al) + F / 2, 0, 1e-9) && M.near(S3 + S1 * cos(al), 0, 1e-9));
         }
         if (d === 2) {
@@ -198,7 +198,7 @@
         var F3 = r.int(10, 300), sz = r.pick([80, 100, 120, 140, 160, 200, 235]), dmin = Math.sqrt(4 * F3 * 1000 / (Math.PI * sz));
         return Q(t("Ein runder Zugstab soll F = " + F3 + " kN übertragen. Die zulässige Spannung ist σ<sub>zul</sub> = " + sz + " MPa. Welcher Mindestdurchmesser d ist nötig (auf 0,01 mm)?", "A round tie rod must carry F = " + F3 + " kN. The allowable stress is σ<sub>allow</sub> = " + sz + " MPa. What minimum diameter d is needed (to 0.01 mm)?"),
             num(dmin, 2, "mm", 0.011), t("Stelle σ = F / A nach A um und nutze A = π · d² / 4.", "Rearrange σ = F / A for A and use A = π · d² / 4."),
-            ["A<sub>min</sub> = F / σ<sub>zul</sub> = " + n(F3 * 1000 / sz, 2) + " mm²", "d = √(4 · A / π) = " + n(dmin, 2) + " mm"], M.near(F3 * 1000 / (Math.PI * dmin * dmin / 4), sz, 1e-9));
+            ["A<sub>min</sub> = F / " + t("σ<sub>zul</sub>", "σ<sub>allow</sub>") + " = " + n(F3 * 1000 / sz, 2) + " mm²", "d = √(4 · A / π) = " + n(dmin, 2) + " mm"], M.near(F3 * 1000 / (Math.PI * dmin * dmin / 4), sz, 1e-9));
     } });
 
     E.add({ id: "k-tm2-temperatur", topic: "K-TM2-2", title: t("Temperatureinfluss", "Thermal effects"), gen: function (r, d) {
