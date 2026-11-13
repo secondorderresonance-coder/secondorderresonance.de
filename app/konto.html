@@ -2,12 +2,13 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Konto und Abzeichen | Second-Order Resonance</title>
-<meta name="description" content="Dein Lernkonto: Stufe, Lernserie, Abzeichen, Klassen und deine Daten.">
+<title data-en="Account and badges | Second-Order Resonance">Konto und Abzeichen | Second-Order Resonance</title>
+<meta name="description" content="Dein Lernkonto: Stufe, Lernserie, Abzeichen, Klassen und deine Daten." data-en-content="Your learning account: level, streak, badges, classes and your data.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
-<link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
 <style>
   .auth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.9fr);gap:2.4rem;align-items:center;margin-top:1rem}
   .auth h1{font-size:clamp(2rem,4.2vw,3rem);margin:0.5rem 0 0.8rem}
@@ -59,37 +60,37 @@
   <section id="guest" hidden>
     <div class="auth">
       <div>
-        <div class="kicker">Lernkonto</div>
-        <h1>Dein Fortschritt, <span class="serif">an einem Ort</span></h1>
-        <p class="muted" style="font-size:1.05rem;max-width:32rem">Mit einem Konto sammelst du XP, Sterne und Abzeichen unter deinem Namen und kannst einer Klasse beitreten.</p>
+        <div class="kicker" data-en="Learning account">Lernkonto</div>
+        <h1 data-en="Your progress, &lt;span class=&quot;serif&quot;&gt;in one place&lt;/span&gt;">Dein Fortschritt, <span class="serif">an einem Ort</span></h1>
+        <p class="muted" style="font-size:1.05rem;max-width:32rem" data-en="With an account you collect XP, stars and badges under your name and can join a class.">Mit einem Konto sammelst du XP, Sterne und Abzeichen unter deinem Namen und kannst einer Klasse beitreten.</p>
         <div class="perks">
-          <div class="perk"><i>⭐</i><span><strong>Meisterschaft pro Thema.</strong> Bis zu drei Sterne zeigen, wie sicher du ein Thema beherrschst.</span></div>
-          <div class="perk"><i>🔥</i><span><strong>Lernserie und Tagesziel.</strong> Kleine tägliche Ziele statt langer Lernabende.</span></div>
-          <div class="perk"><i>🏫</i><span><strong>Klassen.</strong> Lehrkräfte vergeben Aufträge, Schülerinnen und Schüler treten mit einem Code bei.</span></div>
+          <div class="perk"><i>⭐</i><span data-en="&lt;strong&gt;Mastery per topic.&lt;/strong&gt; Up to three stars show how confidently you master a topic."><strong>Meisterschaft pro Thema.</strong> Bis zu drei Sterne zeigen, wie sicher du ein Thema beherrschst.</span></div>
+          <div class="perk"><i>🔥</i><span data-en="&lt;strong&gt;Streak and daily goal.&lt;/strong&gt; Small daily goals instead of long study evenings."><strong>Lernserie und Tagesziel.</strong> Kleine tägliche Ziele statt langer Lernabende.</span></div>
+          <div class="perk"><i>🏫</i><span data-en="&lt;strong&gt;Classes.&lt;/strong&gt; Teachers set assignments, students join with a code."><strong>Klassen.</strong> Lehrkräfte vergeben Aufträge, Schülerinnen und Schüler treten mit einem Code bei.</span></div>
         </div>
-        <p class="notice" style="margin-top:1.4rem">Konten werden derzeit nur in diesem Browser gespeichert und nicht an einen Server übertragen. Auf einem anderen Gerät ist dein Konto deshalb noch nicht verfügbar.</p>
+        <p class="notice" style="margin-top:1.4rem" data-en="Accounts are currently stored only in this browser and are not sent to a server. That is why your account is not yet available on another device.">Konten werden derzeit nur in diesem Browser gespeichert und nicht an einen Server übertragen. Auf einem anderen Gerät ist dein Konto deshalb noch nicht verfügbar.</p>
       </div>
       <div class="card">
         <div class="tabs" role="tablist">
-          <button type="button" role="tab" id="tabLogin" aria-selected="true">Anmelden</button>
-          <button type="button" role="tab" id="tabReg" aria-selected="false">Registrieren</button>
+          <button type="button" role="tab" id="tabLogin" aria-selected="true" data-en="Sign in">Anmelden</button>
+          <button type="button" role="tab" id="tabReg" aria-selected="false" data-en="Register">Registrieren</button>
         </div>
         <form class="stack" id="loginForm">
-          <div class="field"><label for="lEmail">E-Mail</label><input class="input" id="lEmail" type="email" autocomplete="username" required></div>
-          <div class="field"><label for="lPass">Passwort</label><input class="input" id="lPass" type="password" autocomplete="current-password" required></div>
+          <div class="field"><label for="lEmail" data-en="Email">E-Mail</label><input class="input" id="lEmail" type="email" autocomplete="username" required></div>
+          <div class="field"><label for="lPass" data-en="Password">Passwort</label><input class="input" id="lPass" type="password" autocomplete="current-password" required></div>
           <div class="err" id="lErr" role="alert"></div>
-          <button class="btn btn-primary" type="submit">Anmelden</button>
+          <button class="btn btn-primary" type="submit" data-en="Sign in">Anmelden</button>
         </form>
         <form class="stack" id="regForm" hidden>
-          <div class="roles" role="radiogroup" aria-label="Rolle">
-            <label><input type="radio" name="role" value="schueler" checked><strong>Ich lerne</strong><small>Schule oder Studium</small></label>
-            <label><input type="radio" name="role" value="lehrkraft"><strong>Ich unterrichte</strong><small>Klassen und Aufträge</small></label>
+          <div class="roles" role="radiogroup" aria-label="Rolle" data-en-aria-label="Role">
+            <label><input type="radio" name="role" value="schueler" checked><strong data-en="I am learning">Ich lerne</strong><small data-en="School or university">Schule oder Studium</small></label>
+            <label><input type="radio" name="role" value="lehrkraft"><strong data-en="I teach">Ich unterrichte</strong><small data-en="Classes and assignments">Klassen und Aufträge</small></label>
           </div>
-          <div class="field"><label for="rName">Anzeigename</label><input class="input" id="rName" autocomplete="nickname" maxlength="30" required></div>
-          <div class="field"><label for="rEmail">E-Mail</label><input class="input" id="rEmail" type="email" autocomplete="username" required></div>
-          <div class="field"><label for="rPass">Passwort (mindestens 6 Zeichen)</label><input class="input" id="rPass" type="password" autocomplete="new-password" minlength="6" required></div>
+          <div class="field"><label for="rName" data-en="Display name">Anzeigename</label><input class="input" id="rName" autocomplete="nickname" maxlength="30" required></div>
+          <div class="field"><label for="rEmail" data-en="Email">E-Mail</label><input class="input" id="rEmail" type="email" autocomplete="username" required></div>
+          <div class="field"><label for="rPass" data-en="Password (at least 6 characters)">Passwort (mindestens 6 Zeichen)</label><input class="input" id="rPass" type="password" autocomplete="new-password" minlength="6" required></div>
           <div class="err" id="rErr" role="alert"></div>
-          <button class="btn btn-primary" type="submit">Konto erstellen</button>
+          <button class="btn btn-primary" type="submit" data-en="Create account">Konto erstellen</button>
         </form>
       </div>
     </div>
@@ -101,23 +102,23 @@
     <div class="kpis" id="kpis"></div>
     <div class="cols">
       <div class="grid">
-        <div class="card"><h2 class="sec">Abzeichen</h2><div class="bgrid" id="badges"></div></div>
-        <div class="card"><h2 class="sec">Meisterschaft</h2><div id="mastery"></div></div>
+        <div class="card"><h2 class="sec" data-en="Badges">Abzeichen</h2><div class="bgrid" id="badges"></div></div>
+        <div class="card"><h2 class="sec" data-en="Mastery">Meisterschaft</h2><div id="mastery"></div></div>
       </div>
       <div class="grid">
-        <div class="card"><h2 class="sec">Diese Woche</h2><div class="week" id="week"></div></div>
+        <div class="card"><h2 class="sec" data-en="This week">Diese Woche</h2><div class="week" id="week"></div></div>
         <div class="card">
-          <h2 class="sec">Tagesziel</h2>
+          <h2 class="sec" data-en="Daily goal">Tagesziel</h2>
           <div class="rowbtns" id="goals"></div>
         </div>
         <div class="card" id="classCard"></div>
         <div class="card">
-          <h2 class="sec">Meine Daten</h2>
-          <p class="muted" style="font-size:0.9rem;margin-bottom:0.9rem">Alles liegt in diesem Browser. Du kannst deine Daten jederzeit herunterladen oder vollständig löschen.</p>
+          <h2 class="sec" data-en="My data">Meine Daten</h2>
+          <p class="muted" style="font-size:0.9rem;margin-bottom:0.9rem" data-en="Everything is stored in this browser. You can download your data or delete it completely at any time.">Alles liegt in diesem Browser. Du kannst deine Daten jederzeit herunterladen oder vollständig löschen.</p>
           <div class="rowbtns">
-            <button class="btn btn-ghost btn-sm" id="exportBtn" type="button">Daten herunterladen</button>
-            <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button">Abmelden</button>
-            <button class="btn btn-ghost btn-sm" id="deleteBtn" type="button" style="color:#ff8fa3;border-color:rgba(233,69,96,0.4)">Konto löschen</button>
+            <button class="btn btn-ghost btn-sm" id="exportBtn" type="button" data-en="Download data">Daten herunterladen</button>
+            <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button" data-en="Sign out">Abmelden</button>
+            <button class="btn btn-ghost btn-sm" id="deleteBtn" type="button" style="color:#ff8fa3;border-color:rgba(233,69,96,0.4)" data-en="Delete account">Konto löschen</button>
           </div>
         </div>
       </div>
@@ -125,15 +126,17 @@
   </section>
 </main>
 
-<script src="./data/coverage-matrix.js?v=3.0.0"></script>
-<script src="./modules/sor-core.js?v=3.0.0"></script>
-<script src="./modules/rewards.js?v=3.0.0"></script>
-<script src="./modules/sor-nav.js?v=3.0.0"></script>
+<script src="./data/coverage-matrix.js?v=3.1.0"></script>
+<script src="./data/courses.js?v=3.1.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.1.0"></script>
 <script>
 (function () {
     "use strict";
+    if (window.SOR_I18N) SOR_I18N.apply();
     var REW = window.SOR_REWARDS, NAV = window.SOR_NAV, esc = NAV.esc, COV = window.SOR_COVERAGE, $ = function (id) { return document.getElementById(id); };
-    var TOPIC = {}; COV.school.concat(COV.engineering).forEach(function (e) { TOPIC[e.id] = e; });
+    var TOPIC = {}; COV.school.concat(COV.engineering).concat(window.SOR_COURSES ? SOR_COURSES.lessons : []).forEach(function (e) { TOPIC[e.id] = e; });
 
     function setTab(reg) { $("tabLogin").setAttribute("aria-selected", String(!reg)); $("tabReg").setAttribute("aria-selected", String(reg)); $("loginForm").hidden = reg; $("regForm").hidden = !reg; }
     $("tabLogin").addEventListener("click", function () { setTab(false); });
@@ -146,7 +149,7 @@
         afterAuth(r.account, true);
     });
     function afterAuth(acc, isNew) {
-        if (isNew && REW.adoptGuest(acc.id)) NAV.toast("✅ <span>Dein bisheriger Fortschritt wurde in das Konto übernommen.</span>");
+        if (isNew && REW.adoptGuest(acc.id)) NAV.toast($t("✅ <span>Dein bisheriger Fortschritt wurde in das Konto übernommen.</span>", "✅ <span>Your previous progress has been moved into the account.</span>"));
         var next = new URLSearchParams(location.search).get("weiter");
         if (next && /^[a-z0-9_-]+\.html(\?[^#\s]*)?$/i.test(next)) { location.href = next; return; }
         if (isNew && acc.role === "lehrkraft") { location.href = "lehrer.html"; return; }
@@ -159,32 +162,32 @@
         $("guest").hidden = !!acc; $("member").hidden = !acc;
         if (!acc) { if (location.hash === "#registrieren") setTab(true); return; }
         var p = REW.profile(), lv = REW.level(p.xp), acc100 = p.stats.total ? Math.round(p.stats.correct / p.stats.total * 100) : 0;
-        $("phead").innerHTML = '<div class="pavatar" style="background:' + esc(acc.avatarColor) + '">' + esc(acc.displayName.slice(0, 1).toUpperCase()) + '</div><div style="flex:1;min-width:240px"><div class="kicker">' + (acc.role === "lehrkraft" ? "Lehrkraft" : "Lernkonto") + "</div><h1>" + esc(acc.displayName) + '</h1><div style="max-width:420px;margin-top:0.6rem"><div style="display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.3rem"><span>Stufe ' + lv.level + " · " + lv.title + "</span><span>" + lv.into + " / " + lv.need + ' XP</span></div><div class="bar"><span style="width:' + Math.round(lv.progress * 100) + '%"></span></div></div></div><a class="btn btn-primary" href="' + (acc.role === "lehrkraft" ? "lehrer.html" : "ueben.html") + '">' + (acc.role === "lehrkraft" ? "Zum Klassen-Dashboard →" : "Jetzt üben →") + "</a>";
-        $("kpis").innerHTML = [[p.xp.toLocaleString("de-DE"), "XP gesamt"], ["🔥 " + p.streak.count, "Tage Lernserie"], [REW.totalStars(p) + " ⭐", "Sterne"], [acc100 + " %", "Trefferquote"]].map(function (k) { return '<div class="kpi"><b>' + k[0] + "</b><small>" + k[1] + "</small></div>"; }).join("");
+        $("phead").innerHTML = '<div class="pavatar" style="background:' + esc(acc.avatarColor) + '">' + esc(acc.displayName.slice(0, 1).toUpperCase()) + '</div><div style="flex:1;min-width:240px"><div class="kicker">' + (acc.role === "lehrkraft" ? $t("Lehrkraft", "Teacher") : $t("Lernkonto", "Learning account")) + "</div><h1>" + esc(acc.displayName) + $t('</h1><div style="max-width:420px;margin-top:0.6rem"><div style="display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.3rem"><span>Stufe ', "</h1><div style=\"max-width:420px;margin-top:0.6rem\"><div style=\"display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.3rem\"><span>Level ") + lv.level + " · " + lv.title + "</span><span>" + lv.into + " / " + lv.need + ' XP</span></div><div class="bar"><span style="width:' + Math.round(lv.progress * 100) + '%"></span></div></div></div><a class="btn btn-primary" href="' + (acc.role === "lehrkraft" ? "lehrer.html" : "ueben.html") + '">' + (acc.role === "lehrkraft" ? $t("Zum Klassen-Dashboard →", "Class dashboard →") : $t("Jetzt üben →", "Practise now →")) + "</a>";
+        $("kpis").innerHTML = [[p.xp.toLocaleString($t("de-DE", "en-GB")), $t("XP gesamt", "XP in total")], ["🔥 " + p.streak.count, $t("Tage Lernserie", "day streak")], [REW.totalStars(p) + " ⭐", $t("Sterne", "stars")], [acc100 + " %", $t("Trefferquote", "accuracy")]].map(function (k) { return '<div class="kpi"><b>' + k[0] + "</b><small>" + k[1] + "</small></div>"; }).join("");
         $("badges").innerHTML = REW.BADGES.map(function (b) { var on = !!p.badges[b.id]; return '<div class="bdg ' + (on ? "on" : "off") + '"><i>' + b.icon + "</i><strong>" + esc(b.title) + "</strong><small>" + esc(b.text) + "</small></div>"; }).join("");
         var ids = Object.keys(p.mastery).sort(function (a, b) { return p.mastery[b].score - p.mastery[a].score; });
-        $("mastery").innerHTML = ids.length ? ids.slice(0, 12).map(function (id) { return '<div class="mrow"><a href="ueben.html?thema=' + encodeURIComponent(id) + '" style="text-decoration:none">' + esc(TOPIC[id] ? TOPIC[id].topic : id) + "</a>" + NAV.stars(REW.stars(p.mastery[id].score)) + "</div>"; }).join("") : '<p class="muted">Noch keine Themen geübt. <a href="ueben.html">Leg los</a> und sammle deine ersten Sterne.</p>';
+        $("mastery").innerHTML = ids.length ? ids.slice(0, 12).map(function (id) { return '<div class="mrow"><a href="ueben.html?thema=' + encodeURIComponent(id) + '" style="text-decoration:none">' + esc(TOPIC[id] ? TOPIC[id].topic : id) + "</a>" + NAV.stars(REW.stars(p.mastery[id].score)) + "</div>"; }).join("") : $t('<p class="muted">Noch keine Themen geübt. <a href="ueben.html">Leg los</a> und sammle deine ersten Sterne.</p>', "<p class=\"muted\">No topics practised yet. <a href=\"ueben.html\">Get started</a> and collect your first stars.</p>");
         // Woche
-        var days = [], d = new Date(), i, max = 1, names = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+        var days = [], d = new Date(), i, max = 1, names = $t("So|Mo|Di|Mi|Do|Fr|Sa", "Sun|Mon|Tue|Wed|Thu|Fri|Sat").split("|");
         for (i = 6; i >= 0; i -= 1) { var x = new Date(d); x.setDate(d.getDate() - i); var k = x.getFullYear() + "-" + ("0" + (x.getMonth() + 1)).slice(-2) + "-" + ("0" + x.getDate()).slice(-2), v = p.daily[k] ? p.daily[k].xp : 0; days.push([names[x.getDay()], v]); max = Math.max(max, v); }
         $("week").innerHTML = days.map(function (dd) { return '<div title="' + dd[1] + ' XP"><i style="height:' + Math.round(dd[1] / max * 100) + '%"></i><small>' + dd[0] + "</small></div>"; }).join("");
-        $("goals").innerHTML = [[30, "Locker"], [50, "Normal"], [100, "Ehrgeizig"], [150, "Intensiv"]].map(function (gl) { return '<button type="button" class="btn btn-sm ' + (p.goal === gl[0] ? "btn-primary" : "btn-ghost") + '" data-goal="' + gl[0] + '">' + gl[1] + " · " + gl[0] + " XP</button>"; }).join("");
+        $("goals").innerHTML = [[30, $t("Locker", "Relaxed")], [50, "Normal"], [100, $t("Ehrgeizig", "Ambitious")], [150, $t("Intensiv", "Intense")]].map(function (gl) { return '<button type="button" class="btn btn-sm ' + (p.goal === gl[0] ? "btn-primary" : "btn-ghost") + '" data-goal="' + gl[0] + '">' + gl[1] + " · " + gl[0] + " XP</button>"; }).join("");
         // Klassen
-        var mine = SOR.school.classesOf(acc.id), teach = SOR.school.classes(acc.id), html = '<h2 class="sec">Klassen</h2>';
-        if (acc.role === "lehrkraft") html += (teach.length ? teach.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong> <span class="dim">· ' + c.members.length + " Mitglieder</span></span><span class=\"chip\">Code " + esc(c.code) + "</span></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Noch keine Klasse angelegt.</p>') + '<a class="btn btn-ghost btn-sm" href="lehrer.html" style="margin-top:0.9rem">Klassen verwalten →</a>';
-        else html += (mine.length ? mine.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong></span><button class="btn btn-ghost btn-sm" type="button" data-leave="' + esc(c.id) + '">Verlassen</button></div>'; }).join("") : "") + '<form id="joinForm" style="display:flex;gap:0.5rem;margin-top:0.9rem"><input class="input" id="joinCode" placeholder="Klassencode" maxlength="6" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode"><button class="btn btn-primary btn-sm" type="submit">Beitreten</button></form><div class="err" id="joinErr" role="alert"></div>' +
-            '<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)"><strong style="font-size:0.95rem">Lernstand an Lehrkraft senden</strong><p class="muted" style="font-size:0.86rem;margin:0.25rem 0 0.6rem">Übst du auf deinem eigenen Gerät? Erzeuge einen Link und schicke ihn deiner Lehrkraft. Er enthält nur deinen Anzeigenamen und deine Lernzahlen.</p>' +
-            '<form id="shareForm" style="display:flex;gap:0.5rem"><input class="input" id="shareCode" placeholder="Klassencode" maxlength="6" value="' + esc(mine.length ? mine[0].code : "") + '" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode der Lehrkraft" required><button class="btn btn-ghost btn-sm" type="submit">Link erzeugen</button></form>' +
-            '<div id="shareOut" hidden style="margin-top:0.6rem;display:flex;gap:0.5rem"><input class="input" id="shareLink" readonly aria-label="Link mit Lernstand"><button class="btn btn-primary btn-sm" type="button" id="shareCopy">Kopieren</button></div></div>';
+        var mine = SOR.school.classesOf(acc.id), teach = SOR.school.classes(acc.id), html = $t('<h2 class="sec">Klassen</h2>', "<h2 class=\"sec\">Classes</h2>");
+        if (acc.role === "lehrkraft") html += (teach.length ? teach.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong> <span class="dim">· ' + c.members.length + $t(" Mitglieder</span></span><span class=\"chip\">Code ", " members</span></span><span class=\"chip\">Code ") + esc(c.code) + "</span></div>"; }).join("") : $t('<p class="muted" style="font-size:0.92rem">Noch keine Klasse angelegt.</p>', "<p class=\"muted\" style=\"font-size:0.92rem\">No class created yet.</p>")) + $t('<a class="btn btn-ghost btn-sm" href="lehrer.html" style="margin-top:0.9rem">Klassen verwalten →</a>', "<a class=\"btn btn-ghost btn-sm\" href=\"lehrer.html\" style=\"margin-top:0.9rem\">Manage classes →</a>");
+        else html += (mine.length ? mine.map(function (c) { return '<div class="cls"><span><strong>' + esc(c.name) + '</strong></span><button class="btn btn-ghost btn-sm" type="button" data-leave="' + esc(c.id) + $t('">Verlassen</button></div>', "\">Leave</button></div>"); }).join("") : "") + $t('<form id="joinForm" style="display:flex;gap:0.5rem;margin-top:0.9rem"><input class="input" id="joinCode" placeholder="Klassencode" maxlength="6" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode"><button class="btn btn-primary btn-sm" type="submit">Beitreten</button></form><div class="err" id="joinErr" role="alert"></div>', "<form id=\"joinForm\" style=\"display:flex;gap:0.5rem;margin-top:0.9rem\"><input class=\"input\" id=\"joinCode\" placeholder=\"Class code\" maxlength=\"6\" style=\"text-transform:uppercase;font-family:'IBM Plex Mono',monospace\" aria-label=\"Class code\"><button class=\"btn btn-primary btn-sm\" type=\"submit\">Join</button></form><div class=\"err\" id=\"joinErr\" role=\"alert\"></div>") +
+            $t('<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)"><strong style="font-size:0.95rem">Lernstand an Lehrkraft senden</strong><p class="muted" style="font-size:0.86rem;margin:0.25rem 0 0.6rem">Übst du auf deinem eigenen Gerät? Erzeuge einen Link und schicke ihn deiner Lehrkraft. Er enthält nur deinen Anzeigenamen und deine Lernzahlen.</p>', "<div style=\"margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)\"><strong style=\"font-size:0.95rem\">Send progress to your teacher</strong><p class=\"muted\" style=\"font-size:0.86rem;margin:0.25rem 0 0.6rem\">Practising on your own device? Create a link and send it to your teacher. It only contains your display name and your learning numbers.</p>") +
+            $t('<form id="shareForm" style="display:flex;gap:0.5rem"><input class="input" id="shareCode" placeholder="Klassencode" maxlength="6" value="', "<form id=\"shareForm\" style=\"display:flex;gap:0.5rem\"><input class=\"input\" id=\"shareCode\" placeholder=\"Class code\" maxlength=\"6\" value=\"") + esc(mine.length ? mine[0].code : "") + $t('" style="text-transform:uppercase;font-family:\'IBM Plex Mono\',monospace" aria-label="Klassencode der Lehrkraft" required><button class="btn btn-ghost btn-sm" type="submit">Link erzeugen</button></form>', "\" style=\"text-transform:uppercase;font-family:'IBM Plex Mono',monospace\" aria-label=\"Your teacher's class code\" required><button class=\"btn btn-ghost btn-sm\" type=\"submit\">Create link</button></form>") +
+            $t('<div id="shareOut" hidden style="margin-top:0.6rem;display:flex;gap:0.5rem"><input class="input" id="shareLink" readonly aria-label="Link mit Lernstand"><button class="btn btn-primary btn-sm" type="button" id="shareCopy">Kopieren</button></div></div>', "<div id=\"shareOut\" hidden style=\"margin-top:0.6rem;display:flex;gap:0.5rem\"><input class=\"input\" id=\"shareLink\" readonly aria-label=\"Link with progress\"><button class=\"btn btn-primary btn-sm\" type=\"button\" id=\"shareCopy\">Copy</button></div></div>");
         $("classCard").innerHTML = html;
         var sf = $("shareForm"); if (sf) sf.addEventListener("submit", function (ev) {
             ev.preventDefault();
             var code = SOR.share.pack({ key: acc.id, name: acc.displayName, classCode: $("shareCode").value });
-            if (!code) { NAV.toast("<span>Noch kein Lernstand vorhanden. Löse zuerst ein paar Aufgaben.</span>"); return; }
+            if (!code) { NAV.toast($t("<span>Noch kein Lernstand vorhanden. Löse zuerst ein paar Aufgaben.</span>", "<span>No progress yet. Solve a few exercises first.</span>")); return; }
             $("shareLink").value = new URL("lehrer.html#lernstand=" + code, location.href).href; $("shareOut").hidden = false; $("shareOut").style.display = "flex"; $("shareLink").select();
         });
-        var cp = $("shareCopy"); if (cp) cp.addEventListener("click", function () { $("shareLink").select(); if (navigator.clipboard) navigator.clipboard.writeText($("shareLink").value).then(function () { NAV.toast("📋 <span>Link kopiert. Schicke ihn deiner Lehrkraft.</span>"); }, function () {}); });
-        var jf = $("joinForm"); if (jf) jf.addEventListener("submit", function (ev) { ev.preventDefault(); var r = SOR.school.join($("joinCode").value, acc.id); if (!r.ok) { $("joinErr").textContent = r.error; return; } NAV.toast("🏫 <span>Du bist jetzt in <strong>" + esc(r.cls.name) + "</strong>.</span>"); render(); });
+        var cp = $("shareCopy"); if (cp) cp.addEventListener("click", function () { $("shareLink").select(); if (navigator.clipboard) navigator.clipboard.writeText($("shareLink").value).then(function () { NAV.toast($t("📋 <span>Link kopiert. Schicke ihn deiner Lehrkraft.</span>", "📋 <span>Link copied. Send it to your teacher.</span>")); }, function () {}); });
+        var jf = $("joinForm"); if (jf) jf.addEventListener("submit", function (ev) { ev.preventDefault(); var r = SOR.school.join($("joinCode").value, acc.id); if (!r.ok) { $("joinErr").textContent = r.error; return; } NAV.toast($t("🏫 <span>Du bist jetzt in <strong>", "🏫 <span>You are now in <strong>") + esc(r.cls.name) + "</strong>.</span>"); render(); });
     }
     $("goals").addEventListener("click", function (ev) { var b = ev.target.closest("[data-goal]"); if (!b) return; REW.setGoal(Number(b.getAttribute("data-goal"))); render(); });
     $("classCard").addEventListener("click", function (ev) { var b = ev.target.closest("[data-leave]"); if (!b) return; SOR.school.leave(b.getAttribute("data-leave"), SOR.accounts.current().id); render(); });
@@ -195,8 +198,8 @@
     });
     $("deleteBtn").addEventListener("click", function () {
         var acc = SOR.accounts.current();
-        if (!window.confirm("Konto „" + acc.displayName + "“ mit allen XP, Sternen und Abzeichen endgültig löschen?")) return;
-        SOR.accounts.remove(acc.id); render(); NAV.toast("<span>Konto und Lerndaten wurden gelöscht.</span>");
+        if (!window.confirm($t("Konto „", "Permanently delete the account “") + acc.displayName + $t("“ mit allen XP, Sternen und Abzeichen endgültig löschen?", "” with all XP, stars and badges?"))) return;
+        SOR.accounts.remove(acc.id); render(); NAV.toast($t("<span>Konto und Lerndaten wurden gelöscht.</span>", "<span>Account and learning data have been deleted.</span>"));
     });
     render();
 })();

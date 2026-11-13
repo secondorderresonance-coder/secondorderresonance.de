@@ -2,13 +2,14 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<script src="app/modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Für Schulen | Second-Order Resonance</title>
-<meta name="description" content="Mathe üben von Klasse 1 bis zum Studium: adaptive Aufgaben, 3D-Labor, Klassen-Dashboard für Lehrkräfte. Ohne Tracking, ohne Server, Daten bleiben im Browser.">
+<title data-en="For schools | Second-Order Resonance">Für Schulen | Second-Order Resonance</title>
+<meta name="description" content="Mathe üben von Klasse 1 bis zum Studium: adaptive Aufgaben, 3D-Labor, Klassen-Dashboard für Lehrkräfte. Ohne Tracking, ohne Server, Daten bleiben im Browser." data-en-content="Practise maths from grade 1 to university: adaptive exercises, a 3D lab, a class dashboard for teachers. No tracking, no server, data stays in the browser.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="canonical" href="https://secondorderresonance.de/schulen.html">
 <link rel="stylesheet" href="app/vendor/fonts/fonts.css?v=3.0.0">
-<link rel="stylesheet" href="app/modules/sor-ui.css?v=3.0.0">
+<link rel="stylesheet" href="app/modules/sor-ui.css?v=3.1.0">
 <style>
   .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);gap:2.4rem;align-items:center;padding:1.4rem 0 3rem}
   .hero h1{font-size:clamp(2.2rem,4.8vw,3.5rem);margin:0.6rem 0 1rem}
@@ -43,17 +44,17 @@
 <main class="wrap">
   <section class="hero">
     <div>
-      <div class="kicker">Für Schulen und Lehrkräfte</div>
-      <h1>Mathe üben, das im Unterricht <span class="serif">funktioniert</span></h1>
-      <p class="lead">Adaptive Aufgaben von Klasse 1 bis ins Studium, ein 3D-Labor zum Entdecken und ein Dashboard, das zeigt, welche Themen in der Klasse sitzen. Ohne Installation, ohne Tracking.</p>
+      <div class="kicker" data-en="For schools and teachers">Für Schulen und Lehrkräfte</div>
+      <h1 data-en="Maths practice that &lt;span class=&quot;serif&quot;&gt;works&lt;/span&gt; in class">Mathe üben, das im Unterricht <span class="serif">funktioniert</span></h1>
+      <p class="lead" data-en="Adaptive exercises from grade 1 to university, a 3D lab to explore and a dashboard that shows which topics the class has mastered. No installation, no tracking.">Adaptive Aufgaben von Klasse 1 bis ins Studium, ein 3D-Labor zum Entdecken und ein Dashboard, das zeigt, welche Themen in der Klasse sitzen. Ohne Installation, ohne Tracking.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="app/lehrer.html">Demo-Klasse ansehen</a>
-        <a class="btn btn-ghost" href="app/ueben.html">Aufgaben ausprobieren</a>
+        <a class="btn btn-primary" href="app/lehrer.html" data-en="View the demo class">Demo-Klasse ansehen</a>
+        <a class="btn btn-ghost" href="app/ueben.html" data-en="Try the exercises">Aufgaben ausprobieren</a>
       </div>
     </div>
-    <div class="shot" aria-label="Beispielansicht des Klassen-Dashboards mit erfundenen Namen">
+    <div class="shot" aria-label="Beispielansicht des Klassen-Dashboards mit erfundenen Namen" data-en-aria-label="Example view of the class dashboard with made-up names">
       <table>
-        <thead><tr><th>Name</th><th>Gleichungen</th><th>Prozent</th><th>Dreisatz</th><th>Quote</th></tr></thead>
+        <thead><tr><th data-en="Name">Name</th><th data-en="Equations">Gleichungen</th><th data-en="Percent">Prozent</th><th data-en="Rule of three">Dreisatz</th><th data-en="Rate">Quote</th></tr></thead>
         <tbody>
           <tr><td>Anna B.</td><td><span class="c c3">3★</span></td><td><span class="c c2">2★</span></td><td><span class="c c3">3★</span></td><td>91 %</td></tr>
           <tr><td>Ben K.</td><td><span class="c c1">1★</span></td><td><span class="c c0">0★</span></td><td><span class="c c2">2★</span></td><td>58 %</td></tr>
@@ -61,65 +62,65 @@
           <tr><td>David S.</td><td><span class="c c3">3★</span></td><td><span class="c c3">3★</span></td><td><span class="c c2">2★</span></td><td>88 %</td></tr>
         </tbody>
       </table>
-      <small>Beispielansicht mit erfundenen Namen. Die interaktive Demo zeigt eine ganze Klasse.</small>
+      <small data-en="Example view with made-up names. The interactive demo shows a whole class.">Beispielansicht mit erfundenen Namen. Die interaktive Demo zeigt eine ganze Klasse.</small>
     </div>
   </section>
 
   <section class="block">
-    <div class="kicker">Was enthalten ist</div>
-    <h2>Drei Bausteine für den Unterricht</h2>
+    <div class="kicker" data-en="What is included">Was enthalten ist</div>
+    <h2 data-en="Three building blocks for teaching">Drei Bausteine für den Unterricht</h2>
     <div class="three">
-      <div class="card"><h3>Üben mit immer neuen Zahlen</h3><p>93 Aufgabentypen zu 84 Themen. Jede Aufgabe wird frisch erzeugt, mit Tipp, Lösungsweg und typischen Fehlern als Antwortoptionen. Die Schwierigkeit steigt mit dem Können.</p></div>
-      <div class="card"><h3>Verstehen in 3D</h3><p>Körper, Rotationskörper, Funktionsgebirge und die Euler-Spirale zum Drehen und Verändern. Dazu 50 animierte Erklärgrafiken auf den Jahrgangsseiten.</p></div>
-      <div class="card"><h3>Lernstand im Blick</h3><p>Klassen anlegen, Themen als Auftrag vergeben, Sterne pro Kind und Thema sehen. Wer Unterstützung braucht, wird hervorgehoben. Export als CSV.</p></div>
+      <div class="card"><h3 data-en="Practice with fresh numbers every time">Üben mit immer neuen Zahlen</h3><p data-en="129 exercise types for 120 topics and lessons, plus foundation courses in engineering mechanics, control engineering, thermodynamics and statistics. Every exercise is generated fresh, with a hint, a worked solution and typical mistakes as answer options. The difficulty rises with ability.">129 Aufgabentypen zu 120 Themen und Lektionen, dazu Grundkurse für Technische Mechanik, Regelungstechnik, Thermodynamik und Statistik. Jede Aufgabe wird frisch erzeugt, mit Tipp, Lösungsweg und typischen Fehlern als Antwortoptionen. Die Schwierigkeit steigt mit dem Können.</p></div>
+      <div class="card"><h3 data-en="Understanding in 3D">Verstehen in 3D</h3><p data-en="Solids, solids of revolution, function landscapes and the Euler spiral to rotate and change. Plus animated explanatory graphics on the grade and course pages.">Körper, Rotationskörper, Funktionsgebirge und die Euler-Spirale zum Drehen und Verändern. Dazu 50 animierte Erklärgrafiken auf den Jahrgangsseiten.</p></div>
+      <div class="card"><h3 data-en="Progress at a glance">Lernstand im Blick</h3><p data-en="Create classes, assign topics, see stars per student and topic. Anyone who needs support is highlighted. Export as CSV.">Klassen anlegen, Themen als Auftrag vergeben, Sterne pro Kind und Thema sehen. Wer Unterstützung braucht, wird hervorgehoben. Export als CSV.</p></div>
     </div>
   </section>
 
   <section class="block">
-    <div class="kicker">So läuft es ab</div>
-    <h2>In drei Schritten startklar</h2>
+    <div class="kicker" data-en="How it works">So läuft es ab</div>
+    <h2 data-en="Ready in three steps">In drei Schritten startklar</h2>
     <div class="three">
-      <div class="card"><span class="num">1.</span><h3>Klasse anlegen</h3><p>Lehrkräfte-Konto erstellen, Klasse benennen, Jahrgang wählen. Sie erhalten einen sechsstelligen Klassencode.</p></div>
-      <div class="card"><span class="num">2.</span><h3>Üben lassen</h3><p>Die Klasse übt im Browser, am Schulgerät oder zu Hause. Ein Konto ist möglich, aber nicht nötig.</p></div>
-      <div class="card"><span class="num">3.</span><h3>Lernstand ansehen</h3><p>Am gemeinsamen Gerät genügt der Klassencode. Von eigenen Geräten schicken die Kinder ihren Lernstand als Link.</p></div>
+      <div class="card"><span class="num">1.</span><h3 data-en="Create a class">Klasse anlegen</h3><p data-en="Create a teacher account, name the class, choose the grade. You get a six-character class code.">Lehrkräfte-Konto erstellen, Klasse benennen, Jahrgang wählen. Sie erhalten einen sechsstelligen Klassencode.</p></div>
+      <div class="card"><span class="num">2.</span><h3 data-en="Let them practise">Üben lassen</h3><p data-en="The class practises in the browser, on a school device or at home. An account is possible but not required.">Die Klasse übt im Browser, am Schulgerät oder zu Hause. Ein Konto ist möglich, aber nicht nötig.</p></div>
+      <div class="card"><span class="num">3.</span><h3 data-en="View progress">Lernstand ansehen</h3><p data-en="On a shared device the class code is enough. From their own devices students send their progress as a link.">Am gemeinsamen Gerät genügt der Klassencode. Von eigenen Geräten schicken die Kinder ihren Lernstand als Link.</p></div>
     </div>
   </section>
 
   <section class="block">
-    <div class="kicker">Datenschutz und Technik</div>
-    <h2>Was heute gilt und was noch fehlt</h2>
+    <div class="kicker" data-en="Privacy and technology">Datenschutz und Technik</div>
+    <h2 data-en="What applies today and what is still missing">Was heute gilt und was noch fehlt</h2>
     <div class="two">
-      <div class="card yes"><h3>Stand heute</h3><ul>
-        <li>Kein Server für Lerndaten: Konten und Lernstände liegen nur im Browser des jeweiligen Geräts.</li>
-        <li>Keine Tracker, keine Werbung, keine Cookies von Dritten.</li>
-        <li>Schriften und 3D-Bibliothek werden von der eigenen Seite geladen, nicht von fremden Servern.</li>
-        <li>Passwörter werden nicht im Klartext gespeichert.</li>
-        <li>Jedes Konto kann seine Daten exportieren und vollständig löschen.</li>
-        <li>Läuft in jedem aktuellen Browser, auch auf Tablets und Smartphones.</li>
+      <div class="card yes"><h3 data-en="Today">Stand heute</h3><ul>
+        <li data-en="No server for learning data: accounts and progress are stored only in the browser of each device.">Kein Server für Lerndaten: Konten und Lernstände liegen nur im Browser des jeweiligen Geräts.</li>
+        <li data-en="No trackers, no advertising, no third-party cookies.">Keine Tracker, keine Werbung, keine Cookies von Dritten.</li>
+        <li data-en="Fonts and the 3D library are loaded from this site, not from third-party servers.">Schriften und 3D-Bibliothek werden von der eigenen Seite geladen, nicht von fremden Servern.</li>
+        <li data-en="Passwords are not stored in plain text.">Passwörter werden nicht im Klartext gespeichert.</li>
+        <li data-en="Every account can export its data and delete it completely.">Jedes Konto kann seine Daten exportieren und vollständig löschen.</li>
+        <li data-en="Runs in every current browser, also on tablets and smartphones.">Läuft in jedem aktuellen Browser, auch auf Tablets und Smartphones.</li>
       </ul></div>
-      <div class="card todo"><h3>Noch nicht vorhanden</h3><ul>
-        <li>Automatische Synchronisierung zwischen Geräten. Bis dahin wandern Lernstände per Link zur Lehrkraft.</li>
-        <li>Anmeldung über Schul-Logins oder Lernplattformen.</li>
-        <li>Vertrag zur Auftragsverarbeitung. Er wird erst mit einer Server-Anbindung nötig.</li>
-        <li>Abgleich mit dem Lehrplan eines einzelnen Bundeslands. Die Themen orientieren sich an den KMK-Bildungsstandards.</li>
+      <div class="card todo"><h3 data-en="Not available yet">Noch nicht vorhanden</h3><ul>
+        <li data-en="Automatic sync between devices. Until then, progress travels to the teacher by link.">Automatische Synchronisierung zwischen Geräten. Bis dahin wandern Lernstände per Link zur Lehrkraft.</li>
+        <li data-en="Sign-in via school logins or learning platforms.">Anmeldung über Schul-Logins oder Lernplattformen.</li>
+        <li data-en="Data processing agreement. It only becomes necessary with a server connection.">Vertrag zur Auftragsverarbeitung. Er wird erst mit einer Server-Anbindung nötig.</li>
+        <li data-en="Alignment with the curriculum of a single German state. The topics follow the KMK education standards.">Abgleich mit dem Lehrplan eines einzelnen Bundeslands. Die Themen orientieren sich an den KMK-Bildungsstandards.</li>
       </ul></div>
     </div>
-    <p class="dim" style="margin-top:1rem;font-size:0.88rem">Einzelheiten stehen in den <a href="datenschutz.html">Datenschutz-Hinweisen</a>.</p>
+    <p class="dim" style="margin-top:1rem;font-size:0.88rem" data-en="Details are in the &lt;a href=&quot;datenschutz.html&quot;&gt;privacy notice&lt;/a&gt; (German).">Einzelheiten stehen in den <a href="datenschutz.html">Datenschutz-Hinweisen</a>.</p>
   </section>
 
   <section class="contact">
-    <h2 style="font-size:1.7rem;margin-bottom:0.5rem">Interesse am Einsatz an Ihrer Schule?</h2>
-    <p class="muted" style="max-width:32rem;margin:0 auto 1.4rem">Schreiben Sie uns, welche Jahrgänge und Themen Sie brauchen. Rückmeldungen aus dem Unterricht fließen direkt in die Weiterentwicklung ein.</p>
-    <a class="btn btn-primary" id="mailBtn" data-user="secondorderresonance" data-domain="gmail.com" href="#">E-Mail schreiben</a>
+    <h2 style="font-size:1.7rem;margin-bottom:0.5rem" data-en="Interested in using it at your school?">Interesse am Einsatz an Ihrer Schule?</h2>
+    <p class="muted" style="max-width:32rem;margin:0 auto 1.4rem" data-en="Write to us about which grades and topics you need. Feedback from the classroom goes straight into further development.">Schreiben Sie uns, welche Jahrgänge und Themen Sie brauchen. Rückmeldungen aus dem Unterricht fließen direkt in die Weiterentwicklung ein.</p>
+    <a class="btn btn-primary" id="mailBtn" data-user="secondorderresonance" data-domain="gmail.com" href="#" data-en="Send an email">E-Mail schreiben</a>
   </section>
 
-  <footer><span>© 2026 Second-Order Resonance</span><span><a href="index.html">Startseite</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="app/ueben.html">Üben</a> · <a href="app/labor3d.html">3D-Labor</a></span></footer>
+  <footer><span>© 2026 Second-Order Resonance</span><span><a href="index.html" data-en="Home">Startseite</a> · <a href="datenschutz.html" data-en="Privacy">Datenschutz</a> · <a href="app/ueben.html" data-en="Practice">Üben</a> · <a href="app/labor3d.html" data-en="3D lab">3D-Labor</a></span></footer>
 </main>
-<script src="app/modules/sor-core.js?v=3.0.0"></script>
-<script src="app/modules/rewards.js?v=3.0.0"></script>
-<script src="app/modules/sor-nav.js?v=3.0.0"></script>
+<script src="app/modules/sor-core.js?v=3.1.0"></script>
+<script src="app/modules/rewards.js?v=3.1.0"></script>
+<script src="app/modules/sor-nav.js?v=3.1.0"></script>
 <script>
-(function () { var m = document.getElementById("mailBtn"); m.href = "mailto:" + m.getAttribute("data-user") + "@" + m.getAttribute("data-domain") + "?subject=" + encodeURIComponent("Second-Order Resonance an unserer Schule"); })();
+(function () { if (window.SOR_I18N) SOR_I18N.apply(); var m = document.getElementById("mailBtn"); m.href = "mailto:" + m.getAttribute("data-user") + "@" + m.getAttribute("data-domain") + "?subject=" + encodeURIComponent($t("Second-Order Resonance an unserer Schule", "Second-Order Resonance at our school")); })();
 </script>
 </body>
 </html>

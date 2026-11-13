@@ -2,12 +2,13 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<script src="app/modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Second-Order Resonance | Mathe üben von Klasse 1 bis Studium</title>
-<meta name="description" content="Mathe üben von Klasse 1 bis ins Studium: adaptive Aufgaben mit Lösungsweg, 3D-Labor, Sterne und Abzeichen, Dashboard für Lehrkräfte.">
-<meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklärt, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe">
-<meta property="og:title" content="Second-Order Resonance | Mathe üben von Klasse 1 bis Studium">
-<meta property="og:description" content="Adaptive Mathe-Aufgaben mit Lösungsweg, 3D-Labor, Belohnungen und Klassen-Dashboard.">
+<title data-en="Second-Order Resonance | Practise maths from grade 1 to university">Second-Order Resonance | Mathe üben von Klasse 1 bis Studium</title>
+<meta name="description" content="Mathe üben von Klasse 1 bis ins Studium: adaptive Aufgaben mit Lösungsweg, 3D-Labor, Sterne und Abzeichen, Dashboard für Lehrkräfte." data-en-content="Practise maths from grade 1 to university: adaptive exercises with worked solutions, a 3D lab, stars and badges, a dashboard for teachers.">
+<meta name="keywords" content="Mathematik, Mathe lernen, Mathe erklärt, Ingenieur Mathe, Analysis, Lineare Algebra, Fourier, Resonanz, YouTube Mathe" data-en-content="mathematics, learn maths, maths explained, engineering maths, calculus, linear algebra, Fourier, resonance, YouTube maths">
+<meta property="og:title" content="Second-Order Resonance | Mathe üben von Klasse 1 bis Studium" data-en-content="Second-Order Resonance | Practise maths from grade 1 to university">
+<meta property="og:description" content="Adaptive Mathe-Aufgaben mit Lösungsweg, 3D-Labor, Belohnungen und Klassen-Dashboard." data-en-content="Adaptive maths exercises with worked solutions, a 3D lab, rewards and a class dashboard.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://secondorderresonance.de/">
 <link rel="canonical" href="https://secondorderresonance.de/">
@@ -127,6 +128,20 @@
   .cp-gap{font-size:0.8rem;color:#c9a94a;}
   .cp-foot{display:flex;justify-content:space-between;font-size:0.78rem;color:#6b7490;margin-top:auto;}
   .cp-go{color:var(--accent);}
+  .lang-slot{display:inline-flex;margin-left:auto}
+  .mobile-lang{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.8rem 0.2rem 0.2rem;color:#98a2bd;font-size:0.9rem}
+  .course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+  .course-card{display:flex;gap:1rem;align-items:flex-start;text-decoration:none;padding:1.2rem 1.25rem;border-radius:20px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);transition:transform .25s,border-color .25s}
+  .course-card:hover{transform:translateY(-3px);border-color:rgba(245,197,24,0.45)}
+  .course-card i{flex:0 0 auto;width:44px;height:44px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:1.25rem;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.3);color:var(--accent)}
+  .course-card strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;line-height:1.3;margin-bottom:0.25rem}
+  .course-card span{display:block;color:#98a2bd;font-size:0.9rem}
+  .course-card small{display:inline-block;margin-bottom:0.35rem;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:#35e0c4}
+  @media (max-width:560px){ .lang-slot{display:none} }
+  @media (max-width:1140px){
+    .nav-links{display:none!important;}
+    .menu-btn{display:inline-flex;}
+  }
   @media (max-width:860px){
     .nav-links{display:none!important;}
     .hero-grid{grid-template-columns:1fr!important;}
@@ -166,18 +181,21 @@
       </a>
       <ul class="nav-links" style="display:flex;gap:1.9rem;align-items:center;font-size:0.92rem;">
         <li><a href="#levels" class="nav-link">Level</a></li>
-        <li><a href="#labor" class="nav-link">Labor</a></li>
-        <li><a href="#kompass" class="nav-link">Kompass</a></li>
-        <li><a href="#archive" class="nav-link">Archiv</a></li>
-        <li><a href="app/labor3d.html" class="nav-link">3D-Labor</a></li>
-        <li><a href="schulen.html" class="nav-link">Für Schulen</a></li>
-        <li><a href="app/konto.html" class="nav-link">Konto</a></li>
+        <li><a href="#kurse" class="nav-link" data-en="Courses">Kurse</a></li>
+        <li><a href="#labor" class="nav-link" data-en="Lab">Labor</a></li>
+        <li><a href="#kompass" class="nav-link" data-en="Compass">Kompass</a></li>
+        <li><a href="#archive" class="nav-link" data-en="Archive">Archiv</a></li>
+        <li><a href="app/labor3d.html" class="nav-link" data-en="3D lab">3D-Labor</a></li>
+        <li><a href="schulen.html" class="nav-link" data-en="For schools">Für Schulen</a></li>
+        <li><a href="app/konto.html" class="nav-link" data-en="Account">Konto</a></li>
       </ul>
-      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <a href="app/ueben.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);">Jetzt üben</a>
+      <span class="lang-slot" id="langSlot"></span>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu" data-en-aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <a href="app/ueben.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);" data-en="Practise now">Jetzt üben</a>
     </nav>
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#levels">Level</a><a href="#labor">Labor</a><a href="#kompass">Lehrplan-Kompass</a><a href="#archive">Archiv</a><a href="app/labor3d.html">3D-Labor</a><a href="schulen.html">Für Schulen</a><a href="app/konto.html">Konto</a><a href="app/ueben.html" style="color:var(--accent);font-weight:600;">Jetzt üben →</a>
+      <a href="#levels">Level</a><a href="#kurse" data-en="Courses">Kurse</a><a href="#labor" data-en="Lab">Labor</a><a href="#kompass" data-en="Curriculum compass">Lehrplan-Kompass</a><a href="#archive" data-en="Archive (DE)">Archiv</a><a href="app/labor3d.html" data-en="3D lab">3D-Labor</a><a href="schulen.html" data-en="For schools">Für Schulen</a><a href="app/konto.html" data-en="Account">Konto</a><a href="app/ueben.html" style="color:var(--accent);font-weight:600;" data-en="Practise now →">Jetzt üben →</a>
+      <div class="mobile-lang"><span data-en="Language">Sprache</span><span id="langSlotM"></span></div>
     </div>
   </header>
 
@@ -190,19 +208,19 @@
 
     <div class="hero-grid" style="position:relative;z-index:1;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);gap:3.5rem;align-items:center;">
       <div class="reveal">
-        <div style="display:inline-flex;align-items:center;gap:0.6rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(245,197,24,0.3);background:rgba(245,197,24,0.06);padding:0.4rem 0.85rem;border-radius:999px;margin-bottom:1.6rem;">
+        <div style="display:inline-flex;align-items:center;gap:0.6rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(245,197,24,0.3);background:rgba(245,197,24,0.06);padding:0.4rem 0.85rem;border-radius:999px;margin-bottom:1.6rem;" data-en="&lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:#35e0c4;box-shadow:0 0 10px #35e0c4;animation:sorGlow 2.4s ease-in-out infinite;&quot;&gt;&lt;/span&gt; Maths &amp;amp; physics · L1 – L6">
           <span style="width:6px;height:6px;border-radius:50%;background:#35e0c4;box-shadow:0 0 10px #35e0c4;animation:sorGlow 2.4s ease-in-out infinite;"></span>
           Mathe &amp; Physik · L1 – L6
         </div>
-        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.04;letter-spacing:-0.025em;margin-bottom:1.3rem;">
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.04;letter-spacing:-0.025em;margin-bottom:1.3rem;" data-en="Mathematics,&lt;br&gt;learned &lt;span class=&quot;serif-em&quot; style=&quot;color:var(--accent);font-size:1.12em;&quot;&gt;in&lt;br&gt;resonance&lt;/span&gt;.">
           Mathematik,<br><span class="serif-em" style="color:var(--accent);font-size:1.12em;">in Resonanz</span><br>gelernt.
         </h1>
-        <p style="font-size:1.18rem;color:#aab2cc;max-width:30rem;margin-bottom:2.2rem;">
+        <p style="font-size:1.18rem;color:#aab2cc;max-width:30rem;margin-bottom:2.2rem;" data-en="Practise from grade 1 to university. Exercises with fresh numbers every time, hints and worked solutions, plus a 3D lab and stars for every topic you master.">
           Üben von Klasse 1 bis ins Studium. Aufgaben mit immer neuen Zahlen, Tipp und Lösungsweg, dazu ein 3D-Labor und Sterne für jedes gemeisterte Thema.
         </p>
         <div style="display:flex;gap:0.9rem;flex-wrap:wrap;">
-          <a href="app/ueben.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1.02rem;padding:0.95rem 1.9rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 14px 38px rgba(245,197,24,0.26);">Jetzt üben →</a>
-          <a href="app/klasse.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:1.02rem;padding:0.95rem 1.7rem;border-radius:999px;color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);">Meine Klasse wählen</a>
+          <a href="app/ueben.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1.02rem;padding:0.95rem 1.9rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 14px 38px rgba(245,197,24,0.26);" data-en="Practise now →">Jetzt üben →</a>
+          <a href="app/klasse.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:1.02rem;padding:0.95rem 1.7rem;border-radius:999px;color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);" data-en="Choose my grade">Meine Klasse wählen</a>
         </div>
       </div>
 
@@ -210,36 +228,36 @@
         <div style="position:absolute;inset:-1px;border-radius:26px;background:linear-gradient(140deg,rgba(245,197,24,0.4),rgba(233,69,96,0.25),rgba(53,224,196,0.25));opacity:0.55;"></div>
         <div style="position:relative;border-radius:25px;background:linear-gradient(180deg,rgba(19,26,48,0.94),rgba(12,17,34,0.94));border:1px solid rgba(255,255,255,0.08);padding:1.4rem;box-shadow:0 30px 80px rgba(0,0,0,0.45);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;">
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#98a2bd;">Dein Lernweg</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#98a2bd;" data-en="Your learning path">Dein Lernweg</span>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent);">350 XP</span>
           </div>
           <div style="display:grid;gap:0.7rem;">
             <div style="display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:0.85rem;padding:0.8rem 0.9rem;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
               <span style="width:42px;height:42px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#0a0e1c;background:#4ade80;">L1</span>
-              <span style="min-width:0;"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Grundlagen</span><span style="display:block;font-size:0.84rem;color:#98a2bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Rechnen, Brüche, Geometrie</span></span>
+              <span style="min-width:0;"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-en="Foundations">Grundlagen</span><span style="display:block;font-size:0.84rem;color:#98a2bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-en="Arithmetic, fractions, geometry">Rechnen, Brüche, Geometrie</span></span>
               <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent);white-space:nowrap;">Start</span>
             </div>
             <div style="display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:0.85rem;padding:0.8rem 0.9rem;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
               <span style="width:42px;height:42px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#0a0e1c;background:#f59e0b;">L3</span>
-              <span style="min-width:0;"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Vertiefung</span><span style="display:block;font-size:0.84rem;color:#98a2bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Analysis, Stochastik, Vektoren</span></span>
+              <span style="min-width:0;"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-en="Deepening">Vertiefung</span><span style="display:block;font-size:0.84rem;color:#98a2bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-en="Calculus, probability, vectors">Analysis, Stochastik, Vektoren</span></span>
               <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent);white-space:nowrap;">120 XP</span>
             </div>
             <div style="display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:0.85rem;padding:0.8rem 0.9rem;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
               <span style="width:42px;height:42px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#0a0e1c;background:#8b5cf6;">L5</span>
-              <span style="min-width:0;"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Angewandte Mathematik</span><span style="display:block;font-size:0.84rem;color:#98a2bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Fourier, Laplace, Resonanz</span></span>
+              <span style="min-width:0;"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-en="Applied mathematics">Angewandte Mathematik</span><span style="display:block;font-size:0.84rem;color:#98a2bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-en="Fourier, Laplace, resonance">Fourier, Laplace, Resonanz</span></span>
               <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent);white-space:nowrap;">350 XP</span>
             </div>
           </div>
-          <p style="color:#98a2bd;font-size:0.86rem;margin-top:1rem;">Beispielansicht. Ohne Konto sofort starten, mit Konto mehrere Personen an einem Gerät unterscheiden.</p>
+          <p style="color:#98a2bd;font-size:0.86rem;margin-top:1rem;" data-en="Example view. Start right away without an account, or use accounts to tell several people apart on one device.">Beispielansicht. Ohne Konto sofort starten, mit Konto mehrere Personen an einem Gerät unterscheiden.</p>
         </div>
       </div>
     </div>
 
     <div class="reveal metrics" style="position:relative;z-index:1;max-width:1180px;margin:3.4rem auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="84" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">84</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Themen bis zum Master</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="120" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">120</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Topics and lessons">Themen und Lektionen</div></div>
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="6" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">6</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Level · L1–L6</div></div>
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="93" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">93</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Aufgabentypen, immer neue Zahlen</div></div>
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="20" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">20</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Abzeichen zum Sammeln</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="129" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">129</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Exercise types, fresh numbers every time">Aufgabentypen, immer neue Zahlen</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="20" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">20</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Badges to collect">Abzeichen zum Sammeln</div></div>
     </div>
   </section>
 
@@ -247,11 +265,33 @@
   <section id="levels" style="position:relative;padding:6rem 1.5rem;">
     <div style="max-width:1180px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:3.4rem;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Das Level-System</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Finde dein <span style="color:var(--accent);">Level</span></h2>
-        <p style="color:#aab2cc;font-size:1.08rem;max-width:34rem;margin:0 auto;">Von den Grundlagen bis zur Forschung &amp; Simulation — steig ein, wo du stehst.</p>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="The level system">Das Level-System</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;" data-en="Find your &lt;span style=&quot;color:var(--accent);&quot;&gt;level&lt;/span&gt;">Finde dein <span style="color:var(--accent);">Level</span></h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:34rem;margin:0 auto;" data-en="From the foundations to research &amp;amp; simulation: start where you are.">Von den Grundlagen bis zur Forschung &amp; Simulation — steig ein, wo du stehst.</p>
       </div>
       <div id="levelGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.3rem;"></div>
+    </div>
+  </section>
+
+  <!-- KURSE: Grundkurse für Studium und Technik (app/kurs.html) -->
+  <section id="kurse" style="position:relative;padding:2rem 1.5rem 5rem;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:end;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+        <div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="New · Physics &amp; Engineering">Neu · Physik &amp; Technik</span>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.4vw,2.7rem);letter-spacing:-0.02em;margin:0.7rem 0 0.5rem;" data-en="Foundation courses for <span style=&quot;color:var(--accent);&quot;>university</span>">Grundkurse fürs <span style="color:var(--accent);">Studium</span></h2>
+          <p style="color:#aab2cc;max-width:36rem;" data-en="Six courses with six lessons each: explanation, formula, animation and exercises with worked solutions.">Sechs Kurse mit je sechs Lektionen: Erklärung, Formel, Animation und Übungen mit Lösungsweg.</p>
+        </div>
+        <a href="app/kurs.html" style="text-decoration:none;font-weight:600;padding:0.75rem 1.4rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);" data-en="All courses →">Alle Kurse →</a>
+      </div>
+      <div class="reveal course-grid">
+        <a class="course-card" href="app/kurs.html?k=tm1"><i aria-hidden="true">⚖</i><div><small>L4 · TM 1</small><strong data-en="Engineering Mechanics 1: Statics">Technische Mechanik 1: Statik</strong><span data-en="Forces, supports, trusses, shear force and bending moment diagrams">Kräfte, Lager, Fachwerke, Querkraft- und Momentenverlauf</span></div></a>
+        <a class="course-card" href="app/kurs.html?k=tm2"><i aria-hidden="true">⌇</i><div><small>L4 · TM 2</small><strong data-en="Engineering Mechanics 2: Strength of materials">Technische Mechanik 2: Elastostatik</strong><span data-en="Stress and strain, temperature, bending, deflection, buckling">Spannung und Dehnung, Temperatur, Biegung, Durchbiegung, Knicken</span></div></a>
+        <a class="course-card" href="app/kurs.html?k=trafo"><i aria-hidden="true">⟲</i><div><small>L5 · TM 3</small><strong data-en="Transformation matrices and kinematics">Transformationsmatrizen und Kinematik</strong><span data-en="Rotations, homogeneous transforms, robot arm kinematics">Drehungen, homogene Transformationen, Roboterarm</span></div></a>
+        <a class="course-card" href="app/kurs.html?k=pid"><i aria-hidden="true">↺</i><div><small>L5 · PID</small><strong data-en="Control engineering: the PID controller">Regelungstechnik: der PID-Regler</strong><span data-en="Control loop, P, I and D terms, Ziegler–Nichols tuning">Regelkreis, P-, I- und D-Anteil, Einstellung nach Ziegler und Nichols</span></div></a>
+        <a class="course-card" href="app/kurs.html?k=thermo"><i aria-hidden="true">♨</i><div><small>L4 · Thermo</small><strong data-en="Thermodynamics and heat transfer">Thermodynamik und Wärmetransport</strong><span data-en="Heat, ideal gas, first law, Carnot, conduction and radiation">Wärme, ideales Gas, erster Hauptsatz, Carnot, Leitung und Strahlung</span></div></a>
+        <a class="course-card" href="app/kurs.html?k=stat"><i aria-hidden="true">∑</i><div><small>L5 · Stat</small><strong data-en="Statistics for university">Statistik im Studium</strong><span data-en="Binomial, Poisson, Gauss, exponential distribution and Bayes' theorem">Binomial-, Poisson-, Gauß- und Exponentialverteilung, Satz von Bayes</span></div></a>
+      </div>
     </div>
   </section>
 
@@ -259,54 +299,54 @@
   <section id="labor" style="position:relative;padding:6rem 1.5rem;">
     <div style="max-width:1180px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:3rem;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Das Labor</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Mathe zum <span class="serif-em" style="color:var(--accent);font-size:1.1em;">Anfassen</span></h2>
-        <p style="color:#aab2cc;font-size:1.08rem;max-width:36rem;margin:0 auto;">Dreh eine Kurve um die x-Achse und sieh zu, wie aus Scheiben ein Körper wird. Alle Zahlen werden live berechnet.</p>
-        <a href="app/labor3d.html" class="btn btn-ghost" style="display:inline-block;margin-top:1.2rem;text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.7rem 1.4rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">Mehr im 3D-Labor: Körper, Funktionsgebirge, Euler-Spirale →</a>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="The lab">Das Labor</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;" data-en="Maths you can &lt;span class=&quot;serif-em&quot; style=&quot;color:var(--accent);font-size:1.1em;&quot;&gt;touch&lt;/span&gt;">Mathe zum <span class="serif-em" style="color:var(--accent);font-size:1.1em;">Anfassen</span></h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:36rem;margin:0 auto;" data-en="Rotate a curve about the x-axis and watch slices turn into a solid. All numbers are computed live.">Dreh eine Kurve um die x-Achse und sieh zu, wie aus Scheiben ein Körper wird. Alle Zahlen werden live berechnet.</p>
+        <a href="app/labor3d.html" class="btn btn-ghost" style="display:inline-block;margin-top:1.2rem;text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.7rem 1.4rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);" data-en="More in the 3D lab: solids, function landscapes, Euler spiral →">Mehr im 3D-Labor: Körper, Funktionsgebirge, Euler-Spirale →</a>
       </div>
 
       <div class="lab reveal" data-lab data-lab-start="vase">
         <div class="lab-grid">
           <div class="lab-stage">
             <div class="lab-head">
-              <div class="lab-meta"><span class="num" data-lab-field="numeral">III.</span><span class="rule"></span><span data-lab-field="label">Volumen</span></div>
-              <div class="lab-title" data-lab-field="title">Dreh es zu einem <em>Körper</em></div>
-              <div class="lab-sub" data-lab-field="subtitle">jede Scheibe ist eine Kreisscheibe</div>
+              <div class="lab-meta"><span class="num" data-lab-field="numeral">III.</span><span class="rule"></span><span data-lab-field="label" data-en="Volume">Volumen</span></div>
+              <div class="lab-title" data-lab-field="title" data-en="Spin it into a &lt;em&gt;solid&lt;/em&gt;">Dreh es zu einem <em>Körper</em></div>
+              <div class="lab-sub" data-lab-field="subtitle" data-en="every slice is a disc">jede Scheibe ist eine Kreisscheibe</div>
               <div class="lab-formula" data-lab-field="formula" aria-live="polite"></div>
             </div>
-            <canvas class="lab-canvas" data-lab-canvas tabindex="0" role="img" aria-label="3D-Ansicht eines Rotationskörpers. Ziehen oder Pfeiltasten drehen die Ansicht."></canvas>
+            <canvas class="lab-canvas" data-lab-canvas tabindex="0" role="img" aria-label="3D-Ansicht eines Rotationskörpers. Ziehen oder Pfeiltasten drehen die Ansicht." data-en-aria-label="3D view of a solid of revolution. Drag or use the arrow keys to rotate the view."></canvas>
             <div class="lab-readout" aria-live="polite">
-              <div class="k">Rotiert <b data-lab-field="sweep">360°</b></div>
-              <div class="k"><span data-lab-field="bigLabel">Volumen</span> <b data-lab-field="big">≈ 5,280</b></div>
-              <div class="k" style="font-size:0.95rem;"><span data-lab-field="subLabel">Mantelfläche</span> <b data-lab-field="sub2"></b></div>
+              <div class="k" data-en="Rotated &lt;b data-lab-field=&quot;sweep&quot;&gt;360°&lt;/b&gt;">Rotiert <b data-lab-field="sweep">360°</b></div>
+              <div class="k"><span data-lab-field="bigLabel" data-en="Volume">Volumen</span> <b data-lab-field="big">≈ 5,280</b></div>
+              <div class="k" style="font-size:0.95rem;"><span data-lab-field="subLabel" data-en="Surface area">Mantelfläche</span> <b data-lab-field="sub2"></b></div>
               <div class="s" data-lab-field="disc"></div>
             </div>
-            <div class="lab-hint">Ziehen zum Drehen</div>
+            <div class="lab-hint" data-en="Drag to rotate">Ziehen zum Drehen</div>
           </div>
           <div class="lab-panel">
-            <div class="lab-tabs" role="tablist" aria-label="Kapitel">
-              <button class="lab-tab" type="button" role="tab" data-lab-mode="cone"><span class="n">I.</span>Kegel aus einer Geraden</button>
-              <button class="lab-tab" type="button" role="tab" data-lab-mode="paraboloid"><span class="n">II.</span>Paraboloid und Scheibenmethode</button>
-              <button class="lab-tab" type="button" role="tab" data-lab-mode="vase"><span class="n">III.</span>Volumen einer Vase</button>
-              <button class="lab-tab" type="button" role="tab" data-lab-mode="horn"><span class="n">IV.</span>Gabriels Horn</button>
+            <div class="lab-tabs" role="tablist" aria-label="Kapitel" data-en-aria-label="Chapter">
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="cone" data-en="&lt;span class=&quot;n&quot;&gt;I.&lt;/span&gt;Cone from a straight line"><span class="n">I.</span>Kegel aus einer Geraden</button>
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="paraboloid" data-en="&lt;span class=&quot;n&quot;&gt;II.&lt;/span&gt;Paraboloid and disc method"><span class="n">II.</span>Paraboloid und Scheibenmethode</button>
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="vase" data-en="&lt;span class=&quot;n&quot;&gt;III.&lt;/span&gt;Volume of a vase"><span class="n">III.</span>Volumen einer Vase</button>
+              <button class="lab-tab" type="button" role="tab" data-lab-mode="horn" data-en="&lt;span class=&quot;n&quot;&gt;IV.&lt;/span&gt;Gabriel&#x27;s horn"><span class="n">IV.</span>Gabriels Horn</button>
             </div>
             <div class="lab-ctrl">
-              <label for="labSweep"><span>Drehwinkel</span><span data-lab-field="sweepCtl"></span></label>
+              <label for="labSweep"><span data-en="Rotation angle">Drehwinkel</span><span data-lab-field="sweepCtl"></span></label>
               <input id="labSweep" type="range" min="0" max="360" step="1" value="360" data-lab-input="sweep">
             </div>
             <div class="lab-ctrl">
-              <label for="labSlice"><span>Scheibe bei x</span><span></span></label>
+              <label for="labSlice"><span data-en="Slice at x">Scheibe bei x</span><span></span></label>
               <input id="labSlice" type="range" min="0" max="100" step="1" value="55" data-lab-input="slice">
             </div>
             <div class="lab-ctrl" data-lab-upper-wrap hidden>
-              <label for="labUpper"><span>Obere Grenze</span><span data-lab-field="upperValue">b = 12</span></label>
+              <label for="labUpper"><span data-en="Upper limit">Obere Grenze</span><span data-lab-field="upperValue">b = 12</span></label>
               <input id="labUpper" type="range" min="2" max="200" step="1" value="12" data-lab-input="upper">
             </div>
             <p class="lab-note" data-lab-field="partial"></p>
             <p style="color:#98a2bd;font-size:0.9rem;" data-lab-field="note"></p>
             <div class="lab-actions">
-              <button type="button" data-lab-replay class="btn btn-ghost" style="color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);">↻ Neu drehen</button>
-              <a data-lab-field="archive" href="app/lernarchiv.html?level=3&amp;sublevel=3.1.3.b" class="btn btn-primary" style="color:#0a0e1c;background:var(--accent);">Im Archiv üben →</a>
+              <button type="button" data-lab-replay class="btn btn-ghost" style="color:#eef1f7;background:transparent;border:1px solid rgba(255,255,255,0.18);" data-en="↻ Spin again">↻ Neu drehen</button>
+              <a data-lab-field="archive" href="app/lernarchiv.html?level=3&amp;sublevel=3.1.3.b" class="btn btn-primary" style="color:#0a0e1c;background:var(--accent);" data-en="Practise in the archive (DE) →">Im Archiv üben →</a>
             </div>
           </div>
         </div>
@@ -318,18 +358,18 @@
   <section id="kompass" style="position:relative;padding:5rem 1.5rem 6rem;">
     <div style="max-width:1180px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:2.6rem;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Lehrplan-Kompass</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Was steht <span class="serif-em" style="color:var(--accent);font-size:1.1em;">bei dir</span> an?</h2>
-        <p style="color:#aab2cc;font-size:1.08rem;max-width:38rem;margin:0 auto;">Wähle deine Klasse oder dein Studienjahr. Der Kompass zeigt die passenden Themen, ein Klick öffnet die Jahrgangsseite mit Erklärung und Übung.</p>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="Curriculum compass">Lehrplan-Kompass</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;" data-en="What&#x27;s coming up &lt;span class=&quot;serif-em&quot; style=&quot;color:var(--accent);font-size:1.1em;&quot;&gt;for you&lt;/span&gt;?">Was steht <span class="serif-em" style="color:var(--accent);font-size:1.1em;">bei dir</span> an?</h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:38rem;margin:0 auto;" data-en="Choose your grade or year of study. The compass shows the matching topics, and one click opens the grade page with explanation and practice.">Wähle deine Klasse oder dein Studienjahr. Der Kompass zeigt die passenden Themen, ein Klick öffnet die Jahrgangsseite mit Erklärung und Übung.</p>
       </div>
       <div class="compass reveal" data-compass data-archive-src="app/data/archive-content.js">
-        <div class="cp-railwrap"><div class="cp-rail" data-compass-rail role="group" aria-label="Klassenstufe oder Studienphase"></div></div>
-        <input class="cp-range" type="range" min="0" max="15" step="1" value="8" data-compass-range aria-label="Klasse oder Studienphase wählen">
+        <div class="cp-railwrap"><div class="cp-rail" data-compass-rail role="group" aria-label="Klassenstufe oder Studienphase" data-en-aria-label="Grade or study phase"></div></div>
+        <input class="cp-range" type="range" min="0" max="15" step="1" value="8" data-compass-range aria-label="Klasse oder Studienphase wählen" data-en-aria-label="Choose grade or study phase">
         <div class="cp-body">
           <div data-compass-head></div>
           <div class="cp-out" data-compass-out aria-live="polite"></div>
         </div>
-        <p style="color:#6b7490;font-size:0.8rem;margin-top:1.4rem;">Orientiert an den KMK-Bildungsstandards und typischen Modulen der Ingenieurmathematik. Die Inhalte einzelner Bundesländer und Hochschulen können abweichen.</p>
+        <p style="color:#6b7490;font-size:0.8rem;margin-top:1.4rem;" data-en="Based on the German KMK education standards and typical engineering mathematics modules. Content in individual states and universities may differ.">Orientiert an den KMK-Bildungsstandards und typischen Modulen der Ingenieurmathematik. Die Inhalte einzelner Bundesländer und Hochschulen können abweichen.</p>
       </div>
     </div>
   </section>
@@ -338,10 +378,10 @@
   <section id="search" style="padding:2.5rem 1.5rem 5.5rem;">
     <div class="reveal" style="max-width:760px;margin:0 auto;border-radius:24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;">
       <div style="text-align:center;margin-bottom:1.2rem;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Schnellsuche</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.7rem;margin-top:0.6rem;">Springe direkt zum Thema</h2>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="Quick search">Schnellsuche</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.7rem;margin-top:0.6rem;" data-en="Jump straight to a topic">Springe direkt zum Thema</h2>
       </div>
-      <input id="globalSearch" class="search-input" type="search" placeholder="z. B. Pythagoras, Fourier, Level 3, Einstufungstest" style="width:100%;padding:1rem 1.2rem;border-radius:16px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);color:#eef1f7;font-size:1rem;font-family:inherit;">
+      <input id="globalSearch" class="search-input" type="search" placeholder="z. B. Pythagoras, Fourier, Level 3, Einstufungstest" style="width:100%;padding:1rem 1.2rem;border-radius:16px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);color:#eef1f7;font-size:1rem;font-family:inherit;" data-en-placeholder="e.g. Pythagoras, Fourier, level 3, placement test">
       <div id="searchResults" style="display:grid;gap:0.7rem;margin-top:1.2rem;"></div>
     </div>
   </section>
@@ -350,38 +390,38 @@
   <section id="archive" style="position:relative;padding:6rem 1.5rem;background:linear-gradient(180deg,transparent,rgba(11,16,34,0.6),transparent);">
     <div style="max-width:1180px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:3.2rem;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Das Archiv</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Nach Themen <span style="color:var(--accent);">nachschlagen</span></h2>
-        <p style="color:#aab2cc;font-size:1.08rem;max-width:36rem;margin:0 auto;">Eine wachsende Sammlung kompakter Erklärungen und Aufgaben — sortiert nach Level und Thema, als ruhiger Ort für Grundlagen und Lösungswege.</p>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="The archive">Das Archiv</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;" data-en="Look up &lt;span style=&quot;color:var(--accent);&quot;&gt;by topic&lt;/span&gt;">Nach Themen <span style="color:var(--accent);">nachschlagen</span></h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:36rem;margin:0 auto;" data-en="A growing collection of compact explanations and exercises, sorted by level and topic, as a calm place for foundations and worked solutions. The archive is in German.">Eine wachsende Sammlung kompakter Erklärungen und Aufgaben — sortiert nach Level und Thema, als ruhiger Ort für Grundlagen und Lösungswege.</p>
       </div>
 
       <div class="archive-top" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.3rem;margin-bottom:1.3rem;">
         <div class="reveal" style="border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;">
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.4rem;margin-bottom:0.7rem;">Wissen, wenn du es brauchst</h3>
-          <p style="color:#aab2cc;margin-bottom:1.6rem;">Das Archiv ergänzt Videos und App um Definitionen, Herleitungen und Lösungswege — für Mathe und Physik, geordnet nach den sechs Leveln.</p>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.4rem;margin-bottom:0.7rem;" data-en="Knowledge when you need it">Wissen, wenn du es brauchst</h3>
+          <p style="color:#aab2cc;margin-bottom:1.6rem;" data-en="The archive adds definitions, derivations and worked solutions to the videos and the app, for maths and physics, ordered by the six levels.">Das Archiv ergänzt Videos und App um Definitionen, Herleitungen und Lösungswege — für Mathe und Physik, geordnet nach den sechs Leveln.</p>
           <div style="display:flex;flex-wrap:wrap;gap:0.8rem;">
-            <a href="app/lernarchiv.html" class="btn btn-primary" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#0a0e1c;background:var(--accent);">Archiv öffnen</a>
-            <a href="app/index.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">Mit der App üben</a>
+            <a href="app/lernarchiv.html" class="btn btn-primary" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#0a0e1c;background:var(--accent);" data-en="Open archive (DE)">Archiv öffnen</a>
+            <a href="app/index.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);" data-en="Practise with the app">Mit der App üben</a>
           </div>
         </div>
         <div class="reveal" style="border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;">
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.4rem;margin-bottom:1.1rem;">So ist es aufgebaut</h3>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.4rem;margin-bottom:1.1rem;" data-en="How it is organised">So ist es aufgebaut</h3>
           <div style="display:grid;gap:0.8rem;">
-            <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Nach Level geordnet</strong><span style="color:#98a2bd;font-size:0.92rem;">Jedes Thema lässt sich klar einem der sechs Lernlevel zuordnen.</span></div>
-            <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Mathe und Physik</strong><span style="color:#98a2bd;font-size:0.92rem;">Grundlagen, Herleitungen und Anwendungen gemeinsam abgedeckt.</span></div>
-            <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Ergänzung zu Video &amp; App</strong><span style="color:#98a2bd;font-size:0.92rem;">Kurz nachlesen, dann direkt weiter mit Video oder Übung.</span></div>
+            <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;" data-en="Ordered by level">Nach Level geordnet</strong><span style="color:#98a2bd;font-size:0.92rem;" data-en="Every topic belongs clearly to one of the six learning levels.">Jedes Thema lässt sich klar einem der sechs Lernlevel zuordnen.</span></div>
+            <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;" data-en="Maths and physics">Mathe und Physik</strong><span style="color:#98a2bd;font-size:0.92rem;" data-en="Foundations, derivations and applications covered together.">Grundlagen, Herleitungen und Anwendungen gemeinsam abgedeckt.</span></div>
+            <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;" data-en="Companion to video &amp;amp; app">Ergänzung zu Video &amp; App</strong><span style="color:#98a2bd;font-size:0.92rem;" data-en="Read up quickly, then carry on with a video or an exercise.">Kurz nachlesen, dann direkt weiter mit Video oder Übung.</span></div>
           </div>
         </div>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.3rem;">
         <a href="app/lernarchiv.html#pythagoras-visual" class="reveal visual-card lift" style="text-decoration:none;display:block;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);">
-          <div style="height:120px;background:linear-gradient(135deg,#0f3460,#35e0c4);display:flex;align-items:center;justify-content:center;"><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.3);padding:0.35rem 0.8rem;border-radius:999px;">Interaktiv · L1</span></div>
-          <div style="padding:1.5rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:0.5rem;color:#eef1f7;">Satz des Pythagoras</h3><p style="color:#aab2cc;font-size:0.94rem;">Verschiebe zwei Katheten und sieh sofort, wie Dreieck, Quadrate und Hypotenuse zusammenhängen.</p></div>
+          <div style="height:120px;background:linear-gradient(135deg,#0f3460,#35e0c4);display:flex;align-items:center;justify-content:center;"><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.3);padding:0.35rem 0.8rem;border-radius:999px;" data-en="Interactive · L1">Interaktiv · L1</span></div>
+          <div style="padding:1.5rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:0.5rem;color:#eef1f7;" data-en="Pythagoras&#x27; theorem">Satz des Pythagoras</h3><p style="color:#aab2cc;font-size:0.94rem;" data-en="Move two legs and see straight away how triangle, squares and hypotenuse are connected.">Verschiebe zwei Katheten und sieh sofort, wie Dreieck, Quadrate und Hypotenuse zusammenhängen.</p></div>
         </a>
         <a href="app/lernarchiv.html#argand-visual" class="reveal visual-card lift" style="text-decoration:none;display:block;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);">
-          <div style="height:120px;background:linear-gradient(135deg,#0f3460,#8b5cf6);display:flex;align-items:center;justify-content:center;"><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.3);padding:0.35rem 0.8rem;border-radius:999px;">Interaktiv · L4</span></div>
-          <div style="padding:1.5rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:0.5rem;color:#eef1f7;">Argand-Ebene</h3><p style="color:#aab2cc;font-size:0.94rem;">Bewege Real- und Imaginärteil und beobachte Betrag, Argument und die konjugiert komplexe Zahl.</p></div>
+          <div style="height:120px;background:linear-gradient(135deg,#0f3460,#8b5cf6);display:flex;align-items:center;justify-content:center;"><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.3);padding:0.35rem 0.8rem;border-radius:999px;" data-en="Interactive · L4">Interaktiv · L4</span></div>
+          <div style="padding:1.5rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:0.5rem;color:#eef1f7;" data-en="Argand plane">Argand-Ebene</h3><p style="color:#aab2cc;font-size:0.94rem;" data-en="Move the real and imaginary parts and watch modulus, argument and the complex conjugate.">Bewege Real- und Imaginärteil und beobachte Betrag, Argument und die konjugiert komplexe Zahl.</p></div>
         </a>
       </div>
     </div>
@@ -392,17 +432,17 @@
     <div style="max-width:1180px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:3.2rem;">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">YouTube</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Erklär<span style="color:var(--accent);">videos</span></h2>
-        <p style="color:#aab2cc;font-size:1.08rem;">Visuell erklärt — direkt verlinkt zum Kanal.</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;" data-en="Explainer &lt;span style=&quot;color:var(--accent);&quot;&gt;videos&lt;/span&gt;">Erklär<span style="color:var(--accent);">videos</span></h2>
+        <p style="color:#aab2cc;font-size:1.08rem;" data-en="Explained visually, linked straight to the channel.">Visuell erklärt — direkt verlinkt zum Kanal.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.3rem;max-width:780px;margin:0 auto;">
         <a href="https://youtu.be/4MfNDj7GfQ8" target="_blank" rel="noopener" class="reveal media-card lift" style="text-decoration:none;display:block;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);">
           <div style="aspect-ratio:16/9;background:linear-gradient(135deg,#e94560,#0f3460);display:flex;align-items:center;justify-content:center;"><span style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.3);"><svg width="22" height="24" viewBox="0 0 22 24" fill="none"><path d="M2 2 L20 12 L2 22 Z" fill="#e94560"/></svg></span></div>
-          <div style="padding:1.4rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem;margin-bottom:0.4rem;color:#eef1f7;">Exponentielles Verhalten</h3><p style="color:#98a2bd;font-size:0.92rem;">Visueller Einstieg in Wachstum und Zerfall mit alltagsnahen Beispielen.</p></div>
+          <div style="padding:1.4rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem;margin-bottom:0.4rem;color:#eef1f7;" data-en="Exponential behaviour">Exponentielles Verhalten</h3><p style="color:#98a2bd;font-size:0.92rem;" data-en="A visual introduction to growth and decay with everyday examples.">Visueller Einstieg in Wachstum und Zerfall mit alltagsnahen Beispielen.</p></div>
         </a>
         <a href="https://youtu.be/3n05QLJ-u4E" target="_blank" rel="noopener" class="reveal media-card lift" style="text-decoration:none;display:block;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);">
           <div style="aspect-ratio:16/9;background:linear-gradient(135deg,#f5c518,#e94560);display:flex;align-items:center;justify-content:center;"><span style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.3);"><svg width="22" height="24" viewBox="0 0 22 24" fill="none"><path d="M2 2 L20 12 L2 22 Z" fill="#e94560"/></svg></span></div>
-          <div style="padding:1.4rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem;margin-bottom:0.4rem;color:#eef1f7;">Gleichungen lösen und umstellen</h3><p style="color:#98a2bd;font-size:0.92rem;">Gegenoperationen sauber anwenden und Schritt für Schritt sicher umformen.</p></div>
+          <div style="padding:1.4rem;"><h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem;margin-bottom:0.4rem;color:#eef1f7;" data-en="Solving and rearranging equations">Gleichungen lösen und umstellen</h3><p style="color:#98a2bd;font-size:0.92rem;" data-en="Apply inverse operations cleanly and rearrange safely step by step.">Gegenoperationen sauber anwenden und Schritt für Schritt sicher umformen.</p></div>
         </a>
       </div>
     </div>
@@ -412,22 +452,22 @@
   <section id="app" style="padding:6rem 1.5rem;background:linear-gradient(180deg,transparent,rgba(11,16,34,0.6),transparent);">
     <div class="app-grid" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;">
       <div class="reveal">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Üben</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.2vw,2.6rem);letter-spacing:-0.02em;margin:0.8rem 0 1rem;">Interaktiv üben,<br>Level für Level</h2>
-        <p style="color:#aab2cc;margin-bottom:1.5rem;max-width:26rem;">Aufgaben mit immer neuen Zahlen. Die Schwierigkeit passt sich an, und jedes Thema lässt sich bis zu drei Sternen meistern.</p>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="Practice">Üben</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.2vw,2.6rem);letter-spacing:-0.02em;margin:0.8rem 0 1rem;" data-en="Interactive practice,&lt;br&gt;level by level">Interaktiv üben,<br>Level für Level</h2>
+        <p style="color:#aab2cc;margin-bottom:1.5rem;max-width:26rem;" data-en="Exercises with fresh numbers every time. The difficulty adapts, and every topic can be mastered up to three stars.">Aufgaben mit immer neuen Zahlen. Die Schwierigkeit passt sich an, und jedes Thema lässt sich bis zu drei Sternen meistern.</p>
         <div style="display:grid;gap:0.7rem;margin-bottom:1.8rem;">
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>93 Aufgabentypen zu 84 Themen</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tagesziel, Lernserie und 20 Abzeichen</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tipp und Lösungsweg zu jeder Aufgabe</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Läuft im Browser, auch auf dem Handy</div>
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>100% kostenlos</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;129 exercise types for 120 topics and lessons"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>129 Aufgabentypen zu 120 Themen und Lektionen</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;Daily goal, streak and 20 badges"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tagesziel, Lernserie und 20 Abzeichen</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;Hint and worked solution for every exercise"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tipp und Lösungsweg zu jeder Aufgabe</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;Runs in the browser, also on your phone"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Läuft im Browser, auch auf dem Handy</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;100% free"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>100% kostenlos</div>
         </div>
-        <a href="app/ueben.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1rem;padding:0.9rem 1.8rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-block;box-shadow:0 14px 38px rgba(245,197,24,0.24);">Jetzt üben</a>
+        <a href="app/ueben.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:1rem;padding:0.9rem 1.8rem;border-radius:999px;color:#0a0e1c;background:var(--accent);display:inline-block;box-shadow:0 14px 38px rgba(245,197,24,0.24);" data-en="Practise now">Jetzt üben</a>
       </div>
       <div class="reveal" style="border-radius:24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.4);">
-        <p style="color:#98a2bd;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;">Übung des Tages</p>
+        <p style="color:#98a2bd;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;" data-en="Exercise of the day">Übung des Tages</p>
         <div style="font-family:'IBM Plex Mono',monospace;font-size:1.7rem;color:var(--accent);margin:1.6rem 0;">d/dx [x³ + 2x] = ?</div>
-        <p style="color:#98a2bd;font-size:0.9rem;margin-bottom:1.4rem;">Tipp: Potenzregel anwenden</p>
+        <p style="color:#98a2bd;font-size:0.9rem;margin-bottom:1.4rem;" data-en="Hint: use the power rule">Tipp: Potenzregel anwenden</p>
         <div id="answerRow" style="display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap;">
           <button class="answer" data-correct="0" style="padding:0.75rem 1.3rem;border-radius:13px;border:1px solid rgba(255,255,255,0.18);background:transparent;color:#eef1f7;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:0.95rem;transition:all .25s;">3x²</button>
           <button class="answer" data-correct="1" style="padding:0.75rem 1.3rem;border-radius:13px;border:1px solid rgba(255,255,255,0.18);background:transparent;color:#eef1f7;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:0.95rem;transition:all .25s;">3x² + 2</button>
@@ -441,18 +481,18 @@
   <section id="schulen" style="padding:5rem 1.5rem;">
     <div class="reveal app-grid" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;border-radius:26px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);padding:2.4rem;">
       <div>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Für Lehrkräfte und Schulen</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.7rem,3vw,2.3rem);letter-spacing:-0.02em;margin:0.7rem 0 0.8rem;">Sehen, wo die Klasse <span class="serif-em" style="color:var(--accent);font-size:1.1em;">wirklich</span> steht</h2>
-        <p style="color:#aab2cc;margin-bottom:1.4rem;">Klassen anlegen, Themen als Auftrag vergeben und den Lernstand pro Kind und Thema sehen. Ohne Tracking, Lerndaten bleiben im Browser.</p>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="For teachers and schools">Für Lehrkräfte und Schulen</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.7rem,3vw,2.3rem);letter-spacing:-0.02em;margin:0.7rem 0 0.8rem;" data-en="See where the class &lt;span class=&quot;serif-em&quot; style=&quot;color:var(--accent);font-size:1.1em;&quot;&gt;really&lt;/span&gt; stands">Sehen, wo die Klasse <span class="serif-em" style="color:var(--accent);font-size:1.1em;">wirklich</span> steht</h2>
+        <p style="color:#aab2cc;margin-bottom:1.4rem;" data-en="Create classes, assign topics and see progress per student and topic. No tracking, learning data stays in the browser.">Klassen anlegen, Themen als Auftrag vergeben und den Lernstand pro Kind und Thema sehen. Ohne Tracking, Lerndaten bleiben im Browser.</p>
         <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
-          <a href="schulen.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#0a0e1c;background:var(--accent);">Mehr für Schulen</a>
-          <a href="app/lehrer.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">Demo-Klasse ansehen</a>
+          <a href="schulen.html" class="btn btn-primary" style="text-decoration:none;font-weight:700;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#0a0e1c;background:var(--accent);" data-en="More for schools">Mehr für Schulen</a>
+          <a href="app/lehrer.html" class="btn btn-ghost" style="text-decoration:none;font-weight:600;font-size:0.95rem;padding:0.8rem 1.5rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);" data-en="View the demo class">Demo-Klasse ansehen</a>
         </div>
       </div>
       <div style="display:grid;gap:0.7rem;">
-        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Lernstand je Thema</strong><span style="color:#98a2bd;font-size:0.92rem;">Sterne pro Kind und Thema, Trefferquote und Aktivität auf einen Blick.</span></div>
-        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Aufträge mit Fälligkeit</strong><span style="color:#98a2bd;font-size:0.92rem;">Themen als Hausaufgabe oder Wochenplan vergeben.</span></div>
-        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;">Ohne Server</strong><span style="color:#98a2bd;font-size:0.92rem;">Keine Tracker, keine fremden Schriften, Daten exportierbar und löschbar.</span></div>
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;" data-en="Progress per topic">Lernstand je Thema</strong><span style="color:#98a2bd;font-size:0.92rem;" data-en="Stars per student and topic, accuracy and activity at a glance.">Sterne pro Kind und Thema, Trefferquote und Aktivität auf einen Blick.</span></div>
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;" data-en="Assignments with due dates">Aufträge mit Fälligkeit</strong><span style="color:#98a2bd;font-size:0.92rem;" data-en="Assign topics as homework or a weekly plan.">Themen als Hausaufgabe oder Wochenplan vergeben.</span></div>
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);"><strong style="display:block;margin-bottom:0.2rem;" data-en="No server">Ohne Server</strong><span style="color:#98a2bd;font-size:0.92rem;" data-en="No trackers, no third-party fonts, data can be exported and deleted.">Keine Tracker, keine fremden Schriften, Daten exportierbar und löschbar.</span></div>
       </div>
     </div>
   </section>
@@ -461,23 +501,23 @@
   <section id="name" style="padding:6rem 1.5rem;">
     <div style="max-width:1080px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:2.6rem;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;">Über den Namen</span>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;">Warum <span style="color:var(--accent);">Second-Order&nbsp;Resonance</span>?</h2>
-        <p style="color:#aab2cc;font-size:1.08rem;max-width:32rem;margin:0 auto;">Der Name ist das Lernversprechen — in zwei Teilen.</p>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="About the name">Über den Namen</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.02em;margin:0.8rem 0 0.7rem;" data-en="Why &lt;span style=&quot;color:var(--accent);&quot;&gt;Second-Order&amp;nbsp;Resonance&lt;/span&gt;?">Warum <span style="color:var(--accent);">Second-Order&nbsp;Resonance</span>?</h2>
+        <p style="color:#aab2cc;font-size:1.08rem;max-width:32rem;margin:0 auto;" data-en="The name is the learning promise, in two parts.">Der Name ist das Lernversprechen — in zwei Teilen.</p>
         <svg width="180" height="26" viewBox="0 0 180 26" fill="none" style="margin:1.4rem auto 0;display:block;opacity:0.7;"><path d="M2 13 C24 13 24 4 40 4 C56 4 56 22 72 22 C86 22 88 8 100 11 C112 14 118 13 130 13 L178 13" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/></svg>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.3rem;">
         <div class="reveal" style="border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;position:relative;overflow:hidden;">
           <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#35e0c4;opacity:0.7;"></div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#35e0c4;margin-bottom:0.8rem;">Resonance</div>
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.45rem;letter-spacing:-0.01em;margin-bottom:0.7rem;">Es bleibt hängen</h3>
-          <p style="color:#aab2cc;font-size:1rem;">Resonanz heißt: Der Stoff schwingt mit. Du hast etwas nicht nur gehört, sondern wirklich verstanden — es bleibt hängen, statt schnell wieder zu verschwinden.</p>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.45rem;letter-spacing:-0.01em;margin-bottom:0.7rem;" data-en="It sticks">Es bleibt hängen</h3>
+          <p style="color:#aab2cc;font-size:1rem;" data-en="Resonance means the material resonates with you. You have not just heard something, you have really understood it, and it sticks instead of fading away again.">Resonanz heißt: Der Stoff schwingt mit. Du hast etwas nicht nur gehört, sondern wirklich verstanden — es bleibt hängen, statt schnell wieder zu verschwinden.</p>
         </div>
         <div class="reveal" style="border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem;position:relative;overflow:hidden;">
           <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:0.8;"></div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.8rem;">Second Order</div>
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.45rem;letter-spacing:-0.01em;margin-bottom:0.7rem;">Eine Ebene tiefer</h3>
-          <p style="color:#aab2cc;font-size:1rem;">Second Order steht für die tiefere Ebene. Nicht nur die Oberfläche, sondern das Prinzip dahinter — das Warum, das die Zusammenhänge wirklich trägt.</p>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.45rem;letter-spacing:-0.01em;margin-bottom:0.7rem;" data-en="One level deeper">Eine Ebene tiefer</h3>
+          <p style="color:#aab2cc;font-size:1rem;" data-en="Second order stands for the deeper level. Not just the surface but the principle behind it: the why that really holds things together.">Second Order steht für die tiefere Ebene. Nicht nur die Oberfläche, sondern das Prinzip dahinter — das Warum, das die Zusammenhänge wirklich trägt.</p>
         </div>
       </div>
     </div>
@@ -486,10 +526,10 @@
   <!-- VIDEOS FOLGEN -->
   <section id="newsletter" style="padding:6rem 1.5rem;">
     <div class="reveal" style="max-width:680px;margin:0 auto;text-align:center;border-radius:26px;background:radial-gradient(700px 300px at 50% 0%,rgba(245,197,24,0.1),transparent 70%),rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:3rem 2rem;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-0.02em;margin-bottom:0.8rem;">Verpasse kein Video</h2>
-      <p style="color:#aab2cc;margin-bottom:2rem;max-width:30rem;margin-left:auto;margin-right:auto;">Neue Erklärvideos erscheinen auf YouTube und als kurze Clips auf TikTok.</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-0.02em;margin-bottom:0.8rem;" data-en="Never miss a video">Verpasse kein Video</h2>
+      <p style="color:#aab2cc;margin-bottom:2rem;max-width:30rem;margin-left:auto;margin-right:auto;" data-en="New explainer videos appear on YouTube and as short clips on TikTok.">Neue Erklärvideos erscheinen auf YouTube und als kurze Clips auf TikTok.</p>
       <div style="display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap;">
-        <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="btn btn-primary" style="text-decoration:none;padding:0.95rem 1.8rem;border-radius:999px;font-weight:700;font-size:1rem;color:#0a0e1c;background:var(--accent);">YouTube-Kanal öffnen</a>
+        <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="btn btn-primary" style="text-decoration:none;padding:0.95rem 1.8rem;border-radius:999px;font-weight:700;font-size:1rem;color:#0a0e1c;background:var(--accent);" data-en="Open YouTube channel">YouTube-Kanal öffnen</a>
         <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" rel="noopener" class="btn btn-ghost" style="text-decoration:none;padding:0.95rem 1.8rem;border-radius:999px;font-weight:600;font-size:1rem;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);">TikTok</a>
       </div>
     </div>
@@ -503,48 +543,54 @@
           <span style="display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:9px;border:1px solid rgba(245,197,24,0.45);background:rgba(245,197,24,0.08);"><svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path d="M2 20 C8 20 8 7 14 7 C20 7 20 33 26 33 C32 33 32 20 38 20" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round"/></svg></span>
           <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;">Second-Order Resonance</span>
         </div>
-        <p style="color:#98a2bd;font-size:0.92rem;max-width:22rem;">Mathematik visuell erklärt — vom Grundschüler bis zum Forscher.</p>
-        <p style="color:#6b7490;font-size:0.84rem;margin-top:1.2rem;">Impressum · Andreas Johannes Zwingler · <a id="contactMail" data-user="secondorderresonance" data-domain="gmail.com" href="#kontakt" style="color:#98a2bd;">E-Mail</a></p>
+        <p style="color:#98a2bd;font-size:0.92rem;max-width:22rem;" data-en="Mathematics explained visually, from primary school to research.">Mathematik visuell erklärt — vom Grundschüler bis zum Forscher.</p>
+        <p style="color:#6b7490;font-size:0.84rem;margin-top:1.2rem;" data-en="Legal notice · Andreas Johannes Zwingler · &lt;a id=&quot;contactMail&quot; data-user=&quot;secondorderresonance&quot; data-domain=&quot;gmail.com&quot; href=&quot;#kontakt&quot; style=&quot;color:#98a2bd;&quot;&gt;Email&lt;/a&gt;">Impressum · Andreas Johannes Zwingler · <a id="contactMail" data-user="secondorderresonance" data-domain="gmail.com" href="#kontakt" style="color:#98a2bd;">E-Mail</a></p>
       </div>
       <div>
-        <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;">Lernen</h4>
+        <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;" data-en="Learn">Lernen</h4>
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
-          <a href="app/ueben.html" class="footer-link">Üben</a>
-          <a href="app/klasse.html" class="footer-link">Nach Klasse lernen</a>
-          <a href="app/labor3d.html" class="footer-link">3D-Labor</a>
-          <a href="app/konto.html" class="footer-link">Konto und Abzeichen</a>
-          <a href="app/lernpfad.html" class="footer-link">Lernstraße</a>
-          <a href="app/lernarchiv.html" class="footer-link">Archiv</a>
+          <a href="app/ueben.html" class="footer-link" data-en="Practice">Üben</a>
+          <a href="app/klasse.html" class="footer-link" data-en="Learn by grade">Nach Klasse lernen</a>
+          <a href="app/kurs.html" class="footer-link" data-en="Courses">Kurse</a>
+          <a href="app/labor3d.html" class="footer-link" data-en="3D lab">3D-Labor</a>
+          <a href="app/konto.html" class="footer-link" data-en="Account and badges">Konto und Abzeichen</a>
+          <a href="app/lernpfad.html" class="footer-link" data-en="Learning road (DE)">Lernstraße</a>
+          <a href="app/lernarchiv.html" class="footer-link" data-en="Archive (DE)">Archiv</a>
         </div>
       </div>
       <div>
-        <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;">Folgen</h4>
+        <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;" data-en="Follow">Folgen</h4>
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
           <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="footer-link">YouTube</a>
           <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" rel="noopener" class="footer-link">TikTok</a>
-          <a href="schulen.html" class="footer-link">Für Schulen</a>
-          <a href="app/lehrer.html" class="footer-link">Für Lehrkräfte</a>
-          <a href="datenschutz.html" class="footer-link">Datenschutz</a>
+          <a href="schulen.html" class="footer-link" data-en="For schools">Für Schulen</a>
+          <a href="app/lehrer.html" class="footer-link" data-en="For teachers">Für Lehrkräfte</a>
+          <a href="datenschutz.html" class="footer-link" data-en="Privacy">Datenschutz</a>
         </div>
       </div>
     </div>
-    <div style="max-width:1180px;margin:2.5rem auto 0;padding-top:1.6rem;border-top:1px solid rgba(255,255,255,0.06);color:#6b7490;font-size:0.84rem;text-align:center;">© 2026 Second-Order Resonance. Mathe &amp; Physik, in Resonanz gelernt.</div>
+    <div style="max-width:1180px;margin:2.5rem auto 0;padding-top:1.6rem;border-top:1px solid rgba(255,255,255,0.06);color:#6b7490;font-size:0.84rem;text-align:center;" data-en="© 2026 Second-Order Resonance. Maths &amp;amp; physics, learned in resonance.">© 2026 Second-Order Resonance. Mathe &amp; Physik, in Resonanz gelernt.</div>
   </footer>
 
 </div>
 
 <script>
 (function(){
+  if (window.SOR_I18N) {
+    SOR_I18N.apply();
+    var sw = SOR_I18N.switcher(), s1 = document.getElementById('langSlot'), s2 = document.getElementById('langSlotM');
+    if (s1) s1.innerHTML = sw; if (s2) s2.innerHTML = sw;
+  }
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---- Level cards (data-driven) ----
   var levels = [
-    {code:'L1', color:'#4ade80', name:'Grundlagen', sub:'Grundschule & Unterstufe', desc:'Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.', topics:['Bruchrechnung','Prozente','Geometrie','Dreisatz']},
-    {code:'L2', color:'#facc15', name:'Aufbauwissen', sub:'Unter- & Mittelstufe', desc:'Die Grundpfeiler für alles, was noch kommt.', topics:['Gleichungen','Funktionen','Trigonometrie','Potenzen']},
-    {code:'L3', color:'#f59e0b', name:'Vertiefung', sub:'Oberstufe / Abitur', desc:'Abitur-relevant und anschaulich erklärt.', topics:['Ableitungen','Integrale','Stochastik','Vektoren']},
-    {code:'L4', color:'#60a5fa', name:'Universitätsgrundlagen', sub:'Studienanfang', desc:'Was dich im Studium wirklich erwartet.', topics:['Lineare Algebra','Differentialgleichungen','Komplexe Analysis','Numerik']},
-    {code:'L5', color:'#8b5cf6', name:'Angewandte Mathematik', sub:'Fortgeschrittenes Studium', desc:'Wo Mathe die reale Welt trifft.', topics:['Fourier-Transformation','Laplace','Resonanz','Regelungstechnik']},
-    {code:'L6', color:'#94a3b8', name:'Forschung & Simulation', sub:'Wissenschaft / Spezialisierung', desc:'Für angehende Forscher an der Grenze des Wissens.', topics:['Partielle DGL','Stochastische Prozesse','FEM','Optimierung']}
+    {code:'L1', color:'#4ade80', name:$t('Grundlagen', "Foundations"), sub:$t('Grundschule & Unterstufe', "Primary & lower secondary"), desc:$t('Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.', "Perfect for a refresher or for starting out in the world of maths."), topics:[$t('Bruchrechnung', "Fractions"),$t('Prozente', "Percentages"),$t('Geometrie', "Geometry"),$t('Dreisatz', "Rule of three")]},
+    {code:'L2', color:'#facc15', name:$t('Aufbauwissen', "Building knowledge"), sub:$t('Unter- & Mittelstufe', "Lower & middle secondary"), desc:$t('Die Grundpfeiler für alles, was noch kommt.', "The pillars for everything that follows."), topics:[$t('Gleichungen', "Equations"),$t('Funktionen', "Functions"),$t('Trigonometrie', "Trigonometry"),$t('Potenzen', "Powers")]},
+    {code:'L3', color:'#f59e0b', name:$t('Vertiefung', "Deepening"), sub:$t('Oberstufe / Abitur', "Upper secondary / A level"), desc:$t('Abitur-relevant und anschaulich erklärt.', "Exam-relevant and clearly explained."), topics:[$t('Ableitungen', "Derivatives"),$t('Integrale', "Integrals"),$t('Stochastik', "Probability"),$t('Vektoren', "Vectors")]},
+    {code:'L4', color:'#60a5fa', name:$t('Universitätsgrundlagen', "University foundations"), sub:$t('Studienanfang', "Start of university"), desc:$t('Was dich im Studium wirklich erwartet.', "What really awaits you at university."), topics:[$t('Lineare Algebra', "Linear algebra"),$t('Differentialgleichungen', "Differential equations"),$t('Komplexe Analysis', "Complex analysis"),$t('Numerik', "Numerical methods")]},
+    {code:'L5', color:'#8b5cf6', name:$t('Angewandte Mathematik', "Applied mathematics"), sub:$t('Fortgeschrittenes Studium', "Advanced university"), desc:$t('Wo Mathe die reale Welt trifft.', "Where maths meets the real world."), topics:[$t('Fourier-Transformation', "Fourier transform"),'Laplace',$t('Resonanz', "Resonance"),$t('Regelungstechnik', "Control engineering")]},
+    {code:'L6', color:'#94a3b8', name:$t('Forschung & Simulation', "Research & simulation"), sub:$t('Wissenschaft / Spezialisierung', "Science / specialisation"), desc:$t('Für angehende Forscher an der Grenze des Wissens.', "For budding researchers at the edge of knowledge."), topics:[$t('Partielle DGL', "PDEs"),$t('Stochastische Prozesse', "Stochastic processes"),'FEM',$t('Optimierung', "Optimisation")]}
   ];
   var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
   var grid = document.getElementById('levelGrid');
@@ -577,7 +623,7 @@
 
   // ---- Count-up metrics ----
   if(!reduce && 'IntersectionObserver' in window){
-    var fmt = function(n){ return n.toLocaleString('de-DE'); };
+    var fmt = function(n){ return n.toLocaleString($t('de-DE', "en-GB")); };
     var co = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
         if(!en.isIntersecting) return;
@@ -616,30 +662,32 @@
 
   // ---- Global search ----
   var idx = [
-    {title:'Üben', meta:'Adaptive Aufgaben · Klasse 1 bis Studium', href:'app/ueben.html'},
-    {title:'3D-Labor', meta:'Körper · Funktionsgebirge · Euler-Spirale', href:'app/labor3d.html'},
-    {title:'Konto und Abzeichen', meta:'Stufe · Lernserie · Sterne', href:'app/konto.html'},
-    {title:'Für Lehrkräfte', meta:'Klassen · Aufträge · Lernstand', href:'app/lehrer.html'},
-    {title:'Für Schulen', meta:'Einsatz im Unterricht · Datenschutz', href:'schulen.html'},
-    {title:'Lernstraße', meta:'Geführter Pfad · L1–L6', href:'app/lernpfad.html'},
-    {title:'Lernarchiv', meta:'Aufgabensammlung · nach Level', href:'app/lernarchiv.html'},
-    {title:'Einstufungstest', meta:'30 Fragen · Level finden', href:'app/lernarchiv.html'},
-    {title:'Mathe-App (klassisch)', meta:'Lektionen mit Herzen', href:'app/index.html'},
-    {title:'Profil & Fortschritt', meta:'Stats · Streak · XP', href:'app/profil.html'},
-    {title:'Satz des Pythagoras', meta:'Interaktives Modul · L1 Geometrie', href:'app/lernarchiv.html#pythagoras-visual'},
-    {title:'Argand-Ebene', meta:'Komplexe Zahlen live · L4', href:'app/lernarchiv.html#argand-visual'},
-    {title:'Rotationskörper', meta:'Labor · Volumen per Scheibenmethode · L3', href:'#labor'},
-    {title:'Gabriels Horn', meta:'Labor · Uneigentliche Integrale · L4', href:'#labor'},
-    {title:'Lehrplan-Kompass', meta:'Klasse 1–12 · Studium · Themen finden', href:'#kompass'},
-    {title:'Nach Klasse lernen', meta:'Klasse 1–12 · Themen, Formeln, sofort üben', href:'app/klasse.html'},
-    {title:'Level 1 — Grundlagen', meta:'Bruchrechnung · Geometrie · Prozente', href:'#levels'},
-    {title:'Level 2 — Aufbauwissen', meta:'Gleichungen · Funktionen · Trigonometrie', href:'#levels'},
-    {title:'Level 3 — Vertiefung', meta:'Ableitungen · Integrale · Stochastik', href:'#levels'},
-    {title:'Level 4 — Universitätsgrundlagen', meta:'Lineare Algebra · DGL · Numerik', href:'#levels'},
-    {title:'Level 5 — Angewandte Mathematik', meta:'Fourier · Laplace · Resonanz', href:'#levels'},
-    {title:'Level 6 — Forschung & Simulation', meta:'Partielle DGL · FEM · Optimierung', href:'#levels'},
-    {title:'YouTube-Kanal', meta:'Erklärvideos', href:'https://www.youtube.com/@Second-OrderResonance'},
-    {title:'TikTok', meta:'Kurze Mathe-Clips', href:'https://www.tiktok.com/@second_order_resonance'}
+    {title:$t('Üben', "Practice"), meta:$t('Adaptive Aufgaben · Klasse 1 bis Studium', "Adaptive exercises · grade 1 to university"), href:'app/ueben.html'},
+    {title:$t('3D-Labor', "3D lab"), meta:$t('Körper · Funktionsgebirge · Euler-Spirale', "Solids · function landscapes · Euler spiral"), href:'app/labor3d.html'},
+    {title:$t('Konto und Abzeichen', "Account and badges"), meta:$t('Stufe · Lernserie · Sterne', "Level · streak · stars"), href:'app/konto.html'},
+    {title:$t('Für Lehrkräfte', "For teachers"), meta:$t('Klassen · Aufträge · Lernstand', "Classes · assignments · progress"), href:'app/lehrer.html'},
+    {title:$t('Für Schulen', "For schools"), meta:$t('Einsatz im Unterricht · Datenschutz', "Use in class · privacy"), href:'schulen.html'},
+    {title:$t('Lernstraße', "Learning road (DE)"), meta:$t('Geführter Pfad · L1–L6', "Guided path · L1–L6"), href:'app/lernpfad.html'},
+    {title:$t('Lernarchiv', "Archive (DE)"), meta:$t('Aufgabensammlung · nach Level', "Exercise collection · by level"), href:'app/lernarchiv.html'},
+    {title:$t('Einstufungstest', "Placement test (DE)"), meta:$t('30 Fragen · Level finden', "30 questions · find your level"), href:'app/lernarchiv.html'},
+    {title:$t('Mathe-App (klassisch)', "Classic maths app (DE)"), meta:$t('Lektionen mit Herzen', "Lessons with hearts"), href:'app/index.html'},
+    {title:$t('Profil & Fortschritt', "Profile & progress (DE)"), meta:$t('Stats · Streak · XP', "Stats · streak · XP"), href:'app/profil.html'},
+    {title:$t('Satz des Pythagoras', "Pythagoras' theorem"), meta:$t('Interaktives Modul · L1 Geometrie', "Interactive module · L1 geometry"), href:'app/lernarchiv.html#pythagoras-visual'},
+    {title:$t('Argand-Ebene', "Argand plane"), meta:$t('Komplexe Zahlen live · L4', "Complex numbers live · L4"), href:'app/lernarchiv.html#argand-visual'},
+    {title:$t('Rotationskörper', "Solids of revolution"), meta:$t('Labor · Volumen per Scheibenmethode · L3', "Lab · volume by the disc method · L3"), href:'#labor'},
+    {title:$t('Gabriels Horn', "Gabriel's horn"), meta:$t('Labor · Uneigentliche Integrale · L4', "Lab · improper integrals · L4"), href:'#labor'},
+    {title:$t('Lehrplan-Kompass', "Curriculum compass"), meta:$t('Klasse 1–12 · Studium · Themen finden', "Grades 1–12 · university · find topics"), href:'#kompass'},
+    {title:$t('Nach Klasse lernen', "Learn by grade"), meta:$t('Klasse 1–12 · Themen, Formeln, sofort üben', "Grades 1–12 · topics, formulas, practise right away"), href:'app/klasse.html'},
+    {title:$t('Kurse: Technische Mechanik, PID, Thermodynamik, Statistik', "Courses: engineering mechanics, PID, thermodynamics, statistics"), meta:$t('TM 1 · TM 2 · Transformationsmatrizen · Regelungstechnik · Wärme · Verteilungen', "TM 1 · TM 2 · transformation matrices · control · heat · distributions"), href:'app/kurs.html'},
+    {title:$t('Physik & Technik üben', "Practise physics & engineering"), meta:$t('Statik · Elastostatik · PID-Regler · Thermodynamik', "Statics · strength of materials · PID control · thermodynamics"), href:'app/ueben.html?fach=physik'},
+    {title:$t('Level 1 — Grundlagen', "Level 1 — Foundations"), meta:$t('Bruchrechnung · Geometrie · Prozente', "Fractions · geometry · percentages"), href:'#levels'},
+    {title:$t('Level 2 — Aufbauwissen', "Level 2 — Building knowledge"), meta:$t('Gleichungen · Funktionen · Trigonometrie', "Equations · functions · trigonometry"), href:'#levels'},
+    {title:$t('Level 3 — Vertiefung', "Level 3 — Deepening"), meta:$t('Ableitungen · Integrale · Stochastik', "Derivatives · integrals · probability"), href:'#levels'},
+    {title:$t('Level 4 — Universitätsgrundlagen', "Level 4 — University foundations"), meta:$t('Lineare Algebra · DGL · Numerik', "Linear algebra · ODEs · numerical methods"), href:'#levels'},
+    {title:$t('Level 5 — Angewandte Mathematik', "Level 5 — Applied mathematics"), meta:$t('Fourier · Laplace · Resonanz', "Fourier · Laplace · resonance"), href:'#levels'},
+    {title:$t('Level 6 — Forschung & Simulation', "Level 6 — Research & simulation"), meta:$t('Partielle DGL · FEM · Optimierung', "PDEs · FEM · optimisation"), href:'#levels'},
+    {title:$t('YouTube-Kanal', "YouTube channel"), meta:$t('Erklärvideos', "Explainer videos"), href:'https://www.youtube.com/@Second-OrderResonance'},
+    {title:'TikTok', meta:$t('Kurze Mathe-Clips', "Short maths clips"), href:'https://www.tiktok.com/@second_order_resonance'}
   ];
   var inp = document.getElementById('globalSearch'), res = document.getElementById('searchResults');
   if(inp && res){
@@ -647,7 +695,7 @@
       var q = (inp.value||'').trim().toLowerCase();
       if(!q){ res.innerHTML=''; return; }
       var hits = idx.filter(function(it){ return (it.title+' '+it.meta).toLowerCase().indexOf(q)>-1; }).slice(0,6);
-      if(!hits.length){ res.innerHTML = '<div style="color:#98a2bd;padding:0.6rem 0.2rem;font-size:0.95rem;">Keine Treffer für „'+esc(inp.value)+'". Versuch z. B. „Fourier" oder „Level 3".</div>'; return; }
+      if(!hits.length){ res.innerHTML = $t('<div style="color:#98a2bd;padding:0.6rem 0.2rem;font-size:0.95rem;">Keine Treffer für „', "<div style=\"color:#98a2bd;padding:0.6rem 0.2rem;font-size:0.95rem;\">No results for “")+esc(inp.value)+$t('". Versuch z. B. „Fourier" oder „Level 3".</div>', "”. Try for example “Fourier” or “Level 3”.</div>"); return; }
       res.innerHTML = hits.map(function(it){
         return '<a href="'+it.href+'" style="display:block;text-decoration:none;color:inherit;padding:0.85rem 1rem;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);transition:border-color .2s,transform .2s;" onmouseover="this.style.borderColor=\'rgba(245,197,24,0.5)\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.08)\';this.style.transform=\'none\'">'+
           '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.25rem;">'+esc(it.meta)+'</div>'+
@@ -694,7 +742,7 @@
     menuBtn.addEventListener('click', function(){
       var open = menu.classList.toggle('open');
       menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      menuBtn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+      menuBtn.setAttribute('aria-label', open ? $t('Menü schließen', "Close menu") : $t('Menü öffnen', "Open menu"));
     });
     menu.addEventListener('click', function(e){ if(e.target.tagName === 'A'){ menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); } });
   }
@@ -705,8 +753,8 @@
 
 })();
 </script>
-<script src="app/data/coverage-matrix.js"></script>
-<script src="app/modules/curriculum-compass.js" defer></script>
-<script src="app/modules/solids-lab.js" defer></script>
+<script src="app/data/coverage-matrix.js?v=3.1.0"></script>
+<script src="app/modules/curriculum-compass.js?v=3.1.0" defer></script>
+<script src="app/modules/solids-lab.js?v=3.1.0" defer></script>
 </body>
 </html>

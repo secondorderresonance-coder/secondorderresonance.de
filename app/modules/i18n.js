@@ -34,11 +34,15 @@
     function apply(scope) {
         if (lang !== "en" || !root.document) return;
         var base = scope || root.document;
-        Array.prototype.forEach.call(base.querySelectorAll("[data-en]"), function (el) {
-            if (el.getAttribute("data-i18n-done")) return;
-            el.innerHTML = el.getAttribute("data-en");
-            el.setAttribute("data-i18n-done", "1");
-        });
+        // mehrere Durchläufe: ersetzter Inhalt kann eigene data-en-Elemente enthalten
+        for (var pass = 0, list; pass < 5; pass += 1) {
+            list = base.querySelectorAll("[data-en]:not([data-i18n-done])");
+            if (!list.length) break;
+            Array.prototype.forEach.call(list, function (el) {
+                el.setAttribute("data-i18n-done", "1");
+                el.innerHTML = el.getAttribute("data-en");
+            });
+        }
         ATTRS.forEach(function (a) {
             Array.prototype.forEach.call(base.querySelectorAll("[data-en-" + a + "]"), function (el) { el.setAttribute(a, el.getAttribute("data-en-" + a)); });
         });
