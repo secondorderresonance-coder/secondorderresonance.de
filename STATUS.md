@@ -58,7 +58,7 @@ User request: fix integral limits that were not readable, open a physics area ne
 
 ### Validation
 - `node tools/exercise-qa.js` (129 generators, 120 of 120 topics, 100 variants per difficulty) and `SOR_LANG=en node tools/exercise-qa.js 30`
-- Scan of 3,000+ English exercise variants for remaining German words: none found
+- Scan of about 2,300 English exercise variants (all 129 generators, 3 difficulties) for remaining German words: none found
 - `node tools/core-qa.js`, `node tools/coverage-qa.js`, `node tools/archive-qa.js`, `node tools/site-qa.js`
 - Playwright in German and English at 1280 px and 390 px on 14 page variants: no script errors, no horizontal overflow, no external requests, correct `lang` attribute, no German text left on English pages
 - Visual check of all 36 course animations and 50 topic animations in both languages
