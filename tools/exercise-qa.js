@@ -18,6 +18,7 @@ const E = require(path.join(root, "app/modules/exercise-engine.js"));
 const dir = path.join(root, "app/modules/exercises");
 fs.readdirSync(dir).filter(f => f.endsWith(".js")).sort().forEach(f => require(path.join(dir, f)));
 const coverage = require(path.join(root, "app/data/coverage-matrix.js"));
+const courses = require(path.join(root, "app/data/courses.js"));
 
 const N = parseInt(process.argv[2], 10) || 150;
 const errors = [];
@@ -64,7 +65,7 @@ E.ids().forEach(id => {
 });
 
 const have = E.topics();
-const all = coverage.school.concat(coverage.engineering);
+const all = coverage.school.concat(coverage.engineering).concat(courses.lessons);
 const missing = all.filter(e => !have[e.id]);
 console.log(`Aufgabentypen: ${E.ids().length} · geprüfte Varianten: ${total}`);
 console.log(`Themen mit Aufgaben: ${all.length - missing.length} von ${all.length}`);
