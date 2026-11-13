@@ -20,6 +20,7 @@
  */
 (function (root) {
     "use strict";
+    var TR = function (de, en) { return root.$t ? root.$t(de, en) : de; };
 
     var memory = {};
     var localAdapter = {
@@ -95,11 +96,11 @@
         all: function () { var s = loadAcc(); return Object.keys(s.accounts).map(function (id) { return publicView(id, s.accounts[id]); }); },
         register: function (o) {
             var email = normEmail(o.email), name = String(o.displayName || "").trim(), pw = String(o.password || "");
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: "Bitte eine gültige E-Mail-Adresse eingeben." };
-            if (name.length < 2) return { ok: false, error: "Der Anzeigename braucht mindestens 2 Zeichen." };
-            if (pw.length < 6) return { ok: false, error: "Das Passwort braucht mindestens 6 Zeichen." };
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: TR("Bitte eine gültige E-Mail-Adresse eingeben.", "Please enter a valid email address.") };
+            if (name.length < 2) return { ok: false, error: TR("Der Anzeigename braucht mindestens 2 Zeichen.", "The display name needs at least 2 characters.") };
+            if (pw.length < 6) return { ok: false, error: TR("Das Passwort braucht mindestens 6 Zeichen.", "The password needs at least 6 characters.") };
             var s = loadAcc();
-            if (s.accounts[email]) return { ok: false, error: "Für diese E-Mail-Adresse gibt es auf diesem Gerät schon ein Konto." };
+            if (s.accounts[email]) return { ok: false, error: TR("Für diese E-Mail-Adresse gibt es auf diesem Gerät schon ein Konto.", "There is already an account for this email address on this device.") };
             var acc = { email: email, displayName: name, password: "", role: o.role === "lehrkraft" ? "lehrkraft" : "schueler", grade: o.grade || null, avatarColor: COLORS[email.charCodeAt(0) % COLORS.length], createdAt: new Date().toISOString(), hearts: 5, heartsLastRefill: new Date().toISOString(), progress: {} };
             setPassword(acc, pw);
             s.accounts[email] = acc; s.current = email; saveAcc(s);
@@ -107,7 +108,7 @@
         },
         login: function (emailRaw, pw) {
             var email = normEmail(emailRaw), s = loadAcc(), acc = s.accounts[email];
-            if (!acc || !verifyPassword(acc, String(pw || ""))) return { ok: false, error: "E-Mail oder Passwort stimmen nicht." };
+            if (!acc || !verifyPassword(acc, String(pw || ""))) return { ok: false, error: TR("E-Mail oder Passwort stimmen nicht.", "Email or password is incorrect.") };
             if (!acc.pwHash) setPassword(acc, String(pw));   // Altbestand: Klartext durch Hash ersetzen
             s.current = email; saveAcc(s);
             return { ok: true, account: publicView(email, acc) };
@@ -158,13 +159,13 @@
         create: function (o) {
             var s = loadSchool(), code;
             do { code = randomId(6); } while (Object.keys(s.classes).some(function (k) { return s.classes[k].code === code; }));
-            var cls = { id: "kl-" + randomId(10).toLowerCase(), name: String(o.name || "Klasse").trim().slice(0, 40), grade: o.grade || null, code: code, teacherId: o.teacherId, members: [], assignments: [], demo: !!o.demo, createdAt: new Date().toISOString() };
+            var cls = { id: "kl-" + randomId(10).toLowerCase(), name: String(o.name || TR("Klasse", "Class")).trim().slice(0, 40), grade: o.grade || null, code: code, teacherId: o.teacherId, members: [], assignments: [], demo: !!o.demo, createdAt: new Date().toISOString() };
             s.classes[cls.id] = cls; saveSchool(s); return cls;
         },
         remove: function (id) { var s = loadSchool(); delete s.classes[id]; saveSchool(s); },
         join: function (code, accountId) {
             var s = loadSchool(), c = String(code || "").trim().toUpperCase(), id = Object.keys(s.classes).filter(function (k) { return s.classes[k].code === c; })[0];
-            if (!id) return { ok: false, error: "Diesen Klassencode gibt es auf diesem Gerät nicht." };
+            if (!id) return { ok: false, error: TR("Diesen Klassencode gibt es auf diesem Gerät nicht.", "This class code does not exist on this device.") };
             if (s.classes[id].members.indexOf(accountId) === -1) s.classes[id].members.push(accountId);
             saveSchool(s); return { ok: true, cls: s.classes[id] };
         },
@@ -201,8 +202,8 @@
         },
         // Übernimmt einen entpackten Lernstand als Mitglied "ext:<Klasse>:<Name>" (ersetzt einen älteren Stand desselben Namens)
         importInto: function (classId, o) {
-            var sc = loadSchool(), c = sc.classes[classId]; if (!c || !o) return { ok: false, error: "Klasse nicht gefunden." };
-            if (o.c && o.c !== c.code) return { ok: false, error: "Dieser Lernstand gehört zu einem anderen Klassencode (" + o.c + ")." };
+            var sc = loadSchool(), c = sc.classes[classId]; if (!c || !o) return { ok: false, error: TR("Klasse nicht gefunden.", "Class not found.") };
+            if (o.c && o.c !== c.code) return { ok: false, error: TR("Dieser Lernstand gehört zu einem anderen Klassencode (", "This progress belongs to a different class code (") + o.c + ")." };
             var num = function (v) { return typeof v === "number" && isFinite(v) ? Math.max(0, Math.round(v)) : 0; }, day = function (v) { return typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null; };
             var name = o.n.replace(/[<>]/g, "").slice(0, 40), id = "ext:" + classId + ":" + name.toLowerCase().replace(/[^a-z0-9äöüß]+/g, "-");
             var p = { name: name, ext: true, importedAt: new Date().toISOString(), xp: num(o.x), goal: 50, daily: {}, streak: { count: num(o.s[0]), best: num(o.s[1]), last: day(o.s[2]) }, badges: {}, mastery: {}, stats: { correct: num(o.t[0]), total: num(o.t[1]), sessions: num(o.t[2]), perfect: 0, combo: 0, bestCombo: 0, goalDays: 0, hints: 0 } };
