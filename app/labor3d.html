@@ -190,10 +190,10 @@ function sceneKoerper() {
 
 // ---------- Szene 2: Rotationskörper ----------
 const profiles = {
-    vase: { name: "Vase", f: x => 0.7 + 0.3 * Math.sin(2 * x), a: 0, b: Math.PI, fx: "V = π ∫<sub>0</sub><sup>π</sup> (0,7 + 0,3·sin 2x)<sup>2</sup> dx" },
-    kegel: { name: "Kegel", f: x => x / 2, a: 0, b: 4, fx: "V = π ∫<sub>0</sub><sup>4</sup> (x/2)<sup>2</sup> dx = 16π/3" },
-    paraboloid: { name: "Paraboloid", f: x => Math.sqrt(Math.max(0, x)), a: 0, b: 4, fx: "V = π ∫<sub>0</sub><sup>4</sup> (√x)<sup>2</sup> dx = 8π" },
-    horn: { name: "Gabriels Horn", f: x => 1 / x, a: 1, b: 8, fx: "V = π ∫<sub>1</sub><sup>∞</sup> dx / x<sup>2</sup> = π" }
+    vase: { name: "Vase", f: x => 0.7 + 0.3 * Math.sin(2 * x), a: 0, b: Math.PI, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>π</sup><sub>0</sub></span></span> (0,7 + 0,3·sin 2x)<sup>2</sup> dx" },
+    kegel: { name: "Kegel", f: x => x / 2, a: 0, b: 4, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>4</sup><sub>0</sub></span></span> (x/2)<sup>2</sup> dx = 16π/3" },
+    paraboloid: { name: "Paraboloid", f: x => Math.sqrt(Math.max(0, x)), a: 0, b: 4, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>4</sup><sub>0</sub></span></span> (√x)<sup>2</sup> dx = 8π" },
+    horn: { name: "Gabriels Horn", f: x => 1 / x, a: 1, b: 8, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>∞</sup><sub>1</sub></span></span> dx / x<sup>2</sup> = π" }
 };
 function sceneRotation() {
     let kind = "vase", sweep = 360, slice = 0.5;

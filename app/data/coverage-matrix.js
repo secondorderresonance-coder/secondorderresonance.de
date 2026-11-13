@@ -140,7 +140,7 @@
         { id: "CM-S-46", band: "Klasse 11–12", grades: [11, 12], area: "Vertiefung", topic: "Komplexe Zahlen", sections: ["3.3.1.a", "3.3.1.b"], optional: true, visual: "complex",
           text: "Mit i<sup>2</sup> = −1 hat jede quadratische Gleichung Lösungen. Multiplizieren heißt drehen und strecken.", formula: "z = a + bi = r · e<sup>iφ</sup>" },
         { id: "CM-S-38", band: "Klasse 12", grades: [12, 12], area: "Analysis", topic: "Integralrechnung", sections: ["3.1.3.a", "3.1.3.b", "3.1.3.c", "3.1.3.d"], visual: "integral",
-          text: "Das Integral summiert viele schmale Streifen zur Fläche unter der Kurve.", formula: "∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a)" },
+          text: "Das Integral summiert viele schmale Streifen zur Fläche unter der Kurve.", formula: "<span class='int'><span class='sym'>∫</span><span class='lim'><sup>b</sup><sub>a</sub></span></span> f(x) dx = F(b) − F(a)" },
         { id: "CM-S-42", band: "Klasse 12", grades: [12, 12], area: "Stochastik", topic: "Binomial- und Normalverteilung", sections: ["3.2.2.a", "3.2.2.b", "3.2.2.c"], visual: "normal",
           text: "Viele unabhängige Versuche ergeben zusammen eine Glockenkurve.", formula: "P(X = k) = (n über k) · p<sup>k</sup> · (1 − p)<sup>n−k</sup>" },
         { id: "CM-S-43", band: "Klasse 12", grades: [12, 12], area: "Stochastik", topic: "Hypothesentests", sections: ["3.2.2.a"], visual: "hypothesis",
