@@ -649,6 +649,10 @@
         observer.observe(el);
     }
 
-    root.SOR_VISUALS = { render: render, mount: mount, replay: run, keys: Object.keys(V), css: CSS };
-    if (typeof module !== "undefined" && module.exports) module.exports = root.SOR_VISUALS;
+    // Erweiterung: weitere Module (z. B. course-visuals.js) registrieren eigene Grafiken mit denselben Werkzeugen
+    function register(key, fn) { V[key] = fn; if (api.keys.indexOf(key) === -1) api.keys.push(key); }
+    var api = { render: render, mount: mount, replay: run, keys: Object.keys(V), css: CSS, register: register,
+        kit: { svg: svg, ln: ln, drawPath: drawPath, txt: txt, pop: pop, dot: dot, frame: frame, fnPath: fnPath, moving: moving, n: n, C: { Y: Y, T: T, R: R, B: B, P: P, M: M, AX: AX, GR: GR } } };
+    root.SOR_VISUALS = api;
+    if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

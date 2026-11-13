@@ -50,7 +50,7 @@
         { id: "sterne-15", icon: "🌟", title: "Sternensammler", text: "15 Sterne gesammelt", test: function (p) { return totalStars(p) >= 15; } },
         { id: "sterne-50", icon: "🌌", title: "Sternenhimmel", text: "50 Sterne gesammelt", test: function (p) { return totalStars(p) >= 50; } },
         { id: "vielseitig", icon: "🧭", title: "Vielseitig", text: "10 verschiedene Themen geübt", test: function (p) { return Object.keys(p.mastery).length >= 10; } },
-        { id: "hoersaal", icon: "🎓", title: "Hörsaal", text: "Ein Studienthema mit 2 Sternen", test: function (p) { return Object.keys(p.mastery).some(function (k) { return k.indexOf("CM-E-") === 0 && stars(p.mastery[k].score) >= 2; }); } },
+        { id: "hoersaal", icon: "🎓", title: "Hörsaal", text: "Ein Studienthema mit 2 Sternen", test: function (p) { return Object.keys(p.mastery).some(function (k) { return (k.indexOf("CM-E-") === 0 || k.indexOf("K-") === 0) && stars(p.mastery[k].score) >= 2; }); } },
         { id: "xp-1000", icon: "⚡", title: "Energie", text: "1.000 XP gesammelt", test: function (p) { return p.xp >= 1000; } },
         { id: "xp-5000", icon: "🌋", title: "Kraftwerk", text: "5.000 XP gesammelt", test: function (p) { return p.xp >= 5000; } },
         { id: "ohne-tipp", icon: "🧠", title: "Aus eigener Kraft", text: "20 richtige Antworten ohne Tipp", test: function (p) { return p.stats.correct - p.stats.hints >= 20 && p.stats.correct >= 20; } }

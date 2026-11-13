@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Courses | Second-Order Resonance">Kurse | Second-Order Resonance</title>
+<meta name="description" content="Grundkurse für Studium und Technik: Technische Mechanik 1 und 2, Transformationsmatrizen, PID-Regler, Thermodynamik und Statistik. Jede Lektion mit Erklärung, Formel, Animation und eigenen Übungen." data-en-content="Foundation courses for university and engineering: engineering mechanics 1 and 2, transformation matrices, PID control, thermodynamics and statistics. Every lesson with explanation, formula, animation and its own exercises.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
+<style>
+  .hero{margin-bottom:1.8rem;max-width:46rem}
+  .hero h1{font-size:clamp(2.1rem,4.4vw,3.2rem);margin:0.5rem 0 0.6rem}
+  .hero h1 .serif{color:var(--accent);font-size:1.12em}
+  .hero p{color:var(--soft);font-size:1.05rem}
+  .back{display:inline-flex;gap:0.4rem;color:var(--muted);text-decoration:none;font-size:0.9rem;margin-bottom:1rem}
+  .back:hover{color:var(--text)}
+  h2.sec{font-size:1.25rem;margin:2.2rem 0 1rem;display:flex;align-items:center;gap:0.6rem}
+  h2.sec i{font-style:normal;color:var(--accent)}
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.1rem}
+  .ccard{display:flex;flex-direction:column;border-radius:22px;border:1px solid var(--line);background:var(--card);overflow:hidden;text-decoration:none;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s}
+  .ccard:hover{transform:translateY(-4px);border-color:rgba(245,197,24,0.45);box-shadow:0 24px 54px rgba(0,0,0,0.35)}
+  .cvis{background:radial-gradient(320px 160px at 50% 60%,rgba(53,224,196,0.07),transparent 70%),#070a14;padding:0.8rem 1.1rem 0.4rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+  .cbody{padding:1.1rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:0.6rem;flex:1}
+  .cbody h3{font-size:1.15rem;line-height:1.3}
+  .cbody p{color:var(--soft);font-size:0.93rem}
+  .lvl{display:inline-flex;align-items:center;gap:0.4rem;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+  .lvl b{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:20px;border-radius:999px;color:#0a0e1c;font-family:'Space Grotesk',sans-serif;font-size:0.72rem;letter-spacing:0}
+  .cfoot{display:flex;justify-content:space-between;align-items:center;gap:0.8rem;margin-top:auto;padding-top:0.5rem;color:var(--muted);font-size:0.86rem}
+  .cfoot strong{color:var(--accent);font-weight:600}
+  .meter{height:6px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden;margin-top:0.2rem}
+  .meter span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));border-radius:inherit}
+
+  .chead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:end;margin-bottom:1.6rem}
+  .chead .prog{min-width:250px}
+  .chead .prog small{color:var(--muted);font-size:0.85rem;display:block;margin-bottom:0.3rem}
+  .toc{display:flex;gap:0.4rem;flex-wrap:wrap;margin:0 0 1.6rem}
+  .toc a{font-size:0.85rem;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0.3rem 0.8rem;transition:all .2s}
+  .toc a:hover{color:var(--text);border-color:var(--line2)}
+  .lessons{display:grid;gap:1.1rem}
+  .lesson{display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr);border-radius:22px;border:1px solid var(--line);background:var(--card);overflow:hidden;scroll-margin-top:90px}
+  .lesson:target{border-color:rgba(245,197,24,0.6)}
+  .lesson .lvis{background:radial-gradient(360px 180px at 50% 60%,rgba(53,224,196,0.07),transparent 70%),#070a14;padding:1rem 1.2rem;display:flex;align-items:center;border-right:1px solid rgba(255,255,255,0.05)}
+  .lesson .lvis>div{width:100%}
+  .lesson .lbody{padding:1.3rem 1.4rem;display:flex;flex-direction:column;gap:0.75rem}
+  .lmeta{display:flex;justify-content:space-between;align-items:center;gap:0.6rem;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+  .lesson h2{font-size:1.25rem;line-height:1.3}
+  .lesson p{color:var(--soft)}
+  .formula{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-size:1.18rem;color:#f3efe6;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-left:2px solid var(--accent);border-radius:10px;padding:0.55rem 0.85rem;display:grid;gap:0.2rem}
+  .formula sup,.formula sub{font-size:0.65em}
+  .lact{display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;margin-top:auto;padding-top:0.3rem}
+  .note{margin-top:2rem;color:var(--muted);font-size:0.9rem}
+  @media (max-width:860px){
+    .lesson{grid-template-columns:minmax(0,1fr)}
+    .lesson .lvis{border-right:0;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .chead{grid-template-columns:minmax(0,1fr)}
+    .chead .prog{min-width:0}
+  }
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="kurs"></div>
+<main class="wrap" id="main"></main>
+
+<script src="./modules/topic-visuals.js?v=3.0.0"></script>
+<script src="./modules/course-visuals.js?v=3.1.0"></script>
+<script src="./data/courses.js?v=3.1.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.1.0"></script>
+<script>
+(function () {
+    "use strict";
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var CRS = window.SOR_COURSES, REW = window.SOR_REWARDS, NAV = window.SOR_NAV, VIS = window.SOR_VISUALS, esc = NAV.esc;
+    var main = document.getElementById("main");
+    var LEVELS = {
+        4: { code: "L4", color: "#60a5fa", name: $t("Universitätsgrundlagen", "University foundations") },
+        5: { code: "L5", color: "#a78bfa", name: $t("Angewandte Mathematik", "Applied mathematics") }
+    };
+    function lvlHtml(l) { var v = LEVELS[l]; return v ? '<span class="lvl"><b style="background:' + v.color + '">' + v.code + "</b>" + esc(v.name) + "</span>" : ""; }
+    function starsOf(c) {
+        var p = REW.profile();
+        return c.lessons.reduce(function (s, l) { var m = p.mastery[l.id]; return s + (m ? REW.stars(m.score) : 0); }, 0);
+    }
+    function mountVisuals() {
+        Array.prototype.forEach.call(main.querySelectorAll("[data-vis]"), function (el) { VIS.mount(el, el.getAttribute("data-vis")); });
+    }
+
+    function catalog() {
+        document.title = $t("Kurse | Second-Order Resonance", "Courses | Second-Order Resonance");
+        var html = '<section class="hero"><div class="kicker">' + $t("Grundkurse", "Foundation courses") + "</div>" +
+            "<h1>" + $t('Kurse für <span class="serif">Studium und Technik</span>', 'Courses for <span class="serif">university and engineering</span>') + "</h1>" +
+            "<p>" + $t("Sechs kompakte Kurse mit je sechs Lektionen. Jede Lektion erklärt eine Idee mit Animation und Formel und hat eigene Übungen mit Tipp und Lösungsweg.", "Six compact courses with six lessons each. Every lesson explains one idea with an animation and a formula and has its own exercises with hints and worked solutions.") + "</p></section>";
+        ["physik", "mathe"].forEach(function (sub) {
+            html += '<h2 class="sec" id="' + sub + '"><i aria-hidden="true">' + CRS.subjects[sub].icon + "</i>" + esc(CRS.subjects[sub].title) + '</h2><div class="cgrid">';
+            CRS.bySubject(sub).forEach(function (c) {
+                var st = starsOf(c), max = c.lessons.length * 3;
+                html += '<a class="ccard" href="kurs.html?k=' + c.id + '"><div class="cvis" data-vis="' + c.lessons[0].visual + '"></div><div class="cbody">' + lvlHtml(c.level) +
+                    "<h3>" + esc(c.title) + "</h3><p>" + esc(c.intro) + "</p>" +
+                    '<div class="cfoot"><span>' + c.lessons.length + $t(" Lektionen", " lessons") + "</span><strong>★ " + st + " / " + max + "</strong></div>" +
+                    '<div class="meter" aria-hidden="true"><span style="width:' + Math.round(st / max * 100) + '%"></span></div></div></a>';
+            });
+            html += "</div>";
+        });
+        html += '<p class="note">' + $t('Weitere Themen für Schule und Studium findest du unter <a href="ueben.html">Üben</a> und <a href="klasse.html">Klassen</a>.', 'You will find more school and university topics under <a href="ueben.html">Practice</a> and <a href="klasse.html">Grades</a>.') + "</p>";
+        main.innerHTML = html;
+        mountVisuals();
+    }
+
+    function course(c) {
+        document.title = c.title + $t(" | Kurse | Second-Order Resonance", " | Courses | Second-Order Resonance");
+        var p = REW.profile(), st = starsOf(c), max = c.lessons.length * 3, self = "kurs.html?k=" + c.id;
+        var html = '<a class="back" href="kurs.html">← ' + $t("Alle Kurse", "All courses") + "</a>" +
+            '<div class="chead"><div class="hero" style="margin:0">' + lvlHtml(c.level) + "<h1>" + esc(c.title) + "</h1><p>" + esc(c.intro) + "</p></div>" +
+            '<div class="prog"><small>' + $t("Dein Fortschritt", "Your progress") + ": ★ " + st + " / " + max + '</small><div class="meter"><span style="width:' + Math.round(st / max * 100) + '%"></span></div>' +
+            '<a class="btn btn-primary" style="margin-top:0.9rem" href="ueben.html?mix=c-' + c.id + "&zurueck=" + encodeURIComponent(self) + '">' + $t("Gemischte Runde zum Kurs", "Mixed round for this course") + " →</a></div></div>" +
+            '<nav class="toc" aria-label="' + $t("Lektionen", "Lessons") + '">' + c.lessons.map(function (l) { return '<a href="#' + l.id + '">' + l.n + ". " + esc(l.topic) + "</a>"; }).join("") + "</nav>" +
+            '<div class="lessons">';
+        c.lessons.forEach(function (l) {
+            var m = p.mastery[l.id];
+            html += '<article class="lesson" id="' + l.id + '"><div class="lvis"><div data-vis="' + l.visual + '"></div></div><div class="lbody">' +
+                '<div class="lmeta"><span>' + $t("Lektion ", "Lesson ") + l.n + " / " + c.lessons.length + "</span>" + NAV.stars(m ? REW.stars(m.score) : 0) + "</div>" +
+                "<h2>" + esc(l.topic) + "</h2><p>" + l.text + "</p>" +
+                (l.formula.length ? '<div class="formula">' + l.formula.map(function (f) { return "<span>" + f + "</span>"; }).join("") + "</div>" : "") +
+                '<div class="lact"><a class="btn btn-primary btn-sm" href="ueben.html?thema=' + encodeURIComponent(l.id) + "&zurueck=" + encodeURIComponent(self + "#" + l.id) + '">' + $t("Üben starten", "Start practising") + " →</a></div></div></article>";
+        });
+        html += "</div>";
+        var i = CRS.courses.indexOf(c), nx = CRS.courses[(i + 1) % CRS.courses.length];
+        html += '<p class="note">' + $t("Nächster Kurs: ", "Next course: ") + '<a href="kurs.html?k=' + nx.id + '">' + esc(nx.title) + "</a></p>";
+        main.innerHTML = html;
+        mountVisuals();
+        if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+    }
+
+    var k = new URLSearchParams(location.search).get("k"), c = k && CRS.course(k);
+    if (c) course(c); else catalog();
+})();
+</script>
+</body>
+</html>

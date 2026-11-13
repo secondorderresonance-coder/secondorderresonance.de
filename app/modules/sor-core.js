@@ -206,7 +206,7 @@
             var num = function (v) { return typeof v === "number" && isFinite(v) ? Math.max(0, Math.round(v)) : 0; }, day = function (v) { return typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null; };
             var name = o.n.replace(/[<>]/g, "").slice(0, 40), id = "ext:" + classId + ":" + name.toLowerCase().replace(/[^a-z0-9äöüß]+/g, "-");
             var p = { name: name, ext: true, importedAt: new Date().toISOString(), xp: num(o.x), goal: 50, daily: {}, streak: { count: num(o.s[0]), best: num(o.s[1]), last: day(o.s[2]) }, badges: {}, mastery: {}, stats: { correct: num(o.t[0]), total: num(o.t[1]), sessions: num(o.t[2]), perfect: 0, combo: 0, bestCombo: 0, goalDays: 0, hints: 0 } };
-            Object.keys(o.m).slice(0, 200).forEach(function (k) { var x = o.m[k]; if (/^CM-[SE]-\d+$/.test(k) && Array.isArray(x)) p.mastery[k] = { score: Math.min(100, num(x[0])), correct: num(x[1]), total: num(x[2]), last: day(x[3]) }; });
+            Object.keys(o.m).slice(0, 200).forEach(function (k) { var x = o.m[k]; if (/^(CM-[SE]|K-[A-Z0-9]+)-\d+$/.test(k) && Array.isArray(x)) p.mastery[k] = { score: Math.min(100, num(x[0])), correct: num(x[1]), total: num(x[2]), last: day(x[3]) }; });
             Object.keys(o.d || {}).slice(0, 31).forEach(function (k) { var x = o.d[k]; if (day(k) && Array.isArray(x)) p.daily[k] = { xp: num(x[0]), correct: num(x[1]), total: num(x[2]) }; });
             var rw = adapter.get("sor-rewards-v1") || {}; if (!rw.profiles) rw.profiles = {};
             var updated = !!rw.profiles[id]; rw.profiles[id] = p; adapter.set("sor-rewards-v1", rw);
