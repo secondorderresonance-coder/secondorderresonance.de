@@ -24,6 +24,8 @@
         vals.forEach(function (v, i) { s += '<rect class="tv-grow" x="' + r1(F.X(i) - bw / 2) + '" y="' + r1(F.Y(v)) + '" width="' + r1(bw) + '" height="' + r1(F.Y(0) - F.Y(v)) + '" fill="' + col + '" fill-opacity="0.75" style="animation-delay:' + (i * 0.06).toFixed(2) + 's"/>'; if (i % 2 === 0) s += txt(F.X(i), F.Y(0) + 12, i, M, 9); });
         return s + pop(txt(232, 22, label, W, 10, "end"), 0.9);
     }
+    // Helfer auch für weitere Grafik-Dateien bereitstellen (course-visuals-2.js)
+    K.arrow = arrow; K.support = support; K.rect = rect; K.bars = bars;
     var REG = {};
 
     // ---------- TM 1 ----------

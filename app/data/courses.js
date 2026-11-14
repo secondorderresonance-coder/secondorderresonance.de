@@ -2,7 +2,7 @@
  * SOR Grundkurse und Karteien
  * ------------------------------------------------------------
  * Zwei Karteien: "mathe" und "physik" (Physik & Technik).
- * Jeder Kurs hat 6 Lektionen. Eine Lektion hat dieselben Felder wie ein
+ * Jeder Kurs hat 5 bis 6 Lektionen. Weitere Kurse ergänzt app/data/courses-2.js über SOR_COURSES.add(). Eine Lektion hat dieselben Felder wie ein
  * Thema der Coverage-Matrix (topic, area, band, text, formula, visual),
  * damit Üben, Belohnungen und Lehrkräfte-Dashboard sie ohne Sonderfall nutzen.
  *
@@ -179,18 +179,37 @@
         }
     ];
 
-    // Auflösen in die aktuelle Sprache und flache Lektionsliste
+    // Auflösen in die aktuelle Sprache und flache Lektionsliste.
+    // Lektionen mit "ref" verweisen auf ein vorhandenes Thema der Coverage-Matrix (z. B. CM-E-05):
+    // sie nutzen dessen ID und Aufgaben und landen nicht in der flachen Liste "lessons".
     var lessons = [], byId = {};
-    COURSES.forEach(function (c) {
-        c.title = L(c.title); c.intro = L(c.intro);
-        c.lessons.forEach(function (l, i) {
-            l.topic = L(l.topic); l.text = L(l.text);
-            l.formula = (l.formula || []).map(L).map(stackInt);
-            l.course = c.id; l.subject = c.subject; l.n = i + 1;
-            l.area = c.title; l.band = c.short; l.level = c.level;
-            lessons.push(l); byId[l.id] = l;
+    function coverage() {
+        if (root.SOR_COVERAGE) return root.SOR_COVERAGE;
+        try { return require("./coverage-matrix.js"); } catch (e) { return null; }
+    }
+    function addCourses(list) {
+        list.forEach(function (c) {
+            c.title = L(c.title); c.intro = L(c.intro); c.short = L(c.short);
+            c.lessons.forEach(function (l, i) {
+                if (l.ref) {
+                    var cov = coverage(), src = cov ? cov.school.concat(cov.engineering).filter(function (e) { return e.id === l.ref; })[0] : null;
+                    l.id = l.ref; l.topic = l.topic ? L(l.topic) : (src ? src.topic : l.ref);
+                    l.text = L(l.text); l.formula = (l.formula || []).map(L).map(stackInt);
+                    // fehlende Erklärung auch am Thema selbst ergänzen, damit Üben sie überall zeigt
+                    if (src) { if (!src.text) src.text = l.text; if (!src.formula || !src.formula.length) src.formula = l.formula; if (!src.visual) src.visual = l.visual; }
+                } else {
+                    l.topic = L(l.topic); l.text = L(l.text);
+                    l.formula = (l.formula || []).map(L).map(stackInt);
+                }
+                l.course = c.id; l.subject = c.subject; l.n = i + 1;
+                l.area = c.title; l.band = c.short; l.level = c.level;
+                if (!l.ref) { lessons.push(l); byId[l.id] = l; }
+            });
+            COURSES.push(c);
         });
-    });
+    }
+    var BASE = COURSES; COURSES = [];
+    addCourses(BASE);
     Object.keys(SUBJECTS).forEach(function (k) { SUBJECTS[k].title = L(SUBJECTS[k].title); });
 
     var api = {
@@ -199,7 +218,11 @@
         lessons: lessons,
         lesson: function (id) { return byId[id] || null; },
         course: function (id) { return COURSES.filter(function (c) { return c.id === id; })[0] || null; },
-        bySubject: function (s) { return COURSES.filter(function (c) { return c.subject === s; }); }
+        bySubject: function (s) { return COURSES.filter(function (c) { return c.subject === s; }); },
+        add: addCourses,
+        L: L, stackInt: stackInt,
+        // Semesterplan eines Maschinenbau-Bachelors (siehe app/data/courses-2.js)
+        plan: []
     };
     root.SOR_COURSES = api;
     if (typeof module !== "undefined" && module.exports) module.exports = api;

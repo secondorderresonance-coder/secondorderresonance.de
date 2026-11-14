@@ -1,0 +1,28 @@
+{
+  "id": "./?app=sor",
+  "name": "Second-Order Resonance",
+  "short_name": "SOR Mathe",
+  "description": "Mathe und Physik üben von Klasse 1 bis zum Studium: Aufgaben mit Lösungsweg, Grundkurse, Prüfungstrainer und 3D-Labor.",
+  "lang": "de",
+  "dir": "ltr",
+  "start_url": "./app/ueben.html?source=app",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#0a0e1c",
+  "theme_color": "#0a0e1c",
+  "categories": ["education"],
+  "icons": [
+    { "src": "assets/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/app/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "shortcuts": [
+    { "name": "Üben", "url": "./app/ueben.html?source=app", "icons": [{ "src": "assets/app/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Kurse", "url": "./app/kurs.html?source=app", "icons": [{ "src": "assets/app/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Prüfungstrainer", "url": "./app/pruefung.html?source=app", "icons": [{ "src": "assets/app/icon-192.png", "sizes": "192x192" }] },
+    { "name": "3D-Labor", "url": "./app/labor3d.html?source=app", "icons": [{ "src": "assets/app/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

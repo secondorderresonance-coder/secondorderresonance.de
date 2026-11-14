@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.2.0"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../assets/app/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/app/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/app/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="SOR Mathe">
+<script src="./modules/pwa.js?v=3.2.0"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title data-en="Exam trainer | Second-Order Resonance">Prüfungstrainer | Second-Order Resonance</title>
+<meta name="description" content="Probeprüfungen Mathematik für Quali, Mittlere Reife und Abitur in Bayern: Teil A ohne Hilfsmittel, Teil B mit Hilfsmitteln, Zeitlimit, Punkte, Note und Auswertung nach Themen." data-en-content="Mock maths exams for the Bavarian Quali, Mittlere Reife and Abitur: part A without aids, part B with aids, time limit, points, grade and analysis by topic.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.2.0">
+<link rel="stylesheet" href="./modules/sor-math.css?v=3.1.0">
+<style>
+  .hero{margin-bottom:1.6rem;max-width:48rem}
+  .hero h1{font-size:clamp(2.1rem,4.4vw,3.2rem);margin:0.5rem 0 0.6rem}
+  .hero h1 .serif{color:var(--accent);font-size:1.12em}
+  .hero p{color:var(--soft);font-size:1.05rem}
+  .xgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.1rem}
+  .xcard{display:flex;flex-direction:column;gap:0.8rem;padding:1.4rem;border-radius:22px;border:1px solid var(--line);background:var(--card);position:relative;overflow:hidden}
+  .xcard::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c)}
+  .xcard .school{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+  .xcard h2{font-size:1.4rem}
+  .xcard p{color:var(--soft);font-size:0.95rem}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+  .facts div{padding:0.6rem 0.7rem;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--line)}
+  .facts b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.05rem}
+  .facts small{color:var(--muted);font-size:0.78rem}
+  .modes{display:flex;gap:0.4rem;flex-wrap:wrap}
+  .modes button{flex:1;padding:0.55rem 0.7rem;border-radius:12px;border:1px solid var(--line2);background:none;color:var(--muted);font:600 0.85rem 'Space Grotesk',sans-serif;cursor:pointer}
+  .modes button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:rgba(245,197,24,0.08)}
+  .best{font-size:0.85rem;color:var(--muted)}
+  .best strong{color:var(--teal)}
+  h2.sec{font-size:1.2rem;margin:2.2rem 0 0.9rem}
+  .hist{display:grid;gap:0.5rem}
+  .hrow{display:grid;grid-template-columns:minmax(0,1.4fr) auto auto auto;gap:1rem;align-items:center;padding:0.7rem 1rem;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:0.92rem}
+  .hrow small{color:var(--muted)}
+  .note{color:var(--muted);font-size:0.88rem;margin-top:1.4rem;max-width:52rem}
+
+  /* Prüfung */
+  .xbar{position:sticky;top:64px;z-index:5;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:0.8rem 1rem;margin:0 0 1.2rem;border-radius:16px;border:1px solid var(--line);background:rgba(10,14,28,0.92);backdrop-filter:blur(10px)}
+  .xbar .part{font-family:'Space Grotesk',sans-serif;font-weight:700}
+  .xbar .aids{font-size:0.82rem;color:var(--muted)}
+  .xbar .spacer{flex:1}
+  .timer{font-family:'IBM Plex Mono',monospace;font-size:1.1rem;padding:0.35rem 0.7rem;border-radius:10px;border:1px solid var(--line2)}
+  .timer.low{color:var(--red);border-color:rgba(233,69,96,0.6)}
+  .task{padding:1.3rem 1.4rem;border-radius:18px;border:1px solid var(--line);background:var(--card);margin-bottom:0.9rem;scroll-margin-top:140px}
+  .task .thead{display:flex;justify-content:space-between;gap:1rem;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem}
+  .task .q{font-size:1.06rem;line-height:1.6}
+  .task .ans{margin-top:0.9rem;display:grid;gap:0.5rem}
+  .ansrow{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap}
+  .ansrow label{min-width:6rem;color:var(--soft);font-size:0.95rem}
+  .ansrow .input{font-family:'IBM Plex Mono',monospace;max-width:15rem}
+  .ansrow .unit{color:var(--muted)}
+  .opts{display:grid;gap:0.45rem}
+  .opt{display:flex;gap:0.7rem;align-items:center;text-align:left;padding:0.7rem 0.9rem;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,0.03);cursor:pointer;font-size:1rem;color:var(--text)}
+  .opt[aria-pressed="true"]{border-color:var(--accent);background:rgba(245,197,24,0.09)}
+  .opt kbd{flex:0 0 auto;width:24px;height:24px;border-radius:7px;border:1px solid var(--line2);display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted)}
+  .task.done{border-color:rgba(53,224,196,0.35)}
+  .nav{display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:1rem}
+  .nav a{min-width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid var(--line2);text-decoration:none;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:0.8rem}
+  .nav a.done{border-color:rgba(53,224,196,0.5);color:var(--teal)}
+  .submit{display:flex;justify-content:flex-end;gap:0.6rem;margin:1.4rem 0 3rem}
+
+  /* Ergebnis */
+  .res{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem;margin-bottom:1.2rem}
+  .big{padding:1.6rem;border-radius:22px;border:1px solid var(--line);background:var(--card)}
+  .big .grade{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5vw,3.2rem);font-weight:700;line-height:1.05;color:var(--accent)}
+  .big .grade small{display:block;font-size:0.42em;color:var(--soft);font-weight:600;margin-top:0.3rem}
+  .big .pass{display:inline-block;margin-top:0.7rem;padding:0.25rem 0.7rem;border-radius:999px;font-size:0.82rem;font-weight:600}
+  .pass.ok{background:rgba(53,224,196,0.15);color:var(--teal)}
+  .pass.no{background:rgba(233,69,96,0.15);color:#ff8fa3}
+  .pts{display:grid;gap:0.6rem}
+  .pts div{display:flex;justify-content:space-between;gap:1rem;font-size:0.95rem}
+  .meter{height:8px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden}
+  .meter span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--accent))}
+  table.tt{width:100%;border-collapse:collapse;font-size:0.92rem}
+  table.tt th,table.tt td{text-align:left;padding:0.55rem 0.6rem;border-bottom:1px solid var(--line)}
+  table.tt th{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .rv{margin-top:0.7rem;padding:0.8rem 1rem;border-radius:12px;font-size:0.95rem}
+  .rv.ok{background:rgba(53,224,196,0.07);border:1px solid rgba(53,224,196,0.3)}
+  .rv.no{background:rgba(233,69,96,0.06);border:1px solid rgba(233,69,96,0.3)}
+  .rv ol{margin:0.4rem 0 0 1.2rem;color:var(--soft)}
+  @media (max-width:760px){
+    .res{grid-template-columns:minmax(0,1fr)}
+    .hrow{grid-template-columns:minmax(0,1fr) auto}
+    .xbar{top:58px}
+  }
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="pruefung"></div>
+<main class="wrap" id="main"></main>
+
+<script src="./data/coverage-matrix.js?v=3.1.0"></script>
+<script src="./data/exams.js?v=3.2.0"></script>
+<script src="./modules/exercise-engine.js?v=3.1.0"></script>
+<script src="./modules/exercises/school-1.js?v=3.1.0"></script>
+<script src="./modules/exercises/school-2.js?v=3.1.0"></script>
+<script src="./modules/exercises/school-3.js?v=3.1.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.2.0"></script>
+<script>
+(function () {
+    "use strict";
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var X = window.SOR_EXAMS, E = window.SOR_EX, COV = window.SOR_COVERAGE, REW = window.SOR_REWARDS, NAV = window.SOR_NAV, SOR = window.SOR, esc = NAV.esc;
+    var main = document.getElementById("main");
+    var st = document.createElement("style"); st.textContent = E.css; document.head.appendChild(st);
+    var TOPIC = {}; COV.school.forEach(function (e) { TOPIC[e.id] = e; });
+    var RUN_KEY = "sor-exam-run-v1", HIST_KEY = "sor-exams-v1";
+    var run = null, tick = null;
+    var nf = function (x, d) { return window.SOR_I18N ? SOR_I18N.num(x, d) : String(x); };
+    var pf = function (x) { return nf(x, Math.abs(x % 1) > 1e-9 ? 1 : 0); };
+
+    function store(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ohne Speicher */ } }
+    function read(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+    function drop(k) { try { localStorage.removeItem(k); } catch (e) { /* ohne Speicher */ } }
+    function history() { var h = SOR.storage.get(HIST_KEY) || {}; return h[SOR.accounts.key()] || []; }
+    function addHistory(entry) { var h = SOR.storage.get(HIST_KEY) || {}, k = SOR.accounts.key(); h[k] = (h[k] || []).concat([entry]).slice(-30); SOR.storage.set(HIST_KEY, h); }
+    function mmss(s) { s = Math.max(0, Math.round(s)); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ":" + ("0" + m).slice(-2) : m) + ":" + ("0" + x).slice(-2); }
+    function partLabel(p) { return $t("Teil ", "Part ") + p.id; }
+    function aidsLabel(p) { return p.aids ? $t("Taschenrechner und Formelsammlung erlaubt", "Calculator and formula sheet allowed") : $t("ohne Taschenrechner und Formelsammlung", "no calculator, no formula sheet"); }
+
+    // ---------- Übersicht ----------
+    function hub() {
+        document.title = $t("Prüfungstrainer | Second-Order Resonance", "Exam trainer | Second-Order Resonance");
+        var saved = read(RUN_KEY), hist = history(), html = '<section class="hero"><div class="kicker">' + $t("Prüfungstrainer Bayern", "Bavarian exam trainer") + "</div><h1>" + $t('Probeprüfung <span class="serif">unter echten Bedingungen</span>', 'Mock exams <span class="serif">under real conditions</span>') + "</h1><p>" +
+            $t("Quali, Mittlere Reife und Abitur mit Teil A ohne Hilfsmittel, Teil B mit Hilfsmitteln, Zeitlimit und Punkten. Am Ende bekommst du eine Note und siehst, welche Themen du noch üben solltest.", "Quali, Mittlere Reife and Abitur with part A without aids, part B with aids, a time limit and points. At the end you get a grade and see which topics you should practise further.") + "</p></section>";
+        if (saved && X.exam(saved.exam)) html += '<div class="card" style="display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:1.2rem"><div><strong>' + esc(X.exam(saved.exam).title) + "</strong><div class=\"dim\" style=\"font-size:0.9rem\">" + $t("Eine Prüfung ist noch nicht abgegeben.", "An exam has not been handed in yet.") + '</div></div><div style="display:flex;gap:0.5rem"><button class="btn btn-primary btn-sm" id="resumeBtn" type="button">' + $t("Fortsetzen", "Resume") + '</button><button class="btn btn-ghost btn-sm" id="discardBtn" type="button">' + $t("Verwerfen", "Discard") + "</button></div></div>";
+        html += '<div class="xgrid">';
+        X.exams.forEach(function (x) {
+            var best = hist.filter(function (h) { return h.exam === x.id; }).sort(function (a, b) { return b.share - a.share; })[0];
+            html += '<article class="xcard" style="--c:' + x.color + '"><div class="school">' + esc(x.school) + "</div><h2>" + esc(x.title) + "</h2><p>" + esc(x.intro) + "</p>" +
+                '<div class="facts"><div><b>' + x.totalMinutes + " min</b><small>" + $t("Arbeitszeit", "working time") + "</small></div><div><b>" + x.points + " " + (x.key.type === "np" ? "BE" : $t("Punkte", "points")) + "</b><small>" + $t("gesamt", "in total") + "</small></div>" +
+                x.parts.map(function (p) { return "<div><b>" + partLabel(p) + " · " + p.points + "</b><small>" + (p.aids ? $t("mit Hilfsmitteln", "with aids") : $t("ohne Hilfsmittel", "without aids")) + "</small></div>"; }).join("") + "</div>" +
+                '<div class="modes" role="group" aria-label="' + $t("Umfang", "Length") + '" data-x="' + x.id + '"><button type="button" data-m="full" aria-pressed="false">' + $t("Echte Länge", "Full length") + '</button><button type="button" data-m="short" aria-pressed="true">' + $t("Kompakt (halb)", "Compact (half)") + "</button></div>" +
+                (best ? '<div class="best">' + $t("Bestes Ergebnis: ", "Best result: ") + "<strong>" + esc(X.gradeLabel(x, best.grade)) + "</strong> · " + nf(Math.round(best.share * 100)) + " %</div>" : "") +
+                '<button class="btn btn-primary" type="button" data-start="' + x.id + '">' + $t("Prüfung starten →", "Start exam →") + "</button></article>";
+        });
+        html += "</div>";
+        if (hist.length) {
+            html += '<h2 class="sec">' + $t("Deine letzten Prüfungen", "Your recent exams") + '</h2><div class="hist">' + hist.slice().reverse().slice(0, 8).map(function (h) {
+                var x = X.exam(h.exam); if (!x) return "";
+                return '<div class="hrow"><div><strong>' + esc(x.title) + "</strong><br><small>" + esc(h.date) + " · " + (h.mode === "full" ? $t("echte Länge", "full length") : $t("kompakt", "compact")) + "</small></div><span>" + pf(h.got) + " / " + h.max + "</span><span>" + nf(Math.round(h.share * 100)) + ' %</span><strong style="color:var(--accent)">' + esc(X.gradeLabel(x, h.grade)) + "</strong></div>";
+            }).join("") + "</div>";
+        }
+        html += '<p class="note">' + $t("Die Aufgaben werden bei jedem Start neu erzeugt und bilden Aufbau, Zeit und Punkteverteilung der bayerischen Abschlussprüfungen nach. Sie ersetzen keine Original-Prüfungen: offene Begründungen, Zeichnungen und Beweise kommen in der echten Prüfung zusätzlich vor. Beim Abitur gilt die offizielle Notenpunkte-Tabelle, bei Quali und Mittlerer Reife sind die Notenschlüssel Orientierungswerte, weil das Kultusministerium sie jedes Jahr neu festlegt.", "Tasks are generated fresh for every start and mirror the structure, time and point distribution of the Bavarian final exams. They do not replace original exam papers: open justifications, drawings and proofs also appear in the real exam. The Abitur uses the official grade point table; for Quali and Mittlere Reife the grading keys are guide values because the ministry sets them anew each year.") + "</p>";
+        main.innerHTML = html;
+        Array.prototype.forEach.call(main.querySelectorAll(".modes"), function (g) {
+            g.addEventListener("click", function (ev) { var b = ev.target.closest("[data-m]"); if (!b) return; Array.prototype.forEach.call(g.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); }); });
+        });
+        Array.prototype.forEach.call(main.querySelectorAll("[data-start]"), function (b) {
+            b.addEventListener("click", function () {
+                var id = b.getAttribute("data-start"), m = main.querySelector('.modes[data-x="' + id + '"] [aria-pressed="true"]');
+                if (read(RUN_KEY) && !window.confirm($t("Die angefangene Prüfung wird verworfen. Neue Prüfung starten?", "The unfinished exam will be discarded. Start a new exam?"))) return;
+                start(id, m ? m.getAttribute("data-m") : "short");
+            });
+        });
+        if (document.getElementById("resumeBtn")) {
+            document.getElementById("resumeBtn").addEventListener("click", function () { run = read(RUN_KEY); renderPart(); });
+            document.getElementById("discardBtn").addEventListener("click", function () { drop(RUN_KEY); hub(); });
+        }
+    }
+
+    // ---------- Prüfung erzeugen ----------
+    function pickGen(topic, used) {
+        var gens = E.byTopic(topic).map(function (g) { return g.id; }), free = gens.filter(function (g) { return !used[g]; });
+        var list = free.length ? free : gens; return list[Math.floor(Math.random() * list.length)];
+    }
+    function start(id, mode) {
+        var x = X.exam(id), used = {}, factor = mode === "full" ? 1 : 0.5;
+        run = { exam: id, mode: mode, part: 0, started: Date.now(), partStart: Date.now(), parts: [] };
+        x.parts.forEach(function (p) {
+            var tasks = [];
+            p.blocks.forEach(function (b) {
+                var k = Math.max(1, Math.round(b.n * factor)), i;
+                for (i = 0; i < k; i += 1) {
+                    var topic = b.topics[(i + Math.floor(Math.random() * b.topics.length)) % b.topics.length], gid = pickGen(topic, used); used[gid] = true;
+                    var seed = Math.floor(Math.random() * 2147483646) + 1;
+                    tasks.push({ gid: gid, seed: seed, d: b.d, pts: b.pts, topic: topic, ans: null });
+                }
+            });
+            run.parts.push({ id: p.id, minutes: Math.round(p.minutes * factor), tasks: tasks, done: false });
+        });
+        run.totalMinutes = Math.round(x.totalMinutes * factor);
+        store(RUN_KEY, run);
+        renderPart();
+    }
+    function q(task) { return E.generate(task.gid, { difficulty: task.d, seed: task.seed }); }
+
+    // Zeit: Teil A hat ein eigenes Limit, Teil B bekommt die Restzeit der Gesamtarbeitszeit
+    function remaining() {
+        var p = run.parts[run.part], now = Date.now();
+        if (run.part === 0) return Math.min(p.minutes * 60 - (now - run.partStart) / 1000, run.totalMinutes * 60 - (now - run.started) / 1000);
+        return run.totalMinutes * 60 - (now - run.started) / 1000;
+    }
+
+    function inputHtml(spec, id, val) {
+        var ph = spec.type === "frac" ? $t("z. B. 3/4", "e.g. 3/4") : (spec.dec !== undefined ? $t("z. B. 3,14", "e.g. 3.14") : $t("Zahl", "Number"));
+        return '<input class="input" id="' + id + '" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + ph + '" aria-label="' + $t("Antwort", "Answer") + '" value="' + esc(val || "") + '">' + (spec.unit ? '<span class="unit">' + esc(spec.unit) + "</span>" : "");
+    }
+    function answered(t) { return t.ans !== null && t.ans !== undefined && (Array.isArray(t.ans) ? t.ans.every(function (v) { return String(v).trim(); }) : String(t.ans).trim() !== ""); }
+
+    function renderPart() {
+        var x = X.exam(run.exam), p = x.parts[run.part], rp = run.parts[run.part];
+        document.title = x.title + " · " + partLabel(p) + " | Second-Order Resonance";
+        var pts = rp.tasks.reduce(function (s, t) { return s + t.pts; }, 0), num = 0;
+        var html = '<div class="xbar"><span class="part">' + esc(x.title) + " · " + partLabel(p) + "</span><span class=\"aids\">" + aidsLabel(p) + " · " + pts + " " + (x.key.type === "np" ? "BE" : $t("Punkte", "points")) + '</span><span class="spacer"></span><span class="timer" id="timer" role="timer" aria-live="off">--:--</span></div>';
+        html += '<nav class="nav" id="tnav" aria-label="' + $t("Aufgaben", "Tasks") + '">' + rp.tasks.map(function (t, i) { return '<a href="#t' + i + '" class="' + (answered(t) ? "done" : "") + '">' + (i + 1) + "</a>"; }).join("") + "</nav>";
+        rp.tasks.forEach(function (t, i) {
+            var g = q(t), a = g.a, ans;
+            if (a.type === "choice") ans = '<div class="opts">' + a.options.map(function (o, k) { return '<button type="button" class="opt" data-t="' + i + '" data-k="' + k + '" aria-pressed="' + (String(t.ans) === String(k)) + '"><kbd>' + String.fromCharCode(65 + k) + "</kbd><span>" + o + "</span></button>"; }).join("") + "</div>";
+            else if (a.type === "multi") ans = a.fields.map(function (f, k) { return '<div class="ansrow"><label for="a' + i + "_" + k + '">' + f.l + "</label>" + inputHtml(f.a, "a" + i + "_" + k, t.ans ? t.ans[k] : "") + "</div>"; }).join("");
+            else ans = '<div class="ansrow">' + inputHtml(a, "a" + i + "_0", t.ans) + "</div>";
+            html += '<section class="task' + (answered(t) ? " done" : "") + '" id="t' + i + '"><div class="thead"><span>' + $t("Aufgabe ", "Task ") + p.id + (i + 1) + " · " + esc(TOPIC[t.topic] ? TOPIC[t.topic].topic : g.title) + "</span><span>" + nf(t.pts) + " " + (x.key.type === "np" ? "BE" : "P") + '</span></div><div class="q">' + g.q + '</div><div class="ans" data-t="' + i + '">' + ans + "</div></section>";
+            num += 1;
+        });
+        var last = run.part === x.parts.length - 1;
+        html += '<div class="submit"><button class="btn btn-ghost" type="button" id="quitBtn">' + $t("Abbrechen", "Cancel") + '</button><button class="btn btn-primary" type="button" id="submitBtn">' + (last ? $t("Prüfung abgeben", "Hand in exam") : $t("Teil A abgeben und zu Teil B", "Hand in part A and go to part B")) + "</button></div>";
+        main.innerHTML = html;
+        window.scrollTo(0, 0);
+        main.addEventListener("input", onInput);
+        main.addEventListener("click", onClick);
+        document.getElementById("submitBtn").addEventListener("click", function () {
+            var open = rp.tasks.filter(function (t) { return !answered(t); }).length;
+            var msg = open ? $t(open + " Aufgabe(n) sind noch offen. Trotzdem abgeben?", open + " task(s) are still unanswered. Hand in anyway?") : $t("Wirklich abgeben? Danach kannst du nichts mehr ändern.", "Hand in now? You cannot change anything afterwards.");
+            if (window.confirm(msg)) nextPart();
+        });
+        document.getElementById("quitBtn").addEventListener("click", function () { if (window.confirm($t("Prüfung abbrechen? Sie bleibt gespeichert und kann fortgesetzt werden.", "Cancel the exam? It stays saved and can be resumed."))) { stopTimer(); cleanup(); hub(); } });
+        startTimer();
+    }
+    function cleanup() { main.removeEventListener("input", onInput); main.removeEventListener("click", onClick); }
+    function onInput(ev) {
+        var box = ev.target.closest(".ans"); if (!box) return;
+        var i = +box.getAttribute("data-t"), t = run.parts[run.part].tasks[i], ins = box.querySelectorAll("input");
+        t.ans = ins.length > 1 ? Array.prototype.map.call(ins, function (n) { return n.value; }) : ins[0].value;
+        mark(i, t); store(RUN_KEY, run);
+    }
+    function onClick(ev) {
+        var b = ev.target.closest(".opt"); if (!b) return;
+        var i = +b.getAttribute("data-t"), t = run.parts[run.part].tasks[i];
+        t.ans = b.getAttribute("data-k");
+        Array.prototype.forEach.call(b.parentNode.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); });
+        mark(i, t); store(RUN_KEY, run);
+    }
+    function mark(i, t) { var ok = answered(t); document.getElementById("t" + i).classList.toggle("done", ok); var a = document.querySelectorAll("#tnav a")[i]; if (a) a.classList.toggle("done", ok); }
+    function startTimer() {
+        stopTimer();
+        var el = document.getElementById("timer");
+        var upd = function () {
+            var r = remaining(); el.textContent = mmss(r); el.classList.toggle("low", r < 300);
+            if (r <= 0) { stopTimer(); NAV.toast("⏰ <span>" + $t("Die Zeit ist abgelaufen.", "Time is up.") + "</span>"); nextPart(); }
+        };
+        upd(); tick = setInterval(upd, 1000);
+    }
+    function stopTimer() { if (tick) { clearInterval(tick); tick = null; } }
+    function nextPart() {
+        stopTimer(); cleanup();
+        run.parts[run.part].done = true;
+        if (run.part < run.parts.length - 1) { run.part += 1; run.partStart = Date.now(); store(RUN_KEY, run); NAV.toast("📝 <span>" + $t("Teil B beginnt. Jetzt sind Taschenrechner und Formelsammlung erlaubt.", "Part B begins. Calculator and formula sheet are now allowed.") + "</span>"); renderPart(); return; }
+        finish();
+    }
+
+    // ---------- Auswertung ----------
+    function score(g, ans) {
+        var a = g.a;
+        if (ans === null || ans === undefined) return 0;
+        if (a.type === "choice") return E.check(a, Number(ans)).correct ? 1 : 0;
+        if (a.type === "multi") {
+            var vals = Array.isArray(ans) ? ans : [];
+            if (E.check(a, vals).correct) return 1;
+            if (a.unordered) return 0;
+            var ok = a.fields.filter(function (f, k) { return E.check(f.a, vals[k]).correct; }).length;
+            return ok / a.fields.length;
+        }
+        return E.check(a, ans).correct ? 1 : 0;
+    }
+    function finish() {
+        var x = X.exam(run.exam), got = 0, max = 0, perTopic = {}, parts = [], review = [];
+        run.parts.forEach(function (rp, pi) {
+            var pg = 0, pm = 0;
+            rp.tasks.forEach(function (t, i) {
+                var g = q(t), s = score(g, t.ans), p = Math.round(s * t.pts * 2) / 2;
+                pg += p; pm += t.pts;
+                var tp = perTopic[t.topic] || (perTopic[t.topic] = { got: 0, max: 0 }); tp.got += p; tp.max += t.pts;
+                review.push({ part: rp.id, n: i + 1, g: g, t: t, p: p });
+                try { REW.record({ topicId: t.topic, correct: s === 1, difficulty: t.d, firstTry: true, hintUsed: false }); } catch (e) { /* Belohnungen optional */ }
+            });
+            got += pg; max += pm; parts.push({ id: rp.id, got: pg, max: pm });
+        });
+        try { REW.finishSession({ total: review.length, correct: review.filter(function (r) { return r.p === r.t.pts; }).length }); } catch (e) { /* optional */ }
+        var gr = X.grade(x, got, max), share = max ? got / max : 0;
+        addHistory({ exam: x.id, mode: run.mode, date: SOR.today(), got: got, max: max, share: share, grade: gr });
+        drop(RUN_KEY);
+        var mode = run.mode; run = null;
+        renderResult(x, mode, got, max, gr, share, parts, perTopic, review);
+    }
+    function renderResult(x, mode, got, max, gr, share, parts, perTopic, review) {
+        document.title = $t("Ergebnis · ", "Result · ") + x.title + " | Second-Order Resonance";
+        var pass = X.passed(x, gr), unit = x.key.type === "np" ? "BE" : $t("Punkte", "points");
+        var html = '<section class="hero"><div class="kicker">' + $t("Auswertung", "Results") + " · " + esc(x.title) + "</div><h1>" + (pass ? $t('Gut gemacht, <span class="serif">bestanden</span>', 'Well done, <span class="serif">passed</span>') : $t('Noch nicht <span class="serif">geschafft</span>', 'Not <span class="serif">passed</span> yet')) + "</h1></section>";
+        html += '<div class="res"><div class="big"><div class="dim" style="font-size:0.85rem;margin-bottom:0.4rem">' + (x.key.official ? $t("Nach der offiziellen Notenpunkte-Tabelle", "Using the official grade point table") : $t("Note nach Orientierungsschlüssel", "Grade using a guide key")) + '</div><div class="grade">' + esc(X.gradeLabel(x, gr)).replace(" (", "<small>(") + (X.gradeLabel(x, gr).indexOf(" (") > -1 ? "</small>" : "") + '</div><span class="pass ' + (pass ? "ok" : "no") + '">' + (pass ? $t("bestanden", "passed") : $t("nicht bestanden", "not passed")) + "</span></div>";
+        html += '<div class="big pts"><div><strong>' + $t("Gesamt", "Total") + "</strong><span>" + pf(got) + " / " + max + " " + unit + " · " + nf(Math.round(share * 100)) + ' %</span></div><div class="meter"><span style="width:' + Math.round(share * 100) + '%"></span></div>' +
+            parts.map(function (p) { return "<div><span>" + $t("Teil ", "Part ") + p.id + "</span><span>" + pf(p.got) + " / " + p.max + "</span></div>"; }).join("") +
+            '<div><span class="dim">' + (mode === "full" ? $t("Echte Länge", "Full length") : $t("Kompakt: halbe Länge, Note nach Prozent", "Compact: half length, grade by percentage")) + "</span></div></div></div>";
+        html += '<div class="card"><h2 class="sec" style="margin-top:0">' + $t("Nach Themen", "By topic") + '</h2><table class="tt"><thead><tr><th>' + $t("Thema", "Topic") + "</th><th>" + $t("Punkte", "Points") + "</th><th></th></tr></thead><tbody>" +
+            Object.keys(perTopic).sort(function (a, b) { return perTopic[a].got / perTopic[a].max - perTopic[b].got / perTopic[b].max; }).map(function (k) { var v = perTopic[k], weak = v.got / v.max < 0.6; return "<tr><td>" + esc(TOPIC[k] ? TOPIC[k].topic : k) + "</td><td>" + pf(v.got) + " / " + v.max + "</td><td>" + (weak ? '<a class="btn btn-ghost btn-sm" href="ueben.html?thema=' + k + '&zurueck=pruefung.html">' + $t("Üben →", "Practise →") + "</a>" : '<span style="color:var(--teal)">✓</span>') + "</td></tr>"; }).join("") + "</tbody></table></div>";
+        html += '<h2 class="sec">' + $t("Lösungen ansehen", "Review solutions") + "</h2>" + review.map(function (r) {
+            var ok = r.p === r.t.pts, a = r.g.a, yours = r.t.ans === null || r.t.ans === undefined || r.t.ans === "" ? "–" : a.type === "choice" ? a.options[Number(r.t.ans)] : Array.isArray(r.t.ans) ? r.t.ans.map(esc).join("; ") : esc(r.t.ans);
+            return '<details class="task"><summary class="thead" style="cursor:pointer;margin:0"><span>' + $t("Aufgabe ", "Task ") + r.part + r.n + " · " + esc(TOPIC[r.t.topic] ? TOPIC[r.t.topic].topic : "") + '</span><span style="color:' + (ok ? "var(--teal)" : r.p > 0 ? "var(--accent)" : "var(--red)") + '">' + pf(r.p) + " / " + r.t.pts + "</span></summary>" +
+                '<div class="q" style="margin-top:0.8rem">' + r.g.q + '</div><div class="rv ' + (ok ? "ok" : "no") + '"><div>' + $t("Deine Antwort: ", "Your answer: ") + "<strong>" + yours + "</strong></div><div>" + $t("Richtig: ", "Correct: ") + '<strong class="mth">' + E.show(a) + "</strong></div>" + (r.g.steps && r.g.steps.length ? "<ol>" + r.g.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>" : "") + "</div></details>";
+        }).join("");
+        html += '<div class="submit"><a class="btn btn-ghost" href="pruefung.html">' + $t("Zur Übersicht", "Back to overview") + '</a><button class="btn btn-primary" type="button" id="againBtn">' + $t("Neue Prüfung", "New exam") + "</button></div>";
+        main.innerHTML = html; window.scrollTo(0, 0);
+        document.getElementById("againBtn").addEventListener("click", function () { start(x.id, mode); });
+    }
+
+    var p0 = new URLSearchParams(location.search).get("x");
+    if (p0 && X.exam(p0)) { hub(); var b = main.querySelector('[data-start="' + p0 + '"]'); if (b) b.scrollIntoView({ block: "center" }); }
+    else hub();
+})();
+</script>
+</body>
+</html>
