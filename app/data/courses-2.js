@@ -2,8 +2,8 @@
  * SOR Grundkurse, Teil 2: Studienplan Maschinenbau (Bachelor)
  * ------------------------------------------------------------
  * Ergänzt SOR_COURSES (app/data/courses.js) um
- *   - TM 3, Fluidmechanik, Werkstoffe, Maschinenelemente, Elektrizitätslehre, Physik
- *     (eigene Aufgaben in app/modules/exercises/courses-3.js und courses-4.js)
+ *   - TM 3, Fluidmechanik, Werkstoffe, Maschinenelemente, Elektrizitätslehre, Physik, Chemie
+ *     (eigene Aufgaben in app/modules/exercises/courses-3.js, courses-4.js und courses-5.js)
  *   - Höhere Mathematik 1 bis 3 als geordnete Kurse über vorhandene Studienthemen (ref: CM-E-xx)
  *   - einen Semesterplan (SOR_COURSES.plan), der Module auf Kurse abbildet
  * Nach coverage-matrix.js und courses.js einbinden.
@@ -238,14 +238,43 @@
         }
     ]);
 
+    // Chemie (1. Semester): eigene Aufgaben in app/modules/exercises/courses-5.js
+    C.add([
+        {
+            id: "chem", subject: "physik", level: 4, short: { de: "Chemie", en: "Chemistry" },
+            title: { de: "Chemie für Ingenieure", en: "Chemistry for engineers" },
+            intro: { de: "Stoffmenge, Reaktionsgleichungen, Stöchiometrie, Konzentration, pH-Wert und Reaktionsenthalpie: das Rechnen aus der Chemie im ersten Semester.", en: "Amount of substance, chemical equations, stoichiometry, concentration, pH and reaction enthalpy: the calculations of first-semester chemistry." },
+            lessons: [
+                { id: "K-CH-1", visual: "mole", topic: { de: "Stoffmenge und molare Masse", en: "Amount of substance and molar mass" },
+                  text: { de: "Chemiker zählen Teilchen in Mol. Ein Mol sind 6,022 · 10²³ Teilchen, und die molare Masse sagt, wie viel Gramm ein Mol eines Stoffes wiegt.", en: "Chemists count particles in moles. One mole is 6.022 · 10²³ particles, and the molar mass says how many grams one mole of a substance weighs." },
+                  formula: ["n = m / M", "N = n · N<sub>A</sub>,  N<sub>A</sub> = 6,022 · 10<sup>23</sup> mol<sup>−1</sup>"] },
+                { id: "K-CH-2", visual: "balance", topic: { de: "Reaktionsgleichungen ausgleichen", en: "Balancing chemical equations" },
+                  text: { de: "Bei einer Reaktion gehen keine Atome verloren. Die Koeffizienten werden so gewählt, dass links und rechts von jedem Element gleich viele Atome stehen.", en: "No atoms are lost in a reaction. The coefficients are chosen so that each element has the same number of atoms on the left and on the right." },
+                  formula: ["CH<sub>4</sub> + 2 O<sub>2</sub> → CO<sub>2</sub> + 2 H<sub>2</sub>O", { de: "Atomzahl links = Atomzahl rechts", en: "atoms on the left = atoms on the right" }] },
+                { id: "K-CH-3", visual: "stoich", topic: { de: "Stöchiometrie", en: "Stoichiometry" },
+                  text: { de: "Die Koeffizienten geben das Verhältnis der Stoffmengen an. Über die molaren Massen rechnet man von Gramm des Ausgangsstoffs auf Gramm des Produkts.", en: "The coefficients give the ratio of the amounts of substance. Using molar masses you convert from grams of reactant to grams of product." },
+                  formula: ["n<sub>B</sub> / n<sub>A</sub> = ν<sub>B</sub> / ν<sub>A</sub>", "m<sub>B</sub> = m<sub>A</sub> · (ν<sub>B</sub> M<sub>B</sub>) / (ν<sub>A</sub> M<sub>A</sub>)"] },
+                { id: "K-CH-4", visual: "dilution", topic: { de: "Konzentration und Verdünnung", en: "Concentration and dilution" },
+                  text: { de: "Die Stoffmengenkonzentration ist Stoffmenge pro Volumen. Beim Verdünnen bleibt die gelöste Stoffmenge gleich, nur das Volumen wächst.", en: "Molar concentration is amount of substance per volume. When diluting, the dissolved amount stays the same, only the volume grows." },
+                  formula: ["c = n / V", "c<sub>1</sub> · V<sub>1</sub> = c<sub>2</sub> · V<sub>2</sub>"] },
+                { id: "K-CH-5", visual: "ph", topic: { de: "pH-Wert", en: "pH value" },
+                  text: { de: "Der pH-Wert ist der negative Zehnerlogarithmus der Oxoniumkonzentration. Eine Stufe auf der Skala bedeutet den Faktor 10.", en: "The pH value is the negative base-10 logarithm of the oxonium concentration. One step on the scale means a factor of 10." },
+                  formula: ["pH = −lg c(H<sub>3</sub>O<sup>+</sup>)", "pH + pOH = 14  (25 °C)"] },
+                { id: "K-CH-6", visual: "enthalpy", topic: { de: "Reaktionsenthalpie", en: "Reaction enthalpy" },
+                  text: { de: "Die Reaktionsenthalpie folgt aus den Bildungsenthalpien: Produkte minus Ausgangsstoffe. Ein negativer Wert heißt, die Reaktion gibt Wärme ab.", en: "The reaction enthalpy follows from the enthalpies of formation: products minus reactants. A negative value means the reaction releases heat." },
+                  formula: [{ de: "Δ<sub>R</sub>H = Σ ν Δ<sub>f</sub>H(Produkte) − Σ ν Δ<sub>f</sub>H(Edukte)", en: "Δ<sub>R</sub>H = Σ ν Δ<sub>f</sub>H(products) − Σ ν Δ<sub>f</sub>H(reactants)" }, { de: "Δ<sub>R</sub>H < 0: exotherm", en: "Δ<sub>R</sub>H < 0: exothermic" }] }
+            ]
+        }
+    ]);
+
     // Reihenfolge wie im Studium: erst Grundlagen, dann Vertiefung
-    var ORDER = ["hm1", "hm2", "stat", "hm3", "trafo", "tm1", "phys", "etech", "tm2", "tm3", "wkst", "thermo", "me", "fluid", "pid"];
+    var ORDER = ["hm1", "hm2", "stat", "hm3", "trafo", "tm1", "phys", "chem", "etech", "tm2", "tm3", "wkst", "thermo", "me", "fluid", "pid"];
     C.courses.sort(function (a, b) { return ORDER.indexOf(a.id) - ORDER.indexOf(b.id); });
 
     // Semesterplan eines Maschinenbau-Bachelors: Modul → Kurs (null = noch kein Kurs)
     var M = function (de, en, course) { return { title: C.L({ de: de, en: en }), course: course || null }; };
     C.plan = [
-        { sem: 1, modules: [M("Höhere Mathematik 1", "Higher Mathematics 1", "hm1"), M("Technische Mechanik 1", "Engineering Mechanics 1", "tm1"), M("Physik", "Physics", "phys"), M("Technische Elektrizitätslehre", "Electrical engineering", "etech"), M("Chemie", "Chemistry"), M("CAD und Maschinenzeichnen", "CAD and technical drawing"), M("Informationstechnik", "Information technology")] },
+        { sem: 1, modules: [M("Höhere Mathematik 1", "Higher Mathematics 1", "hm1"), M("Technische Mechanik 1", "Engineering Mechanics 1", "tm1"), M("Physik", "Physics", "phys"), M("Technische Elektrizitätslehre", "Electrical engineering", "etech"), M("Chemie", "Chemistry", "chem"), M("CAD und Maschinenzeichnen", "CAD and technical drawing"), M("Informationstechnik", "Information technology")] },
         { sem: 2, modules: [M("Höhere Mathematik 2", "Higher Mathematics 2", "hm2"), M("Technische Mechanik 2", "Engineering Mechanics 2", "tm2"), M("Modellierung von Unsicherheiten und Daten", "Modelling uncertainty and data", "stat"), M("Technische Elektrizitätslehre", "Electrical engineering", "etech"), M("CAD und Maschinenzeichnen", "CAD and technical drawing"), M("Informationstechnik", "Information technology")] },
         { sem: 3, modules: [M("Höhere Mathematik 3", "Higher Mathematics 3", "hm3"), M("Technische Mechanik 3", "Engineering Mechanics 3", "tm3"), M("Werkstoffe des Maschinenbaus 1", "Engineering materials 1", "wkst"), M("Thermodynamik", "Thermodynamics", "thermo"), M("Maschinenelemente", "Machine elements", "me")] },
         { sem: 4, modules: [M("Fluidmechanik 1", "Fluid mechanics 1", "fluid"), M("Regelungstechnik", "Control engineering", "pid"), M("Werkstoffe des Maschinenbaus 2", "Engineering materials 2", "wkst"), M("Wärmetransportphänomene", "Heat transfer", "thermo"), M("Maschinenelemente", "Machine elements", "me")] },

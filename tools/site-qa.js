@@ -6,7 +6,7 @@
  */
 const fs = require("fs"), path = require("path");
 const root = path.join(__dirname, "..");
-const pages = ["index.html", "schulen.html", "datenschutz.html"].concat(fs.readdirSync(path.join(root, "app")).filter(f => f.endsWith(".html")).map(f => "app/" + f));
+const pages = ["index.html", "schulen.html", "datenschutz.html", "offline.html"].concat(fs.readdirSync(path.join(root, "app")).filter(f => f.endsWith(".html")).map(f => "app/" + f));
 const errors = [];
 let links = 0;
 for (const page of pages) {

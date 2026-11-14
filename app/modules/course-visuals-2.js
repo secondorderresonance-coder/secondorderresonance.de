@@ -1,5 +1,5 @@
 /*
- * SOR Kurs-Grafiken, Teil 2: TM 3, Fluidmechanik, Werkstoffe, Maschinenelemente, Elektrizitätslehre, Physik.
+ * SOR Kurs-Grafiken, Teil 2: TM 3, Fluidmechanik, Werkstoffe, Maschinenelemente, Elektrizitätslehre, Physik, Chemie.
  * Nach topic-visuals.js und course-visuals.js einbinden.
  */
 (function (root) {
@@ -283,6 +283,57 @@
         [1, 2, 3].forEach(function (k, i) { s += pop(ln(F.X(k), F.Y(0), F.X(k), F.Y(Math.pow(0.5, k)), T, 1.2, ' stroke-dasharray="3 3"') + ln(F.X(0), F.Y(Math.pow(0.5, k)), F.X(k), F.Y(Math.pow(0.5, k)), T, 1.2, ' stroke-dasharray="3 3"') + txt(F.X(k), F.Y(0) + 12, k + "T", T, 9), 0.6 + i * 0.3); });
         s += pop(txt(F.X(4.8), F.Y(0.9), "N = N₀ (½)" + "<tspan font-size='8' dy='-5'>t/T</tspan>", W, 10, "end") + txt(F.X(0.1), F.Y(0.5), "½", M, 9, "start"), 1.4);
         return svg(s, t("Zerfallskurve mit Halbwertszeiten", "Decay curve with half-lives"));
+    };
+
+    // ---------- Chemie ----------
+    REG.mole = function () {
+        var s = "", i;
+        s += rect(20, 96, 90, 8, "rgba(255,255,255,0.12)", M) + '<path d="M65 104 l-10 30 h20 z" fill="' + M + '"/>';
+        for (i = 0; i < 9; i += 1) s += pop(dot(34 + (i % 5) * 14, 88 - Math.floor(i / 5) * 12, 5, i % 3 ? B : R), 0.1 + i * 0.08);
+        s += pop(txt(65, 40, "m = 18 g", Y, 12), 0.9);
+        s += arrow(120, 80, 150, 80, W, 2, 1.1);
+        s += pop(txt(196, 60, "n = m / M", W, 12) + txt(196, 82, "= 1 mol", T, 12) + txt(196, 108, "6,022 · 10²³".replace(",", t(",", ".")), M, 10) + txt(196, 122, t("Teilchen", "particles"), M, 10), 1.3);
+        return svg(s, t("Ein Mol Wasser auf der Waage", "One mole of water on a scale"));
+    };
+    REG.balance = function () {
+        var s = '<path d="M120 112 l-12 26 h24 z" fill="' + M + '"/>';
+        s += '<g class="tv-rock" style="transform-origin:120px 106px">' + rect(24, 102, 192, 6, "rgba(255,255,255,0.14)", W);
+        s += txt(66, 92, "CH₄ + 2 O₂", Y, 12) + txt(174, 92, "CO₂ + 2 H₂O", T, 12) + "</g>";
+        s += pop(txt(66, 30, "C 1 · H 4 · O 4", Y, 10) + txt(174, 30, "C 1 · H 4 · O 4", T, 10), 0.6) + pop(txt(120, 52, "=", W, 18, "middle", ' font-weight="700"'), 1);
+        return svg(s, t("Gleich viele Atome auf beiden Seiten", "Equal numbers of atoms on both sides"));
+    };
+    REG.stoich = function () {
+        var s = "", i;
+        for (i = 0; i < 2; i += 1) s += pop(rect(16 + i * 24, 60, 20, 20, "rgba(245,197,24,0.25)", Y), 0.1 + i * 0.1);
+        s += pop(rect(16, 86, 20, 20, "rgba(96,165,250,0.25)", B), 0.3);
+        s += pop(txt(40, 124, "2 H₂ + O₂", W, 11), 0.4) + arrow(80, 84, 130, 84, W, 2, 0.7);
+        for (i = 0; i < 2; i += 1) s += pop(rect(150 + i * 30, 72, 24, 24, "rgba(53,224,196,0.25)", T), 1 + i * 0.15);
+        s += pop(txt(180, 124, "2 H₂O", W, 11), 1.2) + pop(txt(120, 30, "n(H₂O) : n(H₂) = 2 : 2", M, 11), 1.5);
+        return svg(s, t("Stoffmengen stehen im Verhältnis der Koeffizienten", "Amounts are in the ratio of the coefficients"));
+    };
+    REG.dilution = function () {
+        var s = '<path d="M30 40 V128 H90 V40" fill="none" stroke="' + W + '" stroke-width="2"/>' + rect(31, 80, 58, 47, "rgba(233,69,96,0.55)", "none");
+        s += '<path d="M150 30 V128 H210 V30" fill="none" stroke="' + W + '" stroke-width="2"/>';
+        s += '<rect x="151" y="80" width="58" height="47" fill="' + R + '" fill-opacity="0.22"><animate attributeName="y" values="104;50;50;104" dur="5s" repeatCount="indefinite"/><animate attributeName="height" values="23;77;77;23" dur="5s" repeatCount="indefinite"/></rect>';
+        s += arrow(96, 84, 142, 84, W, 2) + txt(120, 76, "+ H₂O", B, 10);
+        s += pop(txt(60, 146, "c₁ · V₁", Y, 11) + txt(180, 146, "= c₂ · V₂", Y, 11), 0.5);
+        return svg(s, t("Verdünnen: gleiche Stoffmenge, mehr Volumen", "Diluting: same amount, more volume"));
+    };
+    REG.ph = function () {
+        var s = "", cols = ["#e94560", "#ef6a4a", "#f2913a", "#f5c518", "#c9d32a", "#8fd14f", "#35e0c4", "#3fc6d8", "#60a5fa", "#7c86f5", "#a78bfa", "#b46ef0", "#c25bd8", "#c84bb8", "#c23f97"];
+        for (var i = 0; i <= 14; i += 1) { s += '<rect x="' + (12 + i * 14.4) + '" y="70" width="14" height="22" fill="' + cols[i] + '" fill-opacity="0.85"/>'; if (i % 2 === 0) s += txt(19 + i * 14.4, 106, i, M, 9); }
+        s += '<g><animateTransform attributeName="transform" type="translate" values="0 0;150 0;0 0" dur="6s" repeatCount="indefinite"/><path d="M40 62 l-6 -10 h12 z" fill="' + W + '"/></g>';
+        s += txt(30, 130, t("sauer", "acidic"), R, 10) + txt(120, 130, t("neutral", "neutral"), T, 10) + txt(210, 130, t("basisch", "basic"), B, 10);
+        s += pop(txt(120, 36, "pH = −lg c(H₃O⁺)", W, 12), 0.5);
+        return svg(s, t("pH-Skala von 0 bis 14", "pH scale from 0 to 14"));
+    };
+    REG.enthalpy = function () {
+        var s = ln(30, 130, 30, 14, AX, 1.2) + txt(26, 12, "H", M, 10, "end");
+        s += ln(40, 40, 100, 40, Y, 3) + txt(70, 32, t("Edukte", "reactants"), Y, 10);
+        s += ln(150, 112, 210, 112, T, 3) + txt(180, 128, t("Produkte", "products"), T, 10);
+        s += drawPath("M100 40 C120 40 128 112 150 112", W, 1.6, 0.3) + moving("M100 40 C120 40 128 112 150 112", R, 4, 3);
+        s += arrow(222, 40, 222, 108, R, 2.4, 1) + ln(210, 40, 228, 40, M, 1, ' stroke-dasharray="3 3"') + pop(txt(236, 78, "Δ<tspan font-size='8' dy='3'>R</tspan><tspan dy='-3'>H &lt; 0</tspan>", R, 11, "end"), 1.2);
+        return svg(s, t("Exotherme Reaktion im Energiediagramm", "Exothermic reaction in an energy diagram"));
     };
 
     Object.keys(REG).forEach(function (k) { VIS.register(k, REG[k]); });

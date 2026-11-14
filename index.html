@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <script src="app/modules/i18n.js?v=3.1.0"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/app/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/app/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/app/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="SOR Mathe">
+<script src="app/modules/pwa.js?v=3.2.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="Second-Order Resonance | Practise maths from grade 1 to university">Second-Order Resonance | Mathe üben von Klasse 1 bis Studium</title>
 <meta name="description" content="Mathe üben von Klasse 1 bis ins Studium: adaptive Aufgaben mit Lösungsweg, 3D-Labor, Sterne und Abzeichen, Dashboard für Lehrkräfte." data-en-content="Practise maths from grade 1 to university: adaptive exercises with worked solutions, a 3D lab, stars and badges, a dashboard for teachers.">
@@ -136,6 +145,10 @@
   .course-card i{flex:0 0 auto;width:44px;height:44px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:1.25rem;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.3);color:var(--accent)}
   .course-card strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;line-height:1.3;margin-bottom:0.25rem}
   .course-card span{display:block;color:#98a2bd;font-size:0.9rem}
+  .nav-link{white-space:nowrap}
+  .pwa-txt p{color:#98a2bd;font-size:0.9rem;margin:0 0 0.6rem}
+  .pwa-txt strong{display:inline;font-family:inherit;font-size:inherit;margin:0;color:#cdd4e6}
+  .pwa-txt .btn{display:inline-flex;padding:0.5rem 1rem;border-radius:999px;border:0;background:var(--accent);color:#0a0e1c;font-weight:700;cursor:pointer}
   .course-card small{display:inline-block;margin-bottom:0.35rem;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:#35e0c4}
   @media (max-width:560px){ .lang-slot{display:none} }
   @media (max-width:1140px){
@@ -182,8 +195,7 @@
       <ul class="nav-links" style="display:flex;gap:1.9rem;align-items:center;font-size:0.92rem;">
         <li><a href="#levels" class="nav-link">Level</a></li>
         <li><a href="#kurse" class="nav-link" data-en="Courses">Kurse</a></li>
-        <li><a href="#labor" class="nav-link" data-en="Lab">Labor</a></li>
-        <li><a href="#kompass" class="nav-link" data-en="Compass">Kompass</a></li>
+        <li><a href="#pruefungen" class="nav-link" data-en="Exams">Prüfungen</a></li>
         <li><a href="#archive" class="nav-link" data-en="Archive">Archiv</a></li>
         <li><a href="app/labor3d.html" class="nav-link" data-en="3D lab">3D-Labor</a></li>
         <li><a href="schulen.html" class="nav-link" data-en="For schools">Für Schulen</a></li>
@@ -194,7 +206,7 @@
       <a href="app/ueben.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);" data-en="Practise now">Jetzt üben</a>
     </nav>
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#levels">Level</a><a href="#kurse" data-en="Courses">Kurse</a><a href="#labor" data-en="Lab">Labor</a><a href="#kompass" data-en="Curriculum compass">Lehrplan-Kompass</a><a href="#archive" data-en="Archive (DE)">Archiv</a><a href="app/labor3d.html" data-en="3D lab">3D-Labor</a><a href="schulen.html" data-en="For schools">Für Schulen</a><a href="app/konto.html" data-en="Account">Konto</a><a href="app/ueben.html" style="color:var(--accent);font-weight:600;" data-en="Practise now →">Jetzt üben →</a>
+      <a href="#levels">Level</a><a href="#kurse" data-en="Courses">Kurse</a><a href="#pruefungen" data-en="Exam trainer">Prüfungstrainer</a><a href="#labor" data-en="Lab">Labor</a><a href="#kompass" data-en="Curriculum compass">Lehrplan-Kompass</a><a href="#archive" data-en="Archive (DE)">Archiv</a><a href="app/labor3d.html" data-en="3D lab">3D-Labor</a><a href="schulen.html" data-en="For schools">Für Schulen</a><a href="app/konto.html" data-en="Account">Konto</a><a href="app/ueben.html" style="color:var(--accent);font-weight:600;" data-en="Practise now →">Jetzt üben →</a>
       <div class="mobile-lang"><span data-en="Language">Sprache</span><span id="langSlotM"></span></div>
     </div>
   </header>
@@ -254,9 +266,9 @@
     </div>
 
     <div class="reveal metrics" style="position:relative;z-index:1;max-width:1180px;margin:3.4rem auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="120" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">120</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Topics and lessons">Themen und Lektionen</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="161" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">161</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Topics and lessons">Themen und Lektionen</div></div>
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="6" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">6</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;">Level · L1–L6</div></div>
-      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="129" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">129</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Exercise types, fresh numbers every time">Aufgabentypen, immer neue Zahlen</div></div>
+      <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="170" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">170</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Exercise types, fresh numbers every time">Aufgabentypen, immer neue Zahlen</div></div>
       <div style="text-align:center;padding:1.3rem 0.8rem;border-radius:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);"><div class="counter" data-count="20" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.95rem;color:#eef1f7;line-height:1;">20</div><div style="font-size:0.86rem;color:#98a2bd;margin-top:0.45rem;" data-en="Badges to collect">Abzeichen zum Sammeln</div></div>
     </div>
   </section>
@@ -280,7 +292,7 @@
         <div>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="New · Physics &amp; Engineering">Neu · Physik &amp; Technik</span>
           <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.4vw,2.7rem);letter-spacing:-0.02em;margin:0.7rem 0 0.5rem;" data-en="Foundation courses for <span style=&quot;color:var(--accent);&quot;>university</span>">Grundkurse fürs <span style="color:var(--accent);">Studium</span></h2>
-          <p style="color:#aab2cc;max-width:36rem;" data-en="Six courses with six lessons each: explanation, formula, animation and exercises with worked solutions.">Sechs Kurse mit je sechs Lektionen: Erklärung, Formel, Animation und Übungen mit Lösungsweg.</p>
+          <p style="color:#aab2cc;max-width:36rem;" data-en="16 courses along a mechanical engineering study plan, from higher mathematics to chemistry and fluid mechanics. Every lesson: explanation, formula, animation and exercises with worked solutions.">16 Kurse entlang des Studienplans Maschinenbau, von Höherer Mathematik über Chemie bis Fluidmechanik. Jede Lektion: Erklärung, Formel, Animation und Übungen mit Lösungsweg.</p>
         </div>
         <a href="app/kurs.html" style="text-decoration:none;font-weight:600;padding:0.75rem 1.4rem;border-radius:999px;color:#eef1f7;border:1px solid rgba(255,255,255,0.18);" data-en="All courses →">Alle Kurse →</a>
       </div>
@@ -291,6 +303,23 @@
         <a class="course-card" href="app/kurs.html?k=pid"><i aria-hidden="true">↺</i><div><small>L5 · PID</small><strong data-en="Control engineering: the PID controller">Regelungstechnik: der PID-Regler</strong><span data-en="Control loop, P, I and D terms, Ziegler–Nichols tuning">Regelkreis, P-, I- und D-Anteil, Einstellung nach Ziegler und Nichols</span></div></a>
         <a class="course-card" href="app/kurs.html?k=thermo"><i aria-hidden="true">♨</i><div><small>L4 · Thermo</small><strong data-en="Thermodynamics and heat transfer">Thermodynamik und Wärmetransport</strong><span data-en="Heat, ideal gas, first law, Carnot, conduction and radiation">Wärme, ideales Gas, erster Hauptsatz, Carnot, Leitung und Strahlung</span></div></a>
         <a class="course-card" href="app/kurs.html?k=stat"><i aria-hidden="true">∑</i><div><small>L5 · Stat</small><strong data-en="Statistics for university">Statistik im Studium</strong><span data-en="Binomial, Poisson, Gauss, exponential distribution and Bayes' theorem">Binomial-, Poisson-, Gauß- und Exponentialverteilung, Satz von Bayes</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRÜFUNGEN: Prüfungstrainer Bayern (app/pruefung.html) und App -->
+  <section id="pruefungen" style="position:relative;padding:2rem 1.5rem 5rem;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="margin-bottom:2rem;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;" data-en="New · Exam trainer Bavaria">Neu · Prüfungstrainer Bayern</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.4vw,2.7rem);letter-spacing:-0.02em;margin:0.7rem 0 0.5rem;" data-en="Mock exams with a &lt;span style=&quot;color:var(--accent);&quot;&gt;grade&lt;/span&gt;">Probeprüfung mit <span style="color:var(--accent);">Note</span></h2>
+        <p style="color:#aab2cc;max-width:40rem;" data-en="Part A without aids, part B with calculator, real time limit and point distribution. Afterwards you see your grade and which topics to practise.">Teil A ohne Hilfsmittel, Teil B mit Taschenrechner, echtes Zeitlimit und echte Punkteverteilung. Danach siehst du deine Note und welche Themen du üben solltest.</p>
+      </div>
+      <div class="reveal course-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+        <a class="course-card" href="app/pruefung.html?x=quali"><i aria-hidden="true">9</i><div><small data-en="Mittelschule · 120 min">Mittelschule · 120 min</small><strong>Quali</strong><span data-en="Arithmetic, percentages, equations, areas and solids">Rechnen, Prozente, Gleichungen, Flächen und Körper</span></div></a>
+        <a class="course-card" href="app/pruefung.html?x=mr"><i aria-hidden="true">10</i><div><small data-en="Realschule · 170 min">Realschule · 170 min</small><strong>Mittlere Reife</strong><span data-en="Functions, trigonometry, solid geometry, growth">Funktionen, Trigonometrie, Raumgeometrie, Wachstum</span></div></a>
+        <a class="course-card" href="app/pruefung.html?x=abi"><i aria-hidden="true">13</i><div><small data-en="Gymnasium · 300 min">Gymnasium · 300 min</small><strong>Abitur</strong><span data-en="Calculus, probability and geometry, 100 assessment units">Analysis, Stochastik und Geometrie, 100 Bewertungseinheiten</span></div></a>
+        <div class="course-card" style="cursor:default"><i aria-hidden="true">📱</i><div><small data-en="App">App</small><strong data-en="On your phone">Auf dem Handy</strong><div id="pwaBox" class="pwa-txt"></div></div></div>
       </div>
     </div>
   </section>
@@ -456,7 +485,7 @@
         <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.2vw,2.6rem);letter-spacing:-0.02em;margin:0.8rem 0 1rem;" data-en="Interactive practice,&lt;br&gt;level by level">Interaktiv üben,<br>Level für Level</h2>
         <p style="color:#aab2cc;margin-bottom:1.5rem;max-width:26rem;" data-en="Exercises with fresh numbers every time. The difficulty adapts, and every topic can be mastered up to three stars.">Aufgaben mit immer neuen Zahlen. Die Schwierigkeit passt sich an, und jedes Thema lässt sich bis zu drei Sternen meistern.</p>
         <div style="display:grid;gap:0.7rem;margin-bottom:1.8rem;">
-          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;129 exercise types for 120 topics and lessons"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>129 Aufgabentypen zu 120 Themen und Lektionen</div>
+          <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;170 exercise types for 161 topics and lessons"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>170 Aufgabentypen zu 161 Themen und Lektionen</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;Daily goal, streak and 20 badges"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tagesziel, Lernserie und 20 Abzeichen</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;Hint and worked solution for every exercise"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Tipp und Lösungsweg zu jeder Aufgabe</div>
           <div style="display:flex;align-items:center;gap:0.7rem;color:#cdd4e6;" data-en="&lt;span style=&quot;width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;&quot;&gt;✓&lt;/span&gt;Runs in the browser, also on your phone"><span style="width:22px;height:22px;border-radius:50%;background:rgba(245,197,24,0.14);border:1px solid rgba(245,197,24,0.4);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:0.75rem;flex-shrink:0;">✓</span>Läuft im Browser, auch auf dem Handy</div>
@@ -544,7 +573,7 @@
           <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;">Second-Order Resonance</span>
         </div>
         <p style="color:#98a2bd;font-size:0.92rem;max-width:22rem;" data-en="Mathematics explained visually, from primary school to research.">Mathematik visuell erklärt — vom Grundschüler bis zum Forscher.</p>
-        <p style="color:#6b7490;font-size:0.84rem;margin-top:1.2rem;" data-en="Legal notice · Andreas Johannes Zwingler · &lt;a id=&quot;contactMail&quot; data-user=&quot;secondorderresonance&quot; data-domain=&quot;gmail.com&quot; href=&quot;#kontakt&quot; style=&quot;color:#98a2bd;&quot;&gt;Email&lt;/a&gt;">Impressum · Andreas Johannes Zwingler · <a id="contactMail" data-user="secondorderresonance" data-domain="gmail.com" href="#kontakt" style="color:#98a2bd;">E-Mail</a></p>
+        <p style="color:#6b7490;font-size:0.84rem;margin-top:1.2rem;" data-en="Legal notice · Andreas Johannes Zwingler · &lt;a id=&quot;contactMail&quot; data-user=&quot;secondorderresonance&quot; data-domain=&quot;gmail.com&quot; href=&quot;#kontakt&quot; style=&quot;color:#98a2bd;&quot;&gt;Email&lt;/a&gt; · &lt;a href=&quot;https://www.linkedin.com/in/andreas-zwingler/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;color:#98a2bd;&quot;&gt;LinkedIn&lt;/a&gt;">Impressum · Andreas Johannes Zwingler · <a id="contactMail" data-user="secondorderresonance" data-domain="gmail.com" href="#kontakt" style="color:#98a2bd;">E-Mail</a> · <a href="https://www.linkedin.com/in/andreas-zwingler/" target="_blank" rel="noopener" style="color:#98a2bd;">LinkedIn</a></p>
       </div>
       <div>
         <h4 style="font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:0.95rem;margin-bottom:0.9rem;" data-en="Learn">Lernen</h4>
@@ -552,6 +581,7 @@
           <a href="app/ueben.html" class="footer-link" data-en="Practice">Üben</a>
           <a href="app/klasse.html" class="footer-link" data-en="Learn by grade">Nach Klasse lernen</a>
           <a href="app/kurs.html" class="footer-link" data-en="Courses">Kurse</a>
+          <a href="app/pruefung.html" class="footer-link" data-en="Exam trainer">Prüfungstrainer</a>
           <a href="app/labor3d.html" class="footer-link" data-en="3D lab">3D-Labor</a>
           <a href="app/konto.html" class="footer-link" data-en="Account and badges">Konto und Abzeichen</a>
           <a href="app/lernpfad.html" class="footer-link" data-en="Learning road (DE)">Lernstraße</a>
@@ -563,6 +593,7 @@
         <div style="display:grid;gap:0.5rem;font-size:0.92rem;">
           <a href="https://www.youtube.com/@Second-OrderResonance" target="_blank" rel="noopener" class="footer-link">YouTube</a>
           <a href="https://www.tiktok.com/@second_order_resonance" target="_blank" rel="noopener" class="footer-link">TikTok</a>
+          <a href="https://www.linkedin.com/in/andreas-zwingler/" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
           <a href="schulen.html" class="footer-link" data-en="For schools">Für Schulen</a>
           <a href="app/lehrer.html" class="footer-link" data-en="For teachers">Für Lehrkräfte</a>
           <a href="datenschutz.html" class="footer-link" data-en="Privacy">Datenschutz</a>
@@ -581,6 +612,7 @@
     var sw = SOR_I18N.switcher(), s1 = document.getElementById('langSlot'), s2 = document.getElementById('langSlotM');
     if (s1) s1.innerHTML = sw; if (s2) s2.innerHTML = sw;
   }
+  if (window.SOR_PWA) SOR_PWA.mount(document.getElementById('pwaBox'));
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---- Level cards (data-driven) ----
@@ -678,6 +710,8 @@
     {title:$t('Gabriels Horn', "Gabriel's horn"), meta:$t('Labor · Uneigentliche Integrale · L4', "Lab · improper integrals · L4"), href:'#labor'},
     {title:$t('Lehrplan-Kompass', "Curriculum compass"), meta:$t('Klasse 1–12 · Studium · Themen finden', "Grades 1–12 · university · find topics"), href:'#kompass'},
     {title:$t('Nach Klasse lernen', "Learn by grade"), meta:$t('Klasse 1–12 · Themen, Formeln, sofort üben', "Grades 1–12 · topics, formulas, practise right away"), href:'app/klasse.html'},
+    {title:$t('Prüfungstrainer: Quali, Mittlere Reife, Abitur', "Exam trainer: Quali, Mittlere Reife, Abitur"), meta:$t('Probeprüfung Mathematik Bayern · Teil A und B · Note', "Bavarian maths mock exam · parts A and B · grade"), href:'app/pruefung.html'},
+    {title:$t('Studienplan Maschinenbau', "Mechanical engineering study plan"), meta:$t('HM 1–3 · TM 1–3 · Werkstoffe · Maschinenelemente · Fluidmechanik · E-Technik', "HM 1–3 · TM 1–3 · materials · machine elements · fluids · electrical"), href:'app/kurs.html'},
     {title:$t('Kurse: Technische Mechanik, PID, Thermodynamik, Statistik', "Courses: engineering mechanics, PID, thermodynamics, statistics"), meta:$t('TM 1 · TM 2 · Transformationsmatrizen · Regelungstechnik · Wärme · Verteilungen', "TM 1 · TM 2 · transformation matrices · control · heat · distributions"), href:'app/kurs.html'},
     {title:$t('Physik & Technik üben', "Practise physics & engineering"), meta:$t('Statik · Elastostatik · PID-Regler · Thermodynamik', "Statics · strength of materials · PID control · thermodynamics"), href:'app/ueben.html?fach=physik'},
     {title:$t('Level 1 — Grundlagen', "Level 1 — Foundations"), meta:$t('Bruchrechnung · Geometrie · Prozente', "Fractions · geometry · percentages"), href:'#levels'},
@@ -687,7 +721,8 @@
     {title:$t('Level 5 — Angewandte Mathematik', "Level 5 — Applied mathematics"), meta:$t('Fourier · Laplace · Resonanz', "Fourier · Laplace · resonance"), href:'#levels'},
     {title:$t('Level 6 — Forschung & Simulation', "Level 6 — Research & simulation"), meta:$t('Partielle DGL · FEM · Optimierung', "PDEs · FEM · optimisation"), href:'#levels'},
     {title:$t('YouTube-Kanal', "YouTube channel"), meta:$t('Erklärvideos', "Explainer videos"), href:'https://www.youtube.com/@Second-OrderResonance'},
-    {title:'TikTok', meta:$t('Kurze Mathe-Clips', "Short maths clips"), href:'https://www.tiktok.com/@second_order_resonance'}
+    {title:'TikTok', meta:$t('Kurze Mathe-Clips', "Short maths clips"), href:'https://www.tiktok.com/@second_order_resonance'},
+    {title:'LinkedIn', meta:$t('Andreas Zwingler, Gründer', "Andreas Zwingler, founder"), href:'https://www.linkedin.com/in/andreas-zwingler/'}
   ];
   var inp = document.getElementById('globalSearch'), res = document.getElementById('searchResults');
   if(inp && res){

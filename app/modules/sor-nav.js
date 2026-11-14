@@ -9,7 +9,7 @@
     if (!host || !window.SOR) return;
     var page = host.getAttribute("data-page") || "", base = host.getAttribute("data-base") || "";
     var t = window.$t || function (de) { return de; };
-    var LINKS = [["ueben", "ueben.html", t("Üben", "Practice")], ["kurs", "kurs.html", t("Kurse", "Courses")], ["klasse", "klasse.html", t("Klassen", "Grades")], ["labor3d", "labor3d.html", t("3D-Labor", "3D lab")], ["archiv", "lernarchiv.html", t("Archiv", "Archive (DE)")], ["lehrer", "lehrer.html", t("Für Lehrkräfte", "Teachers")]];
+    var LINKS = [["ueben", "ueben.html", t("Üben", "Practice")], ["kurs", "kurs.html", t("Kurse", "Courses")], ["pruefung", "pruefung.html", t("Prüfungen", "Exams")], ["klasse", "klasse.html", t("Klassen", "Grades")], ["labor3d", "labor3d.html", t("3D-Labor", "3D lab")], ["archiv", "lernarchiv.html", t("Archiv", "Archive (DE)")], ["lehrer", "lehrer.html", t("Für Lehrkräfte", "Teachers")]];
     var sw = window.SOR_I18N ? SOR_I18N.switcher("sor-lang") : "";
     var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
 
