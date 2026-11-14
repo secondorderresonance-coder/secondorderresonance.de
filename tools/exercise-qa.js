@@ -20,6 +20,7 @@ fs.readdirSync(dir).filter(f => f.endsWith(".js")).sort().forEach(f => require(p
 const coverage = require(path.join(root, "app/data/coverage-matrix.js"));
 const courses = require(path.join(root, "app/data/courses.js"));
 require(path.join(root, "app/data/courses-hm.js"));
+require(path.join(root, "app/data/courses-ph.js"));
 require(path.join(root, "app/data/courses-2.js"));
 
 const N = parseInt(process.argv[2], 10) || 150;

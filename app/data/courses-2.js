@@ -4,7 +4,7 @@
  * Ergänzt SOR_COURSES (app/data/courses.js) um
  *   - TM 3, Fluidmechanik, Werkstoffe, Maschinenelemente, Elektrizitätslehre, Physik, Chemie
  *     (eigene Aufgaben in app/modules/exercises/courses-3.js, courses-4.js und courses-5.js)
- *   - Höhere Mathematik 1 bis 3 stehen in app/data/courses-hm.js (vorher einbinden)
+ *   - Höhere Mathematik 1 bis 3 stehen in app/data/courses-hm.js, Physik 1 bis 4 in app/data/courses-ph.js (vorher einbinden)
  *   - einen Semesterplan (SOR_COURSES.plan), der Module auf Kurse abbildet
  * Nach coverage-matrix.js und courses.js einbinden.
  */
@@ -12,6 +12,7 @@
     "use strict";
     var C = root.SOR_COURSES || require("./courses.js");
     if (typeof require !== "undefined" && !root.SOR_COURSES_HM) { try { require("./courses-hm.js"); } catch (e) { /* Browser */ } }
+    if (typeof require !== "undefined" && !root.SOR_COURSES_PH) { try { require("./courses-ph.js"); } catch (e) { /* Browser */ } }
     if (!root.SOR_COVERAGE && typeof require !== "undefined") { try { root.SOR_COVERAGE = require("./coverage-matrix.js"); } catch (e) { /* Browser */ } }
 
     C.add([
@@ -194,13 +195,13 @@
     ]);
 
     // Reihenfolge wie im Studium: erst Grundlagen, dann Vertiefung
-    var ORDER = ["hm1", "hm2", "stat", "hm3", "trafo", "tm1", "phys", "chem", "etech", "tm2", "tm3", "wkst", "thermo", "me", "fluid", "pid"];
+    var ORDER = ["hm1", "hm2", "stat", "hm3", "trafo", "tm1", "phys", "ph1", "ph2", "ph3", "ph4", "chem", "etech", "tm2", "tm3", "wkst", "thermo", "me", "fluid", "pid"];
     C.courses.sort(function (a, b) { return ORDER.indexOf(a.id) - ORDER.indexOf(b.id); });
 
     // Semesterplan eines Maschinenbau-Bachelors: Modul → Kurs (null = noch kein Kurs)
     var M = function (de, en, course) { return { title: C.L({ de: de, en: en }), course: course || null }; };
     C.plan = [
-        { sem: 1, modules: [M("Höhere Mathematik 1", "Higher Mathematics 1", "hm1"), M("Technische Mechanik 1", "Engineering Mechanics 1", "tm1"), M("Physik", "Physics", "phys"), M("Technische Elektrizitätslehre", "Electrical engineering", "etech"), M("Chemie", "Chemistry", "chem"), M("CAD und Maschinenzeichnen", "CAD and technical drawing"), M("Informationstechnik", "Information technology")] },
+        { sem: 1, modules: [M("Höhere Mathematik 1", "Higher Mathematics 1", "hm1"), M("Technische Mechanik 1", "Engineering Mechanics 1", "tm1"), M("Physik", "Physics", "ph1"), M("Technische Elektrizitätslehre", "Electrical engineering", "etech"), M("Chemie", "Chemistry", "chem"), M("CAD und Maschinenzeichnen", "CAD and technical drawing"), M("Informationstechnik", "Information technology")] },
         { sem: 2, modules: [M("Höhere Mathematik 2", "Higher Mathematics 2", "hm2"), M("Technische Mechanik 2", "Engineering Mechanics 2", "tm2"), M("Modellierung von Unsicherheiten und Daten", "Modelling uncertainty and data", "stat"), M("Technische Elektrizitätslehre", "Electrical engineering", "etech"), M("CAD und Maschinenzeichnen", "CAD and technical drawing"), M("Informationstechnik", "Information technology")] },
         { sem: 3, modules: [M("Höhere Mathematik 3", "Higher Mathematics 3", "hm3"), M("Technische Mechanik 3", "Engineering Mechanics 3", "tm3"), M("Werkstoffe des Maschinenbaus 1", "Engineering materials 1", "wkst"), M("Thermodynamik", "Thermodynamics", "thermo"), M("Maschinenelemente", "Machine elements", "me")] },
         { sem: 4, modules: [M("Fluidmechanik 1", "Fluid mechanics 1", "fluid"), M("Regelungstechnik", "Control engineering", "pid"), M("Werkstoffe des Maschinenbaus 2", "Engineering materials 2", "wkst"), M("Wärmetransportphänomene", "Heat transfer", "thermo"), M("Maschinenelemente", "Machine elements", "me")] },

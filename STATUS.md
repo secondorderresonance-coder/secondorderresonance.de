@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.3.0`
+- `v3.4.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,45 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.4.0)
+User request: add many physics exercises based on Hering, Martin, Stohrer, "Physik für Ingenieure". Clarified with the owner: one lesson per book section, all chapters 1 to 10.
+
+### Changes in this iteration
+- **Four new physics courses with 56 lessons** (`app/data/courses-ph.js`). Each lesson matches one book section:
+  - Physik 1: Mechanik (chapters 1 and 2, 13 lessons)
+  - Physik 2: Thermodynamik und Elektrizität (chapters 3 and 4, 12 lessons)
+  - Physik 3: Schwingungen, Wellen, Optik, Akustik (chapters 5 to 7, 13 lessons)
+  - Physik 4: Atom-, Kern-, Festkörperphysik, Relativität (chapters 8 to 10, 18 lessons, level L5)
+  - Each lesson has its own explanation and key formulas in German and English. No book text was copied.
+- **56 new generators with three difficulty levels each** (`app/modules/exercises/ph-1.js` to `ph-4.js`). That gives 168 task types.
+  - They follow the book's Ü exercises and examples with new random numbers. Examples are the Atwood machine, rocket equation, ballistic pendulum, Venturi and Stokes, the diesel adiabat, the heat pump, the U value of a roof, the Faraday laws, the rotating coil, RLC circuits, the Mach cone, the prism, the microscope, the photoelectric effect, Sabine, Balmer lines, the particle in a box, Moseley, the binding energy, radiocarbon dating, shielding, Bragg, doping, Debye, the laser diode and Lorentz transformations.
+  - Every variant has an independent check, for example a numerical simulation, numerical integration, an alternative formula or a conservation law.
+  - Answers accept 0.5 % tolerance because the inputs are rounded measured values.
+- **Ten new animations** (`app/modules/course-visuals-2.js`): double slit, photoelectric effect, Bohr atom, particle in a box, Minkowski diagram, charged particle in a magnetic field, induction rod, nucleus, quarks and band model.
+- The semester plan now links the module "Physik" to Physik 1.
+- Numbers on the homepage and the schools page are updated: 317 exercise types, 308 topics and lessons, 20 courses. The service worker cache is bumped to `sor-v3.4.0`.
+
+### Files touched
+- New: `app/data/courses-ph.js`, `app/modules/exercises/ph-1.js`, `ph-2.js`, `ph-3.js`, `ph-4.js`
+- Changed: `app/data/courses-2.js`, `app/modules/course-visuals-2.js`, `app/{ueben,kurs,konto,lehrer}.html`, `index.html`, `schulen.html`, `sw.js`, `tools/exercise-qa.js`
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/exercise-qa.js 300` and `--en`:
+  - 317 generators, 308 of 308 topics
+  - all sample answers accepted, all falsified answers rejected
+  - at least 4 distinct variants per difficulty
+- Manual plausibility pass over one variant of every physics task type (magnitudes and units). This pass found and fixed three issues: the Zeeman shift, the units of the rope wave and the sound wave numbers.
+- `core-qa`, `coverage-qa`, `exam-qa`, `archive-qa` and `site-qa`: OK
+- Playwright on `kurs.html?k=ph1`, `ph3` and `ph4`, and on `ueben.html?thema=K-PI-34` and `K-PI-53`, in DE and EN at 1300 px and 390 px: no errors, no overflow, no external requests
+- Visual check of the new animations in both languages
+
+### Blockers
+- None. A physics review of the 56 lesson texts by the owner is still useful.
+
+### Next logical step
+- Add a second generator per section for further Ü types, for example graphical tasks (constructing ray paths) and multi-step tasks with sub-questions.
 
 ## Last completed task (v3.3.0)
 User request: base the Higher Mathematics 1 to 3 exercises on the exercises of Karpfinger, "Höhere Mathematik in Rezepten" (book and Arbeitsbuch), keep the exercise types, change the numbers, and cover every topic of the book. Clarified with the owner: chapters in book order (HM 1 = chapters 1–36, HM 2 = 37–62, HM 3 = 63–91) and one lesson per chapter.

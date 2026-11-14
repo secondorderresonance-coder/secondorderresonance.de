@@ -336,5 +336,87 @@
         return svg(s, t("Exotherme Reaktion im Energiediagramm", "Exothermic reaction in an energy diagram"));
     };
 
+    // ---------- Physik 1 bis 4 (Hering, Martin, Stohrer) ----------
+    REG.slit = function () {
+        var s = ln(20, 75, 70, 75, Y, 2.4) + '<rect x="72" y="20" width="5" height="44" fill="' + M + '"/><rect x="72" y="70" width="5" height="10" fill="' + M + '"/><rect x="72" y="86" width="5" height="44" fill="' + M + '"/>';
+        for (var i = 1; i <= 4; i += 1) s += '<circle cx="77" cy="67" r="' + i * 18 + '" fill="none" stroke="' + T + '" stroke-opacity="0.35" stroke-dasharray="3 4">' + anim("r", (i * 18 - 18) + ";" + (i * 18), 2) + "</circle>" + '<circle cx="77" cy="83" r="' + i * 18 + '" fill="none" stroke="' + B + '" stroke-opacity="0.35" stroke-dasharray="3 4">' + anim("r", (i * 18 - 18) + ";" + (i * 18), 2) + "</circle>";
+        s += ln(200, 20, 200, 130, M, 1.2);
+        for (var k = -3; k <= 3; k += 1) s += '<rect x="201" y="' + (73 + k * 16) + '" width="' + (16 - Math.abs(k) * 3.5) + '" height="5" rx="2" fill="' + Y + '" fill-opacity="' + (1 - Math.abs(k) * 0.22) + '"/>';
+        s += pop(txt(150, 140, "g sin α = m λ", W, 11), 0.6);
+        return svg(s, t("Doppelspalt mit Interferenzstreifen auf dem Schirm", "Double slit with interference fringes on the screen"));
+    };
+    REG.photo = function () {
+        var s = '<rect x="130" y="95" width="90" height="34" rx="4" fill="rgba(96,165,250,0.25)" stroke="' + B + '"/>' + txt(175, 117, t("Metall", "metal"), B, 10);
+        s += '<path d="M30 30 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="' + Y + '" stroke-width="2.2"><animate attributeName="stroke-dashoffset" values="40;0" dur="1.2s" repeatCount="indefinite"/></path>';
+        s += arrow(126, 36, 150, 92, Y, 2.2) + txt(54, 22, "h f", Y, 11);
+        s += '<g>' + move("0 0;45 -55;45 -55", 2.4) + dot(165, 92, 4.5, T) + "</g>" + pop(txt(62, 82, "E<tspan dy='3' font-size='7'>kin</tspan><tspan dy='-3'> = h f − W</tspan>", T, 11) + txt(62, 98, t("Elektron", "electron") + " ●", M, 9), 0.5);
+        return svg(s, t("Ein Photon löst ein Elektron aus einer Metalloberfläche", "A photon releases an electron from a metal surface"));
+    };
+    REG.bohr = function () {
+        var s = dot(80, 75, 7, R) + txt(80, 79, "+", W, 10);
+        [22, 40, 58].forEach(function (rr, i) { s += '<circle cx="80" cy="75" r="' + rr + '" fill="none" stroke="' + M + '" stroke-dasharray="3 4"/>' + txt(80 + rr * 0.72 + 4, 75 - rr * 0.72, "n = " + (i + 1), M, 8, "start"); });
+        s += '<g class="tv-spin" style="transform-origin:80px 75px;animation-duration:4s">' + dot(138, 75, 4.5, T) + "</g>";
+        s += pop('<path d="M150 50 q6 -6 12 0 t12 0 t12 0 t12 0" fill="none" stroke="' + Y + '" stroke-width="2"/>' + txt(204, 40, "h f = E<tspan dy='3' font-size='7'>m</tspan><tspan dy='-3'> − E</tspan><tspan dy='3' font-size='7'>n</tspan>", Y, 10, "middle"), 0.5);
+        s += pop(txt(190, 112, "E = −13,6 eV/n²".replace(",", t(",", ".")), W, 10), 0.9);
+        return svg(s, t("Bohr'sches Atommodell mit Bahnen und Photon", "Bohr's model with orbits and a photon"));
+    };
+    REG.well = function () {
+        var s = ln(40, 20, 40, 132, W, 2.4) + ln(200, 20, 200, 132, W, 2.4) + ln(40, 132, 200, 132, W, 1.4);
+        [1, 2, 3].forEach(function (k) {
+            var y = 128 - k * k * 11, p = "M40 " + y;
+            for (var i = 1; i <= 40; i += 1) { var x = 40 + i * 4; p += " L" + x + " " + r1(y - 9 * Math.sin(k * Math.PI * i / 40)); }
+            s += ln(40, y, 200, y, M, 0.8, ' stroke-dasharray="3 3"') + drawPath(p, [T, Y, B][k - 1], 2, 0.3 * k) + txt(210, y + 3, "n=" + k, M, 9, "start");
+        });
+        s += pop(txt(120, 14, "E = n² h² / (8 m L²)", W, 10), 1);
+        return svg(s, t("Teilchen im Potenzialtopf mit den ersten drei Wellenfunktionen", "Particle in a box with the first three wave functions"));
+    };
+    REG.lorentz = function () {
+        var s = ln(30, 130, 210, 130, AX, 1.2) + ln(40, 140, 40, 14, AX, 1.2) + txt(214, 134, "x", M, 10, "start") + txt(40, 10, "ct", M, 10);
+        s += ln(40, 130, 150, 20, Y, 1.4, ' stroke-dasharray="4 3"') + txt(152, 18, t("Licht", "light"), Y, 9, "start");
+        s += '<g class="tv-rock" style="transform-origin:40px 130px">' + ln(40, 130, 100, 20, T, 2.2) + ln(40, 130, 150, 70, T, 2.2) + txt(104, 18, "ct'", T, 10, "start") + txt(154, 70, "x'", T, 10, "start") + "</g>";
+        s += pop(txt(170, 108, "γ = 1/√(1 − v²/c²)", W, 10), 0.6);
+        return svg(s, t("Minkowski-Diagramm: geneigte Achsen eines bewegten Systems", "Minkowski diagram: tilted axes of a moving frame"));
+    };
+
+    REG.magfield = function () {
+        var s = "";
+        for (var i = 0; i < 5; i += 1) for (var j = 0; j < 5; j += 1) s += txt(22 + j * 30, 24 + i * 26, "×", M, 11);
+        s += '<path d="M82 124 A46 46 0 1 1 82.1 124" fill="none" stroke="' + T + '" stroke-width="1.4" stroke-dasharray="4 4"/>';
+        s += '<g class="tv-spin" style="transform-origin:82px 78px;animation-duration:5s">' + dot(82, 124, 5.5, Y) + arrow(82, 124, 118, 124, Y, 2.2) + arrow(82, 124, 82, 98, R, 2.2) + "</g>";
+        s += pop(txt(234, 60, "F = q v B", R, 11, "end") + txt(234, 80, "r = m v / (q B)", W, 10, "end") + txt(8, 146, t("B in die Ebene", "B into the page"), M, 9, "start"), 0.5);
+        return svg(s, t("Geladenes Teilchen auf einer Kreisbahn im Magnetfeld", "Charged particle on a circular path in a magnetic field"));
+    };
+    REG.induct = function () {
+        var s = '<rect x="30" y="34" width="110" height="86" fill="rgba(96,165,250,0.10)" stroke="' + B + '" stroke-dasharray="4 4"/>';
+        for (var i = 0; i < 3; i += 1) for (var j = 0; j < 4; j += 1) s += txt(45 + j * 28, 58 + i * 26, "·", B, 18);
+        s += ln(20, 30, 150, 30, M, 2) + ln(20, 124, 150, 124, M, 2) + '<rect x="12" y="66" width="8" height="24" fill="none" stroke="' + W + '"/>' + ln(16, 30, 16, 66, M, 2) + ln(16, 90, 16, 124, M, 2) + txt(4, 82, "R", W, 9, "start");
+        s += '<g>' + move("0 0;50 0;0 0", 4) + ln(70, 26, 70, 128, Y, 4) + arrow(74, 78, 96, 78, Y, 2) + "</g>";
+        s += pop(txt(234, 64, "u = B l v", T, 12, "end") + txt(234, 84, "u = −N dΦ/dt", W, 10, "end"), 0.5);
+        return svg(s, t("Bewegter Leiterstab im Magnetfeld induziert eine Spannung", "A moving rod in a magnetic field induces a voltage"));
+    };
+    REG.nucleus = function () {
+        var s = "", pts = [[0, 0], [12, 4], [-11, 6], [5, -12], [-6, -11], [14, -9], [-15, -6], [2, 14], [-9, 16], [13, 14], [20, 3], [-20, 2], [8, 22], [-2, -22]];
+        pts.forEach(function (q, i) { s += dot(80 + q[0], 78 + q[1], 7.5, i % 2 ? B : R, ' stroke="#0b1020" stroke-width="1"'); });
+        s += '<circle cx="80" cy="78" r="34" fill="none" stroke="' + M + '" stroke-dasharray="3 4"><animate attributeName="r" values="32;35;32" dur="3s" repeatCount="indefinite"/></circle>';
+        s += dot(150, 40, 5, R) + txt(160, 44, t("Proton", "proton"), R, 10, "start") + dot(150, 60, 5, B) + txt(160, 64, t("Neutron", "neutron"), B, 10, "start");
+        s += pop(txt(128, 104, "R = 1,2 fm · A<tspan dy='-4' font-size='7'>1/3</tspan>".replace(",", t(",", ".")), W, 9, "start") + txt(128, 124, "E<tspan dy='3' font-size='7'>B</tspan><tspan dy='-3'> = Δm c²</tspan>", Y, 10, "start"), 0.5);
+        return svg(s, t("Atomkern aus Protonen und Neutronen", "Nucleus made of protons and neutrons"));
+    };
+    REG.quarks = function () {
+        var s = '<circle cx="80" cy="76" r="48" fill="rgba(255,255,255,0.04)" stroke="' + M + '"/>', q = [[80, 46, "u", R], [54, 94, "u", Y], [106, 94, "d", B]];
+        s += '<path d="M80 46 L54 94 L106 94 Z" fill="none" stroke="' + T + '" stroke-width="1.2" stroke-dasharray="3 3"><animate attributeName="stroke-dashoffset" values="0;12" dur="1s" repeatCount="indefinite"/></path>';
+        q.forEach(function (k) { s += dot(k[0], k[1], 12, k[3]) + txt(k[0], k[1] + 4, k[2], "#0b1020", 12); });
+        s += pop(txt(140, 50, "p = u u d", W, 12, "start") + txt(140, 72, "Q = ⅔ + ⅔ − ⅓ = 1", T, 9, "start") + txt(140, 94, "B = 1", M, 9, "start"), 0.5);
+        return svg(s, t("Proton aus drei Quarks, zusammengehalten durch Gluonen", "Proton made of three quarks held together by gluons"));
+    };
+    REG.bands = function () {
+        var s = '<rect x="30" y="22" width="120" height="34" rx="3" fill="rgba(96,165,250,0.18)" stroke="' + B + '"/>' + txt(90, 43, t("Leitungsband", "conduction band"), B, 10);
+        s += '<rect x="30" y="98" width="120" height="34" rx="3" fill="rgba(233,69,96,0.18)" stroke="' + R + '"/>' + txt(90, 120, t("Valenzband", "valence band"), R, 10);
+        s += ln(160, 56, 160, 98, Y, 1.4) + txt(166, 80, "E<tspan dy='3' font-size='7'>g</tspan>", Y, 11, "start");
+        s += '<g>' + move("0 0;0 -52;0 -52", 3) + dot(70, 104, 4.5, W) + "</g>" + '<g class="tv-p" style="animation-delay:1.5s">' + '<circle cx="70" cy="104" r="4.5" fill="none" stroke="' + W + '"/></g>';
+        s += pop(txt(234, 13, "σ = e (n μ<tspan dy='3' font-size='7'>n</tspan><tspan dy='-3'> + p μ</tspan><tspan dy='3' font-size='7'>p</tspan><tspan dy='-3'>)</tspan>", T, 10, "end") + txt(232, 140, "λ<tspan dy='3' font-size='7'>g</tspan><tspan dy='-3'> = h c / E</tspan><tspan dy='3' font-size='7'>g</tspan>", W, 10, "end"), 0.6);
+        return svg(s, t("Bändermodell eines Halbleiters mit Bandlücke", "Band model of a semiconductor with band gap"));
+    };
+
     Object.keys(REG).forEach(function (k) { VIS.register(k, REG[k]); });
 })(typeof window !== "undefined" ? window : globalThis);

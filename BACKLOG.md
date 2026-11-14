@@ -49,6 +49,7 @@
 ## P2
 - [ ] Store apps: Trusted Web Activity for the Play Store and a Capacitor shell for iOS (needs developer accounts and signing keys)
 - [ ] Courses for the remaining study plan modules: CAD and technical drawing, information technology
+- [ ] Physics 1 to 4: second generator per section (ray constructions, multi-step tasks) and an owner review of the 56 lesson texts
 - [x] Higher Mathematics 1 to 3 along Karpfinger: one lesson and one generator per book chapter (91 chapters, v3.3.0)
 - [ ] Higher Mathematics: second generator per chapter for further Arbeitsbuch task types, and an owner review of the 91 lesson texts
 - [ ] Exam trainer: Mathematik II/III for the Realschule, open-answer tasks with self-assessment, physics for the Abitur
@@ -58,7 +59,7 @@
 - [ ] Add 2–3 further generators per school topic (word problems, graph reading) and interactive answer types (drag on number line, plot a point)
 - [ ] Printable worksheets with solutions from a seed (`ueben.html` already generates deterministic tasks per seed)
 - [ ] Bring the shared header (`sor-nav.js`) and `sor-ui.css` to `app/index.html`, `app/lernpfad.html`, `app/lernarchiv.html`, `app/profil.html`
-- [ ] Physics topics for the engine (the brand promises Mathe und Physik, the engine covers mathematics only)
+- [x] Physics topics for the engine: four physics courses along Hering, Martin, Stohrer with 56 generators (v3.4.0)
 - [ ] Raise distinct base tasks to at least 5 per L1–L3 sublevel (several sublevels such as 3.1.3.b have only one base task repeated as variants), so class-page lessons are varied
 - [ ] Improve multiple-choice distractors for non-numeric archive answers (same answer type as the correct option)
 - [ ] Add an "Achsen-/Punktsymmetrie" sublevel under L1 (Klasse 6 gap identified in curriculum coverage matrix)
