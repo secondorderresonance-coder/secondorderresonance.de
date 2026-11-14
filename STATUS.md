@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.2.0`
+- `v3.3.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,32 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.3.0)
+User request: base the Higher Mathematics 1 to 3 exercises on the exercises of Karpfinger, "Höhere Mathematik in Rezepten" (book and Arbeitsbuch), keep the exercise types, change the numbers, and cover every topic of the book. Clarified with the owner: chapters in book order (HM 1 = chapters 1–36, HM 2 = 37–62, HM 3 = 63–91) and one lesson per chapter.
+
+### Changes in this iteration
+- **91 lessons, one per book chapter** (`app/data/courses-hm.js`): HM 1 (36 lessons in four sections), HM 2 (26 lessons in three sections), HM 3 (29 lessons in five sections). Each lesson has its own short explanation and key formulas, written in our own words in German and English. No book text was copied. The HM entries were removed from `app/data/courses-2.js`, which now loads `courses-hm.js` in Node.
+- **91 new generators** (`app/modules/exercises/hm-1.js`, `hm-2.js`, `hm-3.js`), one per chapter with three difficulty levels. The task types follow the Arbeitsbuch exercises of each chapter (for example LR and QR decomposition, Jordan blocks from kernel dimensions, Green and Gauss theorems, residues, Möbius transformations, heat and wave equation), always with new random numbers. Every variant carries an independent check, mostly numerical (Simpson, Runge-Kutta, finite differences).
+- `kurs.html` shows section headings and the book chapter in the lesson list.
+- Fix: the chemistry animation `balance` collided with an existing topic animation and is now `eqbalance`.
+- Numbers on the homepage and the schools page: 261 exercise types for 252 topics and lessons. Service worker cache bumped to `sor-v3.3.0`.
+
+### Files touched
+- New: `app/data/courses-hm.js`, `app/modules/exercises/hm-1.js`, `hm-2.js`, `hm-3.js`
+- Changed: `app/data/courses-2.js`, `app/modules/course-visuals-2.js`, `app/{ueben,kurs,konto,lehrer}.html`, `index.html`, `schulen.html`, `sw.js`, `tools/exercise-qa.js`
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/exercise-qa.js 400` and `node tools/exercise-qa.js 400 --en`: 261 generators, 252 of 252 topics, all variants accepted, falsified answers rejected, at least 4 distinct variants per difficulty
+- `core-qa`, `coverage-qa`, `exam-qa`, `archive-qa`, `site-qa`: OK
+- Playwright: `kurs.html?k=hm1` and `?k=hm3` (1300 px and 390 px), `ueben.html?thema=K-HM-47` and `K-HM-83` in English: no errors, no overflow, no external requests
+
+### Blockers
+- None. The mapping of chapters to exercise types was made from the table of contents and the Arbeitsbuch. A maths review of the 91 lesson texts by the owner is still useful.
+
+### Next logical step
+- Add a second generator for chapters where the Arbeitsbuch has clearly different task types (for example proofs turned into choice tasks), starting with HM 2.
 
 ## Last completed task (v3.2.0)
 User request: add the LinkedIn profile, extend the courses along the mechanical engineering bachelor study plan (TUM-style semester table), build exam trainers for Abitur, Realschulabschluss and Hauptschulabschluss, and prepare everything for a future mobile app. Clarified with the owner: Bavaria and maths only for the exams; courses for TM 3 and fluid mechanics, materials and machine elements, electrical engineering, physics and chemistry, Higher Mathematics 1 to 3; installable web app as the app foundation.

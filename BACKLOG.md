@@ -49,6 +49,8 @@
 ## P2
 - [ ] Store apps: Trusted Web Activity for the Play Store and a Capacitor shell for iOS (needs developer accounts and signing keys)
 - [ ] Courses for the remaining study plan modules: CAD and technical drawing, information technology
+- [x] Higher Mathematics 1 to 3 along Karpfinger: one lesson and one generator per book chapter (91 chapters, v3.3.0)
+- [ ] Higher Mathematics: second generator per chapter for further Arbeitsbuch task types, and an owner review of the 91 lesson texts
 - [ ] Exam trainer: Mathematik II/III for the Realschule, open-answer tasks with self-assessment, physics for the Abitur
 - [ ] Translate the archive (`app/lernarchiv.html`, `app/data/archive-content.js`), the Lernstraße and the classic app into English, or hide them for English visitors
 - [ ] Second batch of physics and engineering courses: electrical engineering basics, fluid mechanics, mechanical vibrations, dynamics (TM 3 kinetics)

@@ -4,13 +4,14 @@
  * Ergänzt SOR_COURSES (app/data/courses.js) um
  *   - TM 3, Fluidmechanik, Werkstoffe, Maschinenelemente, Elektrizitätslehre, Physik, Chemie
  *     (eigene Aufgaben in app/modules/exercises/courses-3.js, courses-4.js und courses-5.js)
- *   - Höhere Mathematik 1 bis 3 als geordnete Kurse über vorhandene Studienthemen (ref: CM-E-xx)
+ *   - Höhere Mathematik 1 bis 3 stehen in app/data/courses-hm.js (vorher einbinden)
  *   - einen Semesterplan (SOR_COURSES.plan), der Module auf Kurse abbildet
  * Nach coverage-matrix.js und courses.js einbinden.
  */
 (function (root) {
     "use strict";
     var C = root.SOR_COURSES || require("./courses.js");
+    if (typeof require !== "undefined" && !root.SOR_COURSES_HM) { try { require("./courses-hm.js"); } catch (e) { /* Browser */ } }
     if (!root.SOR_COVERAGE && typeof require !== "undefined") { try { root.SOR_COVERAGE = require("./coverage-matrix.js"); } catch (e) { /* Browser */ } }
 
     C.add([
@@ -160,81 +161,6 @@
                   text: { de: "Nach jeder Halbwertszeit ist die Hälfte der Kerne zerfallen. Das gilt unabhängig davon, wie viele Kerne am Anfang da waren.", en: "After each half-life half of the nuclei have decayed. That holds no matter how many nuclei there were at the start." },
                   formula: ["N(t) = N<sub>0</sub> · (½)<sup>t / T<sub>½</sub></sup>", "λ = ln 2 / T<sub>½</sub>"] }
             ]
-        },
-        {
-            id: "hm1", subject: "mathe", level: 4, short: "HM 1",
-            title: { de: "Höhere Mathematik 1", en: "Higher Mathematics 1" },
-            intro: { de: "Komplexe Zahlen, Grenzwerte, Reihen und lineare Algebra: das Fundament des ersten Semesters, mit Aufgaben aus dem Studienbereich.", en: "Complex numbers, limits, series and linear algebra: the foundation of the first semester, with exercises from the university area." },
-            lessons: [
-                { ref: "CM-E-05", visual: "complex",
-                  text: { de: "Mit i<sup>2</sup> = −1 wird aus der Zahlengeraden eine Ebene. Multiplizieren heißt dort: Beträge multiplizieren, Winkel addieren.", en: "With i<sup>2</sup> = −1 the number line becomes a plane. Multiplying there means multiplying the moduli and adding the angles." },
-                  formula: ["z = a + b i = r · e<sup>iφ</sup>", "r = √(a<sup>2</sup> + b<sup>2</sup>)", "z<sup>n</sup> = r<sup>n</sup> · e<sup>i n φ</sup>"] },
-                { ref: "CM-E-06", visual: "sequence",
-                  text: { de: "Eine Folge konvergiert, wenn ihre Glieder einem Wert beliebig nahe kommen und dort bleiben. Bei Brüchen entscheidet meist die höchste Potenz von n.", en: "A sequence converges if its terms get arbitrarily close to a value and stay there. For fractions the highest power of n usually decides." },
-                  formula: [{ de: "a<sub>n</sub> → a  ⇔  |a<sub>n</sub> − a| < ε  für n > N", en: "a<sub>n</sub> → a  ⇔  |a<sub>n</sub> − a| < ε  for n > N" }, "(1 + a/n)<sup>n</sup> → e<sup>a</sup>"] },
-                { ref: "CM-E-07", visual: "tangent",
-                  text: { de: "Eine Potenzreihe nähert eine Funktion durch Polynome an. Die Taylorreihe liest die Koeffizienten direkt aus den Ableitungen an einer Stelle ab.", en: "A power series approximates a function with polynomials. The Taylor series reads the coefficients straight from the derivatives at one point." },
-                  formula: [{ de: "Σ q<sup>k</sup> = 1 / (1 − q)  für |q| < 1", en: "Σ q<sup>k</sup> = 1 / (1 − q)  for |q| < 1" }, "f(x) = Σ f<sup>(k)</sup>(0) / k! · x<sup>k</sup>"] },
-                { ref: "CM-E-01", visual: "system",
-                  text: { de: "Ein lineares Gleichungssystem schreibt man kompakt als A · x = b. Ist die Determinante ungleich null, gibt es genau eine Lösung.", en: "A system of linear equations is written compactly as A · x = b. If the determinant is non-zero, there is exactly one solution." },
-                  formula: ["A · x = b", "det A ≠ 0  ⇒  x = A<sup>−1</sup> b"] },
-                { ref: "CM-E-03", visual: "matrix",
-                  text: { de: "Ein Eigenvektor wird von der Matrix nur gestreckt, nicht gedreht. Der Streckfaktor ist der Eigenwert, man findet ihn über das charakteristische Polynom.", en: "An eigenvector is only stretched by the matrix, not rotated. The stretch factor is the eigenvalue, found from the characteristic polynomial." },
-                  formula: ["A · v = λ · v", "det(A − λ I) = 0", { de: "λ<sub>1</sub> + λ<sub>2</sub> = Spur A,  λ<sub>1</sub> λ<sub>2</sub> = det A", en: "λ<sub>1</sub> + λ<sub>2</sub> = trace A,  λ<sub>1</sub> λ<sub>2</sub> = det A" }] },
-                { ref: "CM-E-04", visual: "vector",
-                  text: { de: "Senkrechte Vektoren haben Skalarprodukt null. Mit der Projektion zerlegt man einen Vektor in einen Anteil entlang einer Richtung und einen senkrechten Rest.", en: "Perpendicular vectors have a dot product of zero. Projection splits a vector into a part along a direction and a perpendicular remainder." },
-                  formula: ["u · v = 0  ⇔  u ⟂ v", "proj<sub>u</sub> v = (u · v) / (u · u) · u"] }
-            ]
-        },
-        {
-            id: "hm2", subject: "mathe", level: 4, short: "HM 2",
-            title: { de: "Höhere Mathematik 2", en: "Higher Mathematics 2" },
-            intro: { de: "Analysis in mehreren Variablen, Integrale bis ins Unendliche und erste numerische Verfahren.", en: "Calculus in several variables, integrals to infinity and first numerical methods." },
-            lessons: [
-                { ref: "CM-E-08", visual: "extrema",
-                  text: { de: "Partielle Ableitungen messen die Steigung in eine Achsenrichtung. Der Gradient zeigt in Richtung des steilsten Anstiegs, an Extremstellen ist er null.", en: "Partial derivatives measure the slope in one axis direction. The gradient points in the direction of steepest ascent and is zero at extrema." },
-                  formula: ["∇f = (f<sub>x</sub>, f<sub>y</sub>)", { de: "∇f = 0, det H > 0, f<sub>xx</sub> < 0  ⇒  Maximum", en: "∇f = 0, det H > 0, f<sub>xx</sub> < 0  ⇒  maximum" }] },
-                { ref: "CM-E-09", visual: "efunc",
-                  text: { de: "Ein uneigentliches Integral ist ein Grenzwert: man integriert bis b und lässt b gegen unendlich laufen. Es konvergiert nur, wenn der Integrand schnell genug abfällt.", en: "An improper integral is a limit: integrate up to b and let b tend to infinity. It converges only if the integrand decays fast enough." },
-                  formula: ["∫<sub>a</sub><sup>∞</sup> f dx = lim<sub>b→∞</sub> ∫<sub>a</sub><sup>b</sup> f dx", { de: "∫<sub>1</sub><sup>∞</sup> x<sup>−p</sup> dx  konvergiert für p > 1", en: "∫<sub>1</sub><sup>∞</sup> x<sup>−p</sup> dx  converges for p > 1" }] },
-                { ref: "CM-E-10", visual: "integral",
-                  text: { de: "Doppelintegrale summieren über Flächen. Man integriert innen zuerst und behandelt die äußere Variable dabei als Konstante, bei Kreisen helfen Polarkoordinaten.", en: "Double integrals sum over areas. Integrate the inner integral first, treating the outer variable as a constant; for circles polar coordinates help." },
-                  formula: ["∬ f dA = ∫ ( ∫ f dy ) dx", "dA = r dr dφ"] },
-                { ref: "CM-E-15", visual: "round",
-                  text: { de: "Jede Messung hat einen Fehler, und Rechnungen pflanzen ihn fort. Bei Produkten und Quotienten addieren sich in erster Näherung die relativen Fehler.", en: "Every measurement has an error, and calculations propagate it. For products and quotients the relative errors add to first order." },
-                  formula: ["Δf ≈ |f′(x)| · Δx", "Δ(xy)/(xy) ≈ Δx/x + Δy/y"] },
-                { ref: "CM-E-16", visual: "derivative",
-                  text: { de: "Das Newton-Verfahren ersetzt die Funktion durch ihre Tangente und springt zu deren Nullstelle. Nahe an der Lösung verdoppelt sich die Zahl richtiger Stellen pro Schritt.", en: "Newton's method replaces the function by its tangent and jumps to the tangent's zero. Close to the solution the number of correct digits doubles each step." },
-                  formula: ["x<sub>k+1</sub> = x<sub>k</sub> − f(x<sub>k</sub>) / f′(x<sub>k</sub>)"] },
-                { ref: "CM-E-17", visual: "iarea",
-                  text: { de: "Wenn keine Stammfunktion bekannt ist, nähert man die Fläche numerisch an. Trapez- und Simpsonregel ersetzen die Kurve stückweise durch Geraden oder Parabeln.", en: "When no antiderivative is known, the area is approximated numerically. The trapezoidal and Simpson rules replace the curve piecewise by lines or parabolas." },
-                  formula: ["T = h · (f<sub>0</sub>/2 + f<sub>1</sub> + … + f<sub>n</sub>/2)", "S = h/3 · (f<sub>0</sub> + 4f<sub>1</sub> + 2f<sub>2</sub> + … + f<sub>n</sub>)"] }
-            ]
-        },
-        {
-            id: "hm3", subject: "mathe", level: 5, short: "HM 3",
-            title: { de: "Höhere Mathematik 3", en: "Higher Mathematics 3" },
-            intro: { de: "Differentialgleichungen, Fourier und Laplace: die Mathematik hinter Schwingungen, Regelung und Wärmeleitung.", en: "Differential equations, Fourier and Laplace: the mathematics behind vibrations, control and heat conduction." },
-            lessons: [
-                { ref: "CM-E-11", visual: "exp",
-                  text: { de: "Eine DGL erster Ordnung verbindet eine Größe mit ihrer Änderungsrate. y′ = k · y beschreibt Wachstum und Abklingen, die Lösung ist eine Exponentialfunktion.", en: "A first-order ODE links a quantity to its rate of change. y′ = k · y describes growth and decay, and the solution is an exponential function." },
-                  formula: ["y′ = k · y  ⇒  y = y<sub>0</sub> e<sup>kt</sup>", "y′ = a − b y  ⇒  y → a / b"] },
-                { ref: "CM-E-12", visual: "spring",
-                  text: { de: "Die lineare DGL zweiter Ordnung beschreibt Feder-Masse-Dämpfer-Systeme. Die Nullstellen des charakteristischen Polynoms entscheiden, ob das System schwingt oder kriecht.", en: "The second-order linear ODE describes spring-mass-damper systems. The roots of the characteristic polynomial decide whether the system oscillates or creeps." },
-                  formula: ["m ÿ + d ẏ + c y = 0", "λ<sup>2</sup> + p λ + q = 0", "D = d / (2 √(m c))"] },
-                { ref: "CM-E-13", visual: "rot2d",
-                  text: { de: "Mehrere gekoppelte Größen schreibt man als System x′ = A · x. Die Eigenwerte von A bestimmen, ob die Ruhelage stabil ist.", en: "Several coupled quantities are written as a system x′ = A · x. The eigenvalues of A determine whether the equilibrium is stable." },
-                  formula: ["x′ = A · x", { de: "Re λ<sub>i</sub> < 0 für alle i  ⇒  stabil", en: "Re λ<sub>i</sub> < 0 for all i  ⇒  stable" }] },
-                { ref: "CM-E-22", visual: "sine",
-                  text: { de: "Jedes periodische Signal lässt sich als Summe von Sinus- und Kosinusschwingungen schreiben. Die Koeffizienten sagen, wie stark jede Frequenz vertreten ist.", en: "Every periodic signal can be written as a sum of sine and cosine waves. The coefficients say how strongly each frequency is present." },
-                  formula: ["f(t) = a<sub>0</sub>/2 + Σ (a<sub>n</sub> cos nωt + b<sub>n</sub> sin nωt)", "f<sub>0</sub> = 1 / T"] },
-                { ref: "CM-E-23", visual: "pstep",
-                  text: { de: "Die Laplace-Transformation macht aus Ableitungen Multiplikationen mit s. So wird aus einer DGL eine algebraische Gleichung, die man nach Y(s) auflöst und zurücktransformiert.", en: "The Laplace transform turns derivatives into multiplication by s. An ODE becomes an algebraic equation that you solve for Y(s) and transform back." },
-                  formula: ["ℒ{f′} = s F(s) − f(0)", "ℒ{e<sup>−at</sup>} = 1 / (s + a)", "lim<sub>t→∞</sub> y(t) = lim<sub>s→0</sub> s Y(s)"] },
-                { ref: "CM-E-29", visual: "wall",
-                  text: { de: "Partielle DGL hängen von Ort und Zeit ab. Die Wärmeleitungsgleichung lässt Temperaturunterschiede abklingen, die Wellengleichung lässt sie wandern.", en: "Partial differential equations depend on space and time. The heat equation makes temperature differences decay, the wave equation makes them travel." },
-                  formula: [{ de: "u<sub>t</sub> = a · u<sub>xx</sub>  (Wärme)", en: "u<sub>t</sub> = a · u<sub>xx</sub>  (heat)" }, { de: "u<sub>tt</sub> = c<sup>2</sup> · u<sub>xx</sub>  (Welle)", en: "u<sub>tt</sub> = c<sup>2</sup> · u<sub>xx</sub>  (wave)" }] }
-            ]
         }
     ]);
 
@@ -248,7 +174,7 @@
                 { id: "K-CH-1", visual: "mole", topic: { de: "Stoffmenge und molare Masse", en: "Amount of substance and molar mass" },
                   text: { de: "Chemiker zählen Teilchen in Mol. Ein Mol sind 6,022 · 10²³ Teilchen, und die molare Masse sagt, wie viel Gramm ein Mol eines Stoffes wiegt.", en: "Chemists count particles in moles. One mole is 6.022 · 10²³ particles, and the molar mass says how many grams one mole of a substance weighs." },
                   formula: ["n = m / M", "N = n · N<sub>A</sub>,  N<sub>A</sub> = 6,022 · 10<sup>23</sup> mol<sup>−1</sup>"] },
-                { id: "K-CH-2", visual: "balance", topic: { de: "Reaktionsgleichungen ausgleichen", en: "Balancing chemical equations" },
+                { id: "K-CH-2", visual: "eqbalance", topic: { de: "Reaktionsgleichungen ausgleichen", en: "Balancing chemical equations" },
                   text: { de: "Bei einer Reaktion gehen keine Atome verloren. Die Koeffizienten werden so gewählt, dass links und rechts von jedem Element gleich viele Atome stehen.", en: "No atoms are lost in a reaction. The coefficients are chosen so that each element has the same number of atoms on the left and on the right." },
                   formula: ["CH<sub>4</sub> + 2 O<sub>2</sub> → CO<sub>2</sub> + 2 H<sub>2</sub>O", { de: "Atomzahl links = Atomzahl rechts", en: "atoms on the left = atoms on the right" }] },
                 { id: "K-CH-3", visual: "stoich", topic: { de: "Stöchiometrie", en: "Stoichiometry" },

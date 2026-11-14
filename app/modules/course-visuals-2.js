@@ -295,7 +295,7 @@
         s += pop(txt(196, 60, "n = m / M", W, 12) + txt(196, 82, "= 1 mol", T, 12) + txt(196, 108, "6,022 · 10²³".replace(",", t(",", ".")), M, 10) + txt(196, 122, t("Teilchen", "particles"), M, 10), 1.3);
         return svg(s, t("Ein Mol Wasser auf der Waage", "One mole of water on a scale"));
     };
-    REG.balance = function () {
+    REG.eqbalance = function () {
         var s = '<path d="M120 112 l-12 26 h24 z" fill="' + M + '"/>';
         s += '<g class="tv-rock" style="transform-origin:120px 106px">' + rect(24, 102, 192, 6, "rgba(255,255,255,0.14)", W);
         s += txt(66, 92, "CH₄ + 2 O₂", Y, 12) + txt(174, 92, "CO₂ + 2 H₂O", T, 12) + "</g>";

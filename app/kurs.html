@@ -47,6 +47,9 @@
   .toc{display:flex;gap:0.4rem;flex-wrap:wrap;margin:0 0 1.6rem}
   .toc a{font-size:0.85rem;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0.3rem 0.8rem;transition:all .2s}
   .toc a:hover{color:var(--text);border-color:var(--line2)}
+  .toc .tsec{flex-basis:100%;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin:0.6rem 0 0.1rem}
+  .toc a small{opacity:0.7}
+  .lsec{font-size:1.05rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);margin:2rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--line)}
   .lessons{display:grid;gap:1.1rem}
   .lesson{display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr);border-radius:22px;border:1px solid var(--line);background:var(--card);overflow:hidden;scroll-margin-top:90px}
   .lesson:target{border-color:rgba(245,197,24,0.6)}
@@ -88,7 +91,8 @@
 <script src="./modules/course-visuals-2.js?v=3.2.0"></script>
 <script src="./data/coverage-matrix.js?v=3.1.0"></script>
 <script src="./data/courses.js?v=3.2.0"></script>
-<script src="./data/courses-2.js?v=3.2.0"></script>
+<script src="./data/courses-hm.js?v=3.3.0"></script>
+<script src="./data/courses-2.js?v=3.3.0"></script>
 <script src="./modules/sor-core.js?v=3.1.0"></script>
 <script src="./modules/rewards.js?v=3.1.0"></script>
 <script src="./modules/sor-nav.js?v=3.1.0"></script>
@@ -153,10 +157,12 @@
             '<div class="chead"><div class="hero" style="margin:0">' + lvlHtml(c.level) + "<h1>" + esc(c.title) + "</h1><p>" + esc(c.intro) + "</p></div>" +
             '<div class="prog"><small>' + $t("Dein Fortschritt", "Your progress") + ": ★ " + st + " / " + max + '</small><div class="meter"><span style="width:' + Math.round(st / max * 100) + '%"></span></div>' +
             '<a class="btn btn-primary" style="margin-top:0.9rem" href="ueben.html?mix=c-' + c.id + "&zurueck=" + encodeURIComponent(self) + '">' + $t("Gemischte Runde zum Kurs", "Mixed round for this course") + " →</a></div></div>" +
-            '<nav class="toc" aria-label="' + $t("Lektionen", "Lessons") + '">' + c.lessons.map(function (l) { return '<a href="#' + l.id + '">' + l.n + ". " + esc(l.topic) + "</a>"; }).join("") + "</nav>" +
+            '<nav class="toc" aria-label="' + $t("Lektionen", "Lessons") + '">' + c.lessons.map(function (l, i) { var h = l.section && (i === 0 || c.lessons[i - 1].section !== l.section) ? '<b class="tsec">' + esc(l.section) + "</b>" : ""; return h + '<a href="#' + l.id + '">' + l.n + ". " + esc(l.topic) + (l.chapter ? ' <small>(' + $t("Kap. ", "ch. ") + l.chapter + ")</small>" : "") + "</a>"; }).join("") + "</nav>" +
             '<div class="lessons">';
+        var sec = null;
         c.lessons.forEach(function (l) {
             var m = p.mastery[l.id];
+            if (l.section && l.section !== sec) { sec = l.section; html += '<h2 class="lsec">' + esc(sec) + "</h2>"; }
             html += '<article class="lesson" id="' + l.id + '"><div class="lvis"><div data-vis="' + l.visual + '"></div></div><div class="lbody">' +
                 '<div class="lmeta"><span>' + $t("Lektion ", "Lesson ") + l.n + " / " + c.lessons.length + "</span>" + NAV.stars(m ? REW.stars(m.score) : 0) + "</div>" +
                 "<h2>" + esc(l.topic) + "</h2><p>" + l.text + "</p>" +
