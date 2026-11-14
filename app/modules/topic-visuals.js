@@ -17,6 +17,7 @@
  */
 (function (root) {
     "use strict";
+    var TR = function (de, en) { return root.$t ? root.$t(de, en) : de; };
 
     var Y = "#f5c518", T = "#35e0c4", R = "#e94560", B = "#60a5fa", P = "#8b5cf6", M = "#98a2bd", AX = "rgba(238,241,247,0.32)", GR = "rgba(238,241,247,0.07)";
 
@@ -74,7 +75,7 @@
         s += pop(txt(x(8.5), 52, "+3", Y, 12), 0.8) + pop(txt(x(11), 60, "+2", T, 12), 1.6);
         s += dot(x(7), 100, 4.5, Y) + pop(dot(x(12), 100, 5.5, R, ' class="tv-pulse"'), 1.9);
         s += pop(txt(x(12), 140, "12", R, 12), 1.9);
-        return svg(s, "Zahlenstrahl: 7 plus 5 in zwei Sprüngen");
+        return svg(s, TR("Zahlenstrahl: 7 plus 5 in zwei Sprüngen", "Number line: 7 plus 5 in two jumps"));
     };
 
     V.tens = function () {
@@ -84,7 +85,7 @@
         for (j = 0; j < 2; j += 1) s += pop('<rect x="' + 84 + '" y="' + (18 + j * 11) + '" width="14" height="9" rx="2" fill="' + T + '"/>', 1.4 + j * 0.15);
         for (j = 0; j < 5; j += 1) s += pop('<rect x="' + 112 + '" y="' + (18 + (j + 5) * 11) + '" width="14" height="9" rx="2" fill="' + T + '"/>', 1.8 + j * 0.12);
         s += txt(186, 62, "38 + 7", M, 13) + pop(txt(186, 88, "= 45", Y, 16, "middle", ' font-weight="700"'), 2.4);
-        return svg(s, "Zehnerstangen: 38 plus 7 gleich 45");
+        return svg(s, TR("Zehnerstangen: 38 plus 7 gleich 45", "Tens rods: 38 plus 7 equals 45"));
     };
 
     V.dots = function () {
@@ -92,16 +93,16 @@
         for (r = 0; r < 3; r += 1) for (c = 0; c < 4; c += 1) s += pop(dot(40 + c * 26, 40 + r * 30, 9, [Y, T, B][r]), (r * 4 + c) * 0.12);
         for (r = 0; r < 3; r += 1) s += pop(txt(150, 44 + r * 30, "4", M, 12), 0.5 + r * 0.45);
         s += pop(txt(196, 74, "3 · 4", "#eef1f7", 16, "middle", ' font-weight="700"'), 1.6) + pop(txt(196, 98, "= 12", Y, 16, "middle", ' font-weight="700"'), 1.9);
-        return svg(s, "Punktefeld mit 3 Reihen zu je 4 Punkten");
+        return svg(s, TR("Punktefeld mit 3 Reihen zu je 4 Punkten", "Dot pattern with 3 rows of 4 dots"));
     };
 
     V.shapes = function () {
         var s = drawPath("M60 40 a26 26 0 1 0 0.1 0", Y, 2.6, 0.1);
         s += drawPath("M120 30 L148 82 L92 82 Z", T, 2.6, 0.6);
         s += drawPath("M166 34 h48 v48 h-48 Z", R, 2.6, 1.1);
-        s += txt(60, 112, "Kreis", M, 10) + txt(120, 112, "Dreieck", M, 10) + txt(190, 112, "Quadrat", M, 10);
-        s += pop(txt(60, 128, "0 Ecken", Y, 10), 0.5) + pop(txt(120, 128, "3 Ecken", T, 10), 1) + pop(txt(190, 128, "4 Ecken", R, 10), 1.5);
-        return svg(s, "Kreis, Dreieck und Quadrat");
+        s += txt(60, 112, TR("Kreis", "circle"), M, 10) + txt(120, 112, TR("Dreieck", "triangle"), M, 10) + txt(190, 112, TR("Quadrat", "square"), M, 10);
+        s += pop(txt(60, 128, TR("0 Ecken", "0 corners"), Y, 10), 0.5) + pop(txt(120, 128, TR("3 Ecken", "3 corners"), T, 10), 1) + pop(txt(190, 128, TR("4 Ecken", "4 corners"), R, 10), 1.5);
+        return svg(s, TR("Kreis, Dreieck und Quadrat", "Circle, triangle and square"));
     };
 
     V.pattern = function () {
@@ -111,7 +112,7 @@
             s += pop(txt(47 + i * 42, 136, h, i === 3 ? R : M, 12), i * 0.5 + 0.3);
         });
         s += pop(txt(214, 70, "+2", T, 14, "middle", ' class="tv-pulse"'), 1.8);
-        return svg(s, "Muster: 2, 4, 6, 8");
+        return svg(s, TR("Muster: 2, 4, 6, 8", "Pattern: 2, 4, 6, 8"));
     };
 
     V.clock = function () {
@@ -124,7 +125,7 @@
         s += '<g class="tv-spin" style="transform-origin:80px 75px;animation-duration:2s">' + ln(80, 75, 80, 34, T, 2) + "</g>";
         s += dot(80, 75, 3.5, "#eef1f7");
         s += pop(txt(186, 60, "1 h = 60 min", "#eef1f7", 12), 0.3) + pop(txt(186, 82, "1 € = 100 ct", M, 12), 0.7) + pop(txt(186, 104, "1 m = 100 cm", M, 12), 1.1);
-        return svg(s, "Uhr mit laufendem Minutenzeiger");
+        return svg(s, TR("Uhr mit laufendem Minutenzeiger", "Clock with a moving minute hand"));
     };
 
     V.column = function () {
@@ -133,8 +134,8 @@
         s += "</g>" + drawPath("M84 88 H156", AX, 2, 0.2);
         s += pop(txt(122, 100, "1", R, 11), 0.6) + pop(txt(135.5, 100, "1", R, 11), 1.1);
         s += pop(txt(150, 124, "7 3 4", Y, 22, "end", ' font-weight="700"'), 1.6);
-        s += pop(txt(206, 70, "von rechts", M, 10), 0.4) + pop(txt(206, 84, "nach links", M, 10), 0.4);
-        return svg(s, "Schriftliche Addition 456 plus 278");
+        s += pop(txt(206, 70, TR("von rechts", "from right"), M, 10), 0.4) + pop(txt(206, 84, TR("nach links", "to left"), M, 10), 0.4);
+        return svg(s, TR("Schriftliche Addition 456 plus 278", "Column addition 456 plus 278"));
     };
 
     V.multiply = function () {
@@ -145,7 +146,7 @@
         s += txt(87.5, 18, "10", M, 11) + txt(168, 18, "4", M, 11) + txt(20, 65, "23", M, 11, "end");
         s += pop(txt(87.5, 66, "230", Y, 15, "middle", ' font-weight="700"'), 0.5) + pop(txt(168, 66, "92", T, 15, "middle", ' font-weight="700"'), 1.0);
         s += pop(txt(120, 126, "23 · 14 = 230 + 92 = 322", "#eef1f7", 13), 1.5);
-        return svg(s, "23 mal 14 als Rechteck in zwei Teilen");
+        return svg(s, TR("23 mal 14 als Rechteck in zwei Teilen", "23 times 14 as a rectangle in two parts"));
     };
 
     V.arearect = function () {
@@ -154,7 +155,7 @@
         s += drawPath("M50 26 H182 V114 H50 Z", Y, 3, 1.3);
         s += txt(116, 132, "a = 6", Y, 11) + txt(200, 74, "b = 4", Y, 11, "start");
         s += pop(txt(116, 76, "A = 24", "#eef1f7", 15, "middle", ' font-weight="700"'), 1.2);
-        return svg(s, "Rechteck 6 mal 4 mit Fläche und Umfang");
+        return svg(s, TR("Rechteck 6 mal 4 mit Fläche und Umfang", "Rectangle 6 by 4 with area and perimeter"));
     };
 
     V.ruler = function () {
@@ -163,8 +164,8 @@
         s += txt(24, 106, "0", M, 10) + txt(120, 106, "50 cm", M, 10) + txt(216, 106, "1 m", M, 10);
         s += '<g><polygon points="0,0 -6,-10 6,-10" fill="' + R + '"><animateTransform attributeName="transform" type="translate" values="24 56;216 56;24 56" dur="6s" repeatCount="indefinite"/></polygon></g>';
         s += pop(txt(120, 36, "1 m = 100 cm", "#eef1f7", 14, "middle", ' font-weight="700"'), 0.3);
-        s += pop(txt(120, 132, "2,5 kg = 2500 g", T, 12), 0.8);
-        return svg(s, "Lineal: 1 Meter gleich 100 Zentimeter");
+        s += pop(txt(120, 132, TR("2,5 kg = 2500 g", "2.5 kg = 2500 g"), T, 12), 0.8);
+        return svg(s, TR("Lineal: 1 Meter gleich 100 Zentimeter", "Ruler: 1 metre equals 100 centimetres"));
     };
 
     V.dice = function () {
@@ -176,8 +177,8 @@
             pips[f[1]].forEach(function (p) { g += dot(cx + p[1] * 13, cy + p[0] * 13, 4.5, hot ? R : "#eef1f7"); });
             s += pop(hot ? '<g class="tv-rock" style="transform-origin:' + cx + "px " + cy + 'px">' + g + "</g>" : g, f[2]);
         });
-        s += pop(txt(120, 124, "P(6) = 1 von 6 = 1/6", Y, 13), 1.1);
-        return svg(s, "Würfel: Wahrscheinlichkeit für eine Sechs");
+        s += pop(txt(120, 124, TR("P(6) = 1 von 6 = 1/6", "P(6) = 1 in 6 = 1/6"), Y, 13), 1.1);
+        return svg(s, TR("Würfel: Wahrscheinlichkeit für eine Sechs", "Dice: probability of a six"));
     };
 
     V.cube = function () {
@@ -193,7 +194,7 @@
         });
         s += txt(115, 128, "a", Y, 12) + txt(178, 104, "b", Y, 12) + txt(58, 84, "c", Y, 12);
         s += pop(txt(28, 30, "V = a·b·c", "#eef1f7", 12, "start"), 1.2);
-        return svg(s, "Quader mit Kanten a, b und c");
+        return svg(s, TR("Quader mit Kanten a, b und c", "Cuboid with edges a, b and c"));
     };
 
     function barsSvg(vals, mean) {
@@ -210,15 +211,15 @@
         }
         return s;
     }
-    V.bars = function () { return svg(barsSvg([4, 7, 5, 9, 3]), "Säulendiagramm"); };
-    V.mean = function () { return svg(barsSvg([3, 7, 5, 9, 6], true), "Säulendiagramm mit Mittelwertlinie"); };
+    V.bars = function () { return svg(barsSvg([4, 7, 5, 9, 3]), TR("Säulendiagramm", "Bar chart")); };
+    V.mean = function () { return svg(barsSvg([3, 7, 5, 9, 6], true), TR("Säulendiagramm mit Mittelwertlinie", "Bar chart with mean line")); };
 
     V.primes = function () {
         var node = function (x, y, v, c, del) { return pop('<circle cx="' + x + '" cy="' + y + '" r="14" fill="' + (c === Y ? "rgba(245,197,24,0.16)" : "rgba(255,255,255,0.05)") + '" stroke="' + c + '" stroke-width="1.6"/>' + txt(x, y + 4, v, c === Y ? Y : "#eef1f7", 11), del); };
         var s = drawPath("M120 30 L84 60 M120 30 L156 60 M156 60 L128 90 M156 60 L184 90 M184 90 L162 120 M184 90 L206 120", AX, 1.4, 0.2);
         s += node(120, 24, "60", "#eef1f7", 0) + node(84, 60, "2", Y, 0.4) + node(156, 60, "30", "#eef1f7", 0.4) + node(128, 90, "2", Y, 0.8) + node(184, 90, "15", "#eef1f7", 0.8) + node(162, 124, "3", Y, 1.2) + node(206, 124, "5", Y, 1.2);
         s += pop(txt(46, 120, "60 = 2²·3·5", Y, 12), 1.6);
-        return svg(s, "Primfaktorbaum von 60");
+        return svg(s, TR("Primfaktorbaum von 60", "Prime factor tree of 60"));
     };
 
     V.round = function () {
@@ -227,8 +228,8 @@
         [380, 390, 400, 410, 420].forEach(function (v) { s += txt(x(v), 114, v, v === 400 ? Y : M, 10); });
         s += '<circle r="5" fill="' + R + '" cy="90"><animate attributeName="cx" values="' + x(398) + ";" + x(398) + ";" + x(400) + ";" + x(400) + '" keyTimes="0;0.35;0.55;1" dur="3.5s" repeatCount="indefinite"/></circle>';
         s += txt(x(398), 70, "398", R, 11) + pop(txt(120, 138, "398 · 21 ≈ 400 · 20 = 8000", "#eef1f7", 12), 0.6);
-        s += pop(txt(120, 34, "Überschlag", T, 12), 0.2);
-        return svg(s, "Runden von 398 auf 400");
+        s += pop(txt(120, 34, TR("Überschlag", "estimate"), T, 12), 0.2);
+        return svg(s, TR("Runden von 398 auf 400", "Rounding 398 to 400"));
     };
 
     V.composite = function () {
@@ -236,7 +237,7 @@
         s += pop('<path d="M40 80 H190 V120 H40 Z" fill="' + T + '" opacity="0.25" stroke="' + T + '" stroke-width="2"/>', 0.7);
         s += pop(txt(80, 60, "A₁", Y, 14), 0.4) + pop(txt(115, 105, "A₂", T, 14), 0.9);
         s += pop(txt(176, 52, "A = A₁ + A₂", "#eef1f7", 12), 1.3);
-        return svg(s, "Zusammengesetzte Fläche aus zwei Rechtecken");
+        return svg(s, TR("Zusammengesetzte Fläche aus zwei Rechtecken", "Composite area made of two rectangles"));
     };
 
     V.intline = function () {
@@ -247,7 +248,7 @@
         s += pop(dot(x(-7), 96, 5, Y, ' class="tv-pulse"'), 1.7) + pop(txt(x(-7), 140, "−7", Y, 12), 1.7);
         s += pop(txt(x(-1.5), 56, "−3", R, 11), 0.6) + pop(txt(x(-5), 44, "−4", R, 11), 1.3);
         s += pop(txt(186, 46, "(−)·(−) = (+)", T, 12), 2);
-        return svg(s, "Zahlengerade mit negativen Zahlen");
+        return svg(s, TR("Zahlengerade mit negativen Zahlen", "Number line with negative numbers"));
     };
 
     V.angle = function () {
@@ -257,7 +258,7 @@
         s += pop('<path d="M184 120 A20 20 0 0 1 190 106" fill="none" stroke="' + T + '" stroke-width="3"/>', 1.1) + pop(txt(172, 112, "β", T, 12), 1.1);
         s += pop('<path d="M114 44 A20 20 0 0 0 142 44" fill="none" stroke="' + R + '" stroke-width="3"/>', 1.4) + pop(txt(128, 64, "γ", R, 12), 1.4);
         s += pop(txt(120, 142, "α + β + γ = 180°", "#eef1f7", 12), 1.8);
-        return svg(s, "Dreieck mit drei Innenwinkeln");
+        return svg(s, TR("Dreieck mit drei Innenwinkeln", "Triangle with three interior angles"));
     };
 
     V.fraction = function () {
@@ -275,7 +276,7 @@
         s += pie(210, [Y, Y, Y, T, T, null], 1);
         s += txt(40, 116, "1/2", Y, 12) + txt(126, 116, "1/3", T, 12) + pop(txt(210, 116, "5/6", "#eef1f7", 13, "middle", ' font-weight="700"'), 1.8);
         s += pop(txt(126, 140, "= 3/6 + 2/6", M, 11), 1.4);
-        return svg(s, "Brüche: ein Halb plus ein Drittel gleich fünf Sechstel");
+        return svg(s, TR("Brüche: ein Halb plus ein Drittel gleich fünf Sechstel", "Fractions: one half plus one third equals five sixths"));
     };
 
     V.proportion = function () {
@@ -283,7 +284,7 @@
         s += drawPath(fnPath(function (x) { return 0.9 * x; }, 0, 10, F), Y, 2.6, 0.1);
         s += drawPath(fnPath(function (x) { return 9 / x; }, 0.95, 10, F), T, 2.6, 0.8);
         s += pop(txt(206, 30, "y = k·x", Y, 11, "end"), 0.6) + pop(txt(206, 104, "x·y = k", T, 11, "end"), 1.3);
-        return svg(s, "Proportionale Gerade und antiproportionale Hyperbel");
+        return svg(s, TR("Proportionale Gerade und antiproportionale Hyperbel", "Proportional line and inversely proportional hyperbola"));
     };
 
     V.percent = function () {
@@ -294,7 +295,7 @@
             s += on ? pop(r, (i * 10 + j) * 0.04) : r;
         }
         s += pop(txt(186, 66, "25 %", Y, 22, "middle", ' font-weight="700"'), 1.1) + pop(txt(186, 90, "= 25/100", M, 12), 1.3) + pop(txt(186, 108, "= ¼", M, 12), 1.5);
-        return svg(s, "Hunderterfeld mit 25 Prozent");
+        return svg(s, TR("Hunderterfeld mit 25 Prozent", "Hundred square with 25 percent"));
     };
 
     V.balance = function () {
@@ -304,7 +305,7 @@
         s += '<path d="M28 82 H76 a6 6 0 0 1 -6 8 H34 a6 6 0 0 1 -6 -8Z" fill="' + Y + '" opacity="0.8"/><path d="M164 82 H212 a6 6 0 0 1 -6 8 H170 a6 6 0 0 1 -6 -8Z" fill="' + T + '" opacity="0.8"/>';
         s += txt(52, 74, "3x + 4", Y, 13) + txt(188, 74, "19", T, 13) + "</g>";
         s += pop(txt(120, 26, "x = 5", "#eef1f7", 15, "middle", ' font-weight="700"'), 1.2);
-        return svg(s, "Waage: 3x plus 4 gleich 19");
+        return svg(s, TR("Waage: 3x plus 4 gleich 19", "Balance: 3x plus 4 equals 19"));
     };
 
     V.line = function () {
@@ -314,7 +315,7 @@
         s += pop(txt(F.X(4), F.Y(2) + 14, "Δx = 4", T, 10), 1.1) + pop(txt(F.X(6) + 6, F.Y(3) + 3, "Δy = 2", T, 10, "start"), 1.3);
         s += pop(dot(F.X(0), F.Y(1), 4.5, R, ' class="tv-pulse"'), 1.5) + pop(txt(F.X(0) - 6, F.Y(1) - 8, "t = 1", R, 10, "end"), 1.5);
         s += pop(txt(206, 24, "m = Δy/Δx = ½", "#eef1f7", 11, "end"), 1.7);
-        return svg(s, "Gerade mit Steigungsdreieck");
+        return svg(s, TR("Gerade mit Steigungsdreieck", "Line with gradient triangle"));
     };
 
     V.system = function () {
@@ -323,7 +324,7 @@
         s += drawPath(fnPath(function (x) { return -x + 4; }, -1, 5, F), T, 2.6, 0.6);
         s += pop('<circle cx="' + n(F.X(1)) + '" cy="' + n(F.Y(3)) + '" r="6" fill="' + R + '" class="tv-pulse"/>', 1.3);
         s += pop(txt(F.X(1) + 10, F.Y(3) - 8, "(1 | 3)", R, 12, "start"), 1.4);
-        return svg(s, "Zwei Geraden mit Schnittpunkt");
+        return svg(s, TR("Zwei Geraden mit Schnittpunkt", "Two lines with their intersection"));
     };
 
     V.inequality = function () {
@@ -332,8 +333,8 @@
         s += drawPath("M" + x(-3) + " 86 H220", Y, 6, 0.3, ' stroke-opacity="0.85"');
         s += '<circle cx="' + x(-3) + '" cy="86" r="6" fill="#0a0e1c" stroke="' + Y + '" stroke-width="2.4"/>';
         s += pop(txt(120, 44, "−2x < 6  ⇒  x > −3", "#eef1f7", 13), 0.8);
-        s += pop(txt(120, 134, "· (−1) dreht das Zeichen", R, 11), 1.3);
-        return svg(s, "Lösungsmenge x größer minus 3 auf der Zahlengeraden");
+        s += pop(txt(120, 134, TR("· (−1) dreht das Zeichen", "· (−1) flips the sign"), R, 11), 1.3);
+        return svg(s, TR("Lösungsmenge x größer minus 3 auf der Zahlengeraden", "Solution set x greater than minus 3 on the number line"));
     };
 
     V.tree = function () {
@@ -344,15 +345,15 @@
         s += pop(txt(150, 22, "½", Y, 11), 1.1) + pop(txt(150, 58, "½", M, 11), 1.1);
         s += pop(txt(206, 24, "¼", Y, 12, "start", ' font-weight="700"'), 1.5);
         s += pop(drawPath("M30 75 L100 38 L190 20", Y, 3.4, 1.6), 1.6);
-        s += txt(105, 42, "K", "#eef1f7", 11) + txt(105, 116, "Z", "#eef1f7", 11);
-        return svg(s, "Baumdiagramm zweier Münzwürfe");
+        s += txt(105, 42, TR("K", "H"), "#eef1f7", 11) + txt(105, 116, TR("Z", "T"), "#eef1f7", 11);
+        return svg(s, TR("Baumdiagramm zweier Münzwürfe", "Tree diagram of two coin tosses"));
     };
 
     V.circle = function () {
         var s = drawPath("M80 25 a50 50 0 1 1 -0.1 0", Y, 2.6, 0.1);
         s += '<g class="tv-spin" style="transform-origin:80px 75px;animation-duration:6s">' + ln(80, 75, 130, 75, T, 2.2) + dot(130, 75, 4, T) + "</g>" + dot(80, 75, 3, "#eef1f7");
-        s += pop(txt(186, 58, "U = 2πr", Y, 14, "middle", ' font-weight="700"'), 0.8) + pop(txt(186, 86, "A = πr²", "#eef1f7", 14), 1.2) + pop(txt(186, 112, "π ≈ 3,1416", M, 11), 1.6);
-        return svg(s, "Kreis mit drehendem Radius");
+        s += pop(txt(186, 58, TR("U = 2πr", "C = 2πr"), Y, 14, "middle", ' font-weight="700"'), 0.8) + pop(txt(186, 86, "A = πr²", "#eef1f7", 14), 1.2) + pop(txt(186, 112, TR("π ≈ 3,1416", "π ≈ 3.1416"), M, 11), 1.6);
+        return svg(s, TR("Kreis mit drehendem Radius", "Circle with a rotating radius"));
     };
 
     V.parabola = function () {
@@ -363,7 +364,7 @@
         s += pop(dot(F.X(0), F.Y(0), 5, R, ' class="tv-pulse"'), 1) + pop(dot(F.X(2), F.Y(0), 5, R, ' class="tv-pulse"'), 1.1);
         s += pop(dot(F.X(1), F.Y(-1), 5, T), 1.4) + pop(txt(F.X(1), F.Y(-1) + 18, "S(1 | −1)", T, 10), 1.5);
         s += pop(txt(F.X(1) + 40, 26, "y = (x − 1)² − 1", "#eef1f7", 11), 1.7);
-        return svg(s, "Parabel mit Scheitel und Nullstellen");
+        return svg(s, TR("Parabel mit Scheitel und Nullstellen", "Parabola with vertex and zeros"));
     };
 
     V.power = function () {
@@ -374,7 +375,7 @@
             s += pop(txt(q[1] + size / 2, 134, q[0] + "²", q[2], 11), i * 0.4 + 0.2);
         });
         s += pop(txt(205, 62, "3² = 9", B, 14, "middle", ' font-weight="700"'), 1.2) + pop(txt(205, 90, "√9 = 3", "#eef1f7", 14, "middle", ' font-weight="700"'), 1.6);
-        return svg(s, "Quadratzahlen als Quadrate");
+        return svg(s, TR("Quadratzahlen als Quadrate", "Square numbers as squares"));
     };
 
     V.pythagoras = function () {
@@ -387,7 +388,7 @@
         s += '<path d="M96 100 h8 v8" fill="none" stroke="#eef1f7" stroke-width="1.2"/>';
         s += txt(123, 128, "b²", Y, 12) + txt(78, 94, "a²", T, 12) + txt(142, 66, "c²", R, 12);
         s += pop(txt(12, 26, "a² + b² = c²", "#eef1f7", 12, "start"), 1.3);
-        return svg(s, "Satz des Pythagoras mit drei Quadraten");
+        return svg(s, TR("Satz des Pythagoras mit drei Quadraten", "Pythagoras' theorem with three squares"));
     };
 
     V.similar = function () {
@@ -396,18 +397,18 @@
         s += dot(24, 124, 3.5, "#eef1f7") + txt(18, 140, "Z", M, 10);
         s += pop(txt(60, 138, "a", Y, 11), 1) + pop(txt(140, 138, "a′", T, 11), 1.2) + pop(txt(102, 110, "b", Y, 11, "start"), 1) + pop(txt(186, 90, "b′", T, 11, "start"), 1.2);
         s += pop(txt(70, 36, "a / a′ = b / b′", "#eef1f7", 12), 1.6);
-        return svg(s, "Strahlensatz mit zwei Parallelen");
+        return svg(s, TR("Strahlensatz mit zwei Parallelen", "Intercept theorem with two parallels"));
     };
 
     V.trig = function () {
         var s = drawPath("M40 116 L190 116 L190 36 Z", "#eef1f7", 2.2, 0.1);
         s += '<path d="M182 116 v-8 h8" fill="none" stroke="#eef1f7" stroke-width="1.2"/>';
         s += pop('<path d="M74 116 A34 34 0 0 0 70 100" fill="none" stroke="' + Y + '" stroke-width="2.6"/>', 0.6) + pop(txt(84, 110, "α", Y, 12), 0.6);
-        s += pop(ln(190, 116, 190, 36, R, 3.4), 0.9) + pop(txt(200, 80, "Gegen-", R, 9, "start") + txt(200, 91, "kathete", R, 9, "start"), 0.9);
-        s += pop(ln(40, 116, 190, 116, T, 3.4), 1.2) + pop(txt(115, 132, "Ankathete", T, 9), 1.2);
-        s += pop(txt(104, 66, "Hypotenuse", M, 9, "middle", ' transform="rotate(-28 104 66)"'), 1.4);
-        s += pop(txt(64, 30, "sin α = GK / H", "#eef1f7", 11), 1.7);
-        return svg(s, "Rechtwinkliges Dreieck mit Bezeichnungen");
+        s += pop(ln(190, 116, 190, 36, R, 3.4), 0.9) + pop(txt(200, 80, TR("Gegen-", "oppo-"), R, 9, "start") + txt(200, 91, TR("kathete", "site"), R, 9, "start"), 0.9);
+        s += pop(ln(40, 116, 190, 116, T, 3.4), 1.2) + pop(txt(115, 132, TR("Ankathete", "adjacent"), T, 9), 1.2);
+        s += pop(txt(104, 66, TR("Hypotenuse", "hypotenuse"), M, 9, "middle", ' transform="rotate(-28 104 66)"'), 1.4);
+        s += pop(txt(64, 30, TR("sin α = GK / H", "sin α = O / H"), "#eef1f7", 11), 1.7);
+        return svg(s, TR("Rechtwinkliges Dreieck mit Bezeichnungen", "Right-angled triangle with labels"));
     };
 
     V.sine = function () {
@@ -417,8 +418,8 @@
         var w = "";
         for (var i = 0; i <= 60; i += 1) { var t = i / 60 * 2 * Math.PI; w += (i ? "L" : "M") + n(98 + i * 2.1) + " " + n(cy - r * Math.sin(t)); }
         s += drawPath(w, T, 2.6, 0.3);
-        s += pop(txt(98 + 63, 30, "sin x", T, 11), 0.9) + pop(txt(161, 140, "2π", M, 10), 0.9) + txt(cx, 132, "Einheitskreis", M, 9);
-        return svg(s, "Einheitskreis und Sinuskurve");
+        s += pop(txt(98 + 63, 30, "sin x", T, 11), 0.9) + pop(txt(161, 140, "2π", M, 10), 0.9) + txt(cx, 132, TR("Einheitskreis", "unit circle"), M, 9);
+        return svg(s, TR("Einheitskreis und Sinuskurve", "Unit circle and sine curve"));
     };
 
     V.exp = function () {
@@ -427,7 +428,7 @@
         s += drawPath(fnPath(function (x) { return Math.pow(2, x); }, -2, 2.3, F), Y, 2.6, 0.1);
         s += drawPath(fnPath(function (x) { return Math.log(x) / Math.log(2); }, 0.26, 5, F), T, 2.6, 0.8);
         s += pop(txt(F.X(2.3) - 4, F.Y(4.8) + 4, "2ˣ", Y, 12, "end"), 0.6) + pop(txt(F.X(4.6), F.Y(2.4) - 4, "log₂ x", T, 11, "end"), 1.3);
-        return svg(s, "Exponentialfunktion und Logarithmus als Spiegelbilder");
+        return svg(s, TR("Exponentialfunktion und Logarithmus als Spiegelbilder", "Exponential function and logarithm as mirror images"));
     };
 
     V.efunc = function () {
@@ -436,16 +437,16 @@
         s += drawPath(pd, Y, 2.6, 0.1) + drawPath(fnPath(function (x) { return Math.log(x); }, 0.14, 4, F), T, 2.6, 0.6);
         s += '<g><line x1="-18" y1="0" x2="18" y2="0" stroke="' + R + '" stroke-width="2.4" stroke-linecap="round"/><circle r="3.5" fill="' + R + '"/><animateMotion dur="5s" repeatCount="indefinite" rotate="auto" path="' + pd + '"/></g>';
         s += pop(txt(F.X(1.6) + 4, F.Y(4.9) + 6, "eˣ", Y, 12, "start"), 0.6) + pop(txt(F.X(3.8), F.Y(1.3) - 6, "ln x", T, 11, "end"), 1);
-        s += pop(txt(214, 140, "Steigung = Funktionswert", R, 10, "end"), 1.3);
-        return svg(s, "e-Funktion mit Tangente und Logarithmus");
+        s += pop(txt(214, 140, TR("Steigung = Funktionswert", "gradient = function value"), R, 10, "end"), 1.3);
+        return svg(s, TR("e-Funktion mit Tangente und Logarithmus", "Exponential function with tangent and logarithm"));
     };
 
     V.solids = function () {
         var s = drawPath("M30 116 L90 116 L110 100 L50 100 Z M30 116 L70 34 L90 116 M110 100 L70 34 L50 100", "#eef1f7", 1.8, 0.1);
         s += '<ellipse cx="160" cy="112" rx="34" ry="10" fill="none" stroke="' + T + '" stroke-width="1.8"/>' + drawPath("M126 112 L160 34 L194 112", T, 1.8, 0.5);
         s += drawPath("M214 82 a18 18 0 1 1 -0.1 0", Y, 1.8, 0.9) + '<ellipse cx="214" cy="100" rx="18" ry="5" fill="none" stroke="' + Y + '" stroke-width="1" stroke-dasharray="2 3"/>';
-        s += pop(txt(70, 138, "V = ⅓·G·h", "#eef1f7", 10), 1.2) + pop(txt(160, 138, "Kegel", T, 10), 1.3) + pop(txt(214, 138, "Kugel", Y, 10), 1.4);
-        return svg(s, "Pyramide, Kegel und Kugel");
+        s += pop(txt(70, 138, TR("V = ⅓·G·h", "V = ⅓·B·h"), "#eef1f7", 10), 1.2) + pop(txt(160, 138, TR("Kegel", "cone"), T, 10), 1.3) + pop(txt(214, 138, TR("Kugel", "sphere"), Y, 10), 1.4);
+        return svg(s, TR("Pyramide, Kegel und Kugel", "Pyramid, cone and sphere"));
     };
 
     V.tangent = function () {
@@ -454,8 +455,8 @@
         s += pop(ln(90, 75, px, py, T, 2.2), 0.6) + dot(90, 75, 3, "#eef1f7");
         var tx = Math.sin(0.7), ty = Math.cos(0.7);
         s += drawPath("M" + n(px - tx * 70) + " " + n(py - ty * 70) + " L" + n(px + tx * 80) + " " + n(py + ty * 80), Y, 2.6, 1);
-        s += pop(dot(px, py, 5, R, ' class="tv-pulse"'), 1.4) + pop(txt(234, 22, "Tangente ⟂ Radius", "#eef1f7", 11, "end"), 1.6) + txt(104, 72, "r", T, 11);
-        return svg(s, "Kreis mit Tangente im Berührpunkt");
+        s += pop(dot(px, py, 5, R, ' class="tv-pulse"'), 1.4) + pop(txt(234, 22, TR("Tangente ⟂ Radius", "tangent ⟂ radius"), "#eef1f7", 11, "end"), 1.6) + txt(104, 72, "r", T, 11);
+        return svg(s, TR("Kreis mit Tangente im Berührpunkt", "Circle with tangent at the point of contact"));
     };
 
     V.combinatorics = function () {
@@ -466,8 +467,8 @@
             p.forEach(function (c, k) { g += dot(x0 + 6 + k * 15, y0, 6, cols[c]); });
             s += pop(g, i * 0.25);
         });
-        s += pop(txt(120, 136, "3 · 2 · 1 = 6 Anordnungen", "#eef1f7", 12), 1.7);
-        return svg(s, "Alle sechs Anordnungen dreier Kugeln");
+        s += pop(txt(120, 136, TR("3 · 2 · 1 = 6 Anordnungen", "3 · 2 · 1 = 6 arrangements"), "#eef1f7", 12), 1.7);
+        return svg(s, TR("Alle sechs Anordnungen dreier Kugeln", "All six arrangements of three balls"));
     };
 
     V.derivative = function () {
@@ -476,8 +477,8 @@
         var pd = fnPath(f, -0.3, 6.3, F);
         s += drawPath(pd, Y, 2.6, 0.1);
         s += '<g><line x1="-34" y1="0" x2="34" y2="0" stroke="' + T + '" stroke-width="2.4" stroke-linecap="round"/><circle r="4" fill="' + R + '"/><animateMotion dur="6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="' + pd + '"/></g>';
-        s += pop(txt(214, 140, "Tangente = Steigung f′(x)", T, 10, "end"), 0.8);
-        return svg(s, "Tangente gleitet über eine Kurve");
+        s += pop(txt(214, 140, TR("Tangente = Steigung f′(x)", "tangent = gradient f′(x)"), T, 10, "end"), 0.8);
+        return svg(s, TR("Tangente gleitet über eine Kurve", "A tangent sliding along a curve"));
     };
 
     V.extrema = function () {
@@ -487,9 +488,9 @@
         var xm = (Math.PI / 2 + 0.2) / 1.05, xn = (3 * Math.PI / 2 + 0.2) / 1.05;
         s += pop(ln(F.X(xm) - 24, F.Y(f(xm)), F.X(xm) + 24, F.Y(f(xm)), T, 2), 0.9) + pop(dot(F.X(xm), F.Y(f(xm)), 5, R, ' class="tv-pulse"'), 1);
         s += pop(ln(F.X(xn) - 24, F.Y(f(xn)), F.X(xn) + 24, F.Y(f(xn)), T, 2), 1.2) + pop(dot(F.X(xn), F.Y(f(xn)), 5, B, ' class="tv-pulse"'), 1.3);
-        s += pop(txt(F.X(xm), F.Y(f(xm)) - 10, "Hochpunkt", R, 9), 1.1) + pop(txt(F.X(xn), F.Y(f(xn)) + 16, "Tiefpunkt", B, 9), 1.4);
+        s += pop(txt(F.X(xm), F.Y(f(xm)) - 10, TR("Hochpunkt", "maximum"), R, 9), 1.1) + pop(txt(F.X(xn), F.Y(f(xn)) + 16, TR("Tiefpunkt", "minimum"), B, 9), 1.4);
         s += pop(txt(214, 22, "f′ = 0", T, 11, "end"), 1.6);
-        return svg(s, "Kurve mit Hoch- und Tiefpunkt");
+        return svg(s, TR("Kurve mit Hoch- und Tiefpunkt", "Curve with a maximum and a minimum"));
     };
 
     V.bayes = function () {
@@ -503,7 +504,7 @@
         s += pop(txt(88, 56, "A∩B", "#0a0e1c", 11, "middle", ' font-weight="700"'), 0.9);
         s += pop('<rect x="40" y="24" width="96" height="96" fill="none" stroke="' + R + '" stroke-width="2.4" class="tv-pulse"/>', 1.2);
         s += pop(txt(120, 140, "P(A | B) = P(A∩B) / P(B)", "#eef1f7", 11), 1.4);
-        return svg(s, "Vierfeldertafel");
+        return svg(s, TR("Vierfeldertafel", "Two-way table"));
     };
 
     V.vector = function () {
@@ -516,15 +517,15 @@
         s += dot(a[0], a[1], 3.5, Y) + dot(b[0], b[1], 3.5, T);
         s += pop(txt(a[0] + 8, a[1] + 4, "u", Y, 12, "start", ' font-weight="700"'), 0.5) + pop(txt(b[0] - 6, b[1] - 6, "v", T, 12, "end", ' font-weight="700"'), 0.9);
         s += pop(txt(232, 28, "E: x = p + r·u + s·v", "#eef1f7", 10, "end"), 1.4);
-        return svg(s, "Zwei Vektoren spannen eine Ebene auf");
+        return svg(s, TR("Zwei Vektoren spannen eine Ebene auf", "Two vectors span a plane"));
     };
 
     V.sequence = function () {
         var F = frame(0, 12, -0.15, 1.1), s = F.axes;
         s += drawPath("M" + F.X(0) + " " + F.Y(0) + " H" + F.X(12), R, 1.6, 0.1, ' stroke-dasharray="4 4"');
         for (var k = 1; k <= 11; k += 1) s += pop(dot(F.X(k), F.Y(1 / k), 4, Y), k * 0.12);
-        s += pop(txt(214, F.Y(0) + 14, "Grenzwert 0", R, 10, "end"), 1.5) + pop(txt(F.X(1) + 10, F.Y(1) + 4, "aₙ = 1/n", "#eef1f7", 11, "start"), 0.4);
-        return svg(s, "Folge 1 durch n nähert sich null");
+        s += pop(txt(214, F.Y(0) + 14, TR("Grenzwert 0", "limit 0"), R, 10, "end"), 1.5) + pop(txt(F.X(1) + 10, F.Y(1) + 4, "aₙ = 1/n", "#eef1f7", 11, "start"), 0.4);
+        return svg(s, TR("Folge 1 durch n nähert sich null", "The sequence 1 over n approaches zero"));
     };
 
     V.complex = function () {
@@ -533,8 +534,8 @@
         s += '<circle cx="' + n(cx) + '" cy="' + n(cy) + '" r="' + n(r) + '" fill="none" stroke="' + AX + '" stroke-dasharray="3 4"/>';
         s += '<g class="tv-spin" style="transform-origin:' + n(cx) + "px " + n(cy) + 'px;animation-duration:8s;animation-direction:reverse">' + ln(cx, cy, cx + r * 0.8, cy - r * 0.6, Y, 2.6) + dot(cx + r * 0.8, cy - r * 0.6, 4.5, Y) + "</g>";
         s += txt(F.X(1.55), cy - 6, "Re", M, 10, "end") + txt(cx + 8, F.Y(1.1), "Im", M, 10, "start");
-        s += pop(txt(234, 30, "z = r·e^(iφ)", "#eef1f7", 10, "end"), 0.6) + pop(txt(234, 128, "· i = 90° drehen", T, 10, "end"), 1);
-        return svg(s, "Drehender Zeiger in der komplexen Ebene");
+        s += pop(txt(234, 30, "z = r·e^(iφ)", "#eef1f7", 10, "end"), 0.6) + pop(txt(234, 128, TR("· i = 90° drehen", "· i = rotate 90°"), T, 10, "end"), 1);
+        return svg(s, TR("Drehender Zeiger in der komplexen Ebene", "Rotating phasor in the complex plane"));
     };
 
     V.integral = function () {
@@ -548,7 +549,7 @@
         s += drawPath(fnPath(f, -0.2, 4.9, F), Y, 2.6, 0.1);
         s += txt(F.X(1), F.Y(0) + 13, "a", M, 10) + txt(F.X(4.2), F.Y(0) + 13, "b", M, 10);
         s += pop(txt(214, 22, "∫ f(x) dx = F(b) − F(a)", "#eef1f7", 10, "end"), 1.5);
-        return svg(s, "Fläche unter einer Kurve aus Rechtecken");
+        return svg(s, TR("Fläche unter einer Kurve aus Rechtecken", "Area under a curve made of rectangles"));
     };
 
     function bell(F, mu, sg, a, b) { return fnPath(function (x) { return Math.exp(-0.5 * Math.pow((x - mu) / sg, 2)); }, a, b, F, 80); }
@@ -561,8 +562,8 @@
             s += '<rect class="tv-grow" x="' + n(F.X(k) - 7) + '" y="' + n(F.Y(pr)) + '" width="14" height="' + n(F.Y(0) - F.Y(pr)) + '" fill="' + B + '" fill-opacity="0.55" style="animation-delay:' + (k * 0.06) + 's"/>';
         }
         s += drawPath(bell(F, 5, 1.58, 0, 10), Y, 2.6, 0.8);
-        s += pop(txt(214, 22, "n = 10, p = 0,5", "#eef1f7", 10, "end"), 1.2);
-        return svg(s, "Binomialverteilung mit Glockenkurve");
+        s += pop(txt(214, 22, TR("n = 10, p = 0,5", "n = 10, p = 0.5"), "#eef1f7", 10, "end"), 1.2);
+        return svg(s, TR("Binomialverteilung mit Glockenkurve", "Binomial distribution with bell curve"));
     };
 
     V.hypothesis = function () {
@@ -571,9 +572,9 @@
         s += pop('<path d="' + tail + " L" + n(F.X(10)) + " " + n(F.Y(0)) + " L" + n(F.X(7.2)) + " " + n(F.Y(0)) + ' Z" fill="' + R + '" fill-opacity="0.5"/>', 1);
         s += drawPath(bell(F, 4.5, 1.4, 0, 10), Y, 2.6, 0.1);
         s += pop(ln(F.X(7.2), F.Y(0), F.X(7.2), F.Y(0.6), R, 2, ' stroke-dasharray="3 3"'), 1.1);
-        s += pop(txt(F.X(8.4), F.Y(0.38), "α", R, 14), 1.3) + pop(txt(F.X(8.4), F.Y(0.62), "ablehnen", R, 9), 1.4);
-        s += pop(txt(F.X(4.5), F.Y(1.08), "H₀ beibehalten", T, 10), 1.4);
-        return svg(s, "Glockenkurve mit Ablehnungsbereich");
+        s += pop(txt(F.X(8.4), F.Y(0.38), "α", R, 14), 1.3) + pop(txt(F.X(8.4), F.Y(0.62), TR("ablehnen", "reject"), R, 9), 1.4);
+        s += pop(txt(F.X(4.5), F.Y(1.08), TR("H₀ beibehalten", "keep H₀"), T, 10), 1.4);
+        return svg(s, TR("Glockenkurve mit Ablehnungsbereich", "Bell curve with rejection region"));
     };
 
     V.matrix = function () {
@@ -584,7 +585,7 @@
         s += '<polygon fill="' + T + '" fill-opacity="0.3" stroke="' + T + '" stroke-width="2" points="' + sq + '"><animate attributeName="points" values="' + sq + ";" + sh + ";" + sh + ";" + sq + '" keyTimes="0;0.4;0.8;1" dur="5s" repeatCount="indefinite"/></polygon>';
         var mx = '<path d="M200 48 h-4 v34 h4 M232 48 h4 v34 h-4" fill="none" stroke="#eef1f7" stroke-width="1.4"/>' + txt(190, 70, "A =", "#eef1f7", 11, "end") + txt(208, 62, "2", "#eef1f7", 11) + txt(224, 62, "1", "#eef1f7", 11) + txt(208, 78, "½", "#eef1f7", 11) + txt(224, 78, "1½", "#eef1f7", 11);
         s += pop(mx, 0.4) + pop(txt(214, 112, "x ↦ A·x", T, 11), 0.8);
-        return svg(s, "Eine Matrix verformt ein Quadrat");
+        return svg(s, TR("Eine Matrix verformt ein Quadrat", "A matrix deforms a square"));
     };
 
     V.conic = function () {
@@ -594,7 +595,7 @@
         s += pop(dot(cx - c, cy, 4, T) + dot(cx + c, cy, 4, T), 0.8) + pop(txt(cx - c, cy + 16, "F₁", T, 10) + txt(cx + c, cy + 16, "F₂", T, 10), 0.9);
         s += moving(el, R, 4.5, 6);
         s += pop(txt(236, 30, "x²/a² + y²/b² = 1", "#eef1f7", 10, "end"), 1.2) + pop(txt(236, 132, "PF₁ + PF₂ = 2a", M, 10, "end"), 1.4);
-        return svg(s, "Ellipse mit Brennpunkten");
+        return svg(s, TR("Ellipse mit Brennpunkten", "Ellipse with foci"));
     };
 
     // ---------- Laufzeit ----------
@@ -649,6 +650,10 @@
         observer.observe(el);
     }
 
-    root.SOR_VISUALS = { render: render, mount: mount, replay: run, keys: Object.keys(V), css: CSS };
-    if (typeof module !== "undefined" && module.exports) module.exports = root.SOR_VISUALS;
+    // Erweiterung: weitere Module (z. B. course-visuals.js) registrieren eigene Grafiken mit denselben Werkzeugen
+    function register(key, fn) { V[key] = fn; if (api.keys.indexOf(key) === -1) api.keys.push(key); }
+    var api = { render: render, mount: mount, replay: run, keys: Object.keys(V), css: CSS, register: register,
+        kit: { svg: svg, ln: ln, drawPath: drawPath, txt: txt, pop: pop, dot: dot, frame: frame, fnPath: fnPath, moving: moving, n: n, C: { Y: Y, T: T, R: R, B: B, P: P, M: M, AX: AX, GR: GR } } };
+    root.SOR_VISUALS = api;
+    if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

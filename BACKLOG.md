@@ -19,6 +19,7 @@
 - Zielstruktur 30.000 Aufgaben insgesamt ist in der skalierbaren Archivgenerierung erreicht
 
 ## P1
+- [x] v3.1.0: stacked integral limits, six foundation courses with 36 lessons (TM 1, TM 2, transformation matrices, PID, thermodynamics, statistics), Physics & Engineering practice area, English version with DE/EN switcher
 - [x] v3.0.0: exercise engine with 93 verified generators for all 84 topics, practice player, accounts with roles, rewards, teacher dashboard, 3D lab, self-hosted assets, school and privacy pages
 - [ ] Owner: add postal address to the Impressum and have `datenschutz.html` legally reviewed before offering the site to schools
 - [ ] Connect `SOR.useAdapter()` to a real backend (auth + class sync) so join codes work across devices; until then progress travels by share link
@@ -45,6 +46,9 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Translate the archive (`app/lernarchiv.html`, `app/data/archive-content.js`), the Lernstraße and the classic app into English, or hide them for English visitors
+- [ ] Second batch of physics and engineering courses: electrical engineering basics, fluid mechanics, mechanical vibrations, dynamics (TM 3 kinetics)
+- [ ] Course certificates or a course completion badge when all lessons of a course have 2 stars
 - [ ] Add 2–3 further generators per school topic (word problems, graph reading) and interactive answer types (drag on number line, plot a point)
 - [ ] Printable worksheets with solutions from a seed (`ueben.html` already generates deterministic tasks per seed)
 - [ ] Bring the shared header (`sor-nav.js`) and `sor-ui.css` to `app/index.html`, `app/lernpfad.html`, `app/lernarchiv.html`, `app/profil.html`

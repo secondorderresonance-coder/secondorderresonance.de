@@ -140,7 +140,7 @@
         { id: "CM-S-46", band: "Klasse 11–12", grades: [11, 12], area: "Vertiefung", topic: "Komplexe Zahlen", sections: ["3.3.1.a", "3.3.1.b"], optional: true, visual: "complex",
           text: "Mit i<sup>2</sup> = −1 hat jede quadratische Gleichung Lösungen. Multiplizieren heißt drehen und strecken.", formula: "z = a + bi = r · e<sup>iφ</sup>" },
         { id: "CM-S-38", band: "Klasse 12", grades: [12, 12], area: "Analysis", topic: "Integralrechnung", sections: ["3.1.3.a", "3.1.3.b", "3.1.3.c", "3.1.3.d"], visual: "integral",
-          text: "Das Integral summiert viele schmale Streifen zur Fläche unter der Kurve.", formula: "∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a)" },
+          text: "Das Integral summiert viele schmale Streifen zur Fläche unter der Kurve.", formula: "<span class='int'><span class='sym'>∫</span><span class='lim'><sup>b</sup><sub>a</sub></span></span> f(x) dx = F(b) − F(a)" },
         { id: "CM-S-42", band: "Klasse 12", grades: [12, 12], area: "Stochastik", topic: "Binomial- und Normalverteilung", sections: ["3.2.2.a", "3.2.2.b", "3.2.2.c"], visual: "normal",
           text: "Viele unabhängige Versuche ergeben zusammen eine Glockenkurve.", formula: "P(X = k) = (n über k) · p<sup>k</sup> · (1 − p)<sup>n−k</sup>" },
         { id: "CM-S-43", band: "Klasse 12", grades: [12, 12], area: "Stochastik", topic: "Hypothesentests", sections: ["3.2.2.a"], visual: "hypothesis",
@@ -195,6 +195,97 @@
         { id: "CM-E-33", band: "Master", area: "Optimierung", topic: "Nichtlineare Optimierung und Gradientenverfahren", sections: ["4.2.3.c"], gap: "Auf L5 fehlt eine Optimierungssektion (konvexe Optimierung bisher nur L6 6.2.2)." },
         { id: "CM-E-34", band: "Master", area: "Variationsrechnung", topic: "Euler-Lagrange-Gleichung und schwache Formulierung", sections: ["5.5.1.c"], gap: "Variationsrechnung fehlt als Sektion zwischen PDE-Einstieg (L5) und FEM (L6)." }
     ];
+
+    // ---------- English (applied when the site language is English) ----------
+    var EN_AREA = {
+        "Zahlen und Operationen": "Numbers and operations", "Raum und Form": "Space and shape", "Muster und Strukturen": "Patterns and structures",
+        "Größen und Messen": "Quantities and measurement", "Daten und Zufall": "Data and chance", "Zahl": "Number", "Messen": "Measurement",
+        "Funktionaler Zusammenhang": "Functions", "Analysis": "Calculus", "Stochastik": "Probability and statistics", "Analytische Geometrie": "Analytic geometry",
+        "Vertiefung": "Advanced topics", "Lineare Algebra": "Linear algebra", "Differentialgleichungen": "Differential equations", "Funktionentheorie": "Complex analysis",
+        "Numerik": "Numerical methods", "Signale und Systeme": "Signals and systems", "Regelungstechnik": "Control engineering", "Partielle DGL": "Partial differential equations",
+        "Numerische lineare Algebra": "Numerical linear algebra", "Optimierung": "Optimisation", "Variationsrechnung": "Calculus of variations"
+    };
+    var EN_BAND = function (b) {
+        return String(b).replace(/^Klasse /, "Grade ").replace("Bachelor 1.–2. Sem.", "Bachelor semesters 1–2").replace("Bachelor 3.–4. Sem.", "Bachelor semesters 3–4").replace("Bachelor Vertiefung", "Bachelor advanced");
+    };
+    var EN = {
+        "CM-S-01": ["Addition and subtraction to 20", "Calculating means putting amounts together or taking them away. On the number line these are jumps to the right or to the left."],
+        "CM-S-03": ["Recognising basic plane shapes", "Circle, triangle, rectangle and square differ in their corners, sides and curves.", ["Triangle: 3 corners", "Quadrilateral: 4 corners"]],
+        "CM-S-04": ["Patterns and sequences", "If you spot the rule of a pattern, you can continue it as far as you like.", "2, 4, 6, 8, … (always +2)", "A separate section for patterns and sequences is missing."],
+        "CM-S-02": ["Money, time and length", "A quantity consists of a number and a unit. If you know how to convert, you can compare quantities.", ["1 h = 60 min", "1 € = 100 ct", "1 m = 100 cm"]],
+        "CM-S-48": ["Numbers to 100 and bridging ten", "Up to 100 you count tens and ones. To go past the next ten you work in two small steps."],
+        "CM-S-49": ["Times tables", "Multiplying is repeated adding. A dot pattern shows 3 · 4 as 3 rows with 4 dots each."],
+        "CM-S-05": ["Column addition and subtraction", "Write the place values under each other, work from right to left and note the carries."],
+        "CM-S-06": ["Perimeter, area and symmetry", "The perimeter is the distance around the figure, the area is what it covers.", ["P = 2 · (a + b)", "A = a · b"]],
+        "CM-S-08": ["Converting units", "When you convert, the number changes but the quantity itself stays the same.", ["2.5 kg = 2500 g", "1 km = 1000 m"]],
+        "CM-S-10": ["Certain, possible, impossible", "With chance you do not know in advance what happens, but you can say how likely it is.", "P(rolling a 6) = 1/6"],
+        "CM-S-50": ["Long multiplication and division", "Big calculations are split into small times-table steps and then put back together."],
+        "CM-S-07": ["Cubes and cuboids", "A cuboid has 8 corners, 12 edges and 6 faces. Its volume counts the unit cubes inside it."],
+        "CM-S-09": ["Data in charts", "A chart lets you compare frequencies at a glance.", "bar height ∼ count"],
+        "CM-S-11": ["Divisors, primes, GCD and LCM", "Every number can be split into prime factors in exactly one way. From that you read off the GCD and LCM directly."],
+        "CM-S-14": ["Rounding and estimating", "An estimate shows in advance whether a result can be right at all."],
+        "CM-S-16": ["Composite areas", "Complicated figures are split into rectangles and triangles whose areas are then added."],
+        "CM-S-12": ["Negative numbers", "To the left of zero lie the negative numbers. Minus times minus gives plus."],
+        "CM-S-15": ["Angles, triangles and coordinates", "Angles are measured in degrees. In every triangle the three interior angles add up to 180°."],
+        "CM-S-13": ["Fractions and decimals", "A fraction describes parts of a whole. Before adding you make the denominators equal."],
+        "CM-S-17": ["Mean and relative frequency", "The mean shares the total out evenly over all values."],
+        "CM-S-18": ["Proportions and the rule of three", "Proportional: twice as much costs twice as much. Inversely proportional: twice as many helpers need half the time."],
+        "CM-S-19": ["Percentages and interest", "Percent means hundredths. Base value, percentage rate and percentage value are tightly linked.", "P = B · p / 100", "Interest and compound interest have no section of their own yet."],
+        "CM-S-20": ["Expressions and linear equations", "An equation is a balance: whatever you do on the left, you must also do on the right."],
+        "CM-S-25": ["Laplace probability and tree diagrams", "If all outcomes are equally likely, divide favourable by possible outcomes. In a tree you multiply along the paths.", "P = favourable / possible"],
+        "CM-S-21": ["Linear functions", "A straight line is fixed by its gradient m and its y-intercept t."],
+        "CM-S-22": ["Systems of linear equations", "Two equations, two lines: their intersection satisfies both at once."],
+        "CM-S-23": ["Linear inequalities", "As with equations, except: multiplying by a negative number flips the sign."],
+        "CM-S-24": ["Circumference and area of a circle", "π is the ratio of circumference to diameter and is the same for every circle.", ["C = 2πr", "A = πr<sup>2</sup>"]],
+        "CM-S-26": ["Quadratic functions and equations", "The graph is a parabola. The quadratic formula gives its zeros."],
+        "CM-S-27": ["Powers and roots", "The square root undoes squaring. The laws of exponents save a lot of writing."],
+        "CM-S-28": ["Pythagoras' and Thales' theorems", "In a right-angled triangle the square on the hypotenuse is as large as the other two together."],
+        "CM-S-29": ["Similarity and intercept theorems", "Parallel lines cut two rays in the same ratio."],
+        "CM-S-30": ["Trigonometry in triangles", "Sine, cosine and tangent link an angle to the ratio of two sides.", "sin α = opposite / hypotenuse"],
+        "CM-S-35": ["Combinatorics", "Counting principle: the options at each stage are multiplied.", "Arranging 3 balls: 3! = 3 · 2 · 1 = 6"],
+        "CM-S-31": ["Sine function and radians", "A point runs around the unit circle. Its height traces the sine curve."],
+        "CM-S-32": ["Exponential functions and logarithms", "The same factor per time step means exponential growth. The logarithm asks for the exponent."],
+        "CM-S-33": ["Pyramid, cone and sphere", "Pointed solids have exactly one third of the volume of a prism with the same base and height.", ["V<sub>pyramid</sub> = ⅓ · B · h", "V<sub>sphere</sub> = 4/3 · πr<sup>3</sup>"], "Pyramid, cone and sphere are missing, so far only cube, cuboid and cylinder."],
+        "CM-S-34": ["Chords and tangents of a circle", "A tangent touches the circle at exactly one point and is perpendicular to the radius there.", "tangent ⟂ radius"],
+        "CM-S-36": ["Derivatives", "The derivative is the gradient of the tangent, i.e. the instantaneous rate of change."],
+        "CM-S-37": ["Curve sketching and optimisation", "Where f′ becomes zero and changes sign, there is a maximum or a minimum.", "f′(x<sub>0</sub>) = 0 and f″(x<sub>0</sub>) < 0 ⇒ maximum"],
+        "CM-S-41": ["Conditional probability", "Extra knowledge changes probabilities. A two-way table keeps it clear."],
+        "CM-S-40": ["Sequences and limits", "A sequence can get as close as you like to a value without ever reaching it."],
+        "CM-S-39": ["The exponential function and natural logarithm", "The exponential function is its own derivative. The natural logarithm is its inverse."],
+        "CM-S-44": ["Vectors, lines and planes", "Vectors describe shifts in space. Lines and planes are built from a point plus directions."],
+        "CM-S-46": ["Complex numbers", "With i<sup>2</sup> = −1 every quadratic equation has solutions. Multiplying means rotating and stretching."],
+        "CM-S-38": ["Integral calculus", "The integral adds up many thin strips to give the area under the curve."],
+        "CM-S-42": ["Binomial and normal distribution", "Many independent trials together give a bell curve.", "P(X = k) = (n choose k) · p<sup>k</sup> · (1 − p)<sup>n−k</sup>"],
+        "CM-S-43": ["Hypothesis tests", "A test checks whether a result is too rare to still count as chance.", "α = P(type I error)", "Significance tests have no section of their own on L3 (so far only L5 5.4.3.b)."],
+        "CM-S-45": ["Matrices and transition processes", "A matrix describes how a state changes in one step."],
+        "CM-S-47": ["Conic sections", "Ellipse, parabola and hyperbola appear when a plane cuts a cone."],
+        "CM-E-01": ["Matrices, determinants and linear systems"], "CM-E-02": ["Vector spaces, kernel and image"], "CM-E-03": ["Eigenvalues, diagonalisation and the spectral theorem"],
+        "CM-E-04": ["Orthogonality, Gram-Schmidt and QR"], "CM-E-05": ["Complex numbers", null, null, "Complex numbers are so far on L3, an L4 section on calculating in C is missing."],
+        "CM-E-06": ["Sequences, limits and completeness"], "CM-E-07": ["Series, power series and Taylor"], "CM-E-08": ["Multivariable differential calculus"],
+        "CM-E-09": ["Improper integrals"], "CM-E-10": ["Multiple, line and surface integrals", null, null, "The integral theorems of Gauss and Stokes are missing as a section."],
+        "CM-E-11": ["First-order ODEs"], "CM-E-12": ["Second-order linear ODEs and oscillations"], "CM-E-13": ["Systems of ODEs and initial value problems"],
+        "CM-E-14": ["Holomorphic functions and Cauchy's integral theorem"], "CM-E-15": ["Error analysis and conditioning"], "CM-E-16": ["Nonlinear equations: Newton and fixed point"],
+        "CM-E-17": ["Numerical integration"], "CM-E-18": ["LU decomposition and iterative solvers"], "CM-E-19": ["Euler, Runge-Kutta and step size control"],
+        "CM-E-20": ["Continuous distributions and the central limit theorem"], "CM-E-21": ["Estimators, confidence intervals and tests"], "CM-E-22": ["Fourier series and Fourier transform"],
+        "CM-E-23": ["Laplace transform and inverse transform"], "CM-E-24": ["DFT and FFT"], "CM-E-25": ["Sampling and the z-transform"],
+        "CM-E-26": ["Transfer functions and block diagrams"], "CM-E-27": ["Stability: Hurwitz, Nyquist and Bode"], "CM-E-28": ["PID controller design"],
+        "CM-E-29": ["Wave, heat and Laplace equations"], "CM-E-30": ["State space, controllability and observers", null, null, "Observer design and LQR are missing as sections."],
+        "CM-E-31": ["Markov chains and Poisson processes"], "CM-E-32": ["Singular value decomposition and Krylov methods", null, null, "SVD and Krylov methods have no sections of their own yet."],
+        "CM-E-33": ["Nonlinear optimisation and gradient methods", null, null, "An optimisation section is missing on L5 (convex optimisation so far only on L6 6.2.2)."],
+        "CM-E-34": ["Euler-Lagrange equation and weak formulation", null, null, "Calculus of variations is missing as a section between the PDE introduction (L5) and FEM (L6)."]
+    };
+    var isEn = root.SOR_I18N ? root.SOR_I18N.lang === "en" : (typeof process !== "undefined" && process.env && process.env.SOR_LANG === "en");
+    if (isEn) {
+        school.concat(engineering).forEach(function (e) {
+            var x = EN[e.id];
+            e.band = EN_BAND(e.band); e.area = EN_AREA[e.area] || e.area;
+            if (!x) return;
+            e.topic = x[0];
+            if (x[1]) e.text = x[1];
+            if (x[2]) e.formula = x[2];
+            if (x[3]) e.gap = x[3];
+        });
+    }
 
     // Link in die Mathe-App: startet eine Lektion (5 Aufgaben) aus den Archiv-Sektionen des Themas.
     // taskCount: { sublevelId: Anzahl } oder null; returnTo: relative Seite im App-Ordner für den Rücksprung.

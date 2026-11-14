@@ -2,12 +2,14 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Üben | Second-Order Resonance</title>
-<meta name="description" content="Mathe üben mit Aufgaben, die sich deinem Stand anpassen: Tipps, Lösungswege, XP, Sterne und Abzeichen. Von Klasse 1 bis zum Master.">
+<title data-en="Practice | Second-Order Resonance">Üben | Second-Order Resonance</title>
+<meta name="description" content="Mathe und Physik üben mit Aufgaben, die sich deinem Stand anpassen: Tipps, Lösungswege, XP, Sterne und Abzeichen. Von Klasse 1 bis zum Master." data-en-content="Practise maths and physics with exercises that adapt to your level: hints, worked solutions, XP, stars and badges. From grade 1 to master's level.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
-<link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
+<link rel="stylesheet" href="./modules/sor-math.css?v=3.1.0">
 <style>
   .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.6rem;align-items:center;margin-bottom:1.8rem}
   .hero h1{font-size:clamp(2.1rem,4.4vw,3.2rem);margin:0.5rem 0 0.6rem}
@@ -31,6 +33,12 @@
   .stage:hover{color:var(--text);border-color:var(--line2)}
   .stage.on{color:#0a0e1c;background:var(--accent);border-color:var(--accent)}
   .stage.uni{font-family:'IBM Plex Mono',monospace;font-size:0.78rem}
+  .subj{display:inline-flex;gap:0.3rem;padding:0.3rem;border-radius:16px;border:1px solid var(--line);background:var(--card);margin-bottom:0.9rem;flex-wrap:wrap}
+  .subj button{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1rem;border-radius:12px;border:0;background:none;color:var(--muted);font:600 0.95rem 'Space Grotesk',sans-serif;cursor:pointer;transition:all .2s}
+  .subj button i{font-style:normal;font-size:1.05rem}
+  .subj button:hover{color:var(--text)}
+  .subj button[aria-pressed="true"]{background:rgba(245,197,24,0.14);color:var(--accent)}
+  .stage.course{font-size:0.82rem}
   .sep{flex:0 0 1px;height:26px;background:var(--line2);margin:8px 0.3rem}
   .tlist{display:grid;gap:0.55rem}
   .trow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:1rem;align-items:center;padding:0.85rem 1.1rem;border-radius:16px;border:1px solid var(--line);background:var(--card)}
@@ -123,26 +131,27 @@
   <section id="hub">
     <div class="hero">
       <div>
-        <div class="kicker">Übungszentrum</div>
-        <h1 id="hello">Bereit für <span class="serif">heute</span>?</h1>
-        <p>Die Aufgaben passen sich deinem Stand an. Jede Aufgabe hat einen Tipp und einen Lösungsweg, und für jede richtige Antwort gibt es XP.</p>
+        <div class="kicker" data-en="Practice centre">Übungszentrum</div>
+        <h1 id="hello" data-en="Ready for <span class=&quot;serif&quot;>today</span>?">Bereit für <span class="serif">heute</span>?</h1>
+        <p data-en="The exercises adapt to your level. Every exercise has a hint and a worked solution, and every correct answer earns XP.">Die Aufgaben passen sich deinem Stand an. Jede Aufgabe hat einen Tipp und einen Lösungsweg, und für jede richtige Antwort gibt es XP.</p>
       </div>
       <div class="stats" id="stats"></div>
     </div>
 
     <div id="assignWrap" hidden>
-      <h2 class="sec">Von deiner Lehrkraft</h2>
+      <h2 class="sec" data-en="From your teacher">Von deiner Lehrkraft</h2>
       <div class="reco" id="assign"></div>
     </div>
 
-    <h2 class="sec">Weiter üben</h2>
+    <h2 class="sec" data-en="Keep practising">Weiter üben</h2>
     <div class="reco" id="reco"></div>
 
-    <h2 class="sec">Alle Themen</h2>
-    <div class="stages" id="stages" role="group" aria-label="Klasse oder Studienphase"></div>
+    <h2 class="sec" data-en="All topics">Alle Themen</h2>
+    <div class="subj" id="subjects" role="group" aria-label="Fach" data-en-aria-label="Subject"></div>
+    <div class="stages" id="stages" role="group" aria-label="Klasse, Studienphase oder Kurs" data-en-aria-label="Grade, study phase or course"></div>
     <div class="stagehead">
       <p class="muted" id="stageInfo"></p>
-      <a class="btn btn-ghost btn-sm" id="mixBtn" href="#">Gemischte Runde starten →</a>
+      <a class="btn btn-ghost btn-sm" id="mixBtn" href="#" data-en="Start a mixed round →">Gemischte Runde starten →</a>
     </div>
     <div class="tlist" id="topics"></div>
   </section>
@@ -150,14 +159,14 @@
   <!-- Sitzung -->
   <section id="session" hidden>
     <div class="sbar">
-      <button class="quit" id="quit" type="button" aria-label="Übung beenden">✕</button>
+      <button class="quit" id="quit" type="button" aria-label="Übung beenden" data-en-aria-label="End practice">✕</button>
       <div class="dots" id="dots" aria-hidden="true"></div>
       <span class="sor-pill fire" id="combo" hidden></span>
       <span class="sor-pill xp" id="sessXp">+0 XP</span>
     </div>
     <div class="sess" id="sessGrid">
       <div class="card qcard" id="qcard">
-        <div class="qmeta"><span id="qTopic"></span><span>Aufgabe <span id="qNo"></span><span class="diff" id="qDiff" title="Schwierigkeit"></span></span></div>
+        <div class="qmeta"><span id="qTopic"></span><span><span data-en="Exercise">Aufgabe</span> <span id="qNo"></span><span class="diff" id="qDiff" title="Schwierigkeit" data-en-title="Difficulty"></span></span></div>
         <div class="qtext" id="qText" aria-live="polite"></div>
         <form class="answer" id="answer" autocomplete="off"></form>
         <div class="hint" id="hint" hidden></div>
@@ -175,39 +184,46 @@
 </main>
 <canvas id="confetti" hidden></canvas>
 
-<script src="./data/coverage-matrix.js?v=3.0.0"></script>
-<script src="./modules/topic-visuals.js?v=3.0.0"></script>
-<script src="./modules/exercise-engine.js?v=3.0.0"></script>
-<script src="./modules/exercises/school-1.js?v=3.0.0"></script>
-<script src="./modules/exercises/school-2.js?v=3.0.0"></script>
-<script src="./modules/exercises/school-3.js?v=3.0.0"></script>
-<script src="./modules/exercises/uni-1.js?v=3.0.0"></script>
-<script src="./modules/exercises/uni-2.js?v=3.0.0"></script>
-<script src="./modules/sor-core.js?v=3.0.0"></script>
-<script src="./modules/rewards.js?v=3.0.0"></script>
-<script src="./modules/sor-nav.js?v=3.0.0"></script>
+<script src="./data/coverage-matrix.js?v=3.1.0"></script>
+<script src="./modules/topic-visuals.js?v=3.1.0"></script>
+<script src="./modules/exercise-engine.js?v=3.1.0"></script>
+<script src="./modules/exercises/school-1.js?v=3.1.0"></script>
+<script src="./modules/exercises/school-2.js?v=3.1.0"></script>
+<script src="./modules/exercises/school-3.js?v=3.1.0"></script>
+<script src="./modules/exercises/uni-1.js?v=3.1.0"></script>
+<script src="./modules/exercises/uni-2.js?v=3.1.0"></script>
+<script src="./data/courses.js?v=3.1.0"></script>
+<script src="./modules/course-visuals.js?v=3.1.0"></script>
+<script src="./modules/exercises/courses-1.js?v=3.1.0"></script>
+<script src="./modules/exercises/courses-2.js?v=3.1.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.1.0"></script>
 <script>
 (function () {
     "use strict";
-    var E = window.SOR_EX, COV = window.SOR_COVERAGE, REW = window.SOR_REWARDS, NAV = window.SOR_NAV, VIS = window.SOR_VISUALS, esc = NAV.esc;
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var E = window.SOR_EX, CRS = window.SOR_COURSES, COV = window.SOR_COVERAGE, REW = window.SOR_REWARDS, NAV = window.SOR_NAV, VIS = window.SOR_VISUALS, esc = NAV.esc;
     var st = document.createElement("style"); st.textContent = E.css; document.head.appendChild(st);
     var $ = function (id) { return document.getElementById(id); };
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // ---------- Themen und Stufen ----------
     var TOPIC = {};
-    COV.school.concat(COV.engineering).forEach(function (e) { TOPIC[e.id] = e; });
+    COV.school.concat(COV.engineering).concat(CRS.lessons).forEach(function (e) { TOPIC[e.id] = e; });
     var HAS = E.topics();
     var STAGES = [], g;
-    for (g = 1; g <= 12; g += 1) STAGES.push({ key: "k" + g, label: String(g), title: "Klasse " + g, grade: g });
+    for (g = 1; g <= 12; g += 1) STAGES.push({ key: "k" + g, label: String(g), title: $t("Klasse ", "Grade ") + g, grade: g, subject: "mathe" });
     var bands = [];
     COV.engineering.forEach(function (e) { if (bands.indexOf(e.band) === -1) bands.push(e.band); });
-    bands.forEach(function (b, i) { STAGES.push({ key: "e" + i, label: ["B 1–2", "B 3–4", "B Vert.", "Master"][i] || b, title: "Studium · " + b, band: b }); });
+    bands.forEach(function (b, i) { STAGES.push({ key: "e" + i, label: [$t("B 1–2", "BSc 1–2"), $t("B 3–4", "BSc 3–4"), $t("B Vert.", "BSc adv."), "Master"][i] || b, title: $t("Studium · ", "University · ") + b, band: b, subject: "mathe" }); });
+    CRS.courses.forEach(function (c) { STAGES.push({ key: "c-" + c.id, label: c.short, title: c.title, course: c.id, subject: c.subject }); });
     function stageTopics(s) {
-        var list = s.grade ? COV.school.filter(function (e) { return e.grades[0] <= s.grade && s.grade <= e.grades[1]; }) : COV.engineering.filter(function (e) { return e.band === s.band; });
+        var list = s.grade ? COV.school.filter(function (e) { return e.grades[0] <= s.grade && s.grade <= e.grades[1]; }) : s.course ? CRS.course(s.course).lessons : COV.engineering.filter(function (e) { return e.band === s.band; });
         return list.filter(function (e) { return HAS[e.id]; });
     }
     function stageByKey(k) { return STAGES.filter(function (s) { return s.key === k; })[0]; }
+    function subjectStages(sub) { return STAGES.filter(function (s) { return s.subject === sub; }); }
     function sessionHref(topicId, back) { return "ueben.html?thema=" + encodeURIComponent(topicId) + (back ? "&zurueck=" + encodeURIComponent(back) : ""); }
 
     var params = new URLSearchParams(location.search);
@@ -221,26 +237,27 @@
     }
     function renderHub() {
         var acc = SOR.accounts.current(), p = REW.profile(), lv = REW.level(p.xp), today = (p.daily[SOR.today()] || { xp: 0 }).xp;
-        $("hello").innerHTML = acc ? "Hallo " + esc(acc.displayName.split(" ")[0]) + ", bereit für <span class=\"serif\">heute</span>?" : "Bereit für <span class=\"serif\">heute</span>?";
+        var today2 = $t("bereit für <span class=\"serif\">heute</span>?", "ready for <span class=\"serif\">today</span>?");
+        $("hello").innerHTML = acc ? $t("Hallo ", "Hi ") + esc(acc.displayName.split(" ")[0]) + ", " + today2 : today2.charAt(0).toUpperCase() + today2.slice(1);
         $("stats").innerHTML =
-            '<div class="card stat">' + ringSvg(today / p.goal, "#35e0c4") + "<div><b>" + today + " / " + p.goal + " XP</b><small>Tagesziel" + (today >= p.goal ? " erreicht ✓" : "") + "</small></div></div>" +
-            '<div class="card stat">' + ringSvg(lv.progress, "#f5c518") + "<div><b>Stufe " + lv.level + "</b><small>" + lv.title + " · noch " + (lv.need - lv.into) + " XP</small></div></div>" +
-            '<div class="card stat"><div class="ico">🔥</div><div><b>' + p.streak.count + (p.streak.count === 1 ? " Tag" : " Tage") + "</b><small>Lernserie · Rekord " + (p.streak.best || 0) + "</small></div></div>" +
-            '<div class="card stat"><div class="ico">⭐</div><div><b>' + REW.totalStars(p) + " Sterne</b><small>" + Object.keys(p.badges).length + " von " + REW.BADGES.length + " Abzeichen</small></div></div>";
+            '<div class="card stat">' + ringSvg(today / p.goal, "#35e0c4") + "<div><b>" + today + " / " + p.goal + " XP</b><small>" + $t("Tagesziel", "Daily goal") + (today >= p.goal ? $t(" erreicht ✓", " reached ✓") : "") + "</small></div></div>" +
+            '<div class="card stat">' + ringSvg(lv.progress, "#f5c518") + "<div><b>" + $t("Stufe ", "Level ") + lv.level + "</b><small>" + lv.title + $t(" · noch ", " · ") + (lv.need - lv.into) + $t(" XP", " XP to go") + "</small></div></div>" +
+            '<div class="card stat"><div class="ico">🔥</div><div><b>' + p.streak.count + (p.streak.count === 1 ? $t(" Tag", " day") : $t(" Tage", " days")) + "</b><small>" + $t("Lernserie · Rekord ", "Streak · best ") + (p.streak.best || 0) + "</small></div></div>" +
+            '<div class="card stat"><div class="ico">⭐</div><div><b>' + REW.totalStars(p) + $t(" Sterne", " stars") + "</b><small>" + Object.keys(p.badges).length + $t(" von ", " of ") + REW.BADGES.length + $t(" Abzeichen", " badges") + "</small></div></div>";
 
         // Aufträge
         var asg = acc ? SOR.school.assignmentsFor(acc.id).filter(function (a) { return TOPIC[a.topicId] && HAS[a.topicId]; }) : [];
         $("assignWrap").hidden = !asg.length;
         $("assign").innerHTML = asg.map(function (a) {
             var m = p.mastery[a.topicId], s = m ? REW.stars(m.score) : 0;
-            return '<a href="' + sessionHref(a.topicId) + '"><span class="why">' + esc(a.className) + (a.due ? " · bis " + esc(a.due.split("-").reverse().join(".")) : "") + "</span><strong>" + esc(TOPIC[a.topicId].topic) + "</strong>" + NAV.stars(s) + "</a>";
+            return '<a href="' + sessionHref(a.topicId) + '"><span class="why">' + esc(a.className) + (a.due ? $t(" · bis ", " · due ") + esc(a.due.split("-").reverse().join(".")) : "") + "</span><strong>" + esc(TOPIC[a.topicId].topic) + "</strong>" + NAV.stars(s) + "</a>";
         }).join("");
 
         // Empfehlungen
         var stage = currentStage(), recs = [], seen = {};
         var push = function (id, why) { if (!seen[id] && TOPIC[id] && HAS[id] && recs.length < 3) { seen[id] = true; recs.push([id, why]); } };
-        Object.keys(p.mastery).filter(function (id) { return REW.stars(p.mastery[id].score) < 3; }).sort(function (a, b) { return (p.mastery[b].last || "").localeCompare(p.mastery[a].last || ""); }).slice(0, 2).forEach(function (id) { push(id, "Zuletzt geübt"); });
-        stageTopics(stage).filter(function (e) { return !p.mastery[e.id]; }).forEach(function (e) { push(e.id, "Neu in " + stage.title); });
+        Object.keys(p.mastery).filter(function (id) { return REW.stars(p.mastery[id].score) < 3; }).sort(function (a, b) { return (p.mastery[b].last || "").localeCompare(p.mastery[a].last || ""); }).slice(0, 2).forEach(function (id) { push(id, $t("Zuletzt geübt", "Recently practised")); });
+        stageTopics(stage).filter(function (e) { return !p.mastery[e.id]; }).forEach(function (e) { push(e.id, $t("Neu in ", "New in ") + stage.title); });
         stageTopics(stage).forEach(function (e) { push(e.id, stage.title); });
         $("reco").innerHTML = recs.map(function (r) {
             var m = p.mastery[r[0]];
@@ -249,27 +266,55 @@
 
         renderStages();
     }
+    var fach = params.get("fach");
+    function store(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ohne Speicher */ } }
+    function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function currentSubject() {
+        if (fach === "mathe" || fach === "physik") return fach;
+        var st0 = stageByKey(read("sor-last-stage"));
+        return st0 ? st0.subject : "mathe";
+    }
     function currentStage() {
-        var k = null;
-        try { k = localStorage.getItem("sor-last-stage"); if (!k) { var gr = parseInt(localStorage.getItem("sor-last-grade"), 10); if (gr) k = "k" + gr; } } catch (e) { /* ohne Speicher */ }
-        return stageByKey(k) || stageByKey("k5");
+        var sub = currentSubject(), k = read("sor-last-stage"), s0 = stageByKey(k);
+        if (s0 && s0.subject === sub) return s0;
+        s0 = stageByKey(read("sor-last-stage-" + sub));
+        if (s0 && s0.subject === sub) return s0;
+        if (sub === "mathe") { var gr = parseInt(read("sor-last-grade"), 10); return stageByKey(gr ? "k" + gr : "k5"); }
+        return subjectStages(sub)[0];
     }
     function renderStages() {
-        var cur = currentStage(), p = REW.profile(), html = "";
-        STAGES.forEach(function (s, i) { if (i === 12) html += '<span class="sep" aria-hidden="true"></span>'; html += '<button type="button" class="stage' + (s.grade ? "" : " uni") + (s.key === cur.key ? " on" : "") + '" data-k="' + s.key + '" aria-pressed="' + (s.key === cur.key) + '" aria-label="' + esc(s.title) + '">' + esc(s.label) + "</button>"; });
+        var cur = currentStage(), p = REW.profile(), html = "", sub = cur.subject;
+        $("subjects").innerHTML = Object.keys(CRS.subjects).map(function (k) { return '<button type="button" data-sub="' + k + '" aria-pressed="' + (k === sub) + '"><i aria-hidden="true">' + CRS.subjects[k].icon + "</i>" + esc(CRS.subjects[k].title) + "</button>"; }).join("");
+        var prev = null;
+        subjectStages(sub).forEach(function (s) {
+            var kind = s.grade ? "k" : s.band ? "e" : "c";
+            if (prev && prev !== kind) html += '<span class="sep" aria-hidden="true"></span>';
+            prev = kind;
+            html += '<button type="button" class="stage' + (s.grade ? "" : s.course ? " uni course" : " uni") + (s.key === cur.key ? " on" : "") + '" data-k="' + s.key + '" aria-pressed="' + (s.key === cur.key) + '" aria-label="' + esc(s.title) + '" title="' + esc(s.title) + '">' + esc(s.label) + "</button>";
+        });
         $("stages").innerHTML = html;
         var on = $("stages").querySelector(".on"); if (on && on.scrollIntoView) on.scrollIntoView({ block: "nearest", inline: "center" });
         var list = stageTopics(cur), types = list.reduce(function (s, e) { return s + HAS[e.id]; }, 0);
-        $("stageInfo").textContent = cur.title + ": " + list.length + " Themen, " + types * 3 + " Aufgabenformen mit immer neuen Zahlen";
+        $("stageInfo").innerHTML = esc(cur.title) + ": " + list.length + (cur.course ? $t(" Lektionen, ", " lessons, ") : $t(" Themen, ", " topics, ")) + types * 3 + $t(" Aufgabenformen mit immer neuen Zahlen", " exercise types with fresh numbers every time") + (cur.course ? ' · <a href="kurs.html?k=' + cur.course + '">' + $t("Zum Kurs mit Erklärungen", "Open the course with explanations") + "</a>" : "");
         $("mixBtn").href = "ueben.html?mix=" + cur.key;
         $("topics").innerHTML = list.map(function (e) {
             var m = p.mastery[e.id];
-            return '<div class="trow"><div><small>' + esc(e.area) + (e.optional ? " · optional" : "") + "</small><strong>" + esc(e.topic) + "</strong></div>" + NAV.stars(m ? REW.stars(m.score) : 0) + '<a class="btn btn-primary btn-sm" href="' + sessionHref(e.id) + '">Üben</a></div>';
+            return '<div class="trow"><div><small>' + (e.course ? $t("Lektion ", "Lesson ") + e.n : esc(e.area)) + (e.optional ? " · optional" : "") + "</small><strong>" + esc(e.topic) + "</strong></div>" + NAV.stars(m ? REW.stars(m.score) : 0) + '<a class="btn btn-primary btn-sm" href="' + sessionHref(e.id) + '">' + $t("Üben", "Practise") + "</a></div>";
         }).join("");
     }
     $("stages").addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-k]"); if (!b) return;
-        try { localStorage.setItem("sor-last-stage", b.getAttribute("data-k")); var s = stageByKey(b.getAttribute("data-k")); if (s.grade) localStorage.setItem("sor-last-grade", String(s.grade)); } catch (e) { /* ohne Speicher */ }
+        var s = stageByKey(b.getAttribute("data-k")); if (!s) return;
+        store("sor-last-stage", s.key); store("sor-last-stage-" + s.subject, s.key); if (s.grade) store("sor-last-grade", String(s.grade));
+        fach = s.subject; renderHub();
+    });
+    $("subjects").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-sub]"); if (!b) return;
+        fach = b.getAttribute("data-sub");
+        var keep = stageByKey(read("sor-last-stage-" + fach)) || (fach === "mathe" ? currentStage() : subjectStages(fach)[0]);
+        if (fach === "mathe" && !(keep && keep.subject === "mathe")) keep = stageByKey("k5");
+        store("sor-last-stage", keep.key);
+        if (history.replaceState) history.replaceState(null, "", "ueben.html?fach=" + fach);
         renderHub();
     });
 
@@ -280,7 +325,7 @@
         var p = REW.profile();
         topics.forEach(function (t) { S.d[t] = REW.difficultyFor(p, t); S.run[t] = 0; });
         $("hub").hidden = true; $("result").hidden = true; $("session").hidden = false;
-        document.title = label + " · Üben | Second-Order Resonance";
+        document.title = label + $t(" · Üben | Second-Order Resonance", " · Practice | Second-Order Resonance");
         renderExplain(topics.length === 1 ? topics[0] : null);
         nextQuestion();
         window.scrollTo(0, 0);
@@ -290,9 +335,9 @@
         if (!e) { box.hidden = true; $("sessGrid").classList.add("solo"); return; }
         $("sessGrid").classList.remove("solo"); box.hidden = false;
         var formulas = e.formula ? (Array.isArray(e.formula) ? e.formula : [e.formula]).map(function (f) { return "<span>" + f + "</span>"; }).join("") : "";
-        box.innerHTML = (e.visual ? '<div class="vis" id="exVis"></div>' : "") + '<div class="body"><div class="kicker">Kurz erklärt</div><h3>' + esc(e.topic) + "</h3>" +
+        box.innerHTML = (e.visual ? '<div class="vis" id="exVis"></div>' : "") + '<div class="body"><div class="kicker">' + (e.course ? esc(e.band) + " · " + $t("Lektion ", "Lesson ") + e.n : $t("Kurz erklärt", "In short")) + "</div><h3>" + esc(e.topic) + "</h3>" +
             (e.text ? "<p>" + e.text + "</p>" : '<p>' + esc(e.area) + " · " + esc(e.band) + "</p>") + (formulas ? '<div class="formula">' + formulas + "</div>" : "") +
-            '<div class="side-stats"><span class="chip" id="exStars">' + NAV.stars(m ? REW.stars(m.score) : 0) + '</span><span class="chip">' + HAS[topicId] * 3 + " Aufgabenformen</span></div></div>";
+            '<div class="side-stats"><span class="chip" id="exStars">' + NAV.stars(m ? REW.stars(m.score) : 0) + '</span><span class="chip">' + HAS[topicId] * 3 + $t(" Aufgabenformen", " exercise types") + "</span>" + (e.course ? '<a class="chip" href="kurs.html?k=' + e.course + "#" + e.id + '">' + $t("Zum Kurs", "Course") + " →</a>" : "") + "</div></div>";
         if (e.visual && VIS) VIS.mount($("exVis"), e.visual);
     }
     function renderDots() {
@@ -318,8 +363,8 @@
         var first = $("answer").querySelector("input"); if (first) first.focus({ preventScroll: true });
     }
     function inputHtml(spec, id) {
-        var ph = spec.type === "frac" ? "z. B. 3/4" : (spec.dec !== undefined ? "z. B. 3,14" : "Zahl");
-        return '<input class="input" id="' + id + '" inputmode="text" autocapitalize="off" spellcheck="false" placeholder="' + ph + '" aria-label="Antwort">' + (spec.unit ? '<span class="unit">' + esc(spec.unit) + "</span>" : "");
+        var ph = spec.type === "frac" ? $t("z. B. 3/4", "e.g. 3/4") : (spec.dec !== undefined ? $t("z. B. 3,14", "e.g. 3.14") : $t("Zahl", "Number"));
+        return '<input class="input" id="' + id + '" inputmode="text" autocapitalize="off" spellcheck="false" placeholder="' + ph + '" aria-label="' + $t("Antwort", "Answer") + '">' + (spec.unit ? '<span class="unit">' + esc(spec.unit) + "</span>" : "");
     }
     function renderAnswer() {
         var a = S.q.a, f = $("answer");
@@ -330,23 +375,23 @@
     function renderActions() {
         var a = S.q.a, box = $("actions");
         if (S.done) {
-            box.innerHTML = '<span class="spacer"></span><button class="btn btn-primary" id="nextBtn" type="button">' + (S.idx + 1 >= S.total ? "Auswertung ansehen →" : "Weiter →") + "</button>";
+            box.innerHTML = '<span class="spacer"></span><button class="btn btn-primary" id="nextBtn" type="button">' + (S.idx + 1 >= S.total ? $t("Auswertung ansehen →", "See results →") : $t("Weiter →", "Next →")) + "</button>";
             $("nextBtn").addEventListener("click", advance); $("nextBtn").focus({ preventScroll: true });
             return;
         }
-        box.innerHTML = '<button class="btn btn-ghost btn-sm" id="hintBtn" type="button"' + (S.hintUsed ? " disabled" : "") + '>💡 Tipp</button><button class="btn btn-ghost btn-sm" id="skipBtn" type="button">Lösung zeigen</button><span class="spacer"></span>' + (a.type === "choice" ? "" : '<button class="btn btn-primary" id="checkBtn" type="button">Prüfen</button>');
+        box.innerHTML = '<button class="btn btn-ghost btn-sm" id="hintBtn" type="button"' + (S.hintUsed ? " disabled" : "") + '>💡 ' + $t("Tipp", "Hint") + '</button><button class="btn btn-ghost btn-sm" id="skipBtn" type="button">' + $t("Lösung zeigen", "Show solution") + '</button><span class="spacer"></span>' + (a.type === "choice" ? "" : '<button class="btn btn-primary" id="checkBtn" type="button">' + $t("Prüfen", "Check") + "</button>");
         $("hintBtn").addEventListener("click", showHint);
         $("skipBtn").addEventListener("click", function () { finish(false, true); });
         if ($("checkBtn")) $("checkBtn").addEventListener("click", submitInputs);
     }
-    function showHint() { S.hintUsed = true; $("hint").hidden = false; $("hint").innerHTML = "<strong>Tipp:</strong> " + S.q.hint; var b = $("hintBtn"); if (b) b.disabled = true; }
+    function showHint() { S.hintUsed = true; $("hint").hidden = false; $("hint").innerHTML = "<strong>" + $t("Tipp:", "Hint:") + "</strong> " + S.q.hint; var b = $("hintBtn"); if (b) b.disabled = true; }
     function submitInputs() {
         if (S.done) return;
         var a = S.q.a, ins = Array.prototype.slice.call($("answer").querySelectorAll("input")), vals = ins.map(function (i) { return i.value.trim(); });
         var empty = ins.filter(function (i) { return !i.value.trim(); })[0];
-        if (empty) { empty.focus(); nudge("Bitte fülle " + (ins.length > 1 ? "alle Felder" : "das Feld") + " aus."); return; }
+        if (empty) { empty.focus(); nudge(ins.length > 1 ? $t("Bitte fülle alle Felder aus.", "Please fill in all fields.") : $t("Bitte fülle das Feld aus.", "Please fill in the field.")); return; }
         var invalid = ins.filter(function (i) { return !isFinite(E.parseNumber(i.value)); })[0];
-        if (invalid) { invalid.focus(); invalid.select(); nudge("Das konnte ich nicht als Zahl lesen. Schreibe zum Beispiel 3,5 oder −2 oder 3/4."); return; }
+        if (invalid) { invalid.focus(); invalid.select(); nudge($t("Das konnte ich nicht als Zahl lesen. Schreibe zum Beispiel 3,5 oder −2 oder 3/4.", "I could not read that as a number. Write for example 3.5 or −2 or 3/4.")); return; }
         judge(E.check(a, a.type === "multi" ? vals : vals[0]).correct);
     }
     function nudge(text) { $("feedback").innerHTML = '<div class="fb try"><h3>' + esc(text) + "</h3></div>"; }
@@ -355,7 +400,7 @@
         if (S.tries === 0) {
             S.tries = 1; showHint();
             $("qcard").classList.remove("shake"); void $("qcard").offsetWidth; $("qcard").classList.add("shake");
-            $("feedback").innerHTML = '<div class="fb try"><h3>Noch nicht ganz. Schau dir den Tipp an und versuche es noch einmal.</h3></div>';
+            $("feedback").innerHTML = '<div class="fb try"><h3>' + $t("Noch nicht ganz. Schau dir den Tipp an und versuche es noch einmal.", "Not quite. Look at the hint and try again.") + "</h3></div>";
             if (chosen) { chosen.classList.add("wrong"); chosen.disabled = true; }
             else { var i0 = $("answer").querySelector("input"); if (i0) { i0.focus(); i0.select(); } }
             return;
@@ -375,16 +420,16 @@
         else if (!ok) { S.run[topic] = 0; if (S.d[topic] > 1) S.d[topic] -= 1; }
         else S.run[topic] = 0;
         var steps = '<ol class="steps">' + q.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>";
-        var praise = ["Richtig!", "Stark!", "Genau so!", "Sauber gelöst!", "Treffer!"][Math.floor(Math.random() * 5)];
+        var praise = ($t("Richtig!|Stark!|Genau so!|Sauber gelöst!|Treffer!", "Correct!|Great!|Exactly!|Nicely solved!|Spot on!")).split("|")[Math.floor(Math.random() * 5)];
         $("feedback").innerHTML = ok
-            ? '<div class="fb ok pop"><h3><span>✓ ' + praise + (r.combo >= 3 ? " " + r.combo + " in Folge." : "") + '</span><span class="gain">+' + r.xp + " XP</span></h3><details class=\"way\"><summary>Lösungsweg ansehen</summary>" + steps + "</details></div>"
-            : '<div class="fb no pop"><h3><span>' + (skipped ? "Lösung" : "Das stimmt leider nicht.") + '</span></h3><p style="margin-top:0.4rem">Richtig ist: <strong class="mth">' + E.show(q.a) + "</strong></p>" + steps + "</div>";
+            ? '<div class="fb ok pop"><h3><span>✓ ' + praise + (r.combo >= 3 ? " " + r.combo + $t(" in Folge.", " in a row.") : "") + '</span><span class="gain">+' + r.xp + " XP</span></h3><details class=\"way\"><summary>" + $t("Lösungsweg ansehen", "Show worked solution") + "</summary>" + steps + "</details></div>"
+            : '<div class="fb no pop"><h3><span>' + (skipped ? $t("Lösung", "Solution") : $t("Das stimmt leider nicht.", "Sorry, that is not right.")) + '</span></h3><p style="margin-top:0.4rem">' + $t("Richtig ist: ", "Correct answer: ") + '<strong class="mth">' + E.show(q.a) + "</strong></p>" + steps + "</div>";
         $("hint").hidden = ok ? $("hint").hidden : true;
         $("combo").hidden = r.combo < 3; $("combo").textContent = "🔥 " + r.combo;
-        if (r.levelUp) { S.levelUp = r.levelUp; NAV.toast("🎉 <span><strong>Stufe " + r.levelUp.level + "</strong> erreicht: " + esc(r.levelUp.title) + "</span>"); }
-        else if (r.newBadges.length) NAV.toast("<span style=\"font-size:1.4rem\">" + r.newBadges[0].icon + "</span><span><strong>Neues Abzeichen:</strong> " + esc(r.newBadges[0].title) + "</span>");
-        else if (r.goalReached) NAV.toast("✅ <span><strong>Tagesziel erreicht!</strong></span>");
-        else if (r.starUp) NAV.toast("⭐ <span><strong>Neuer Stern</strong> in diesem Thema</span>");
+        if (r.levelUp) { S.levelUp = r.levelUp; NAV.toast("🎉 <span><strong>" + $t("Stufe ", "Level ") + r.levelUp.level + "</strong>" + $t(" erreicht: ", " reached: ") + esc(r.levelUp.title) + "</span>"); }
+        else if (r.newBadges.length) NAV.toast("<span style=\"font-size:1.4rem\">" + r.newBadges[0].icon + "</span><span><strong>" + $t("Neues Abzeichen:", "New badge:") + "</strong> " + esc(r.newBadges[0].title) + "</span>");
+        else if (r.goalReached) NAV.toast("✅ <span><strong>" + $t("Tagesziel erreicht!", "Daily goal reached!") + "</strong></span>");
+        else if (r.starUp) NAV.toast("⭐ <span>" + $t("<strong>Neuer Stern</strong> in diesem Thema", "<strong>New star</strong> in this topic") + "</span>");
         if (r.starUp) S.starUps.push(topic);
         S.badges = S.badges.concat(r.newBadges);
         var es = $("exStars"); if (es) es.innerHTML = NAV.stars(r.stars);
@@ -396,16 +441,16 @@
         var fin = REW.finishSession({ total: S.total, correct: S.correct });
         S.badges = S.badges.concat(fin.newBadges);
         var p = REW.profile(), lv = REW.level(p.xp), pct = Math.round(S.correct / S.total * 100), again = S.mix ? location.search : "?thema=" + encodeURIComponent(S.topics[0]) + (back ? "&zurueck=" + encodeURIComponent(back) : "");
-        var head = pct === 100 ? "Fehlerfrei!" : pct >= 75 ? "Stark gemacht!" : pct >= 50 ? "Gut geübt!" : "Dranbleiben lohnt sich";
+        var head = pct === 100 ? $t("Fehlerfrei!", "Flawless!") : pct >= 75 ? $t("Stark gemacht!", "Well done!") : pct >= 50 ? $t("Gut geübt!", "Good practice!") : $t("Dranbleiben lohnt sich", "Keep at it, it pays off");
         var uniq = S.topics.filter(function (t, i, arr) { return arr.indexOf(t) === i && TOPIC[t]; }).slice(0, 6);
         $("session").hidden = true; $("result").hidden = false;
-        $("resultCard").innerHTML = '<div class="kicker">' + esc(S.label) + "</div><h2>" + head + "</h2><p class=\"muted\">" + S.correct + " von " + S.total + " Aufgaben richtig</p>" +
-            '<div class="rnums"><div><b>' + pct + ' %</b><small>Trefferquote</small></div><div><b style="color:var(--accent)">+' + S.xp + "</b><small>XP verdient</small></div><div><b>🔥 " + p.streak.count + "</b><small>Tage Lernserie</small></div></div>" +
-            '<div style="text-align:left;margin:0 auto 1.2rem;max-width:460px"><div style="display:flex;justify-content:space-between;font-size:0.86rem;color:var(--muted);margin-bottom:0.35rem"><span>Stufe ' + lv.level + " · " + lv.title + "</span><span>" + lv.into + " / " + lv.need + ' XP</span></div><div class="bar"><span style="width:' + Math.round(lv.progress * 100) + '%"></span></div></div>' +
+        $("resultCard").innerHTML = '<div class="kicker">' + esc(S.label) + "</div><h2>" + head + "</h2><p class=\"muted\">" + S.correct + $t(" von ", " of ") + S.total + $t(" Aufgaben richtig", " exercises correct") + "</p>" +
+            '<div class="rnums"><div><b>' + pct + ' %</b><small>' + $t("Trefferquote", "Accuracy") + '</small></div><div><b style="color:var(--accent)">+' + S.xp + "</b><small>" + $t("XP verdient", "XP earned") + "</small></div><div><b>🔥 " + p.streak.count + "</b><small>" + $t("Tage Lernserie", "day streak") + "</small></div></div>" +
+            '<div style="text-align:left;margin:0 auto 1.2rem;max-width:460px"><div style="display:flex;justify-content:space-between;font-size:0.86rem;color:var(--muted);margin-bottom:0.35rem"><span>' + $t("Stufe ", "Level ") + lv.level + " · " + lv.title + "</span><span>" + lv.into + " / " + lv.need + ' XP</span></div><div class="bar"><span style="width:' + Math.round(lv.progress * 100) + '%"></span></div></div>' +
             '<div class="tlist" style="max-width:460px;margin:0 auto 1rem;text-align:left">' + uniq.map(function (t) { var m = p.mastery[t]; return '<div class="trow" style="grid-template-columns:minmax(0,1fr) auto"><strong>' + esc(TOPIC[t].topic) + "</strong>" + NAV.stars(m ? REW.stars(m.score) : 0) + "</div>"; }).join("") + "</div>" +
             (S.badges.length ? '<div class="badges">' + S.badges.map(function (b) { return '<div class="badge pop"><i>' + b.icon + "</i><div><strong>" + esc(b.title) + "</strong><small>" + esc(b.text) + "</small></div></div>"; }).join("") + "</div>" : "") +
-            '<div class="actions" style="justify-content:center"><a class="btn btn-primary" href="ueben.html' + again + '">Noch eine Runde</a>' + (back ? '<a class="btn btn-ghost" href="' + esc(back) + '">Zurück zur Übersicht</a>' : "") + '<a class="btn btn-ghost" href="ueben.html">Alle Themen</a></div>' +
-            (SOR.accounts.current() ? "" : '<p class="dim" style="margin-top:1.2rem;font-size:0.88rem">Dein Fortschritt liegt in diesem Browser. <a href="konto.html">Mit einem Konto</a> behältst du ihn auch nach einem Gerätewechsel im Blick, sobald die Cloud-Anbindung aktiv ist.</p>');
+            '<div class="actions" style="justify-content:center"><a class="btn btn-primary" href="ueben.html' + again + '">' + $t("Noch eine Runde", "One more round") + "</a>" + (back ? '<a class="btn btn-ghost" href="' + esc(back) + '">' + $t("Zurück zur Übersicht", "Back to overview") + "</a>" : "") + '<a class="btn btn-ghost" href="ueben.html">' + $t("Alle Themen", "All topics") + "</a></div>" +
+            (SOR.accounts.current() ? "" : '<p class="dim" style="margin-top:1.2rem;font-size:0.88rem">' + $t('Dein Fortschritt liegt in diesem Browser. <a href="konto.html">Mit einem Konto</a> behältst du ihn auch nach einem Gerätewechsel im Blick, sobald die Cloud-Anbindung aktiv ist.', 'Your progress is stored in this browser. <a href="konto.html">With an account</a> you can keep track of it across devices once cloud sync is active.') + "</p>");
         NAV.refresh(); window.scrollTo(0, 0);
         if (pct >= 75 && !reduce) confetti();
     }
@@ -433,7 +478,7 @@
         if (!S.done && S.q.a.type === "choice" && /^[1-4]$/.test(ev.key)) { var b = $("answer").querySelector('[data-i="' + (Number(ev.key) - 1) + '"]'); if (b && !b.disabled) b.click(); }
     });
     $("quit").addEventListener("click", function () {
-        if (S && S.results.length && !window.confirm("Übung wirklich beenden? Deine bisherigen XP bleiben erhalten.")) return;
+        if (S && S.results.length && !window.confirm($t("Übung wirklich beenden? Deine bisherigen XP bleiben erhalten.", "End this practice? The XP you earned so far is kept."))) return;
         location.href = back || "ueben.html";
     });
 
@@ -446,7 +491,7 @@
     else if (mix && stageByKey(mix) && stageTopics(stageByKey(mix)).length) {
         var ids = stageTopics(stageByKey(mix)).map(function (e) { return e.id; }), i, j, t;
         for (i = ids.length - 1; i > 0; i -= 1) { j = Math.floor(Math.random() * (i + 1)); t = ids[i]; ids[i] = ids[j]; ids[j] = t; }
-        startSession(ids, "Gemischte Runde · " + stageByKey(mix).title, 10);
+        startSession(ids, $t("Gemischte Runde · ", "Mixed round · ") + stageByKey(mix).title, 10);
     } else renderHub();
 })();
 </script>

@@ -2,12 +2,13 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Klassen-Dashboard für Lehrkräfte | Second-Order Resonance</title>
-<meta name="description" content="Klassen anlegen, Aufträge vergeben und den Lernstand je Thema sehen: das Dashboard für Lehrkräfte.">
+<title data-en="Class dashboard for teachers | Second-Order Resonance">Klassen-Dashboard für Lehrkräfte | Second-Order Resonance</title>
+<meta name="description" content="Klassen anlegen, Aufträge vergeben und den Lernstand je Thema sehen: das Dashboard für Lehrkräfte." data-en-content="Create classes, set assignments and see progress per topic: the dashboard for teachers.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
-<link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
 <style>
   .intro{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2.2rem;align-items:center;margin-top:1rem}
   .intro h1{font-size:clamp(2rem,4.2vw,3rem);margin:0.5rem 0 0.8rem}
@@ -54,51 +55,54 @@
   <section id="intro" hidden>
     <div class="intro">
       <div>
-        <div class="kicker">Für Lehrkräfte</div>
-        <h1>Sehen, wo Ihre Klasse <span class="serif">wirklich</span> steht</h1>
-        <p class="muted" style="font-size:1.05rem;max-width:34rem">Legen Sie Klassen an, vergeben Sie Themen als Auftrag und sehen Sie pro Schülerin und Schüler, welche Themen sitzen und wo Unterstützung nötig ist.</p>
+        <div class="kicker" data-en="For teachers">Für Lehrkräfte</div>
+        <h1 data-en="See where your class &lt;span class=&quot;serif&quot;&gt;really&lt;/span&gt; stands">Sehen, wo Ihre Klasse <span class="serif">wirklich</span> steht</h1>
+        <p class="muted" style="font-size:1.05rem;max-width:34rem" data-en="Create classes, assign topics and see for every student which topics are secure and where support is needed.">Legen Sie Klassen an, vergeben Sie Themen als Auftrag und sehen Sie pro Schülerin und Schüler, welche Themen sitzen und wo Unterstützung nötig ist.</p>
         <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:1.4rem">
-          <a class="btn btn-primary" href="konto.html?weiter=lehrer.html#registrieren">Lehrkräfte-Konto erstellen</a>
-          <button class="btn btn-ghost" type="button" id="demoBtn">Demo-Klasse ansehen</button>
+          <a class="btn btn-primary" href="konto.html?weiter=lehrer.html#registrieren" data-en="Create a teacher account">Lehrkräfte-Konto erstellen</a>
+          <button class="btn btn-ghost" type="button" id="demoBtn" data-en="View the demo class">Demo-Klasse ansehen</button>
         </div>
         <p class="notice" style="margin-top:1.4rem" id="roleNote" hidden></p>
       </div>
       <div class="feat">
-        <div><i>🏫</i><span><strong>Klassen mit Beitrittscode.</strong> Ein sechsstelliger Code genügt, um einer Klasse beizutreten.</span></div>
-        <div><i>📌</i><span><strong>Aufträge.</strong> Themen als Hausaufgabe oder Wochenplan vergeben, mit Fälligkeitsdatum.</span></div>
-        <div><i>📊</i><span><strong>Lernstand je Thema.</strong> Eine Matrix zeigt Sterne pro Kind und Thema, dazu Trefferquote und Aktivität.</span></div>
-        <div><i>🧭</i><span><strong>Hinweise.</strong> Wer länger nicht geübt hat oder bei einem Thema hängt, wird hervorgehoben.</span></div>
+        <div><i>🏫</i><span data-en="&lt;strong&gt;Classes with a join code.&lt;/strong&gt; A six-character code is all it takes to join a class."><strong>Klassen mit Beitrittscode.</strong> Ein sechsstelliger Code genügt, um einer Klasse beizutreten.</span></div>
+        <div><i>📌</i><span data-en="&lt;strong&gt;Assignments.&lt;/strong&gt; Assign topics as homework or a weekly plan, with a due date."><strong>Aufträge.</strong> Themen als Hausaufgabe oder Wochenplan vergeben, mit Fälligkeitsdatum.</span></div>
+        <div><i>📊</i><span data-en="&lt;strong&gt;Progress per topic.&lt;/strong&gt; A matrix shows stars per student and topic, plus accuracy and activity."><strong>Lernstand je Thema.</strong> Eine Matrix zeigt Sterne pro Kind und Thema, dazu Trefferquote und Aktivität.</span></div>
+        <div><i>🧭</i><span data-en="&lt;strong&gt;Alerts.&lt;/strong&gt; Anyone who has not practised for a while or is stuck on a topic is highlighted."><strong>Hinweise.</strong> Wer länger nicht geübt hat oder bei einem Thema hängt, wird hervorgehoben.</span></div>
       </div>
     </div>
   </section>
 
   <section id="dash" hidden>
     <div class="top">
-      <div><div class="kicker">Klassen-Dashboard</div><h1 id="dashTitle">Meine Klassen</h1></div>
+      <div><div class="kicker" data-en="Class dashboard">Klassen-Dashboard</div><h1 id="dashTitle" data-en="My classes">Meine Klassen</h1></div>
       <div id="dashActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
     </div>
     <div class="clstabs" id="clsTabs"></div>
     <form class="card inline" id="newForm" hidden style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto">
-      <input class="input" id="newName" placeholder="Name der Klasse, z. B. 7b Mathematik" maxlength="40" required aria-label="Name der Klasse">
-      <select class="select" id="newGrade" aria-label="Jahrgang"></select>
-      <button class="btn btn-primary btn-sm" type="submit">Klasse anlegen</button>
+      <input class="input" id="newName" placeholder="Name der Klasse, z. B. 7b Mathematik" maxlength="40" required aria-label="Name der Klasse" data-en-aria-label="Class name" data-en-placeholder="Class name, e.g. 7b maths">
+      <select class="select" id="newGrade" aria-label="Jahrgang" data-en-aria-label="Grade"></select>
+      <button class="btn btn-primary btn-sm" type="submit" data-en="Create class">Klasse anlegen</button>
     </form>
     <div id="clsBody"></div>
   </section>
 </main>
 
-<script src="./data/coverage-matrix.js?v=3.0.0"></script>
-<script src="./modules/sor-core.js?v=3.0.0"></script>
-<script src="./modules/rewards.js?v=3.0.0"></script>
-<script src="./modules/sor-nav.js?v=3.0.0"></script>
+<script src="./data/coverage-matrix.js?v=3.1.0"></script>
+<script src="./data/courses.js?v=3.1.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.1.0"></script>
 <script>
 (function () {
     "use strict";
     var REW = window.SOR_REWARDS, NAV = window.SOR_NAV, esc = NAV.esc, COV = window.SOR_COVERAGE, $ = function (id) { return document.getElementById(id); };
-    var TOPIC = {}; COV.school.concat(COV.engineering).forEach(function (e) { TOPIC[e.id] = e; });
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var CRS = window.SOR_COURSES;
+    var TOPIC = {}; COV.school.concat(COV.engineering).concat(CRS ? CRS.lessons : []).forEach(function (e) { TOPIC[e.id] = e; });
     var DEMO_TEACHER = "demo:lehrkraft", active = null;
     var bands = []; COV.engineering.forEach(function (e) { if (bands.indexOf(e.band) === -1) bands.push(e.band); });
-    function gradeLabel(g) { return typeof g === "number" ? "Klasse " + g : (g || "ohne Jahrgang"); }
+    function gradeLabel(g) { return typeof g === "number" ? $t("Klasse ", "Grade ") + g : (g || $t("ohne Jahrgang", "no grade")); }
     function topicsFor(g) { return typeof g === "number" ? COV.school.filter(function (e) { return e.grades[0] <= g && g <= e.grades[1] && !e.optional; }) : COV.engineering.filter(function (e) { return e.band === g; }); }
     function teacherId() { var a = SOR.accounts.current(); return a && a.role === "lehrkraft" ? a.id : (SOR.school.classes(DEMO_TEACHER).length ? DEMO_TEACHER : null); }
     function dayKey(offset) { var d = new Date(); d.setDate(d.getDate() - offset); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
@@ -106,7 +110,7 @@
     // ---------- Demo-Daten (frei erfunden, klar gekennzeichnet) ----------
     function buildDemo() {
         var seed = 20261109, rnd = function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
-        var cls = SOR.school.create({ name: "7b Mathematik (Demo)", grade: 7, teacherId: DEMO_TEACHER, demo: true });
+        var cls = SOR.school.create({ name: $t("7b Mathematik (Demo)", "7b Maths (demo)"), grade: 7, teacherId: DEMO_TEACHER, demo: true });
         var names = ["Anna B.", "Ben K.", "Clara M.", "David S.", "Emma R.", "Finn L.", "Greta H.", "Hannes W.", "Ida F.", "Jonas P.", "Klara T.", "Leon A.", "Mia G.", "Noah D.", "Ole J.", "Paula N.", "Rosa V.", "Samuel E.", "Tilda C.", "Umut Y.", "Vera O.", "Yara Z."];
         var topics = topicsFor(7), store = SOR.storage.get(REW.KEY) || { profiles: {} };
         if (!store.profiles) store.profiles = {};
@@ -138,20 +142,20 @@
     function weekXp(p) { var s = 0, i; for (i = 0; i < 7; i += 1) { var d = p.daily[dayKey(i)]; if (d) s += d.xp; } return s; }
     function lastActive(p) { var keys = Object.keys(p.daily).sort(); var l = keys.length ? keys[keys.length - 1] : p.streak.last; return l || null; }
     function daysSince(k) { return k ? Math.round((new Date(dayKey(0) + "T00:00:00") - new Date(k + "T00:00:00")) / 86400000) : null; }
-    function ago(k) { var n = daysSince(k); return n === null ? "noch nie" : n <= 0 ? "heute" : n === 1 ? "gestern" : "vor " + n + " Tagen"; }
+    function ago(k) { var n = daysSince(k); return n === null ? $t("noch nie", "never") : n <= 0 ? $t("heute", "today") : n === 1 ? $t("gestern", "yesterday") : $t("vor ", "") + n + $t(" Tagen", " days ago"); }
 
     function render() {
         NAV.refresh();
         var acc = SOR.accounts.current(), tid = teacherId();
         $("intro").hidden = !!tid; $("dash").hidden = !tid;
-        if (!tid) { var note = $("roleNote"); note.hidden = !acc; if (acc) note.textContent = "Sie sind als „" + acc.displayName + "“ mit einem Lernkonto angemeldet. Für das Dashboard brauchen Sie ein Lehrkräfte-Konto. Die Demo können Sie trotzdem ansehen."; return; }
+        if (!tid) { var note = $("roleNote"); note.hidden = !acc; if (acc) note.textContent = $t("Sie sind als „", "You are signed in as “") + acc.displayName + $t("“ mit einem Lernkonto angemeldet. Für das Dashboard brauchen Sie ein Lehrkräfte-Konto. Die Demo können Sie trotzdem ansehen.", "” with a learning account. The dashboard needs a teacher account. You can still view the demo."); return; }
         var isDemoOnly = tid === DEMO_TEACHER, classes = SOR.school.classes(tid).concat(isDemoOnly ? [] : SOR.school.classes(DEMO_TEACHER));
         if (!active || !classes.some(function (c) { return c.id === active; })) active = classes.length ? classes[0].id : null;
-        $("dashTitle").textContent = isDemoOnly ? "Demo-Klasse" : "Meine Klassen";
-        $("dashActions").innerHTML = (isDemoOnly ? '<a class="btn btn-primary btn-sm" href="konto.html?weiter=lehrer.html#registrieren">Eigenes Lehrkräfte-Konto erstellen</a>' : "") + (SOR.school.classes(DEMO_TEACHER).length ? '<button class="btn btn-ghost btn-sm" type="button" id="rmDemo">Demo entfernen</button>' : '<button class="btn btn-ghost btn-sm" type="button" id="addDemo">Demo-Klasse laden</button>');
-        $("clsTabs").innerHTML = classes.map(function (c) { return '<button type="button" class="' + (c.id === active ? "on" : "") + '" data-cls="' + esc(c.id) + '">' + esc(c.name) + "</button>"; }).join("") + (isDemoOnly ? "" : '<button type="button" class="new" id="newBtn">+ Neue Klasse</button>');
-        $("newGrade").innerHTML = Array.from({ length: 12 }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i === 6 ? " selected" : "") + ">Klasse " + (i + 1) + "</option>"; }).join("") + bands.map(function (b) { return '<option value="' + esc(b) + '">Studium · ' + esc(b) + "</option>"; }).join("");
-        if (!classes.length) { $("newForm").hidden = false; $("clsBody").innerHTML = '<div class="card"><p class="muted">Legen Sie Ihre erste Klasse an. Danach erhalten Sie einen Beitrittscode für Ihre Schülerinnen und Schüler.</p></div>'; return; }
+        $("dashTitle").textContent = isDemoOnly ? $t("Demo-Klasse", "Demo class") : $t("Meine Klassen", "My classes");
+        $("dashActions").innerHTML = (isDemoOnly ? $t('<a class="btn btn-primary btn-sm" href="konto.html?weiter=lehrer.html#registrieren">Eigenes Lehrkräfte-Konto erstellen</a>', "<a class=\"btn btn-primary btn-sm\" href=\"konto.html?weiter=lehrer.html#registrieren\">Create your own teacher account</a>") : "") + (SOR.school.classes(DEMO_TEACHER).length ? $t('<button class="btn btn-ghost btn-sm" type="button" id="rmDemo">Demo entfernen</button>', "<button class=\"btn btn-ghost btn-sm\" type=\"button\" id=\"rmDemo\">Remove demo</button>") : $t('<button class="btn btn-ghost btn-sm" type="button" id="addDemo">Demo-Klasse laden</button>', "<button class=\"btn btn-ghost btn-sm\" type=\"button\" id=\"addDemo\">Load demo class</button>"));
+        $("clsTabs").innerHTML = classes.map(function (c) { return '<button type="button" class="' + (c.id === active ? "on" : "") + '" data-cls="' + esc(c.id) + '">' + esc(c.name) + "</button>"; }).join("") + (isDemoOnly ? "" : $t('<button type="button" class="new" id="newBtn">+ Neue Klasse</button>', "<button type=\"button\" class=\"new\" id=\"newBtn\">+ New class</button>"));
+        $("newGrade").innerHTML = Array.from({ length: 12 }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i === 6 ? " selected" : "") + $t(">Klasse ", ">Grade ") + (i + 1) + "</option>"; }).join("") + bands.map(function (b) { return '<option value="' + esc(b) + $t('">Studium · ', "\">University · ") + esc(b) + "</option>"; }).join("");
+        if (!classes.length) { $("newForm").hidden = false; $("clsBody").innerHTML = $t('<div class="card"><p class="muted">Legen Sie Ihre erste Klasse an. Danach erhalten Sie einen Beitrittscode für Ihre Schülerinnen und Schüler.</p></div>', "<div class=\"card\"><p class=\"muted\">Create your first class. You will then get a join code for your students.</p></div>"); return; }
         renderClass(SOR.school.get(active));
     }
 
@@ -166,41 +170,42 @@
         var attention = [];
         members.forEach(function (m) {
             var n = daysSince(lastActive(m.p)), acc = m.p.stats.total ? m.p.stats.correct / m.p.stats.total : null;
-            if (n === null) attention.push([m.name, "hat noch nicht geübt"]);
-            else if (n >= 7) attention.push([m.name, "seit " + n + " Tagen nicht aktiv"]);
-            else if (acc !== null && m.p.stats.total >= 15 && acc < 0.6) attention.push([m.name, "Trefferquote " + Math.round(acc * 100) + " %"]);
+            if (n === null) attention.push([m.name, $t("hat noch nicht geübt", "has not practised yet")]);
+            else if (n >= 7) attention.push([m.name, $t("seit ", "inactive for ") + n + $t(" Tagen nicht aktiv", " days")]);
+            else if (acc !== null && m.p.stats.total >= 15 && acc < 0.6) attention.push([m.name, $t("Trefferquote ", "accuracy ") + Math.round(acc * 100) + " %"]);
         });
         var hard = cols.map(function (t) { var pr = members.filter(function (m) { return m.p.mastery[t]; }); return { t: t, n: pr.length, avg: pr.length ? pr.reduce(function (s, m) { return s + m.p.mastery[t].score; }, 0) / pr.length : null }; }).filter(function (x) { return x.n >= Math.max(1, Math.ceil(members.length / 4)); }).sort(function (a, b) { return a.avg - b.avg; }).slice(0, 3);
 
-        var opt = gradeTopics.map(function (t) { return '<option value="' + t.id + '">' + esc(t.topic) + "</option>"; }).join("");
+        var opt = gradeTopics.map(function (t) { return '<option value="' + t.id + '">' + esc(t.topic) + "</option>"; }).join("") +
+            (CRS ? CRS.courses.map(function (k) { return '<optgroup label="' + esc(k.title) + '">' + k.lessons.map(function (l) { return '<option value="' + l.id + '">' + esc(l.topic) + "</option>"; }).join("") + "</optgroup>"; }).join("") : "");
         $("clsBody").innerHTML =
-            (c.demo ? '<p class="notice" style="margin-bottom:1rem"><strong>Demo-Daten.</strong> Namen und Lernstände dieser Klasse sind frei erfunden und zeigen nur, wie das Dashboard mit einer echten Klasse aussieht.</p>' : "") +
-            '<div class="card"><div class="chead"><div><h2 style="font-size:1.5rem">' + esc(c.name) + '</h2><p class="muted">' + esc(gradeLabel(c.grade)) + " · " + members.length + " Mitglieder</p></div>" +
-            '<div style="text-align:center"><div class="dim" style="font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.3rem">Beitrittscode</div><button type="button" class="code" id="copyCode" title="Code kopieren">' + esc(c.code) + "</button></div>" +
-            '<div style="display:flex;gap:0.5rem;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" type="button" id="csvBtn">CSV exportieren</button>' + (c.demo ? "" : '<button class="btn btn-ghost btn-sm" type="button" id="delCls" style="color:#ff8fa3;border-color:rgba(233,69,96,0.4)">Klasse löschen</button>') + "</div></div></div>" +
-            '<div class="kpis"><div class="kpi"><b>' + activeWeek + " / " + members.length + '</b><small>in den letzten 7 Tagen aktiv</small></div><div class="kpi"><b>' + (tot ? Math.round(cor / tot * 100) + " %" : "–") + '</b><small>Trefferquote der Klasse</small></div><div class="kpi"><b>' + wx.toLocaleString("de-DE") + '</b><small>XP diese Woche</small></div><div class="kpi"><b>' + c.assignments.length + "</b><small>offene Aufträge</small></div></div>" +
-            '<div class="cols"><div class="card"><h2 class="sec">Lernstand je Thema</h2>' + (members.length ? '<div class="scroll"><table class="tbl"><thead><tr><th>Name</th>' + cols.map(function (t) { return '<th class="c t">' + esc(TOPIC[t].topic) + "</th>"; }).join("") + '<th class="c">Quote</th><th class="c">XP Woche</th><th>Zuletzt</th></tr></thead><tbody>' +
-                members.map(function (m) { var acc = m.p.stats.total ? Math.round(m.p.stats.correct / m.p.stats.total * 100) + " %" : "–"; return "<tr><td><strong>" + esc(m.name) + "</strong></td>" + cols.map(function (t) { var ms = m.p.mastery[t]; return '<td class="c">' + (ms ? '<span class="cell s' + REW.stars(ms.score) + '" title="' + ms.correct + " von " + ms.total + ' richtig">' + REW.stars(ms.score) + "★</span>" : '<span class="cell sx" title="noch nicht geübt">·</span>') + "</td>"; }).join("") + '<td class="c">' + acc + '</td><td class="c">' + weekXp(m.p) + '</td><td class="muted">' + ago(lastActive(m.p)) + "</td></tr>"; }).join("") +
-                '</tbody></table></div><div class="legend"><span><i class="cell s3">3★</i> sicher</span><span><i class="cell s2">2★</i> gut</span><span><i class="cell s1">1★</i> begonnen</span><span><i class="cell s0">0★</i> unsicher</span><span><i class="cell sx">·</i> noch nicht geübt</span></div>'
-                : '<p class="muted">Noch keine Mitglieder. Geben Sie den Beitrittscode <strong>' + esc(c.code) + "</strong> weiter. Der Beitritt erfolgt im Konto unter „Klassen“.</p>") +
+            (c.demo ? $t('<p class="notice" style="margin-bottom:1rem"><strong>Demo-Daten.</strong> Namen und Lernstände dieser Klasse sind frei erfunden und zeigen nur, wie das Dashboard mit einer echten Klasse aussieht.</p>', "<p class=\"notice\" style=\"margin-bottom:1rem\"><strong>Demo data.</strong> The names and progress in this class are made up and only show what the dashboard looks like with a real class.</p>") : "") +
+            '<div class="card"><div class="chead"><div><h2 style="font-size:1.5rem">' + esc(c.name) + '</h2><p class="muted">' + esc(gradeLabel(c.grade)) + " · " + members.length + $t(" Mitglieder</p></div>", " members</p></div>") +
+            $t('<div style="text-align:center"><div class="dim" style="font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.3rem">Beitrittscode</div><button type="button" class="code" id="copyCode" title="Code kopieren">', "<div style=\"text-align:center\"><div class=\"dim\" style=\"font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.3rem\">Join code</div><button type=\"button\" class=\"code\" id=\"copyCode\" title=\"Copy code\">") + esc(c.code) + "</button></div>" +
+            $t('<div style="display:flex;gap:0.5rem;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" type="button" id="csvBtn">CSV exportieren</button>', "<div style=\"display:flex;gap:0.5rem;flex-wrap:wrap\"><button class=\"btn btn-ghost btn-sm\" type=\"button\" id=\"csvBtn\">Export CSV</button>") + (c.demo ? "" : $t('<button class="btn btn-ghost btn-sm" type="button" id="delCls" style="color:#ff8fa3;border-color:rgba(233,69,96,0.4)">Klasse löschen</button>', "<button class=\"btn btn-ghost btn-sm\" type=\"button\" id=\"delCls\" style=\"color:#ff8fa3;border-color:rgba(233,69,96,0.4)\">Delete class</button>")) + "</div></div></div>" +
+            '<div class="kpis"><div class="kpi"><b>' + activeWeek + " / " + members.length + $t('</b><small>in den letzten 7 Tagen aktiv</small></div><div class="kpi"><b>', "</b><small>active in the last 7 days</small></div><div class=\"kpi\"><b>") + (tot ? Math.round(cor / tot * 100) + " %" : "–") + $t('</b><small>Trefferquote der Klasse</small></div><div class="kpi"><b>', "</b><small>class accuracy</small></div><div class=\"kpi\"><b>") + wx.toLocaleString($t("de-DE", "en-GB")) + $t('</b><small>XP diese Woche</small></div><div class="kpi"><b>', "</b><small>XP this week</small></div><div class=\"kpi\"><b>") + c.assignments.length + $t("</b><small>offene Aufträge</small></div></div>", "</b><small>open assignments</small></div></div>") +
+            $t('<div class="cols"><div class="card"><h2 class="sec">Lernstand je Thema</h2>', "<div class=\"cols\"><div class=\"card\"><h2 class=\"sec\">Progress per topic</h2>") + (members.length ? '<div class="scroll"><table class="tbl"><thead><tr><th>Name</th>' + cols.map(function (t) { return '<th class="c t">' + esc(TOPIC[t].topic) + "</th>"; }).join("") + $t('<th class="c">Quote</th><th class="c">XP Woche</th><th>Zuletzt</th></tr></thead><tbody>', "<th class=\"c\">Rate</th><th class=\"c\">XP week</th><th>Last seen</th></tr></thead><tbody>") +
+                members.map(function (m) { var acc = m.p.stats.total ? Math.round(m.p.stats.correct / m.p.stats.total * 100) + " %" : "–"; return "<tr><td><strong>" + esc(m.name) + "</strong></td>" + cols.map(function (t) { var ms = m.p.mastery[t]; return '<td class="c">' + (ms ? '<span class="cell s' + REW.stars(ms.score) + '" title="' + ms.correct + $t(" von ", " of ") + ms.total + $t(' richtig">', " correct\">") + REW.stars(ms.score) + "★</span>" : '<span class="cell sx" title="noch nicht geübt">·</span>') + "</td>"; }).join("") + '<td class="c">' + acc + '</td><td class="c">' + weekXp(m.p) + '</td><td class="muted">' + ago(lastActive(m.p)) + "</td></tr>"; }).join("") +
+                $t('</tbody></table></div><div class="legend"><span><i class="cell s3">3★</i> sicher</span><span><i class="cell s2">2★</i> gut</span><span><i class="cell s1">1★</i> begonnen</span><span><i class="cell s0">0★</i> unsicher</span><span><i class="cell sx">·</i> noch nicht geübt</span></div>', "</tbody></table></div><div class=\"legend\"><span><i class=\"cell s3\">3★</i> secure</span><span><i class=\"cell s2\">2★</i> good</span><span><i class=\"cell s1\">1★</i> started</span><span><i class=\"cell s0\">0★</i> unsure</span><span><i class=\"cell sx\">·</i> not practised yet</span></div>")
+                : $t('<p class="muted">Noch keine Mitglieder. Geben Sie den Beitrittscode <strong>', "<p class=\"muted\">No members yet. Share the join code <strong>") + esc(c.code) + $t("</strong> weiter. Der Beitritt erfolgt im Konto unter „Klassen“.</p>", "</strong>. Students join in their account under “Classes”.</p>")) +
             '</div><div class="grid">' +
-            '<div class="card"><h2 class="sec">Aufträge</h2><form class="inline" id="asgForm"><select class="select" id="asgTopic" aria-label="Thema">' + opt + '</select><input class="input" id="asgDue" type="date" aria-label="Fällig am"><button class="btn btn-primary btn-sm" type="submit">Vergeben</button></form>' +
-                (c.assignments.length ? c.assignments.map(function (a) { var done = members.filter(function (m) { return m.p.mastery[a.topicId] && REW.stars(m.p.mastery[a.topicId].score) >= 2; }).length, pct = members.length ? Math.round(done / members.length * 100) : 0; return '<div class="arow"><div><strong>' + esc(TOPIC[a.topicId] ? TOPIC[a.topicId].topic : a.title) + "</strong><br><small>" + (a.due ? "fällig am " + esc(a.due.split("-").reverse().join(".")) + " · " : "") + done + " von " + members.length + ' mit mindestens 2 Sternen</small></div><button class="x" type="button" data-unassign="' + esc(a.id) + '" aria-label="Auftrag entfernen">✕</button><div class="bar"><span style="width:' + pct + '%"></span></div></div>'; }).join("") : '<p class="muted" style="font-size:0.92rem">Noch keine Aufträge vergeben.</p>') + "</div>" +
-            '<div class="card"><h2 class="sec">Braucht Unterstützung</h2>' + (attention.length ? attention.slice(0, 8).map(function (a) { return '<div class="att"><span>' + esc(a[0]) + "</span><small>" + esc(a[1]) + "</small></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Aktuell fällt niemand auf.</p>') + "</div>" +
-            '<div class="card"><h2 class="sec">Schwierigste Themen</h2>' + (hard.length ? hard.map(function (h) { return '<div class="att"><span>' + esc(TOPIC[h.t].topic) + '</span><small style="color:var(--muted)">Ø ' + Math.round(h.avg) + " von 100</small></div>"; }).join("") : '<p class="muted" style="font-size:0.92rem">Noch zu wenig Daten.</p>') + "</div>" +
+            $t('<div class="card"><h2 class="sec">Aufträge</h2><form class="inline" id="asgForm"><select class="select" id="asgTopic" aria-label="Thema">', "<div class=\"card\"><h2 class=\"sec\">Assignments</h2><form class=\"inline\" id=\"asgForm\"><select class=\"select\" id=\"asgTopic\" aria-label=\"Topic\">") + opt + $t('</select><input class="input" id="asgDue" type="date" aria-label="Fällig am"><button class="btn btn-primary btn-sm" type="submit">Vergeben</button></form>', "</select><input class=\"input\" id=\"asgDue\" type=\"date\" aria-label=\"Due on\"><button class=\"btn btn-primary btn-sm\" type=\"submit\">Assign</button></form>") +
+                (c.assignments.length ? c.assignments.map(function (a) { var done = members.filter(function (m) { return m.p.mastery[a.topicId] && REW.stars(m.p.mastery[a.topicId].score) >= 2; }).length, pct = members.length ? Math.round(done / members.length * 100) : 0; return '<div class="arow"><div><strong>' + esc(TOPIC[a.topicId] ? TOPIC[a.topicId].topic : a.title) + "</strong><br><small>" + (a.due ? $t("fällig am ", "due ") + esc(a.due.split("-").reverse().join(".")) + " · " : "") + done + $t(" von ", " of ") + members.length + $t(' mit mindestens 2 Sternen</small></div><button class="x" type="button" data-unassign="', " with at least 2 stars</small></div><button class=\"x\" type=\"button\" data-unassign=\"") + esc(a.id) + $t('" aria-label="Auftrag entfernen">✕</button><div class="bar"><span style="width:', "\" aria-label=\"Remove assignment\">✕</button><div class=\"bar\"><span style=\"width:") + pct + '%"></span></div></div>'; }).join("") : $t('<p class="muted" style="font-size:0.92rem">Noch keine Aufträge vergeben.</p>', "<p class=\"muted\" style=\"font-size:0.92rem\">No assignments yet.</p>")) + "</div>" +
+            $t('<div class="card"><h2 class="sec">Braucht Unterstützung</h2>', "<div class=\"card\"><h2 class=\"sec\">Needs support</h2>") + (attention.length ? attention.slice(0, 8).map(function (a) { return '<div class="att"><span>' + esc(a[0]) + "</span><small>" + esc(a[1]) + "</small></div>"; }).join("") : $t('<p class="muted" style="font-size:0.92rem">Aktuell fällt niemand auf.</p>', "<p class=\"muted\" style=\"font-size:0.92rem\">Nobody stands out at the moment.</p>")) + "</div>" +
+            $t('<div class="card"><h2 class="sec">Schwierigste Themen</h2>', "<div class=\"card\"><h2 class=\"sec\">Hardest topics</h2>") + (hard.length ? hard.map(function (h) { return '<div class="att"><span>' + esc(TOPIC[h.t].topic) + '</span><small style="color:var(--muted)">Ø ' + Math.round(h.avg) + $t(" von 100</small></div>", " of 100</small></div>"); }).join("") : $t('<p class="muted" style="font-size:0.92rem">Noch zu wenig Daten.</p>', "<p class=\"muted\" style=\"font-size:0.92rem\">Not enough data yet.</p>")) + "</div>" +
             "</div></div>" +
-            (c.demo ? "" : '<div class="card" style="margin-top:1.2rem"><h2 class="sec">Lernstände von anderen Geräten übernehmen</h2><p class="muted" style="font-size:0.92rem;margin-bottom:0.8rem">Schülerinnen und Schüler üben auf ihrem eigenen Gerät und erzeugen im Konto unter „Lernstand an Lehrkraft senden“ einen Link mit dem Klassencode <strong>' + esc(c.code) + '</strong>. Öffnen Sie den Link hier im Browser oder fügen Sie ihn ein. Ein neuer Link desselben Kindes ersetzt den alten Stand.</p><form class="inline" id="impForm" style="grid-template-columns:minmax(0,1fr) auto"><input class="input" id="impCode" placeholder="Link oder Code einfügen" aria-label="Link oder Code mit Lernstand" required><button class="btn btn-primary btn-sm" type="submit">Übernehmen</button></form><div id="impMsg" class="muted" style="font-size:0.88rem" role="status"></div></div>') +
-            '<p class="dim" style="font-size:0.85rem;margin-top:1.4rem">Hinweis: Es gibt keinen Server. Klassen und Lernstände liegen nur in diesem Browser. Der Beitrittscode funktioniert direkt auf diesem Gerät, von anderen Geräten kommen Lernstände per Link. Eine automatische Synchronisierung ist technisch vorbereitet, aber noch nicht aktiv.</p>';
+            (c.demo ? "" : $t('<div class="card" style="margin-top:1.2rem"><h2 class="sec">Lernstände von anderen Geräten übernehmen</h2><p class="muted" style="font-size:0.92rem;margin-bottom:0.8rem">Schülerinnen und Schüler üben auf ihrem eigenen Gerät und erzeugen im Konto unter „Lernstand an Lehrkraft senden“ einen Link mit dem Klassencode <strong>', "<div class=\"card\" style=\"margin-top:1.2rem\"><h2 class=\"sec\">Import progress from other devices</h2><p class=\"muted\" style=\"font-size:0.92rem;margin-bottom:0.8rem\">Students practise on their own device and, in their account under “Send progress to your teacher”, create a link with the class code <strong>") + esc(c.code) + $t('</strong>. Öffnen Sie den Link hier im Browser oder fügen Sie ihn ein. Ein neuer Link desselben Kindes ersetzt den alten Stand.</p><form class="inline" id="impForm" style="grid-template-columns:minmax(0,1fr) auto"><input class="input" id="impCode" placeholder="Link oder Code einfügen" aria-label="Link oder Code mit Lernstand" required><button class="btn btn-primary btn-sm" type="submit">Übernehmen</button></form><div id="impMsg" class="muted" style="font-size:0.88rem" role="status"></div></div>', "</strong>. Open the link here in this browser or paste it. A new link from the same student replaces the old progress.</p><form class=\"inline\" id=\"impForm\" style=\"grid-template-columns:minmax(0,1fr) auto\"><input class=\"input\" id=\"impCode\" placeholder=\"Paste link or code\" aria-label=\"Link or code with progress\" required><button class=\"btn btn-primary btn-sm\" type=\"submit\">Import</button></form><div id=\"impMsg\" class=\"muted\" style=\"font-size:0.88rem\" role=\"status\"></div></div>")) +
+            $t('<p class="dim" style="font-size:0.85rem;margin-top:1.4rem">Hinweis: Es gibt keinen Server. Klassen und Lernstände liegen nur in diesem Browser. Der Beitrittscode funktioniert direkt auf diesem Gerät, von anderen Geräten kommen Lernstände per Link. Eine automatische Synchronisierung ist technisch vorbereitet, aber noch nicht aktiv.</p>', "<p class=\"dim\" style=\"font-size:0.85rem;margin-top:1.4rem\">Note: there is no server. Classes and progress are stored only in this browser. The join code works directly on this device, progress from other devices arrives by link. Automatic sync is technically prepared but not active yet.</p>");
         var imp = $("impForm"); if (imp) imp.addEventListener("submit", function (ev) { ev.preventDefault(); importShare($("impCode").value, c.id); });
 
-        $("copyCode").addEventListener("click", function () { if (navigator.clipboard) navigator.clipboard.writeText(c.code).then(function () { NAV.toast("📋 <span>Code " + esc(c.code) + " kopiert.</span>"); }, function () {}); });
+        $("copyCode").addEventListener("click", function () { if (navigator.clipboard) navigator.clipboard.writeText(c.code).then(function () { NAV.toast($t("📋 <span>Code ", "📋 <span>Code ") + esc(c.code) + $t(" kopiert.</span>", " copied.</span>")); }, function () {}); });
         $("csvBtn").addEventListener("click", function () {
-            var rows = [["Name"].concat(cols.map(function (t) { return TOPIC[t].topic + " (Sterne)"; }), ["Trefferquote %", "XP gesamt", "XP Woche", "Zuletzt aktiv"])];
+            var rows = [["Name"].concat(cols.map(function (t) { return TOPIC[t].topic + $t(" (Sterne)", " (stars)"); }), [$t("Trefferquote %", "Accuracy %"), $t("XP gesamt", "XP total"), $t("XP Woche", "XP week"), $t("Zuletzt aktiv", "Last active")])];
             members.forEach(function (m) { rows.push([m.name].concat(cols.map(function (t) { return m.p.mastery[t] ? REW.stars(m.p.mastery[t].score) : ""; }), [m.p.stats.total ? Math.round(m.p.stats.correct / m.p.stats.total * 100) : "", m.p.xp, weekXp(m.p), lastActive(m.p) || ""])); });
             var csv = "﻿" + rows.map(function (r) { return r.map(function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(";"); }).join("\r\n"), a = document.createElement("a");
             a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "klasse-" + c.name.replace(/[^\wäöüÄÖÜß-]+/g, "_") + ".csv"; document.body.appendChild(a); a.click(); a.remove();
         });
-        var del = $("delCls"); if (del) del.addEventListener("click", function () { if (window.confirm("Klasse „" + c.name + "“ wirklich löschen? Die Lernstände der Mitglieder bleiben erhalten.")) { SOR.school.remove(c.id); active = null; render(); } });
+        var del = $("delCls"); if (del) del.addEventListener("click", function () { if (window.confirm($t("Klasse „", "Really delete class “") + c.name + $t("“ wirklich löschen? Die Lernstände der Mitglieder bleiben erhalten.", "”? The members' progress is kept."))) { SOR.school.remove(c.id); active = null; render(); } });
         $("asgForm").addEventListener("submit", function (ev) { ev.preventDefault(); var t = $("asgTopic").value; if (!t) return; SOR.school.assign(c.id, { topicId: t, title: TOPIC[t].topic, due: $("asgDue").value || null }); render(); });
     }
 
@@ -208,14 +213,14 @@
     function importShare(code, classId) {
         var o = SOR.share.unpack(code), acc = SOR.accounts.current(), msg = $("impMsg");
         var say = function (text) { if (msg) msg.textContent = text; NAV.toast("<span>" + esc(text) + "</span>", 5000); };
-        if (!o) { say("Dieser Link oder Code ist nicht lesbar."); return false; }
-        if (!acc || acc.role !== "lehrkraft") { say("Bitte melden Sie sich mit Ihrem Lehrkräfte-Konto an und öffnen Sie den Link danach erneut."); return false; }
+        if (!o) { say($t("Dieser Link oder Code ist nicht lesbar.", "This link or code cannot be read.")); return false; }
+        if (!acc || acc.role !== "lehrkraft") { say($t("Bitte melden Sie sich mit Ihrem Lehrkräfte-Konto an und öffnen Sie den Link danach erneut.", "Please sign in with your teacher account and then open the link again.")); return false; }
         var target = classId ? SOR.school.get(classId) : SOR.school.classes(acc.id).filter(function (k) { return k.code === o.c; })[0];
-        if (!target) { say("Zu Klassencode " + (o.c || "(leer)") + " gibt es in diesem Browser keine Ihrer Klassen."); return false; }
+        if (!target) { say($t("Zu Klassencode ", "For class code ") + (o.c || $t("(leer)", "(empty)")) + $t(" gibt es in diesem Browser keine Ihrer Klassen.", " there is none of your classes in this browser.")); return false; }
         var r = SOR.share.importInto(target.id, o);
         if (!r.ok) { say(r.error); return false; }
         active = target.id; render();
-        NAV.toast("✅ <span>Lernstand von <strong>" + esc(r.name) + "</strong> " + (r.updated ? "aktualisiert" : "übernommen") + ".</span>", 4500);
+        NAV.toast($t("✅ <span>Lernstand von <strong>", "✅ <span>Progress of <strong>") + esc(r.name) + "</strong> " + (r.updated ? $t("aktualisiert", "updated") : $t("übernommen", "imported")) + ".</span>", 4500);
         return true;
     }
 
@@ -232,7 +237,7 @@
         var acc = SOR.accounts.current(); if (!acc || acc.role !== "lehrkraft") return;
         var gv = $("newGrade").value, cl = SOR.school.create({ name: $("newName").value, grade: /^\d+$/.test(gv) ? Number(gv) : gv, teacherId: acc.id });
         active = cl.id; $("newName").value = ""; $("newForm").hidden = true; render();
-        NAV.toast("🏫 <span>Klasse angelegt. Beitrittscode: <strong>" + esc(cl.code) + "</strong></span>", 5000);
+        NAV.toast($t("🏫 <span>Klasse angelegt. Beitrittscode: <strong>", "🏫 <span>Class created. Join code: <strong>") + esc(cl.code) + "</strong></span>", 5000);
     });
     render();
     function fromHash() { if (location.hash.indexOf("#lernstand=") === 0) { importShare(location.hash.slice(11)); history.replaceState(null, "", "lehrer.html"); } }

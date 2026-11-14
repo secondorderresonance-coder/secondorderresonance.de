@@ -63,6 +63,16 @@
         rad: function (deg) { return deg * Math.PI / 180; }
     };
 
+    // ---------- Sprache ----------
+    // Im Browser bestimmt app/modules/i18n.js die Sprache, in Node die Umgebungsvariable SOR_LANG.
+    var forcedLang = null;
+    function lang() {
+        if (forcedLang) return forcedLang;
+        if (root.SOR_I18N) return root.SOR_I18N.lang;
+        return (typeof process !== "undefined" && process.env && process.env.SOR_LANG === "en") ? "en" : "de";
+    }
+    function tr(de, en) { return lang() === "en" && en !== undefined ? en : de; }
+
     // ---------- Darstellung ----------
     var MINUS = "−";
     var H = {
@@ -72,7 +82,7 @@
             if (Object.is(v, -0)) v = 0;
             var s = String(Math.abs(v));
             if (s.indexOf("e") !== -1) s = Math.abs(v).toFixed(dec === undefined ? 4 : dec).replace(/0+$/, "").replace(/\.$/, "");
-            return (v < 0 ? MINUS : "") + s.replace(".", ",");
+            return (v < 0 ? MINUS : "") + (lang() === "en" ? s : s.replace(".", ","));
         },
         fr: function (a, b) { return '<span class="fr"><span>' + a + "</span><span>" + b + "</span></span>"; },
         // gekürzter Bruch als HTML (ganze Zahlen ohne Nenner)
@@ -114,7 +124,7 @@
         vec: function (v) { return H.mat(v.map(function (x) { return [x]; })); },
         m: function (s) { return '<span class="mth">' + s + "</span>"; },
         fig: function (inner, w, h, label) {
-            return '<svg class="exfig" viewBox="0 0 ' + w + " " + h + '" role="img" aria-label="' + (label || "Skizze") + '" xmlns="http://www.w3.org/2000/svg">' + inner + "</svg>";
+            return '<svg class="exfig" viewBox="0 0 ' + w + " " + h + '" role="img" aria-label="' + (label || tr("Skizze", "Sketch")) + '" xmlns="http://www.w3.org/2000/svg">' + inner + "</svg>";
         },
         bars: function (labels, values) {
             var max = Math.max.apply(null, values), w = 40 + labels.length * 52, s = '<line x1="30" y1="130" x2="' + (w - 6) + '" y2="130" stroke="#98a2bd"/>';
@@ -127,7 +137,7 @@
                 var hgt = values[i] / max * 110, x = 44 + i * 52;
                 s += '<rect x="' + x + '" y="' + (130 - hgt) + '" width="30" height="' + hgt + '" rx="3" fill="' + cols[i % cols.length] + '"/><text x="' + (x + 15) + '" y="146" text-anchor="middle" font-size="10" fill="#cdd4e6">' + l + "</text>";
             });
-            return H.fig(s, w, 152, "Säulendiagramm");
+            return H.fig(s, w, 152, tr("Säulendiagramm", "Bar chart"));
         }
     };
 
@@ -194,6 +204,12 @@
         return showOne(a);
     }
 
+    // Integralgrenzen übereinander statt nebeneinander setzen (∫<sub>a</sub><sup>b</sup> -> gestapelt)
+    var INT_RE = /([∫∬∭∮])<sub>((?:(?!<\/sub>).){1,60}?)<\/sub><sup>((?:(?!<\/sup>).){1,60}?)<\/sup>/g;
+    function stackInt(html) {
+        return typeof html === "string" ? html.replace(INT_RE, '<span class="int"><span class="sym">$1</span><span class="lim"><sup>$3</sup><sub>$2</sub></span></span>') : html;
+    }
+
     // ---------- Registry ----------
     var defs = {}, order = [];
     function add(def) {
@@ -207,6 +223,9 @@
         var seed = opt.seed === undefined ? Math.floor(Math.random() * 2147483646) + 1 : opt.seed;
         var d = Math.max(1, Math.min(3, opt.difficulty || 1));
         var out = def.gen(rng(seed * 7 + d), d);
+        out.q = stackInt(out.q); out.hint = stackInt(out.hint);
+        if (out.steps) out.steps = out.steps.map(stackInt);
+        if (out.a && out.a.type === "choice") out.a.options = out.a.options.map(stackInt);
         out.id = id; out.topic = def.topic; out.title = def.title; out.seed = seed; out.difficulty = d;
         return out;
     }
@@ -220,9 +239,14 @@
         ".mx{display:inline-grid;grid-template-columns:repeat(var(--c),auto);gap:0.15em 0.75em;vertical-align:middle;padding:0.15em 0.5em;margin:0 0.2em;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;border-radius:7px;text-align:center}",
         ".mth{font-family:'Instrument Serif','Times New Roman',Georgia,serif;font-size:1.14em;white-space:nowrap}",
         ".exfig{display:block;max-width:340px;width:100%;height:auto;margin:0.9rem auto 0.2rem}",
-        ".exfig text{font-family:'IBM Plex Mono',ui-monospace,monospace}"
+        ".exfig text{font-family:'IBM Plex Mono',ui-monospace,monospace}",
+        ".int{display:inline-flex;align-items:stretch;vertical-align:middle;line-height:1;margin:0 0.08em;white-space:nowrap}",
+        ".int>.sym{display:block;font-size:1.55em;line-height:1;font-family:'Instrument Serif','Times New Roman',Georgia,serif;font-style:normal}",
+        ".int>.lim{display:flex;flex-direction:column;justify-content:space-between;font-size:0.62em;line-height:1;margin:0.05em 0.2em 0 0.06em;padding:0.05em 0}",
+        ".int>.lim>sup,.int>.lim>sub{position:static;vertical-align:baseline;font-size:1em;line-height:1}",
+        ".int>.lim>sub{transform:translateX(-0.18em)}"
     ].join("\n");
 
-    root.SOR_EX = { add: add, generate: generate, byTopic: byTopic, topics: topics, check: check, show: show, parseNumber: parseNumber, rng: rng, A: A, H: H, M: M, css: CSS, ids: function () { return order.slice(); }, def: function (id) { return defs[id]; } };
+    root.SOR_EX = { add: add, generate: generate, byTopic: byTopic, topics: topics, check: check, show: show, parseNumber: parseNumber, rng: rng, A: A, H: H, M: M, css: CSS, stackInt: stackInt, tr: tr, lang: lang, setLang: function (l) { forcedLang = l; }, ids: function () { return order.slice(); }, def: function (id) { return defs[id]; } };
     if (typeof module !== "undefined" && module.exports) module.exports = root.SOR_EX;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.0.0`
+- `v3.1.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,38 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.1.0)
+User request: fix integral limits that were not readable, open a physics area next to maths, translate the website into English with a language choice, and add six foundation courses (transformation matrices, PID controller, thermodynamics and heat transfer, university statistics, engineering mechanics 1 and 2). Explicitly requested large iteration.
+
+### Changes in this iteration
+- **Integral limits**: all definite integrals use stacked limits (`<span class="int">` with `.sym` and `.lim`), in the coverage matrix, the 3D lab, the homepage lab and in generated exercises (`SOR_EX.stackInt` runs over question, hint, steps and options). CSS in `app/modules/sor-math.css`, `sor-ui.css` and the pages with their own styles.
+- **Six courses with 36 lessons** (`app/data/courses.js`): TM 1 statics, TM 2 strength of materials, transformation matrices and kinematics, PID controller, thermodynamics and heat transfer, statistics. Each lesson has explanation, formula, an animated SVG (`app/modules/course-visuals.js`, registered via the new `SOR_VISUALS.register` and `kit`) and its own exercise generator (`app/modules/exercises/courses-1.js`, `courses-2.js`, 36 generators with independent self-checks).
+- **Course pages** (`app/kurs.html`): catalogue grouped by subject, course view with lesson cards, progress in stars, mixed round per course, practice links back to the lesson.
+- **Physics & Engineering area**: `ueben.html` has a subject switcher Maths | Physics & Engineering (`?fach=physik`). TM 1, TM 2, PID and thermodynamics are under Physics & Engineering, transformation matrices and statistics under Maths. Teacher dashboard can assign course lessons, the account page lists them, the "Hörsaal" badge counts them, share links accept `K-…` ids.
+- **English version**: `app/modules/i18n.js` (`SOR_I18N`, global `$t(de, en)`, `data-en` and `data-en-<attr>` for static HTML, choice via `?lang=`, stored choice or browser language). DE/EN switcher in the shared header, on the homepage, on grade pages and in the mobile menus. Translated: homepage, practice, courses, grade pages, account, teacher dashboard, 3D lab, schools page, privacy notice, all 129 exercise generators (`E.tr`), coverage matrix (EN overlay), topic and course visuals, rewards, core messages, curriculum compass, solids lab. Numbers use the decimal point in English.
+- **Homepage**: new course section, nav and footer links to courses, search entries for courses and physics practice, metrics updated to 120 topics and lessons and 129 exercise types.
+
+### Intentionally not changed
+- The archive (`app/lernarchiv.html`), the Lernstraße, the classic app (`app/index.html`) and the profile page stay German. Links to them are labelled "(DE)" in English mode.
+
+### Files touched
+- New: `app/kurs.html`, `app/data/courses.js`, `app/modules/course-visuals.js`, `app/modules/exercises/courses-1.js`, `app/modules/exercises/courses-2.js`, `app/modules/i18n.js`, `app/modules/sor-math.css`
+- Changed: `index.html`, `schulen.html`, `datenschutz.html`, `app/ueben.html`, `app/klasse.html`, `app/konto.html`, `app/lehrer.html`, `app/labor3d.html`, `app/lernarchiv.html` (integral markup), `app/data/coverage-matrix.js`, `app/modules/{exercise-engine,topic-visuals,sor-nav,sor-core,rewards,curriculum-compass,solids-lab}.js`, `app/modules/sor-ui.css`, `app/modules/exercises/{school-1,school-2,school-3,uni-1,uni-2}.js`, `tools/exercise-qa.js`
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/exercise-qa.js` (129 generators, 120 of 120 topics, 100 variants per difficulty) and `SOR_LANG=en node tools/exercise-qa.js 30`
+- Scan of about 2,300 English exercise variants (all 129 generators, 3 difficulties) for remaining German words: none found
+- `node tools/core-qa.js`, `node tools/coverage-qa.js`, `node tools/archive-qa.js`, `node tools/site-qa.js`
+- Playwright in German and English at 1280 px and 390 px on 14 page variants: no script errors, no horizontal overflow, no external requests, correct `lang` attribute, no German text left on English pages
+- Visual check of all 36 course animations and 50 topic animations in both languages
+
+### Blockers
+- None technical. The owner points from v3.0.0 (postal address in the Impressum, legal review of the privacy notice, backend for multi-device accounts) remain open.
+
+### Next logical step
+- Translate the archive and the Lernstraße, or link English users only to the translated areas. Then add a second batch of physics courses (electrical engineering basics, fluid mechanics, vibrations).
 
 ## Last completed task (v2.5.5)
 Built the Klasse 1-12 curriculum coverage matrix and mapped it to the L1-L3 archive taxonomy.

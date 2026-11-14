@@ -1,0 +1,7 @@
+/* Integralzeichen mit gestapelten Grenzen: <span class="int"><span class="sym">∫</span><span class="lim"><sup>b</sup><sub>a</sub></span></span> */
+.int{display:inline-flex;align-items:stretch;vertical-align:middle;line-height:1;margin:0 0.08em;white-space:nowrap}
+.int>.sym{display:block;font-size:1.55em;line-height:1;font-family:'Instrument Serif','Times New Roman',Georgia,serif;font-style:normal}
+.int>.lim{display:flex;flex-direction:column;justify-content:space-between;font-size:0.62em;line-height:1;margin:0.05em 0.2em 0 0.06em;padding:0.05em 0}
+.int>.lim>sup,.int>.lim>sub{position:static;vertical-align:baseline;font-size:1em;line-height:1}
+.int>.lim>sub{transform:translateX(-0.18em)}
+.binom{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:0.82em;padding:0 0.32em;margin:0 0.1em;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;border-radius:0.6em}

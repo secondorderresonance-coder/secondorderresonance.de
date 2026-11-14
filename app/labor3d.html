@@ -2,12 +2,13 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D-Labor | Second-Order Resonance</title>
-<meta name="description" content="Mathematik in 3D zum Anfassen: Körper, Rotationskörper, Funktionsgebirge und die Euler-Spirale. Drehen, verändern, verstehen.">
+<title data-en="3D lab | Second-Order Resonance">3D-Labor | Second-Order Resonance</title>
+<meta name="description" content="Mathematik in 3D zum Anfassen: Körper, Rotationskörper, Funktionsgebirge und die Euler-Spirale. Drehen, verändern, verstehen." data-en-content="Mathematics in 3D to touch: solids, solids of revolution, function landscapes and the Euler spiral. Rotate, change, understand.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
-<link rel="stylesheet" href="./modules/sor-ui.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
 <style>
   .lab-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:end;margin-bottom:1.3rem}
   .lab-top h1{font-size:clamp(2rem,4.4vw,3rem);margin:0.4rem 0 0.4rem}
@@ -60,41 +61,42 @@
 <main class="wrap">
   <section class="lab-top">
     <div>
-      <div class="kicker">3D-Labor</div>
-      <h1>Mathe zum <span class="serif">Anfassen</span></h1>
-      <p class="muted" style="max-width:38rem">Dreh die Objekte mit Maus oder Finger, verändere die Regler und beobachte, wie sich die Zahlen mitbewegen.</p>
+      <div class="kicker" data-en="3D lab">3D-Labor</div>
+      <h1 data-en="Maths you can &lt;span class=&quot;serif&quot;&gt;touch&lt;/span&gt;">Mathe zum <span class="serif">Anfassen</span></h1>
+      <p class="muted" style="max-width:38rem" data-en="Rotate the objects with your mouse or finger, move the sliders and watch the numbers change with them.">Dreh die Objekte mit Maus oder Finger, verändere die Regler und beobachte, wie sich die Zahlen mitbewegen.</p>
     </div>
   </section>
 
-  <div class="tabs" id="tabs" role="tablist" aria-label="Szenen"></div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Szenen" data-en-aria-label="Scenes"></div>
 
   <section class="lab3">
     <div class="stage" id="stage">
       <div class="stage-head"><h2 id="sTitle"></h2><p id="sSub"></p></div>
       <div class="readout" id="readout" aria-live="polite"></div>
-      <div class="hint3d">Ziehen dreht · Scrollen zoomt</div>
+      <div class="hint3d" data-en="Drag to rotate · scroll to zoom">Ziehen dreht · Scrollen zoomt</div>
     </div>
     <div class="panel" id="panel"></div>
   </section>
 </main>
 
-<script src="./modules/sor-core.js?v=3.0.0"></script>
-<script src="./modules/rewards.js?v=3.0.0"></script>
-<script src="./modules/sor-nav.js?v=3.0.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.1.0"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js" } }</script>
 <script type="module">
 import * as THREE from "three";
 import { OrbitControls } from "./vendor/three/OrbitControls.js";
 
+if (window.SOR_I18N) SOR_I18N.apply();
 const $ = id => document.getElementById(id);
-const fmt = (v, d = 2) => Number(v).toLocaleString("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmt = (v, d = 2) => Number(v).toLocaleString($t("de-DE", "en-GB"), { minimumFractionDigits: d, maximumFractionDigits: d });
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const stage = $("stage");
 const C = { yellow: 0xf5c518, teal: 0x35e0c4, red: 0xe94560, blue: 0x60a5fa, violet: 0x8b5cf6, text: 0xeef1f7, grid: 0x2a3350 };
 
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
-catch (e) { stage.insertAdjacentHTML("beforeend", '<div class="nogl">Dein Browser kann hier keine 3D-Grafik darstellen (WebGL ist nicht verfügbar).<br>Die Rotationskörper auf der Startseite funktionieren auch ohne WebGL.</div>'); throw e; }
+catch (e) { stage.insertAdjacentHTML("beforeend", $t('<div class="nogl">Dein Browser kann hier keine 3D-Grafik darstellen (WebGL ist nicht verfügbar).<br>Die Rotationskörper auf der Startseite funktionieren auch ohne WebGL.</div>', "<div class=\"nogl\">Your browser cannot display 3D graphics here (WebGL is not available).<br>The solids of revolution on the home page also work without WebGL.</div>")); throw e; }
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 stage.appendChild(renderer.domElement);
 renderer.domElement.setAttribute("role", "img");
@@ -139,18 +141,18 @@ const slider = (id, lab, min, max, step, val) => `<div class="ctl" id="w_${id}">
 const seg = (id, items, cur) => `<div class="seg" id="${id}" role="group">${items.map(([k, t]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${t}</button>`).join("")}</div>`;
 function bindSeg(id, fn) { $(id).addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; [...$(id).children].forEach(x => x.setAttribute("aria-pressed", x === b)); fn(b.dataset.k); }); }
 const readout = rows => { $("readout").innerHTML = rows.map(r => r[2] ? `<small>${r[0]}</small>` : `<div>${r[0]} <b>${r[1]}</b></div>`).join(""); };
-const practice = (topic, text) => `<div class="panel-actions"><a class="btn btn-primary btn-sm" href="ueben.html?thema=${topic}&zurueck=${encodeURIComponent("labor3d.html?szene=" + current)}">${text} →</a><button class="btn btn-ghost btn-sm" type="button" id="spinBtn">↻ Drehen</button></div>`;
+const practice = (topic, text) => `<div class="panel-actions"><a class="btn btn-primary btn-sm" href="ueben.html?thema=${topic}&zurueck=${encodeURIComponent("labor3d.html?szene=" + current)}">${text} →</a><button class="btn btn-ghost btn-sm" type="button" id="spinBtn">↻ ${$t("Drehen", "Spin")}</button></div>`;
 
 let group = null, current = "", tick = null;
 function setGroup(g) { if (group) { scene.remove(group); dispose(group); } group = g; scene.add(g); }
 
 // ---------- Szene 1: Körper ----------
 const solids = {
-    quader: { name: "Quader", p: [["a", "Länge a", 1, 4, 3], ["b", "Breite b", 1, 4, 2], ["c", "Höhe c", 1, 4, 2]], fx: ["V = a · b · c", "O = 2 · (ab + ac + bc)"], idea: "Das Volumen zählt, wie viele Einheitswürfel hineinpassen: Grundfläche mal Höhe.", calc: v => ({ V: v.a * v.b * v.c, O: 2 * (v.a * v.b + v.a * v.c + v.b * v.c) }) },
-    zylinder: { name: "Zylinder", p: [["r", "Radius r", 0.5, 2, 1.2], ["h", "Höhe h", 1, 4, 2.5]], fx: ["V = π · r<sup>2</sup> · h", "O = 2πr<sup>2</sup> + 2πrh"], idea: "Auch hier gilt Grundfläche mal Höhe. Die Grundfläche ist ein Kreis.", calc: v => ({ V: Math.PI * v.r * v.r * v.h, O: 2 * Math.PI * v.r * v.r + 2 * Math.PI * v.r * v.h }) },
-    kegel: { name: "Kegel", p: [["r", "Radius r", 0.5, 2, 1.2], ["h", "Höhe h", 1, 4, 2.5]], fx: ["V = ⅓ · π · r<sup>2</sup> · h", "O = πr<sup>2</sup> + πr · s,  s = √(r<sup>2</sup> + h<sup>2</sup>)"], idea: "Ein Kegel hat genau ein Drittel des Volumens des Zylinders, in den er passt. Blende den Umkörper ein und vergleiche.", hull: true, calc: v => ({ V: Math.PI * v.r * v.r * v.h / 3, O: Math.PI * v.r * v.r + Math.PI * v.r * Math.hypot(v.r, v.h), hullV: Math.PI * v.r * v.r * v.h }) },
-    pyramide: { name: "Pyramide", p: [["a", "Grundkante a", 1, 4, 2.4], ["h", "Höhe h", 1, 4, 2.5]], fx: ["V = ⅓ · a<sup>2</sup> · h", "O = a<sup>2</sup> + 2a · h<sub>s</sub>,  h<sub>s</sub> = √(h<sup>2</sup> + (a/2)<sup>2</sup>)"], idea: "Wie beim Kegel: ein Drittel des umschließenden Quaders.", hull: true, calc: v => ({ V: v.a * v.a * v.h / 3, O: v.a * v.a + 2 * v.a * Math.hypot(v.h, v.a / 2), hullV: v.a * v.a * v.h }) },
-    kugel: { name: "Kugel", p: [["r", "Radius r", 0.5, 2, 1.4]], fx: ["V = 4/3 · π · r<sup>3</sup>", "O = 4 · π · r<sup>2</sup>"], idea: "Verdoppelst du den Radius, wächst die Oberfläche auf das 4-fache und das Volumen auf das 8-fache.", calc: v => ({ V: 4 / 3 * Math.PI * v.r ** 3, O: 4 * Math.PI * v.r * v.r }) }
+    quader: { name: $t("Quader", "Cuboid"), p: [["a", $t("Länge a", "Length a"), 1, 4, 3], ["b", $t("Breite b", "Width b"), 1, 4, 2], ["c", $t("Höhe c", "Height c"), 1, 4, 2]], fx: ["V = a · b · c", "O = 2 · (ab + ac + bc)"], idea: $t("Das Volumen zählt, wie viele Einheitswürfel hineinpassen: Grundfläche mal Höhe.", "The volume counts how many unit cubes fit inside: base area times height."), calc: v => ({ V: v.a * v.b * v.c, O: 2 * (v.a * v.b + v.a * v.c + v.b * v.c) }) },
+    zylinder: { name: $t("Zylinder", "Cylinder"), p: [["r", $t("Radius r", "Radius r"), 0.5, 2, 1.2], ["h", $t("Höhe h", "Height h"), 1, 4, 2.5]], fx: ["V = π · r<sup>2</sup> · h", "O = 2πr<sup>2</sup> + 2πrh"], idea: $t("Auch hier gilt Grundfläche mal Höhe. Die Grundfläche ist ein Kreis.", "Here too it is base area times height. The base is a circle."), calc: v => ({ V: Math.PI * v.r * v.r * v.h, O: 2 * Math.PI * v.r * v.r + 2 * Math.PI * v.r * v.h }) },
+    kegel: { name: $t("Kegel", "Cone"), p: [["r", $t("Radius r", "Radius r"), 0.5, 2, 1.2], ["h", $t("Höhe h", "Height h"), 1, 4, 2.5]], fx: ["V = ⅓ · π · r<sup>2</sup> · h", "O = πr<sup>2</sup> + πr · s,  s = √(r<sup>2</sup> + h<sup>2</sup>)"], idea: $t("Ein Kegel hat genau ein Drittel des Volumens des Zylinders, in den er passt. Blende den Umkörper ein und vergleiche.", "A cone has exactly one third of the volume of the cylinder it fits into. Show the enclosing solid and compare."), hull: true, calc: v => ({ V: Math.PI * v.r * v.r * v.h / 3, O: Math.PI * v.r * v.r + Math.PI * v.r * Math.hypot(v.r, v.h), hullV: Math.PI * v.r * v.r * v.h }) },
+    pyramide: { name: $t("Pyramide", "Pyramid"), p: [["a", $t("Grundkante a", "Base edge a"), 1, 4, 2.4], ["h", $t("Höhe h", "Height h"), 1, 4, 2.5]], fx: ["V = ⅓ · a<sup>2</sup> · h", "O = a<sup>2</sup> + 2a · h<sub>s</sub>,  h<sub>s</sub> = √(h<sup>2</sup> + (a/2)<sup>2</sup>)"], idea: $t("Wie beim Kegel: ein Drittel des umschließenden Quaders.", "As with the cone: one third of the enclosing cuboid."), hull: true, calc: v => ({ V: v.a * v.a * v.h / 3, O: v.a * v.a + 2 * v.a * Math.hypot(v.h, v.a / 2), hullV: v.a * v.a * v.h }) },
+    kugel: { name: $t("Kugel", "Sphere"), p: [["r", $t("Radius r", "Radius r"), 0.5, 2, 1.4]], fx: ["V = 4/3 · π · r<sup>3</sup>", "O = 4 · π · r<sup>2</sup>"], idea: $t("Verdoppelst du den Radius, wächst die Oberfläche auf das 4-fache und das Volumen auf das 8-fache.", "If you double the radius, the surface area grows 4-fold and the volume 8-fold."), calc: v => ({ V: 4 / 3 * Math.PI * v.r ** 3, O: 4 * Math.PI * v.r * v.r }) }
 };
 function sceneKoerper() {
     let kind = "kegel", hull = false; const val = {};
@@ -168,8 +170,8 @@ function sceneKoerper() {
         if (hull && hullGeo) { const h = new THREE.LineSegments(new THREE.EdgesGeometry(hullGeo, 25), new THREE.LineDashedMaterial({ color: C.yellow, dashSize: 0.12, gapSize: 0.09 })); h.computeLineDistances(); h.position.copy(mesh.position); g.add(h); }
         g.add(floorGrid(8, base));
         setGroup(g);
-        const r = S.calc(val), rows = [["Volumen", "≈ " + fmt(r.V)], ["Oberfläche", "≈ " + fmt(r.O)]];
-        if (hull && r.hullV) rows.push([`Umkörper: ${fmt(r.hullV)} · davon genau ⅓`, "", true]);
+        const r = S.calc(val), rows = [[$t("Volumen", "Volume"), "≈ " + fmt(r.V)], [$t("Oberfläche", "Surface area"), "≈ " + fmt(r.O)]];
+        if (hull && r.hullV) rows.push([$t(`Umkörper: ${fmt(r.hullV)} · davon genau ⅓`, `Enclosing solid: ${fmt(r.hullV)} · exactly ⅓ of it`), "", true]);
         readout(rows);
     };
     const panel = () => {
@@ -177,8 +179,8 @@ function sceneKoerper() {
         S.p.forEach(p => { if (val[p[0]] === undefined || !$(p[0])) val[p[0]] = p[4]; });
         $("panel").innerHTML = seg("kindSeg", Object.keys(solids).map(k => [k, solids[k].name]), kind) +
             S.p.map(p => slider(p[0], p[1], p[2], p[3], 0.1, val[p[0]] ?? p[4])).join("") +
-            (S.hull ? `<label class="check"><input type="checkbox" id="hull" ${hull ? "checked" : ""}> Umkörper einblenden</label>` : "") +
-            `<div class="fx">${S.fx.map(f => `<span>${f}</span>`).join("")}</div><p class="idea">${S.idea}</p>` + practice("CM-S-33", "Körper üben");
+            (S.hull ? `<label class="check"><input type="checkbox" id="hull" ${hull ? "checked" : ""}> ${$t("Umkörper einblenden", "Show enclosing solid")}</label>` : "") +
+            `<div class="fx">${S.fx.map(f => `<span>${f}</span>`).join("")}</div><p class="idea">${S.idea}</p>` + practice("CM-S-33", $t("Körper üben", "Practise solids"));
         bindSeg("kindSeg", k => { kind = k; Object.keys(val).forEach(x => delete val[x]); solids[k].p.forEach(p => { val[p[0]] = p[4]; }); panel(); build(); });
         S.p.forEach(p => { const el = $(p[0]); val[p[0]] = Number(el.value); $("v_" + p[0]).textContent = fmt(val[p[0]], 1); el.addEventListener("input", () => { val[p[0]] = Number(el.value); $("v_" + p[0]).textContent = fmt(val[p[0]], 1); build(); }); });
         if ($("hull")) $("hull").addEventListener("change", e => { hull = e.target.checked; build(); });
@@ -190,10 +192,10 @@ function sceneKoerper() {
 
 // ---------- Szene 2: Rotationskörper ----------
 const profiles = {
-    vase: { name: "Vase", f: x => 0.7 + 0.3 * Math.sin(2 * x), a: 0, b: Math.PI, fx: "V = π ∫<sub>0</sub><sup>π</sup> (0,7 + 0,3·sin 2x)<sup>2</sup> dx" },
-    kegel: { name: "Kegel", f: x => x / 2, a: 0, b: 4, fx: "V = π ∫<sub>0</sub><sup>4</sup> (x/2)<sup>2</sup> dx = 16π/3" },
-    paraboloid: { name: "Paraboloid", f: x => Math.sqrt(Math.max(0, x)), a: 0, b: 4, fx: "V = π ∫<sub>0</sub><sup>4</sup> (√x)<sup>2</sup> dx = 8π" },
-    horn: { name: "Gabriels Horn", f: x => 1 / x, a: 1, b: 8, fx: "V = π ∫<sub>1</sub><sup>∞</sup> dx / x<sup>2</sup> = π" }
+    vase: { name: $t("Vase", "Vase"), f: x => 0.7 + 0.3 * Math.sin(2 * x), a: 0, b: Math.PI, fx: $t("V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>π</sup><sub>0</sub></span></span> (0,7 + 0,3·sin 2x)<sup>2</sup> dx", "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>π</sup><sub>0</sub></span></span> (0.7 + 0.3·sin 2x)<sup>2</sup> dx") },
+    kegel: { name: $t("Kegel", "Cone"), f: x => x / 2, a: 0, b: 4, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>4</sup><sub>0</sub></span></span> (x/2)<sup>2</sup> dx = 16π/3" },
+    paraboloid: { name: "Paraboloid", f: x => Math.sqrt(Math.max(0, x)), a: 0, b: 4, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>4</sup><sub>0</sub></span></span> (√x)<sup>2</sup> dx = 8π" },
+    horn: { name: $t("Gabriels Horn", "Gabriel's horn"), f: x => 1 / x, a: 1, b: 8, fx: "V = π <span class='int'><span class='sym'>∫</span><span class='lim'><sup>∞</sup><sub>1</sub></span></span> dx / x<sup>2</sup> = π" }
 };
 function sceneRotation() {
     let kind = "vase", sweep = 360, slice = 0.5;
@@ -215,10 +217,10 @@ function sceneRotation() {
         const sc = Math.min(1.5, 5.2 / (P.b - P.a)); g.scale.setScalar(sc);
         setGroup(g);
         const V = Math.PI * simpson(x => P.f(x) ** 2, P.a, P.b), part = Math.PI * simpson(x => P.f(x) ** 2, P.a, xs);
-        readout([["Rotiert", sweep + "°"], ["Volumen", "≈ " + fmt(V * sweep / 360, 3)], [`Scheiben bis x = ${fmt(xs)} ergeben ${fmt(part, 3)} von ${fmt(V, 3)} · Scheibe π·r² = ${fmt(Math.PI * rs * rs, 3)}`, "", true]]);
+        readout([[$t("Rotiert", "Rotated"), sweep + "°"], [$t("Volumen", "Volume"), "≈ " + fmt(V * sweep / 360, 3)], [$t(`Scheiben bis x = ${fmt(xs)} ergeben ${fmt(part, 3)} von ${fmt(V, 3)} · Scheibe π·r² = ${fmt(Math.PI * rs * rs, 3)}`, `Slices up to x = ${fmt(xs)} give ${fmt(part, 3)} of ${fmt(V, 3)} · slice π·r² = ${fmt(Math.PI * rs * rs, 3)}`), "", true]]);
     };
-    $("panel").innerHTML = seg("profSeg", Object.keys(profiles).map(k => [k, profiles[k].name]), kind) + slider("sweep", "Drehwinkel", 0, 360, 1, 360) + slider("slice", "Scheibe bei x", 0, 100, 1, 50) +
-        `<div class="fx"><span id="rotFx"></span></div><p class="idea">Jede Scheibe ist ein flacher Zylinder mit Volumen π · f(x)² · dx. Das Integral addiert alle Scheiben.</p>` + practice("CM-S-38", "Integrale üben");
+    $("panel").innerHTML = seg("profSeg", Object.keys(profiles).map(k => [k, profiles[k].name]), kind) + slider("sweep", $t("Drehwinkel", "Rotation angle"), 0, 360, 1, 360) + slider("slice", $t("Scheibe bei x", "Slice at x"), 0, 100, 1, 50) +
+        `<div class="fx"><span id="rotFx"></span></div><p class="idea">${$t("Jede Scheibe ist ein flacher Zylinder mit Volumen π · f(x)² · dx. Das Integral addiert alle Scheiben.", "Every slice is a flat cylinder with volume π · f(x)² · dx. The integral adds up all slices.")}</p>` + practice("CM-S-38", $t("Integrale üben", "Practise integrals"));
     const sync = () => { $("v_sweep").textContent = sweep + "°"; $("v_slice").textContent = fmt(slice * 100, 0) + " %"; $("rotFx").innerHTML = profiles[kind].fx; };
     bindSeg("profSeg", k => { kind = k; sync(); build(); });
     $("sweep").addEventListener("input", e => { sweep = Number(e.target.value); sync(); build(); });
@@ -232,11 +234,11 @@ function sceneRotation() {
 
 // ---------- Szene 3: Funktionsgebirge ----------
 const surfaces = {
-    paraboloid: { name: "Paraboloid", f: (x, y) => 0.35 * (x * x + y * y) - 1.2, tex: "f(x, y) = x² + y²", idea: "Ein Minimum: der Gradient zeigt überall vom tiefsten Punkt weg und wird dort null." },
-    sattel: { name: "Sattel", f: (x, y) => 0.35 * (x * x - y * y), tex: "f(x, y) = x² − y²", idea: "Im Ursprung ist der Gradient null, trotzdem ist es kein Extremum: in x-Richtung geht es bergauf, in y-Richtung bergab." },
-    wellen: { name: "Wellen", f: (x, y) => 0.8 * Math.sin(1.6 * x) * Math.cos(1.6 * y), tex: "f(x, y) = sin x · cos y", idea: "Viele Hoch-, Tief- und Sattelpunkte. Such die Stellen, an denen der Pfeil verschwindet." },
-    glocke: { name: "Glocke", f: (x, y) => 1.8 * Math.exp(-(x * x + y * y) / 1.4) - 0.9, tex: "f(x, y) = e<sup>−(x² + y²)</sup>", idea: "Ein Maximum: der Gradient zeigt von allen Seiten zum Gipfel." },
-    affe: { name: "Affensattel", f: (x, y) => 0.14 * (x * x * x - 3 * x * y * y), tex: "f(x, y) = x³ − 3xy²", idea: "Drei Täler und drei Rücken treffen sich in einem Punkt. Die Hesse-Matrix ist dort null." }
+    paraboloid: { name: "Paraboloid", f: (x, y) => 0.35 * (x * x + y * y) - 1.2, tex: "f(x, y) = x² + y²", idea: $t("Ein Minimum: der Gradient zeigt überall vom tiefsten Punkt weg und wird dort null.", "A minimum: the gradient points away from the lowest point everywhere and becomes zero there.") },
+    sattel: { name: $t("Sattel", "Saddle"), f: (x, y) => 0.35 * (x * x - y * y), tex: "f(x, y) = x² − y²", idea: $t("Im Ursprung ist der Gradient null, trotzdem ist es kein Extremum: in x-Richtung geht es bergauf, in y-Richtung bergab.", "At the origin the gradient is zero, yet it is no extremum: uphill in the x-direction, downhill in the y-direction.") },
+    wellen: { name: $t("Wellen", "Waves"), f: (x, y) => 0.8 * Math.sin(1.6 * x) * Math.cos(1.6 * y), tex: "f(x, y) = sin x · cos y", idea: $t("Viele Hoch-, Tief- und Sattelpunkte. Such die Stellen, an denen der Pfeil verschwindet.", "Many maxima, minima and saddle points. Look for the places where the arrow vanishes.") },
+    glocke: { name: $t("Glocke", "Bell"), f: (x, y) => 1.8 * Math.exp(-(x * x + y * y) / 1.4) - 0.9, tex: "f(x, y) = e<sup>−(x² + y²)</sup>", idea: $t("Ein Maximum: der Gradient zeigt von allen Seiten zum Gipfel.", "A maximum: the gradient points towards the peak from all sides.") },
+    affe: { name: $t("Affensattel", "Monkey saddle"), f: (x, y) => 0.14 * (x * x * x - 3 * x * y * y), tex: "f(x, y) = x³ − 3xy²", idea: $t("Drei Täler und drei Rücken treffen sich in einem Punkt. Die Hesse-Matrix ist dort null.", "Three valleys and three ridges meet at one point. The Hessian is zero there.") }
 };
 function sceneFlaeche() {
     let kind = "sattel", x0 = 1, y0 = 0.6, plane = true; const R = 2.2, N = 70;
@@ -267,10 +269,10 @@ function sceneFlaeche() {
         const grid = new THREE.GridHelper(2 * R, 8, C.grid, C.grid); grid.rotation.x = Math.PI / 2; grid.position.z = base; grid.material.transparent = true; grid.material.opacity = 0.6; w.add(grid);
         const lx = label("x", "#98a2bd", 0.3), ly = label("y", "#98a2bd", 0.3); lx.position.set(R + 0.3, -R, base); ly.position.set(-R, R + 0.3, base); w.add(lx, ly);
         setGroup(g);
-        readout([["f(x₀, y₀)", "= " + fmt(z0)], ["Gradient", `(${fmt(fx)} | ${fmt(fy)})`], [`Steigung in Gradientenrichtung: ${fmt(gl)} · ${gl < 0.05 ? "kritischer Punkt" : "roter Pfeil = steilster Anstieg, gelb = Richtung in der x-y-Ebene"}`, "", true]]);
+        readout([["f(x₀, y₀)", "= " + fmt(z0)], [$t("Gradient", "Gradient"), `(${fmt(fx)} | ${fmt(fy)})`], [$t("Steigung in Gradientenrichtung: ", "Slope in gradient direction: ") + `${fmt(gl)} · ${gl < 0.05 ? $t("kritischer Punkt", "critical point") : $t("roter Pfeil = steilster Anstieg, gelb = Richtung in der x-y-Ebene", "red arrow = steepest ascent, yellow = direction in the x-y plane")}`, "", true]]);
     };
-    $("panel").innerHTML = seg("surfSeg", Object.keys(surfaces).map(k => [k, surfaces[k].name]), kind) + slider("px", "Punkt x₀", -2, 2, 0.05, x0) + slider("py", "Punkt y₀", -2, 2, 0.05, y0) +
-        `<label class="check"><input type="checkbox" id="tp" checked> Tangentialebene zeigen</label><div class="fx"><span id="surfFx"></span><span>∇f = (∂f/∂x, ∂f/∂y)</span></div><p class="idea" id="surfIdea"></p>` + practice("CM-E-08", "Gradienten üben");
+    $("panel").innerHTML = seg("surfSeg", Object.keys(surfaces).map(k => [k, surfaces[k].name]), kind) + slider("px", $t("Punkt x₀", "Point x₀"), -2, 2, 0.05, x0) + slider("py", $t("Punkt y₀", "Point y₀"), -2, 2, 0.05, y0) +
+        `<label class="check"><input type="checkbox" id="tp" checked> ${$t("Tangentialebene zeigen", "Show tangent plane")}</label><div class="fx"><span id="surfFx"></span><span>∇f = (∂f/∂x, ∂f/∂y)</span></div><p class="idea" id="surfIdea"></p>` + practice("CM-E-08", $t("Gradienten üben", "Practise gradients"));
     const sync = () => { $("v_px").textContent = fmt(x0); $("v_py").textContent = fmt(y0); $("surfFx").innerHTML = surfaces[kind].tex; $("surfIdea").textContent = surfaces[kind].idea; };
     bindSeg("surfSeg", k => { kind = k; sync(); build(); });
     $("px").addEventListener("input", e => { x0 = Number(e.target.value); sync(); build(); });
@@ -304,16 +306,16 @@ function sceneEuler() {
         const a = omega * t, x = X(t), y = Math.sin(a), z = Math.cos(a); marker.position.set(x, y, z); pSin.position.set(x, y, -wall); pCos.position.set(x, -wall, z);
         const set = (l, p, q) => { l.geometry.setFromPoints([p, q]); };
         set(toSin, marker.position, pSin.position); set(toCos, marker.position, pCos.position); set(radius, new THREE.Vector3(x, 0, 0), marker.position);
-        readout([["e^(iωt)", `= ${fmt(z)} ${y < 0 ? "−" : "+"} ${fmt(Math.abs(y))} i`], ["Winkel ωt", "= " + fmt(a) + " rad = " + fmt(a * 180 / Math.PI, 0) + "°"], ["Die Spirale ist ein Kreis, der in der Zeit weiterläuft. Ihr Schatten an der Wand ist der Sinus, am Boden der Kosinus.", "", true]]);
+        readout([["e^(iωt)", `= ${fmt(z)} ${y < 0 ? "−" : "+"} ${fmt(Math.abs(y))} i`], [$t("Winkel ωt", "Angle ωt"), "= " + fmt(a) + " rad = " + fmt(a * 180 / Math.PI, 0) + "°"], [$t("Die Spirale ist ein Kreis, der in der Zeit weiterläuft. Ihr Schatten an der Wand ist der Sinus, am Boden der Kosinus.", "The spiral is a circle that keeps running in time. Its shadow on the wall is the sine, on the floor the cosine."), "", true]]);
         $("v_et").textContent = fmt(t); if (document.activeElement !== $("et")) $("et").value = t;
     };
-    $("panel").innerHTML = slider("om", "Kreisfrequenz ω", 0.5, 3, 0.1, 1) + slider("et", "Zeit t", 0, T.toFixed(3), 0.01, 0) +
-        `<div class="fx"><span>e<sup>iφ</sup> = cos φ + i · sin φ</span><span>e<sup>iπ</sup> + 1 = 0</span></div><p class="idea">Ein Punkt läuft gleichmäßig im Kreis. Trägt man die Zeit als dritte Achse auf, entsteht eine Spirale. So hängen Kreisbewegung, Schwingung und komplexe Zahlen zusammen.</p>` +
-        `<div class="panel-actions"><button class="btn btn-teal btn-sm" type="button" id="play">${playing ? "❚❚ Pause" : "▶ Abspielen"}</button><a class="btn btn-primary btn-sm" href="ueben.html?thema=CM-S-46&zurueck=${encodeURIComponent("labor3d.html?szene=euler")}">Komplexe Zahlen üben →</a><button class="btn btn-ghost btn-sm" type="button" id="spinBtn">↻ Drehen</button></div>`;
+    $("panel").innerHTML = slider("om", $t("Kreisfrequenz ω", "Angular frequency ω"), 0.5, 3, 0.1, 1) + slider("et", $t("Zeit t", "Time t"), 0, T.toFixed(3), 0.01, 0) +
+        `<div class="fx"><span>e<sup>iφ</sup> = cos φ + i · sin φ</span><span>e<sup>iπ</sup> + 1 = 0</span></div><p class="idea">${$t("Ein Punkt läuft gleichmäßig im Kreis. Trägt man die Zeit als dritte Achse auf, entsteht eine Spirale. So hängen Kreisbewegung, Schwingung und komplexe Zahlen zusammen.", "A point moves steadily around a circle. If you plot time as a third axis, you get a spiral. This is how circular motion, oscillation and complex numbers are connected.")}</p>` +
+        `<div class="panel-actions"><button class="btn btn-teal btn-sm" type="button" id="play">${playing ? "❚❚ Pause" : $t("▶ Abspielen", "▶ Play")}</button><a class="btn btn-primary btn-sm" href="ueben.html?thema=CM-S-46&zurueck=${encodeURIComponent("labor3d.html?szene=euler")}">${$t("Komplexe Zahlen üben", "Practise complex numbers")} →</a><button class="btn btn-ghost btn-sm" type="button" id="spinBtn">↻ ${$t("Drehen", "Spin")}</button></div>`;
     $("v_om").textContent = fmt(omega, 1);
     $("om").addEventListener("input", e => { omega = Number(e.target.value); $("v_om").textContent = fmt(omega, 1); build(); });
-    $("et").addEventListener("input", e => { t = Number(e.target.value); playing = false; $("play").textContent = "▶ Abspielen"; place(); });
-    $("play").addEventListener("click", () => { playing = !playing; $("play").textContent = playing ? "❚❚ Pause" : "▶ Abspielen"; });
+    $("et").addEventListener("input", e => { t = Number(e.target.value); playing = false; $("play").textContent = $t("▶ Abspielen", "▶ Play"); place(); });
+    $("play").addEventListener("click", () => { playing = !playing; $("play").textContent = playing ? "❚❚ Pause" : $t("▶ Abspielen", "▶ Play"); });
     bindSpin(); camera.position.set(5.8, 3.4, 10); controls.target.set(0, -0.3, 0); controls.autoRotate = false;
     build(); let last = performance.now();
     tick = now => { const dt = Math.min(0.05, (now - last) / 1000); last = now; if (playing) { t = (t + dt * 1.1) % T; place(); } };
@@ -321,16 +323,16 @@ function sceneEuler() {
 
 // ---------- Steuerung ----------
 const SCENES = [
-    ["koerper", "Klasse 4–10", "Körper", "Volumen und <em>Oberfläche</em>", "Verändere die Maße und beobachte beide Größen", sceneKoerper, "3D-Körper mit einstellbaren Maßen"],
-    ["rotation", "Klasse 12", "Rotationskörper", "Dreh eine Kurve zu einem <em>Körper</em>", "Jede Scheibe ist ein Kreis", sceneRotation, "Rotationskörper einer Funktion"],
-    ["flaeche", "Studium", "Funktionsgebirge", "Wohin geht es am <em>steilsten</em> bergauf?", "Gradient und Tangentialebene einer Funktion z = f(x, y)", sceneFlaeche, "Fläche einer Funktion zweier Variablen mit Gradient"],
-    ["euler", "Klasse 10 bis Studium", "Euler-Spirale", "Kreis, Schwingung, <em>komplexe Zahl</em>", "e^(iωt) als Spirale in der Zeit", sceneEuler, "Spirale der komplexen Exponentialfunktion mit Sinus- und Kosinus-Schatten"]
+    ["koerper", $t("Klasse 4–10", "Grades 4–10"), $t("Körper", "Solids"), $t("Volumen und <em>Oberfläche</em>", "Volume and <em>surface area</em>"), $t("Verändere die Maße und beobachte beide Größen", "Change the dimensions and watch both quantities"), sceneKoerper, $t("3D-Körper mit einstellbaren Maßen", "3D solids with adjustable dimensions")],
+    ["rotation", $t("Klasse 12", "Grade 12"), $t("Rotationskörper", "Solids of revolution"), $t("Dreh eine Kurve zu einem <em>Körper</em>", "Spin a curve into a <em>solid</em>"), $t("Jede Scheibe ist ein Kreis", "Every slice is a circle"), sceneRotation, $t("Rotationskörper einer Funktion", "Solid of revolution of a function")],
+    ["flaeche", $t("Studium", "University"), $t("Funktionsgebirge", "Function landscape"), $t("Wohin geht es am <em>steilsten</em> bergauf?", "Which way is <em>steepest</em> uphill?"), $t("Gradient und Tangentialebene einer Funktion z = f(x, y)", "Gradient and tangent plane of a function z = f(x, y)"), sceneFlaeche, $t("Fläche einer Funktion zweier Variablen mit Gradient", "Surface of a function of two variables with gradient")],
+    ["euler", $t("Klasse 10 bis Studium", "Grade 10 to university"), $t("Euler-Spirale", "Euler spiral"), $t("Kreis, Schwingung, <em>komplexe Zahl</em>", "Circle, oscillation, <em>complex number</em>"), $t("e^(iωt) als Spirale in der Zeit", "e^(iωt) as a spiral in time"), sceneEuler, $t("Spirale der komplexen Exponentialfunktion mit Sinus- und Kosinus-Schatten", "Spiral of the complex exponential function with sine and cosine shadows")]
 ];
 function bindSpin() { const b = $("spinBtn"); if (b) b.addEventListener("click", () => { controls.autoRotate = !controls.autoRotate; }); }
 function open(key) {
     const s = SCENES.find(x => x[0] === key) || SCENES[0]; current = s[0];
     [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.k === current));
-    $("sTitle").innerHTML = s[3]; $("sSub").textContent = s[4]; renderer.domElement.setAttribute("aria-label", s[6] + ". Ziehen dreht die Ansicht.");
+    $("sTitle").innerHTML = s[3]; $("sSub").textContent = s[4]; renderer.domElement.setAttribute("aria-label", s[6] + $t(". Ziehen dreht die Ansicht.", ". Drag to rotate the view."));
     controls.autoRotate = !reduceMotion; s[5](); controls.update();
     history.replaceState(null, "", "labor3d.html?szene=" + current);
 }

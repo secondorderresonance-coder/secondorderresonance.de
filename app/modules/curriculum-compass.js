@@ -10,25 +10,26 @@
  */
 (function () {
     "use strict";
+    var tr = function (de, en) { return window.$t ? window.$t(de, en) : de; };
 
     var root = document.querySelector("[data-compass]");
     var data = window.SOR_COVERAGE;
     if (!root || !data) return;
 
     var LEVELS = {
-        1: { code: "L1", name: "Grundlagen", color: "#4ade80" },
-        2: { code: "L2", name: "Aufbauwissen", color: "#facc15" },
-        3: { code: "L3", name: "Vertiefung", color: "#f59e0b" },
-        4: { code: "L4", name: "Universitätsgrundlagen", color: "#60a5fa" },
-        5: { code: "L5", name: "Angewandte Mathematik", color: "#8b5cf6" },
-        6: { code: "L6", name: "Forschung & Simulation", color: "#94a3b8" }
+        1: { code: "L1", name: tr("Grundlagen", "Foundations"), color: "#4ade80" },
+        2: { code: "L2", name: tr("Aufbauwissen", "Building knowledge"), color: "#facc15" },
+        3: { code: "L3", name: tr("Vertiefung", "Deepening"), color: "#f59e0b" },
+        4: { code: "L4", name: tr("Universitätsgrundlagen", "University foundations"), color: "#60a5fa" },
+        5: { code: "L5", name: tr("Angewandte Mathematik", "Applied mathematics"), color: "#8b5cf6" },
+        6: { code: "L6", name: tr("Forschung & Simulation", "Research & simulation"), color: "#94a3b8" }
     };
     var STAGES = [];
-    for (var g = 1; g <= 12; g += 1) STAGES.push({ key: "k" + g, label: String(g), title: "Klasse " + g, grade: g });
+    for (var g = 1; g <= 12; g += 1) STAGES.push({ key: "k" + g, label: String(g), title: tr("Klasse ", "Grade ") + g, grade: g });
     var phases = [];
     data.engineering.forEach(function (e) { if (phases.indexOf(e.band) === -1) phases.push(e.band); });
     phases.forEach(function (p, i) {
-        STAGES.push({ key: "e" + i, label: ["B 1–2", "B 3–4", "B Vert.", "Master"][i] || "S" + (i + 1), title: p, band: p });
+        STAGES.push({ key: "e" + i, label: [tr("B 1–2", "BSc 1–2"), tr("B 3–4", "BSc 3–4"), tr("B Vert.", "BSc adv."), "Master"][i] || "S" + (i + 1), title: p, band: p });
     });
 
     var archive = null;
@@ -81,14 +82,14 @@
         if (range) range.value = current;
 
         head.innerHTML =
-            '<div class="cp-kicker">' + (stage.grade ? "Schule" : "Studium · Ingenieurmathematik") + "</div>" +
+            '<div class="cp-kicker">' + (stage.grade ? tr("Schule", "School") : tr("Studium · Ingenieurmathematik", "University · Engineering mathematics")) + "</div>" +
             '<h3 class="cp-title">' + esc(stage.title) + '</h3>' +
             '<div class="cp-levels">' + lvlKeys.map(function (k) {
                 var L = LEVELS[k];
                 return '<span class="cp-level" style="--lv:' + L.color + '"><b>' + L.code + "</b> " + esc(L.name) + "</span>";
             }).join("") + "</div>" +
-            '<p class="cp-count">' + list.length + " Themen" + (archive ? "" : " · Archivdaten werden geladen …") + "</p>" +
-            (stage.grade ? '<a class="cp-open" href="app/klasse.html?k=' + stage.grade + '">Klasse ' + stage.grade + " öffnen und üben →</a>" : "");
+            '<p class="cp-count">' + list.length + tr(" Themen", " topics") + (archive ? "" : tr(" · Archivdaten werden geladen …", " · loading archive data …")) + "</p>" +
+            (stage.grade ? '<a class="cp-open" href="app/klasse.html?k=' + stage.grade + '">' + tr("Klasse ", "Open grade ") + stage.grade + tr(" öffnen und üben →", " and practise →") + "</a>" : "");
 
         out.innerHTML = list.map(function (e) {
             var st = statusOf(e);
@@ -106,15 +107,15 @@
                 return '<a class="cp-card" href="' + href + '">' +
                     '<div class="cp-card-top"><span class="cp-area">' + esc(e.area) + (e.optional ? " · optional" : "") + "</span></div>" +
                     '<strong class="cp-topic">' + esc(e.topic) + "</strong>" +
-                    '<div class="cp-foot"><span></span><span class="cp-go">Thema öffnen →</span></div>' +
+                    '<div class="cp-foot"><span></span><span class="cp-go">' + tr("Thema öffnen →", "Open topic →") + '</span></div>' +
                     "</a>";
             }
             return '<a class="cp-card" href="' + href + '">' +
                 '<div class="cp-card-top"><span class="cp-area">' + esc(e.area) + (e.optional ? " · optional" : "") + "</span>" +
-                (st ? '<span class="cp-status" style="' + STATUS_STYLE[st] + '">' + st + "</span>" : "") + "</div>" +
+                (st ? '<span class="cp-status" style="' + STATUS_STYLE[st] + '">' + tr(st, { "abgedeckt": "covered", "teilweise": "partial", "in Arbeit": "in progress" }[st]) + "</span>" : "") + "</div>" +
                 '<strong class="cp-topic">' + esc(e.topic) + "</strong>" +
                 '<div class="cp-chips">' + chips + "</div>" +
-                '<div class="cp-foot"><span>' + (tasks === null ? "" : tasks.toLocaleString("de-DE") + " Aufgaben") + '</span><span class="cp-go">Im Archiv öffnen →</span></div>' +
+                '<div class="cp-foot"><span>' + (tasks === null ? "" : tasks.toLocaleString(tr("de-DE", "en-GB")) + tr(" Aufgaben", " exercises")) + '</span><span class="cp-go">' + tr("Im Archiv öffnen →", "Open in archive (DE) →") + "</span></div>" +
                 "</a>";
         }).join("");
     }

@@ -17,7 +17,8 @@
     "use strict";
     var SOR = root.SOR || (typeof require !== "undefined" ? require("./sor-core.js") : null);
     var KEY = "sor-rewards-v1";
-    var TITLES = ["Einsteiger", "Entdecker", "Tüftler", "Rechenfuchs", "Könner", "Profi", "Experte", "Meister", "Großmeister", "Legende"];
+    var tr = function (de, en) { return root.$t ? root.$t(de, en) : de; };
+    var TITLES = tr("Einsteiger|Entdecker|Tüftler|Rechenfuchs|Könner|Profi|Experte|Meister|Großmeister|Legende", "Beginner|Explorer|Tinkerer|Number fox|Skilled|Pro|Expert|Master|Grandmaster|Legend").split("|");
 
     function load() { var s = SOR.storage.get(KEY); if (!s || typeof s !== "object") s = {}; if (!s.profiles) s.profiles = {}; return s; }
     function blank() { return { xp: 0, goal: 50, daily: {}, streak: { count: 0, best: 0, last: null }, badges: {}, mastery: {}, stats: { correct: 0, total: 0, sessions: 0, perfect: 0, combo: 0, bestCombo: 0, goalDays: 0, hints: 0 } }; }
@@ -34,26 +35,26 @@
     function difficultyFor(p, topicId) { var m = p.mastery[topicId]; return !m || m.score < 35 ? 1 : m.score < 70 ? 2 : 3; }
 
     var BADGES = [
-        { id: "start", icon: "🚀", title: "Erster Schritt", text: "Erste Übung abgeschlossen", test: function (p) { return p.stats.sessions >= 1; } },
-        { id: "treffer-10", icon: "🎯", title: "Zielsicher", text: "10 Aufgaben richtig", test: function (p) { return p.stats.correct >= 10; } },
-        { id: "treffer-100", icon: "💯", title: "Hundert", text: "100 Aufgaben richtig", test: function (p) { return p.stats.correct >= 100; } },
-        { id: "treffer-500", icon: "🏹", title: "Scharfschütze", text: "500 Aufgaben richtig", test: function (p) { return p.stats.correct >= 500; } },
-        { id: "perfekt", icon: "✨", title: "Fehlerfrei", text: "Eine Übung ohne Fehler", test: function (p) { return p.stats.perfect >= 1; } },
-        { id: "perfekt-10", icon: "💎", title: "Präzision", text: "10 Übungen ohne Fehler", test: function (p) { return p.stats.perfect >= 10; } },
-        { id: "lauf-10", icon: "🔥", title: "Lauf", text: "10 richtige Antworten in Folge", test: function (p) { return p.stats.bestCombo >= 10; } },
-        { id: "lauf-25", icon: "☄️", title: "Unaufhaltsam", text: "25 richtige Antworten in Folge", test: function (p) { return p.stats.bestCombo >= 25; } },
-        { id: "serie-3", icon: "📅", title: "Dranbleiber", text: "3 Tage in Folge geübt", test: function (p) { return p.streak.best >= 3; } },
-        { id: "serie-7", icon: "🗓️", title: "Wochenserie", text: "7 Tage in Folge geübt", test: function (p) { return p.streak.best >= 7; } },
-        { id: "serie-30", icon: "🏔️", title: "Ausdauer", text: "30 Tage in Folge geübt", test: function (p) { return p.streak.best >= 30; } },
-        { id: "ziel-5", icon: "✅", title: "Zielstrebig", text: "Tagesziel an 5 Tagen erreicht", test: function (p) { return p.stats.goalDays >= 5; } },
-        { id: "stern-1", icon: "⭐", title: "Erster Stern", text: "Ein Thema mit 3 Sternen gemeistert", test: function (p) { return Object.keys(p.mastery).some(function (k) { return stars(p.mastery[k].score) === 3; }); } },
-        { id: "sterne-15", icon: "🌟", title: "Sternensammler", text: "15 Sterne gesammelt", test: function (p) { return totalStars(p) >= 15; } },
-        { id: "sterne-50", icon: "🌌", title: "Sternenhimmel", text: "50 Sterne gesammelt", test: function (p) { return totalStars(p) >= 50; } },
-        { id: "vielseitig", icon: "🧭", title: "Vielseitig", text: "10 verschiedene Themen geübt", test: function (p) { return Object.keys(p.mastery).length >= 10; } },
-        { id: "hoersaal", icon: "🎓", title: "Hörsaal", text: "Ein Studienthema mit 2 Sternen", test: function (p) { return Object.keys(p.mastery).some(function (k) { return k.indexOf("CM-E-") === 0 && stars(p.mastery[k].score) >= 2; }); } },
-        { id: "xp-1000", icon: "⚡", title: "Energie", text: "1.000 XP gesammelt", test: function (p) { return p.xp >= 1000; } },
-        { id: "xp-5000", icon: "🌋", title: "Kraftwerk", text: "5.000 XP gesammelt", test: function (p) { return p.xp >= 5000; } },
-        { id: "ohne-tipp", icon: "🧠", title: "Aus eigener Kraft", text: "20 richtige Antworten ohne Tipp", test: function (p) { return p.stats.correct - p.stats.hints >= 20 && p.stats.correct >= 20; } }
+        { id: "start", icon: "🚀", title: tr("Erster Schritt", "First step"), text: tr("Erste Übung abgeschlossen", "First practice completed"), test: function (p) { return p.stats.sessions >= 1; } },
+        { id: "treffer-10", icon: "🎯", title: tr("Zielsicher", "On target"), text: tr("10 Aufgaben richtig", "10 exercises correct"), test: function (p) { return p.stats.correct >= 10; } },
+        { id: "treffer-100", icon: "💯", title: tr("Hundert", "Hundred"), text: tr("100 Aufgaben richtig", "100 exercises correct"), test: function (p) { return p.stats.correct >= 100; } },
+        { id: "treffer-500", icon: "🏹", title: tr("Scharfschütze", "Sharpshooter"), text: tr("500 Aufgaben richtig", "500 exercises correct"), test: function (p) { return p.stats.correct >= 500; } },
+        { id: "perfekt", icon: "✨", title: tr("Fehlerfrei", "Flawless"), text: tr("Eine Übung ohne Fehler", "A practice without mistakes"), test: function (p) { return p.stats.perfect >= 1; } },
+        { id: "perfekt-10", icon: "💎", title: tr("Präzision", "Precision"), text: tr("10 Übungen ohne Fehler", "10 practices without mistakes"), test: function (p) { return p.stats.perfect >= 10; } },
+        { id: "lauf-10", icon: "🔥", title: tr("Lauf", "On a roll"), text: tr("10 richtige Antworten in Folge", "10 correct answers in a row"), test: function (p) { return p.stats.bestCombo >= 10; } },
+        { id: "lauf-25", icon: "☄️", title: tr("Unaufhaltsam", "Unstoppable"), text: tr("25 richtige Antworten in Folge", "25 correct answers in a row"), test: function (p) { return p.stats.bestCombo >= 25; } },
+        { id: "serie-3", icon: "📅", title: tr("Dranbleiber", "Sticking with it"), text: tr("3 Tage in Folge geübt", "Practised 3 days in a row"), test: function (p) { return p.streak.best >= 3; } },
+        { id: "serie-7", icon: "🗓️", title: tr("Wochenserie", "Week streak"), text: tr("7 Tage in Folge geübt", "Practised 7 days in a row"), test: function (p) { return p.streak.best >= 7; } },
+        { id: "serie-30", icon: "🏔️", title: tr("Ausdauer", "Stamina"), text: tr("30 Tage in Folge geübt", "Practised 30 days in a row"), test: function (p) { return p.streak.best >= 30; } },
+        { id: "ziel-5", icon: "✅", title: tr("Zielstrebig", "Determined"), text: tr("Tagesziel an 5 Tagen erreicht", "Daily goal reached on 5 days"), test: function (p) { return p.stats.goalDays >= 5; } },
+        { id: "stern-1", icon: "⭐", title: tr("Erster Stern", "First star"), text: tr("Ein Thema mit 3 Sternen gemeistert", "Mastered a topic with 3 stars"), test: function (p) { return Object.keys(p.mastery).some(function (k) { return stars(p.mastery[k].score) === 3; }); } },
+        { id: "sterne-15", icon: "🌟", title: tr("Sternensammler", "Star collector"), text: tr("15 Sterne gesammelt", "15 stars collected"), test: function (p) { return totalStars(p) >= 15; } },
+        { id: "sterne-50", icon: "🌌", title: tr("Sternenhimmel", "Starry sky"), text: tr("50 Sterne gesammelt", "50 stars collected"), test: function (p) { return totalStars(p) >= 50; } },
+        { id: "vielseitig", icon: "🧭", title: tr("Vielseitig", "Versatile"), text: tr("10 verschiedene Themen geübt", "Practised 10 different topics"), test: function (p) { return Object.keys(p.mastery).length >= 10; } },
+        { id: "hoersaal", icon: "🎓", title: tr("Hörsaal", "Lecture hall"), text: tr("Ein Studienthema mit 2 Sternen", "A university topic with 2 stars"), test: function (p) { return Object.keys(p.mastery).some(function (k) { return (k.indexOf("CM-E-") === 0 || k.indexOf("K-") === 0) && stars(p.mastery[k].score) >= 2; }); } },
+        { id: "xp-1000", icon: "⚡", title: tr("Energie", "Energy"), text: tr("1.000 XP gesammelt", "1,000 XP collected"), test: function (p) { return p.xp >= 1000; } },
+        { id: "xp-5000", icon: "🌋", title: tr("Kraftwerk", "Power plant"), text: tr("5.000 XP gesammelt", "5,000 XP collected"), test: function (p) { return p.xp >= 5000; } },
+        { id: "ohne-tipp", icon: "🧠", title: tr("Aus eigener Kraft", "Under your own steam"), text: tr("20 richtige Antworten ohne Tipp", "20 correct answers without hints"), test: function (p) { return p.stats.correct - p.stats.hints >= 20 && p.stats.correct >= 20; } }
     ];
 
     function award(p, today) {

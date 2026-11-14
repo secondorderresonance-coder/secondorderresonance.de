@@ -23,9 +23,10 @@
     var ctx = canvas.getContext("2d");
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    var TR = function (de, en) { return window.$t ? window.$t(de, en) : de; };
     var PI = Math.PI;
     var fmt = function (v, d) {
-        return Number(v).toLocaleString("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d });
+        return Number(v).toLocaleString(TR("de-DE", "en-GB"), { minimumFractionDigits: d, maximumFractionDigits: d });
     };
 
     function simpson(fn, a, b, n) {
@@ -38,40 +39,40 @@
 
     var MODES = {
         cone: {
-            numeral: "I.", label: "Rotationskörper",
-            title: "Aus einer Geraden wird ein <em>Kegel</em>",
-            sub: "f(x) = x / 2 auf [0, 4], einmal um die x-Achse gedreht",
-            formula: '<span class="fx-v">V</span> = π<span class="fx-int">∫<sub>0</sub><sup>4</sup></span><span class="fx-paren">(x/2)²</span> dx = <span class="fx-v">16π/3</span>',
-            note: "Kontrolle mit der Schulformel: V = ⅓·π·r²·h = ⅓·π·2²·4 = 16π/3.",
+            numeral: "I.", label: TR("Rotationskörper", "Solids of revolution"),
+            title: TR("Aus einer Geraden wird ein <em>Kegel</em>", "A straight line becomes a <em>cone</em>"),
+            sub: TR("f(x) = x / 2 auf [0, 4], einmal um die x-Achse gedreht", "f(x) = x / 2 on [0, 4], rotated once about the x-axis"),
+            formula: '<span class="fx-v">V</span> = π<span class="int"><span class="sym">∫</span><span class="lim"><sup>4</sup><sub>0</sub></span></span><span class="fx-paren">(x/2)²</span> dx = <span class="fx-v">16π/3</span>',
+            note: TR("Kontrolle mit der Schulformel: V = ⅓·π·r²·h = ⅓·π·2²·4 = 16π/3.", "Check with the school formula: V = ⅓·π·r²·h = ⅓·π·2²·4 = 16π/3."),
             f: function (x) { return x / 2; }, df: function () { return 0.5; },
             a: 0, b: 4, archive: "app/lernarchiv.html?level=3&sublevel=3.1.3.b"
         },
         paraboloid: {
-            numeral: "II.", label: "Scheibenmethode",
-            title: "Jede Scheibe ist ein <em>Kreis</em>",
-            sub: "f(x) = √x auf [0, 4]: die Scheibenfläche π·f(x)² = π·x wächst linear",
-            formula: '<span class="fx-v">V</span> = π<span class="fx-int">∫<sub>0</sub><sup>4</sup></span><span class="fx-paren">(√x)²</span> dx = <span class="fx-v">8π</span>',
-            note: "Weil π·(√x)² = π·x gilt, ist das Volumen genau die Fläche unter einer Geraden mal π.",
+            numeral: "II.", label: TR("Scheibenmethode", "Disc method"),
+            title: TR("Jede Scheibe ist ein <em>Kreis</em>", "Every slice is a <em>circle</em>"),
+            sub: TR("f(x) = √x auf [0, 4]: die Scheibenfläche π·f(x)² = π·x wächst linear", "f(x) = √x on [0, 4]: the slice area π·f(x)² = π·x grows linearly"),
+            formula: '<span class="fx-v">V</span> = π<span class="int"><span class="sym">∫</span><span class="lim"><sup>4</sup><sub>0</sub></span></span><span class="fx-paren">(√x)²</span> dx = <span class="fx-v">8π</span>',
+            note: TR("Weil π·(√x)² = π·x gilt, ist das Volumen genau die Fläche unter einer Geraden mal π.", "Because π·(√x)² = π·x, the volume is exactly the area under a straight line times π."),
             f: function (x) { return Math.sqrt(Math.max(x, 0)); },
             df: function (x) { return x > 1e-9 ? 0.5 / Math.sqrt(x) : 0; },
             a: 0, b: 4, archive: "app/lernarchiv.html?level=3&sublevel=3.1.3.b"
         },
         vase: {
-            numeral: "III.", label: "Volumen",
-            title: "Dreh es zu einem <em>Körper</em>",
-            sub: "f(x) = 0,7 + 0,3·sin(2x) auf [0, π], jede Scheibe ist eine Kreisscheibe",
-            formula: '<span class="fx-v">V</span> = π<span class="fx-int">∫<sub>a</sub><sup>b</sup></span><span class="fx-paren">f(x)²</span> dx',
-            note: "Exakt: V = 0,535·π² ≈ 5,280. Der Regler zeigt, wie die Scheiben das Volumen aufbauen.",
+            numeral: "III.", label: TR("Volumen", "Volume"),
+            title: TR("Dreh es zu einem <em>Körper</em>", "Spin it into a <em>solid</em>"),
+            sub: TR("f(x) = 0,7 + 0,3·sin(2x) auf [0, π], jede Scheibe ist eine Kreisscheibe", "f(x) = 0.7 + 0.3·sin(2x) on [0, π], every slice is a disc"),
+            formula: '<span class="fx-v">V</span> = π<span class="int"><span class="sym">∫</span><span class="lim"><sup>b</sup><sub>a</sub></span></span><span class="fx-paren">f(x)²</span> dx',
+            note: TR("Exakt: V = 0,535·π² ≈ 5,280. Der Regler zeigt, wie die Scheiben das Volumen aufbauen.", "Exactly: V = 0.535·π² ≈ 5.280. The slider shows how the slices build up the volume."),
             f: function (x) { return 0.7 + 0.3 * Math.sin(2 * x); },
             df: function (x) { return 0.6 * Math.cos(2 * x); },
             a: 0, b: PI, archive: "app/lernarchiv.html?level=3&sublevel=3.1.3.b"
         },
         horn: {
-            numeral: "IV.", label: "Uneigentliche Integrale",
-            title: "Endliches Volumen, <em>unendliche</em> Farbe",
-            sub: "Gabriels Horn: y = 1/x, gedreht und bis ∞ verlängert",
-            formula: '<span class="fx-v">V</span> = π<span class="fx-int">∫<sub>1</sub><sup>∞</sup></span><span class="fx-frac"><span>dx</span><span>x²</span></span> = <span class="fx-v">π</span>',
-            note: "Das Volumen konvergiert gegen π, die Oberfläche wächst mindestens wie 2π·ln(b) und divergiert.",
+            numeral: "IV.", label: TR("Uneigentliche Integrale", "Improper integrals"),
+            title: TR("Endliches Volumen, <em>unendliche</em> Farbe", "Finite volume, <em>infinite</em> paint"),
+            sub: TR("Gabriels Horn: y = 1/x, gedreht und bis ∞ verlängert", "Gabriel's horn: y = 1/x, rotated and extended to ∞"),
+            formula: '<span class="fx-v">V</span> = π<span class="int"><span class="sym">∫</span><span class="lim"><sup>∞</sup><sub>1</sub></span></span><span class="fx-frac"><span>dx</span><span>x²</span></span> = <span class="fx-v">π</span>',
+            note: TR("Das Volumen konvergiert gegen π, die Oberfläche wächst mindestens wie 2π·ln(b) und divergiert.", "The volume converges to π, the surface area grows at least like 2π·ln(b) and diverges."),
             f: function (x) { return 1 / x; }, df: function (x) { return -1 / (x * x); },
             a: 1, b: 12, upper: true, // 4.2.4.a (Uneigentliche Integrale) hat noch keine Aufgaben, bis dahin auf bestimmte Integrale (L3) verlinken
             view: { yaw: -0.95, pitch: 0.22 }, archive: "app/lernarchiv.html?level=3&sublevel=3.1.3.b"
@@ -264,21 +265,21 @@
 
         setText("sweep", fmt(state.sweep, 0) + "°");
         setText("sweepCtl", fmt(state.sweep, 0) + "°");
-        setText("disc", "π·r² = " + fmt(PI * rs * rs, 3) + " pro Einheit x  ·  x = " + fmt(xs, 2));
+        setText("disc", "π·r² = " + fmt(PI * rs * rs, 3) + TR(" pro Einheit x  ·  x = ", " per unit x  ·  x = ") + fmt(xs, 2));
         if (m.upper) {
-            setText("bigLabel", "Farbe zum Füllen");
+            setText("bigLabel", TR("Farbe zum Füllen", "Paint to fill"));
             setText("big", fmt(PI * (1 - 1 / range.b), 4));
-            setText("subLabel", "Farbe zum Anstreichen");
+            setText("subLabel", TR("Farbe zum Anstreichen", "Paint to coat"));
             setText("sub2", fmt(full.A, 2) + "  (≥ 2π·ln b = " + fmt(2 * PI * Math.log(range.b), 2) + ")");
-            setText("partial", "Grenzwert für b → ∞:  V → π ≈ 3,1416,  A → ∞" + (range.b > range.drawB ? "  (Grafik zeigt x bis " + range.drawB + ")" : ""));
+            setText("partial", TR("Grenzwert für b → ∞:  V → π ≈ 3,1416,  A → ∞", "Limit for b → ∞:  V → π ≈ 3.1416,  A → ∞") + (range.b > range.drawB ? TR("  (Grafik zeigt x bis ", "  (graphic shows x up to ") + range.drawB + ")" : ""));
         } else {
-            setText("bigLabel", "Volumen");
+            setText("bigLabel", TR("Volumen", "Volume"));
             setText("big", "≈ " + fmt(full.V * share, 3));
-            setText("subLabel", "Mantelfläche");
+            setText("subLabel", TR("Mantelfläche", "Surface area"));
             setText("sub2", "≈ " + fmt(full.A * share, 3));
-            setText("partial", "Scheiben bis x = " + fmt(xs, 2) + " ergeben " + fmt(partial, 3) + " von " + fmt(full.V, 3));
+            setText("partial", TR("Scheiben bis x = ", "Slices up to x = ") + fmt(xs, 2) + TR(" ergeben ", " give ") + fmt(partial, 3) + TR(" von ", " of ") + fmt(full.V, 3));
         }
-        if (inputs.sweep) inputs.sweep.setAttribute("aria-valuetext", fmt(state.sweep, 0) + " Grad");
+        if (inputs.sweep) inputs.sweep.setAttribute("aria-valuetext", fmt(state.sweep, 0) + TR(" Grad", " degrees"));
     }
 
     function applyMode(name) {

@@ -64,12 +64,27 @@ table.tbl{width:100%;border-collapse:collapse;font-size:0.92rem}
 .extab th,.extab td{border:1px solid var(--line2);padding:0.4rem 0.8rem;text-align:center}
 .extab th{color:var(--muted);font-weight:500}
 
-@media (max-width:860px){
+@media (max-width:1080px){
   .sor-links{display:none}
   .sor-menu{display:inline-flex}
+}
+.sor-drawer-lang{display:none;align-items:center;justify-content:space-between;gap:1rem;padding:0.8rem 0.1rem 0.2rem;color:var(--muted);font-size:0.9rem}
+@media (max-width:560px){
+  .sor-status .lang-switch{display:none}
+  .sor-drawer-lang{display:flex}
+}
+@media (max-width:860px){
   .sor-pill.lvl{display:none}
   .sor-status .btn{display:none}
   .sor-bar{gap:0.6rem}
   .wrap{padding:1.4rem 1rem 4rem}
 }
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+/* Integralzeichen mit gestapelten Grenzen: <span class="int"><span class="sym">∫</span><span class="lim"><sup>b</sup><sub>a</sub></span></span> */
+.int{display:inline-flex;align-items:stretch;vertical-align:middle;line-height:1;margin:0 0.08em;white-space:nowrap}
+.int>.sym{display:block;font-size:1.55em;line-height:1;font-family:'Instrument Serif','Times New Roman',Georgia,serif;font-style:normal}
+.int>.lim{display:flex;flex-direction:column;justify-content:space-between;font-size:0.62em;line-height:1;margin:0.05em 0.2em 0 0.06em;padding:0.05em 0}
+.int>.lim>sup,.int>.lim>sub{position:static;vertical-align:baseline;font-size:1em;line-height:1}
+.int>.lim>sub{transform:translateX(-0.18em)}
+.binom{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:0.82em;padding:0 0.32em;margin:0 0.1em;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;border-radius:0.6em}
