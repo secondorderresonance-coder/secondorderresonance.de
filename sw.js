@@ -8,7 +8,7 @@
  * - Neue Version: CACHE erhöhen, alte Caches werden beim Aktivieren gelöscht.
  * Es werden nur Dateien dieser Website gecacht, keine fremden Anfragen.
  */
-var CACHE = "sor-v3.3.0";
+var CACHE = "sor-v3.4.0";
 var APP_PAGES = [
     "./", "index.html", "offline.html", "schulen.html", "datenschutz.html",
     "app/ueben.html", "app/kurs.html", "app/pruefung.html", "app/klasse.html",
