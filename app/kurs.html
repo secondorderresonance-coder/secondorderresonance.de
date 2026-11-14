@@ -5,7 +5,7 @@
 <script src="./modules/i18n.js?v=3.1.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="Courses | Second-Order Resonance">Kurse | Second-Order Resonance</title>
-<meta name="description" content="Grundkurse für Studium und Technik: Technische Mechanik 1 und 2, Transformationsmatrizen, PID-Regler, Thermodynamik und Statistik. Jede Lektion mit Erklärung, Formel, Animation und eigenen Übungen." data-en-content="Foundation courses for university and engineering: engineering mechanics 1 and 2, transformation matrices, PID control, thermodynamics and statistics. Every lesson with explanation, formula, animation and its own exercises.">
+<meta name="description" content="Grundkurse für Studium und Technik nach dem Studienplan Maschinenbau: Höhere Mathematik 1 bis 3, Technische Mechanik 1 bis 3, Physik, Elektrotechnik, Werkstoffe, Maschinenelemente, Thermodynamik, Fluidmechanik, Regelungstechnik und Statistik." data-en-content="Foundation courses following a mechanical engineering study plan: higher mathematics 1 to 3, engineering mechanics 1 to 3, physics, electrical engineering, materials, machine elements, thermodynamics, fluid mechanics, control engineering and statistics.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
 <link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
@@ -51,6 +51,17 @@
   .formula sup,.formula sub{font-size:0.65em}
   .lact{display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;margin-top:auto;padding-top:0.3rem}
   .note{margin-top:2rem;color:var(--muted);font-size:0.9rem}
+  .plan{margin:0 0 1rem}
+  .planhead p{color:var(--muted);font-size:0.92rem;margin:-0.5rem 0 1rem}
+  .sems{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0.7rem}
+  .sem{display:flex;flex-direction:column;gap:0.45rem;padding:0.9rem;border-radius:18px;border:1px solid var(--line);background:var(--card)}
+  .sem b{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:0.2rem}
+  .mod{display:flex;flex-direction:column;gap:0.1rem;padding:0.5rem 0.65rem;border-radius:11px;border:1px solid rgba(245,197,24,0.28);background:rgba(245,197,24,0.06);text-decoration:none;color:var(--text);font-size:0.85rem;line-height:1.3;transition:border-color .2s,transform .2s}
+  a.mod:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .mod small{color:var(--accent);font-size:0.72rem}
+  .mod.off{border-color:var(--line);background:none;color:var(--muted)}
+  @media (max-width:1100px){.sems{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (max-width:560px){.sems{grid-template-columns:minmax(0,1fr)}}
   @media (max-width:860px){
     .lesson{grid-template-columns:minmax(0,1fr)}
     .lesson .lvis{border-right:0;border-bottom:1px solid rgba(255,255,255,0.05)}
@@ -64,8 +75,11 @@
 <main class="wrap" id="main"></main>
 
 <script src="./modules/topic-visuals.js?v=3.1.0"></script>
-<script src="./modules/course-visuals.js?v=3.1.0"></script>
-<script src="./data/courses.js?v=3.1.0"></script>
+<script src="./modules/course-visuals.js?v=3.2.0"></script>
+<script src="./modules/course-visuals-2.js?v=3.2.0"></script>
+<script src="./data/coverage-matrix.js?v=3.1.0"></script>
+<script src="./data/courses.js?v=3.2.0"></script>
+<script src="./data/courses-2.js?v=3.2.0"></script>
 <script src="./modules/sor-core.js?v=3.1.0"></script>
 <script src="./modules/rewards.js?v=3.1.0"></script>
 <script src="./modules/sor-nav.js?v=3.1.0"></script>
@@ -88,11 +102,25 @@
         Array.prototype.forEach.call(main.querySelectorAll("[data-vis]"), function (el) { VIS.mount(el, el.getAttribute("data-vis")); });
     }
 
+    function planHtml() {
+        if (!CRS.plan || !CRS.plan.length) return "";
+        var h = '<section class="plan" aria-labelledby="planH"><div class="planhead"><h2 class="sec" id="planH"><i aria-hidden="true">🎓</i>' + $t("Studienplan Maschinenbau", "Mechanical engineering study plan") + "</h2><p>" + $t("Orientiert am Studienplan eines Maschinenbau-Bachelors. Grau markierte Module haben noch keinen Kurs.", "Based on the study plan of a mechanical engineering bachelor's degree. Modules shown in grey do not have a course yet.") + '</p></div><div class="sems">';
+        CRS.plan.forEach(function (sm) {
+            h += '<div class="sem"><b>' + sm.sem + ". " + $t("Semester", "semester") + "</b>" + sm.modules.map(function (m) {
+                var c = m.course && CRS.course(m.course);
+                if (!c) return '<span class="mod off">' + esc(m.title) + "</span>";
+                var st = starsOf(c), max = c.lessons.length * 3;
+                return '<a class="mod" href="kurs.html?k=' + c.id + '"><span>' + esc(m.title) + '</span><small>' + (st ? "★ " + st + "/" + max : esc(c.short)) + "</small></a>";
+            }).join("") + "</div>";
+        });
+        return h + "</div></section>";
+    }
+
     function catalog() {
         document.title = $t("Kurse | Second-Order Resonance", "Courses | Second-Order Resonance");
         var html = '<section class="hero"><div class="kicker">' + $t("Grundkurse", "Foundation courses") + "</div>" +
             "<h1>" + $t('Kurse für <span class="serif">Studium und Technik</span>', 'Courses for <span class="serif">university and engineering</span>') + "</h1>" +
-            "<p>" + $t("Sechs kompakte Kurse mit je sechs Lektionen. Jede Lektion erklärt eine Idee mit Animation und Formel und hat eigene Übungen mit Tipp und Lösungsweg.", "Six compact courses with six lessons each. Every lesson explains one idea with an animation and a formula and has its own exercises with hints and worked solutions.") + "</p></section>";
+            "<p>" + $t(CRS.courses.length + " kompakte Kurse mit je 5 bis 6 Lektionen, geordnet wie ein Maschinenbaustudium. Jede Lektion erklärt eine Idee mit Animation und Formel und hat eigene Übungen mit Tipp und Lösungsweg.", CRS.courses.length + " compact courses with 5 to 6 lessons each, ordered like a mechanical engineering degree. Every lesson explains one idea with an animation and a formula and has its own exercises with hints and worked solutions.") + "</p></section>" + planHtml();
         ["physik", "mathe"].forEach(function (sub) {
             html += '<h2 class="sec" id="' + sub + '"><i aria-hidden="true">' + CRS.subjects[sub].icon + "</i>" + esc(CRS.subjects[sub].title) + '</h2><div class="cgrid">';
             CRS.bySubject(sub).forEach(function (c) {
