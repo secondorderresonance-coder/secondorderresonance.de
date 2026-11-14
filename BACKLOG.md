@@ -19,6 +19,7 @@
 - Zielstruktur 30.000 Aufgaben insgesamt ist in der skalierbaren Archivgenerierung erreicht
 
 ## P1
+- [x] v3.2.0: ten courses along the mechanical engineering study plan incl. chemistry and HM 1–3, exam trainer Bavaria (Quali, Mittlere Reife, Abitur), installable offline web app, LinkedIn link
 - [x] v3.1.0: stacked integral limits, six foundation courses with 36 lessons (TM 1, TM 2, transformation matrices, PID, thermodynamics, statistics), Physics & Engineering practice area, English version with DE/EN switcher
 - [x] v3.0.0: exercise engine with 93 verified generators for all 84 topics, practice player, accounts with roles, rewards, teacher dashboard, 3D lab, self-hosted assets, school and privacy pages
 - [ ] Owner: add postal address to the Impressum and have `datenschutz.html` legally reviewed before offering the site to schools
@@ -46,6 +47,9 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Store apps: Trusted Web Activity for the Play Store and a Capacitor shell for iOS (needs developer accounts and signing keys)
+- [ ] Courses for the remaining study plan modules: CAD and technical drawing, information technology
+- [ ] Exam trainer: Mathematik II/III for the Realschule, open-answer tasks with self-assessment, physics for the Abitur
 - [ ] Translate the archive (`app/lernarchiv.html`, `app/data/archive-content.js`), the Lernstraße and the classic app into English, or hide them for English visitors
 - [ ] Second batch of physics and engineering courses: electrical engineering basics, fluid mechanics, mechanical vibrations, dynamics (TM 3 kinetics)
 - [ ] Course certificates or a course completion badge when all lessons of a course have 2 stars

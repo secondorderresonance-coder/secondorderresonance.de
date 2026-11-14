@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.1.0`
+- `v3.2.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,34 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.2.0)
+User request: add the LinkedIn profile, extend the courses along the mechanical engineering bachelor study plan (TUM-style semester table), build exam trainers for Abitur, Realschulabschluss and Hauptschulabschluss, and prepare everything for a future mobile app. Clarified with the owner: Bavaria and maths only for the exams; courses for TM 3 and fluid mechanics, materials and machine elements, electrical engineering, physics and chemistry, Higher Mathematics 1 to 3; installable web app as the app foundation.
+
+### Changes in this iteration
+- **Ten new courses** (`app/data/courses-2.js`): TM 3 kinematics and kinetics, fluid mechanics, engineering materials, machine elements, electrical engineering, physics for engineers, chemistry for engineers, and Higher Mathematics 1 to 3 as ordered courses over the existing university topics (`ref: CM-E-xx`) with added explanations. 41 new generators with independent self-checks (`app/modules/exercises/courses-3.js` to `courses-5.js`), 41 animations (`app/modules/course-visuals-2.js`). `kurs.html` shows the semester plan and links every module to its course; CAD and information technology have no course yet.
+- **Exam trainer Bavaria** (`app/pruefung.html`, `app/data/exams.js`): Quali (Mittelschule), Mittlere Reife (Realschule, Mathematik I) and Abitur (from 2026). Part A without aids, part B with calculator, time limit, points per task, full length or compact mode, resume after interruption, result with grade, points per part and per topic with practice links, history per account. Abitur uses the official Notenpunkte table; Quali and Realschule use guide keys because the ministry sets them every year. Structure taken from ISB/KM Bayern documents (sources listed in `exams.js`).
+- **Installable web app**: `manifest.webmanifest`, `sw.js` (network first for pages, cache first for files, offline fallback `offline.html`), icons in `assets/app/`, `app/modules/pwa.js` with install card on the homepage. Chrome reports no installability errors.
+- **LinkedIn** in the homepage footer, the legal notice line and on the privacy page. The privacy notice now mentions the offline cache.
+- Answer fields with several inputs now render subscripts in their labels.
+
+### Files touched
+- New: `app/pruefung.html`, `app/data/exams.js`, `app/data/courses-2.js`, `app/modules/course-visuals-2.js`, `app/modules/exercises/courses-3.js`, `courses-4.js`, `courses-5.js`, `app/modules/pwa.js`, `manifest.webmanifest`, `sw.js`, `offline.html`, `assets/app/*`, `tools/exam-qa.js`
+- Changed: `index.html`, `schulen.html`, `datenschutz.html`, `app/{ueben,kurs,konto,lehrer,klasse,labor3d,index,lernarchiv,lernpfad,profil}.html`, `app/data/courses.js`, `app/modules/{sor-nav,course-visuals}.js`, `tools/{exercise-qa,site-qa}.js`
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/exercise-qa.js`: 170 generators, 161 of 161 topics, 76,500 variants; `SOR_LANG=en node tools/exercise-qa.js 20`
+- `node tools/exam-qa.js` (all three exams can be built with enough distinct tasks), `core-qa`, `coverage-qa`, `archive-qa`, `site-qa`
+- Playwright DE and EN at 1280 px and 390 px on 21 page variants: no errors, no overflow, no external requests, no German text on English pages
+- Full mock exam run (Quali), offline reload of practice, course and exam pages after the service worker has installed, Chrome installability check without errors
+- Visual check of the six chemistry animations in both languages
+
+### Blockers
+- None technical. Owner points from v3.0.0 remain (postal address in the Impressum, legal review of the privacy notice, backend for multi-device accounts).
+
+### Next logical step
+- Store apps: wrap the web app with a Trusted Web Activity (Play Store) or Capacitor (iOS and Android). Needs developer accounts and signing keys from the owner.
 
 ## Last completed task (v3.1.0)
 User request: fix integral limits that were not readable, open a physics area next to maths, translate the website into English with a language choice, and add six foundation courses (transformation matrices, PID controller, thermodynamics and heat transfer, university statistics, engineering mechanics 1 and 2). Explicitly requested large iteration.
