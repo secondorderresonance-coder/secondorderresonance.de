@@ -123,6 +123,24 @@
     }
     doc.addEventListener("pointerdown", function (e) { if (e.button === 0 || e.pointerType !== "mouse") clickWave(e.clientX, e.clientY); }, { passive: true });
 
+    // ---------- Hover-Lichtkegel auf Karten (Stil in sor-age.css) ----------
+    var HOVER_SEL = "a.card,button.card,.wcard,.course-card,.level-card,.cp-card,.age-card,.xcard,.ccard,.visual-card,.media-card,.mission-card";
+    var hoverRaf = 0, hoverEv = null;
+    if (!reduce && root.matchMedia && root.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        doc.addEventListener("pointermove", function (e) {
+            hoverEv = e;
+            if (hoverRaf) return;
+            hoverRaf = root.requestAnimationFrame(function () {
+                hoverRaf = 0;
+                var t = hoverEv.target, el = t && t.closest ? t.closest(HOVER_SEL) : null;
+                if (!el) return;
+                var r = el.getBoundingClientRect();
+                el.style.setProperty("--mx", Math.round(hoverEv.clientX - r.left) + "px");
+                el.style.setProperty("--my", Math.round(hoverEv.clientY - r.top) + "px");
+            });
+        }, { passive: true });
+    }
+
     // ---------- Richtig und falsch ----------
     function center(el) { var r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + Math.min(r.height / 2, 40), w: r.width }; }
     function celebrate(el) {
