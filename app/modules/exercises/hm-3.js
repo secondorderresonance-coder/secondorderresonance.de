@@ -1,4 +1,4 @@
-/* SOR Aufgaben Höhere Mathematik 3 (K-HM-63 bis K-HM-91), Aufgabentypen nach Karpfinger, Arbeitsbuch HM in Rezepten. Braucht hm-1.js (E.HMU) */
+/* SOR Aufgaben Höhere Mathematik 3 (K-HM-63 bis K-HM-91). Braucht hm-1.js (E.HMU) */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");
@@ -14,7 +14,7 @@
     var ci = function (s) { return s === 1 ? "" : s === -1 ? "−" : n(s); };
     function ftr(f, w, L) { return simpson(function (s) { return f(s) * Math.cos(w * s); }, -L, L, 4000); }
 
-    // =============== Kap. 63 qualitative DGL ===============
+    // =============== Lektion 63 qualitative DGL ===============
     add(63, "dglqual", "Richtungsfeld, Picard-Iteration, Lösungsdauer", "Direction field, Picard iteration, existence time", function (r, d) {
         if (d === 1) {
             var a = r.nz(-3, 3), b = r.nz(-3, 3), t0 = r.int(-2, 2), x0 = r.int(-2, 2), s = a * t0 - b * x0 + t0 * x0;
@@ -31,7 +31,7 @@
             nm(Ts, 4), t("Separieren: x(t) = 1/(1/x<sub>0</sub> − ct). Der Nenner wird null.", "Separate: x(t) = 1/(1/x<sub>0</sub> − ct). The denominator becomes zero."), ["x(t) = 1/(" + n(1 / x03) + " − " + n(c) + "t)", "T* = " + n(Ts, 4)], near(1 / x03 - c * Ts, 0, 1e-12));
     });
 
-    // =============== Kap. 64 exakte DGL ===============
+    // =============== Lektion 64 exakte DGL ===============
     add(64, "exakt", "Exakte Differentialgleichungen", "Exact differential equations", function (r, d) {
         var a = r.nz(-3, 3), b = r.int(-4, 4), c = r.nz(-3, 3);
         if (d === 1) {
@@ -51,7 +51,7 @@
             I(xT), t("F(t, x) = (t² + x²)/2 ist eine Stammfunktion, also t² + x² = konstant.", "F(t, x) = (t² + x²)/2 is a potential, so t² + x² = constant."), ["t² + x² = " + x3 * x3, "x(" + T + ") = √(" + x3 * x3 + " − " + T * T + ") = " + xT], near(num, xT, 1e-4));
     });
 
-    // =============== Kap. 65 lineare Systeme ===============
+    // =============== Lektion 65 lineare Systeme ===============
     add(65, "linsys", "Lineare DGL-Systeme", "Linear ODE systems", function (r, d) {
         var S = unimod(r), l1 = r.int(-4, 2), l2 = l1 + r.nz(-3, 3), Am = mul(mul(S, [[l1, 0], [0, l2]]), inv2(S)).map(function (rw) { return rw.map(function (x) { return Math.round(x); }); });
         if (d === 1) {
@@ -72,7 +72,7 @@
             A.multi([{ l: "x<sub>1</sub>*", a: A.frac(e1, D) }, { l: "x<sub>2</sub>*", a: A.frac(e2, D) }]), t("Ruhelage: A x* + s = 0, also x* = −A<sup>−1</sup> s.", "Equilibrium: A x* + s = 0, so x* = −A<sup>−1</sup> s."), ["det A = " + D, "x* = (" + q(e1, D) + ", " + q(e2, D) + ")"], near(B[0][0] * e1 / D + B[0][1] * e2 / D + s[0], 0, 1e-9) && near(B[1][0] * e1 / D + B[1][1] * e2 / D + s[1], 0, 1e-9));
     });
 
-    // =============== Kap. 66 höhere Ordnung, Jordan ===============
+    // =============== Lektion 66 höhere Ordnung, Jordan ===============
     add(66, "hoeher", "Doppelte Eigenwerte und höhere Ordnung", "Double eigenvalues and higher order", function (r, d) {
         var l = r.int(-3, 1), x0 = r.int(-3, 3), v0 = r.int(-3, 3), T = r.pick([0.5, 1, 1.5]);
         if (d === 1) {
@@ -90,7 +90,7 @@
             A.multi([{ l: "a<sub>31</sub>", a: I(-c) }, { l: "a<sub>32</sub>", a: I(-b) }, { l: "a<sub>33</sub>", a: I(-a) }]), t("Die ersten Zeilen sind ẏ<sub>1</sub> = y<sub>2</sub>, ẏ<sub>2</sub> = y<sub>3</sub>. Die letzte stellt x‴ frei.", "The first rows are ẏ<sub>1</sub> = y<sub>2</sub>, ẏ<sub>2</sub> = y<sub>3</sub>. The last one isolates x‴."), ["A = " + mat([[0, 1, 0], [0, 0, 1], [-c, -b, -a]])], -c * 1 + -b * 2 + -a * 3 === -(a * 3 + b * 2 + c));
     });
 
-    // =============== Kap. 67 Ruhelagen ===============
+    // =============== Lektion 67 Ruhelagen ===============
     add(67, "ruhe", "Ruhelagen und ihre Typen", "Equilibria and their types", function (r, d) {
         if (d === 1) {
             var tr = r.int(-5, 5), de = r.int(-6, 9), disc = tr * tr - 4 * de, SA = t("Sattelpunkt", "saddle"), KS = t("stabiler Knoten", "stable node"), KI = t("instabiler Knoten", "unstable node"), WS = t("stabiler Strudel", "stable spiral"), WI = t("instabiler Strudel", "unstable spiral"), ZE = t("Zentrum", "centre");
@@ -111,7 +111,7 @@
             I(a3 - 3 * b3 * xs * xs), t("Linearisierung: f′(x*) < 0 heißt asymptotisch stabil.", "Linearisation: f′(x*) < 0 means asymptotically stable."), ["f′(x) = " + a3 + " − " + 3 * b3 + "x²", "f′(" + xs + ") = " + (a3 - 3 * b3 * xs * xs) + t(" < 0: stabil", " < 0: stable")], a3 * xs - b3 * Math.pow(xs, 3) === 0 && a3 - 3 * b3 * xs * xs === -2 * a3);
     });
 
-    // =============== Kap. 68 Randwertprobleme ===============
+    // =============== Lektion 68 Randwertprobleme ===============
     add(68, "rwp", "Randwertprobleme", "Boundary value problems", function (r, d) {
         if (d === 1) {
             var c = r.nz(-4, 4), a = r.int(-3, 3), b = r.int(-3, 3), L = r.int(1, 4), T = r.pick([0.5, 1, 1.5]), C1 = (b - a - c * L * L / 2) / L, xT = c * T * T / 2 + C1 * T + a;
@@ -130,7 +130,7 @@
             I(x1), t("(−x<sub>i−1</sub> + 2x<sub>i</sub> − x<sub>i+1</sub>)/h² = " + g + " für die zwei inneren Punkte.", "(−x<sub>i−1</sub> + 2x<sub>i</sub> − x<sub>i+1</sub>)/h² = " + g + " for the two interior points."), ["2x<sub>1</sub> − x<sub>2</sub> = " + g + "/9, −x<sub>1</sub> + 2x<sub>2</sub> = " + g + "/9", "x<sub>1</sub> = x<sub>2</sub> = " + x1 + t(" (exakt, da die Lösung quadratisch ist)", " (exact, because the solution is quadratic)")], near(sol[0], x1, 1e-9) && near(g * (1 / 3) * (2 / 3) / 2, x1, 1e-9));
     });
 
-    // =============== Kap. 69 Kondition ===============
+    // =============== Lektion 69 Kondition ===============
     add(69, "kond", "Kondition", "Condition numbers", function (r, d) {
         if (d === 1) {
             var m; do { m = [[r.int(-5, 5), r.int(-5, 5)], [r.int(-5, 5), r.int(-5, 5)]]; } while (det2(m) === 0);
@@ -149,7 +149,7 @@
             nm(bnd * 100, 2, "%"), "‖Δx‖/‖x‖ ≤ cond(A) · ‖Δb‖/‖b‖.", [cond + " · " + n(rel * 100, 2) + " % = " + n(bnd * 100, 2) + " %"], near(bnd, cond * rel, 1e-12));
     });
 
-    // =============== Kap. 70 Fixpunktiteration ===============
+    // =============== Lektion 70 Fixpunktiteration ===============
     add(70, "fixpkt", "Fixpunktiteration", "Fixed-point iteration", function (r, d) {
         if (d === 1) {
             var a = r.int(1, 6), x0 = r.pick([0, 0.5, 1, 2]), g = function (x) { return a / (1 + x); }, x1 = g(x0), x2 = g(x1);
@@ -167,7 +167,7 @@
             A.choice(r, ans, [CO, DI, UN].filter(function (x) { return x !== ans; })), t("Lokale Konvergenz, wenn |g′(x*)| < 1.", "Local convergence if |g′(x*)| < 1."), ["g′(x*) = " + n(a3) + "(1 − 2x*) = " + n(gp, 3), ans], near(a3 * xs * (1 - xs), xs, 1e-12) && near(a3 * (1 - 2 * xs), gp, 1e-12));
     });
 
-    // =============== Kap. 71 iterative LGS ===============
+    // =============== Lektion 71 iterative LGS ===============
     function dd(r) { var a = r.int(4, 9), b = r.int(-3, 3), c = r.int(-3, 3), e = r.int(4, 9); return [[a, b], [c, e]]; }
     add(71, "jacobi", "Jacobi- und Gauß-Seidel-Verfahren", "Jacobi and Gauss-Seidel methods", function (r, d) {
         var m = dd(r), b = [r.int(-9, 9), r.int(-9, 9)], x0 = [r.int(-1, 1), r.int(-1, 1)];
@@ -184,7 +184,7 @@
             nm(rho, 4), t("J = −D<sup>−1</sup>(L + R). Für 2×2 gilt λ² = a<sub>12</sub>a<sub>21</sub> / (a<sub>11</sub>a<sub>22</sub>).", "J = −D<sup>−1</sup>(L + U). For 2×2, λ² = a<sub>12</sub>a<sub>21</sub> / (a<sub>11</sub>a<sub>22</sub>)."), ["J = " + mat([[0, q(-m[0][1], m[0][0])], [q(-m[1][0], m[1][1]), 0]]), "ρ(J) = " + n(rho, 5) + (rho < 1 ? t(" < 1: konvergent", " < 1: convergent") : "")], near(ev, rho, 1e-12));
     });
 
-    // =============== Kap. 72 Optimierung ===============
+    // =============== Lektion 72 Optimierung ===============
     add(72, "optim", "Gradienten- und Newtonverfahren", "Gradient and Newton methods", function (r, d) {
         var a = r.int(1, 4), c = r.int(1, 4), b = [r.int(-5, 5), r.int(-5, 5)], Am = [[a, 0], [0, c]], x0 = [r.int(-2, 2), r.int(-2, 2)];
         var g = [a * x0[0] - b[0], c * x0[1] - b[1]];
@@ -207,7 +207,7 @@
             A.multi([{ l: "x<sub>1</sub>", a: nm(x13[0], 3) }, { l: "y<sub>1</sub>", a: nm(x13[1], 3) }]), "x<sub>1</sub> = x<sub>0</sub> − h ∇f(x<sub>0</sub>).", ["∇f(x<sub>0</sub>) = " + vec(g), "x<sub>1</sub> = (" + n(x13[0], 3) + ", " + n(x13[1], 3) + ")"], near(x13[0] - x0[0], -h * (a * x0[0] - b[0]), 1e-12));
     });
 
-    // =============== Kap. 73 steife DGL ===============
+    // =============== Lektion 73 steife DGL ===============
     add(73, "steif", "Stabilität numerischer Verfahren", "Stability of numerical methods", function (r, d) {
         var lam = -r.pick([5, 10, 20, 50, 100, 4, 8]), x0 = r.int(1, 5), h = r.pick([0.01, 0.05, 0.1, 0.2]);
         if (d === 1) return Q(t("Für welche Schrittweiten h ist das explizite Euler-Verfahren für ẋ = " + lam + "x stabil? Gib die größte zulässige Schrittweite h<sub>max</sub> an.", "For which step sizes h is the explicit Euler method for ẋ = " + lam + "x stable? Give the largest admissible step h<sub>max</sub>."),
@@ -220,7 +220,7 @@
             nm(x13, 4), "x<sub>1</sub> = x<sub>0</sub> + h/2 (λx<sub>0</sub> + λx<sub>1</sub>).", ["x<sub>1</sub> = " + x0 + " · (1 " + H.sg(h * lam / 2) + ") / (1 " + H.sg(-h * lam / 2) + ") = " + n(x13, 5)], near(x13 - x0, h / 2 * (lam * x0 + lam * x13), 1e-12));
     });
 
-    // =============== Kap. 74 Fourierreihen ===============
+    // =============== Lektion 74 Fourierreihen ===============
     add(74, "fourier", "Fourierkoeffizienten berechnen", "Computing Fourier coefficients", function (r, d) {
         var k = r.int(1, 8), c = r.nz(-3, 3);
         if (d === 1) { var bk = 2 * c * (k % 2 ? 1 : -1);
@@ -234,7 +234,7 @@
             A.frac(a3, k * k), t("Zweimal partiell integrieren. Ergebnis: a<sub>k</sub> = 4c (−1)<sup>k</sup>/k².", "Integrate by parts twice. Result: a<sub>k</sub> = 4c (−1)<sup>k</sup>/k²."), ["a<sub>" + k + "</sub> = " + q(a3, k * k), t("Mit x = π folgt daraus Σ 1/k² = π²/6.", "With x = π this gives Σ 1/k² = π²/6.")], near(2 / PI * simpson(function (x) { return c * x * x * Math.cos(k * x); }, 0, PI, 2000), a3 / (k * k), 1e-6));
     });
 
-    // =============== Kap. 75 Fourierreihen II ===============
+    // =============== Lektion 75 Fourierreihen II ===============
     add(75, "fourier2", "Periode, komplexe Koeffizienten, Reihenwerte", "Period, complex coefficients, series values", function (r, d) {
         if (d === 1) {
             var g = r.int(1, 3), p = g * r.int(1, 4), qq = g * r.int(1, 5); if (M.gcd(p, qq) !== g) qq = g * (p / g + 1);
@@ -252,7 +252,7 @@
             nm(val, 4), t("Bei x = 0 ist die Reihe gleich f(0) = 0.", "At x = 0 the series equals f(0) = 0."), ["0 = π/2 − (4/π) Σ 1/(2k+1)² ⇒ Σ = π²/8", "· " + c + " = " + n(val, 5)], near(s, val, 1e-4));
     });
 
-    // =============== Kap. 76 Fouriertransformation ===============
+    // =============== Lektion 76 Fouriertransformation ===============
     add(76, "ftrafo", "Fouriertransformation", "Fourier transform", function (r, d) {
         var w = r.int(1, 4);
         if (d === 1) { var a = r.pick([0.5, 1, 1.5, 2]), v = 2 * Math.sin(a * w) / w;
@@ -266,7 +266,7 @@
             nm(v3, 4), "F(ω) = √(π/a) e<sup>−ω²/(4a)</sup>.", ["F(" + w + ") = √(π/" + n(a3) + ") e<sup>−" + n(w * w / (4 * a3)) + "</sup> = " + n(v3, 5)], near(ftr(function (s) { return Math.exp(-a3 * s * s); }, w, 12 / Math.sqrt(a3)), v3, 1e-7));
     });
 
-    // =============== Kap. 77 Rechenregeln Fourier ===============
+    // =============== Lektion 77 Rechenregeln Fourier ===============
     add(77, "fregeln", "Verschiebung, Faltung, Ableitung", "Shift, convolution, derivative", function (r, d) {
         var a = r.int(1, 4), w = r.int(1, 4);
         if (d === 1) { var t0 = r.nz(-3, 3);
@@ -279,7 +279,7 @@
             A.frac(2 * a * w, a * a + w * w), t("Ableitungssatz: F[f′](ω) = iω F(ω).", "Derivative theorem: F[f′](ω) = iω F(ω)."), ["|F[f′](" + w + ")| = " + w + " · " + q(2 * a, a * a + w * w) + " = " + q(2 * a * w, a * a + w * w)], near(Math.abs(simpson(function (s) { return -a * Math.sign(s) * Math.exp(-a * Math.abs(s)) * Math.sin(w * s); }, -40, 40, 8000)), 2 * a * w / (a * a + w * w), 1e-5));
     });
 
-    // =============== Kap. 78 DFT ===============
+    // =============== Lektion 78 DFT ===============
     function dft(y, k) { var N = y.length, re = 0, im = 0; for (var j = 0; j < N; j += 1) { re += y[j] * Math.cos(2 * PI * j * k / N); im -= y[j] * Math.sin(2 * PI * j * k / N); } return [re / N, im / N]; }
     add(78, "dft", "Diskrete Fouriertransformation", "Discrete Fourier transform", function (r, d) {
         var y = [r.int(-4, 4), r.int(-4, 4), r.int(-4, 4), r.int(-4, 4)];
@@ -294,7 +294,7 @@
             A.multi([{ l: "Re c<sub>1</sub>", a: A.frac(re, 4) }, { l: "Im c<sub>1</sub>", a: A.frac(im, 4) }]), t("Die Einheitswurzeln sind 1, −i, −1, i.", "The roots of unity are 1, −i, −1, i."), ["c<sub>1</sub> = (" + y[0] + " − " + y[1] + "i − " + y[2] + " + " + y[3] + "i)/4", "= " + q(re, 4) + " + (" + q(im, 4) + ") i"], near(c1[0], re / 4, 1e-12) && near(c1[1], im / 4, 1e-12));
     });
 
-    // =============== Kap. 79 Laplacetransformation ===============
+    // =============== Lektion 79 Laplacetransformation ===============
     add(79, "laplace", "Laplacetransformation", "Laplace transform", function (r, d) {
         if (d === 1) { var a = r.int(-3, 3), b = r.int(1, 4), s = a + r.int(1, 4), num = s - a, den = (s - a) * (s - a) + b * b;
             return Q(t("Berechne L{e<sup>" + ci(a) + "t</sup> cos(" + b + "t)}(s) an der Stelle s = " + s + ".", "Compute L{e<sup>" + ci(a) + "t</sup> cos(" + b + "t)}(s) at s = " + s + "."), A.frac(num, den),
@@ -307,7 +307,7 @@
             nm(xT, 4), t("(s² + " + w * w + ") X = " + x0 + "s + " + v0 + ", dann zurücktransformieren.", "(s² + " + w * w + ") X = " + x0 + "s + " + v0 + ", then transform back."), ["x(t) = " + x0 + " cos(" + w + "t) + " + q(v0, w) + " sin(" + w + "t)", "x(" + n(T3) + ") = " + n(xT, 5)], near(rk2(function (s2, x) { return [x[1], -w * w * x[0]]; }, [x0, v0], T3, 1000)[0], xT, 1e-7));
     });
 
-    // =============== Kap. 80 holomorphe Funktionen ===============
+    // =============== Lektion 80 holomorphe Funktionen ===============
     add(80, "holo", "Holomorphie und komplexe Funktionen", "Holomorphy and complex functions", function (r, d) {
         if (d === 1) { var c = r.nz(-4, 4), a = -3 * c;
             return Q(t("Für welches a ist u(x, y) = " + ci(c) + "x³ + a x y² Realteil einer holomorphen Funktion?", "For which a is u(x, y) = " + ci(c) + "x³ + a x y² the real part of a holomorphic function?"),
@@ -321,7 +321,7 @@
             nm(im3, 4), t("sin(π/2 + iy) = cosh y. Also cosh y = " + w + ".", "sin(π/2 + iy) = cosh y. So cosh y = " + w + "."), ["y = arcosh(" + w + ") = ln(" + w + " + √" + (w * w - 1) + ") = " + n(im3, 5)], near(Math.cosh(im3), w, 1e-9));
     });
 
-    // =============== Kap. 81 komplexe Integration ===============
+    // =============== Lektion 81 komplexe Integration ===============
     add(81, "kint", "Komplexe Kurvenintegrale", "Complex line integrals", function (r, d) {
         if (d === 1) { var c = r.nz(-5, 5), a = [r.int(-2, 2), r.int(-2, 2)], R = Math.hypot(a[0], a[1]) + r.int(1, 3), im = 2 * PI * c;
             return Q(t("Berechne ∮<sub>|z|=" + n(Math.ceil(R)) + "</sub> " + c + "/(z − (" + U.cs(a[0], a[1]) + ")) dz. Gib den Imaginärteil an (auf 0,001).", "Compute ∮<sub>|z|=" + n(Math.ceil(R)) + "</sub> " + c + "/(z − (" + U.cs(a[0], a[1]) + ")) dz. Give the imaginary part (to 0.001)."),
@@ -335,7 +335,7 @@
             A.multi([{ l: "Re", a: A.frac(p * p, 2) }, { l: "Im", a: A.frac(p * qq, 2) }]), t("γ(t) = t(" + U.cs(p, qq) + "), Re γ(t) = " + p + "t, γ̇ = " + U.cs(p, qq) + ".", "γ(t) = t(" + U.cs(p, qq) + "), Re γ(t) = " + p + "t, γ̇ = " + U.cs(p, qq) + "."), ["∫<sub>0</sub><sup>1</sup> " + p + "t (" + U.cs(p, qq) + ") dt = " + q(p, 2) + " (" + U.cs(p, qq) + ")"], near(simpson(function (s) { return p * s * p; }, 0, 1, 10), p * p / 2, 1e-12));
     });
 
-    // =============== Kap. 82 Laurentreihen ===============
+    // =============== Lektion 82 Laurentreihen ===============
     add(82, "laurent", "Potenz- und Laurentreihen", "Power and Laurent series", function (r, d) {
         if (d === 1) { var a = [r.int(-4, 4), r.int(-4, 4)], z0 = [r.int(-3, 3), r.int(-3, 3)]; if (a[0] === z0[0] && a[1] === z0[1]) a[0] += 3;
             var R = Math.hypot(a[0] - z0[0], a[1] - z0[1]);
@@ -348,7 +348,7 @@
             A.frac(Math.pow(a2, nn), M.fact(nn)), t("Der Term z<sup>" + nn + "</sup> der Exponentialreihe liefert a<sub>0</sub>.", "The term z<sup>" + nn + "</sup> of the exponential series gives a<sub>0</sub>."), ["a<sub>0</sub> = a<sup>" + nn + "</sup>/" + nn + "! = " + q(Math.pow(a2, nn), M.fact(nn))], near(simpson(function (s) { return Math.exp(a2 * Math.cos(s)) * Math.cos(a2 * Math.sin(s) - nn * s); }, 0, 2 * PI, 400) / (2 * PI), Math.pow(a2, nn) / M.fact(nn), 1e-8));
     });
 
-    // =============== Kap. 83 Residuen ===============
+    // =============== Lektion 83 Residuen ===============
     add(83, "residuen", "Residuensatz und reelle Integrale", "Residue theorem and real integrals", function (r, d) {
         if (d === 1) { var p = r.int(-4, 4), qq = p + r.nz(-4, 4);
             return Q(t("Berechne das Residuum von f(z) = 1/((z " + H.sg(-p) + ")(z " + H.sg(-qq) + ")) an der Stelle z = " + p + ".", "Compute the residue of f(z) = 1/((z " + H.sg(-p) + ")(z " + H.sg(-qq) + ")) at z = " + p + "."),
@@ -361,7 +361,7 @@
             nm(v, 4), t("Doppelter Pol bei z = " + a + "i: Res = d/dz (z + " + a + "i)<sup>−2</sup> = −2/(2·" + a + "i)³.", "Double pole at z = " + a + "i: Res = d/dz (z + " + a + "i)<sup>−2</sup> = −2/(2·" + a + "i)³."), ["= π/(2·" + a + "³) = " + n(v, 5)], near(simpson(function (x) { return 1 / Math.pow(x * x + a * a, 2); }, -200, 200, 40000), v, 1e-6));
     });
 
-    // =============== Kap. 84 Möbiustransformationen ===============
+    // =============== Lektion 84 Möbiustransformationen ===============
     add(84, "moebius", "Möbiustransformationen", "Möbius transformations", function (r, d) {
         var a = r.nz(-4, 4), b = r.int(-5, 5), c = r.nz(-3, 3), e = r.int(-5, 5); if (a * e - b * c === 0) e += 1;
         var ft = "f(z) = (" + H.lin([[a, "z"], [b, ""]]) + ")/(" + H.lin([[c, "z"], [e, ""]]) + ")";
@@ -376,7 +376,7 @@
             t("Die Inverse von (az + b)/(cz + d) ist (dw − b)/(−cw + a).", "The inverse of (az + b)/(cz + d) is (dw − b)/(−cw + a)."), ["f<sup>−1</sup>(w) = (" + e + "w " + H.sg(-b) + ")/(" + H.lin([[-c, "w"], [a, ""]]) + ")", "f<sup>−1</sup>(" + w + ") = " + q(b - e * w, c * w - a)], near((a * (b - e * w) / (c * w - a) + b) / (c * (b - e * w) / (c * w - a) + e), w, 1e-9));
     });
 
-    // =============== Kap. 85 harmonische Funktionen ===============
+    // =============== Lektion 85 harmonische Funktionen ===============
     add(85, "harmon", "Harmonische Funktionen", "Harmonic functions", function (r, d) {
         if (d === 1) { var a = r.nz(-5, 5), c = r.int(-4, 4);
             return Q(t("Für welches b ist u(x, y) = " + ci(a) + "x² + b y² " + H.sg(c) + "x harmonisch?", "For which b is u(x, y) = " + ci(a) + "x² + b y² " + H.sg(c) + "x harmonic?"), I(-a), "Δu = u<sub>xx</sub> + u<sub>yy</sub> = 0.", ["Δu = " + 2 * a + " + 2b = 0", "b = " + (-a)], 2 * a + 2 * -a === 0); }
@@ -389,7 +389,7 @@
             nm(val, 3), t("Poissonformel, oder direkt: u(r, φ) = " + a3 + " + (r/" + R + ")(" + b3 + " cos φ " + H.sg(c3) + " sin φ).", "Poisson formula, or directly: u(r, φ) = " + a3 + " + (r/" + R + ")(" + b3 + " cos φ " + H.sg(c3) + " sin φ)."), ["u = " + n(val, 4)], near(poisson, val, 1e-6));
     });
 
-    // =============== Kap. 86 PDGL 1. Ordnung ===============
+    // =============== Lektion 86 PDGL 1. Ordnung ===============
     add(86, "pdgl1", "Partielle DGL erster Ordnung", "First-order PDEs", function (r, d) {
         if (d === 1) { var c = r.nz(-3, 3), x = r.int(-3, 3), tt = r.int(1, 3), a = r.nz(-2, 2), v = a * Math.pow(x - c * tt, 2);
             return Q(t("Löse die Transportgleichung u<sub>t</sub> " + H.sg(c) + " u<sub>x</sub> = 0 mit u(x, 0) = " + ci(a) + "x² und berechne u(" + x + ", " + tt + ").", "Solve the transport equation u<sub>t</sub> " + H.sg(c) + " u<sub>x</sub> = 0 with u(x, 0) = " + ci(a) + "x² and compute u(" + x + ", " + tt + ")."),
@@ -402,7 +402,7 @@
             I(c3 * Math.pow(lam, k)), t("Längs der Strahlen (sx, sy) gilt d/ds u = (" + k + "/s) u. Also ist u homogen vom Grad " + k + ".", "Along the rays (sx, sy), d/ds u = (" + k + "/s) u. So u is homogeneous of degree " + k + "."), ["u(λx, λy) = λ<sup>" + k + "</sup> u(x, y)", "u(" + lam + ", " + lam + ") = " + lam + "<sup>" + k + "</sup> · " + c3 + " = " + c3 * Math.pow(lam, k)], near((function () { var u = c3, s = 1, h = (lam - 1) / 1000; for (var i = 0; i < 1000; i += 1) { var f = function (S, V) { return k / S * V; }, k1 = f(s, u), k2 = f(s + h / 2, u + h / 2 * k1), k3 = f(s + h / 2, u + h / 2 * k2), k4 = f(s + h, u + h * k3); u += h / 6 * (k1 + 2 * k2 + 2 * k3 + k4); s += h; } return u; })(), c3 * Math.pow(lam, k), 1e-6));
     });
 
-    // =============== Kap. 87 Klassifikation, Eigenwerte ===============
+    // =============== Lektion 87 Klassifikation, Eigenwerte ===============
     add(87, "pdgltyp", "Typ einer PDGL und Eigenwerte", "PDE type and eigenvalues", function (r, d) {
         var EL = t("elliptisch", "elliptic"), HY = t("hyperbolisch", "hyperbolic"), PA = t("parabolisch", "parabolic");
         if (d === 1) { var a = r.int(-4, 4) || 1, b = r.int(-3, 3), c = r.int(-4, 4), D = b * b - a * c, ans = D < 0 ? EL : D > 0 ? HY : PA;
@@ -416,7 +416,7 @@
             t("Hier ist a = 1, b = 0, c = y. Der Typ hängt vom Vorzeichen von y ab.", "Here a = 1, b = 0, c = y. The type depends on the sign of y."), ["b² − ac = " + (-y0) + " ⇒ " + ans3], true);
     });
 
-    // =============== Kap. 88 Laplacegleichung ===============
+    // =============== Lektion 88 Laplacegleichung ===============
     add(88, "laplgl", "Laplacegleichung im Kreis", "Laplace's equation in a disc", function (r, d) {
         var nn = r.int(1, 4), R = r.int(1, 4), ph = r.pick([0, 60, 90, 180, 45]), c = Math.cos(nn * ph * PI / 180);
         if (d === 1) { var rr = r.pick([0.5, 0.25, 0.75]) * R, v = Math.pow(rr / R, nn) * c;
@@ -431,7 +431,7 @@
             I(u(x0, y0)), t("u ist harmonisch. Mittelwerteigenschaft: der Mittelwert auf dem Kreis ist der Wert im Mittelpunkt.", "u is harmonic. Mean value property: the mean on the circle is the value at the centre."), ["Δu = " + 2 * b + " − " + 2 * b + " = 0", "u(" + x0 + ", " + y0 + ") = " + u(x0, y0)], near(mean, u(x0, y0), 1e-8));
     });
 
-    // =============== Kap. 89 Wärmeleitung ===============
+    // =============== Lektion 89 Wärmeleitung ===============
     add(89, "waerme", "Wärmeleitungsgleichung", "Heat equation", function (r, d) {
         var L = r.int(1, 3), k = r.pick([0.1, 0.5, 1, 0.25]), tt = r.pick([0.1, 0.2, 0.5]), x = L * r.pick([0.25, 0.5, 0.75]);
         if (d === 1) { var nn = r.int(1, 3), v = Math.exp(-k * Math.pow(nn * PI / L, 2) * tt) * Math.sin(nn * PI * x / L);
@@ -445,7 +445,7 @@
             nm(v3, 4), t("Jeder Modus klingt einzeln ab (Superposition).", "Each mode decays on its own (superposition)."), ["u = " + n(v3, 5)], Math.abs(v3) <= Math.abs(b1) + Math.abs(b3));
     });
 
-    // =============== Kap. 90 Wellengleichung ===============
+    // =============== Lektion 90 Wellengleichung ===============
     add(90, "welle", "Wellengleichung", "Wave equation", function (r, d) {
         var c = r.int(1, 4), L = r.int(1, 3);
         if (d === 1) { var nn = r.int(1, 3), x = L * r.pick([0.25, 0.5, 1 / 6]), tt = r.pick([0.1, 0.25, 0.5]), v = Math.sin(nn * PI * x / L) * Math.cos(c * nn * PI * tt / L);
@@ -459,7 +459,7 @@
             nm(f, 1, "Hz"), "f<sub>n</sub> = c n / (2L).", ["f<sub>" + nn3 + "</sub> = " + cc + " · " + nn3 + " / " + n(2 * L3) + " = " + n(f) + " Hz"], near(2 * PI * f, cc * nn3 * PI / L3, 1e-9));
     });
 
-    // =============== Kap. 91 PDGL auf ℝ ===============
+    // =============== Lektion 91 PDGL auf ℝ ===============
     add(91, "pdglr", "Wärme und Wellen auf ganz ℝ", "Heat and waves on the whole line", function (r, d) {
         var k = r.pick([0.25, 0.5, 1]), tt = r.pick([0.5, 1, 2]), x = r.int(0, 2);
         if (d === 1) { var s = 1 + 4 * k * tt, v = Math.exp(-x * x / s) / Math.sqrt(s);

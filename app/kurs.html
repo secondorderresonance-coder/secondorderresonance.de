@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="SOR Mathe">
 <script src="./modules/pwa.js?v=3.2.0"></script>
-<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.0">
+<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.1">
 <script src="./modules/sor-fx.js?v=3.5.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="Courses | Second-Order Resonance">Kurse | Second-Order Resonance</title>
@@ -160,7 +160,7 @@
             '<div class="chead"><div class="hero" style="margin:0">' + lvlHtml(c.level) + "<h1>" + esc(c.title) + "</h1><p>" + esc(c.intro) + "</p></div>" +
             '<div class="prog"><small>' + $t("Dein Fortschritt", "Your progress") + ": ★ " + st + " / " + max + '</small><div class="meter"><span style="width:' + Math.round(st / max * 100) + '%"></span></div>' +
             '<a class="btn btn-primary" style="margin-top:0.9rem" href="ueben.html?mix=c-' + c.id + "&zurueck=" + encodeURIComponent(self) + '">' + $t("Gemischte Runde zum Kurs", "Mixed round for this course") + " →</a></div></div>" +
-            '<nav class="toc" aria-label="' + $t("Lektionen", "Lessons") + '">' + c.lessons.map(function (l, i) { var h = l.section && (i === 0 || c.lessons[i - 1].section !== l.section) ? '<b class="tsec">' + esc(l.section) + "</b>" : ""; return h + '<a href="#' + l.id + '">' + l.n + ". " + esc(l.topic) + (l.chapter ? ' <small>(' + $t("Kap. ", "ch. ") + l.chapter + ")</small>" : "") + "</a>"; }).join("") + "</nav>" +
+            '<nav class="toc" aria-label="' + $t("Lektionen", "Lessons") + '">' + c.lessons.map(function (l, i) { var h = l.section && (i === 0 || c.lessons[i - 1].section !== l.section) ? '<b class="tsec">' + esc(l.section) + "</b>" : ""; return h + '<a href="#' + l.id + '">' + l.n + ". " + esc(l.topic) + "</a>"; }).join("") + "</nav>" +
             '<div class="lessons">';
         var sec = null;
         c.lessons.forEach(function (l) {

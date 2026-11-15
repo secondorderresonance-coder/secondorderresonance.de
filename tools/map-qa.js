@@ -24,6 +24,7 @@ MM.nodes.forEach(n => {
     else if (kind === "k" && !C.course(v)) errors.push(n.id + ": Kurs fehlt " + v);
     else if (kind === "w" && wonders.indexOf(v) < 0) errors.push(n.id + ": Wunder fehlt " + v);
     else if ("ukw".indexOf(kind) < 0) errors.push(n.id + ": Verweis " + n.link);
+    if (n.extra && wonders.indexOf(n.extra.slice(2)) < 0) errors.push(n.id + ": Zusatz-Wunder fehlt " + n.extra);
 });
 MM.nodes.forEach(n => n.pre.forEach(p => { if (!ids[p]) errors.push(n.id + ": Vorgänger fehlt " + p); else if (ids[p].lv > n.lv) errors.push(n.id + ": Vorgänger " + p + " hat höheres Level"); }));
 const state = {}; (function visitAll() { const visit = (id, trail) => { if (state[id] === 2) return; if (state[id] === 1) { errors.push("Kreis: " + trail.concat(id).join(" > ")); return; } state[id] = 1; (ids[id] ? ids[id].pre : []).forEach(p => visit(p, trail.concat(id))); state[id] = 2; }; MM.nodes.forEach(n => visit(n.id, [])); })();

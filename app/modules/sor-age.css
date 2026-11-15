@@ -109,3 +109,9 @@ html[data-age="uni"] .level-card,html[data-age="uni"] .visual-card,html[data-age
 
 @media (prefers-reduced-motion:reduce){.fx-sky,#fxLayer{display:none}.fx-resi-body,.fx-resi-eyes,.age-art .bob,.age-art .draw{animation:none}.age-art .draw{stroke-dashoffset:0}}
 @media (max-width:480px){html[data-age="kid"] .sor-brand span{display:none}html[data-age="kid"] .sor-pill.fire{padding:0.3rem 0.5rem}}
+
+/* Resi darf keine Bedienelemente verdecken: Platz unten rechts freihalten */
+html[data-age="kid"] main,html[data-age="kid"] .wrap{padding-bottom:140px}
+html[data-age="kid"] .wnav{justify-content:flex-start}
+html[data-age="kid"] .fx-resi-say{position:absolute;right:0;bottom:100%;margin-bottom:6px;width:max-content}
+@media (max-width:700px){html[data-age="kid"] main,html[data-age="kid"] .wrap{padding-bottom:110px}}
