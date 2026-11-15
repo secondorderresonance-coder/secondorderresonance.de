@@ -29,7 +29,7 @@ grant select, update on table public.profiles to authenticated;
 alter table public.profiles drop constraint if exists progress_size;
 alter table public.profiles add constraint progress_size check (pg_column_size(progress) < 200000);
 
--- 3) Mail an den Betreiber über Resend (optional, siehe Anleitung Schritt 5)
+-- 3) Mail an den Betreiber über Brevo (EU, optional, siehe Anleitung Schritt 5)
 create extension if not exists pg_net with schema extensions;
 
 create or replace function public.notify_new_account(p public.profiles)
@@ -38,7 +38,7 @@ declare
   k text;
   body text;
 begin
-  select decrypted_secret into k from vault.decrypted_secrets where name = 'resend_api_key' limit 1;
+  select decrypted_secret into k from vault.decrypted_secrets where name = 'brevo_api_key' limit 1;
   if k is null then return; end if;
   body := 'Neuer Account auf secondorderresonance.de' || chr(10) || chr(10) ||
           'Name:   ' || coalesce(nullif(p.display_name, ''), '(ohne Namen)') || chr(10) ||
@@ -48,13 +48,13 @@ begin
           'Zeit:   ' || to_char(p.created_at at time zone 'Europe/Berlin', 'DD.MM.YYYY HH24:MI') || ' Uhr' || chr(10) || chr(10) ||
           'Alle Konten: Supabase Dashboard > Authentication > Users';
   perform net.http_post(
-    url     := 'https://api.resend.com/emails',
-    headers := jsonb_build_object('Authorization', 'Bearer ' || k, 'Content-Type', 'application/json'),
+    url     := 'https://api.brevo.com/v3/smtp/email',
+    headers := jsonb_build_object('api-key', k, 'Content-Type', 'application/json', 'Accept', 'application/json'),
     body    := jsonb_build_object(
-      'from',    'Second-Order Resonance <onboarding@resend.dev>',
-      'to',      jsonb_build_array('secondorderresonance@gmail.com'),
-      'subject', 'Neuer Account: ' || coalesce(nullif(p.display_name, ''), 'ohne Namen'),
-      'text',    body)
+      'sender',      jsonb_build_object('name', 'Second-Order Resonance', 'email', 'noreply@secondorderresonance.de'),
+      'to',          jsonb_build_array(jsonb_build_object('email', 'secondorderresonance@gmail.com')),
+      'subject',     'Neuer Account: ' || coalesce(nullif(p.display_name, ''), 'ohne Namen'),
+      'textContent', body)
   );
 exception when others then
   -- Die Registrierung darf nie an der Mail scheitern

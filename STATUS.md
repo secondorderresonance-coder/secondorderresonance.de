@@ -49,7 +49,7 @@ User request: implement all proposed extensions and explain how to create the Su
 - Database script `supabase/setup.sql`:
   - `profiles` with row level security, and a trigger that validates input
   - `delete_my_account()`, and anonymous `globe_points()` that counts confirmed accounts per city
-  - an owner mail via Resend with name, role, class, city and time (no e-mail address, no progress)
+  - an owner mail via Brevo (EU) with name, role, class, city and time (no e-mail address, no progress)
 - Globe `app/welt.html`: rotating dot globe from Natural Earth land data, light beams per city, top list with fly-to. Offline only Munich is lit.
 - `app/data/cities.js` (150 cities plus country-only options), a privacy policy section "Online-Konto (freiwillig)", the guide `docs/supabase-setup.md`, and the globe in the "More" menu.
 

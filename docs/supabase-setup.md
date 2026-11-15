@@ -1,6 +1,6 @@
 # Dauerhafte Konten einrichten (Supabase, EU)
 
-Dauer: etwa 20 Minuten. Kosten: 0 € (Free-Plan von Supabase und Resend).
+Dauer: etwa 20 Minuten. Kosten: 0 € (Free-Plan von Supabase und Brevo).
 Danach gibt es Online-Konten mit Fortschritt auf jedem Gerät, die Weltkugel füllt sich, und bei jeder Registrierung kommt eine Mail an secondorderresonance@gmail.com.
 
 ## 1. Projekt anlegen
@@ -31,25 +31,34 @@ Danach gibt es Online-Konten mit Fortschritt auf jedem Gerät, die Weltkugel fü
 3. **Schneller Start (ohne eigene Mail-Domain):** „Confirm email“ ausschalten. Dann ist ein Konto sofort nach der Registrierung aktiv.
    Grund: Der eingebaute Mailversand von Supabase schickt nur an Team-Mitglieder und höchstens 2 Mails pro Stunde. Bestätigungs- und Passwort-Mails kämen bei Nutzern nicht an. Solange „Passwort vergessen“ ohne Schritt 6 nicht funktioniert, kann Claude ein Passwort im Dashboard zurücksetzen (Authentication → Users).
 
-## 5. Mail an dich bei jeder Registrierung (Resend)
-1. Auf https://resend.com mit **secondorderresonance@gmail.com** registrieren (wichtig: dieselbe Adresse, ohne eigene Domain darf Resend nur an die Konto-Adresse schicken).
-2. **API Keys → Create API Key** (Permission: Sending access). Den Schlüssel (`re_...`) kopieren.
-3. In Supabase im **SQL Editor** ausführen (Schlüssel einsetzen):
+## 5. Mailversand mit Brevo (EU, kostenlos, 300 Mails pro Tag)
+Brevo verschickt die Bestätigungs- und Passwort-Mails an die Nutzer und die Benachrichtigung an dich.
+1. Auf https://www.brevo.com mit secondorderresonance@gmail.com ein kostenloses Konto anlegen und das Profil ausfüllen. Neue Konten prüft Brevo manchmal kurz, bevor sie senden dürfen.
+2. **Senders, Domains & Dedicated IPs → Domains → Add a domain**: `secondorderresonance.de`. Brevo zeigt einige DNS-Einträge (TXT für Brevo-Code und DKIM, eventuell DMARC).
+3. Bei IONOS unter **Domains & SSL → secondorderresonance.de → DNS → Eintrag hinzufügen** jeden Eintrag anlegen. Beim Hostnamen nur den vorderen Teil eintragen (z. B. `brevo._domainkey`), IONOS ergänzt die Domain. Die bestehenden A-Einträge für GitHub nicht ändern. Falls IONOS das Speichern verweigert, kurz den Domain Guard ausschalten.
+4. In Brevo **Authenticate** klicken. Das kann Minuten bis 48 Stunden dauern.
+5. **Senders → Add a sender**: Name `Second-Order Resonance`, Adresse `noreply@secondorderresonance.de`.
+6. **Settings → SMTP & API**:
+   - Reiter **SMTP**: „Generate SMTP key“. Login (steht dort) und SMTP-Schlüssel (`xsmtpsib-…`) notieren.
+   - Reiter **API Keys**: „Generate a new API key“. Schlüssel (`xkeysib-…`) notieren.
+7. Supabase **SQL Editor**:
    ```sql
-   select vault.create_secret('re_DEIN_SCHLUESSEL', 'resend_api_key');
+   select vault.create_secret('xkeysib-DEIN_SCHLUESSEL', 'brevo_api_key');
    ```
-4. Test: auf der Website ein Konto anlegen. Die Mail „Neuer Account: …“ kommt nach wenigen Sekunden. Inhalt: Name, Rolle, Klasse, Stadt, Uhrzeit. Die Mailadresse der Person steht bewusst nicht drin (Datensparsamkeit), sie ist im Dashboard unter Authentication → Users sichtbar.
+8. Supabase **Authentication → Emails → SMTP Settings**: Enable custom SMTP an.
+   - Sender email `noreply@secondorderresonance.de`, Sender name `Second-Order Resonance`
+   - Host `smtp-relay.brevo.com`, Port `587`, Username = SMTP-Login aus Brevo, Password = SMTP-Schlüssel
+9. **Authentication → Sign In / Providers → Email**: „Confirm email“ eingeschaltet lassen.
+10. Test: auf der Website ein Konto anlegen. Die Bestätigungsmail kommt bei dir an, und nach dem Bestätigen die Mail „Neuer Account: …“.
 
-## 6. Später empfohlen: eigener Mailversand für Bestätigung und Passwort
-1. In Resend **Domains → Add Domain** `secondorderresonance.de`, die angezeigten DNS-Einträge beim Domain-Anbieter eintragen, auf „Verified“ warten.
-2. In Supabase **Authentication → Emails → SMTP Settings**: Custom SMTP an, Host `smtp.resend.com`, Port `465`, Benutzer `resend`, Passwort = Resend-API-Key, Absender `noreply@secondorderresonance.de`, Name `Second-Order Resonance`.
-3. „Confirm email“ wieder einschalten. Jetzt funktionieren Bestätigung und „Passwort vergessen“ für alle.
-4. In `supabase/setup.sql` kann der Absender dann auf `noreply@secondorderresonance.de` geändert werden (Funktion `notify_new_account`, erneut ausführen).
+## 6. Ohne Mailversand starten (Notlösung)
+Solange Schritt 5 nicht fertig ist: „Confirm email“ ausschalten. Konten sind dann sofort aktiv, „Passwort vergessen“ funktioniert nicht, und neue Konten siehst du unter Authentication → Users. Wichtig: Die Weltkugel zählt nur bestätigte Konten.
 
 ## 7. Rechtliches (keine Rechtsberatung)
 - Bei Supabase unter **Organization Settings → Legal Documents** den Auftragsverarbeitungsvertrag (DPA) abschließen.
-- Die Datenschutzerklärung beschreibt Supabase, Resend und die Weltkugel bereits. Sie sollte live gehen, sobald die Konten aktiv sind.
-- Resend und Gmail sind US-Anbieter. Die Betreiber-Mail enthält deshalb nur Anzeigename, Rolle, Klasse, Stadt und Zeit.
+- Die Datenschutzerklärung beschreibt Supabase, Brevo und die Weltkugel bereits. Sie sollte live gehen, sobald die Konten aktiv sind.
+- Brevo sitzt in Frankreich, Gmail ist ein US-Anbieter. Die Betreiber-Mail enthält deshalb nur Anzeigename, Rolle, Klasse, Stadt und Zeit.
+- Bei Brevo den Auftragsverarbeitungsvertrag (DPA) in den Kontoeinstellungen annehmen.
 
 ## Was die Website dann macht
 - Registrierung und Anmeldung laufen über Supabase. Alte Konten, die nur auf einem Gerät liegen, funktionieren weiter. Wer sich mit derselben Mailadresse registriert, nimmt seinen Fortschritt mit.
