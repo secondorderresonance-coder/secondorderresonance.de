@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.4.0`
+- `v3.5.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,42 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.5.0)
+User request: much cooler animations that invite learning, a different look per age group, a small animation with the SOR wave on every click, a map of mathematics, and explorable pages for Euler's formula, the Basel problem, the Riemann hypothesis and Gödel's theorem. Also requested: permanent accounts with e-mail notification and a globe of users. Clarified with the owner: Supabase (EU) for accounts, look by level plus free choice, voluntary city for the globe, and design and animations first.
+
+### Changes in this iteration
+- **Age-group design** (`app/modules/sor-fx.js`, `app/modules/sor-age.css`). `<html data-age="kid|teen|uni">` switches the look of all pages.
+  - Automatic mode follows the page: grades 1 to 6 and L1/L2 are playful, grades 7 to 13 and L3 keep the familiar look, L4 and above are calm and dense.
+  - The look can be chosen freely with the button in the header and with three animated cards on the homepage.
+  - Primary look: brighter colours, rounder and larger controls, floating maths symbols and the mascot "Resi" (the resonance wave with eyes) that cheers, comforts and tells small facts.
+- **Click wave**: every click draws the resonance wave of the logo at the pointer. Correct answers trigger a burst of waves, wrong answers a short shake. The strength depends on the age group.
+- **Maths wonders** (`app/wunder.html`, `app/modules/wonders.js`): four explorables with four interactive canvas scenes and a closing question each.
+  - Euler's formula: quarter turns, (1 + iπ/n)^n, unit circle and wave, e^(iπ) = −1.
+  - Basel problem: stacking squares, convergence against the harmonic series, Euler's sine product, coprime random pairs.
+  - Riemann hypothesis: sieve, prime staircase with Li(x), ζ on the critical line (Borwein algorithm, zeros verified numerically), explicit formula with up to 30 zeros.
+  - Gödel: the liar, Gödel numbering with BigInt, the sentence G, and the three properties that cannot hold together.
+- **Map of mathematics** (`app/karte.html`, `app/data/mathmap.js`): 50 places in nine regions with 83 paths. Drag, pinch and zoom, level filter, a panel with prerequisites and next places, links to practice, courses and wonders, visited places from the learning progress. The landscape is drawn procedurally in our own line style.
+- Navigation: new entries "Karte" and "Wunder". The top bar collapses at 1240 px.
+- The taste-skill (github.com/leonxlnx/taste-skill) was read and its motion rules applied where they fit: transform and opacity only, one easing family, hover only as a small step, reduced-motion support, plain copy. Its page builder and checker target new company landing pages with its own design system, so they were not run against this site, because AGENTS.md requires the existing identity to stay.
+
+### Files touched
+- New: `app/modules/sor-fx.js`, `app/modules/sor-age.css`, `app/modules/wonders.js`, `app/wunder.html`, `app/karte.html`, `app/data/mathmap.js`, `tools/map-qa.js`
+- Changed: all HTML pages (two tags in the head), `app/modules/sor-nav.js`, `app/modules/sor-ui.css`, `app/ueben.html`, `app/kurs.html`, `app/klasse.html`, `index.html`, `datenschutz.html`, `sw.js`
+- `BACKLOG.md`, `STATUS.md`, `VERSION.md`
+
+### Validation
+- `node tools/map-qa.js`: 50 places, all links valid, no cycles
+- `exercise-qa` (DE and EN), `core-qa`, `coverage-qa`, `exam-qa`, `archive-qa`, `site-qa`: OK
+- Playwright: 17 pages × 3 looks × 3 widths × 2 languages without errors, overflow or external requests
+- Playwright: every wonder scene with all buttons and sliders operated, in both languages and two widths, no errors and no NaN
+- Numerical check of ζ: ζ(2) = π²/6 to 15 digits, |ζ(1/2 + it)| < 2·10⁻⁶ at the first 13 known zeros
+
+### Blockers
+- Permanent accounts, e-mail notification and the globe need a Supabase project from the owner (project URL and anon key). Not started in code.
+
+### Next logical step
+- Supabase accounts with progress sync, a database webhook that mails each new registration to the owner, and the globe of users with voluntary city.
 
 ## Last completed task (v3.4.0)
 User request: add many physics exercises based on Hering, Martin, Stohrer, "Physik für Ingenieure". Clarified with the owner: one lesson per book section, all chapters 1 to 10.

@@ -12,6 +12,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="SOR Mathe">
 <script src="./modules/pwa.js?v=3.2.0"></script>
+<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.0">
+<script src="./modules/sor-fx.js?v=3.5.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="Choose a grade | Second-Order Resonance">Klasse wählen | Second-Order Resonance</title>
 <meta name="description" content="Alle Mathe-Themen deines Jahrgangs auf einen Blick: Kernidee, Formel, Animation und direkt üben." data-en-content="All maths topics of your grade at a glance: key idea, formula, animation and direct practice.">
@@ -210,6 +212,7 @@
         try { grade = parseInt(localStorage.getItem("sor-last-grade"), 10) || 5; } catch (e) { grade = 5; }
     }
     try { localStorage.setItem("sor-last-grade", String(grade)); } catch (e) { /* ignorieren */ }
+    if (window.SOR_FX) SOR_FX.setContext({ grade: grade });
 
     // Klassenleiste
     var nav = document.getElementById("grades");

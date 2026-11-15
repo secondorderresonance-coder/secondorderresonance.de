@@ -12,6 +12,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="SOR Mathe">
 <script src="app/modules/pwa.js?v=3.2.0"></script>
+<link rel="stylesheet" href="app/modules/sor-age.css?v=3.5.0">
+<script src="app/modules/sor-fx.js?v=3.5.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="Second-Order Resonance | Practise maths from grade 1 to university">Second-Order Resonance | Mathe üben von Klasse 1 bis Studium</title>
 <meta name="description" content="Mathe üben von Klasse 1 bis ins Studium: adaptive Aufgaben mit Lösungsweg, 3D-Labor, Sterne und Abzeichen, Dashboard für Lehrkräfte." data-en-content="Practise maths from grade 1 to university: adaptive exercises with worked solutions, a 3D lab, stars and badges, a dashboard for teachers.">
@@ -201,6 +203,7 @@
         <li><a href="schulen.html" class="nav-link" data-en="For schools">Für Schulen</a></li>
         <li><a href="app/konto.html" class="nav-link" data-en="Account">Konto</a></li>
       </ul>
+      <span data-age-slot></span>
       <span class="lang-slot" id="langSlot"></span>
       <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu" data-en-aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <a href="app/ueben.html" class="btn btn-primary nav-cta" style="text-decoration:none;font-weight:600;font-size:0.9rem;padding:0.6rem 1.15rem;border-radius:999px;color:#0a0e1c;background:var(--accent);white-space:nowrap;box-shadow:0 8px 24px rgba(245,197,24,0.22);" data-en="Practise now">Jetzt üben</a>
@@ -274,6 +277,73 @@
   </section>
 
   <!-- LEVELS -->
+
+  <!-- STUFENWAHL: Aussehen je Altersgruppe (sor-fx.js) -->
+  <section id="stufe" style="position:relative;padding:1rem 1.5rem 3.5rem;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="max-width:40rem;margin-bottom:1.6rem;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#35e0c4;margin-bottom:0.7rem;" data-en="Your look">Dein Aussehen</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.6rem,3.2vw,2.3rem);letter-spacing:-0.02em;line-height:1.15;" data-en="Who is learning today?">Wer lernt heute?</h2>
+        <p style="color:#aab2cc;margin-top:0.7rem;" data-en="Pick a stage and the whole site changes its look. Without a choice it follows the grade or course you practise.">Wähle eine Stufe und die ganze Seite ändert ihr Aussehen. Ohne Auswahl richtet sie sich nach der Klasse oder dem Kurs, den du übst.</p>
+      </div>
+      <div class="age-pick reveal">
+        <button type="button" class="age-card" data-age-pick="kid" aria-pressed="false">
+          <span class="age-on" data-en="active">aktiv</span>
+          <span class="age-art kid"><svg class="bob" viewBox="0 0 96 80" width="92" height="76"><path d="M6 44 C18 44 18 14 34 14 C50 14 50 66 66 66 C78 66 80 44 90 44" fill="none" stroke="#f5c518" stroke-width="13" stroke-linecap="round"/><ellipse cx="29" cy="17" rx="4" ry="5" fill="#16123a"/><ellipse cx="41" cy="17" rx="4" ry="5" fill="#16123a"/><path d="M31 25 Q35 29 39 25" fill="none" stroke="#16123a" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3 data-en="Primary school">Grundschule</h3>
+          <p data-en="Colourful, big and playful. Resi the wave cheers you on. Grades 1 to 6.">Bunt, groß und verspielt. Resi, die Welle, feuert dich an. Klasse 1 bis 6.</p>
+        </button>
+        <button type="button" class="age-card" data-age-pick="teen" aria-pressed="false">
+          <span class="age-on" data-en="active">aktiv</span>
+          <span class="age-art teen"><svg viewBox="0 0 160 60" width="150" height="56"><path class="draw" pathLength="100" d="M6 30 C20 30 20 8 34 8 C48 8 48 52 62 52 C76 52 76 8 90 8 C104 8 104 52 118 52 C132 52 132 30 154 30" fill="none" stroke="#f5c518" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <h3 data-en="School">Schule</h3>
+          <p data-en="The familiar look with XP, stars and streaks. Grades 7 to 13.">Der gewohnte Stil mit XP, Sternen und Serien. Klasse 7 bis 13.</p>
+        </button>
+        <button type="button" class="age-card" data-age-pick="uni" aria-pressed="false">
+          <span class="age-on" data-en="active">aktiv</span>
+          <span class="age-art uni"><svg viewBox="0 0 160 60" width="150" height="56"><path d="M10 50 H150 M10 50 V8" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><path class="draw" pathLength="100" d="M10 46 C40 46 52 44 62 30 C70 18 74 10 80 10 C86 10 90 18 98 30 C108 44 120 46 150 46" fill="none" stroke="#eef1f7" stroke-width="1.8"/></svg></span>
+          <h3 data-en="University">Studium</h3>
+          <p data-en="Calm, dense and plain. Focus on formulas and derivations.">Ruhig, dicht und sachlich. Der Blick bleibt auf Formeln und Herleitungen.</p>
+        </button>
+      </div>
+      <p class="reveal" style="margin-top:1rem;font-size:0.88rem;color:#6b7490;"><button type="button" data-age-pick="auto" aria-pressed="false" style="font:inherit;color:#98a2bd;background:none;border:0;text-decoration:underline;cursor:pointer;padding:0;" data-en="Choose automatically again">Wieder automatisch wählen</button></p>
+    </div>
+  </section>
+
+
+  <!-- KARTE UND WUNDER -->
+  <section id="entdecken" style="position:relative;padding:1rem 1.5rem 4.5rem;">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem;">
+      <a href="app/karte.html" class="reveal lift visual-card" style="display:block;text-decoration:none;border-radius:20px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.035);overflow:hidden;">
+        <svg viewBox="0 0 560 220" style="display:block;width:100%;height:auto;background:#070a15" aria-hidden="true">
+          <path d="M380 220 C400 170 470 160 560 130 L560 220 Z" fill="#0a1830" stroke="rgba(96,165,250,0.5)"/>
+          <g fill="#0b1124" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linejoin="round"><path d="M150 120 L200 40 L250 120 Z"/><path d="M215 120 L280 20 L345 120 Z"/><path d="M320 120 L365 55 L410 120 Z"/></g>
+          <path d="M200 150 C260 120 300 150 350 140 S440 170 500 150" fill="none" stroke="rgba(125,243,223,0.85)" stroke-width="2.4" stroke-dasharray="6 14"><animate attributeName="stroke-dashoffset" values="0;-40" dur="2s" repeatCount="indefinite"/></path>
+          <g fill="none" stroke="rgba(255,255,255,0.25)" stroke-dasharray="2 6" stroke-width="1.4"><path d="M70 180 Q130 150 200 150"/><path d="M200 150 Q270 90 350 140"/><path d="M350 140 Q430 100 500 60"/></g>
+          <g stroke-width="3" fill="#0a0e1c"><circle cx="70" cy="180" r="9" stroke="#4ade80"/><circle cx="200" cy="150" r="9" stroke="#facc15"/><circle cx="350" cy="140" r="9" stroke="#f59e0b"/><circle cx="500" cy="60" r="10" stroke="#94a3b8"/></g>
+          <text x="500" y="65" text-anchor="middle" font-size="12" fill="#f5c518">★</text>
+        </svg>
+        <div style="padding:1.3rem 1.4rem 1.5rem;">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.25rem;margin-bottom:0.4rem;" data-en="Map of mathematics">Landkarte der Mathematik</h3>
+          <p style="color:#aab2cc;font-size:0.95rem;" data-en="50 topics as places, from the land of numbers to the lighthouse of logic. See what builds on what.">50 Themen als Orte, vom Zahlenland bis zum Leuchtturm der Logik. Sieh, was worauf aufbaut.</p>
+        </div>
+      </a>
+      <a href="app/wunder.html" class="reveal lift visual-card" style="display:block;text-decoration:none;border-radius:20px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.035);overflow:hidden;">
+        <svg viewBox="0 0 560 220" style="display:block;width:100%;height:auto;background:#070a15" aria-hidden="true">
+          <line x1="40" y1="110" x2="520" y2="110" stroke="rgba(255,255,255,0.2)"/><line x1="150" y1="20" x2="150" y2="200" stroke="rgba(255,255,255,0.2)"/>
+          <circle cx="150" cy="110" r="70" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+          <g><animateTransform attributeName="transform" type="rotate" from="0 150 110" to="-360 150 110" dur="8s" repeatCount="indefinite"/><line x1="150" y1="110" x2="220" y2="110" stroke="#f5c518" stroke-width="2.5"/><circle cx="220" cy="110" r="7" fill="#f5c518"/></g>
+          <path d="M250 110 C285 110 285 40 320 40 C355 40 355 180 390 180 C425 180 425 40 460 40 C495 40 495 110 520 110" fill="none" stroke="#e94560" stroke-width="2.4" stroke-linecap="round"/>
+          <text x="385" y="208" text-anchor="middle" font-family="Instrument Serif,Georgia,serif" font-style="italic" font-size="24" fill="#eef1f7">e<tspan dy="-9" font-size="15">iπ</tspan><tspan dy="9"> + 1 = 0</tspan></text>
+        </svg>
+        <div style="padding:1.3rem 1.4rem 1.5rem;">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.25rem;margin-bottom:0.4rem;" data-en="Maths wonders">Mathe-Wunder</h3>
+          <p style="color:#aab2cc;font-size:0.95rem;" data-en="Euler's formula, the Basel problem, the Riemann hypothesis and Gödel's theorem. Each in four steps with sliders to play with.">Euler-Formel, Basler Problem, Riemann-Hypothese und Gödels Satz. Jeweils in vier Schritten mit Reglern zum Ausprobieren.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <section id="levels" style="position:relative;padding:6rem 1.5rem;">
     <div style="max-width:1180px;margin:0 auto;">
       <div class="reveal" style="text-align:center;margin-bottom:3.4rem;">
