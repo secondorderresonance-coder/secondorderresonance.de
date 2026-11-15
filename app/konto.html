@@ -38,6 +38,11 @@
   .roles label:has(input:checked){border-color:var(--accent);background:rgba(245,197,24,0.08)}
   .roles small{color:var(--muted);font-size:0.78rem}
   .err{color:#ff8fa3;font-size:0.9rem;min-height:1.2rem}
+  .ok-msg{color:var(--teal);font-size:0.95rem;line-height:1.5}
+  .cloud-only{display:none} body.cloud .cloud-only{display:block} body.cloud .local-only{display:none}
+  .consent{display:flex;gap:0.6rem;align-items:flex-start;font-size:0.86rem;color:var(--muted);line-height:1.45}
+  .consent input{margin-top:0.2rem;accent-color:#f5c518}
+  .linkbtn{font:inherit;font-size:0.86rem;color:var(--muted);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;justify-self:start}
   .phead{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;margin-bottom:1.4rem}
   .pavatar{width:76px;height:76px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;color:#0a0e1c}
   .phead h1{font-size:1.9rem}
@@ -79,7 +84,8 @@
           <div class="perk"><i>🔥</i><span data-en="&lt;strong&gt;Streak and daily goal.&lt;/strong&gt; Small daily goals instead of long study evenings."><strong>Lernserie und Tagesziel.</strong> Kleine tägliche Ziele statt langer Lernabende.</span></div>
           <div class="perk"><i>🏫</i><span data-en="&lt;strong&gt;Classes.&lt;/strong&gt; Teachers set assignments, students join with a code."><strong>Klassen.</strong> Lehrkräfte vergeben Aufträge, Schülerinnen und Schüler treten mit einem Code bei.</span></div>
         </div>
-        <p class="notice" style="margin-top:1.4rem" data-en="Accounts are currently stored only in this browser and are not sent to a server. That is why your account is not yet available on another device.">Konten werden derzeit nur in diesem Browser gespeichert und nicht an einen Server übertragen. Auf einem anderen Gerät ist dein Konto deshalb noch nicht verfügbar.</p>
+        <p class="notice local-only" style="margin-top:1.4rem" data-en="Accounts are currently stored only in this browser and are not sent to a server. That is why your account is not yet available on another device.">Konten werden derzeit nur in diesem Browser gespeichert und nicht an einen Server übertragen. Auf einem anderen Gerät ist dein Konto deshalb noch nicht verfügbar.</p>
+        <p class="notice cloud-only" style="margin-top:1.4rem" data-en="Your account is stored permanently on a server in Frankfurt (EU). You can use it on any device and delete it at any time.">Dein Konto wird dauerhaft auf einem Server in Frankfurt (EU) gespeichert. Du kannst es auf jedem Gerät nutzen und jederzeit löschen.</p>
       </div>
       <div class="card">
         <div class="tabs" role="tablist">
@@ -90,6 +96,7 @@
           <div class="field"><label for="lEmail" data-en="Email">E-Mail</label><input class="input" id="lEmail" type="email" autocomplete="username" required></div>
           <div class="field"><label for="lPass" data-en="Password">Passwort</label><input class="input" id="lPass" type="password" autocomplete="current-password" required></div>
           <div class="err" id="lErr" role="alert"></div>
+          <button type="button" class="linkbtn cloud-only" id="forgotBtn" data-en="Forgot password?">Passwort vergessen?</button>
           <button class="btn btn-primary" type="submit" data-en="Sign in">Anmelden</button>
         </form>
         <form class="stack" id="regForm" hidden>
@@ -99,7 +106,9 @@
           </div>
           <div class="field"><label for="rName" data-en="Display name">Anzeigename</label><input class="input" id="rName" autocomplete="nickname" maxlength="30" required></div>
           <div class="field"><label for="rEmail" data-en="Email">E-Mail</label><input class="input" id="rEmail" type="email" autocomplete="username" required></div>
-          <div class="field"><label for="rPass" data-en="Password (at least 6 characters)">Passwort (mindestens 6 Zeichen)</label><input class="input" id="rPass" type="password" autocomplete="new-password" minlength="6" required></div>
+          <div class="field"><label for="rPass" data-en="Password (at least 8 characters)">Passwort (mindestens 8 Zeichen)</label><input class="input" id="rPass" type="password" autocomplete="new-password" minlength="6" required></div>
+          <div class="field cloud-only"><label for="rCity" data-en="Your city, optional (shown on the globe only as a dot)">Deine Stadt, freiwillig (erscheint auf der Weltkugel nur als Punkt)</label><select class="select" id="rCity"></select></div>
+          <label class="consent cloud-only"><input type="checkbox" id="rConsent"><span data-en="I am at least 16 years old, or a parent agrees to this account. I have read the &lt;a href=&quot;../datenschutz.html&quot;&gt;privacy policy&lt;/a&gt;.">Ich bin mindestens 16 Jahre alt oder ein Elternteil ist mit dem Konto einverstanden. Die <a href="../datenschutz.html">Datenschutzerklärung</a> habe ich gelesen.</span></label>
           <div class="err" id="rErr" role="alert"></div>
           <button class="btn btn-primary" type="submit" data-en="Create account">Konto erstellen</button>
         </form>
@@ -129,7 +138,8 @@
         </div>
         <div class="card">
           <h2 class="sec" data-en="My data">Meine Daten</h2>
-          <p class="muted" style="font-size:0.9rem;margin-bottom:0.9rem" data-en="Everything is stored in this browser. You can download your data or delete it completely at any time.">Alles liegt in diesem Browser. Du kannst deine Daten jederzeit herunterladen oder vollständig löschen.</p>
+          <p class="muted" id="cloudNote" style="font-size:0.9rem;margin-bottom:0.9rem" hidden></p>
+          <p class="muted" id="localNote" style="font-size:0.9rem;margin-bottom:0.9rem" data-en="Everything is stored in this browser. You can download your data or delete it completely at any time.">Alles liegt in diesem Browser. Du kannst deine Daten jederzeit herunterladen oder vollständig löschen.</p>
           <div class="rowbtns">
             <button class="btn btn-ghost btn-sm" id="exportBtn" type="button" data-en="Download data">Daten herunterladen</button>
             <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button" data-en="Sign out">Abmelden</button>
@@ -146,9 +156,12 @@
 <script src="./data/courses-hm.js?v=3.3.0"></script>
 <script src="./data/courses-ph.js?v=3.4.0"></script>
 <script src="./data/courses-2.js?v=3.4.0"></script>
-<script src="./modules/sor-core.js?v=3.1.0"></script>
-<script src="./modules/rewards.js?v=3.1.0"></script>
-<script src="./modules/sor-nav.js?v=3.5.0"></script>
+<script src="./modules/sor-core.js?v=3.6.0"></script>
+<script src="./modules/rewards.js?v=3.6.0"></script>
+<script src="./data/cloud-config.js?v=3.6.0"></script>
+<script src="./data/cities.js?v=3.6.0"></script>
+<script src="./modules/sor-cloud.js?v=3.6.0"></script>
+<script src="./modules/sor-nav.js?v=3.6.0"></script>
 <script>
 (function () {
     "use strict";
@@ -160,12 +173,47 @@
     function setTab(reg) { $("tabLogin").setAttribute("aria-selected", String(!reg)); $("tabReg").setAttribute("aria-selected", String(reg)); $("loginForm").hidden = reg; $("regForm").hidden = !reg; }
     $("tabLogin").addEventListener("click", function () { setTab(false); });
     $("tabReg").addEventListener("click", function () { setTab(true); });
-    $("loginForm").addEventListener("submit", function (ev) { ev.preventDefault(); var r = SOR.accounts.login($("lEmail").value, $("lPass").value); if (!r.ok) { $("lErr").textContent = r.error; return; } afterAuth(r.account, false); });
+    var CL = window.SOR_CLOUD && SOR_CLOUD.enabled ? SOR_CLOUD : null;
+    if (CL) {
+        document.body.classList.add("cloud");
+        $("rCity").innerHTML = '<option value="">' + $t("keine Angabe", "not specified") + "</option>" + SOR_CITIES.list.slice().sort(function (a, b) { return a.name.localeCompare(b.name, "de"); }).map(function (c) { return '<option value="' + c.id + '">' + esc(c.name) + "</option>"; }).join("");
+    }
+    function busy(form, on) { Array.prototype.forEach.call(form.querySelectorAll("button,input,select"), function (el) { el.disabled = on; }); }
+    $("loginForm").addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        if (!CL) { var r = SOR.accounts.login($("lEmail").value, $("lPass").value); if (!r.ok) { $("lErr").textContent = r.error; return; } afterAuth(r.account, false); return; }
+        var f = $("loginForm"), em = $("lEmail").value, pw = $("lPass").value; busy(f, true); $("lErr").textContent = "";
+        CL.signIn(em, pw).then(function (res) {
+            busy(f, false);
+            if (res.ok) { afterAuth(SOR.accounts.current(), false); return; }
+            var loc = SOR.accounts.login(em, pw);   // älteres Konto, das nur auf diesem Gerät liegt
+            if (loc.ok) { afterAuth(loc.account, false); NAV.toast($t("<span>Dieses Konto liegt nur auf diesem Gerät. Registriere dich mit derselben E-Mail, dann wird es dauerhaft gespeichert und dein Fortschritt übernommen.</span>", "<span>This account only exists on this device. Register with the same email to store it permanently and keep your progress.</span>")); return; }
+            $("lErr").textContent = res.error;
+        });
+    });
+    $("forgotBtn").addEventListener("click", function () {
+        var em = $("lEmail").value.trim(); if (!em) { $("lErr").textContent = $t("Gib zuerst deine E-Mail-Adresse ein.", "Enter your email address first."); return; }
+        CL.resetPassword(em).then(function (r) { $("lErr").innerHTML = r.ok ? '<span class="ok-msg">' + $t("Wenn es ein Konto gibt, ist eine Mail zum Zurücksetzen unterwegs.", "If an account exists, an email to reset the password is on its way.") + "</span>" : esc(r.error); });
+    });
     $("regForm").addEventListener("submit", function (ev) {
         ev.preventDefault();
-        var role = document.querySelector('input[name="role"]:checked').value, r = SOR.accounts.register({ email: $("rEmail").value, displayName: $("rName").value, password: $("rPass").value, role: role });
-        if (!r.ok) { $("rErr").textContent = r.error; return; }
-        afterAuth(r.account, true);
+        var role = document.querySelector('input[name="role"]:checked').value;
+        if (!CL) { var r = SOR.accounts.register({ email: $("rEmail").value, displayName: $("rName").value, password: $("rPass").value, role: role }); if (!r.ok) { $("rErr").textContent = r.error; return; } afterAuth(r.account, true); return; }
+        if ($("rName").value.trim().length < 2) { $("rErr").textContent = $t("Der Anzeigename braucht mindestens 2 Zeichen.", "The display name needs at least 2 characters."); return; }
+        if ($("rPass").value.length < 8) { $("rErr").textContent = $t("Das Passwort braucht mindestens 8 Zeichen.", "The password needs at least 8 characters."); return; }
+        if (!$("rConsent").checked) { $("rErr").textContent = $t("Bitte bestätige Alter und Datenschutzerklärung.", "Please confirm the age and privacy policy."); return; }
+        var f = $("regForm"), cur = SOR.accounts.current(); busy(f, true); $("rErr").textContent = "";
+        CL.signUp({ email: $("rEmail").value, password: $("rPass").value, displayName: $("rName").value, role: role, city: $("rCity").value }).then(function (res) {
+            busy(f, false);
+            if (!res.ok) { $("rErr").textContent = res.error; return; }
+            if (res.confirm) { $("rErr").innerHTML = '<span class="ok-msg">' + $t("Fast geschafft! Wir haben dir eine Mail geschickt. Klicke auf den Link darin, dann ist dein Konto aktiv und du bist hier angemeldet.", "Almost done! We have sent you an email. Click the link in it, then your account is active and you are signed in here.") + "</span>"; return; }
+            afterAuth(SOR.accounts.current(), !cur);
+        });
+    });
+    window.addEventListener("sor-cloud-ready", function (e) {
+        render();
+        if (e.detail && e.detail.recovery) { var pw = window.prompt($t("Neues Passwort (mindestens 8 Zeichen):", "New password (at least 8 characters):")); if (pw && pw.length >= 8) CL.setPassword(pw).then(function (r) { NAV.toast(r.ok ? $t("<span>Passwort geändert.</span>", "<span>Password changed.</span>") : "<span>" + esc(r.error) + "</span>"); }); }
+        else NAV.toast($t("✅ <span>Konto bestätigt. Willkommen!</span>", "✅ <span>Account confirmed. Welcome!</span>"));
     });
     function afterAuth(acc, isNew) {
         if (isNew && REW.adoptGuest(acc.id)) NAV.toast($t("✅ <span>Dein bisheriger Fortschritt wurde in das Konto übernommen.</span>", "✅ <span>Your previous progress has been moved into the account.</span>"));
@@ -180,6 +228,9 @@
         var acc = SOR.accounts.current();
         $("guest").hidden = !!acc; $("member").hidden = !acc;
         if (!acc) { if (location.hash === "#registrieren") setTab(true); return; }
+        var online = !!(CL && CL.user() && CL.user().email && CL.user().email.toLowerCase() === acc.id);
+        $("cloudNote").hidden = !online; $("localNote").hidden = online;
+        if (online) $("cloudNote").innerHTML = "☁️ " + $t("Dein Fortschritt wird automatisch in deinem Online-Konto gespeichert (Server in Frankfurt). Du kannst ihn herunterladen oder das Konto mit allen Daten löschen.", "Your progress is saved automatically in your online account (server in Frankfurt). You can download it or delete the account with all data.");
         var p = REW.profile(), lv = REW.level(p.xp), acc100 = p.stats.total ? Math.round(p.stats.correct / p.stats.total * 100) : 0;
         $("phead").innerHTML = '<div class="pavatar" style="background:' + esc(acc.avatarColor) + '">' + esc(acc.displayName.slice(0, 1).toUpperCase()) + '</div><div style="flex:1;min-width:240px"><div class="kicker">' + (acc.role === "lehrkraft" ? $t("Lehrkraft", "Teacher") : $t("Lernkonto", "Learning account")) + "</div><h1>" + esc(acc.displayName) + $t('</h1><div style="max-width:420px;margin-top:0.6rem"><div style="display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.3rem"><span>Stufe ', "</h1><div style=\"max-width:420px;margin-top:0.6rem\"><div style=\"display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.3rem\"><span>Level ") + lv.level + " · " + lv.title + "</span><span>" + lv.into + " / " + lv.need + ' XP</span></div><div class="bar"><span style="width:' + Math.round(lv.progress * 100) + '%"></span></div></div></div><a class="btn btn-primary" href="' + (acc.role === "lehrkraft" ? "lehrer.html" : "ueben.html") + '">' + (acc.role === "lehrkraft" ? $t("Zum Klassen-Dashboard →", "Class dashboard →") : $t("Jetzt üben →", "Practise now →")) + "</a>";
         $("kpis").innerHTML = [[p.xp.toLocaleString($t("de-DE", "en-GB")), $t("XP gesamt", "XP in total")], ["🔥 " + p.streak.count, $t("Tage Lernserie", "day streak")], [REW.totalStars(p) + " ⭐", $t("Sterne", "stars")], [acc100 + " %", $t("Trefferquote", "accuracy")]].map(function (k) { return '<div class="kpi"><b>' + k[0] + "</b><small>" + k[1] + "</small></div>"; }).join("");
@@ -210,7 +261,7 @@
     }
     $("goals").addEventListener("click", function (ev) { var b = ev.target.closest("[data-goal]"); if (!b) return; REW.setGoal(Number(b.getAttribute("data-goal"))); render(); });
     $("classCard").addEventListener("click", function (ev) { var b = ev.target.closest("[data-leave]"); if (!b) return; SOR.school.leave(b.getAttribute("data-leave"), SOR.accounts.current().id); render(); });
-    $("logoutBtn").addEventListener("click", function () { SOR.accounts.logout(); render(); });
+    $("logoutBtn").addEventListener("click", function () { if (CL && CL.user()) CL.signOut().then(render); else { SOR.accounts.logout(); render(); } });
     $("exportBtn").addEventListener("click", function () {
         var acc = SOR.accounts.current(), data = SOR.accounts.exportData(acc.id), a = document.createElement("a");
         a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = "sor-daten-" + SOR.today() + ".json"; document.body.appendChild(a); a.click(); a.remove();
@@ -218,9 +269,11 @@
     $("deleteBtn").addEventListener("click", function () {
         var acc = SOR.accounts.current();
         if (!window.confirm($t("Konto „", "Permanently delete the account “") + acc.displayName + $t("“ mit allen XP, Sternen und Abzeichen endgültig löschen?", "” with all XP, stars and badges?"))) return;
+        if (CL && CL.user()) { CL.deleteAccount().then(function (ok) { if (!ok) { NAV.toast($t("<span>Löschen hat nicht geklappt. Bitte später erneut versuchen.</span>", "<span>Deleting did not work. Please try again later.</span>")); return; } render(); NAV.toast($t("<span>Online-Konto und Lerndaten wurden gelöscht.</span>", "<span>Online account and learning data have been deleted.</span>")); }); return; }
         SOR.accounts.remove(acc.id); render(); NAV.toast($t("<span>Konto und Lerndaten wurden gelöscht.</span>", "<span>Account and learning data have been deleted.</span>"));
     });
     render();
+    if (CL && CL.user()) CL.sync().then(render);
 })();
 </script>
 </body>

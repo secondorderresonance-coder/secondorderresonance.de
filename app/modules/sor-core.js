@@ -114,6 +114,15 @@
             return { ok: true, account: publicView(email, acc) };
         },
         logout: function () { var s = loadAcc(); s.current = null; saveAcc(s); },
+        // Übernimmt ein Cloud-Konto (sor-cloud.js) als lokales Konto ohne eigenes Passwort und meldet es an
+        adopt: function (o) {
+            var email = normEmail(o.email), s = loadAcc(), acc = s.accounts[email];
+            if (!email) return null;
+            if (!acc) { acc = s.accounts[email] = { email: email, displayName: String(o.displayName || email.split("@")[0]).slice(0, 30), password: "", role: o.role === "lehrkraft" ? "lehrkraft" : "schueler", grade: o.grade || null, avatarColor: COLORS[email.charCodeAt(0) % COLORS.length], createdAt: new Date().toISOString(), hearts: 5, heartsLastRefill: new Date().toISOString(), progress: {} }; setPassword(acc, randomId(24)); }
+            acc.cloud = true; if (o.displayName) acc.displayName = String(o.displayName).slice(0, 30); if (o.role) acc.role = o.role === "lehrkraft" ? "lehrkraft" : "schueler"; if (o.grade !== undefined) acc.grade = o.grade;
+            s.current = email; saveAcc(s);
+            return publicView(email, acc);
+        },
         update: function (id, patch) {
             var s = loadAcc(), acc = s.accounts[id]; if (!acc) return null;
             ["displayName", "role", "grade", "avatarColor"].forEach(function (k) { if (patch[k] !== undefined) acc[k] = patch[k]; });

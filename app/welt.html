@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../assets/app/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/app/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/app/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="SOR Mathe">
+<script src="./modules/pwa.js?v=3.2.0"></script>
+<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.0">
+<script src="./modules/sor-fx.js?v=3.5.0"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Learners worldwide | Second-Order Resonance">Lernende weltweit | Second-Order Resonance</title>
+<meta name="description" content="Wo auf der Welt mit Second-Order Resonance gelernt wird: eine Weltkugel mit einem Lichtstrahl je Ort. Ohne Namen, nur freiwillige Ortsangaben." data-en-content="Where in the world people learn with Second-Order Resonance: a globe with a beam of light per place. No names, only voluntary locations.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.5.0">
+<style>
+  .wrap{max-width:1400px}
+  .gl{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.2rem;align-items:center}
+  .stage{position:relative;aspect-ratio:1/1;max-height:78vh;width:100%;margin:0 auto}
+  #globe{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+  #globe.drag{cursor:grabbing}
+  .side h1{font-size:clamp(1.9rem,4vw,2.8rem);margin:0.5rem 0 0.7rem}
+  .side p{color:var(--soft)}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin:1.3rem 0}
+  .big div{padding:1rem;border-radius:16px;border:1px solid var(--line);background:var(--card)}
+  .big b{display:block;font:700 2rem 'Space Grotesk',sans-serif;color:var(--accent)}
+  .big small{color:var(--muted)}
+  .top{display:grid;gap:0.35rem;margin-top:0.6rem}
+  .top button{display:flex;justify-content:space-between;gap:1rem;font:inherit;color:var(--text);background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:0.55rem 0.8rem;cursor:pointer;text-align:left}
+  .top button:hover{border-color:var(--accent)}
+  .top span:last-child{color:var(--teal);font-family:'IBM Plex Mono',monospace}
+  .tip{position:absolute;pointer-events:none;background:rgba(10,14,28,0.92);border:1px solid var(--line2);border-radius:10px;padding:0.35rem 0.6rem;font-size:0.86rem;white-space:nowrap;transform:translate(-50%,-140%);opacity:0;transition:opacity .15s}
+  @media (max-width:980px){.gl{grid-template-columns:1fr}.stage{max-width:620px}}
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="welt"></div>
+<main class="wrap">
+  <div class="gl">
+    <div class="stage"><canvas id="globe" aria-label="Weltkugel mit Lernorten" data-en-aria-label="Globe with learning places" role="img"></canvas><div class="tip" id="tip"></div></div>
+    <aside class="side">
+      <div class="kicker" data-en="Learners worldwide">Lernende weltweit</div>
+      <h1 data-en="Where people <span class=&quot;serif&quot; style=&quot;color:var(--accent)&quot;>resonate</span>">Wo gerade <span class="serif" style="color:var(--accent)">mitgeschwungen</span> wird</h1>
+      <p data-en="Every beam is a place where someone learns with an account. The higher the beam, the more learners. There are no names here, only the city that people chose to share when registering.">Jeder Lichtstrahl ist ein Ort, an dem jemand mit Konto lernt. Je höher der Strahl, desto mehr Lernende. Hier stehen keine Namen, nur die Stadt, die jemand bei der Registrierung freiwillig angegeben hat.</p>
+      <div class="big"><div><b id="nTotal">–</b><small data-en="accounts">Konten</small></div><div><b id="nPlaces">–</b><small data-en="places">Orte</small></div></div>
+      <div id="state" class="notice" hidden></div>
+      <div class="top" id="top"></div>
+      <p class="muted" style="margin-top:1.2rem;font-size:0.9rem"><a href="konto.html#registrieren" data-en="Create an account and add your dot">Konto erstellen und eigenen Punkt setzen</a></p>
+    </aside>
+  </div>
+</main>
+
+<script src="./data/landmask.js?v=3.6.0"></script>
+<script src="./data/cities.js?v=3.6.0"></script>
+<script src="./modules/sor-core.js?v=3.6.0"></script>
+<script src="./modules/rewards.js?v=3.6.0"></script>
+<script src="./data/cloud-config.js?v=3.6.0"></script>
+<script src="./modules/sor-cloud.js?v=3.6.0"></script>
+<script src="./modules/sor-nav.js?v=3.6.0"></script>
+<script>
+(function () {
+    "use strict";
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var cv = document.getElementById("globe"), x = cv.getContext("2d"), tip = document.getElementById("tip"), esc = SOR_NAV.esc, CITIES = window.SOR_CITIES;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches, D2R = Math.PI / 180;
+    // Landpunkte: Fibonacci-Kugel, gefiltert mit der Landmaske
+    var bin = atob(window.SOR_LANDMASK), LAND = [], N = 16000, i;
+    function isLand(lat, lon) { var j = Math.min(179, Math.floor(90 - lat)), k = Math.min(359, Math.floor(lon + 180)), b = j * 360 + k; return (bin.charCodeAt(b >> 3) >> (b & 7)) & 1; }
+    for (i = 0; i < N; i += 1) { var yy = 1 - 2 * (i + 0.5) / N, lat = Math.asin(yy) / D2R, lon = ((i * 137.50776) % 360) - 180; if (isLand(lat, lon)) LAND.push([lat * D2R, lon * D2R]); }
+    var rotLon = -11 * D2R, rotLat = 28 * D2R, spin = reduce ? 0 : 0.0016, W = 0, H = 0, R = 0, dpr = 1, pts = [], t0 = performance.now(), drag = null, hover = null;
+    function fit() { var r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); R = Math.min(W, H) * 0.4; }
+    function proj(lat, lon) { var cl = Math.cos(lat), px = cl * Math.sin(lon + rotLon), py = Math.sin(lat), pz = cl * Math.cos(lon + rotLon), y2 = py * Math.cos(rotLat) - pz * Math.sin(rotLat), z2 = py * Math.sin(rotLat) + pz * Math.cos(rotLat); return [W / 2 + px * R, H / 2 - y2 * R, z2]; }
+    function draw(now) {
+        x.clearRect(0, 0, W, H);
+        var g = x.createRadialGradient(W / 2, H / 2, R * 0.9, W / 2, H / 2, R * 1.35); g.addColorStop(0, "rgba(53,224,196,0.16)"); g.addColorStop(1, "rgba(53,224,196,0)"); x.fillStyle = g; x.beginPath(); x.arc(W / 2, H / 2, R * 1.35, 0, 7); x.fill();
+        var g2 = x.createRadialGradient(W / 2 - R * 0.3, H / 2 - R * 0.4, R * 0.1, W / 2, H / 2, R); g2.addColorStop(0, "#0f2a2c"); g2.addColorStop(1, "#060c12"); x.fillStyle = g2; x.beginPath(); x.arc(W / 2, H / 2, R, 0, 7); x.fill();
+        x.strokeStyle = "rgba(53,224,196,0.35)"; x.lineWidth = 1; x.stroke();
+        // Längen- und Breitenkreise
+        x.strokeStyle = "rgba(53,224,196,0.08)";
+        for (var la = -60; la <= 60; la += 30) { x.beginPath(); var first = true; for (var lo = -180; lo <= 180; lo += 4) { var p = proj(la * D2R, lo * D2R); if (p[2] < 0) { first = true; continue; } if (first) x.moveTo(p[0], p[1]); else x.lineTo(p[0], p[1]); first = false; } x.stroke(); }
+        var ds = Math.max(1, R / 230);
+        for (i = 0; i < LAND.length; i += 1) { var q = proj(LAND[i][0], LAND[i][1]); if (q[2] <= 0) continue; x.fillStyle = "rgba(53,224,196," + (0.25 + q[2] * 0.6).toFixed(2) + ")"; x.fillRect(q[0] - ds / 2, q[1] - ds / 2, ds * 1.3, ds * 1.3); }
+        // Strahlen
+        var tt = (now - t0) / 1000; hover = null;
+        pts.forEach(function (pt, k) {
+            var a = proj(pt.lat, pt.lon); if (a[2] <= 0.02) return;
+            var h = (0.3 + 0.16 * Math.log2(pt.n + 1)) * (reduce ? 1 : 0.85 + 0.15 * Math.sin(tt * 2 + k)), cl = Math.cos(pt.lat), nx = cl * Math.sin(pt.lon + rotLon), ny = Math.sin(pt.lat), nz = cl * Math.cos(pt.lon + rotLon), y2 = ny * Math.cos(rotLat) - nz * Math.sin(rotLat);
+            var bx = a[0] + nx * R * h, by = a[1] - y2 * R * h, lg = x.createLinearGradient(a[0], a[1], bx, by), col = pt.own ? "245,197,24" : "255,255,255";
+            lg.addColorStop(0, "rgba(" + col + ",0.95)"); lg.addColorStop(1, "rgba(" + col + ",0)");
+            x.strokeStyle = lg; x.lineWidth = 3 + Math.min(4, pt.n * 0.4); x.lineCap = "round"; x.beginPath(); x.moveTo(a[0], a[1]); x.lineTo(bx, by); x.stroke();
+            x.beginPath(); x.arc(a[0], a[1], 4 + (reduce ? 0 : 2 * Math.sin(tt * 3 + k) + 2), 0, 7); x.strokeStyle = "rgba(" + (pt.own ? "245,197,24" : "53,224,196") + ",0.9)"; x.lineWidth = 2; x.stroke();
+            x.beginPath(); x.arc(a[0], a[1], 2.6, 0, 7); x.fillStyle = "#fff"; x.fill();
+            pt.sx = a[0]; pt.sy = a[1];
+        });
+    }
+    function frame(now) { if (!drag) rotLon += spin; draw(now); requestAnimationFrame(frame); }
+    function flyTo(pt) { var tl = -pt.lon, tla = pt.lat * 0.9, s0 = rotLon, s1 = rotLat, d = ((tl - s0) % (2 * Math.PI) + 3 * Math.PI) % (2 * Math.PI) - Math.PI, st = performance.now(); spin = 0; (function step(now) { var k = Math.min(1, (now - st) / (reduce ? 1 : 900)), e = 1 - Math.pow(1 - k, 3); rotLon = s0 + d * e; rotLat = s1 + (tla - s1) * e; if (k < 1) requestAnimationFrame(step); })(st); }
+    cv.addEventListener("pointerdown", function (e) { drag = { x: e.clientX, y: e.clientY }; spin = 0; cv.classList.add("drag"); try { cv.setPointerCapture(e.pointerId); } catch (er) { /* ok */ } });
+    cv.addEventListener("pointermove", function (e) {
+        if (drag) { rotLon += (e.clientX - drag.x) / R; rotLat = Math.max(-1.3, Math.min(1.3, rotLat + (e.clientY - drag.y) / R)); drag = { x: e.clientX, y: e.clientY }; return; }
+        var r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top, best = null;
+        pts.forEach(function (p) { if (p.sx !== undefined && Math.hypot(p.sx - mx, p.sy - my) < 14) best = p; });
+        tip.style.opacity = best ? 1 : 0; if (best) { tip.style.left = best.sx + "px"; tip.style.top = best.sy + "px"; tip.innerHTML = "<b>" + esc(best.name) + "</b> · " + best.n + " " + (best.n === 1 ? $t("Konto", "account") : $t("Konten", "accounts")); }
+    });
+    function up() { drag = null; cv.classList.remove("drag"); }
+    cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+    window.addEventListener("resize", fit); fit();
+    if (window.SOR_FX) SOR_FX.setContext({ level: 3 });
+
+    // Daten
+    var state = document.getElementById("state");
+    function show(res) {
+        pts = res.points.map(function (p) { var c = CITIES.get(p.city); return c ? { lat: c.lat * D2R, lon: c.lon * D2R, n: p.n, name: c.name } : null; }).filter(Boolean);
+        document.getElementById("nTotal").textContent = res.total ? res.total.toLocaleString($t("de-DE", "en-GB")) : (res.offline ? "–" : "0");
+        document.getElementById("nPlaces").textContent = res.offline ? "–" : String(pts.length);
+        if (res.offline) { state.hidden = false; state.textContent = $t("Die Weltkugel füllt sich, sobald die dauerhaften Konten freigeschaltet sind. Bis dahin leuchtet nur der Ort, an dem diese Seite entsteht.", "The globe fills up as soon as permanent accounts are switched on. Until then only the place where this site is made is lit."); pts = [{ lat: 48.14 * D2R, lon: 11.58 * D2R, n: 1, name: $t("München: hier entsteht Second-Order Resonance", "Munich: where Second-Order Resonance is made"), own: true }]; }
+        else if (!res.total) { state.hidden = false; state.textContent = $t("Noch hat niemand eine Stadt angegeben. Sei die erste Person!", "Nobody has shared a city yet. Be the first!"); }
+        var sorted = pts.slice().sort(function (a, b) { return b.n - a.n; }).slice(0, 8);
+        document.getElementById("top").innerHTML = sorted.map(function (p, k) { return '<button type="button" data-k="' + k + '"><span>' + esc(p.name) + "</span><span>" + p.n + "</span></button>"; }).join("");
+        document.getElementById("top").onclick = function (e) { var b = e.target.closest("[data-k]"); if (b) flyTo(sorted[+b.getAttribute("data-k")]); };
+    }
+    (window.SOR_CLOUD ? SOR_CLOUD.globe() : Promise.resolve({ total: 0, points: [], offline: true })).then(show);
+    requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

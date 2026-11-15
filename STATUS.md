@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.5.1`
+- `v3.6.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,33 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.6.0)
+User request: implement all proposed extensions and explain how to create the Supabase URL and public key. Notification mails go to secondorderresonance@gmail.com. This iteration delivers part 1: permanent accounts and the globe.
+
+### Changes in this iteration
+- Online accounts via Supabase (EU) in plain fetch, without a library (`app/modules/sor-cloud.js`, `app/data/cloud-config.js`):
+  - registration with optional city and an age and privacy confirmation
+  - sign-in, password reset and e-mail confirmation
+  - progress sync after every exercise, and account deletion
+  - Device-only accounts keep working. Registering with the same address takes the progress along. With an empty config, everything stays local.
+- Database script `supabase/setup.sql`:
+  - `profiles` with row level security, and a trigger that validates input
+  - `delete_my_account()`, and anonymous `globe_points()` that counts confirmed accounts per city
+  - an owner mail via Resend with name, role, class, city and time (no e-mail address, no progress)
+- Globe `app/welt.html`: rotating dot globe from Natural Earth land data, light beams per city, top list with fly-to. Offline only Munich is lit.
+- `app/data/cities.js` (150 cities plus country-only options), a privacy policy section "Online-Konto (freiwillig)", the guide `docs/supabase-setup.md`, and the globe in the "More" menu.
+
+### Validation
+- Playwright with mocked Supabase: consent check, confirmation flow, merge of guest and cloud progress, upload after practice, sign-out, wrong password, sign-in again, deletion.
+- `setup.sql` run twice on PostgreSQL 16 with auth, vault and pg_net stubs: validation, row level security isolation, globe counting, deletion cascade, and mail only when a key exists.
+- QA: site, core, map, archive and exercise QA all OK. Smoke test of 9 pages at 1300 px and 390 px, DE and EN: no errors, no overflow, no external requests.
+
+### Blockers
+- Activation needs the owner to follow `docs/supabase-setup.md` and send the project URL and publishable key.
+
+### Next logical step
+- Part 2: school explorables and the oscillation lab. Part 3: daily challenge, learning journeys, region badges, sound and worksheets.
 
 ## Last completed task (v3.5.1)
 User request: remove the textbook author references from the site, keep expanding the site and suggest further ideas.
