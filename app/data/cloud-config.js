@@ -6,4 +6,4 @@
  *      Dieser Schlüssel darf öffentlich im Code stehen, die Daten schützt die Row Level Security in supabase/setup.sql.
  *      Den "service_role"- oder "secret"-Schlüssel NIE hier eintragen.
  */
-window.SOR_CLOUD_CONFIG = { url: "", key: "" };
+window.SOR_CLOUD_CONFIG = { url: "https://xsmsiqqkgoizfjrohtit.supabase.co", key: "sb_publishable_0Mfkbqo9NJLaLLLpWwfwcQ_Cqo8p31Z" };
