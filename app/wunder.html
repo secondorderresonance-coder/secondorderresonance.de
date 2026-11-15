@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../assets/app/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/app/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/app/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="SOR Mathe">
+<script src="./modules/pwa.js?v=3.2.0"></script>
+<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.0">
+<script src="./modules/sor-fx.js?v=3.5.0"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Maths wonders | Second-Order Resonance">Mathe-Wunder | Second-Order Resonance</title>
+<meta name="description" content="Vier große Ideen der Mathematik zum Anfassen: Euler-Formel, Basler Problem, Riemann-Hypothese und Gödels Unvollständigkeitssatz, Schritt für Schritt mit interaktiven Animationen." data-en-content="Four big ideas of mathematics to play with: Euler's formula, the Basel problem, the Riemann hypothesis and Gödel's incompleteness theorem, step by step with interactive animations.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.5.0">
+<style>
+  .hero{max-width:46rem;margin-bottom:2rem}
+  .hero h1{font-size:clamp(2rem,4.6vw,3.1rem);margin:0.6rem 0 0.8rem}
+  .hero p{color:var(--soft);font-size:1.08rem}
+  .wgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}
+  .wcard{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:center;text-decoration:none;padding:1.5rem;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .18s}
+  .wcard:hover{transform:translateY(-3px);border-color:rgba(245,197,24,0.55)}
+  .wcard .ico{width:74px;height:74px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:rgba(245,197,24,0.08);border:1px solid rgba(245,197,24,0.3)}
+  .wcard h2{font-size:1.3rem;margin-bottom:0.3rem}
+  .wcard p{color:var(--soft);font-size:0.95rem}
+  .wcard .meta{display:flex;gap:0.5rem;margin-top:0.7rem;flex-wrap:wrap}
+  .wcard .seen{color:var(--teal);border-color:rgba(53,224,196,0.4)}
+  .wtop{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;flex-wrap:wrap}
+  .wtop a{color:var(--muted);text-decoration:none;font-size:0.92rem}
+  .wtop a:hover{color:var(--text)}
+  .wdots{display:flex;gap:0.4rem;margin-left:auto}
+  .wdots button{width:34px;height:8px;border-radius:999px;border:0;background:rgba(255,255,255,0.14);cursor:pointer;padding:0}
+  .wdots button[aria-current="step"]{background:var(--accent)}
+  .wdots button.done{background:var(--teal)}
+  .scene{display:grid;grid-template-columns:minmax(0,0.82fr) minmax(0,1.18fr);gap:1.4rem;align-items:start}
+  .scene-text .kicker{margin-bottom:0.6rem}
+  .scene-text h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:0.9rem}
+  .scene-text p.lead{color:var(--soft);font-size:1.06rem;line-height:1.7}
+  .scene-text p.lead b{color:var(--text)}
+  .ctl{display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;margin-top:1.3rem}
+  .w-slider{flex:1 1 100%;display:grid;gap:0.3rem;font-size:0.9rem;color:var(--muted)}
+  .w-slider b{color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:500}
+  .w-slider input{width:100%;accent-color:#f5c518;height:28px}
+  .w-note{flex:1 1 100%;font-family:'IBM Plex Mono',monospace;font-size:0.95rem;color:var(--soft);background:rgba(0,0,0,0.25);border:1px solid var(--line);border-radius:12px;padding:0.65rem 0.85rem;min-height:2.6rem;order:-1}
+  .w-note b{color:var(--accent)}
+  .stage{position:sticky;top:84px;border-radius:var(--radius);border:1px solid var(--line);background:rgba(8,11,24,0.6);padding:0.8rem;min-height:280px}
+  .w-canvas{display:block;width:100%;touch-action:pan-y}
+  .wnav{display:flex;justify-content:space-between;gap:0.8rem;margin-top:2rem}
+  .w-html{padding:0.8rem}
+  .w-card{border:1px solid var(--line2);border-radius:16px;padding:1.1rem 1.2rem;background:rgba(255,255,255,0.04)}
+  .w-big{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:clamp(1.5rem,3.4vw,2.2rem);text-align:center}
+  .w-flip{margin-top:1.2rem;min-height:5.5rem;font-size:1.02rem;color:var(--soft);text-align:center;line-height:1.8}
+  .w-chip{display:inline-block;padding:0.1rem 0.7rem;border-radius:999px;font-weight:700}
+  .w-chip.ok{background:rgba(53,224,196,0.18);color:var(--teal)} .w-chip.no{background:rgba(233,69,96,0.18);color:var(--red)}
+  .w-keys{display:grid;grid-template-columns:repeat(5,1fr);gap:0.45rem}
+  .w-key{display:grid;justify-items:center;padding:0.5rem 0.2rem;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,0.04);cursor:pointer;font:inherit;color:var(--text)}
+  .w-key:hover{border-color:var(--accent)}
+  .w-key b{font-size:1.25rem;font-family:'IBM Plex Mono',monospace} .w-key small{color:var(--muted);font-size:0.72rem}
+  .w-formula{display:flex;flex-wrap:wrap;gap:0.3rem;justify-content:center;margin:1.1rem 0 0.7rem;min-height:2.8rem}
+  .w-formula span{min-width:2.2rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:1.4rem;padding:0.2rem 0.4rem;border-radius:9px;background:rgba(245,197,24,0.12);border:1px solid rgba(245,197,24,0.35)}
+  .w-fact{text-align:center;font-family:'IBM Plex Mono',monospace;color:var(--teal);min-height:1.6rem;line-height:2}
+  .w-num{text-align:center;margin-top:0.6rem;color:var(--soft);word-break:break-all;line-height:1.5}
+  .w-num b{color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:500}
+  .w-branch{margin-top:1rem;display:grid;justify-items:center;gap:0.3rem}
+  .w-step{width:100%;text-align:center;padding:0.7rem 0.9rem;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,0.04);opacity:0;animation:wIn .4s cubic-bezier(.22,1,.36,1) forwards}
+  .w-step.ok{border-color:rgba(53,224,196,0.5);background:rgba(53,224,196,0.08)} .w-step.no{border-color:rgba(233,69,96,0.5);background:rgba(233,69,96,0.08)}
+  .w-arrow{color:var(--dim);line-height:1}
+  @keyframes wIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .w-switches{display:grid;gap:0.6rem;padding:0.8rem}
+  .w-switch{display:flex;align-items:center;gap:0.9rem;text-align:left;font:inherit;color:var(--text);padding:0.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,0.03);cursor:pointer}
+  .w-switch i{flex:0 0 46px;height:26px;border-radius:999px;background:rgba(255,255,255,0.14);position:relative;transition:background .18s}
+  .w-switch i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+  .w-switch[aria-checked="true"] i{background:var(--teal)} .w-switch[aria-checked="true"] i::after{transform:translateX(20px)}
+  .w-switch[aria-checked="false"]{opacity:0.6}
+  .w-switch b{display:block} .w-switch small{color:var(--muted)}
+  .w-ex{margin:0 0.8rem 0.8rem;order:0}
+  .quiz{max-width:44rem;margin:0 auto;text-align:center}
+  .quiz h2{font-size:clamp(1.4rem,3vw,2rem);margin:0.6rem 0 1.4rem}
+  .quiz .opts{display:grid;gap:0.6rem}
+  .quiz .opt{font:inherit;color:var(--text);text-align:left;padding:0.9rem 1.1rem;border-radius:14px;border:1px solid var(--line2);background:var(--card);cursor:pointer;transition:border-color .15s,transform .15s}
+  .quiz .opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-1px)}
+  .quiz .opt.right{border-color:var(--teal);background:rgba(53,224,196,0.1)} .quiz .opt.wrong{border-color:var(--red);background:rgba(233,69,96,0.08)}
+  .quiz .why{margin-top:1.2rem;color:var(--soft)}
+  .more{display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
+  @media (max-width:900px){.scene{grid-template-columns:1fr}.stage{position:static;order:-1}.wgrid{grid-template-columns:1fr}}
+  @media (max-width:520px){.wcard{grid-template-columns:1fr}.w-keys{gap:0.3rem}}
+  @media (prefers-reduced-motion:reduce){.w-step{opacity:1;animation:none}}
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="wunder"></div>
+<main class="wrap" id="main"></main>
+
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.5.0"></script>
+<script src="./modules/wonders.js?v=3.5.0"></script>
+<script>
+(function () {
+    "use strict";
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var main = document.getElementById("main"), W = window.SOR_WONDERS, esc = SOR_NAV.esc;
+    var id = new URLSearchParams(location.search).get("t"), w = id && W.get(id), cleanup = null, idx = 0;
+    var seen = {}; try { seen = JSON.parse(localStorage.getItem("sor-wonders") || "{}") || {}; } catch (e) { seen = {}; }
+    var LV = ["", "#4ade80", "#facc15", "#f59e0b", "#60a5fa", "#8b5cf6", "#94a3b8"];
+    function lvl(n) { return '<span class="chip" style="border-color:' + LV[n] + ";color:" + LV[n] + '">L' + n + "</span>"; }
+
+    function overview() {
+        document.title = $t("Mathe-Wunder | Second-Order Resonance", "Maths wonders | Second-Order Resonance");
+        main.innerHTML = '<div class="hero"><div class="kicker">' + $t("Mathe-Wunder", "Maths wonders") + "</div><h1>" + $t("Große Ideen zum <span class=\"serif\" style=\"color:var(--accent)\">Anfassen</span>", "Big ideas you can <span class=\"serif\" style=\"color:var(--accent)\">touch</span>") + "</h1><p>" +
+            $t("Vier berühmte Ergebnisse, jeweils in vier kurzen Schritten. Du brauchst keine Vorkenntnisse aus dem Studium. Zieh an den Reglern und sieh selbst, warum es stimmt.", "Four famous results, each in four short steps. You need no university background. Move the sliders and see for yourself why it is true.") + '</p></div><div class="wgrid">' +
+            W.list.map(function (x) { return '<a class="wcard" href="wunder.html?t=' + x.id + '"><div class="ico" aria-hidden="true">' + x.icon + "</div><div><h2>" + esc(x.title) + "</h2><p>" + esc(x.lead) + '</p><div class="meta">' + lvl(x.level) + '<span class="chip">' + x.scenes + $t(" Schritte", " steps") + "</span>" + (seen[x.id] ? '<span class="chip seen">✓ ' + $t("entdeckt", "explored") + "</span>" : "") + "</div></div></a>"; }).join("") +
+            '</div><p class="muted" style="margin-top:1.6rem">' + $t("Wo diese Ideen in der Mathematik liegen, zeigt die ", "Where these ideas sit in mathematics is shown on the ") + '<a href="karte.html">' + $t("Landkarte der Mathematik", "map of mathematics") + "</a>.</p>";
+    }
+
+    function render() {
+        if (cleanup) { cleanup(); cleanup = null; }
+        var n = w.scenes.length, quiz = idx === n, s = w.scenes[idx];
+        var dots = '<div class="wdots" role="tablist">' + w.scenes.concat([0]).map(function (_, i) { return '<button type="button" data-go="' + i + '" class="' + (i < idx ? "done" : "") + '"' + (i === idx ? ' aria-current="step"' : "") + ' aria-label="' + $t("Schritt ", "Step ") + (i + 1) + '"></button>'; }).join("") + "</div>";
+        var top = '<div class="wtop"><a href="wunder.html">← ' + $t("Alle Wunder", "All wonders") + '</a><span class="chip">' + w.icon + " " + esc(w.title) + "</span>" + dots + "</div>";
+        if (quiz) {
+            main.innerHTML = top + '<div class="quiz card"><div class="kicker">' + $t("Kurz geprüft", "Quick check") + "</div><h2>" + w.quiz.q + '</h2><div class="opts">' + w.quiz.options.map(function (o, i) { return '<button type="button" class="opt" data-o="' + i + '">' + o + "</button>"; }).join("") + '</div><div class="why" aria-live="polite"></div><div class="more" hidden></div></div><div class="wnav"><button type="button" class="btn btn-ghost" data-go="' + (n - 1) + '">← ' + $t("Zurück", "Back") + "</button></div>";
+        } else {
+            main.innerHTML = top + '<div class="scene"><div class="scene-text"><div class="kicker">' + $t("Schritt ", "Step ") + (idx + 1) + $t(" von ", " of ") + n + "</div><h2>" + s.title + '</h2><p class="lead">' + s.text + '</p><div class="ctl"></div></div><div class="stage"></div></div>' +
+                '<div class="wnav"><button type="button" class="btn btn-ghost" data-go="' + (idx - 1) + '"' + (idx === 0 ? " disabled" : "") + ">← " + $t("Zurück", "Back") + '</button><button type="button" class="btn btn-primary" data-go="' + (idx + 1) + '">' + (idx === n - 1 ? $t("Zum Abschluss", "Finish") : $t("Weiter", "Next")) + " →</button></div>";
+            cleanup = s.mount(main.querySelector(".stage"), main.querySelector(".ctl")) || null;
+        }
+        if (history.replaceState) history.replaceState(null, "", "wunder.html?t=" + w.id + (idx ? "&s=" + (idx + 1) : ""));
+    }
+
+    main.addEventListener("click", function (e) {
+        var go = e.target.closest("[data-go]"), opt = e.target.closest("[data-o]");
+        if (go && w && !go.disabled) { idx = Math.max(0, Math.min(w.scenes.length, parseInt(go.getAttribute("data-go"), 10))); render(); window.scrollTo(0, 0); return; }
+        if (opt && w) {
+            var i = parseInt(opt.getAttribute("data-o"), 10), ok = i === w.quiz.right, box = main.querySelector(".quiz");
+            Array.prototype.forEach.call(box.querySelectorAll(".opt"), function (b, k) { b.disabled = true; if (k === w.quiz.right) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); });
+            box.querySelector(".why").innerHTML = (ok ? "<strong>" + $t("Richtig!", "Correct!") + "</strong> " : "<strong>" + $t("Nicht ganz.", "Not quite.") + "</strong> ") + w.quiz.why;
+            if (window.SOR_FX) { if (ok) SOR_FX.celebrate(opt); else SOR_FX.miss(opt); }
+            seen[w.id] = true; try { localStorage.setItem("sor-wonders", JSON.stringify(seen)); } catch (e2) { /* privat */ }
+            var others = W.list.filter(function (x) { return x.id !== w.id; }), more = box.querySelector(".more");
+            more.hidden = false; more.innerHTML = others.map(function (x) { return '<a class="btn btn-ghost btn-sm" href="wunder.html?t=' + x.id + '">' + x.icon + " " + esc(x.title) + "</a>"; }).join("") + '<a class="btn btn-teal btn-sm" href="karte.html">' + $t("Zur Landkarte", "To the map") + "</a>";
+        }
+    });
+
+    if (w) {
+        if (window.SOR_FX) SOR_FX.setContext({ level: w.level });
+        document.title = w.title + " | Second-Order Resonance";
+        idx = Math.max(0, Math.min(w.scenes.length, (parseInt(new URLSearchParams(location.search).get("s"), 10) || 1) - 1));
+        render();
+    } else overview();
+})();
+</script>
+</body>
+</html>

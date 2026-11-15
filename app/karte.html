@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<script src="./modules/i18n.js?v=3.1.0"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../assets/app/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/app/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/app/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="SOR Mathe">
+<script src="./modules/pwa.js?v=3.2.0"></script>
+<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.0">
+<script src="./modules/sor-fx.js?v=3.5.0"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-en="Map of mathematics | Second-Order Resonance">Landkarte der Mathematik | Second-Order Resonance</title>
+<meta name="description" content="Die Landkarte der Mathematik: 50 Themen von der Grundschule bis zur Forschung als Orte auf einer Karte, mit den Wegen, die sie verbinden." data-en-content="The map of mathematics: 50 topics from primary school to research as places on a map, with the paths that connect them.">
+<meta name="theme-color" content="#0a0e1c">
+<link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.5.0">
+<style>
+  .wrap{max-width:1480px}
+  .hero{display:flex;gap:1.5rem;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:1.2rem}
+  .hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);margin:0.5rem 0 0.5rem}
+  .hero p{color:var(--soft);max-width:44rem}
+  .filters{display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center}
+  .filters button{font:600 0.86rem 'Space Grotesk',sans-serif;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:0.35rem 0.8rem;cursor:pointer}
+  .filters button[aria-pressed="true"]{color:#0a0e1c;background:var(--lc,var(--accent));border-color:transparent}
+  .maplayout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:1rem;align-items:start}
+  .mapbox{position:relative;border-radius:var(--radius);border:1px solid var(--line);background:#070a15;overflow:hidden}
+  #map{display:block;width:100%;height:min(72vh,820px);touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+  #map.drag{cursor:grabbing}
+  .zoom{position:absolute;right:12px;top:12px;display:grid;gap:6px}
+  .zoom button{width:38px;height:38px;border-radius:11px;border:1px solid var(--line2);background:rgba(10,14,28,0.85);color:var(--text);font-size:1.15rem;cursor:pointer}
+  .legend{position:absolute;left:12px;bottom:10px;display:flex;gap:0.8rem;flex-wrap:wrap;font-size:0.74rem;color:var(--muted);background:rgba(7,10,21,0.75);padding:0.35rem 0.6rem;border-radius:9px;pointer-events:none}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:0.3rem;vertical-align:-1px}
+  .panel{position:sticky;top:84px;min-height:320px}
+  .panel h2{font-size:1.4rem;margin:0.5rem 0 0.6rem}
+  .panel p{color:var(--soft)}
+  .panel .rel{margin-top:1rem}
+  .panel .rel small{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem}
+  .panel .rel button{font:inherit;font-size:0.86rem;color:var(--text);background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:999px;padding:0.25rem 0.7rem;margin:0 0.3rem 0.35rem 0;cursor:pointer}
+  .panel .rel button:hover{border-color:var(--accent)}
+  .panel .go{margin-top:1.2rem;display:flex;gap:0.6rem;flex-wrap:wrap}
+  .places{margin-top:2.2rem}
+  .places h2{font-size:1.25rem;margin-bottom:0.9rem}
+  .places .lv{display:grid;grid-template-columns:5.5rem 1fr;gap:0.6rem;padding:0.7rem 0;border-top:1px solid var(--line)}
+  .places .lv button{font:inherit;font-size:0.88rem;color:var(--soft);background:none;border:1px solid var(--line);border-radius:999px;padding:0.2rem 0.7rem;margin:0 0.3rem 0.35rem 0;cursor:pointer}
+  .places .lv button:hover{color:var(--text);border-color:var(--line2)}
+  .places .lv button.vis{border-color:rgba(53,224,196,0.5);color:var(--teal)}
+  /* Karte */
+  .rg{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:30px;fill:rgba(255,255,255,0.34);text-anchor:middle;pointer-events:none}
+  .edge{fill:none;stroke:rgba(255,255,255,0.2);stroke-width:1.6;stroke-dasharray:2 7;stroke-linecap:round;transition:stroke .2s,opacity .2s}
+  .edge.in{stroke:#f5c518;stroke-width:3;stroke-dasharray:10 8;animation:flow 1.1s linear infinite}
+  .edge.out{stroke:#35e0c4;stroke-width:2.4;stroke-dasharray:10 8;animation:flow 1.1s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-18}}
+  .node{cursor:pointer;outline:none}
+  .node circle.ring{fill:#0a0e1c;stroke-width:3.2;transition:r .15s}
+  .node circle.core{transition:r .15s}
+  .node text{font:600 14px 'Space Grotesk',sans-serif;fill:#eef1f7;text-anchor:middle;paint-order:stroke;stroke:#070a15;stroke-width:4.5px;stroke-linejoin:round;pointer-events:none}
+  .node:hover circle.ring,.node:focus-visible circle.ring{r:15}
+  .node.sel circle.ring{r:17;fill:#141a30}
+  .node.sel text{fill:#f5c518;font-size:16px}
+  .node.dim{opacity:0.22}
+  .node .halo{fill:none;stroke-width:2;opacity:0}
+  .node.sel .halo{animation:halo 1.6s ease-out infinite}
+  @keyframes halo{0%{r:14;opacity:0.9}100%{r:38;opacity:0}}
+  .edge.dim{opacity:0.25}
+  .river{fill:none;stroke-linecap:round}
+  .riverflow{stroke-dasharray:6 22;animation:flow2 2.4s linear infinite}
+  @keyframes flow2{to{stroke-dashoffset:-56}}
+  .seawave{animation:sea 7s ease-in-out infinite alternate}
+  @keyframes sea{from{transform:translateX(-14px)}to{transform:translateX(14px)}}
+  .beam{transform-origin:1532px 52px;animation:beam 9s linear infinite}
+  @keyframes beam{to{transform:rotate(360deg)}}
+  @media (max-width:1000px){.maplayout{grid-template-columns:1fr}.panel{position:static;min-height:0}#map{height:62vh}.legend{display:none}}
+  @media (prefers-reduced-motion:reduce){.edge.in,.edge.out,.riverflow,.seawave,.beam,.node.sel .halo{animation:none}}
+</style>
+</head>
+<body>
+<div id="sorHeader" data-page="karte"></div>
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <div class="kicker" data-en="Map of mathematics">Landkarte der Mathematik</div>
+      <h1 data-en="Where does it all <span class=&quot;serif&quot; style=&quot;color:var(--accent)&quot;>connect</span>?">Wie hängt das alles <span class="serif" style="color:var(--accent)">zusammen</span>?</h1>
+      <p data-en="Every topic is a place. The paths show what you need first and where it leads. Tap a place, drag the map, and travel from the land of numbers to the lighthouse of logic.">Jedes Thema ist ein Ort. Die Wege zeigen, was du vorher brauchst und wohin es führt. Tippe einen Ort an, verschiebe die Karte und reise vom Zahlenland bis zum Leuchtturm der Logik.</p>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Level"></div>
+  </div>
+  <div class="maplayout">
+    <div class="mapbox">
+      <svg id="map" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="application" aria-label="Landkarte der Mathematik" data-en-aria-label="Map of mathematics"></svg>
+      <div class="zoom"><button type="button" id="zin" aria-label="Vergrößern" data-en-aria-label="Zoom in">+</button><button type="button" id="zout" aria-label="Verkleinern" data-en-aria-label="Zoom out">−</button><button type="button" id="zall" aria-label="Ganze Karte" data-en-aria-label="Whole map">⤢</button></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <aside class="card panel" id="panel" aria-live="polite"></aside>
+  </div>
+  <section class="places" id="places"></section>
+</main>
+
+<script src="./data/mathmap.js?v=3.5.0"></script>
+<script src="./modules/sor-core.js?v=3.1.0"></script>
+<script src="./modules/rewards.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.5.0"></script>
+<script>
+(function () {
+    "use strict";
+    if (window.SOR_I18N) SOR_I18N.apply();
+    var MM = window.SOR_MATHMAP, lang = (window.SOR_I18N && SOR_I18N.lang) || "de", L = function (o) { return o[lang] || o.de; }, esc = SOR_NAV.esc;
+    var svg = document.getElementById("map"), NS = "http://www.w3.org/2000/svg";
+    var LV = ["", "#4ade80", "#facc15", "#f59e0b", "#60a5fa", "#8b5cf6", "#94a3b8"];
+    var LVN = ["", $t("Grundlagen", "Foundations"), $t("Aufbauwissen", "Building knowledge"), $t("Vertiefung", "Deepening"), $t("Universität", "University"), $t("Angewandt", "Applied"), $t("Forschung", "Research")];
+    var seed = 7; function rnd() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+    var r1 = function (v) { return Math.round(v * 10) / 10; };
+
+    // ---------- Lernstand ----------
+    var prof = window.SOR_REWARDS ? SOR_REWARDS.profile() : { mastery: {} }, seen = {};
+    try { seen = JSON.parse(localStorage.getItem("sor-wonders") || "{}") || {}; } catch (e) { seen = {}; }
+    function visited(n) { var k = n.link.slice(0, 1), v = n.link.slice(2); if (k === "u") return !!prof.mastery[v]; if (k === "w") return !!seen[v]; return Object.keys(prof.mastery).some(function (id) { return id.indexOf(v === "hm1" ? "K-HM-0" : v === "hm2" ? "K-HM-4" : "K-PI-2") === 0; }); }
+    function stars(n) { var m = n.link.slice(0, 1) === "u" ? prof.mastery[n.link.slice(2)] : null; return m ? SOR_REWARDS.stars(m.score) : 0; }
+
+    // ---------- Landschaft ----------
+    var h = "";
+    h += '<defs><radialGradient id="glow" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#101833"/><stop offset="1" stop-color="#070a15"/></radialGradient>' +
+        '<pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="9" stroke="rgba(255,255,255,0.07)" stroke-width="1"/></pattern></defs>';
+    h += '<rect x="-400" y="-300" width="2400" height="1600" fill="url(#glow)"/>';
+    var i, j;
+    for (i = 0; i < 90; i += 1) h += '<circle cx="' + r1(rnd() * 1600) + '" cy="' + r1(rnd() * 1000) + '" r="' + r1(0.5 + rnd()) + '" fill="rgba(255,255,255,' + r1(0.08 + rnd() * 0.2) + ')"/>';
+    // Meere
+    var SEAS = ["M960 1000 C990 930 950 850 1030 815 C1140 775 1290 800 1410 750 C1490 715 1550 725 1600 700 L1600 1000 Z", "M0 0 L310 0 C265 42 180 28 112 60 C60 84 28 122 0 156 Z", "M1225 0 L1600 0 L1600 310 C1572 262 1592 195 1562 152 C1540 120 1566 62 1506 42 C1440 22 1380 58 1320 46 C1278 38 1250 20 1225 0 Z"];
+    SEAS.forEach(function (d) { h += '<path d="' + d + '" fill="#0a1830" stroke="rgba(96,165,250,0.5)" stroke-width="1.6"/>'; });
+    h += '<clipPath id="seaclip">' + SEAS.map(function (d) { return '<path d="' + d + '"/>'; }).join("") + "</clipPath><g clip-path=\"url(#seaclip)\"><g class=\"seawave\">";
+    for (j = 0; j < 26; j += 1) { var wy = 20 + j * 40, wd = "M-40 " + wy; for (i = 0; i < 28; i += 1) wd += " q15 -9 30 0 t30 0"; h += '<path d="' + wd + '" fill="none" stroke="rgba(96,165,250,' + (j % 2 ? 0.2 : 0.12) + ')" stroke-width="1.2" transform="translate(' + (j % 2 ? 15 : 0) + ' 0)"/>'; }
+    h += "</g></g>";
+    // Inseln
+    [[1085, 880, 78, 46], [1215, 925, 70, 40], [1345, 868, 76, 44], [1478, 905, 70, 42], [1492, 787, 62, 36]].forEach(function (I) { h += '<ellipse cx="' + I[0] + '" cy="' + I[1] + '" rx="' + I[2] + '" ry="' + I[3] + '" fill="#0d1428" stroke="rgba(255,255,255,0.45)" stroke-width="1.4"/><ellipse cx="' + I[0] + '" cy="' + I[1] + '" rx="' + (I[2] - 9) + '" ry="' + (I[3] - 8) + '" fill="url(#hatch)"/>'; });
+    // Gebirge (Analysis)
+    var peaks = [[640, 250, 70, 120], [720, 215, 80, 150], [820, 235, 90, 170], [930, 225, 85, 150], [1020, 215, 80, 135], [1110, 190, 70, 110], [680, 330, 60, 85], [880, 310, 65, 90], [1000, 190, 60, 90], [780, 190, 55, 80], [1170, 300, 60, 80], [600, 190, 50, 70]];
+    peaks.sort(function (a, b) { return a[1] - b[1]; }).forEach(function (p) {
+        var x = p[0], y = p[1], w = p[2], hh = p[3], d = "M" + (x - w) + " " + y + " L" + (x - w * 0.25) + " " + (y - hh * 0.72) + " L" + x + " " + (y - hh) + " L" + (x + w * 0.3) + " " + (y - hh * 0.6) + " L" + (x + w) + " " + y;
+        h += '<path d="' + d + ' Z" fill="#0b1124" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linejoin="round"/>';
+        for (j = 1; j <= 4; j += 1) h += '<line x1="' + r1(x + j * 3) + '" y1="' + r1(y - hh + j * hh * 0.16) + '" x2="' + r1(x + w * 0.2 * j) + '" y2="' + r1(y - hh + j * hh * 0.16 + hh * 0.2) + '" stroke="rgba(255,255,255,0.28)" stroke-width="1"/>';
+        h += '<path d="M' + (x - w * 0.12) + " " + (y - hh * 0.86) + " L" + x + " " + (y - hh) + " L" + (x + w * 0.14) + " " + (y - hh * 0.82) + '" fill="none" stroke="#f5c518" stroke-opacity="0.55" stroke-width="1.6"/>';
+    });
+    // Hügel (Algebra)
+    [[560, 720, 60, 26], [650, 660, 70, 30], [760, 730, 80, 30], [850, 680, 70, 28], [700, 800, 90, 30], [900, 810, 70, 24], [600, 560, 60, 24], [780, 540, 70, 26]].forEach(function (q) { h += '<path d="M' + (q[0] - q[2]) + " " + q[1] + " Q" + q[0] + " " + (q[1] - q[3] * 2) + " " + (q[0] + q[2]) + " " + q[1] + '" fill="#0b1124" stroke="rgba(255,255,255,0.3)" stroke-width="1.3"/><path d="M' + (q[0] - q[2] * 0.5) + " " + (q[1] - 5) + " q" + q[2] * 0.3 + " -" + q[3] * 0.7 + " " + q[2] * 0.6 + ' 0" fill="none" stroke="rgba(255,255,255,0.16)"/>'; });
+    // Wald mit Primzahlen
+    var PRI = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
+    for (i = 0; i < 70; i += 1) { var fx = 30 + rnd() * 230, fy = 420 + rnd() * 230, fr = 7 + rnd() * 7; if (Math.hypot(fx - 150, fy - 610) < 34 || Math.hypot(fx - 105, fy - 480) < 34) continue; h += '<circle cx="' + r1(fx) + '" cy="' + r1(fy) + '" r="' + r1(fr) + '" fill="#0b1626" stroke="rgba(74,222,128,0.42)" stroke-width="1.2"/><line x1="' + r1(fx) + '" y1="' + r1(fy + fr) + '" x2="' + r1(fx) + '" y2="' + r1(fy + fr + 5) + '" stroke="rgba(74,222,128,0.35)"/>'; if (i % 5 === 0) h += '<text x="' + r1(fx) + '" y="' + r1(fy + 3.5) + '" font-size="9" font-family="IBM Plex Mono,monospace" fill="rgba(74,222,128,0.8)" text-anchor="middle">' + PRI[(i / 5) % 15] + "</text>"; }
+    // Felder im Zahlenland
+    [[90, 800, 130, 60, -8], [240, 815, 120, 55, 5], [380, 790, 120, 60, -4], [110, 900, 120, 55, 6], [340, 930, 150, 45, -3], [470, 900, 90, 60, 8], [230, 690, 110, 50, 4], [390, 690, 110, 48, -6]].forEach(function (f, k) {
+        h += '<g transform="rotate(' + f[4] + " " + (f[0] + f[2] / 2) + " " + (f[1] + f[3] / 2) + ')"><rect x="' + f[0] + '" y="' + f[1] + '" width="' + f[2] + '" height="' + f[3] + '" fill="none" stroke="rgba(255,255,255,0.22)"/>';
+        for (j = 1; j < 7; j += 1) h += k % 2 ? '<line x1="' + (f[0] + j * f[2] / 7) + '" y1="' + f[1] + '" x2="' + (f[0] + j * f[2] / 7) + '" y2="' + (f[1] + f[3]) + '" stroke="rgba(255,255,255,0.1)"/>' : '<line x1="' + f[0] + '" y1="' + r1(f[1] + j * f[3] / 7) + '" x2="' + (f[0] + f[2]) + '" y2="' + r1(f[1] + j * f[3] / 7) + '" stroke="rgba(255,255,255,0.1)"/>';
+        h += '<text x="' + (f[0] + f[2] / 2) + '" y="' + (f[1] + f[3] / 2 + 6) + '" font-size="17" font-family="Space Grotesk,sans-serif" font-weight="700" fill="rgba(245,197,24,0.2)" text-anchor="middle">' + ["1 2 3", "+ −", "× ÷", "4 5 6", "7 8 9", "%", "½ ¾", "−1"][k] + "</text></g>";
+    });
+    // Geometrie-Formen
+    h += '<g fill="none" stroke="rgba(53,224,196,0.3)" stroke-width="1.3"><path d="M60 250 L110 170 L160 250 Z"/><circle cx="240" cy="120" r="34"/><rect x="380" y="225" width="46" height="46" transform="rotate(12 403 248)"/><path d="M395 110 L470 110 L395 50 Z"/><path d="M300 330 l40 -24 l40 24 l-16 44 l-48 0 Z"/></g>';
+    // Matrix-Stadt
+    h += '<g stroke="rgba(96,165,250,0.4)" fill="none" stroke-width="2"><path d="M985 590 h-16 v170 h16"/><path d="M1365 590 h16 v170 h-16"/></g>';
+    for (i = 0; i < 12; i += 1) for (j = 0; j < 5; j += 1) { var bx = 992 + i * 31, by = 598 + j * 32; if (rnd() < 0.2) continue; h += '<rect x="' + bx + '" y="' + by + '" width="20" height="' + (14 + Math.floor(rnd() * 3) * 4) + '" fill="rgba(96,165,250,' + r1(0.04 + rnd() * 0.1) + ')" stroke="rgba(96,165,250,0.22)"/>'; }
+    // Fluss der Analysis mit Delta
+    var RIV = "M700 440 C760 400 790 372 830 380 S930 422 980 400 S1090 442 1140 480 S1225 548 1290 600 S1380 690 1405 752";
+    h += '<path class="river" d="' + RIV + '" stroke="rgba(53,224,196,0.22)" stroke-width="15"/><path class="river riverflow" d="' + RIV + '" stroke="rgba(125,243,223,0.85)" stroke-width="2.4"/>';
+    ["M1290 600 C1340 610 1400 640 1470 722", "M1290 600 C1300 660 1320 720 1330 790", "M1340 648 C1400 650 1470 640 1560 705"].forEach(function (d) { h += '<path class="river" d="' + d + '" stroke="rgba(53,224,196,0.16)" stroke-width="8"/><path class="river riverflow" d="' + d + '" stroke="rgba(125,243,223,0.55)" stroke-width="1.6"/>'; });
+    // Resonanzwelle am Hafen und Leuchtturm
+    h += '<path d="M1215 300 q12 -34 25 0 t25 0 t25 0 t25 0" fill="none" stroke="rgba(245,197,24,0.5)" stroke-width="2"/>';
+    h += '<g class="beam"><path d="M1532 52 L1300 10 L1300 94 Z" fill="rgba(245,197,24,0.10)"/><path d="M1532 52 L1764 10 L1764 94 Z" fill="rgba(245,197,24,0.05)"/></g><path d="M1522 96 L1526 58 h12 L1542 96 Z" fill="#0b1124" stroke="rgba(255,255,255,0.7)" stroke-width="1.4"/><rect x="1524" y="44" width="16" height="14" fill="#f5c518" fill-opacity="0.85"/><path d="M1521 44 L1532 34 L1543 44 Z" fill="#0b1124" stroke="rgba(255,255,255,0.7)"/>';
+    // Regionen
+    MM.regions.forEach(function (g) { h += '<text class="rg" x="' + g.x + '" y="' + g.y + '">' + esc(L(g.t)) + "</text>"; });
+    // Wege
+    var EDGES = [];
+    MM.nodes.forEach(function (n) { n.pre.forEach(function (pid) { var a = MM.byId(pid); if (!a) return; var mx = (a.x + n.x) / 2, my = (a.y + n.y) / 2, dx = n.x - a.x, dy = n.y - a.y, len = Math.hypot(dx, dy), bend = Math.min(60, len * 0.16) * (EDGES.length % 2 ? 1 : -1), d = "M" + a.x + " " + a.y + " Q" + r1(mx - dy / len * bend) + " " + r1(my + dx / len * bend) + " " + n.x + " " + n.y; EDGES.push({ a: pid, b: n.id, d: d }); }); });
+    h += '<g id="edges">' + EDGES.map(function (e, k) { return '<path class="edge" data-a="' + e.a + '" data-b="' + e.b + '" id="e' + k + '" d="' + e.d + '"/>'; }).join("") + '</g><g id="travel"></g>';
+    // Orte
+    h += '<g id="nodes">' + MM.nodes.map(function (n) {
+        var v = visited(n), st = stars(n), w = n.link.slice(0, 1) === "w";
+        return '<g class="node" data-id="' + n.id + '" data-lv="' + n.lv + '" tabindex="0" role="button" aria-label="' + esc(L(n.t)) + ", Level " + n.lv + '" transform="translate(' + n.x + " " + n.y + ')"><circle class="halo" r="14" stroke="' + LV[n.lv] + '"/><circle class="ring" r="' + (w ? 14 : 12) + '" stroke="' + LV[n.lv] + '"/>' +
+            (w ? '<text y="5.5" style="font-size:15px;stroke-width:0;fill:#f5c518">★</text>' : '<circle class="core" r="' + (v ? 7 : 3.5) + '" fill="' + (v ? LV[n.lv] : "rgba(255,255,255,0.5)") + '"/>') +
+            (st ? '<text y="-19" style="font-size:11px;fill:#f5c518;stroke-width:3px">' + "★".repeat(st) + "</text>" : "") +
+            '<text y="' + (w ? 34 : 31) + '">' + esc(L(n.t)) + "</text></g>";
+    }).join("") + "</g>";
+    svg.innerHTML = h;
+
+    // ---------- Auswahl ----------
+    var sel = null, filter = 0, panel = document.getElementById("panel");
+    function nodeEl(id) { return svg.querySelector('.node[data-id="' + id + '"]'); }
+    function intro() {
+        var total = MM.nodes.length, vis = MM.nodes.filter(visited).length;
+        panel.innerHTML = '<div class="kicker">' + $t("Dein Reisepass", "Your passport") + "</div><h2>" + vis + $t(" von ", " of ") + total + $t(" Orten besucht", " places visited") + '</h2><div class="bar" style="margin:0.4rem 0 1rem"><span style="width:' + Math.round(vis / total * 100) + '%"></span></div><p>' +
+            $t("Ein Ort gilt als besucht, sobald du dort eine Aufgabe gelöst oder ein Wunder erkundet hast. Die gestrichelten Linien sind Wege: Sie führen vom Einfachen zum Schweren.", "A place counts as visited once you have solved an exercise or explored a wonder there. The dashed lines are paths: they lead from the simple to the hard.") +
+            '</p><div class="rel"><small>' + $t("Gute Startpunkte", "Good starting points") + "</small>" + ["zaehlen", "terme", "ableitung", "euler"].map(function (id) { return '<button type="button" data-goto="' + id + '">' + esc(L(MM.byId(id).t)) + "</button>"; }).join("") + "</div>";
+    }
+    function select(id, focusMap) {
+        var n = MM.byId(id); if (!n) return;
+        sel = id;
+        Array.prototype.forEach.call(svg.querySelectorAll(".node"), function (el) { el.classList.toggle("sel", el.getAttribute("data-id") === id); });
+        var tr = "";
+        Array.prototype.forEach.call(svg.querySelectorAll(".edge"), function (el) { var inn = el.getAttribute("data-b") === id, out = el.getAttribute("data-a") === id; el.classList.toggle("in", inn); el.classList.toggle("out", out); if (inn) tr += '<circle r="5" fill="#f5c518"><animateMotion dur="1.8s" repeatCount="indefinite" path="' + el.getAttribute("d") + '"/></circle>'; });
+        svg.querySelector("#travel").innerHTML = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "" : tr;
+        var next = MM.nodes.filter(function (m) { return m.pre.indexOf(id) >= 0; }), kind = n.link.slice(0, 1), st = stars(n);
+        panel.innerHTML = '<span class="chip" style="border-color:' + LV[n.lv] + ";color:" + LV[n.lv] + '">L' + n.lv + " · " + LVN[n.lv] + "</span>" + (visited(n) ? ' <span class="chip" style="color:var(--teal);border-color:rgba(53,224,196,0.4)">✓ ' + $t("besucht", "visited") + "</span>" : "") +
+            "<h2>" + esc(L(n.t)) + "</h2>" + (st ? '<div style="margin-bottom:0.5rem">' + SOR_NAV.stars(st) + "</div>" : "") + "<p>" + esc(L(n.d)) + "</p>" +
+            (n.pre.length ? '<div class="rel"><small>' + $t("Das brauchst du vorher", "You need this first") + "</small>" + n.pre.map(function (p) { return '<button type="button" data-goto="' + p + '">' + esc(L(MM.byId(p).t)) + "</button>"; }).join("") + "</div>" : '<div class="rel"><small>' + $t("Startpunkt: kein Vorwissen nötig", "Starting point: no prior knowledge needed") + "</small></div>") +
+            (next.length ? '<div class="rel"><small>' + $t("Von hier geht es weiter zu", "From here you can go on to") + "</small>" + next.map(function (p) { return '<button type="button" data-goto="' + p.id + '">' + esc(L(p.t)) + "</button>"; }).join("") + "</div>" : "") +
+            '<div class="go"><a class="btn btn-primary" href="' + MM.href(n.link) + '">' + (kind === "u" ? $t("Hier üben", "Practise here") : kind === "k" ? $t("Zum Kurs", "Open course") : $t("Wunder erkunden", "Explore wonder")) + ' →</a><button type="button" class="btn btn-ghost" data-goto="">' + $t("Schließen", "Close") + "</button></div>";
+        if (focusMap) flyTo(n.x, n.y);
+        if (window.SOR_FX) SOR_FX.setContext({ level: n.lv });
+        if (history.replaceState) history.replaceState(null, "", "karte.html?ort=" + id);
+    }
+    function clearSel() { sel = null; Array.prototype.forEach.call(svg.querySelectorAll(".sel,.in,.out"), function (el) { el.classList.remove("sel", "in", "out"); }); svg.querySelector("#travel").innerHTML = ""; intro(); if (history.replaceState) history.replaceState(null, "", "karte.html"); }
+    panel.addEventListener("click", function (e) { var b = e.target.closest("[data-goto]"); if (!b) return; var id = b.getAttribute("data-goto"); if (id) select(id, true); else clearSel(); });
+    svg.addEventListener("keydown", function (e) { var g = e.target.closest && e.target.closest(".node"); if (g && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); select(g.getAttribute("data-id")); } });
+
+    // ---------- Filter und Liste ----------
+    var fl = document.getElementById("filters");
+    fl.innerHTML = '<button type="button" data-f="0" aria-pressed="true">' + $t("Alle", "All") + "</button>" + [1, 2, 3, 4, 5, 6].map(function (l) { return '<button type="button" data-f="' + l + '" aria-pressed="false" style="--lc:' + LV[l] + '" title="' + LVN[l] + '">L' + l + "</button>"; }).join("");
+    fl.addEventListener("click", function (e) { var b = e.target.closest("[data-f]"); if (!b) return; filter = parseInt(b.getAttribute("data-f"), 10); Array.prototype.forEach.call(fl.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); }); Array.prototype.forEach.call(svg.querySelectorAll(".node"), function (el) { el.classList.toggle("dim", !!filter && parseInt(el.getAttribute("data-lv"), 10) !== filter); }); Array.prototype.forEach.call(svg.querySelectorAll(".edge"), function (el) { el.classList.toggle("dim", !!filter); }); });
+    document.getElementById("legend").innerHTML = [1, 2, 3, 4, 5, 6].map(function (l) { return '<span><i style="background:' + LV[l] + '"></i>L' + l + " " + LVN[l] + "</span>"; }).join("") + "<span>★ " + $t("Mathe-Wunder", "Maths wonder") + "</span>";
+    var pl = document.getElementById("places");
+    pl.innerHTML = "<h2>" + $t("Alle Orte nach Level", "All places by level") + "</h2>" + [1, 2, 3, 4, 5, 6].map(function (l) { return '<div class="lv"><span class="chip" style="border-color:' + LV[l] + ";color:" + LV[l] + ';align-self:start;justify-self:start">L' + l + "</span><div>" + MM.nodes.filter(function (n) { return n.lv === l; }).map(function (n) { return '<button type="button" data-goto="' + n.id + '"' + (visited(n) ? ' class="vis"' : "") + ">" + esc(L(n.t)) + "</button>"; }).join("") + "</div></div>"; }).join("");
+    pl.addEventListener("click", function (e) { var b = e.target.closest("[data-goto]"); if (!b) return; select(b.getAttribute("data-goto"), true); document.querySelector(".mapbox").scrollIntoView({ behavior: "smooth", block: "start" }); });
+
+    // ---------- Verschieben und Zoomen ----------
+    var vb = { x: 0, y: 0, w: 1600, h: 1000 }, anim = null;
+    function setVB() { svg.setAttribute("viewBox", r1(vb.x) + " " + r1(vb.y) + " " + r1(vb.w) + " " + r1(vb.h)); }
+    function clamp() { vb.w = Math.max(360, Math.min(1600, vb.w)); vb.h = vb.w * 0.625; vb.x = Math.max(-80, Math.min(1680 - vb.w, vb.x)); vb.y = Math.max(-60, Math.min(1060 - vb.h, vb.y)); }
+    function tweenTo(tx, ty, tw) {
+        cancelAnimationFrame(anim); var s = { x: vb.x, y: vb.y, w: vb.w }, t0 = null, red = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var step = function (ts) { if (t0 === null) t0 = ts; var k = red ? 1 : Math.min(1, (ts - t0) / 520), e = 1 - Math.pow(1 - k, 3); vb.w = s.w + (tw - s.w) * e; vb.h = vb.w * 0.625; vb.x = s.x + (tx - s.x) * e; vb.y = s.y + (ty - s.y) * e; clamp(); setVB(); if (k < 1) anim = requestAnimationFrame(step); };
+        anim = requestAnimationFrame(step);
+    }
+    function flyTo(x, y) { var w = Math.min(vb.w, 900); tweenTo(x - w / 2, y - w * 0.625 / 2, w); }
+    function zoom(f, cx, cy) { cx = cx === undefined ? vb.x + vb.w / 2 : cx; cy = cy === undefined ? vb.y + vb.h / 2 : cy; var w = Math.max(360, Math.min(1600, vb.w * f)), k = w / vb.w; tweenTo(cx - (cx - vb.x) * k, cy - (cy - vb.y) * k, w); }
+    document.getElementById("zin").addEventListener("click", function () { zoom(0.7); });
+    document.getElementById("zout").addEventListener("click", function () { zoom(1.4); });
+    document.getElementById("zall").addEventListener("click", function () { tweenTo(0, 0, 1600); });
+    var ptrs = {}, moved = 0, pinch = 0, downId = null;
+    function scale() { var r = svg.getBoundingClientRect(); return Math.max(vb.w / r.width, vb.h / r.height); }
+    svg.addEventListener("pointerdown", function (e) { ptrs[e.pointerId] = { x: e.clientX, y: e.clientY }; moved = 0; var g = e.target.closest(".node"); downId = g ? g.getAttribute("data-id") : null; cancelAnimationFrame(anim); try { svg.setPointerCapture(e.pointerId); } catch (er) { /* ok */ } });
+    svg.addEventListener("pointermove", function (e) {
+        var p = ptrs[e.pointerId]; if (!p) return; var ids = Object.keys(ptrs), s = scale();
+        if (ids.length === 1) { var dx = e.clientX - p.x, dy = e.clientY - p.y; moved += Math.abs(dx) + Math.abs(dy); if (moved > 6) { svg.classList.add("drag"); vb.x -= dx * s; vb.y -= dy * s; clamp(); setVB(); } }
+        p.x = e.clientX; p.y = e.clientY;
+        if (ids.length === 2) { var a = ptrs[ids[0]], b = ptrs[ids[1]], d = Math.hypot(a.x - b.x, a.y - b.y); if (pinch) { var f = pinch / d, r = svg.getBoundingClientRect(), cx = vb.x + ((a.x + b.x) / 2 - r.left) * s, cy = vb.y + ((a.y + b.y) / 2 - r.top) * s, w = Math.max(360, Math.min(1600, vb.w * f)), k = w / vb.w; vb.x = cx - (cx - vb.x) * k; vb.y = cy - (cy - vb.y) * k; vb.w = w; clamp(); setVB(); } pinch = d; moved = 99; }
+    });
+    function up(e) { delete ptrs[e.pointerId]; pinch = 0; svg.classList.remove("drag"); if (moved <= 6 && downId && e.type === "pointerup") select(downId); else if (moved <= 6 && e.type === "pointerup" && sel) clearSel(); downId = null; }
+    svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
+    svg.addEventListener("wheel", function (e) { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); var r = svg.getBoundingClientRect(), s = scale(), f = e.deltaY > 0 ? 1.15 : 0.87, cx = vb.x + (e.clientX - r.left) * s, cy = vb.y + (e.clientY - r.top) * s, w = Math.max(360, Math.min(1600, vb.w * f)), k = w / vb.w; vb.x = cx - (cx - vb.x) * k; vb.y = cy - (cy - vb.y) * k; vb.w = w; clamp(); setVB(); }, { passive: false });
+
+    // ---------- Start ----------
+    var ort = new URLSearchParams(location.search).get("ort");
+    if (ort && MM.byId(ort)) select(ort, true); else { intro(); if (window.innerWidth < 700) { vb.w = 760; vb.x = 20; vb.y = 520; clamp(); setVB(); } }
+})();
+</script>
+</body>
+</html>

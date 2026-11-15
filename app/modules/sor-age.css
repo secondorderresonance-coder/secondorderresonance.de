@@ -1,0 +1,111 @@
+/*
+ * SOR Altersstufen: <html data-age="kid|teen|uni"> (gesetzt von sor-fx.js)
+ * teen ist das gewohnte Design. kid ist bunter, runder und größer. uni ist ruhiger und dichter.
+ * Bewegung: nur transform und opacity. Kein Federn außerhalb der Kinderstufe.
+ */
+
+/* ---------- Effekt-Ebene (alle Stufen) ---------- */
+#fxLayer{position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden}
+#fxLayer .fx-wave{position:absolute;transform-origin:50% 50%;will-change:transform,opacity}
+#fxLayer .fx-ring{position:absolute;width:74px;height:74px;border-radius:50%;border:2px solid #f5c518;will-change:transform,opacity}
+#fxLayer .fx-spark{position:absolute;font-style:normal;font-weight:700;line-height:1;will-change:transform,opacity}
+
+/* ---------- Umschalter ---------- */
+.fx-age{position:relative;display:inline-flex}
+.fx-age-btn{display:inline-flex;align-items:center;gap:0.4rem;font:inherit;font-size:0.86rem;font-weight:600;color:inherit;padding:0.32rem 0.7rem;border-radius:999px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.035);cursor:pointer;white-space:nowrap;transition:border-color .15s,background .15s}
+.fx-age-btn:hover{border-color:rgba(245,197,24,0.6)}
+.fx-age-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:90;display:grid;gap:2px;min-width:230px;padding:6px;border-radius:16px;background:#141a30;border:1px solid rgba(255,255,255,0.16);box-shadow:0 24px 60px rgba(0,0,0,0.55)}
+.fx-age-menu[hidden]{display:none}
+.fx-age-menu button{display:flex;align-items:center;gap:0.7rem;text-align:left;font:inherit;color:#eef1f7;background:transparent;border:0;border-radius:11px;padding:0.55rem 0.7rem;cursor:pointer}
+.fx-age-menu button:hover{background:rgba(255,255,255,0.06)}
+.fx-age-menu button[aria-checked="true"]{background:rgba(245,197,24,0.12);box-shadow:inset 0 0 0 1px rgba(245,197,24,0.45)}
+.fx-age-menu button>span:first-child{font-size:1.25rem;width:1.6rem;text-align:center}
+.fx-age-menu b{display:block;font-size:0.92rem}
+.fx-age-menu small{display:block;font-size:0.76rem;color:#98a2bd}
+.sor-status .fx-age-txt{display:none}
+.sor-status .fx-age-btn{padding:0.32rem 0.55rem}
+.sor-drawer-age{display:none;align-items:center;justify-content:space-between;gap:1rem;padding:0.8rem 0.1rem 0.2rem;color:var(--muted);font-size:0.9rem}
+.sor-drawer-age .fx-age-menu{top:auto;bottom:calc(100% + 8px)}
+@media (max-width:860px){.fx-age-txt{display:none}.fx-age-btn{padding:0.32rem 0.55rem}}
+@media (max-width:560px){.sor-status .fx-age{display:none}.sor-drawer-age{display:flex}}
+@media (max-width:1420px){html[data-age="kid"] .sor-links{display:none}html[data-age="kid"] .sor-menu{display:inline-flex}}
+
+/* ---------- Stufenwahl-Karten (Startseite, Konto) ---------- */
+.age-pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.age-card{position:relative;display:grid;gap:0.5rem;text-align:left;font:inherit;color:#eef1f7;cursor:pointer;padding:1.3rem 1.3rem 1.2rem;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.035);overflow:hidden;transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .18s}
+.age-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.3)}
+.age-card[aria-pressed="true"]{border-color:#f5c518;box-shadow:inset 0 0 0 1px #f5c518}
+.age-card .age-art{height:92px;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.age-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.12rem}
+.age-card p{font-size:0.9rem;color:#aab2cc;line-height:1.45}
+.age-card .age-on{position:absolute;top:0.8rem;right:0.9rem;font-size:0.72rem;font-weight:700;color:#0a0e1c;background:#f5c518;border-radius:999px;padding:0.1rem 0.55rem;opacity:0;transition:opacity .15s}
+.age-card[aria-pressed="true"] .age-on{opacity:1}
+.age-art.kid{background:linear-gradient(135deg,#3b2a9c,#7a2f8f)}
+.age-art.teen{background:linear-gradient(135deg,#0f1528,#1b2444)}
+.age-art.uni{background:#0d1120;border:1px solid rgba(255,255,255,0.1)}
+.age-art .bob{animation:ageBob 2.4s ease-in-out infinite}
+.age-art .draw{stroke-dasharray:100;animation:ageDraw 3.2s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes ageBob{0%,100%{transform:translateY(3px)}50%{transform:translateY(-5px)}}
+@keyframes ageDraw{0%{stroke-dashoffset:100}55%,100%{stroke-dashoffset:0}}
+@media (max-width:760px){.age-pick{grid-template-columns:1fr}.age-card{grid-template-columns:110px 1fr;align-items:center}.age-card .age-art{grid-row:span 2}}
+
+/* =====================================================================
+   KINDERSTUFE
+   ===================================================================== */
+html[data-age="kid"]{font-size:17.5px;--bg:#15113a;--panel:#1d1750;--card:rgba(255,255,255,0.075);--line:rgba(255,255,255,0.16);--line2:rgba(255,255,255,0.3);--muted:#c2bfe6;--soft:#d6d3f2;--dim:#9a96c9;--radius:28px;--kid-font:ui-rounded,'SF Pro Rounded','Nunito','Baloo 2','Varela Round','Space Grotesk',system-ui,sans-serif}
+html[data-age="kid"] body{background:radial-gradient(900px 520px at 88% -8%,rgba(255,122,182,0.22),transparent 60%),radial-gradient(820px 520px at 0% 6%,rgba(53,224,196,0.18),transparent 58%),radial-gradient(900px 600px at 50% 110%,rgba(96,165,250,0.2),transparent 60%),#15113a;background-attachment:fixed;font-family:var(--kid-font)}
+html[data-age="kid"] h1,html[data-age="kid"] h2,html[data-age="kid"] h3,html[data-age="kid"] .btn,html[data-age="kid"] .sor-brand,html[data-age="kid"] .sor-pill{font-family:var(--kid-font)!important;letter-spacing:0}
+html[data-age="kid"] .kicker{font-family:var(--kid-font);letter-spacing:0.06em;font-size:0.82rem;font-weight:700;color:#7df3df}
+html[data-age="kid"] .sor-header{background:rgba(21,17,58,0.85);border-bottom:2px solid rgba(255,255,255,0.12)}
+html[data-age="kid"] .card{border-width:2px;box-shadow:0 8px 0 rgba(0,0,0,0.22)}
+html[data-age="kid"] .btn{border-radius:18px;padding:0.85rem 1.5rem;font-weight:800;transition:transform .12s,box-shadow .12s}
+html[data-age="kid"] .btn-primary{background:#ffd23f;color:#2a1c00;box-shadow:0 5px 0 #b98a00}
+html[data-age="kid"] .btn-teal{box-shadow:0 5px 0 #159a86}
+html[data-age="kid"] .btn-ghost{border-width:2px;box-shadow:0 5px 0 rgba(0,0,0,0.3);background:rgba(255,255,255,0.06)}
+html[data-age="kid"] .btn:hover{transform:translateY(-2px) rotate(-1deg)}
+html[data-age="kid"] .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,0.3)}
+html[data-age="kid"] .btn:disabled{transform:none}
+html[data-age="kid"] .input,html[data-age="kid"] .select{border-width:2px;border-radius:16px;padding:0.9rem 1rem;font-size:1.1rem}
+html[data-age="kid"] .chip{border-width:2px;font-weight:700}
+html[data-age="kid"] .bar{height:14px;border:2px solid rgba(255,255,255,0.18)}
+html[data-age="kid"] .bar>span{background:linear-gradient(90deg,#35e0c4,#a3e635,#ffd23f)}
+html[data-age="kid"] .stars{font-size:1.15em}
+html[data-age="kid"] .toast{border-width:2px;border-radius:20px;font-weight:700}
+html[data-age="kid"] .fb.pop{animation:kidPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes kidPop{0%{transform:scale(.86);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* Startseite in der Kinderstufe */
+html[data-age="kid"] body>.wrap,html[data-age="uni"] body>.wrap{background:transparent!important}
+html[data-age="kid"] .level-card,html[data-age="kid"] .visual-card,html[data-age="kid"] .media-card{border-width:2px!important;border-radius:28px!important}
+
+/* Schwebende Zeichen */
+.fx-sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.fx-sky i{position:absolute;font-style:normal;font-weight:800;opacity:0.16;animation:skyFloat 12s ease-in-out infinite;will-change:transform}
+@keyframes skyFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-26px) rotate(8deg)}}
+/* Resi */
+.fx-resi{position:fixed;right:14px;bottom:10px;z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.fx-resi-body{background:none;border:0;padding:0;cursor:pointer;line-height:0;animation:resiBob 2.6s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(0,0,0,0.35));transform-origin:50% 90%}
+.fx-resi-eyes{animation:resiBlink 4.6s infinite;transform-origin:35px 17px}
+@keyframes resiBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes resiBlink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.fx-resi-say{max-width:230px;background:#fff;color:#2a1c00;font-family:ui-rounded,'Nunito',system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.35;padding:0.6rem 0.85rem;border-radius:18px 18px 4px 18px;box-shadow:0 10px 26px rgba(0,0,0,0.35);animation:kidPop .35s cubic-bezier(.34,1.56,.64,1)}
+.fx-resi-x{position:absolute;right:-4px;bottom:62px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,0.5);color:#fff;font-size:14px;line-height:1;cursor:pointer;opacity:0;transition:opacity .15s}
+.fx-resi:hover .fx-resi-x,.fx-resi-x:focus-visible{opacity:1}
+@media (max-width:700px){.fx-resi-body svg{width:68px;height:57px}.fx-resi-say{max-width:180px;font-size:13.5px}}
+
+/* =====================================================================
+   STUDIUM
+   ===================================================================== */
+html[data-age="uni"]{font-size:15.5px;--radius:10px;--card:rgba(255,255,255,0.025);--bg:#0a0d17;--panel:#0e1220}
+html[data-age="uni"] body{background:linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px) 0 0/100% 48px,linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px) 0 0/48px 100%,#0a0d17;background-attachment:fixed}
+html[data-age="uni"] .btn{border-radius:9px;padding:0.68rem 1.15rem;font-weight:600}
+html[data-age="uni"] .btn:hover{transform:translateY(-1px)}
+html[data-age="uni"] .btn-primary{box-shadow:none}
+html[data-age="uni"] .chip,html[data-age="uni"] .sor-pill,html[data-age="uni"] .fx-age-btn{border-radius:7px}
+html[data-age="uni"] .input,html[data-age="uni"] .select{border-radius:8px}
+html[data-age="uni"] .kicker{color:#98a2bd}
+html[data-age="uni"] .toast{border-radius:9px}
+html[data-age="uni"] .level-card,html[data-age="uni"] .visual-card,html[data-age="uni"] .media-card{border-radius:10px!important}
+
+@media (prefers-reduced-motion:reduce){.fx-sky,#fxLayer{display:none}.fx-resi-body,.fx-resi-eyes,.age-art .bob,.age-art .draw{animation:none}.age-art .draw{stroke-dashoffset:0}}
+@media (max-width:480px){html[data-age="kid"] .sor-brand span{display:none}html[data-age="kid"] .sor-pill.fire{padding:0.3rem 0.5rem}}

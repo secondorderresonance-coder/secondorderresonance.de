@@ -20,7 +20,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em;line-heig
 .sor-brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;white-space:nowrap}
 .sor-brand i{display:inline-flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:10px;border:1px solid rgba(245,197,24,0.45);background:rgba(245,197,24,0.08)}
 .sor-brand b{color:var(--red);font-weight:700}
-.sor-links{display:flex;gap:1.25rem;font-size:0.92rem;margin-left:0.6rem;flex:1}
+.sor-links{display:flex;gap:1.1rem;font-size:0.92rem;margin-left:0.6rem;flex:1}
 .sor-links a{text-decoration:none;color:var(--muted);padding:0.3rem 0;border-bottom:2px solid transparent;white-space:nowrap}
 .sor-links a:hover{color:var(--text)}
 .sor-links a[aria-current="page"]{color:var(--text);border-bottom-color:var(--accent)}
@@ -28,9 +28,9 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em;line-heig
 .sor-pill{display:inline-flex;align-items:center;gap:0.35rem;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.86rem;padding:0.32rem 0.7rem;border-radius:999px;border:1px solid var(--line);background:var(--card);text-decoration:none;white-space:nowrap}
 .sor-pill.xp{color:var(--accent)} .sor-pill.fire{color:#ff9f43}
 .sor-avatar{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;color:#0a0e1c;text-decoration:none}
-.sor-menu{display:none;width:38px;height:38px;border-radius:11px;border:1px solid var(--line2);background:var(--card);cursor:pointer;align-items:center;justify-content:center}
+.sor-menu{display:inline-flex;width:38px;height:38px;border-radius:11px;border:1px solid var(--line2);background:var(--card);cursor:pointer;align-items:center;justify-content:center}
 .sor-drawer{display:none;padding:0.4rem 1.4rem 1rem;border-top:1px solid var(--line)}
-.sor-drawer.open{display:grid}
+.sor-drawer.open{display:grid;max-width:1180px;margin:0 auto}
 .sor-drawer a{padding:0.7rem 0.1rem;text-decoration:none;color:#cdd4e6;border-bottom:1px solid rgba(255,255,255,0.05)}
 
 /* Bausteine */
@@ -64,9 +64,8 @@ table.tbl{width:100%;border-collapse:collapse;font-size:0.92rem}
 .extab th,.extab td{border:1px solid var(--line2);padding:0.4rem 0.8rem;text-align:center}
 .extab th{color:var(--muted);font-weight:500}
 
-@media (max-width:1080px){
+@media (max-width:1180px){
   .sor-links{display:none}
-  .sor-menu{display:inline-flex}
 }
 .sor-drawer-lang{display:none;align-items:center;justify-content:space-between;gap:1rem;padding:0.8rem 0.1rem 0.2rem;color:var(--muted);font-size:0.9rem}
 @media (max-width:560px){

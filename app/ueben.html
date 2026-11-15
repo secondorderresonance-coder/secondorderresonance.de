@@ -12,12 +12,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="SOR Mathe">
 <script src="./modules/pwa.js?v=3.2.0"></script>
+<link rel="stylesheet" href="./modules/sor-age.css?v=3.5.0">
+<script src="./modules/sor-fx.js?v=3.5.0"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-en="Practice | Second-Order Resonance">Üben | Second-Order Resonance</title>
 <meta name="description" content="Mathe und Physik üben mit Aufgaben, die sich deinem Stand anpassen: Tipps, Lösungswege, XP, Sterne und Abzeichen. Von Klasse 1 bis zum Master." data-en-content="Practise maths and physics with exercises that adapt to your level: hints, worked solutions, XP, stars and badges. From grade 1 to master's level.">
 <meta name="theme-color" content="#0a0e1c">
 <link rel="stylesheet" href="./vendor/fonts/fonts.css?v=3.0.0">
-<link rel="stylesheet" href="./modules/sor-ui.css?v=3.1.0">
+<link rel="stylesheet" href="./modules/sor-ui.css?v=3.5.0">
 <link rel="stylesheet" href="./modules/sor-math.css?v=3.1.0">
 <style>
   .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.6rem;align-items:center;margin-bottom:1.8rem}
@@ -221,7 +223,7 @@
 <script src="./modules/exercises/ph-4.js?v=3.4.0"></script>
 <script src="./modules/sor-core.js?v=3.1.0"></script>
 <script src="./modules/rewards.js?v=3.1.0"></script>
-<script src="./modules/sor-nav.js?v=3.1.0"></script>
+<script src="./modules/sor-nav.js?v=3.5.0"></script>
 <script>
 (function () {
     "use strict";
@@ -307,6 +309,7 @@
     }
     function renderStages() {
         var cur = currentStage(), p = REW.profile(), html = "", sub = cur.subject;
+        fxContext(cur);
         $("subjects").innerHTML = Object.keys(CRS.subjects).map(function (k) { return '<button type="button" data-sub="' + k + '" aria-pressed="' + (k === sub) + '"><i aria-hidden="true">' + CRS.subjects[k].icon + "</i>" + esc(CRS.subjects[k].title) + "</button>"; }).join("");
         var prev = null;
         subjectStages(sub).forEach(function (s) {
@@ -341,6 +344,8 @@
         renderHub();
     });
 
+    // Altersstufe des Designs: Klasse 1 bis 6 verspielt, 7 bis 13 Schule, sonst Studium (sor-fx.js)
+    function fxContext(o) { if (!window.SOR_FX || !o) return; var g = o.grade || (o.grades ? o.grades[0] : 0); SOR_FX.setContext(g ? { grade: g } : { level: o.level || 4 }); }
     // ---------- Sitzung ----------
     var S = null;
     function startSession(topics, label, total) {
@@ -349,6 +354,7 @@
         topics.forEach(function (t) { S.d[t] = REW.difficultyFor(p, t); S.run[t] = 0; });
         $("hub").hidden = true; $("result").hidden = true; $("session").hidden = false;
         document.title = label + $t(" · Üben | Second-Order Resonance", " · Practice | Second-Order Resonance");
+        fxContext(topics.length === 1 ? TOPIC[topics[0]] : stageByKey(params.get("mix")));
         renderExplain(topics.length === 1 ? topics[0] : null);
         nextQuestion();
         window.scrollTo(0, 0);
@@ -447,6 +453,7 @@
         $("feedback").innerHTML = ok
             ? '<div class="fb ok pop"><h3><span>✓ ' + praise + (r.combo >= 3 ? " " + r.combo + $t(" in Folge.", " in a row.") : "") + '</span><span class="gain">+' + r.xp + " XP</span></h3><details class=\"way\"><summary>" + $t("Lösungsweg ansehen", "Show worked solution") + "</summary>" + steps + "</details></div>"
             : '<div class="fb no pop"><h3><span>' + (skipped ? $t("Lösung", "Solution") : $t("Das stimmt leider nicht.", "Sorry, that is not right.")) + '</span></h3><p style="margin-top:0.4rem">' + $t("Richtig ist: ", "Correct answer: ") + '<strong class="mth">' + E.show(q.a) + "</strong></p>" + steps + "</div>";
+        if (window.SOR_FX) { var fbEl = $("feedback").firstChild; if (ok) SOR_FX.celebrate(fbEl); else if (!skipped) SOR_FX.miss(fbEl); }
         $("hint").hidden = ok ? $("hint").hidden : true;
         $("combo").hidden = r.combo < 3; $("combo").textContent = "🔥 " + r.combo;
         if (r.levelUp) { S.levelUp = r.levelUp; NAV.toast("🎉 <span><strong>" + $t("Stufe ", "Level ") + r.levelUp.level + "</strong>" + $t(" erreicht: ", " reached: ") + esc(r.levelUp.title) + "</span>"); }
