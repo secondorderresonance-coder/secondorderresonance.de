@@ -22,6 +22,9 @@ drop policy if exists "eigenes Profil lesen" on public.profiles;
 drop policy if exists "eigenes Profil ändern" on public.profiles;
 create policy "eigenes Profil lesen"  on public.profiles for select using (auth.uid() = id);
 create policy "eigenes Profil ändern" on public.profiles for update using (auth.uid() = id) with check (auth.uid() = id);
+-- Feste Rechte: unabhängig von "Automatically expose new tables"
+revoke all on table public.profiles from anon, authenticated;
+grant select, update on table public.profiles to authenticated;
 -- Begrenzung der Datenmenge je Profil (Schutz vor Missbrauch)
 alter table public.profiles drop constraint if exists progress_size;
 alter table public.profiles add constraint progress_size check (pg_column_size(progress) < 200000);
