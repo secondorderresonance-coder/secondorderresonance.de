@@ -50,8 +50,9 @@
 - [ ] Store apps: Trusted Web Activity for the Play Store and a Capacitor shell for iOS (needs developer accounts and signing keys)
 - [ ] Courses for the remaining study plan modules: CAD and technical drawing, information technology
 - [x] Age-group design (kid, teen, uni), click wave, mascot, maths wonders and map of mathematics (v3.5.0)
-- [ ] Permanent accounts with Supabase (EU): sign-up, login, progress sync, e-mail to the owner on each new account. Blocked until the owner provides project URL and anon key
-- [ ] Globe of users with voluntary city (after accounts)
+- [x] Permanent accounts with Supabase (EU): code, database script and guide (v3.6.0). Activation waits for the owner's project URL and publishable key
+- [ ] Daily challenge, learning journeys on the map, region badges, optional sound, printable worksheets
+- [x] Globe of users with voluntary city (v3.6.0)
 - [ ] More explorables in the style of the maths wonders for school topics (fractions, Pythagoras, derivative, integral)
 - [ ] Map of mathematics: add physics places and a guided tour per level
 - [ ] Physics 1 to 4: second generator per section (ray constructions, multi-step tasks) and an owner review of the 56 lesson texts

@@ -46,12 +46,22 @@
   <h2 data-en="No trackers, no third-party content">Keine Tracker, keine fremden Inhalte</h2>
   <ul>
     <li data-en="No analytics or advertising services are included.">Es werden keine Analyse- oder Werbedienste eingebunden.</li>
+    <li data-en="Only for online accounts and the globe does the site connect to Supabase (see below).">Nur für Online-Konten und die Weltkugel verbindet sich die Seite mit Supabase (siehe unten).</li>
     <li data-en="Fonts and the 3D library are hosted on this site and are not loaded from third parties.">Schriften und die 3D-Bibliothek liegen auf dieser Seite und werden nicht von Drittanbietern geladen.</li>
     <li data-en="YouTube, TikTok and LinkedIn are only included as links. Their terms apply only once you click such a link.">YouTube, TikTok und LinkedIn sind nur als Links eingebunden. Erst wenn Sie einen solchen Link anklicken, gelten die Bedingungen des jeweiligen Anbieters.</li>
   </ul>
 
+  <h2 data-en="Online account (optional)">Online-Konto (freiwillig)</h2>
+  <p data-en="You can use all exercises without an account. If you create an online account, the following data is stored so that your progress is available on every device: display name, email address, password (stored only as a hash by the provider), role (learning or teaching), optionally your class and a city you choose, and your learning progress (points, stars, badges). Legal basis is Art. 6(1)(b) GDPR (use of the account you requested).">Alle Übungen funktionieren ohne Konto. Wenn Sie ein Online-Konto anlegen, werden folgende Daten gespeichert, damit Ihr Fortschritt auf jedem Gerät verfügbar ist: Anzeigename, E-Mail-Adresse, Passwort (beim Anbieter nur als Hash gespeichert), Rolle (lernend oder lehrend), freiwillig Ihre Klasse und eine selbst gewählte Stadt sowie Ihr Lernstand (Punkte, Sterne, Abzeichen). Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Nutzung des von Ihnen gewünschten Kontos).</p>
+  <ul>
+    <li data-en="Hosting: Supabase (Supabase Inc.) as processor, servers in Frankfurt am Main (EU). When the globe page is opened, the browser fetches the number of accounts per city from there; your IP address is technically transmitted to the provider in the process.">Hosting: Supabase (Supabase Inc.) als Auftragsverarbeiter, Server in Frankfurt am Main (EU). Beim Öffnen der Weltkugel ruft der Browser dort die Anzahl der Konten je Stadt ab; dabei wird technisch Ihre IP-Adresse an den Anbieter übertragen.</li>
+    <li data-en="Notification of the operator: when an account is created, the operator receives an email with display name, role, class, city and time of registration. It is sent via the email service Resend (Resend Inc., USA) to a Gmail mailbox (Google). Your email address and your learning progress are not included.">Benachrichtigung des Betreibers: Beim Anlegen eines Kontos erhält der Betreiber eine E-Mail mit Anzeigename, Rolle, Klasse, Stadt und Zeitpunkt der Registrierung. Sie wird über den Mail-Dienst Resend (Resend Inc., USA) an ein Gmail-Postfach (Google) gesendet. Ihre E-Mail-Adresse und Ihr Lernstand sind darin nicht enthalten.</li>
+    <li data-en="Globe of learners: only the number of confirmed accounts per city is shown, never names or email addresses. Without a city, an account only counts towards the total.">Weltkugel der Lernenden: Angezeigt wird nur die Anzahl bestätigter Konten je Stadt, nie Namen oder E-Mail-Adressen. Ohne Stadtangabe zählt ein Konto nur zur Gesamtzahl.</li>
+    <li data-en="Children and young people under 16 may only create an online account with the consent of a parent.">Kinder und Jugendliche unter 16 Jahren dürfen ein Online-Konto nur mit Zustimmung eines Elternteils anlegen.</li>
+    <li data-en="Deletion: in the account under &quot;Delete account&quot; the online account and all associated data are deleted immediately. You can also download your data there.">Löschung: Im Konto unter „Konto löschen“ werden das Online-Konto und alle zugehörigen Daten sofort gelöscht. Dort können Sie Ihre Daten auch herunterladen.</li>
+  </ul>
   <h2 data-en="Storage in your own browser">Speicherung im eigenen Browser</h2>
-  <p data-en="Accounts, progress and classes are stored exclusively in your browser&#x27;s storage (local storage) and are not sent to us:">Konten, Lernstände und Klassen werden ausschließlich im Speicher Ihres Browsers (Local Storage) abgelegt und nicht an uns übertragen:</p>
+  <p data-en="Without an online account, accounts, progress and classes are stored exclusively in your browser&#x27;s storage (local storage) and are not sent to us:">Ohne Online-Konto werden Konten, Lernstände und Klassen ausschließlich im Speicher Ihres Browsers (Local Storage) abgelegt und nicht an uns übertragen:</p>
   <ul>
     <li data-en="&lt;code&gt;mathlevel-accounts-v1&lt;/code&gt;: display name, email address as account identifier, role, password as a salted hash, learning progress"><code>mathlevel-accounts-v1</code>: Anzeigename, E-Mail-Adresse als Kontokennung, Rolle, Passwort als gesalzener Hash, Lernfortschritt</li>
     <li data-en="&lt;code&gt;sor-rewards-v1&lt;/code&gt;: points, streak, badges and progress per topic"><code>sor-rewards-v1</code>: Punkte, Lernserie, Abzeichen und Lernstand je Thema</li>
@@ -71,8 +81,10 @@
   <p data-en="If you write to us, we process your message and your address in order to reply.">Wenn Sie uns schreiben, verarbeiten wir Ihre Nachricht und Ihre Adresse, um zu antworten.</p>
 </article>
 </main>
-<script src="app/modules/sor-core.js?v=3.1.0"></script>
-<script src="app/modules/rewards.js?v=3.1.0"></script>
+<script src="app/modules/sor-core.js?v=3.6.0"></script>
+<script src="app/modules/rewards.js?v=3.6.0"></script>
+<script src="app/data/cloud-config.js?v=3.6.0"></script>
+<script src="app/modules/sor-cloud.js?v=3.6.0"></script>
 <script src="app/modules/sor-nav.js?v=3.1.0"></script>
 <script>if (window.SOR_I18N) SOR_I18N.apply();</script>
 <script>(function () { var m = document.getElementById("mail"), a = m.getAttribute("data-user") + "@" + m.getAttribute("data-domain"); m.href = "mailto:" + a; m.textContent = a; })();</script>

@@ -20,6 +20,8 @@
     var tr = function (de, en) { return root.$t ? root.$t(de, en) : de; };
     var TITLES = tr("Einsteiger|Entdecker|Tüftler|Rechenfuchs|Könner|Profi|Experte|Meister|Großmeister|Legende", "Beginner|Explorer|Tinkerer|Number fox|Skilled|Pro|Expert|Master|Grandmaster|Legend").split("|");
 
+    // Meldet Änderungen am Lernstand (für die Cloud-Synchronisation in sor-cloud.js)
+    function changed() { try { if (root.dispatchEvent && root.CustomEvent) root.dispatchEvent(new CustomEvent("sor-progress")); } catch (e) { /* alter Browser */ } }
     function load() { var s = SOR.storage.get(KEY); if (!s || typeof s !== "object") s = {}; if (!s.profiles) s.profiles = {}; return s; }
     function blank() { return { xp: 0, goal: 50, daily: {}, streak: { count: 0, best: 0, last: null }, badges: {}, mastery: {}, stats: { correct: 0, total: 0, sessions: 0, perfect: 0, combo: 0, bestCombo: 0, goalDays: 0, hints: 0 } }; }
     function ensure(s, key) { var p = s.profiles[key]; if (!p) { p = s.profiles[key] = blank(); } var b = blank(); Object.keys(b).forEach(function (k) { if (p[k] === undefined) p[k] = b[k]; }); Object.keys(b.stats).forEach(function (k) { if (p.stats[k] === undefined) p.stats[k] = 0; }); return p; }
@@ -91,7 +93,7 @@
         p.xp += xp; day.xp += xp;
         if (!goalBefore && day.xp >= p.goal) p.stats.goalDays += 1;
         var newBadges = award(p, today), after = level(p.xp);
-        SOR.storage.set(KEY, s);
+        SOR.storage.set(KEY, s); changed();
         if (k !== "guest" && k.indexOf("demo:") !== 0) SOR.accounts.mirrorProgress(k, { xp: xp, correct: o.correct ? 1 : 0, total: 1, streak: p.streak.count, date: today });
         return { xp: xp, combo: p.stats.combo, levelUp: after.level > before ? after : null, stars: stars(m.score), starUp: stars(m.score) > starsBefore, score: m.score, goalReached: !goalBefore && day.xp >= p.goal, newBadges: newBadges };
     }
@@ -99,16 +101,16 @@
     function finishSession(o, key, dateOverride) {
         var s = load(), p = ensure(s, key || SOR.accounts.key()), today = dateOverride || SOR.today();
         p.stats.sessions += 1; if (o.total >= 5 && o.correct === o.total) p.stats.perfect += 1;
-        var got = award(p, today); SOR.storage.set(KEY, s);
+        var got = award(p, today); SOR.storage.set(KEY, s); changed();
         return { newBadges: got };
     }
 
     function profile(key) { var s = load(); return ensure(s, key || SOR.accounts.key()); }
-    function setGoal(goal, key) { var s = load(), p = ensure(s, key || SOR.accounts.key()); p.goal = Math.max(20, Math.min(300, goal)); SOR.storage.set(KEY, s); }
+    function setGoal(goal, key) { var s = load(), p = ensure(s, key || SOR.accounts.key()); p.goal = Math.max(20, Math.min(300, goal)); SOR.storage.set(KEY, s); changed(); }
     function weekXp(p) { var sum = 0, i, d = new Date(); for (i = 0; i < 7; i += 1) { var k = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); if (p.daily[k]) sum += p.daily[k].xp; d.setDate(d.getDate() - 1); } return sum; }
     // Gast-Lernstand in ein neues Konto übernehmen (nur wenn das Konto noch leer ist)
-    function adoptGuest(key) { var s = load(); if (!s.profiles.guest || s.profiles[key]) return false; s.profiles[key] = s.profiles.guest; delete s.profiles.guest; SOR.storage.set(KEY, s); var p = s.profiles[key]; SOR.accounts.mirrorProgress(key, { xp: p.xp, correct: p.stats.correct, total: p.stats.total, streak: p.streak.count, date: p.streak.last }); return true; }
+    function adoptGuest(key) { var s = load(); if (!s.profiles.guest || s.profiles[key]) return false; s.profiles[key] = s.profiles.guest; delete s.profiles.guest; SOR.storage.set(KEY, s); changed(); var p = s.profiles[key]; SOR.accounts.mirrorProgress(key, { xp: p.xp, correct: p.stats.correct, total: p.stats.total, streak: p.streak.count, date: p.streak.last }); return true; }
 
-    root.SOR_REWARDS = { record: record, finishSession: finishSession, profile: profile, level: level, stars: stars, totalStars: totalStars, difficultyFor: difficultyFor, setGoal: setGoal, weekXp: weekXp, adoptGuest: adoptGuest, BADGES: BADGES, TITLES: TITLES, KEY: KEY };
+    root.SOR_REWARDS = { raw: function (key) { return ensure(load(), key); }, replace: function (key, p) { var st = load(); st.profiles[key] = p; SOR.storage.set(KEY, st); },  record: record, finishSession: finishSession, profile: profile, level: level, stars: stars, totalStars: totalStars, difficultyFor: difficultyFor, setGoal: setGoal, weekXp: weekXp, adoptGuest: adoptGuest, BADGES: BADGES, TITLES: TITLES, KEY: KEY };
     if (typeof module !== "undefined" && module.exports) module.exports = root.SOR_REWARDS;
 })(typeof window !== "undefined" ? window : globalThis);

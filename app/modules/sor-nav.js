@@ -9,13 +9,13 @@
     if (!host || !window.SOR) return;
     var page = host.getAttribute("data-page") || "", base = host.getAttribute("data-base") || "";
     var t = window.$t || function (de) { return de; };
-    var LINKS = [["ueben", "ueben.html", t("Üben", "Practice")], ["kurs", "kurs.html", t("Kurse", "Courses")], ["karte", "karte.html", t("Karte", "Map")], ["wunder", "wunder.html", t("Wunder", "Wonders")], ["pruefung", "pruefung.html", t("Prüfungen", "Exams")], ["klasse", "klasse.html", t("Klassen", "Grades")], ["labor3d", "labor3d.html", t("3D-Labor", "3D lab")], ["archiv", "lernarchiv.html", t("Archiv", "Archive (DE)")], ["lehrer", "lehrer.html", t("Lehrkräfte", "Teachers")]];
+    var LINKS = [["ueben", "ueben.html", t("Üben", "Practice")], ["kurs", "kurs.html", t("Kurse", "Courses")], ["karte", "karte.html", t("Karte", "Map")], ["wunder", "wunder.html", t("Wunder", "Wonders")], ["welt", "welt.html", t("Weltkugel", "Globe")], ["pruefung", "pruefung.html", t("Prüfungen", "Exams")], ["klasse", "klasse.html", t("Klassen", "Grades")], ["labor3d", "labor3d.html", t("3D-Labor", "3D lab")], ["archiv", "lernarchiv.html", t("Archiv", "Archive (DE)")], ["lehrer", "lehrer.html", t("Lehrkräfte", "Teachers")]];
     var sw = window.SOR_I18N ? SOR_I18N.switcher("sor-lang") : "";
     var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
 
     function render() {
         var acc = SOR.accounts.current(), p = window.SOR_REWARDS ? SOR_REWARDS.profile() : null, lv = p ? SOR_REWARDS.level(p.xp) : null;
-        var MORE = { klasse: 1, archiv: 1, lehrer: 1 }, link = function (l) { return '<a href="' + base + l[1] + '"' + (l[0] === page ? ' aria-current="page"' : "") + ">" + l[2] + "</a>"; };
+        var MORE = { klasse: 1, archiv: 1, lehrer: 1, welt: 1 }, link = function (l) { return '<a href="' + base + l[1] + '"' + (l[0] === page ? ' aria-current="page"' : "") + ">" + l[2] + "</a>"; };
         var links = LINKS.map(link).join(""), top = LINKS.filter(function (l) { return !MORE[l[0]]; }).map(link).join("");
         host.innerHTML = '<header class="sor-header"><div class="sor-bar">' +
             '<a class="sor-brand" href="' + base + '../index.html"><i><svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path d="M2 20 C8 20 8 7 14 7 C20 7 20 33 26 33 C32 33 32 20 38 20" stroke="#f5c518" stroke-width="2.6" stroke-linecap="round"/></svg></i><span>Second-Order <b>Resonance</b></span></a>' +
