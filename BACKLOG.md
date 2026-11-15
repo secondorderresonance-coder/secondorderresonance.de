@@ -52,11 +52,12 @@
 - [x] Age-group design (kid, teen, uni), click wave, mascot, maths wonders and map of mathematics (v3.5.0)
 - [ ] Permanent accounts with Supabase (EU): sign-up, login, progress sync, e-mail to the owner on each new account. Blocked until the owner provides project URL and anon key
 - [ ] Globe of users with voluntary city (after accounts)
-- [ ] More explorables in the style of the maths wonders for school topics (fractions, Pythagoras, derivative, integral)
+- [x] School explorables: fractions with pizza and Pythagoras (v3.5.1)
+- [ ] More school explorables: derivative as slope, integral as area, probability with dice, linear functions
 - [ ] Map of mathematics: add physics places and a guided tour per level
 - [ ] Physics 1 to 4: second generator per section (ray constructions, multi-step tasks) and an owner review of the 56 lesson texts
-- [x] Higher Mathematics 1 to 3 along Karpfinger: one lesson and one generator per book chapter (91 chapters, v3.3.0)
-- [ ] Higher Mathematics: second generator per chapter for further Arbeitsbuch task types, and an owner review of the 91 lesson texts
+- [x] Higher Mathematics 1 to 3 in textbook order: one lesson and one generator per book chapter (91 chapters, v3.3.0)
+- [ ] Higher Mathematics: second generator per chapter for further workbook task types, and an owner review of the 91 lesson texts
 - [ ] Exam trainer: Mathematik II/III for the Realschule, open-answer tasks with self-assessment, physics for the Abitur
 - [ ] Translate the archive (`app/lernarchiv.html`, `app/data/archive-content.js`), the Lernstraße and the classic app into English, or hide them for English visitors
 - [ ] Second batch of physics and engineering courses: electrical engineering basics, fluid mechanics, mechanical vibrations, dynamics (TM 3 kinetics)
@@ -64,7 +65,7 @@
 - [ ] Add 2–3 further generators per school topic (word problems, graph reading) and interactive answer types (drag on number line, plot a point)
 - [ ] Printable worksheets with solutions from a seed (`ueben.html` already generates deterministic tasks per seed)
 - [ ] Bring the shared header (`sor-nav.js`) and `sor-ui.css` to `app/index.html`, `app/lernpfad.html`, `app/lernarchiv.html`, `app/profil.html`
-- [x] Physics topics for the engine: four physics courses along Hering, Martin, Stohrer with 56 generators (v3.4.0)
+- [x] Physics topics for the engine: four physics courses along a classic engineering physics syllabus with 56 generators (v3.4.0)
 - [ ] Raise distinct base tasks to at least 5 per L1–L3 sublevel (several sublevels such as 3.1.3.b have only one base task repeated as variants), so class-page lessons are varied
 - [ ] Improve multiple-choice distractors for non-numeric archive answers (same answer type as the correct option)
 - [ ] Add an "Achsen-/Punktsymmetrie" sublevel under L1 (Klasse 6 gap identified in curriculum coverage matrix)
@@ -79,7 +80,7 @@
 - [x] Improve mobile layout of archive and placement sections after real-device pass
 - [x] Add placement result handoff to recommended archive filter preset
 - [x] Expand L1-L3 school curriculum coverage batch with broader topics (Arithmetik, Geometrie, Funktionen, Stochastik, Trigonometrie)
-- [x] Expand L4-L6 archive slices with textbook-style explanations aligned to Karpfinger Buch + Arbeitsbuch (small reviewable batches) – Batch 1 (T-4/5/6-007) + Batch 2 (T-4-008/009/010, T-5-008/009/010, T-6-008/009/010)
+- [x] Expand L4-L6 archive slices with textbook-style explanations aligned to a higher mathematics textbook and workbook (small reviewable batches) – Batch 1 (T-4/5/6-007) + Batch 2 (T-4-008/009/010, T-5-008/009/010, T-6-008/009/010)
 - [x] Continue L1-L3 school curriculum expansion in small mapped batches – alle Sublevel-Luecken L1/L2/L3 geschlossen (v2.3.0 + v2.4.0)
 
 - [ ] Close content gaps flagged in `docs/coverage-matrix.md`: Muster/Zahlenfolgen (L1), Zinsrechnung (L1/L2), Pyramide/Kegel/Kugel (L2), Hypothesentests (L3), Rechnen in C (L4), Integralsätze Gauß/Stokes (L4), Beobachter/LQR, SVD/Krylov, Optimierung und Variationsrechnung (L5)

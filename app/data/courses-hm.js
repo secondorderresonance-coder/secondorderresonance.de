@@ -1,11 +1,10 @@
 /*
  * SOR Kurse Höhere Mathematik 1 bis 3
  * ------------------------------------------------------------
- * Eine Lektion je Kapitel von C. Karpfinger, "Höhere Mathematik in Rezepten" (Kapitel 1 bis 91),
- * aufgeteilt in Buchreihenfolge: HM 1 = Kap. 1–36, HM 2 = Kap. 37–62, HM 3 = Kap. 63–91.
- * Die Aufgaben (app/modules/exercises/hm-1.js bis hm-3.js) folgen den Aufgabentypen des
- * zugehörigen Arbeitsbuchs mit eigenen, zufällig erzeugten Zahlen. Erklärungstexte sind eigene Formulierungen.
- *   id       K-HM-<Kapitel>, zugleich Themen-ID der Aufgaben
+ * 91 Lektionen, aufgebaut wie eine Ingenieurmathematik-Vorlesung: HM 1 = Lektion 1–36,
+ * HM 2 = Lektion 37–62, HM 3 = Lektion 63–91.
+ * Die Aufgaben (app/modules/exercises/hm-1.js bis hm-3.js) sind eigene Generatoren mit zufällig erzeugten Zahlen.
+ *   id       K-HM-<nn>, zugleich Themen-ID der Aufgaben
  *   section  Abschnitt innerhalb des Kurses (Überschrift auf der Kursseite)
  * Nach courses.js und vor courses-2.js einbinden.
  */
@@ -431,15 +430,15 @@
     C.add([
         { id: "hm1", subject: "mathe", level: 4, short: "HM 1",
           title: { de: "Höhere Mathematik 1", en: "Higher Mathematics 1" },
-          intro: { de: "Kapitel 1 bis 36 nach Karpfinger: Grundlagen, komplexe Zahlen, lineare Algebra, Folgen, Reihen, Differential- und Integralrechnung einer Variablen und erste Differentialgleichungen.", en: "Chapters 1 to 36 following Karpfinger: foundations, complex numbers, linear algebra, sequences, series, calculus of one variable and first differential equations." },
+          intro: { de: "Grundlagen, komplexe Zahlen, lineare Algebra, Folgen, Reihen, Differential- und Integralrechnung einer Variablen und erste Differentialgleichungen.", en: "Foundations, complex numbers, linear algebra, sequences, series, calculus of one variable and first differential equations." },
           lessons: hm1 },
         { id: "hm2", subject: "mathe", level: 4, short: "HM 2",
           title: { de: "Höhere Mathematik 2", en: "Higher Mathematics 2" },
-          intro: { de: "Kapitel 37 bis 62 nach Karpfinger: lineare Abbildungen, Eigenwerte, Jordanform, Analysis mehrerer Veränderlicher und Vektoranalysis mit den Integralsätzen.", en: "Chapters 37 to 62 following Karpfinger: linear maps, eigenvalues, Jordan form, calculus of several variables and vector calculus with the integral theorems." },
+          intro: { de: "Lineare Abbildungen, Eigenwerte, Jordanform, Analysis mehrerer Veränderlicher und Vektoranalysis mit den Integralsätzen.", en: "Linear maps, eigenvalues, Jordan form, calculus of several variables and vector calculus with the integral theorems." },
           lessons: hm2 },
         { id: "hm3", subject: "mathe", level: 5, short: "HM 3",
           title: { de: "Höhere Mathematik 3", en: "Higher Mathematics 3" },
-          intro: { de: "Kapitel 63 bis 91 nach Karpfinger: Differentialgleichungen und Systeme, Numerik, Fourier- und Laplacetransformation, Funktionentheorie und partielle Differentialgleichungen.", en: "Chapters 63 to 91 following Karpfinger: differential equations and systems, numerical methods, Fourier and Laplace transforms, complex analysis and partial differential equations." },
+          intro: { de: "Differentialgleichungen und Systeme, Numerik, Fourier- und Laplacetransformation, Funktionentheorie und partielle Differentialgleichungen.", en: "Differential equations and systems, numerical methods, Fourier and Laplace transforms, complex analysis and partial differential equations." },
           lessons: hm3 }
     ]);
 })(typeof window !== "undefined" ? window : globalThis);

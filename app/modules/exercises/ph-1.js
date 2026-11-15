@@ -1,4 +1,4 @@
-/* SOR Aufgaben Physik 1: Mechanik (K-PI-01 bis K-PI-13), Aufgabentypen nach Hering, Martin, Stohrer, "Physik für Ingenieure". Format siehe exercise-engine.js */
+/* SOR Aufgaben Physik 1: Mechanik (K-PI-01 bis K-PI-13). Format siehe exercise-engine.js */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");

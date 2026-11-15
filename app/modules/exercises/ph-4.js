@@ -1,4 +1,4 @@
-/* SOR Aufgaben Physik 4: Atom-, Kern-, Festkörperphysik, Relativität (K-PI-39 bis K-PI-56), Aufgabentypen nach Hering, Martin, Stohrer. Braucht ph-1.js (E.PHU) */
+/* SOR Aufgaben Physik 4: Atom-, Kern-, Festkörperphysik, Relativität (K-PI-39 bis K-PI-56). Braucht ph-1.js (E.PHU) */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");

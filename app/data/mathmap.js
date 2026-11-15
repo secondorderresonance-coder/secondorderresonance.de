@@ -82,6 +82,9 @@
         N("logik", 1340, 120, 4, "Mengen und Beweise", "Sets and proofs", "k:hm1", ["terme"], "Die Sprache der Mathematik: Mengen, Aussagen, vollständige Induktion.", "The language of mathematics: sets, statements, induction."),
         N("goedel", 1500, 95, 6, "Gödels Satz", "Gödel's theorem", "w:goedel", ["logik", "teiler"], "Es gibt wahre Sätze, die sich nicht beweisen lassen. Der Leuchtturm am Rand der Karte.", "There are true statements that cannot be proved. The lighthouse at the edge of the map.")
     ];
+    // Zusätzliche Erkundung (Mathe-Wunder) an Orten mit eigenem Übungslink
+    var EXTRA = { brueche: "w:brueche", pythagoras: "w:pythagoras" };
+    NODES.forEach(function (n) { if (EXTRA[n.id]) n.extra = EXTRA[n.id]; });
     function href(link) { var k = link.slice(0, 1), v = link.slice(2); return k === "u" ? "ueben.html?thema=" + encodeURIComponent(v) + "&zurueck=karte.html" : k === "k" ? "kurs.html?k=" + v : "wunder.html?t=" + v; }
     var api = { W: 1600, H: 1000, regions: REGIONS, nodes: NODES, href: href, byId: function (id) { return NODES.filter(function (n) { return n.id === id; })[0] || null; } };
     root.SOR_MATHMAP = api;

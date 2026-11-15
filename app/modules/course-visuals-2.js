@@ -336,7 +336,7 @@
         return svg(s, t("Exotherme Reaktion im Energiediagramm", "Exothermic reaction in an energy diagram"));
     };
 
-    // ---------- Physik 1 bis 4 (Hering, Martin, Stohrer) ----------
+    // ---------- Physik 1 bis 4 ----------
     REG.slit = function () {
         var s = ln(20, 75, 70, 75, Y, 2.4) + '<rect x="72" y="20" width="5" height="44" fill="' + M + '"/><rect x="72" y="70" width="5" height="10" fill="' + M + '"/><rect x="72" y="86" width="5" height="44" fill="' + M + '"/>';
         for (var i = 1; i <= 4; i += 1) s += '<circle cx="77" cy="67" r="' + i * 18 + '" fill="none" stroke="' + T + '" stroke-opacity="0.35" stroke-dasharray="3 4">' + anim("r", (i * 18 - 18) + ";" + (i * 18), 2) + "</circle>" + '<circle cx="77" cy="83" r="' + i * 18 + '" fill="none" stroke="' + B + '" stroke-opacity="0.35" stroke-dasharray="3 4">' + anim("r", (i * 18 - 18) + ";" + (i * 18), 2) + "</circle>";

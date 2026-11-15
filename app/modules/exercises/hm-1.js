@@ -1,4 +1,4 @@
-/* SOR Aufgaben Höhere Mathematik 1 (K-HM-01 bis K-HM-36), Aufgabentypen nach Karpfinger, Arbeitsbuch HM in Rezepten. Format siehe exercise-engine.js */
+/* SOR Aufgaben Höhere Mathematik 1 (K-HM-01 bis K-HM-36). Format siehe exercise-engine.js */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");
@@ -51,7 +51,7 @@
     }
     var simpson = M.simpson, near = M.near, DEG = 180 / Math.PI;
 
-    // =============== Kap. 1 Mengen ===============
+    // =============== Lektion 1 Mengen ===============
     add(1, "mengen", "Mengen und Summenzeichen", "Sets and sum notation", function (r, d) {
         if (d < 3) {
             var a1 = r.int(-6, 2), a2 = a1 + r.int(4, 9), b1 = r.int(-4, 4), b2 = b1 + r.int(4, 9);
@@ -72,7 +72,7 @@
             [t("innere Summe: ", "inner sum: ") + a + " · n(n+1)/2", "Σ = " + a + " · N(N+1)(N+2)/6 = " + s], s === f);
     });
 
-    // =============== Kap. 2 Zahlen ===============
+    // =============== Lektion 2 Zahlen ===============
     add(2, "zahlen", "Induktion, Binomialkoeffizienten, Brüche", "Induction, binomial coefficients, fractions", function (r, d) {
         if (d === 1) {
             var nn = r.int(5, 14), k = r.int(2, nn - 2), b = M.binom(nn, k);
@@ -94,7 +94,7 @@
             [Math.pow(10, L) + "x − x = " + (Math.pow(10, L) - 1) + "x = " + (m * den + per), "x = " + q(m * den + per, den)], near(parseFloat(m + "." + new Array(9).join(ps)), (m * den + per) / den, 1e-8));
     });
 
-    // =============== Kap. 3 Reelle Zahlen ===============
+    // =============== Lektion 3 Reelle Zahlen ===============
     add(3, "ungl", "Ungleichungen und Beträge", "Inequalities and absolute values", function (r, d) {
         if (d === 1) {
             var c = r.pick([1, 2, 4, 5]), a = r.int(-9, 9), b = r.int(1, 9), lo = (a - b) / c, hi = (a + b) / c;
@@ -116,7 +116,7 @@
             Math.abs(Math.abs(x1 + a2) + Math.abs(x1 - b2) - k) < 1e-9 && Math.abs(Math.abs(x2 + a2) + Math.abs(x2 - b2) - k) < 1e-9);
     });
 
-    // =============== Kap. 4 Maschinenzahlen ===============
+    // =============== Lektion 4 Maschinenzahlen ===============
     add(4, "dual", "Dualsystem und Maschinenzahlen", "Binary system and machine numbers", function (r, d) {
         if (d === 1) {
             var x = r.int(20, 600), bin = x.toString(2);
@@ -135,7 +135,7 @@
             [t("Mantissen: ", "mantissas: ") + "(b − 1) b<sup>t−1</sup> = " + (b - 1) * Math.pow(b, tt - 1), t("Exponenten: ", "exponents: ") + (emax - emin + 1), "2 · " + (b - 1) * Math.pow(b, tt - 1) + " · " + (emax - emin + 1) + " = " + cnt], mant * 2 * (emax - emin + 1) === cnt);
     });
 
-    // =============== Kap. 5 Polynome ===============
+    // =============== Lektion 5 Polynome ===============
     add(5, "poly", "Polynomdivision, Faktorisierung, Partialbrüche", "Polynomial division, factorisation, partial fractions", function (r, d) {
         if (d === 1) {
             var c = [1, r.int(-4, 4), r.int(-6, 6), r.int(-6, 6), r.int(-9, 9)], a = r.nz(-3, 3);
@@ -160,7 +160,7 @@
             near((al * xt + be) / ((xt - p) * (xt - qv)), An / Ad / (xt - p) + Bn / Bd / (xt - qv), 1e-9));
     });
 
-    // =============== Kap. 6 Trigonometrie ===============
+    // =============== Lektion 6 Trigonometrie ===============
     var TRI = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29]];
     add(6, "trig", "Trigonometrische Funktionen", "Trigonometric functions", function (r, d) {
         if (d === 1) {
@@ -185,7 +185,7 @@
             near(a3 * Math.cos(xt) + b3 * Math.sin(xt), R * Math.cos(xt - phi / DEG), 1e-9));
     });
 
-    // =============== Kap. 7 Komplex kartesisch ===============
+    // =============== Lektion 7 Komplex kartesisch ===============
     function cs(a, b) { return n(a) + " " + (b < 0 ? "−" : "+") + " " + (Math.abs(b) === 1 ? "" : n(Math.abs(b))) + "i"; }
     add(7, "komplex", "Rechnen mit komplexen Zahlen", "Calculating with complex numbers", function (r, d) {
         var a = r.nz(-6, 6), b = r.nz(-6, 6), c = r.nz(-6, 6), e = r.nz(-6, 6);
@@ -206,7 +206,7 @@
             ["p(z) = z (" + poly([1, p, qq], "z") + ")", "z = " + n(al) + " ± " + be + "i, " + t("dazu z = 0", "and z = 0")], (al * al - be * be) + p * al + qq === 0 && 2 * al * be + p * be === 0);
     });
 
-    // =============== Kap. 8 Komplex polar ===============
+    // =============== Lektion 8 Komplex polar ===============
     add(8, "polar", "Polardarstellung, Potenzen, Wurzeln", "Polar form, powers, roots", function (r, d) {
         if (d === 1) {
             var a = r.nz(-6, 6), b = r.nz(-6, 6), R = Math.sqrt(a * a + b * b), ph = Math.atan2(b, a) * DEG;
@@ -230,7 +230,7 @@
             ["|w| = " + Rw + ", arg w = " + W[0] + "°", "r = " + R0 + ", φ<sub>k</sub> = " + n(argmin, 2) + "° + k · " + n(360 / nn, 2) + "°"], near(pr2, Rw * Math.cos(W[0] / DEG), 1e-7) && near(pi2, Rw * Math.sin(W[0] / DEG), 1e-7));
     });
 
-    // =============== Kap. 9 LGS ===============
+    // =============== Lektion 9 LGS ===============
     add(9, "lgs", "Lineare Gleichungssysteme lösen", "Solving linear systems", function (r, d) {
         if (d < 3) {
             var nn = d + 1, m = invertible(r, nn, -4, 5), x = []; for (var i = 0; i < nn; i += 1) x.push(r.int(-5, 5));
@@ -247,7 +247,7 @@
             ["det A = " + cof + " · α " + H.sg(d0), "α = " + alpha], det(M1) === 0);
     });
 
-    // =============== Kap. 10 Matrizen ===============
+    // =============== Lektion 10 Matrizen ===============
     add(10, "matrix", "Matrizen multiplizieren und invertieren", "Multiplying and inverting matrices", function (r, d) {
         if (d === 1) {
             var Am = randMat(r, 2, -4, 5), Bm = randMat(r, 2, -4, 5), P = mul(Am, Bm);
@@ -269,7 +269,7 @@
             I(val), t("Erst A y berechnen, dann das Skalarprodukt mit x.", "First compute A y, then the dot product with x."), ["A y = " + vec(Ay), "x<sup>T</sup>(A y) = " + val], xA.reduce(function (s, v, k) { return s + v * y[k]; }, 0) === val);
     });
 
-    // =============== Kap. 11 LR ===============
+    // =============== Lektion 11 LR ===============
     add(11, "lr", "LR-Zerlegung", "LU decomposition", function (r, d) {
         if (d === 1) {
             var a = r.nz(-3, 3), l = r.int(-3, 3), b = r.int(-5, 5), r22 = r.nz(-5, 5), Am = [[a, b], [l * a, l * b + r22]];
@@ -286,7 +286,7 @@
             A.multi(x.map(function (v, k) { return { l: "x<sub>" + (k + 1) + "</sub>", a: I(v) }; })), t("Erst L y = b vorwärts, dann R x = y rückwärts lösen.", "First solve L y = b forwards, then U x = y backwards."), ["y = " + vec(mv(R, x)), "x = " + vec(x)], solve(Am3, b3).every(function (v, k) { return near(v, x[k], 1e-9); }));
     });
 
-    // =============== Kap. 12 Determinante ===============
+    // =============== Lektion 12 Determinante ===============
     add(12, "det", "Determinanten und Cramer'sche Regel", "Determinants and Cramer's rule", function (r, d) {
         if (d < 3) {
             var nn = d + 2, m = randMat(r, nn, -3, 4);
@@ -302,7 +302,7 @@
             A.frac(D22, D3), t("x<sub>2</sub> = det A<sub>2</sub> / det A, wobei in A<sub>2</sub> die zweite Spalte durch b ersetzt ist.", "x<sub>2</sub> = det A<sub>2</sub> / det A, where A<sub>2</sub> has the second column replaced by b."), ["det A = " + D3, "det A<sub>2</sub> = " + D22, "x<sub>2</sub> = " + q(D22, D3)], near(solve(A3, b)[1], D22 / D3, 1e-9));
     });
 
-    // =============== Kap. 13 Vektorräume ===============
+    // =============== Lektion 13 Vektorräume ===============
     add(13, "uvr", "Untervektorräume erkennen", "Recognising subspaces", function (r, d) {
         var YES = t("Ja, U ist ein Untervektorraum", "Yes, U is a subspace"), N0 = t("Nein, der Nullvektor fehlt", "No, the zero vector is missing"), NA = t("Nein, nicht abgeschlossen unter Addition", "No, not closed under addition"), NS = t("Nein, nicht abgeschlossen unter Vielfachen", "No, not closed under scalar multiples");
         var all = [YES, N0, NA, NS], set, ans, a = r.nz(-5, 5), b = r.nz(-5, 5), c = r.int(1, 6);
@@ -327,7 +327,7 @@
             t("Prüfe: Liegt der Nullvektor drin? Bleiben Summen und Vielfache in U?", "Check: is the zero vector in U? Do sums and multiples stay in U?"), [ans], ok);
     });
 
-    // =============== Kap. 14 lineare Unabhängigkeit ===============
+    // =============== Lektion 14 lineare Unabhängigkeit ===============
     add(14, "linu", "Lineare Unabhängigkeit und Rang", "Linear independence and rank", function (r, d) {
         if (d === 1) {
             var k = r.int(-3, 3), mm = r.int(-3, 3), s = r.pick([-1, 1]), a = 1, b = k, c = mm, e = k * mm + s;
@@ -349,7 +349,7 @@
             [t("Rang = ", "rank = ") + rk, "dim = " + rk], rank(vs) === rk);
     });
 
-    // =============== Kap. 15 Basen ===============
+    // =============== Lektion 15 Basen ===============
     add(15, "basis", "Basen, Koordinaten, Dimension", "Bases, coordinates, dimension", function (r, d) {
         if (d === 1) {
             var u = [r.int(-3, 3), r.int(-3, 3), r.nz(-3, 3)], v = [r.nz(-3, 3), r.int(-3, 3), r.int(-3, 3)];
@@ -372,7 +372,7 @@
             ["x²: c = " + cc, "x: −b − 2c = " + c1 + " ⇒ b = " + bb, "1: a + b + c = " + c0 + " ⇒ a = " + aa], near(c2 * xt * xt + c1 * xt + c0, aa + bb * (1 - xt) + cc * (1 - xt) * (1 - xt), 1e-12));
     });
 
-    // =============== Kap. 16 Orthogonalität I ===============
+    // =============== Lektion 16 Orthogonalität I ===============
     add(16, "skalar", "Skalarprodukte und Winkel", "Inner products and angles", function (r, d) {
         if (d === 1) {
             var v = [r.int(-4, 4), r.int(-4, 4), r.nz(-4, 4)], w = [r.nz(-4, 4), r.int(-4, 4), r.int(-4, 4)];
@@ -398,7 +398,7 @@
             near(simpson(function (x) { return (p0 + p1 * x) * (q0 + q1 * x); }, 0, 1, 50), pq, 1e-9));
     });
 
-    // =============== Kap. 17 Orthogonalität II ===============
+    // =============== Lektion 17 Orthogonalität II ===============
     function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
     add(17, "kreuz", "Kreuzprodukt, Fläche, Spatvolumen", "Cross product, area, volume", function (r, d) {
         var p = [r.int(-4, 4), r.int(-4, 4), r.nz(-4, 4)], qv = [r.nz(-4, 4), r.int(-4, 4), r.int(-4, 4)], c = cross(p, qv);
@@ -415,7 +415,7 @@
             I(V), t("V = |(p × q) · r| = |det(p, q, r)|.", "V = |(p × q) · r| = |det(p, q, r)|."), ["(p × q) · r = " + (c[0] * rv[0] + c[1] * rv[1] + c[2] * rv[2]), "V = " + V], Math.abs(det([p, qv, rv])) === V);
     });
 
-    // =============== Kap. 18 Ausgleichsproblem ===============
+    // =============== Lektion 18 Ausgleichsproblem ===============
     add(18, "ausgleich", "Ausgleichsgerade und Projektion", "Best-fit line and projection", function (r, d) {
         if (d === 1) {
             var N = r.int(4, 5), xs = [], ys = [], a0 = r.int(-3, 3), b0 = r.pick([-2, -1, 1, 2, 0.5]);
@@ -441,7 +441,7 @@
             nm(dist, 3), t("Zerlege v = u + u<sup>⊥</sup>. Der Abstand ist ‖u<sup>⊥</sup>‖.", "Split v = u + u<sup>⊥</sup>. The distance is ‖u<sup>⊥</sup>‖."), ["u = " + q(vb, bb) + " · b", "‖u<sup>⊥</sup>‖ = " + n(dist, 3)], near(dist * dist, vv - vb * vb / bb, 1e-9));
     });
 
-    // =============== Kap. 19 QR ===============
+    // =============== Lektion 19 QR ===============
     var PYT = [[3, 4], [4, 3], [1, 0], [0, 1], [6, 8], [5, 12], [12, 5]], PYT3 = [[1, 2, 2], [2, 1, 2], [2, 2, 1], [2, 3, 6], [1, 4, 8], [4, 4, 7]];
     add(19, "qr", "QR-Zerlegung", "QR decomposition", function (r, d) {
         var c1 = d === 1 ? r.pick(PYT) : r.pick(PYT3), sg = r.sign();
@@ -463,7 +463,7 @@
             ["A<sup>T</sup>A = " + mat(AtA) + ", A<sup>T</sup>b = " + vec(Atb), "x = (" + n(x[0], 3) + ", " + n(x[1], 3) + ")"], near(x1, x[0], 1e-7) && near(x2, x[1], 1e-7));
     });
 
-    // =============== Kap. 20 Folgen ===============
+    // =============== Lektion 20 Folgen ===============
     add(20, "folgen", "Folgen und ihre Grenzwerte", "Sequences and their limits", function (r, d) {
         if (d === 1) {
             var a = r.nz(-6, 6), b = r.int(-9, 9), c = r.nz(1, 6), e = r.int(-9, 9);
@@ -481,7 +481,7 @@
             nm(x2, 4), t("Zweimal einsetzen.", "Substitute twice."), ["a<sub>1</sub> = " + n(x1, 6), "a<sub>2</sub> = " + n(x2, 6), "√" + c3 + " = " + n(Math.sqrt(c3), 6)], x2 >= Math.sqrt(c3) - 1e-12 && Math.abs(x2 - Math.sqrt(c3)) <= Math.abs(x1 - Math.sqrt(c3)) + 1e-12);
     });
 
-    // =============== Kap. 21 Grenzwerte ===============
+    // =============== Lektion 21 Grenzwerte ===============
     add(21, "grenz", "Grenzwerte von Folgen berechnen", "Computing limits", function (r, d) {
         var N = 1e6;
         if (d === 1) {
@@ -501,7 +501,7 @@
             nm(val, 4), t("(1 + a/n)<sup>n</sup> → e<sup>a</sup>. Der Faktor im Exponenten bleibt stehen.", "(1 + a/n)<sup>n</sup> → e<sup>a</sup>. The factor in the exponent stays."), ["= ((1 " + H.sg(aa) + "/n)<sup>n</sup>)<sup>" + bb + "</sup> → e<sup>" + aa * bb + "</sup> = " + n(val, 4)], near(h(1e7), val, 1e-5));
     });
 
-    // =============== Kap. 22 Reihen ===============
+    // =============== Lektion 22 Reihen ===============
     add(22, "reihen", "Reihen summieren und prüfen", "Summing and testing series", function (r, d) {
         if (d === 1) {
             var a = r.int(0, 5), c = r.int(1, 9), s = 0; for (var k = 1; k < 200000; k += 1) s += c / ((k + a) * (k + a + 1));
@@ -525,7 +525,7 @@
             t("Quotientenkriterium bei Fakultäten und Potenzen, Leibniz bei alternierenden Reihen, Vergleich mit Σ 1/k<sup>α</sup>.", "Ratio test for factorials and powers, Leibniz for alternating series, comparison with Σ 1/k<sup>α</sup>."), [ans], true);
     });
 
-    // =============== Kap. 23 Abbildungen ===============
+    // =============== Lektion 23 Abbildungen ===============
     add(23, "abb", "Bild, Umkehrabbildung, Injektivität", "Image, inverse, injectivity", function (r, d) {
         if (d === 1) {
             var m = r.nz(-4, 4), c = r.int(-6, 6), p = r.int(-5, 2), qq = p + r.int(1, 6), v1 = m * p + c, v2 = m * qq + c;
@@ -551,7 +551,7 @@
             t("Injektiv: keine waagerechte Gerade trifft den Graphen zweimal. Surjektiv: jeder Wert der Zielmenge wird erreicht.", "Injective: no horizontal line hits the graph twice. Surjective: every value of the target set is reached."), [ans], true);
     });
 
-    // =============== Kap. 24 Potenzreihen ===============
+    // =============== Lektion 24 Potenzreihen ===============
     add(24, "potenz", "Konvergenzradius und -bereich", "Radius and interval of convergence", function (r, d) {
         if (d === 1) {
             var c = r.int(2, 9), p = r.int(0, 4), inv = r.bool();
@@ -571,7 +571,7 @@
             ["R = " + c3, t("Bereich: [", "interval: [") + (a - c3) + ", " + (a + c3) + ")"], true);
     });
 
-    // =============== Kap. 25 Stetigkeit ===============
+    // =============== Lektion 25 Stetigkeit ===============
     add(25, "stetig", "Stetigkeit und Bisektion", "Continuity and bisection", function (r, d) {
         if (d === 1) {
             var c = r.pick([2, 3, 5, 6, 7, 10, 12, 13]), lo = Math.floor(Math.sqrt(c)), hi = lo + 1, steps = 3, a = lo, b = hi, f = function (x) { return x * x - c; };
@@ -589,7 +589,7 @@
             I(dd), t("Die beiden Teile müssen bei x = " + x0 + " denselben Wert haben.", "Both pieces must have the same value at x = " + x0 + "."), [c3 * x0 + " + d = " + (x0 * x0 + k), "d = " + dd], c3 * x0 + dd === x0 * x0 + k);
     });
 
-    // =============== Kap. 26 Differentiation ===============
+    // =============== Lektion 26 Differentiation ===============
     add(26, "abl", "Ableitungen berechnen", "Computing derivatives", function (r, d) {
         var h = 1e-5, nd = function (f, x) { return (f(x + h) - f(x - h)) / (2 * h); };
         if (d === 1) {
@@ -607,7 +607,7 @@
             nm(v3, 3), t("Schreibe f(x) = e<sup>" + n(a3) + " x ln x</sup> und leite mit der Kettenregel ab.", "Write f(x) = e<sup>" + n(a3) + " x ln x</sup> and differentiate with the chain rule."), ["f′(x) = x<sup>" + n(a3) + "x</sup> · " + n(a3) + "(ln x + 1)", "f′(" + n(x3) + ") = " + n(v3, 4)], near(nd(k, x3), v3, 1e-5));
     });
 
-    // =============== Kap. 27 Anwendungen I ===============
+    // =============== Lektion 27 Anwendungen I ===============
     add(27, "anw1", "Extremwerte und Kurvendiskussion", "Extrema and curve sketching", function (r, d) {
         if (d === 1) {
             var V = r.pick([200, 250, 330, 400, 500, 750, 1000]), rad = Math.pow(V / (2 * Math.PI), 1 / 3), O = function (x) { return 2 * Math.PI * x * x + 2 * V / x; };
@@ -624,7 +624,7 @@
             A.frac(-a, 3), t("f″(x) = 0, und f‴ ≠ 0.", "f″(x) = 0, and f‴ ≠ 0."), ["f″(x) = 6x " + H.sg(2 * a), "x = " + q(-a, 3)], near(f2(xw), 0, 1e-12));
     });
 
-    // =============== Kap. 28 Anwendungen II ===============
+    // =============== Lektion 28 Anwendungen II ===============
     add(28, "anw2", "Newton, Taylor, L'Hospital", "Newton, Taylor, L'Hôpital", function (r, d) {
         if (d === 1) {
             var a = r.pick([1, 2, 3]), b = r.int(2, 9), x0 = r.pick([0.5, 1, 1.5, 2]), f = function (x) { return Math.exp(a * x) - b; }, x1 = x0 - f(x0) / (a * Math.exp(a * x0));
@@ -643,7 +643,7 @@
         return Q(t("Berechne lim<sub>x→0</sub> " + txt + ".", "Compute lim<sub>x→0</sub> " + txt + "."), A.frac(num, den), t("Typ 0/0: L'Hospital, notfalls zweimal.", "Type 0/0: L'Hôpital, twice if necessary."), [t("Grenzwert: ", "limit: ") + q(num, den)], near(fn(1e-4), num / den, 1e-3));
     });
 
-    // =============== Kap. 29 Interpolation ===============
+    // =============== Lektion 29 Interpolation ===============
     function lagr(xs, ys, x) { var s = 0; for (var i = 0; i < xs.length; i += 1) { var l = 1; for (var j = 0; j < xs.length; j += 1) if (j !== i) l *= (x - xs[j]) / (xs[i] - xs[j]); s += ys[i] * l; } return s; }
     add(29, "interp", "Polynom- und Splineinterpolation", "Polynomial and spline interpolation", function (r, d) {
         if (d < 3) {
@@ -662,7 +662,7 @@
             near((s0(x1) - s0(x1 - e)) / e, (s1(x1 + e) - s1(x1)) / e, 1e-3) && near(s0(x1), y1, 1e-9) && near(s1(x1), y1, 1e-9));
     });
 
-    // =============== Kap. 30 Integration I ===============
+    // =============== Lektion 30 Integration I ===============
     add(30, "int1", "Bestimmte Integrale", "Definite integrals", function (r, d) {
         if (d === 1) {
             var a = r.int(1, 4), b = r.nz(1, 4), c = r.pick([1, 2, 3, 6]), up = Math.PI / (b * c), f = function (x) { return a * Math.sin(b * x); }, v = a / b * (1 - Math.cos(b * up));
@@ -683,7 +683,7 @@
             nm(v4, 4), t("Partielle Integration mit u = ln x, v′ = 1.", "Integration by parts with u = ln x, v′ = 1."), ["∫ ln x dx = x ln x − x", "= " + c3 + " ln " + c3 + " − " + (c3 - 1) + " = " + n(v4, 5)], near(simpson(l, 1, c3, 400), v4, 1e-7));
     });
 
-    // =============== Kap. 31 Integration II ===============
+    // =============== Lektion 31 Integration II ===============
     add(31, "int2", "Partialbrüche, Quadratur, Rotationskörper", "Partial fractions, quadrature, solids of revolution", function (r, d) {
         if (d === 1) {
             var p = r.int(0, 3), qq = p + r.int(1, 4), a = r.int(0, 2), b = a + r.int(1, 3), f = function (x) { return 1 / ((x + p) * (x + qq)); };
@@ -706,7 +706,7 @@
             nm(V, 2), "V = π ∫<sub>0</sub><sup>" + L + "</sup> f(x)² dx.", ["V = π ∫ (" + H.lin([[b3, "x"], [a3, ""]]) + ")² dx = " + n(V, 3)], near(simpson(g, 0, L, 200), V, 1e-7));
     });
 
-    // =============== Kap. 32 Uneigentliche Integrale ===============
+    // =============== Lektion 32 Uneigentliche Integrale ===============
     add(32, "uneig", "Uneigentliche Integrale", "Improper integrals", function (r, d) {
         if (d === 1) {
             var p = r.int(3, 9), qq = r.int(1, p - 1); if (M.gcd(p, qq) !== 1) qq = 1;
@@ -723,7 +723,7 @@
             A.frac(p3, p3 - q3), t("Für α < 1 gilt ∫<sub>0</sub><sup>1</sup> x<sup>−α</sup> dx = 1/(1 − α).", "For α < 1, ∫<sub>0</sub><sup>1</sup> x<sup>−α</sup> dx = 1/(1 − α)."), ["α = " + q(q3, p3), "1/(1 − α) = " + q(p3, p3 - q3)], near(1 / (1 - q3 / p3), p3 / (p3 - q3), 1e-12));
     });
 
-    // =============== Kap. 33 DGL 1. Ordnung ===============
+    // =============== Lektion 33 DGL 1. Ordnung ===============
     function rk(f, x0, T, steps) { var h = T / steps, x = x0, tt = 0; for (var i = 0; i < steps; i += 1) { var k1 = f(tt, x), k2 = f(tt + h / 2, x + h / 2 * k1), k3 = f(tt + h / 2, x + h / 2 * k2), k4 = f(tt + h, x + h * k3); x += h / 6 * (k1 + 2 * k2 + 2 * k3 + k4); tt += h; } return x; }
     add(33, "dgl1", "Separierbare und lineare DGL", "Separable and linear ODEs", function (r, d) {
         var T = r.pick([0.5, 1, 1.5, 2]);
@@ -744,7 +744,7 @@
             nm(v3, 4), t("Separieren: dx/x² = " + n(c) + " t dt, also −1/x = " + n(c / 2) + " t² + C.", "Separate: dx/x² = " + n(c) + " t dt, so −1/x = " + n(c / 2) + " t² + C."), ["x(t) = 1 / (1/" + n(x03) + " − " + n(c / 2) + " t²)", "x(" + n(T3) + ") = " + n(v3, 5)], near(rk(function (tt, x) { return c * tt * x * x; }, x03, T3, 2000), v3, 1e-6));
     });
 
-    // =============== Kap. 34 lineare DGL konstante Koeffizienten ===============
+    // =============== Lektion 34 lineare DGL konstante Koeffizienten ===============
     add(34, "dgl2", "Lineare DGL mit konstanten Koeffizienten", "Linear ODEs with constant coefficients", function (r, d) {
         var r1 = r.int(-5, 2), r2 = r1 + r.int(1, 4), a = -(r1 + r2), b = r1 * r2;
         if (d === 1) return Q(t("Bestimme die Nullstellen des charakteristischen Polynoms von ẍ " + H.sg(a) + "ẋ " + H.sg(b) + "x = 0.", "Find the roots of the characteristic polynomial of ẍ " + H.sg(a) + "ẋ " + H.sg(b) + "x = 0."),
@@ -762,7 +762,7 @@
             nm(v, 4), t("λ<sub>1,2</sub> bestimmen, dann C<sub>1</sub>, C<sub>2</sub> aus den Anfangswerten.", "Find λ<sub>1,2</sub>, then C<sub>1</sub>, C<sub>2</sub> from the initial values."), ["λ = " + s1 + ", " + s2, "C<sub>1</sub> = " + n(C1, 4) + ", C<sub>2</sub> = " + n(C2, 4), "x(" + n(T) + ") = " + n(v, 5)], near(sim, v, 1e-6));
     });
 
-    // =============== Kap. 35 besondere DGL ===============
+    // =============== Lektion 35 besondere DGL ===============
     add(35, "dgl3", "Euler-, Bernoulli- und Potenzreihen-DGL", "Euler, Bernoulli and power series ODEs", function (r, d) {
         if (d === 1) {
             var p = r.int(-4, 3), qq = p + r.int(1, 4), a = 1 - (p + qq), b = p * qq;
@@ -780,7 +780,7 @@
             nm(v3, 4), t("Die Reihe ergibt x = Σ (" + n(a3) + "t²/2)<sup>k</sup>/k! − 1 = e<sup>" + n(a3 / 2) + "t²</sup> − 1.", "The series gives x = Σ (" + n(a3) + "t²/2)<sup>k</sup>/k! − 1 = e<sup>" + n(a3 / 2) + "t²</sup> − 1."), ["x(t) = e<sup>" + n(a3 / 2) + " t²</sup> − 1", "x(" + n(T) + ") = " + n(v3, 5)], near(rk(function (tt, x) { return a3 * tt * x + a3 * tt; }, 0, T, 1000), v3, 1e-6));
     });
 
-    // =============== Kap. 36 Numerik DGL I ===============
+    // =============== Lektion 36 Numerik DGL I ===============
     add(36, "num1", "Euler- und Runge-Kutta-Verfahren", "Euler and Runge-Kutta methods", function (r, d) {
         if (d === 1) {
             var x0 = r.pick([0, 0.5, 1, -0.5]), h = r.pick([0.1, 0.2, 0.25, 0.5]), f = function (tt, x) { return 1 + (x - tt) * (x - tt); }, x1 = x0 + h * f(0, x0);
