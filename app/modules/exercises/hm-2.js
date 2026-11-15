@@ -1,4 +1,4 @@
-/* SOR Aufgaben Höhere Mathematik 2 (K-HM-37 bis K-HM-62), Aufgabentypen nach Karpfinger, Arbeitsbuch HM in Rezepten. Braucht hm-1.js (E.HMU) */
+/* SOR Aufgaben Höhere Mathematik 2 (K-HM-37 bis K-HM-62). Braucht hm-1.js (E.HMU) */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");
@@ -19,7 +19,7 @@
     var nd = function (f, x, h) { h = h || 1e-5; return (f(x + h) - f(x - h)) / (2 * h); };
     function dbl(f, a, b, c, d2, N) { return simpson(function (x) { return simpson(function (y) { return f(x, y); }, c, d2, N || 60); }, a, b, N || 60); }
 
-    // =============== Kap. 37 lineare Abbildungen ===============
+    // =============== Lektion 37 lineare Abbildungen ===============
     add(37, "linabb", "Kern, Bild, Injektivität", "Kernel, image, injectivity", function (r, d) {
         var rows = 3, cols = d === 2 ? 4 : 3, rk = r.int(1, 3), base = [];
         for (var i = 0; i < rk; i += 1) { var v = []; for (var j = 0; j < cols; j += 1) v.push(r.int(-3, 3)); base.push(v); }
@@ -38,7 +38,7 @@
             A.choice(r, ans, [BI, IN, SU, WN].filter(function (x) { return x !== ans; })), t("Injektiv ⇔ rg A = Spaltenzahl. Surjektiv ⇔ rg A = Zeilenzahl.", "Injective ⇔ rank A = number of columns. Surjective ⇔ rank A = number of rows."), [t("rg A = ", "rank A = ") + rr + " ⇒ " + ans], true);
     });
 
-    // =============== Kap. 38 Darstellungsmatrizen ===============
+    // =============== Lektion 38 Darstellungsmatrizen ===============
     add(38, "darst", "Koordinaten und Basiswechsel", "Coordinates and change of basis", function (r, d) {
         if (d === 1) {
             var S = unimod(r), c = [r.nz(-4, 4), r.int(-4, 4)], v = mv(S, c), b1 = [S[0][0], S[1][0]], b2 = [S[0][1], S[1][1]];
@@ -57,7 +57,7 @@
             ["f(1) = 1, f(x) = x " + H.sg(c3) + ", f(x²) = x² " + H.sg(2 * c3) + "x " + H.sg(c3 * c3), "A = " + mat([[1, c3, c3 * c3], [0, 1, 2 * c3], [0, 0, 1]])], Math.pow(1.5 + c3, 2) === 1.5 * 1.5 + 2 * c3 * 1.5 + c3 * c3);
     });
 
-    // =============== Kap. 39 Eigenwerte ===============
+    // =============== Lektion 39 Eigenwerte ===============
     add(39, "eigen", "Eigenwerte und Eigenvektoren", "Eigenvalues and eigenvectors", function (r, d) {
         var S = unimod(r), l1 = r.int(-5, 5), l2 = l1 + r.nz(-4, 4), Am = mul(mul(S, [[l1, 0], [0, l2]]), inv2(S)).map(function (rw) { return rw.map(function (x) { return Math.round(x); }); });
         if (d === 1) return Q(t("Bestimme die Eigenwerte von A = " + mat(Am) + ".", "Find the eigenvalues of A = " + mat(Am) + "."),
@@ -76,7 +76,7 @@
             ["χ<sub>B</sub>(λ) = λ² " + H.sg(-(l1 + l2)) + "λ " + H.sg(l1 * l2), "λ = " + l1 + ", " + l2 + ", " + e], Math.abs(det(sub(A3, l1))) < 1e-9 && Math.abs(det(sub(A3, l2))) < 1e-9 && Math.abs(det(sub(A3, e))) < 1e-9);
     });
 
-    // =============== Kap. 40 Numerik Eigenwerte ===============
+    // =============== Lektion 40 Numerik Eigenwerte ===============
     add(40, "eignum", "Eigenwerte abschätzen und annähern", "Estimating and approximating eigenvalues", function (r, d) {
         var Am = randMat(r, 3, -4, 4); for (var i = 0; i < 3; i += 1) Am[i][i] = r.int(-9, 9);
         if (d === 1) {
@@ -97,7 +97,7 @@
             ["A x = " + vec(Sx), "R(x) = " + q(x[0] * Sx[0] + x[1] * Sx[1], x[0] * x[0] + x[1] * x[1]), t("Eigenwerte: ", "eigenvalues: ") + sy.l2 + ", " + sy.l1], rq >= sy.l2 - 1e-9 && rq <= sy.l1 + 1e-9);
     });
 
-    // =============== Kap. 41 Quadriken ===============
+    // =============== Lektion 41 Quadriken ===============
     add(41, "quadrik", "Hauptachsentransformation", "Principal axis transformation", function (r, d) {
         var l2 = d === 3 ? r.int(1, 4) : r.int(-4, 4), sy = symInt(r, l2), Sm = sy.m, cc = r.int(1, 9) * (d === 3 ? sy.l1 * sy.l2 : 1);
         var form = H.lin([[Sm[0][0], "x²"], [2 * Sm[0][1], "xy"], [Sm[1][1], "y²"]]);
@@ -117,7 +117,7 @@
             ["λ = " + sy.l1 + ", " + sy.l2, "a = √(" + cc + "/" + sy.l2 + ") = " + n(a2, 3) + ", b = √(" + cc + "/" + sy.l1 + ") = " + n(a1, 3)], a2 >= a1 && near(sy.l1 * a1 * a1, cc, 1e-9));
     });
 
-    // =============== Kap. 42 Singulärwerte ===============
+    // =============== Lektion 42 Singulärwerte ===============
     add(42, "svd", "Singulärwertzerlegung", "Singular value decomposition", function (r, d) {
         if (d < 3) {
             var rows = d === 1 ? 2 : 3, Am = []; for (var i = 0; i < rows; i += 1) Am.push([r.int(-3, 3), r.int(-3, 3)]);
@@ -134,7 +134,7 @@
             nm(s, 3), t("A = u v<sup>T</sup> mit u = " + vec(u) + ", v = " + vec(v) + ". Dann σ<sub>1</sub> = ‖u‖ ‖v‖.", "A = u v<sup>T</sup> with u = " + vec(u) + ", v = " + vec(v) + ". Then σ<sub>1</sub> = ‖u‖ ‖v‖."), ["σ<sub>1</sub> = " + n(Math.hypot(u[0], u[1], u[2]), 4) + " · " + n(Math.hypot(v[0], v[1]), 4) + " = " + n(s, 3)], near(s, fro, 1e-9));
     });
 
-    // =============== Kap. 43 Jordan I ===============
+    // =============== Lektion 43 Jordan I ===============
     function upper(r, diag) { var m = [[diag[0], r.int(-3, 3), r.int(-3, 3)], [0, diag[1], r.int(-3, 3)], [0, 0, diag[2]]]; return m; }
     add(43, "jordan1", "Algebraische und geometrische Vielfachheit", "Algebraic and geometric multiplicity", function (r, d) {
         var l = r.int(-4, 4), o = l + r.nz(-3, 3), k = r.int(1, 3), diag = r.shuffle([l, k >= 2 ? l : o, k >= 3 ? l : o]), m = upper(r, diag);
@@ -151,7 +151,7 @@
             I(idx), t("Kleinstes k mit (A − λE)<sup>k</sup> = 0.", "Smallest k with (A − λI)<sup>k</sup> = 0."), ["N = A − " + l + "E, rg N = " + rank(N) + ", rg N² = " + rank(N2), t("Index = ", "index = ") + idx], rank(mul(N2, N)) === 0);
     });
 
-    // =============== Kap. 44 Jordan II ===============
+    // =============== Lektion 44 Jordan II ===============
     function partition(r) { var parts = [], left = r.int(3, 7); while (left > 0) { var p = r.int(1, Math.min(4, left)); parts.push(p); left -= p; } return parts.sort(function (a, b) { return b - a; }); }
     add(44, "jordan2", "Jordanblöcke aus Kerndimensionen", "Jordan blocks from kernel dimensions", function (r, d) {
         var parts = partition(r), l = r.int(-3, 3), k = function (j) { return parts.reduce(function (s, p) { return s + Math.min(p, j); }, 0); }, N = parts.reduce(function (s, p) { return s + p; }, 0);
@@ -166,7 +166,7 @@
             I(2 * dims[1] - dims[0] - dims[2]), t("Blöcke der Größe genau k: 2 d<sub>k</sub> − d<sub>k−1</sub> − d<sub>k+1</sub> mit d<sub>k</sub> = dim ker N<sup>k</sup>.", "Blocks of size exactly k: 2 d<sub>k</sub> − d<sub>k−1</sub> − d<sub>k+1</sub> with d<sub>k</sub> = dim ker N<sup>k</sup>."), ["2·" + dims[1] + " − " + dims[0] + " − " + dims[2] + " = " + (2 * dims[1] - dims[0] - dims[2])], ex2 === 2 * dims[1] - dims[0] - dims[2]);
     });
 
-    // =============== Kap. 45 Definitheit, Normen ===============
+    // =============== Lektion 45 Definitheit, Normen ===============
     add(45, "defnorm", "Definitheit und Matrixnormen", "Definiteness and matrix norms", function (r, d) {
         if (d === 1) {
             var sy = symInt(r, r.int(-6, 4)), Sm = sy.m, PD = t("positiv definit", "positive definite"), ND = t("negativ definit", "negative definite"), ID = t("indefinit", "indefinite"), PS = t("positiv semidefinit", "positive semidefinite"), NS = t("negativ semidefinit", "negative semidefinite");
@@ -185,7 +185,7 @@
             rowN === Math.max.apply(null, [0, 1, 2].map(function (j) { return Am[0][j] * 0 + Math.abs(Am[j][0]) + Math.abs(Am[j][1]) + Math.abs(Am[j][2]); })));
     });
 
-    // =============== Kap. 46 Funktionen mehrerer Veränderlicher ===============
+    // =============== Lektion 46 Funktionen mehrerer Veränderlicher ===============
     add(46, "mehrvar", "Niveaumengen, Topologie, Grenzwerte", "Level sets, topology, limits", function (r, d) {
         if (d === 1) {
             var a = r.int(1, 4), b = r.int(-5, 5), rad = r.int(1, 5), c = b + a * rad * rad;
@@ -204,7 +204,7 @@
             A.frac(c3 * m, 1 + m * m), t("y = mx einsetzen und x kürzen. Da das Ergebnis von m abhängt, existiert der Grenzwert in ℝ² nicht.", "Substitute y = mx and cancel x. Since the result depends on m, the limit in ℝ² does not exist."), ["f(x, " + m + "x) = " + c3 * m + "x² / (" + (1 + m * m) + "x²) = " + q(c3 * m, 1 + m * m)], near(f(1e-4, m * 1e-4), c3 * m / (1 + m * m), 1e-9));
     });
 
-    // =============== Kap. 47 partielle Ableitungen ===============
+    // =============== Lektion 47 partielle Ableitungen ===============
     function pf(r) { return { a: r.nz(-3, 3), b: r.nz(-3, 3), c: r.int(-4, 4) }; }
     add(47, "partiell", "Gradient, Richtungsableitung, Hessematrix", "Gradient, directional derivative, Hessian", function (r, d) {
         var p = pf(r), f = function (x, y) { return p.a * x * x * y + p.b * x * y * y * y + p.c * x; }, x0 = r.int(-2, 2), y0 = r.nz(-2, 2);
@@ -223,7 +223,7 @@
             near((f(x0 + h, y0) - 2 * f(x0, y0) + f(x0 - h, y0)) / (h * h), fxx, 1e-3) && near((f(x0 + h, y0 + h) - f(x0 + h, y0 - h) - f(x0 - h, y0 + h) + f(x0 - h, y0 - h)) / (4 * h * h), fxy, 1e-3));
     });
 
-    // =============== Kap. 48 Ableitungsregeln, Newton ===============
+    // =============== Lektion 48 Ableitungsregeln, Newton ===============
     add(48, "kette", "Kettenregel, Linearisierung, Newton im ℝ²", "Chain rule, linearisation, Newton in ℝ²", function (r, d) {
         if (d === 1) {
             var a = r.nz(-3, 3), b = r.nz(-3, 3), x0 = r.int(-2, 2), y0 = r.int(-2, 2), hx = r.pick([0.1, -0.1, 0.05, 0.2]), hy = r.pick([0.1, -0.1, -0.05, 0.2]), f = function (x, y) { return a * x * x + b * x * y + y * y; };
@@ -245,7 +245,7 @@
             ["F(x<sub>0</sub>) = " + vec(Fv), "J = " + mat(J), "(x<sub>1</sub>, y<sub>1</sub>) = (" + n(x1, 4) + ", " + n(y1, 4) + ")"], near(x1 - y1, cc, 1e-9) && near(2 * x0n * (x1 - x0n) + 2 * y0n * (y1 - y0n), -Fv[0], 1e-9));
     });
 
-    // =============== Kap. 49 Extremwerte ===============
+    // =============== Lektion 49 Extremwerte ===============
     add(49, "extrem", "Lokale Extrema", "Local extrema", function (r, d) {
         var a = r.nz(-4, 4), b = r.int(-4, 4), c = r.nz(-4, 4);
         if (4 * a * c - b * b === 0) c += c > 0 ? 1 : -1;
@@ -266,7 +266,7 @@
             ["p = " + aa, "f(" + aa + ", " + aa + ") = " + (-aa * aa * aa) + t(" (lokales Minimum)", " (local minimum)")], near(nd(function (x) { return F(x, aa); }, aa), 0, 1e-5) && F(aa, aa) === -aa * aa * aa);
     });
 
-    // =============== Kap. 50 Extrema unter Nebenbedingungen ===============
+    // =============== Lektion 50 Extrema unter Nebenbedingungen ===============
     add(50, "lagrange", "Extrema unter Nebenbedingungen", "Constrained extrema", function (r, d) {
         if (d === 1) {
             var a = r.nz(-5, 5), b = r.nz(-5, 5), c = r.nz(-9, 9), x = a * c / (a * a + b * b), y = b * c / (a * a + b * b);
@@ -286,7 +286,7 @@
             A.frac(aa * bb, 2), t("Lagrange oder Parametrisierung x = " + aa + " cos t, y = " + bb + " sin t.", "Lagrange or the parametrisation x = " + aa + " cos t, y = " + bb + " sin t."), ["xy = " + aa * bb + " sin t cos t = " + q(aa * bb, 2) + " sin 2t", "max = " + q(aa * bb, 2)], near(best2, mx, 1e-4));
     });
 
-    // =============== Kap. 51 Differentialoperatoren ===============
+    // =============== Lektion 51 Differentialoperatoren ===============
     add(51, "diffop", "Divergenz, Rotation, Laplace", "Divergence, curl, Laplacian", function (r, d) {
         var a = r.nz(-3, 3), b = r.nz(-3, 3), c = r.nz(-3, 3), p = [r.int(-2, 2), r.int(-2, 2), r.int(-2, 2)], x = p[0], y = p[1], z = p[2];
         var F = function (X, Y, Z) { return [a * X * X * Y, b * Y * Z, c * X * Z * Z]; }, fld = "v = (" + H.lin([[a, "x²y"]]) + ", " + H.lin([[b, "yz"]]) + ", " + H.lin([[c, "xz²"]]) + ")";
@@ -303,7 +303,7 @@
             I(lap), "Δf = f<sub>xx</sub> + f<sub>yy</sub> + f<sub>zz</sub>.", ["Δf = " + H.lin([[2 * a, "y"], [2 * b, "z²"], [2 * b, "y²"], [6 * c, "z"]]), "= " + lap], near(num, lap, 1e-3));
     });
 
-    // =============== Kap. 52 implizite Funktionen ===============
+    // =============== Lektion 52 implizite Funktionen ===============
     add(52, "implizit", "Implizite Funktionen", "Implicit functions", function (r, d) {
         if (d === 1) {
             var a = r.nz(-3, 3), x0 = r.int(-2, 2), y0 = r.nz(-2, 2), K = x0 * x0 + a * x0 * y0 + Math.pow(y0, 3), Fx = 2 * x0 + a * y0, Fy = a * x0 + 3 * y0 * y0;
@@ -323,7 +323,7 @@
             A.frac(-R2, Math.pow(y3, 3)), t("y′ = −x/y. Noch einmal ableiten und y′ einsetzen: y″ = −(x² + y²)/y³.", "y′ = −x/y. Differentiate again and substitute y′: y″ = −(x² + y²)/y³."), ["y′ = " + q(-x3, y3), "y″ = −" + R2 + " / " + Math.pow(y3, 3) + " = " + q(-R2, Math.pow(y3, 3))], near(num, -R2 / Math.pow(y3, 3), 1e-4));
     });
 
-    // =============== Kap. 53 Koordinatensysteme ===============
+    // =============== Lektion 53 Koordinatensysteme ===============
     add(53, "koord", "Polar-, Zylinder-, Kugelkoordinaten", "Polar, cylindrical, spherical coordinates", function (r, d) {
         if (d === 1) {
             var tr = r.pick([[3, 4], [4, 3], [5, 12], [8, 15], [1, 1], [1, 0], [0, 2]]), x = r.sign() * tr[0], y = r.sign() * tr[1], R = Math.hypot(x, y), ph = Math.atan2(y, x) * 180 / Math.PI;
@@ -342,7 +342,7 @@
             I(val), t("In Kugelkoordinaten gilt für radiale Funktionen Δf = f″(r) + (2/r) f′(r).", "In spherical coordinates, for radial functions Δf = f″(r) + (2/r) f′(r)."), ["Δ r<sup>" + m + "</sup> = " + m + "·" + (m - 1) + " r<sup>" + (m - 2) + "</sup> + 2·" + m + " r<sup>" + (m - 2) + "</sup> = " + m * (m + 1) + " r<sup>" + (m - 2) + "</sup>", "= " + val], near(num, val, 1e-2 * Math.max(1, val)));
     });
 
-    // =============== Kap. 54 Kurven ===============
+    // =============== Lektion 54 Kurven ===============
     add(54, "kurven", "Bogenlänge und Tangente", "Arc length and tangent", function (r, d) {
         if (d === 1) {
             var a = r.int(1, 4), c = r.int(1, 4), k = r.int(1, 3), T = 2 * Math.PI * k, L = T * Math.sqrt(a * a + c * c);
@@ -359,7 +359,7 @@
             A.multi(v.map(function (x, k) { return { l: "T<sub>" + (k + 1) + "</sub>", a: nm(x / L3, 3) }; })), "γ̇(t) = (1, 2t, 3t²).", ["γ̇(" + t0 + ") = " + vec(v), "‖γ̇‖ = " + n(L3, 4)], near(v.reduce(function (s, x) { return s + x * x / (L3 * L3); }, 0), 1, 1e-12));
     });
 
-    // =============== Kap. 55 Krümmung ===============
+    // =============== Lektion 55 Krümmung ===============
     add(55, "kruemm", "Krümmung und Leibniz'sche Sektorformel", "Curvature and Leibniz's sector formula", function (r, d) {
         if (d === 1) {
             var a = r.pick([0.5, 1, 2, -1, -0.5, 3]), x0 = r.int(-2, 2), k = Math.abs(2 * a) / Math.pow(1 + 4 * a * a * x0 * x0, 1.5);
@@ -377,7 +377,7 @@
             A.frac(aa, bb * bb), "κ = |ẋ ÿ − ẏ ẍ| / (ẋ² + ẏ²)<sup>3/2</sup>, " + t("Punkt bei t = 0.", "point at t = 0."), ["ẋ = 0, ẏ = " + bb + ", ẍ = −" + aa + ", ÿ = 0", "κ = " + aa * bb + " / " + bb * bb * bb + " = " + q(aa, bb * bb)], near(kk(x1), ka, 1e-12));
     });
 
-    // =============== Kap. 56 Kurvenintegrale ===============
+    // =============== Lektion 56 Kurvenintegrale ===============
     add(56, "kurvint", "Skalare und vektorielle Kurvenintegrale", "Scalar and vector line integrals", function (r, d) {
         if (d === 1) {
             var P = [r.int(-2, 2), r.int(-2, 2)], tr = r.pick([[3, 4], [4, 3], [0, 2], [2, 0], [6, 8], [-3, 4]]), Qp = [P[0] + tr[0], P[1] + tr[1]], L = Math.hypot(tr[0], tr[1]), a = r.nz(-3, 3), b = r.int(-3, 3);
@@ -396,7 +396,7 @@
             nm(m, 2), "m = ∫ ρ ds = ∫ " + c + "t · √(" + aa * aa + " + " + c * c + ") dt.", ["m = " + c + " √" + (aa * aa + c * c) + " · T²/2 = " + n(m, 3)], near(simpson(function (s) { return c * s * Math.sqrt(aa * aa + c * c); }, 0, T3, 50), m, 1e-7));
     });
 
-    // =============== Kap. 57 Gradientenfelder ===============
+    // =============== Lektion 57 Gradientenfelder ===============
     add(57, "gradfeld", "Gradientenfelder und Potentiale", "Gradient fields and potentials", function (r, d) {
         var a = r.nz(-3, 3), b = r.nz(-3, 3), c = r.int(-3, 3);
         if (d === 1) {
@@ -416,7 +416,7 @@
             nm(circ, 2), t("γ(t) = (" + R + " cos t, " + R + " sin t). Das Ergebnis ≠ 0 zeigt: v ist kein Gradientenfeld.", "γ(t) = (" + R + " cos t, " + R + " sin t). The non-zero result shows: v is not a gradient field."), ["v(γ) · γ̇ = " + cc * R * R, "∮ = 2π · " + cc * R * R + " = " + n(circ, 3)], near(simpson(function (s) { var x = R * Math.cos(s), y = R * Math.sin(s); return -cc * y * (-R * Math.sin(s)) + cc * x * R * Math.cos(s); }, 0, 2 * Math.PI, 100), circ, 1e-7));
     });
 
-    // =============== Kap. 58 Bereichsintegrale ===============
+    // =============== Lektion 58 Bereichsintegrale ===============
     add(58, "bereich", "Bereichsintegrale", "Double integrals", function (r, d) {
         if (d === 1) {
             var p = r.int(0, 3), qq = r.int(0, 3), a = r.int(1, 3), b = r.int(1, 3), c = r.int(1, 4), num = c * Math.pow(a, p + 1) * Math.pow(b, qq + 1), den = (p + 1) * (qq + 1);
@@ -435,7 +435,7 @@
             A.frac(Math.pow(a3, 3), 3), t("Schnittpunkte x = 0 und x = " + a3 + ". Dann ∫∫ 1 d(x, y) mit x² ≤ y ≤ " + 2 * a3 + "x − x².", "Intersections x = 0 and x = " + a3 + ". Then ∫∫ 1 d(x, y) with x² ≤ y ≤ " + 2 * a3 + "x − x²."), ["∫<sub>0</sub><sup>" + a3 + "</sup> (" + 2 * a3 + "x − 2x²) dx = " + q(Math.pow(a3, 3), 3)], near(simpson(function (x) { return 2 * a3 * x - 2 * x * x; }, 0, a3, 20), A3, 1e-9));
     });
 
-    // =============== Kap. 59 Substitution ===============
+    // =============== Lektion 59 Substitution ===============
     add(59, "subst", "Integration in Polar- und Kugelkoordinaten", "Integration in polar and spherical coordinates", function (r, d) {
         if (d === 1) {
             var k = r.int(0, 3), R = r.int(1, 3), v = 2 * Math.PI * Math.pow(R, 2 * k + 2) / (2 * k + 2);
@@ -452,7 +452,7 @@
             nm(v3, 2), t("Kugelkoordinaten: dV = r² sin ϑ dr dϑ dφ. Die Winkel geben 4π.", "Spherical coordinates: dV = r² sin θ dr dθ dφ. The angles give 4π."), ["= 4π ∫<sub>0</sub><sup>" + R3 + "</sup> r<sup>" + (2 * m + 2) + "</sup> dr = " + n(v3, 3)], near(4 * Math.PI * simpson(function (s) { return Math.pow(s, 2 * m + 2); }, 0, R3, 200), v3, 1e-7 * v3));
     });
 
-    // =============== Kap. 60 Flächen und Oberflächenintegrale ===============
+    // =============== Lektion 60 Flächen und Oberflächenintegrale ===============
     add(60, "flaeche", "Flächeninhalt und Fluss", "Surface area and flux", function (r, d) {
         if (d === 1) {
             var R = r.int(1, 5), h = r.int(1, 6), F = 2 * Math.PI * R * h;
@@ -469,7 +469,7 @@
             nm(fl, 2), t("Auf der Kugel ist v · n = " + c + "R. Mal die Oberfläche 4πR².", "On the sphere v · n = " + c + "R. Times the surface area 4πR²."), ["v · n = " + c * R3, "Φ = " + c * R3 + " · 4π · " + R3 * R3 + " = " + n(fl, 3)], near(fl, 3 * c * 4 / 3 * Math.PI * Math.pow(R3, 3), 1e-9));
     });
 
-    // =============== Kap. 61 Green ===============
+    // =============== Lektion 61 Green ===============
     add(61, "green", "Satz von Green", "Green's theorem", function (r, d) {
         if (d === 1) {
             var a = r.int(1, 6), b = r.int(1, 6), F = Math.PI * a * b;
@@ -488,7 +488,7 @@
             nm(val3, 2), t("Green: Q<sub>x</sub> − P<sub>y</sub> ist konstant.", "Green: Q<sub>x</sub> − P<sub>y</sub> is constant."), ["Q<sub>x</sub> − P<sub>y</sub> = " + al + " " + H.sg(be) + " = " + (al + be), "· π" + R * R + " = " + n(val3, 3)], near(line, val3, 1e-6));
     });
 
-    // =============== Kap. 62 Gauß und Stokes ===============
+    // =============== Lektion 62 Gauß und Stokes ===============
     add(62, "gauss", "Integralsätze von Gauß und Stokes", "Theorems of Gauss and Stokes", function (r, d) {
         if (d === 1) {
             var a = r.int(-3, 3), b = r.int(-3, 3), c = r.int(1, 3), L = [r.int(1, 3), r.int(1, 3), r.int(1, 3)], V = L[0] * L[1] * L[2], fl = (a + b + c) * V;

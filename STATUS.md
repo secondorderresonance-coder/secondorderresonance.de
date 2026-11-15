@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.5.0`
+- `v3.6.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,57 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.6.0)
+User request: implement all proposed extensions and explain how to create the Supabase URL and public key. Notification mails go to secondorderresonance@gmail.com. This iteration delivers part 1: permanent accounts and the globe.
+
+### Changes in this iteration
+- Online accounts via Supabase (EU) in plain fetch, without a library (`app/modules/sor-cloud.js`, `app/data/cloud-config.js`):
+  - registration with optional city and an age and privacy confirmation
+  - sign-in, password reset and e-mail confirmation
+  - progress sync after every exercise, and account deletion
+  - Device-only accounts keep working. Registering with the same address takes the progress along. With an empty config, everything stays local.
+- Database script `supabase/setup.sql`:
+  - `profiles` with row level security, and a trigger that validates input
+  - `delete_my_account()`, and anonymous `globe_points()` that counts confirmed accounts per city
+  - an owner mail via Resend with name, role, class, city and time (no e-mail address, no progress)
+- Globe `app/welt.html`: rotating dot globe from Natural Earth land data, light beams per city, top list with fly-to. Offline only Munich is lit.
+- `app/data/cities.js` (150 cities plus country-only options), a privacy policy section "Online-Konto (freiwillig)", the guide `docs/supabase-setup.md`, and the globe in the "More" menu.
+
+### Validation
+- Playwright with mocked Supabase: consent check, confirmation flow, merge of guest and cloud progress, upload after practice, sign-out, wrong password, sign-in again, deletion.
+- `setup.sql` run twice on PostgreSQL 16 with auth, vault and pg_net stubs: validation, row level security isolation, globe counting, deletion cascade, and mail only when a key exists.
+- QA: site, core, map, archive and exercise QA all OK. Smoke test of 9 pages at 1300 px and 390 px, DE and EN: no errors, no overflow, no external requests.
+
+### Blockers
+- Activation needs the owner to follow `docs/supabase-setup.md` and send the project URL and publishable key.
+
+### Next logical step
+- Part 2: school explorables and the oscillation lab. Part 3: daily challenge, learning journeys, region badges, sound and worksheets.
+
+## Last completed task (v3.5.1)
+User request: remove the textbook author references from the site, keep expanding the site and suggest further ideas.
+
+### Changes in this iteration
+- Removed all author and textbook references from course intros, data files and code comments (HM 1 to 3, Physik 1 to 4). The chapter numbers in the lesson list of `kurs.html` are no longer shown because they pointed to the books.
+- **Two new maths wonders for school level** (`app/modules/wonders.js`):
+  - "Brüche mit Pizza" (L1, uses the primary-school look automatically): tap slices of a pizza, expand fractions with an animated cut, add 1/2 + 1/3 with a common denominator animation.
+  - "Der Satz des Pythagoras" (L2): squares on the sides with sliders, a rearrangement proof where four triangles move as rigid bodies, and a ladder problem.
+- Map of mathematics: places with an explorable get a second button ("Zum Anfassen") next to the practice link. `tools/map-qa.js` checks these links.
+- Primary-school look: Resi no longer covers navigation buttons (bottom space kept free, wonder navigation left-aligned).
+- Homepage card text updated. Service worker cache bumped to `sor-v3.5.1`.
+
+### Validation
+- `map-qa`, `site-qa`, `core-qa`, `exercise-qa`: OK
+- Playwright: every scene of both new wonders with all buttons and sliders, in DE and EN at 1300 px and 390 px, no errors, no overflow, no NaN
+- Numerical check that the end positions of the rigid triangle motion match the target positions (error 2·10⁻¹⁶)
+- Visual check of the primary-school look on the fraction scenes
+
+### Blockers
+- Accounts, e-mail notification and the globe still need the owner's Supabase project.
+
+### Next logical step
+- Further school explorables (derivative as slope, integral as area, probability with dice), then accounts once the Supabase data is available.
 
 ## Last completed task (v3.5.0)
 User request: much cooler animations that invite learning, a different look per age group, a small animation with the SOR wave on every click, a map of mathematics, and explorable pages for Euler's formula, the Basel problem, the Riemann hypothesis and Gödel's theorem. Also requested: permanent accounts with e-mail notification and a globe of users. Clarified with the owner: Supabase (EU) for accounts, look by level plus free choice, voluntary city for the globe, and design and animations first.
@@ -74,7 +125,7 @@ User request: much cooler animations that invite learning, a different look per 
 - Supabase accounts with progress sync, a database webhook that mails each new registration to the owner, and the globe of users with voluntary city.
 
 ## Last completed task (v3.4.0)
-User request: add many physics exercises based on Hering, Martin, Stohrer, "Physik für Ingenieure". Clarified with the owner: one lesson per book section, all chapters 1 to 10.
+User request: add many physics exercises based on an engineering physics textbook. Clarified with the owner: one lesson per book section, all chapters 1 to 10.
 
 ### Changes in this iteration
 - **Four new physics courses with 56 lessons** (`app/data/courses-ph.js`). Each lesson matches one book section:
@@ -113,11 +164,11 @@ User request: add many physics exercises based on Hering, Martin, Stohrer, "Phys
 - Add a second generator per section for further Ü types, for example graphical tasks (constructing ray paths) and multi-step tasks with sub-questions.
 
 ## Last completed task (v3.3.0)
-User request: base the Higher Mathematics 1 to 3 exercises on the exercises of Karpfinger, "Höhere Mathematik in Rezepten" (book and Arbeitsbuch), keep the exercise types, change the numbers, and cover every topic of the book. Clarified with the owner: chapters in book order (HM 1 = chapters 1–36, HM 2 = 37–62, HM 3 = 63–91) and one lesson per chapter.
+User request: base the Higher Mathematics 1 to 3 exercises on the exercises of a higher mathematics textbook with workbook, keep the exercise types, change the numbers, and cover every topic of the book. Clarified with the owner: chapters in book order (HM 1 = chapters 1–36, HM 2 = 37–62, HM 3 = 63–91) and one lesson per chapter.
 
 ### Changes in this iteration
 - **91 lessons, one per book chapter** (`app/data/courses-hm.js`): HM 1 (36 lessons in four sections), HM 2 (26 lessons in three sections), HM 3 (29 lessons in five sections). Each lesson has its own short explanation and key formulas, written in our own words in German and English. No book text was copied. The HM entries were removed from `app/data/courses-2.js`, which now loads `courses-hm.js` in Node.
-- **91 new generators** (`app/modules/exercises/hm-1.js`, `hm-2.js`, `hm-3.js`), one per chapter with three difficulty levels. The task types follow the Arbeitsbuch exercises of each chapter (for example LR and QR decomposition, Jordan blocks from kernel dimensions, Green and Gauss theorems, residues, Möbius transformations, heat and wave equation), always with new random numbers. Every variant carries an independent check, mostly numerical (Simpson, Runge-Kutta, finite differences).
+- **91 new generators** (`app/modules/exercises/hm-1.js`, `hm-2.js`, `hm-3.js`), one per chapter with three difficulty levels. The task types follow the workbook exercises of each chapter (for example LR and QR decomposition, Jordan blocks from kernel dimensions, Green and Gauss theorems, residues, Möbius transformations, heat and wave equation), always with new random numbers. Every variant carries an independent check, mostly numerical (Simpson, Runge-Kutta, finite differences).
 - `kurs.html` shows section headings and the book chapter in the lesson list.
 - Fix: the chemistry animation `balance` collided with an existing topic animation and is now `eqbalance`.
 - Numbers on the homepage and the schools page: 261 exercise types for 252 topics and lessons. Service worker cache bumped to `sor-v3.3.0`.
@@ -133,10 +184,10 @@ User request: base the Higher Mathematics 1 to 3 exercises on the exercises of K
 - Playwright: `kurs.html?k=hm1` and `?k=hm3` (1300 px and 390 px), `ueben.html?thema=K-HM-47` and `K-HM-83` in English: no errors, no overflow, no external requests
 
 ### Blockers
-- None. The mapping of chapters to exercise types was made from the table of contents and the Arbeitsbuch. A maths review of the 91 lesson texts by the owner is still useful.
+- None. The mapping of chapters to exercise types was made from the table of contents and the workbook. A maths review of the 91 lesson texts by the owner is still useful.
 
 ### Next logical step
-- Add a second generator for chapters where the Arbeitsbuch has clearly different task types (for example proofs turned into choice tasks), starting with HM 2.
+- Add a second generator for chapters where the workbook has clearly different task types (for example proofs turned into choice tasks), starting with HM 2.
 
 ## Last completed task (v3.2.0)
 User request: add the LinkedIn profile, extend the courses along the mechanical engineering bachelor study plan (TUM-style semester table), build exam trainers for Abitur, Realschulabschluss and Hauptschulabschluss, and prepare everything for a future mobile app. Clarified with the owner: Bavaria and maths only for the exams; courses for TM 3 and fluid mechanics, materials and machine elements, electrical engineering, physics and chemistry, Higher Mathematics 1 to 3; installable web app as the app foundation.
@@ -1353,7 +1404,7 @@ None.
 Execute the remaining open P1 task:
 - check for any residual 5-level references and migrate them consistently to the mandatory 6-level system across UI text and data structures.
 Start the next highest-priority open P2 task:
-- continue L4-L6 archive expansion with the next small batch of textbook-style tasks and explanations aligned to Karpfinger Buch + Arbeitsbuch.
+- continue L4-L6 archive expansion with the next small batch of textbook-style tasks and explanations aligned to a higher mathematics textbook and workbook.
 Continue with the next highest-priority open tasks now queued after this run:
 1. Add first interactive visual module for "Komplexe Zahlen" (Argand-Ebene) in website + archive context.
 2. Prepare local progress architecture for future XP and streak systems.

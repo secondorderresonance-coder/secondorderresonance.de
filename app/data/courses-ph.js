@@ -1,13 +1,12 @@
 /*
  * SOR Kurse Physik 1 bis 4
  * ------------------------------------------------------------
- * Eine Lektion je Abschnitt von Hering, Martin, Stohrer (Hrsg.), "Physik für Ingenieure" (Kapitel 1 bis 10).
- * Physik 1 = Kap. 1–2 (Mechanik), Physik 2 = Kap. 3–4 (Thermodynamik, Elektrizität),
- * Physik 3 = Kap. 5–7 (Schwingungen, Wellen, Optik, Akustik), Physik 4 = Kap. 8–10 (Atom-, Kern-, Festkörperphysik, Relativität).
- * Die Aufgaben (app/modules/exercises/ph-1.js bis ph-4.js) folgen den Aufgabentypen der Übungen (Ü) und Beispiele
- * des Buchs mit eigenen, zufällig erzeugten Zahlen. Erklärungstexte sind eigene Formulierungen.
+ * Eine Lektion je Thema, aufgebaut wie eine Ingenieurphysik-Vorlesung.
+ * Physik 1: Mechanik, Physik 2: Thermodynamik und Elektrizität,
+ * Physik 3: Schwingungen, Wellen, Optik, Akustik, Physik 4: Atom-, Kern-, Festkörperphysik, Relativität.
+ * Die Aufgaben (app/modules/exercises/ph-1.js bis ph-4.js) sind eigene Generatoren mit zufällig erzeugten Zahlen.
  *   id       K-PI-<nn>, zugleich Themen-ID der Aufgaben
- *   chapter  Buchabschnitt
+ *   chapter  interne Gliederungsnummer (wird nicht angezeigt)
  * Nach courses.js und vor courses-2.js einbinden.
  */
 (function (root) {
@@ -285,19 +284,19 @@
     C.add([
         { id: "ph1", subject: "physik", level: 4, short: { de: "Physik 1", en: "Physics 1" },
           title: { de: "Physik 1: Mechanik", en: "Physics 1: Mechanics" },
-          intro: { de: "Kapitel 1 und 2 nach Hering, Martin, Stohrer: Messfehler, Kinematik, Newton, Impuls, Energie, Stöße, Rotation, starre Körper, Gravitation, Elastizität und Fluide.", en: "Chapters 1 and 2 following Hering, Martin, Stohrer: measurement errors, kinematics, Newton, momentum, energy, collisions, rotation, rigid bodies, gravitation, elasticity and fluids." },
+          intro: { de: "Messfehler, Kinematik, Newton, Impuls, Energie, Stöße, Rotation, starre Körper, Gravitation, Elastizität und Fluide.", en: "Measurement errors, kinematics, Newton, momentum, energy, collisions, rotation, rigid bodies, gravitation, elasticity and fluids." },
           lessons: p1 },
         { id: "ph2", subject: "physik", level: 4, short: { de: "Physik 2", en: "Physics 2" },
           title: { de: "Physik 2: Thermodynamik und Elektrizität", en: "Physics 2: Thermodynamics and electricity" },
-          intro: { de: "Kapitel 3 und 4 nach Hering, Martin, Stohrer: Gase, Hauptsätze, Kreisprozesse, Wärmeübertragung, Stromkreise, elektrisches und magnetisches Feld, Induktion und Wechselstrom.", en: "Chapters 3 and 4 following Hering, Martin, Stohrer: gases, laws of thermodynamics, cycles, heat transfer, circuits, electric and magnetic fields, induction and AC." },
+          intro: { de: "Gase, Hauptsätze, Kreisprozesse, Wärmeübertragung, Stromkreise, elektrisches und magnetisches Feld, Induktion und Wechselstrom.", en: "Gases, laws of thermodynamics, cycles, heat transfer, circuits, electric and magnetic fields, induction and AC." },
           lessons: p2 },
         { id: "ph3", subject: "physik", level: 4, short: { de: "Physik 3", en: "Physics 3" },
           title: { de: "Physik 3: Schwingungen, Wellen, Optik, Akustik", en: "Physics 3: Oscillations, waves, optics, acoustics" },
-          intro: { de: "Kapitel 5 bis 7 nach Hering, Martin, Stohrer: Schwingungen, Wellen, Doppler-Effekt, geometrische Optik, Fotometrie, Wellen- und Quantenoptik, Schall und Raumakustik.", en: "Chapters 5 to 7 following Hering, Martin, Stohrer: oscillations, waves, Doppler effect, geometric optics, photometry, wave and quantum optics, sound and room acoustics." },
+          intro: { de: "Schwingungen, Wellen, Doppler-Effekt, geometrische Optik, Fotometrie, Wellen- und Quantenoptik, Schall und Raumakustik.", en: "Oscillations, waves, Doppler effect, geometric optics, photometry, wave and quantum optics, sound and room acoustics." },
           lessons: p3 },
         { id: "ph4", subject: "physik", level: 5, short: { de: "Physik 4", en: "Physics 4" },
           title: { de: "Physik 4: Atome, Kerne, Festkörper, Relativität", en: "Physics 4: Atoms, nuclei, solids, relativity" },
-          intro: { de: "Kapitel 8 bis 10 nach Hering, Martin, Stohrer: Atommodell, Quantentheorie, Röntgen, Kernphysik, Strahlenschutz, Festkörper, Halbleiter und spezielle Relativitätstheorie.", en: "Chapters 8 to 10 following Hering, Martin, Stohrer: atomic model, quantum theory, X-rays, nuclear physics, radiation protection, solids, semiconductors and special relativity." },
+          intro: { de: "Atommodell, Quantentheorie, Röntgen, Kernphysik, Strahlenschutz, Festkörper, Halbleiter und spezielle Relativitätstheorie.", en: "Atomic model, quantum theory, X-rays, nuclear physics, radiation protection, solids, semiconductors and special relativity." },
           lessons: p4 }
     ]);
 })(typeof window !== "undefined" ? window : globalThis);

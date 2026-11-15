@@ -390,6 +390,171 @@
         quiz: { q: t("Was sagt Gödels erster Unvollständigkeitssatz?", "What does Gödel's first incompleteness theorem say?"), options: [t("In jedem widerspruchsfreien, überprüfbaren System für die Arithmetik gibt es wahre Sätze ohne Beweis.", "In every consistent, checkable system for arithmetic there are true sentences without proof."), t("Die Mathematik ist widersprüchlich.", "Mathematics is inconsistent."), t("Kein Satz lässt sich beweisen.", "No sentence can be proved."), t("Computer können nicht rechnen.", "Computers cannot calculate.")], right: 0, why: t("Die Mathematik bleibt verlässlich. Sie ist nur nie fertig: Es gibt immer Wahres, das ein gegebenes System nicht beweisen kann.", "Mathematics stays reliable. It is just never finished: there is always something true that a given system cannot prove.") }
     };
 
-    var ALL = [euler, basel, riemann, goedel];
+    // =====================================================================
+    // BRÜCHE (Grundschule)
+    // =====================================================================
+    var PIE = [Y, T, "#ff7ab6", B, "#a3e635", "#ff9f43", V, R];
+    function pie(x, cx, cy, rad, n, on, col, lift) {
+        var k;
+        for (k = 0; k < n; k += 1) {
+            var a0 = -PI / 2 + k * 2 * PI / n, a1 = a0 + 2 * PI / n, am = (a0 + a1) / 2, l = on[k] ? (lift || 0) : 0, ox = cx + Math.cos(am) * l, oy = cy + Math.sin(am) * l;
+            x.beginPath(); x.moveTo(ox, oy); x.arc(ox, oy, rad, a0, a1); x.closePath();
+            x.fillStyle = on[k] ? col : "rgba(255,255,255,0.06)"; x.fill(); x.strokeStyle = "#15113a"; x.lineWidth = n > 1 ? 3 : 0; if (n > 1) x.stroke();
+        }
+        x.beginPath(); x.arc(cx, cy, rad + 3, 0, 2 * PI); x.strokeStyle = "rgba(255,255,255,0.35)"; x.lineWidth = 2; x.stroke();
+    }
+    function bar(x, X, Yy, w, h, n, k, col) {
+        var i, sw = w / n;
+        for (i = 0; i < n; i += 1) { x.fillStyle = i < k ? col : "rgba(255,255,255,0.06)"; x.fillRect(X + i * sw + 1.5, Yy, sw - 3, h); }
+        x.strokeStyle = "rgba(255,255,255,0.35)"; x.lineWidth = 1.5; x.strokeRect(X, Yy, w, h);
+    }
+    function frac(x, num, den, cx, cy, col, size) {
+        size = size || 30; text(x, String(num), cx, cy - size * 0.18, col || W, size, "center", "800 "); line(x, cx - size * 0.6, cy, cx + size * 0.6, cy, col || W, 3); text(x, String(den), cx, cy + size * 0.92, col || W, size, "center", "800 ");
+    }
+    var gcd = function (a, b) { while (b) { var r = a % b; a = b; b = r; } return a; };
+    var brueche = {
+        id: "brueche", icon: "🍕", level: 1,
+        title: t("Brüche mit Pizza", "Fractions with pizza"),
+        lead: t("Was ist ein Drittel, warum ist 2/4 dasselbe wie 1/2, und wie rechnet man Brüche zusammen?", "What is a third, why is 2/4 the same as 1/2, and how do you add fractions?"),
+        scenes: [
+            { title: t("Teile die Pizza", "Share the pizza"),
+              text: t("Eine Pizza wird in gleich große Stücke geschnitten. Die <b>untere Zahl</b> sagt, in wie viele Stücke. Tippe Stücke an, um sie zu nehmen. Die <b>obere Zahl</b> zählt, wie viele Stücke du hast.", "A pizza is cut into equal slices. The <b>bottom number</b> says into how many. Tap slices to take them. The <b>top number</b> counts how many slices you have."),
+              mount: function (stage, ctl) {
+                  var cv = canvas(stage, 0.62), n = 4, on = [true], out = note(ctl), geo = null;
+                  var cnt = function () { return on.filter(Boolean).length; };
+                  cv.draw = function () {
+                      cv.clear(); var x = cv.x, rad = Math.min(cv.H * 0.4, cv.W * 0.28), cx = cv.W * 0.38, cy = cv.H / 2; geo = { cx: cx, cy: cy, rad: rad };
+                      pie(x, cx, cy, rad, n, on, Y, 8); frac(x, cnt(), n, cv.W * 0.8, cy - 10, Y, 46);
+                      out.innerHTML = cnt() === 0 ? t("Tippe ein Stück an!", "Tap a slice!") : cnt() === n ? t("Die ganze Pizza: ", "The whole pizza: ") + "<b>" + n + "/" + n + " = 1</b>" : t("Du hast ", "You have ") + "<b>" + cnt() + t(" von ", " of ") + n + "</b>" + t(" Stücken, also ", " slices, so ") + "<b>" + cnt() + "/" + n + "</b>";
+                  };
+                  cv.c.addEventListener("pointerup", function (e) {
+                      if (!geo) return; var r = cv.c.getBoundingClientRect(), dx = e.clientX - r.left - geo.cx, dy = e.clientY - r.top - geo.cy;
+                      if (Math.hypot(dx, dy) > geo.rad + 10) return; var a = (Math.atan2(dy, dx) + PI / 2 + 2 * PI) % (2 * PI), k = Math.floor(a / (2 * PI / n));
+                      on[k] = !on[k]; cv.draw(); if (cnt() === n && root.SOR_FX) SOR_FX.celebrate(stage);
+                  });
+                  cv.fit();
+                  slider(ctl, t("Stücke:", "Slices:"), 1, 12, 1, n, function (v) { return String(v); }, function (v) { n = v; on = [true]; cv.draw(); });
+                  return function () { cv.off(); };
+              } },
+            { title: t("Gleich viel Pizza", "The same amount of pizza"),
+              text: t("Schneide jedes Stück noch einmal durch. Jetzt hast du doppelt so viele Stücke, aber jedes ist nur halb so groß. Du isst also genau gleich viel. Deshalb ist 1/2 = 2/4 = 3/6. Das nennt man <b>Erweitern</b>.", "Cut every slice once more. Now you have twice as many slices, but each is only half as big. So you eat exactly the same amount. That is why 1/2 = 2/4 = 3/6. This is called <b>expanding</b>."),
+              mount: function (stage, ctl) {
+                  var cv = canvas(stage, 0.56), base = [1, 2], k = 1, out = note(ctl), cuts = 0, stop = null;
+                  cv.draw = function () {
+                      cv.clear(); var x = cv.x, rad = Math.min(cv.H * 0.33, cv.W * 0.17), cy = cv.H * 0.42, i, on1 = [], on2 = [];
+                      for (i = 0; i < base[1]; i += 1) on1.push(i < base[0]);
+                      for (i = 0; i < base[1] * k; i += 1) on2.push(i < base[0] * k);
+                      pie(x, cv.W * 0.25, cy, rad, base[1], on1, T, 0); pie(x, cv.W * 0.75, cy, rad, base[1] * k, on2, Y, 0);
+                      x.globalAlpha = cuts; for (i = 0; i < base[1] * k; i += 1) { var a = -PI / 2 + i * 2 * PI / (base[1] * k); line(x, cv.W * 0.75, cy, cv.W * 0.75 + Math.cos(a) * rad, cy + Math.sin(a) * rad, "#ffffff", 2); } x.globalAlpha = 1;
+                      text(x, "=", cv.W / 2, cy + 14, W, 44, "center", "800 ");
+                      frac(x, base[0], base[1], cv.W * 0.25, cy + rad + 40, T, 28); frac(x, base[0] * k, base[1] * k, cv.W * 0.75, cy + rad + 40, Y, 28);
+                      out.innerHTML = base[0] + "/" + base[1] + " = <b>" + base[0] * k + "/" + base[1] * k + "</b> · " + t("oben und unten mal ", "top and bottom times ") + k;
+                  };
+                  cv.fit();
+                  slider(ctl, t("Jedes Stück teilen in", "Cut every slice into"), 1, 6, 1, 1, function (v) { return String(v); }, function (v) { k = v; if (stop) stop(); stop = tween(500, function (e) { cuts = e; cv.draw(); }); });
+                  [[1, 2], [1, 3], [2, 3], [3, 4]].forEach(function (b) { button(ctl, b[0] + "/" + b[1], function () { base = b; cv.draw(); }); });
+                  return function () { if (stop) stop(); cv.off(); };
+              } },
+            { title: t("Brüche zusammenzählen", "Adding fractions"),
+              text: t("Halbe und Drittel kann man nicht direkt zusammenzählen, die Stücke sind verschieden groß. Der Trick: Schneide beide Streifen in gleich große Stücke. Bei Halben und Dritteln passen Sechstel. Dann zählst du einfach die Stücke.", "You cannot add halves and thirds directly, the pieces have different sizes. The trick: cut both strips into equal pieces. For halves and thirds, sixths fit. Then you simply count the pieces."),
+              mount: function (stage, ctl) {
+                  var cv = canvas(stage, 0.56), A = [1, 2], Bb = [1, 3], cut = 0, stop = null, out = note(ctl);
+                  cv.draw = function () {
+                      cv.clear(); var x = cv.x, w = cv.W * 0.62, X = cv.W * 0.06, h = Math.min(46, cv.H * 0.14), L = A[1] * Bb[1] / gcd(A[1], Bb[1]), n1 = cut ? L : A[1], n2 = cut ? L : Bb[1], k1 = cut ? A[0] * L / A[1] : A[0], k2 = cut ? Bb[0] * L / Bb[1] : Bb[0], sum = A[0] * L / A[1] + Bb[0] * L / Bb[1];
+                      bar(x, X, cv.H * 0.12, w, h, n1, k1, T); bar(x, X, cv.H * 0.12 + h + 22, w, h, n2, k2, "#ff7ab6");
+                      line(x, X, cv.H * 0.12 + 2 * h + 36, X + w, cv.H * 0.12 + 2 * h + 36, "rgba(255,255,255,0.4)", 2);
+                      var y3 = cv.H * 0.12 + 2 * h + 50, i, sw = w / L;
+                      if (cut) { for (i = 0; i < L; i += 1) { x.fillStyle = i < A[0] * L / A[1] ? T : i < sum ? "#ff7ab6" : "rgba(255,255,255,0.06)"; x.globalAlpha = i < sum ? cut : 1; x.fillRect(X + i * sw + 1.5, y3, sw - 3, h); x.globalAlpha = 1; } x.strokeStyle = "rgba(255,255,255,0.35)"; x.strokeRect(X, y3, w, h); }
+                      var fx = X + w + (cv.W - X - w) / 2, g = gcd(sum, L);
+                      frac(x, A[0], A[1], fx - 32, cv.H * 0.12 + h * 0.45, T, 22); text(x, "+", fx + 4, cv.H * 0.12 + h + 30, W, 24, "center", "800 "); frac(x, Bb[0], Bb[1], fx + 34, cv.H * 0.12 + h + 22 + h * 0.45, "#ff7ab6", 22);
+                      if (cut) frac(x, sum, L, fx, y3 + h * 0.45, Y, 26);
+                      out.innerHTML = cut ? A[0] + "/" + A[1] + " + " + Bb[0] + "/" + Bb[1] + " = " + A[0] * L / A[1] + "/" + L + " + " + Bb[0] * L / Bb[1] + "/" + L + " = <b>" + sum + "/" + L + "</b>" + (g > 1 ? " = " + sum / g + "/" + L / g : "") : t("Wie viel ist das zusammen? Schneide gleich große Stücke.", "How much is it together? Cut equal pieces.");
+                  };
+                  cv.fit();
+                  button(ctl, t("✂ Gleich große Stücke", "✂ Equal pieces"), function () { if (stop) stop(); stop = tween(700, function (e) { cut = Math.max(0.001, e); cv.draw(); }, function () { if (root.SOR_FX) SOR_FX.celebrate(stage); }); }, "btn-primary");
+                  [[[1, 2], [1, 3]], [[1, 4], [1, 2]], [[2, 3], [1, 4]], [[1, 3], [1, 6]]].forEach(function (p) { button(ctl, p[0].join("/") + " + " + p[1].join("/"), function () { A = p[0]; Bb = p[1]; cut = 0; cv.draw(); }); });
+                  return function () { if (stop) stop(); cv.off(); };
+              } }
+        ],
+        quiz: { q: t("Welcher Bruch ist gleich groß wie 1/2?", "Which fraction is the same size as 1/2?"), options: ["3/6", "1/3", "2/3", "1/4"], right: 0, why: t("Halbiere jedes Stück dreimal so fein: Aus 1/2 werden 3/6. Gleich viel Pizza!", "Cut every slice three times finer: 1/2 becomes 3/6. The same amount of pizza!") }
+    };
+
+    // =====================================================================
+    // PYTHAGORAS
+    // =====================================================================
+    var pythagoras = {
+        id: "pythagoras", icon: "📐", level: 2,
+        title: t("Der Satz des Pythagoras", "Pythagoras' theorem"),
+        lead: t("a² + b² = c²: Warum die Quadrate über den Seiten zusammenpassen, und wie man es ohne Rechnen sieht.", "a² + b² = c²: why the squares on the sides fit together, and how to see it without calculating."),
+        scenes: [
+            { title: t("Quadrate an den Seiten", "Squares on the sides"),
+              text: t("Baue über jede Seite eines rechtwinkligen Dreiecks ein Quadrat. Die zwei kleinen Quadrate haben zusammen genau so viel Fläche wie das große über der langen Seite c. Verändere a und b und vergleiche die Zahlen.", "Build a square on every side of a right triangle. The two small squares together have exactly as much area as the big square on the long side c. Change a and b and compare the numbers."),
+              mount: function (stage, ctl) {
+                  var cv = canvas(stage, 0.7), a = 3, b = 4, out = note(ctl);
+                  cv.draw = function () {
+                      cv.clear(); var x = cv.x, c = Math.hypot(a, b), u = Math.min(cv.W / (a + b + c * 0.9 + 1), cv.H / (b + a + c * 0.75 + 0.6)), ox = cv.W / 2 - (a - b) * u * 0.25 - a * u * 0.5, oy = cv.H * 0.42 + (b - a) * u * 0.1;
+                      var P = function (X, Yv) { return [ox + X * u, oy - Yv * u]; }, poly = function (pts, fill, stroke) { x.beginPath(); pts.forEach(function (p, i) { var q = P(p[0], p[1]); if (i) x.lineTo(q[0], q[1]); else x.moveTo(q[0], q[1]); }); x.closePath(); x.fillStyle = fill; x.fill(); x.strokeStyle = stroke; x.lineWidth = 2; x.stroke(); };
+                      poly([[0, 0], [a, 0], [a, -a], [0, -a]], "rgba(53,224,196,0.28)", T);
+                      poly([[0, 0], [0, b], [-b, b], [-b, 0]], "rgba(255,122,182,0.28)", "#ff7ab6");
+                      poly([[a, 0], [0, b], [b, a + b], [a + b, a]], "rgba(245,197,24,0.25)", Y);
+                      poly([[0, 0], [a, 0], [0, b]], "rgba(255,255,255,0.12)", W);
+                      var q = P(0, 0); x.strokeStyle = W; x.lineWidth = 1.5; x.strokeRect(q[0], q[1] - 12, 12, 12);
+                      var la = P(a / 2, -a / 2), lb = P(-b / 2, b / 2), lc = P((a + b) / 2, (a + b) / 2);
+                      text(x, "a² = " + nf(a * a, 1), la[0], la[1] + 5, T, 15, "center", "700 "); text(x, "b² = " + nf(b * b, 1), lb[0], lb[1] + 5, "#ff7ab6", 15, "center", "700 "); text(x, "c² = " + nf(c * c, 1), lc[0], lc[1] + 5, Y, 16, "center", "700 ");
+                      out.innerHTML = "a² + b² = " + nf(a * a, 1) + " + " + nf(b * b, 1) + " = <b>" + nf(a * a + b * b, 1) + "</b> · c = " + nf(c, 2) + " · c² = <b>" + nf(c * c, 1) + "</b>";
+                  };
+                  cv.fit();
+                  slider(ctl, "a =", 1, 6, 0.1, a, function (v) { return nf(v, 1); }, function (v) { a = v; cv.draw(); });
+                  slider(ctl, "b =", 1, 6, 0.1, b, function (v) { return nf(v, 1); }, function (v) { b = v; cv.draw(); });
+                  return function () { cv.off(); };
+              } },
+            { title: t("Der Beweis zum Zuschauen", "A proof to watch"),
+              text: t("Lege vier gleiche Dreiecke in ein großes Quadrat mit Seite a + b. In der Mitte bleibt ein schräges Quadrat frei: <b>c²</b>. Jetzt schiebe die Dreiecke um. Sie bedecken genau gleich viel Fläche, also bleibt auch gleich viel frei. Nur besteht die freie Fläche jetzt aus zwei Quadraten: <b>a² + b²</b>.", "Place four equal triangles in a big square with side a + b. In the middle a tilted square stays free: <b>c²</b>. Now move the triangles. They cover exactly the same area, so the same area stays free. But now the free area consists of two squares: <b>a² + b²</b>."),
+              mount: function (stage, ctl) {
+                  var cv = canvas(stage, 0.7), k = 0, stop = null, a = 2, b = 3, s = a + b;
+                  var TA = [[[0, 0], [a, 0], [0, b]], [[s, 0], [s, a], [a, 0]], [[s, s], [b, s], [s, a]], [[0, s], [0, b], [b, s]]];
+                  var TB = [[[a, a], [a, 0], [s, a]], [[s, 0], [s, a], [a, 0]], [[a, s], [0, s], [a, a]], [[0, a], [a, a], [0, s]]];
+                  var COL = ["rgba(96,165,250,0.85)", "rgba(167,139,250,0.85)", "rgba(96,165,250,0.85)", "rgba(167,139,250,0.85)"];
+                  cv.draw = function () {
+                      cv.clear(); var x = cv.x, u = Math.min(cv.W, cv.H) * 0.8 / s, ox = (cv.W - s * u) / 2, oy = (cv.H - s * u) / 2;
+                      x.fillStyle = "rgba(245,197,24,0.22)"; x.fillRect(ox, oy, s * u, s * u);
+                      TA.forEach(function (tri, i) {
+                          // starre Bewegung: Drehung um den rechten Winkel plus Verschiebung, die Fläche bleibt gleich
+                          var R0 = tri[0], R1 = TB[i][0], d = Math.atan2(TB[i][1][1] - R1[1], TB[i][1][0] - R1[0]) - Math.atan2(tri[1][1] - R0[1], tri[1][0] - R0[0]);
+                          d = Math.atan2(Math.sin(d), Math.cos(d)); var th = d * k, cs = Math.cos(th), sn = Math.sin(th), Rx = R0[0] + (R1[0] - R0[0]) * k, Ry = R0[1] + (R1[1] - R0[1]) * k;
+                          x.beginPath(); tri.forEach(function (p, j) { var vx = p[0] - R0[0], vy = p[1] - R0[1], X = ox + (Rx + vx * cs - vy * sn) * u, Yv = oy + (Ry + vx * sn + vy * cs) * u; if (j) x.lineTo(X, Yv); else x.moveTo(X, Yv); }); x.closePath(); x.fillStyle = COL[i]; x.fill(); x.strokeStyle = "#0a0e1c"; x.lineWidth = 2; x.stroke(); });
+                      x.strokeStyle = "rgba(255,255,255,0.6)"; x.lineWidth = 2; x.strokeRect(ox, oy, s * u, s * u);
+                      if (k < 0.05) text(x, "c²", ox + s * u / 2, oy + s * u / 2 + 10, Y, 30, "center", "800 ");
+                      if (k > 0.95) { text(x, "a²", ox + a * u / 2, oy + a * u / 2 + 9, Y, 26, "center", "800 "); text(x, "b²", ox + (a + b / 2) * u, oy + (a + b / 2) * u + 9, Y, 28, "center", "800 "); }
+                      text(x, "a", ox + a * u / 2, oy - 8, M, 14, "center"); text(x, "b", ox + (a + b / 2) * u, oy - 8, M, 14, "center");
+                  };
+                  cv.fit();
+                  button(ctl, t("▶ Dreiecke umlegen", "▶ Move the triangles"), function () { if (stop) stop(); var from = k, to = k > 0.5 ? 0 : 1; stop = tween(1600, function (e) { k = from + (to - from) * e; cv.draw(); }, function () { if (to === 1 && root.SOR_FX) SOR_FX.celebrate(stage); }); }, "btn-primary");
+                  return function () { if (stop) stop(); cv.off(); };
+              } },
+            { title: t("Wie hoch reicht die Leiter?", "How high does the ladder reach?"),
+              text: t("Eine Leiter lehnt an der Wand. Leiter, Wand und Boden bilden ein rechtwinkliges Dreieck, die Leiter ist die lange Seite c. Aus c² = a² + b² folgt die Höhe: h = √(c² − a²). Schiebe den Fuß der Leiter weg von der Wand.", "A ladder leans against a wall. Ladder, wall and floor form a right triangle, the ladder is the long side c. From c² = a² + b² follows the height: h = √(c² − a²). Push the foot of the ladder away from the wall."),
+              mount: function (stage, ctl) {
+                  var cv = canvas(stage, 0.62), L = 5, d = 1.5, out = note(ctl);
+                  cv.draw = function () {
+                      cv.clear(); var x = cv.x, h = Math.sqrt(Math.max(0, L * L - d * d)), u = Math.min((cv.H - 40) / 6.2, (cv.W - 80) / 6.2), wx = cv.W * 0.22, gy = cv.H - 26, i;
+                      x.fillStyle = "rgba(255,255,255,0.08)"; x.fillRect(wx - 16, gy - 6.2 * u, 16, 6.2 * u); line(x, 10, gy, cv.W - 10, gy, "rgba(255,255,255,0.4)", 2);
+                      var fx = wx + d * u, ty = gy - h * u;
+                      line(x, wx, gy, fx, gy, T, 4); line(x, wx, gy, wx, ty, "#ff7ab6", 4);
+                      for (i = 0; i <= 8; i += 1) { var s1 = i / 8, px = fx + (wx - fx) * s1, py = gy + (ty - gy) * s1; line(x, px - 6, py, px + 6, py, Y, 2); }
+                      line(x, fx - 6, gy, wx - 6 + 6, ty, Y, 4); line(x, fx + 6, gy, wx + 6, ty, Y, 4);
+                      text(x, "a = " + nf(d, 2) + " m", (wx + fx) / 2, gy + 18, T, 13, "center"); text(x, "h = " + nf(h, 2) + " m", wx - 24, (gy + ty) / 2, "#ff7ab6", 13, "right"); text(x, "c = " + nf(L, 1) + " m", (wx + fx) / 2 + 22, (gy + ty) / 2 - 6, Y, 13);
+                      out.innerHTML = "h = √(" + nf(L, 1) + "² − " + nf(d, 2) + "²) = <b>" + nf(h, 2) + " m</b>" + (d / L > 0.4 ? " · " + t("Vorsicht, die Leiter steht zu flach!", "Careful, the ladder is too flat!") : "");
+                  };
+                  cv.fit();
+                  slider(ctl, t("Abstand zur Wand a", "Distance to wall a"), 0.2, 4.8, 0.05, d, function (v) { return nf(v, 2) + " m"; }, function (v) { d = Math.min(v, L - 0.1); cv.draw(); });
+                  slider(ctl, t("Leiterlänge c", "Ladder length c"), 2, 6, 0.5, L, function (v) { return nf(v, 1) + " m"; }, function (v) { L = v; d = Math.min(d, L - 0.1); cv.draw(); });
+                  return function () { cv.off(); };
+              } }
+        ],
+        quiz: { q: t("Ein rechtwinkliges Dreieck hat die Seiten a = 6 und b = 8. Wie lang ist c?", "A right triangle has sides a = 6 and b = 8. How long is c?"), options: ["10", "14", "12", "7"], right: 0, why: t("6² + 8² = 36 + 64 = 100, und √100 = 10.", "6² + 8² = 36 + 64 = 100, and √100 = 10.") }
+    };
+
+    var ALL = [brueche, pythagoras, euler, basel, riemann, goedel];
     root.SOR_WONDERS = { list: ALL.map(function (w) { return { id: w.id, title: w.title, lead: w.lead, level: w.level, icon: w.icon, scenes: w.scenes.length }; }), get: function (id) { return ALL.filter(function (w) { return w.id === id; })[0] || null; }, zeta: zeta, ZEROS: ZEROS };
 })(window);

@@ -1,4 +1,4 @@
-/* SOR Aufgaben Physik 2: Thermodynamik und Elektrizität (K-PI-14 bis K-PI-25), Aufgabentypen nach Hering, Martin, Stohrer. Braucht ph-1.js (E.PHU) */
+/* SOR Aufgaben Physik 2: Thermodynamik und Elektrizität (K-PI-14 bis K-PI-25). Braucht ph-1.js (E.PHU) */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");

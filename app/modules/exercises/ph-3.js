@@ -1,4 +1,4 @@
-/* SOR Aufgaben Physik 3: Schwingungen, Wellen, Optik, Akustik (K-PI-26 bis K-PI-38), Aufgabentypen nach Hering, Martin, Stohrer. Braucht ph-1.js (E.PHU) */
+/* SOR Aufgaben Physik 3: Schwingungen, Wellen, Optik, Akustik (K-PI-26 bis K-PI-38). Braucht ph-1.js (E.PHU) */
 (function (root) {
     "use strict";
     var E = root.SOR_EX || require("../exercise-engine.js");
