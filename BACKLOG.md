@@ -51,6 +51,7 @@
 - [ ] Courses for the remaining study plan modules: CAD and technical drawing, information technology
 - [x] Age-group design (kid, teen, uni), click wave, mascot, maths wonders and map of mathematics (v3.5.0)
 - [x] Permanent accounts with Supabase (EU): code, database script and guide (v3.6.0). Activation waits for the owner's project URL and publishable key
+- [x] Hover animations for buttons, cards and links, per age group (v3.6.1)
 - [ ] Daily challenge, learning journeys on the map, region badges, optional sound, printable worksheets
 - [x] Globe of users with voluntary city (v3.6.0)
 - [x] School explorables: fractions with pizza and Pythagoras (v3.5.1)

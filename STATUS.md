@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.6.0`
+- `v3.6.1`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -36,6 +36,31 @@ Current implementation status:
 - Backend schema/domain now includes a registration visibility foundation for listing account emails once Cloud-Sync/Firebase writes users into `app_user`.
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
+
+## Last completed task (v3.6.1)
+User request: hover animations when moving the mouse over elements.
+
+### Changes in this iteration
+- Shared hover layer in `app/modules/sor-age.css`. It is active only with a mouse or trackpad and only without "reduce motion".
+  - Buttons: a light streak sweeps across, plus a soft glow on primary buttons and a press effect on click.
+  - Clickable cards (wonders, courses, levels, ages, exams and others): a light cone follows the mouse, and the card lifts with a golden edge.
+  - Navigation and footer links: an underline grows from the left. Clickable chips and pills lift slightly.
+  - Per age group: kids get a bounce and a slight tilt, university is calm (light and edge only, no lift).
+- `app/modules/sor-fx.js`: sets `--mx`/`--my` for the light cone, throttled with requestAnimationFrame and only on fine pointers.
+- Asset versions bumped to 3.6.1, sw cache `sor-v3.6.1`.
+
+### Validation
+- Playwright on the landing page and the wonders page for all three age groups:
+  - the shine animation starts on hover
+  - the light cone follows the cursor (`--mx` set, overlay visible)
+  - the lift is off for university
+  - the underline grows on nav links
+  - no page errors
+- With reduced motion, no hover pseudo element or animation is applied.
+- QA: site, core and map QA all OK. Smoke test: no errors, no overflow.
+
+### Next logical step
+- Part 2 of the proposals: school explorables and the oscillation lab.
 
 ## Last completed task (v3.6.0)
 User request: implement all proposed extensions and explain how to create the Supabase URL and public key. Notification mails go to secondorderresonance@gmail.com. This iteration delivers part 1: permanent accounts and the globe.
