@@ -19,6 +19,7 @@
 - Zielstruktur 30.000 Aufgaben insgesamt ist in der skalierbaren Archivgenerierung erreicht
 
 ## P1
+- [x] v3.7.0: header CTA no longer cut off, level topic chips link to practice, optional working and sketch pad with model-solution compare and self-assessment on all exercise pages
 - [x] v3.2.0: ten courses along the mechanical engineering study plan incl. chemistry and HM 1–3, exam trainer Bavaria (Quali, Mittlere Reife, Abitur), installable offline web app, LinkedIn link
 - [x] v3.1.0: stacked integral limits, six foundation courses with 36 lessons (TM 1, TM 2, transformation matrices, PID, thermodynamics, statistics), Physics & Engineering practice area, English version with DE/EN switcher
 - [x] v3.0.0: exercise engine with 93 verified generators for all 84 topics, practice player, accounts with roles, rewards, teacher dashboard, 3D lab, self-hosted assets, school and privacy pages
@@ -47,6 +48,8 @@
 - [x] Check whether any old 5-level structure still exists and migrate it consistently to the 6-level system
 
 ## P2
+- [ ] Self-assessment follow-up: show the "Zum Wiederholen" list (`SOR_WORKPAD.needsReview()`) on the profile page and in the Lernpfad
+- [ ] Add a dedicated FEM topic with generators so the L6 "FEM" chip no longer points to the weak-formulation topic (CM-E-34)
 - [ ] Store apps: Trusted Web Activity for the Play Store and a Capacitor shell for iOS (needs developer accounts and signing keys)
 - [ ] Courses for the remaining study plan modules: CAD and technical drawing, information technology
 - [x] Age-group design (kid, teen, uni), click wave, mascot, maths wonders and map of mathematics (v3.5.0)

@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.6.1`
+- `v3.7.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -37,7 +37,30 @@ Current implementation status:
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
 
-## Last completed task (v3.6.1)
+## Last completed task (v3.7.0)
+User request (19.11.2026): three improvements. The "Jetzt üben" button in the header was cut off, the topic chips in the level cards had no link, and answering should focus on understanding: write down the working, draw a sketch, not only click or type a number.
+
+### Changes in this iteration
+- Header (`index.html`): the nav was wider than its 1180 px container, so flexbox squeezed the "Jetzt üben" button and wrapped the logo. Logo, look switcher, language switcher, menu button and CTA no longer shrink, the link gap adapts to the width, the links collapse into the menu below 1280 px, and a small script switches to the menu whenever the bar still overflows (wider fonts, display scaling).
+- Level cards (`index.html`): all 24 topic chips are now links to `app/ueben.html?thema=<id>` (explanation plus practice session). Mapping: L1 CM-S-13/19/06/18, L2 CM-S-20/21/30/27, L3 CM-S-36/38/42/44, L4 CM-E-01/11/14/15, L5 CM-E-22/23, K-PI-27, CM-E-26, L6 CM-E-29/31/34/33. FEM points to CM-E-34 (weak formulation), because there is no dedicated FEM generator yet.
+- New module `app/modules/sor-workpad.js` ("Rechenweg & Skizze", optional): notes field for the working plus a drawing canvas (pen, four colours, eraser, undo, clear, grid paper, bigger canvas; mouse, touch and stylus with palm rejection). After answering, the own working (text plus sketch image) sits next to the model solution, followed by a self-assessment "Hast du den Lösungsweg verstanden? Ja / Teilweise / Noch nicht", stored locally in `sor-understanding`.
+- Wired into every page with exercises:
+  - `app/ueben.html`: pad under the answer, cleared per task. Topics rated "Teilweise" or "Noch nicht" appear first in the hub recommendations ("Noch nicht verstanden" / "Zum Wiederholen"). Number and Enter shortcuts are ignored while typing in the notes.
+  - `app/pruefung.html`: one pad per task, draft survives reload and resume, compare plus rating per task in the result review, drafts deleted after evaluation or on a new exam.
+  - `app/index.html` (Lern-App and daily challenge): pad under the options, own working next to the explanation.
+  - `app/lernarchiv.html`: pad between task and solution, draft kept per task, compare inside "Lösung und Erklärung anzeigen"; ratings use the matching practice topic when one exists.
+- sw cache `sor-v3.7.0`.
+
+### Validation
+- Playwright, German locale: nav at 900 to 1920 px, also with artificially wider letter spacing: CTA always fully visible, logo on one line, no overflow.
+- All 24 chips open a running practice session with the expected topic, no page errors.
+- End to end on all four pages: write, draw, answer or reveal, compare columns, sketch image, rating, next task clears the pad, exam draft survives reload, no page errors, no horizontal overflow at 390 px.
+- `tools/*-qa.js`: archive, core, coverage, exam, exercise, map and site QA all OK.
+
+### Next logical step
+- Optional: use the self-assessment in the Lern-App and the Lernpfad as well, and show a "Zum Wiederholen" list on the profile page.
+
+## Previous task (v3.6.1)
 User request: hover animations when moving the mouse over elements.
 
 ### Changes in this iteration

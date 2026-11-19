@@ -226,6 +226,7 @@
 <script src="./data/cloud-config.js?v=3.6.0"></script>
 <script src="./modules/sor-cloud.js?v=3.6.0"></script>
 <script src="./modules/sor-nav.js?v=3.6.0"></script>
+<script src="./modules/sor-workpad.js?v=3.7.0"></script>
 <script>
 (function () {
     "use strict";
@@ -283,6 +284,7 @@
         // Empfehlungen
         var stage = currentStage(), recs = [], seen = {};
         var push = function (id, why) { if (!seen[id] && TOPIC[id] && HAS[id] && recs.length < 3) { seen[id] = true; recs.push([id, why]); } };
+        if (window.SOR_WORKPAD) SOR_WORKPAD.needsReview().slice(0, 2).forEach(function (u) { push(u.id, u.v === "no" ? $t("Noch nicht verstanden", "Not understood yet") : $t("Zum Wiederholen", "To review")); });
         Object.keys(p.mastery).filter(function (id) { return REW.stars(p.mastery[id].score) < 3; }).sort(function (a, b) { return (p.mastery[b].last || "").localeCompare(p.mastery[a].last || ""); }).slice(0, 2).forEach(function (id) { push(id, $t("Zuletzt geübt", "Recently practised")); });
         stageTopics(stage).filter(function (e) { return !p.mastery[e.id]; }).forEach(function (e) { push(e.id, $t("Neu in ", "New in ") + stage.title); });
         stageTopics(stage).forEach(function (e) { push(e.id, stage.title); });
@@ -350,6 +352,9 @@
     function fxContext(o) { if (!window.SOR_FX || !o) return; var g = o.grade || (o.grades ? o.grades[0] : 0); SOR_FX.setContext(g ? { grade: g } : { level: o.level || 4 }); }
     // ---------- Sitzung ----------
     var S = null;
+    // Rechenweg und Skizze (freiwillig), einmal angelegt und pro Aufgabe geleert
+    var WP = window.SOR_WORKPAD, pad = WP ? WP.create() : null;
+    if (pad) $("qcard").insertBefore(pad.el, $("hint"));
     function startSession(topics, label, total) {
         S = { topics: topics, label: label, total: total, idx: 0, correct: 0, xp: 0, d: {}, run: {}, lastGen: {}, results: [], badges: [], levelUp: null, starUps: [], q: null, tries: 0, hintUsed: false, done: false, mix: topics.length > 1 };
         var p = REW.profile();
@@ -389,6 +394,7 @@
         $("qText").innerHTML = S.q.q;
         $("hint").hidden = true; $("hint").innerHTML = "";
         $("feedback").innerHTML = "";
+        if (pad) pad.reset();
         renderAnswer(); renderActions(); renderDots();
         $("qcard").classList.remove("pop"); void $("qcard").offsetWidth; $("qcard").classList.add("pop");
         var first = $("answer").querySelector("input"); if (first) first.focus({ preventScroll: true });
@@ -450,11 +456,13 @@
         if (ok && S.tries === 0 && !S.hintUsed) { S.run[topic] += 1; if (S.run[topic] >= 2 && S.d[topic] < 3) { S.d[topic] += 1; S.run[topic] = 0; } }
         else if (!ok) { S.run[topic] = 0; if (S.d[topic] > 1) S.d[topic] -= 1; }
         else S.run[topic] = 0;
-        var steps = '<ol class="steps">' + q.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>";
+        var mine = !!(pad && pad.hasWork());
+        var steps = mine ? "" : '<ol class="steps">' + q.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>";
         var praise = ($t("Richtig!|Stark!|Genau so!|Sauber gelöst!|Treffer!", "Correct!|Great!|Exactly!|Nicely solved!|Spot on!")).split("|")[Math.floor(Math.random() * 5)];
         $("feedback").innerHTML = ok
-            ? '<div class="fb ok pop"><h3><span>✓ ' + praise + (r.combo >= 3 ? " " + r.combo + $t(" in Folge.", " in a row.") : "") + '</span><span class="gain">+' + r.xp + " XP</span></h3><details class=\"way\"><summary>" + $t("Lösungsweg ansehen", "Show worked solution") + "</summary>" + steps + "</details></div>"
+            ? '<div class="fb ok pop"><h3><span>✓ ' + praise + (r.combo >= 3 ? " " + r.combo + $t(" in Folge.", " in a row.") : "") + '</span><span class="gain">+' + r.xp + " XP</span></h3>" + (mine ? "" : "<details class=\"way\"><summary>" + $t("Lösungsweg ansehen", "Show worked solution") + "</summary>" + steps + "</details>") + "</div>"
             : '<div class="fb no pop"><h3><span>' + (skipped ? $t("Lösung", "Solution") : $t("Das stimmt leider nicht.", "Sorry, that is not right.")) + '</span></h3><p style="margin-top:0.4rem">' + $t("Richtig ist: ", "Correct answer: ") + '<strong class="mth">' + E.show(q.a) + "</strong></p>" + steps + "</div>";
+        if (WP) { var rv = WP.review({ pad: pad, steps: q.steps, topicId: topic, title: TOPIC[topic] ? TOPIC[topic].topic : "" }); if (rv) $("feedback").firstChild.appendChild(rv); }
         if (window.SOR_FX) { var fbEl = $("feedback").firstChild; if (ok) SOR_FX.celebrate(fbEl); else if (!skipped) SOR_FX.miss(fbEl); }
         $("hint").hidden = ok ? $("hint").hidden : true;
         $("combo").hidden = r.combo < 3; $("combo").textContent = "🔥 " + r.combo;
@@ -506,6 +514,7 @@
     });
     document.addEventListener("keydown", function (ev) {
         if (!S || $("session").hidden) return;
+        if (ev.target && ev.target.tagName === "TEXTAREA") return;
         if (ev.key === "Enter") { if (S.done) { ev.preventDefault(); advance(); } else if (S.q.a.type !== "choice" && ev.target.tagName === "INPUT") { ev.preventDefault(); submitInputs(); } return; }
         if (!S.done && S.q.a.type === "choice" && /^[1-4]$/.test(ev.key)) { var b = $("answer").querySelector('[data-i="' + (Number(ev.key) - 1) + '"]'); if (b && !b.disabled) b.click(); }
     });

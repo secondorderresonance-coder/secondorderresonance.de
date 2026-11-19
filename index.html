@@ -152,8 +152,16 @@
   .pwa-txt strong{display:inline;font-family:inherit;font-size:inherit;margin:0;color:#cdd4e6}
   .pwa-txt .btn{display:inline-flex;padding:0.5rem 1rem;border-radius:999px;border:0;background:var(--accent);color:#0a0e1c;font-weight:700;cursor:pointer}
   .course-card small{display:inline-block;margin-bottom:0.35rem;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:#35e0c4}
+  .topic-chip{font-size:0.82rem;color:#cdd4e6;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.07);padding:0.3rem 0.75rem;border-radius:999px;text-decoration:none;transition:border-color .2s,color .2s,background .2s;}
+  .topic-chip:hover,.topic-chip:focus-visible{border-color:rgba(245,197,24,0.6);color:var(--accent);background:rgba(245,197,24,0.08);}
+  /* Navigation: Logo, Sprachwahl und "Jetzt üben" werden nie gestaucht */
+  .nav-brand,.nav-cta,[data-age-slot],.lang-slot,.menu-btn{flex-shrink:0;}
+  .nav-brand span{white-space:nowrap;}
+  .nav-links{gap:clamp(0.9rem,1.2vw,1.6rem)!important;}
+  header nav.nav-compact .nav-links{display:none!important;}
+  header nav.nav-compact .menu-btn{display:inline-flex;}
   @media (max-width:560px){ .lang-slot{display:none} }
-  @media (max-width:1140px){
+  @media (max-width:1280px){
     .nav-links{display:none!important;}
     .menu-btn{display:inline-flex;}
   }
@@ -188,7 +196,7 @@
   <!-- NAV -->
   <header style="position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(10,14,28,0.72);border-bottom:1px solid rgba(255,255,255,0.07);">
     <nav style="max-width:1180px;margin:0 auto;padding:0.95rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;">
-      <a href="#top" style="display:flex;align-items:center;gap:0.7rem;text-decoration:none;">
+      <a href="#top" class="nav-brand" style="display:flex;align-items:center;gap:0.7rem;text-decoration:none;">
         <span style="display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:10px;border:1px solid rgba(245,197,24,0.45);background:rgba(245,197,24,0.08);">
           <svg width="20" height="20" viewBox="0 0 40 40" fill="none"><path d="M2 20 C8 20 8 7 14 7 C20 7 20 33 26 33 C32 33 32 20 38 20" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/></svg>
         </span>
@@ -687,18 +695,18 @@
 
   // ---- Level cards (data-driven) ----
   var levels = [
-    {code:'L1', color:'#4ade80', name:$t('Grundlagen', "Foundations"), sub:$t('Grundschule & Unterstufe', "Primary & lower secondary"), desc:$t('Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.', "Perfect for a refresher or for starting out in the world of maths."), topics:[$t('Bruchrechnung', "Fractions"),$t('Prozente', "Percentages"),$t('Geometrie', "Geometry"),$t('Dreisatz', "Rule of three")]},
-    {code:'L2', color:'#facc15', name:$t('Aufbauwissen', "Building knowledge"), sub:$t('Unter- & Mittelstufe', "Lower & middle secondary"), desc:$t('Die Grundpfeiler für alles, was noch kommt.', "The pillars for everything that follows."), topics:[$t('Gleichungen', "Equations"),$t('Funktionen', "Functions"),$t('Trigonometrie', "Trigonometry"),$t('Potenzen', "Powers")]},
-    {code:'L3', color:'#f59e0b', name:$t('Vertiefung', "Deepening"), sub:$t('Oberstufe / Abitur', "Upper secondary / A level"), desc:$t('Abitur-relevant und anschaulich erklärt.', "Exam-relevant and clearly explained."), topics:[$t('Ableitungen', "Derivatives"),$t('Integrale', "Integrals"),$t('Stochastik', "Probability"),$t('Vektoren', "Vectors")]},
-    {code:'L4', color:'#60a5fa', name:$t('Universitätsgrundlagen', "University foundations"), sub:$t('Studienanfang', "Start of university"), desc:$t('Was dich im Studium wirklich erwartet.', "What really awaits you at university."), topics:[$t('Lineare Algebra', "Linear algebra"),$t('Differentialgleichungen', "Differential equations"),$t('Komplexe Analysis', "Complex analysis"),$t('Numerik', "Numerical methods")]},
-    {code:'L5', color:'#8b5cf6', name:$t('Angewandte Mathematik', "Applied mathematics"), sub:$t('Fortgeschrittenes Studium', "Advanced university"), desc:$t('Wo Mathe die reale Welt trifft.', "Where maths meets the real world."), topics:[$t('Fourier-Transformation', "Fourier transform"),'Laplace',$t('Resonanz', "Resonance"),$t('Regelungstechnik', "Control engineering")]},
-    {code:'L6', color:'#94a3b8', name:$t('Forschung & Simulation', "Research & simulation"), sub:$t('Wissenschaft / Spezialisierung', "Science / specialisation"), desc:$t('Für angehende Forscher an der Grenze des Wissens.', "For budding researchers at the edge of knowledge."), topics:[$t('Partielle DGL', "PDEs"),$t('Stochastische Prozesse', "Stochastic processes"),'FEM',$t('Optimierung', "Optimisation")]}
+    {code:'L1', color:'#4ade80', name:$t('Grundlagen', "Foundations"), sub:$t('Grundschule & Unterstufe', "Primary & lower secondary"), desc:$t('Perfekt zum Auffrischen oder für den Start in die Mathe-Welt.', "Perfect for a refresher or for starting out in the world of maths."), topics:[$t('Bruchrechnung', "Fractions"),$t('Prozente', "Percentages"),$t('Geometrie', "Geometry"),$t('Dreisatz', "Rule of three")], ids:['CM-S-13','CM-S-19','CM-S-06','CM-S-18']},
+    {code:'L2', color:'#facc15', name:$t('Aufbauwissen', "Building knowledge"), sub:$t('Unter- & Mittelstufe', "Lower & middle secondary"), desc:$t('Die Grundpfeiler für alles, was noch kommt.', "The pillars for everything that follows."), topics:[$t('Gleichungen', "Equations"),$t('Funktionen', "Functions"),$t('Trigonometrie', "Trigonometry"),$t('Potenzen', "Powers")], ids:['CM-S-20','CM-S-21','CM-S-30','CM-S-27']},
+    {code:'L3', color:'#f59e0b', name:$t('Vertiefung', "Deepening"), sub:$t('Oberstufe / Abitur', "Upper secondary / A level"), desc:$t('Abitur-relevant und anschaulich erklärt.', "Exam-relevant and clearly explained."), topics:[$t('Ableitungen', "Derivatives"),$t('Integrale', "Integrals"),$t('Stochastik', "Probability"),$t('Vektoren', "Vectors")], ids:['CM-S-36','CM-S-38','CM-S-42','CM-S-44']},
+    {code:'L4', color:'#60a5fa', name:$t('Universitätsgrundlagen', "University foundations"), sub:$t('Studienanfang', "Start of university"), desc:$t('Was dich im Studium wirklich erwartet.', "What really awaits you at university."), topics:[$t('Lineare Algebra', "Linear algebra"),$t('Differentialgleichungen', "Differential equations"),$t('Komplexe Analysis', "Complex analysis"),$t('Numerik', "Numerical methods")], ids:['CM-E-01','CM-E-11','CM-E-14','CM-E-15']},
+    {code:'L5', color:'#8b5cf6', name:$t('Angewandte Mathematik', "Applied mathematics"), sub:$t('Fortgeschrittenes Studium', "Advanced university"), desc:$t('Wo Mathe die reale Welt trifft.', "Where maths meets the real world."), topics:[$t('Fourier-Transformation', "Fourier transform"),'Laplace',$t('Resonanz', "Resonance"),$t('Regelungstechnik', "Control engineering")], ids:['CM-E-22','CM-E-23','K-PI-27','CM-E-26']},
+    {code:'L6', color:'#94a3b8', name:$t('Forschung & Simulation', "Research & simulation"), sub:$t('Wissenschaft / Spezialisierung', "Science / specialisation"), desc:$t('Für angehende Forscher an der Grenze des Wissens.', "For budding researchers at the edge of knowledge."), topics:[$t('Partielle DGL', "PDEs"),$t('Stochastische Prozesse', "Stochastic processes"),'FEM',$t('Optimierung', "Optimisation")], ids:['CM-E-29','CM-E-31','CM-E-34','CM-E-33']}
   ];
   var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
   var grid = document.getElementById('levelGrid');
   if(grid){
     grid.innerHTML = levels.map(function(l){
-      var chips = l.topics.map(function(t){ return '<span style="font-size:0.82rem;color:#cdd4e6;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.07);padding:0.3rem 0.75rem;border-radius:999px;">'+esc(t)+'</span>'; }).join('');
+      var chips = l.topics.map(function(t, i){ return '<a class="topic-chip" href="app/ueben.html?thema='+encodeURIComponent(l.ids[i])+'" title="'+esc($t('Direkt zu Erklärung und Übungen: ', "Straight to explanation and practice: ")+t)+'">'+esc(t)+'</a>'; }).join('');
       return '<div class="reveal level-card lift" style="position:relative;overflow:hidden;border-radius:20px;background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.08);padding:1.7rem;">'+
         '<div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+l.color+';opacity:0.85;"></div>'+
         '<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1.1rem;">'+
@@ -850,6 +858,19 @@
       menuBtn.setAttribute('aria-label', open ? $t('Menü schließen', "Close menu") : $t('Menü öffnen', "Open menu"));
     });
     menu.addEventListener('click', function(e){ if(e.target.tagName === 'A'){ menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); } });
+  }
+
+  // ---- Navigation: passt die Leiste nicht in eine Zeile, auf das Menü umschalten ----
+  var navBar = menuBtn && menuBtn.closest('nav');
+  if(navBar){
+    var fitNav = function(){
+      navBar.classList.remove('nav-compact');
+      if(navBar.scrollWidth > navBar.clientWidth + 1) navBar.classList.add('nav-compact');
+    };
+    fitNav();
+    window.addEventListener('resize', fitNav);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
+    setTimeout(fitNav, 1200);
   }
 
   // ---- Kontaktadresse (ohne Klartext im Markup) ----

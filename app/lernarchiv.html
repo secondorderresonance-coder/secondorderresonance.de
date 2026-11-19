@@ -738,6 +738,7 @@
     <script src="./data/archive-content.js?v=2.5.0"></script>
     <script src="./data/coverage-matrix.js?v=3.1.0"></script>
     <script src="./modules/topic-visuals.js?v=3.1.0"></script>
+    <script src="./modules/sor-workpad.js?v=3.7.0"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1267,13 +1268,14 @@
                     <strong>Aufgabe</strong>
                     <p>${cleanTaskText(task.question)}</p>
                 </div>
-                <details class="fold">
+                <div id="taskPad"></div>
+                <details class="fold" id="taskSolution">
                     <summary>Lösung und Erklärung anzeigen</summary>
-                    <div class="detail-block">
+                    <div class="detail-block sol-plain">
                         <strong>Lösung</strong>
                         <p>${cleanTaskText(task.answer)}</p>
                     </div>
-                    <div class="detail-block">
+                    <div class="detail-block sol-plain">
                         <strong>Erklärung</strong>
                         <p>${cleanTaskText(task.explanation)}</p>
                     </div>
@@ -1288,6 +1290,25 @@
             `;
             const vis = document.querySelector("#taskDetail [data-visual]");
             if (vis && window.SOR_VISUALS) window.SOR_VISUALS.mount(vis, vis.getAttribute("data-visual"));
+            mountTaskPad(task);
+        }
+
+        // Rechenweg und Skizze (freiwillig): erst selbst rechnen, dann mit Lösung und Erklärung vergleichen
+        function mountTaskPad(task) {
+            const WP = window.SOR_WORKPAD, slot = document.getElementById("taskPad"), sol = document.getElementById("taskSolution");
+            if (!WP || !slot || !sol) return;
+            const pad = WP.create({ key: "archiv:" + task.id });
+            slot.appendChild(pad.el);
+            const cov = window.SOR_COVERAGE, entry = cov && cov.topicForSublevel ? cov.topicForSublevel(task.sublevel) : null;
+            sol.addEventListener("toggle", function () {
+                const old = sol.querySelector(".sor-wp-review"); if (old) old.remove();
+                if (!sol.open) return;
+                const mine = pad.hasWork();
+                sol.querySelectorAll(".sol-plain").forEach(function (b) { b.hidden = mine; });
+                const steps = '<p style="margin:0 0 0.5rem"><strong>Lösung:</strong> ' + cleanTaskText(task.answer) + "</p>" + (task.explanation ? '<p style="margin:0">' + cleanTaskText(task.explanation) + "</p>" : "");
+                const rv = WP.review({ pad: pad, steps: steps, topicId: entry && entry.id ? entry.id : "archiv:" + task.topic, title: entry && entry.topic ? entry.topic : task.topic, reviewList: !!(entry && entry.id) });
+                if (rv) sol.appendChild(rv);
+            });
         }
 
         function renderTaxonomy() {
