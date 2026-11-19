@@ -113,6 +113,7 @@
 <script src="./data/cloud-config.js?v=3.6.0"></script>
 <script src="./modules/sor-cloud.js?v=3.6.0"></script>
 <script src="./modules/sor-nav.js?v=3.2.0"></script>
+<script src="./modules/sor-workpad.js?v=3.7.0"></script>
 <script>
 (function () {
     "use strict";
@@ -181,7 +182,14 @@
         var gens = E.byTopic(topic).map(function (g) { return g.id; }), free = gens.filter(function (g) { return !used[g]; });
         var list = free.length ? free : gens; return list[Math.floor(Math.random() * list.length)];
     }
+    // Rechenweg und Skizze je Aufgabe (freiwillig), Entwurf bleibt bis zur Auswertung im Browser
+    var WP = window.SOR_WORKPAD;
+    function padKey(started, pi, i) { return "pruefung:" + started + ":" + pi + ":" + i; }
+    function dropPads() {
+        try { Object.keys(localStorage).filter(function (k) { return k.indexOf("sor-wp:pruefung:") === 0; }).forEach(function (k) { localStorage.removeItem(k); }); } catch (e) { /* ohne Speicher */ }
+    }
     function start(id, mode) {
+        dropPads();
         var x = X.exam(id), used = {}, factor = mode === "full" ? 1 : 0.5;
         run = { exam: id, mode: mode, part: 0, started: Date.now(), partStart: Date.now(), parts: [] };
         x.parts.forEach(function (p) {
@@ -232,6 +240,7 @@
         var last = run.part === x.parts.length - 1;
         html += '<div class="submit"><button class="btn btn-ghost" type="button" id="quitBtn">' + $t("Abbrechen", "Cancel") + '</button><button class="btn btn-primary" type="button" id="submitBtn">' + (last ? $t("Prüfung abgeben", "Hand in exam") : $t("Teil A abgeben und zu Teil B", "Hand in part A and go to part B")) + "</button></div>";
         main.innerHTML = html;
+        if (WP) rp.tasks.forEach(function (t, i) { main.querySelector("#t" + i).appendChild(WP.create({ key: padKey(run.started, run.part, i), noRemember: true }).el); });
         window.scrollTo(0, 0);
         main.addEventListener("input", onInput);
         main.addEventListener("click", onClick);
@@ -297,7 +306,7 @@
                 var g = q(t), s = score(g, t.ans), p = Math.round(s * t.pts * 2) / 2;
                 pg += p; pm += t.pts;
                 var tp = perTopic[t.topic] || (perTopic[t.topic] = { got: 0, max: 0 }); tp.got += p; tp.max += t.pts;
-                review.push({ part: rp.id, n: i + 1, g: g, t: t, p: p });
+                review.push({ part: rp.id, n: i + 1, g: g, t: t, p: p, pad: WP ? WP.create({ key: padKey(run.started, pi, i), noRemember: true }) : null });
                 try { REW.record({ topicId: t.topic, correct: s === 1, difficulty: t.d, firstTry: true, hintUsed: false }); } catch (e) { /* Belohnungen optional */ }
             });
             got += pg; max += pm; parts.push({ id: rp.id, got: pg, max: pm });
@@ -308,6 +317,7 @@
         drop(RUN_KEY);
         var mode = run.mode; run = null;
         renderResult(x, mode, got, max, gr, share, parts, perTopic, review);
+        dropPads();
     }
     function renderResult(x, mode, got, max, gr, share, parts, perTopic, review) {
         document.title = $t("Ergebnis · ", "Result · ") + x.title + " | Second-Order Resonance";
@@ -322,10 +332,16 @@
         html += '<h2 class="sec">' + $t("Lösungen ansehen", "Review solutions") + "</h2>" + review.map(function (r) {
             var ok = r.p === r.t.pts, a = r.g.a, yours = r.t.ans === null || r.t.ans === undefined || r.t.ans === "" ? "–" : a.type === "choice" ? a.options[Number(r.t.ans)] : Array.isArray(r.t.ans) ? r.t.ans.map(esc).join("; ") : esc(r.t.ans);
             return '<details class="task"><summary class="thead" style="cursor:pointer;margin:0"><span>' + $t("Aufgabe ", "Task ") + r.part + r.n + " · " + esc(TOPIC[r.t.topic] ? TOPIC[r.t.topic].topic : "") + '</span><span style="color:' + (ok ? "var(--teal)" : r.p > 0 ? "var(--accent)" : "var(--red)") + '">' + pf(r.p) + " / " + r.t.pts + "</span></summary>" +
-                '<div class="q" style="margin-top:0.8rem">' + r.g.q + '</div><div class="rv ' + (ok ? "ok" : "no") + '"><div>' + $t("Deine Antwort: ", "Your answer: ") + "<strong>" + yours + "</strong></div><div>" + $t("Richtig: ", "Correct: ") + '<strong class="mth">' + E.show(a) + "</strong></div>" + (r.g.steps && r.g.steps.length ? "<ol>" + r.g.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>" : "") + "</div></details>";
+                '<div class="q" style="margin-top:0.8rem">' + r.g.q + '</div><div class="rv ' + (ok ? "ok" : "no") + '"><div>' + $t("Deine Antwort: ", "Your answer: ") + "<strong>" + yours + "</strong></div><div>" + $t("Richtig: ", "Correct: ") + '<strong class="mth">' + E.show(a) + "</strong></div>" + (r.g.steps && r.g.steps.length && !(r.pad && r.pad.hasWork()) ? "<ol>" + r.g.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>" : "") + "</div></details>";
         }).join("");
         html += '<div class="submit"><a class="btn btn-ghost" href="pruefung.html">' + $t("Zur Übersicht", "Back to overview") + '</a><button class="btn btn-primary" type="button" id="againBtn">' + $t("Neue Prüfung", "New exam") + "</button></div>";
         main.innerHTML = html; window.scrollTo(0, 0);
+        // Eigener Weg neben der Musterlösung und Selbsteinschätzung je Aufgabe
+        if (WP) Array.prototype.forEach.call(main.querySelectorAll("details.task .rv"), function (box, k) {
+            var r = review[k]; if (!r) return;
+            var rv = WP.review({ pad: r.pad, steps: r.g.steps, topicId: r.t.topic, title: TOPIC[r.t.topic] ? TOPIC[r.t.topic].topic : "" });
+            if (rv) box.appendChild(rv);
+        });
         document.getElementById("againBtn").addEventListener("click", function () { start(x.id, mode); });
     }
 
