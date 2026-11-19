@@ -114,6 +114,7 @@
 <script src="./modules/sor-cloud.js?v=3.6.0"></script>
 <script src="./modules/sor-nav.js?v=3.2.0"></script>
 <script src="./modules/sor-workpad.js?v=3.7.0"></script>
+<script src="./modules/sor-gate.js?v=3.8.0"></script>
 <script>
 (function () {
     "use strict";
@@ -161,6 +162,8 @@
         }
         html += '<p class="note">' + $t("Die Aufgaben werden bei jedem Start neu erzeugt und bilden Aufbau, Zeit und Punkteverteilung der bayerischen Abschlussprüfungen nach. Sie ersetzen keine Original-Prüfungen: offene Begründungen, Zeichnungen und Beweise kommen in der echten Prüfung zusätzlich vor. Beim Abitur gilt die offizielle Notenpunkte-Tabelle, bei Quali und Mittlerer Reife sind die Notenschlüssel Orientierungswerte, weil das Kultusministerium sie jedes Jahr neu festlegt.", "Tasks are generated fresh for every start and mirror the structure, time and point distribution of the Bavarian final exams. They do not replace original exam papers: open justifications, drawings and proofs also appear in the real exam. The Abitur uses the official grade point table; for Quali and Mittlere Reife the grading keys are guide values because the ministry sets them anew each year.") + "</p>";
         main.innerHTML = html;
+        // Ohne Konto: Übersicht als Vorschau, Starten nur mit Konto (sor-gate.js)
+        if (!examAllowed()) { var gw = examWall(); gw.style.margin = "0 0 1.4rem"; main.querySelector(".hero").insertAdjacentElement("afterend", gw); }
         Array.prototype.forEach.call(main.querySelectorAll(".modes"), function (g) {
             g.addEventListener("click", function (ev) { var b = ev.target.closest("[data-m]"); if (!b) return; Array.prototype.forEach.call(g.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); }); });
         });
@@ -172,7 +175,7 @@
             });
         });
         if (document.getElementById("resumeBtn")) {
-            document.getElementById("resumeBtn").addEventListener("click", function () { run = read(RUN_KEY); renderPart(); });
+            document.getElementById("resumeBtn").addEventListener("click", function () { if (!examAllowed()) { showExamWall(); return; } run = read(RUN_KEY); renderPart(); });
             document.getElementById("discardBtn").addEventListener("click", function () { drop(RUN_KEY); hub(); });
         }
     }
@@ -188,7 +191,12 @@
     function dropPads() {
         try { Object.keys(localStorage).filter(function (k) { return k.indexOf("sor-wp:pruefung:") === 0; }).forEach(function (k) { localStorage.removeItem(k); }); } catch (e) { /* ohne Speicher */ }
     }
+    var G = window.SOR_GATE;
+    function examAllowed() { return !G || G.loggedIn(); }
+    function examWall() { return G.wall({ title: $t("Probeprüfungen mit kostenlosem Konto", "Mock exams with a free account"), text: $t("Den Aufbau der Prüfungen siehst du hier als Vorschau. Starten kannst du eine Probeprüfung mit einem kostenlosen Konto, dann werden auch Note und Verlauf gespeichert.", "You can preview the exam structure here. Start a mock exam with a free account, then your grade and history are saved too.") }); }
+    function showExamWall() { var w = main.querySelector(".sor-gate"); if (w) { w.scrollIntoView({ behavior: "smooth", block: "center" }); w.animate && w.animate([{ transform: "scale(1)" }, { transform: "scale(1.02)" }, { transform: "scale(1)" }], { duration: 400 }); } }
     function start(id, mode) {
+        if (!examAllowed()) { showExamWall(); return; }
         dropPads();
         var x = X.exam(id), used = {}, factor = mode === "full" ? 1 : 0.5;
         run = { exam: id, mode: mode, part: 0, started: Date.now(), partStart: Date.now(), parts: [] };

@@ -954,6 +954,7 @@
 
     <script src="./modules/sor-core.js?v=3.6.0"></script>
     <script src="./modules/sor-workpad.js?v=3.7.0"></script>
+    <script src="./modules/sor-gate.js?v=3.8.0"></script>
     <script src="./data/archive-content.js?v=2.5.4"></script>
     <script>
         // Level XP thresholds: L1 always open, L2+ require XP
@@ -2795,13 +2796,31 @@
             document.getElementById('feedback').className = 'feedback';
             const oldReview = document.getElementById('appWpReview');
             if (oldReview) oldReview.remove();
-            if (appPad) appPad.reset();
+            if (appPad) { appPad.reset(); appPad.el.hidden = false; }
             document.getElementById('nextBtn').className = 'next-btn';
             state.answered = false;
+            renderAppGate();
+        }
+
+        // Ohne Online-Konto: Schnupperrunde, danach bleibt die Aufgabe als Vorschau sichtbar (sor-gate.js)
+        function renderAppGate() {
+            const G = window.SOR_GATE, card = document.getElementById('exerciseCard');
+            let slot = document.getElementById('appGate');
+            if (!slot) { slot = document.createElement('div'); slot.id = 'appGate'; slot.style.margin = '0 0 1rem'; card.insertBefore(slot, document.getElementById('questionText')); }
+            slot.innerHTML = '';
+            if (!G || G.loggedIn()) return;
+            if (G.canSolve()) { slot.appendChild(G.badge()); return; }
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const w = G.wall(); w.style.gridColumn = '1 / -1'; container.appendChild(w);
+            if (appPad) appPad.el.hidden = true;
+            state.answered = true;
         }
 
         function checkAnswer(selected, correct) {
             if (state.answered) return;
+            if (window.SOR_GATE && !SOR_GATE.canSolve()) { renderAppGate(); return; }
+            if (window.SOR_GATE && !SOR_GATE.loggedIn()) { SOR_GATE.use(); const sl = document.getElementById('appGate'); if (sl) { sl.innerHTML = ''; sl.appendChild(SOR_GATE.badge()); } }
             state.answered = true;
             state.total++;
 

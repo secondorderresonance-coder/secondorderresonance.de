@@ -1,7 +1,7 @@
 # STATUS
 
 ## Current version
-- `v3.7.0`
+- `v3.8.0`
 
 ## Current state
 The repository now includes a scalable archive foundation for a 6-level learning platform, a working 30-question placement test flow, and 30.000 archive tasks (5.000 per level) for this iteration.
@@ -37,7 +37,29 @@ Current implementation status:
 - Lernstrasse app launches now use exact archive level/sublevel/topic filters, so road lessons cannot fall back into unrelated general app questions.
 - A documented curriculum coverage matrix now maps German Klasse 1-12 school topics onto the L1-L3 archive sublevel taxonomy, with identified taxonomy gaps tracked as follow-up P2 tasks.
 
-## Last completed task (v3.7.0)
+## Last completed task (v3.8.0)
+User request (19.11.2026): solving tasks should require an account, otherwise only a preview. Decisions by the owner: a short trial (3 tasks) without account, the online account (Supabase) counts, applies to practice sessions, exam trainer, Lern-App and archive solutions.
+
+### Changes in this iteration
+- New module `app/modules/sor-gate.js`: detects the online account from the stored Supabase session (`sor-cloud-session`), counts trial tasks in `sor-trial-used` (3, shared across all areas), renders the "Weiterlernen mit kostenlosem Konto" card with links to `konto.html?weiter=<page>#registrieren` and the trial badge. A local account only counts if the online accounts are switched off in `cloud-config.js`.
+- `app/ueben.html`: trial badge above the task; after 3 tasks the task is replaced by the card, the topic explanation stays visible as preview, keyboard shortcuts are ignored.
+- `app/pruefung.html`: overview stays visible as preview with the card below the hero; starting or resuming an exam needs an account.
+- `app/index.html` (Lern-App): badge above the question; after the trial the question stays visible, the answer options are replaced by the card.
+- `app/lernarchiv.html`: every newly opened solution counts as a trial task (once per task and page visit); afterwards the solution is replaced by the card.
+- sw cache `sor-v3.8.0`.
+
+### Validation
+- Playwright without account: badge counts 3, 2, 1, then the card with the correct return link; Enter does nothing; Lern-App, archive and exam show the card; exam does not start.
+- Playwright with a simulated online session: no badge, no card, exam starts, Lern-App shows answer options. No page errors.
+- `tools/*-qa.js`: all OK.
+
+### Blocker / note
+- This is a browser-side gate. Tasks and solutions are public scripts of a static site, so a determined visitor can bypass it (for example by clearing site data). Real protection would need the content to be served by the backend only to signed-in users.
+
+### Next logical step
+- Owner decision whether the trial size (3) fits; it is the constant `FREE` in `sor-gate.js`.
+
+## Previous task (v3.7.0)
 User request (19.11.2026): three improvements. The "Jetzt üben" button in the header was cut off, the topic chips in the level cards had no link, and answering should focus on understanding: write down the working, draw a sketch, not only click or type a number.
 
 ### Changes in this iteration

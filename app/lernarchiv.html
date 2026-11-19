@@ -739,6 +739,7 @@
     <script src="./data/coverage-matrix.js?v=3.1.0"></script>
     <script src="./modules/topic-visuals.js?v=3.1.0"></script>
     <script src="./modules/sor-workpad.js?v=3.7.0"></script>
+    <script src="./modules/sor-gate.js?v=3.8.0"></script>
     <script>
         const data = window.SOR_ARCHIVE;
         const tasks = data.tasks.slice();
@@ -1293,6 +1294,7 @@
             mountTaskPad(task);
         }
 
+        const revealedSolutions = {};
         // Rechenweg und Skizze (freiwillig): erst selbst rechnen, dann mit Lösung und Erklärung vergleichen
         function mountTaskPad(task) {
             const WP = window.SOR_WORKPAD, slot = document.getElementById("taskPad"), sol = document.getElementById("taskSolution");
@@ -1302,7 +1304,19 @@
             const cov = window.SOR_COVERAGE, entry = cov && cov.topicForSublevel ? cov.topicForSublevel(task.sublevel) : null;
             sol.addEventListener("toggle", function () {
                 const old = sol.querySelector(".sor-wp-review"); if (old) old.remove();
+                const oldWall = sol.querySelector(".sor-gate"); if (oldWall) oldWall.remove();
                 if (!sol.open) return;
+                // Ohne Online-Konto: Lösungen zählen zur Schnupperrunde (sor-gate.js)
+                const G = window.SOR_GATE;
+                if (G && !G.loggedIn() && !revealedSolutions[task.id]) {
+                    if (!G.canSolve()) {
+                        sol.querySelectorAll(".sol-plain").forEach(function (b) { b.hidden = true; });
+                        const w = G.wall({ text: "Deine " + G.FREE + " freien Lösungen sind aufgebraucht. Mit einem kostenlosen Konto siehst du zu jeder Aufgabe Lösung und Erklärung." });
+                        w.style.marginTop = "0.8rem"; sol.appendChild(w);
+                        return;
+                    }
+                    G.use(); revealedSolutions[task.id] = true;
+                }
                 const mine = pad.hasWork();
                 sol.querySelectorAll(".sol-plain").forEach(function (b) { b.hidden = mine; });
                 const steps = '<p style="margin:0 0 0.5rem"><strong>Lösung:</strong> ' + cleanTaskText(task.answer) + "</p>" + (task.explanation ? '<p style="margin:0">' + cleanTaskText(task.explanation) + "</p>" : "");
