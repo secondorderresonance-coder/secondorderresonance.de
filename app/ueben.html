@@ -227,6 +227,7 @@
 <script src="./modules/sor-cloud.js?v=3.6.0"></script>
 <script src="./modules/sor-nav.js?v=3.6.0"></script>
 <script src="./modules/sor-workpad.js?v=3.7.0"></script>
+<script src="./modules/sor-gate.js?v=3.8.0"></script>
 <script>
 (function () {
     "use strict";
@@ -355,6 +356,21 @@
     // Rechenweg und Skizze (freiwillig), einmal angelegt und pro Aufgabe geleert
     var WP = window.SOR_WORKPAD, pad = WP ? WP.create() : null;
     if (pad) $("qcard").insertBefore(pad.el, $("hint"));
+    // Ohne Konto: Schnupperrunde, danach Hinweis statt Aufgabe (sor-gate.js)
+    var G = window.SOR_GATE, gateBox = document.createElement("div");
+    gateBox.id = "gateBox"; gateBox.style.marginBottom = "0.9rem";
+    $("sessGrid").parentNode.insertBefore(gateBox, $("sessGrid"));
+    function renderGate() {
+        gateBox.innerHTML = "";
+        if (!G || G.loggedIn()) return true;
+        if (!G.canSolve()) {
+            S.blocked = true; $("qcard").hidden = true; $("sessGrid").classList.add("solo");
+            var w = G.wall(); w.style.marginBottom = "0.9rem"; gateBox.appendChild(w);
+            return false;
+        }
+        gateBox.appendChild(G.badge());
+        return true;
+    }
     function startSession(topics, label, total) {
         S = { topics: topics, label: label, total: total, idx: 0, correct: 0, xp: 0, d: {}, run: {}, lastGen: {}, results: [], badges: [], levelUp: null, starUps: [], q: null, tries: 0, hintUsed: false, done: false, mix: topics.length > 1 };
         var p = REW.profile();
@@ -383,6 +399,7 @@
         $("sessXp").textContent = "+" + S.xp + " XP";
     }
     function nextQuestion() {
+        if (!renderGate()) return;
         var topic = S.topics[S.idx % S.topics.length], gens = E.byTopic(topic), pick = gens[Math.floor(Math.random() * gens.length)], guard = 0;
         while (gens.length > 1 && pick.id === S.lastGen[topic] && guard < 8) { pick = gens[Math.floor(Math.random() * gens.length)]; guard += 1; }
         S.lastGen[topic] = pick.id;
@@ -448,6 +465,7 @@
     function finish(ok, skipped) {
         if (S.done) return;
         S.done = true;
+        if (G && !G.loggedIn()) { G.use(); gateBox.innerHTML = ""; gateBox.appendChild(G.badge()); }
         var q = S.q, topic = q.topic, r = REW.record({ topicId: topic, correct: ok, difficulty: q.difficulty, hintUsed: S.hintUsed, firstTry: S.tries === 0 });
         S.results.push(ok); if (ok) S.correct += 1; S.xp += r.xp;
         Array.prototype.forEach.call($("answer").querySelectorAll("input,button"), function (el) { el.disabled = true; });
@@ -513,7 +531,7 @@
         judge(Number(b.getAttribute("data-i")) === S.q.a.v, b);
     });
     document.addEventListener("keydown", function (ev) {
-        if (!S || $("session").hidden) return;
+        if (!S || $("session").hidden || S.blocked) return;
         if (ev.target && ev.target.tagName === "TEXTAREA") return;
         if (ev.key === "Enter") { if (S.done) { ev.preventDefault(); advance(); } else if (S.q.a.type !== "choice" && ev.target.tagName === "INPUT") { ev.preventDefault(); submitInputs(); } return; }
         if (!S.done && S.q.a.type === "choice" && /^[1-4]$/.test(ev.key)) { var b = $("answer").querySelector('[data-i="' + (Number(ev.key) - 1) + '"]'); if (b && !b.disabled) b.click(); }
